@@ -1,0 +1,163 @@
+/* ==========================================================
+   CONTAINER PRINCIPAL
+   ========================================================== */
+.central-column {
+  width: 100%;
+  background: #0f0f0f;
+  border-radius: 12px;
+  border: 1px solid #222;
+  overflow: hidden;
+}
+
+/* ==========================================================
+   TABELA BASE
+   ========================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  position: relative;
+}
+
+thead th {
+  padding: 10px;
+  background: #161616;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #e2b900;
+}
+
+tbody tr {
+  border-bottom: 1px solid #1a1a1a;
+  height: 48px; /* 🔥 LINHAS MAIS ESTREITAS */
+}
+
+tbody td {
+  font-size: 13px;
+  padding: 0 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.player-td-name {
+  text-align: left;
+  padding-left: 15px;
+  cursor: pointer;
+}
+
+.fw-bold {
+  font-weight: 700;
+}
+
+/* ==========================================================
+   DESTAQUE PODIUM
+   ========================================================== */
+.first-place {
+  background: linear-gradient(90deg, rgba(226, 185, 0, 0.15), transparent);
+}
+
+.second-place {
+  background: linear-gradient(90deg, rgba(180, 180, 180, 0.12), transparent);
+}
+
+.third-place {
+  background: linear-gradient(90deg, rgba(205, 127, 50, 0.12), transparent);
+}
+
+/* ==========================================================
+   FORM (ÚLTIMAS 5)
+   ========================================================== */
+.form-container {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.form-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.form-dot.W {
+  background: #48e26c;
+}
+
+.form-dot.L {
+  background: #c73443;
+}
+
+.form-dot.D {
+  background: #666;
+}
+
+/* ==========================================================
+   LINHA ANÔNIMA BASE
+   ========================================================== */
+
+.row-is-anonymous {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Apaga os dados */
+.row-is-anonymous td {
+  opacity: 0.15;
+  filter: grayscale(100%);
+}
+
+/* TEXTO DOURADO CENTRALIZADO */
+.row-is-anonymous::after {
+  content: "NÃO PARTICIPANDO";
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #d4af37;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  pointer-events: none;
+  z-index: 5;
+
+  text-shadow:
+    0 0 15px rgba(0, 0, 0, 1),
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================
+   LINHAS MAIS ESTREITAS
+   ========================================================== */
+
+tbody tr {
+  height: 46px;
+}
+
+tbody td {
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+/* ==========================================================
+   MOBILE FIX REAL (Safari horizontal scroll)
+   ========================================================== */
+
+@media (max-width: 1024px) {
+  .row-is-anonymous::after {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  tbody tr {
+    height: 42px;
+  }
+}
