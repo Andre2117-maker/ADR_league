@@ -1,0 +1,3216 @@
+/* =====================================================
+   WRAPPER GERAL
+===================================================== */
+.main-wrapper {
+  padding-top: 90px; /* Altura da sua navbar */
+  padding-bottom: 50px;
+  width: 100%;
+  display: flex; /* Mudamos para flex para alinhar os filhos ao centro */
+  flex-direction: column;
+  align-items: center; /* Centraliza o Carrossel e o Home-Layout horizontalmente */
+  /* overflow-x: hidden; <-- Removido para não quebrar o sticky */
+}
+
+/* =====================================================
+   HOME LAYOUT
+===================================================== */
+
+.home-layout {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center; /* Centraliza as 3 colunas entre si */
+  align-items: flex-start;
+  gap: 30px;
+  width: 100%;
+  max-width: 1400px; /* Define o limite de largura do seu conteúdo */
+  margin-left: auto; /* Garante centralização se o flex falhar */
+  margin-right: auto; /* Garante centralização se o flex falhar */
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1100px) {
+  .home-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  .side-cards,
+  .details-panel,
+  .central-column {
+    width: 100%;
+    max-width: 100%;
+    position: static; /* Remove o sticky no celular */
+    margin: 10px 0;
+  }
+}
+
+/* =====================================================
+   COLUNA ESQUERDA (RANKINGS)
+===================================================== */
+.side-cards {
+  width: 260px;
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-shrink: 0; /* Não deixa a tabela esmagar os rankings */
+}
+
+.info-card {
+  background: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.info-card h3 {
+  text-align: center;
+  color: #d4af37;
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  padding: 4px 0;
+  border-bottom: 1px solid #222;
+}
+.card-row:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+}
+.r1 {
+  background: #d4af37;
+  color: #000;
+}
+.r2 {
+  background: #c0c0c0;
+  color: #000;
+}
+.r3 {
+  background: #cd7f32;
+  color: #000;
+}
+
+/* =====================================================
+   COLUNA CENTRAL (TABELA HOME)
+===================================================== */
+.central-column {
+  flex: 1;
+  min-width: 0; /* Permite que o flex-box diminua a tabela se necessário */
+  max-width: 850px;
+  margin: 0; /* Deixe o flexbox do pai (home-layout) controlar o espaço */
+  background: #101010;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.table-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Espaço entre logo e título */
+  width: 100%; /* Garante que o container da logo ocupe a largura total */
+}
+
+.table-logo img {
+  width: 100px;
+  opacity: 0.9;
+}
+
+/* .page-title {
+  color: #d4af37;
+  margin: 10px 0 20px 0;
+} */
+
+.page-title {
+  /* Reset de propriedades que bugam o print */
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+
+  /* Cor base Dourada ADR */
+  color: #d4af37 !important;
+
+  /* Brilho que funciona na tela e no print */
+  text-shadow: 0px 0px 12px rgba(212, 175, 55, 0.6);
+
+  font-size: 28px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #181818;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  table-layout: auto;
+}
+
+thead th {
+  background: #222;
+  padding: 12px;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+} */
+
+/* Procure a tag table e substitua */
+table {
+  width: 100% !important;
+  border-collapse: collapse;
+  background: #181818;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  table-layout: fixed; /* MUDE PARA FIXED: Isso obriga a tabela a ocupar os 100% */
+}
+
+/* Agora definimos larguras específicas para as colunas não brigarem */
+/* Coluna # */
+thead th:nth-child(1),
+tbody td:nth-child(1) {
+  width: 45px;
+  text-align: center;
+}
+
+/* Coluna JOGADOR (A que deve esticar) */
+thead th:nth-child(2),
+tbody td:nth-child(2) {
+  width: auto;
+  text-align: left;
+  padding-left: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Se o nome for gigante, ele coloca "..." em vez de quebrar a tabela */
+}
+
+/* Colunas de Números (PTS, G, A, etc) */
+thead th:not(:nth-child(2)),
+tbody td:not(:nth-child(2)) {
+  width: 55px;
+  text-align: center;
+}
+
+/* Coluna Últimos 5 (Forma) - Geralmente precisa de uns 120px */
+thead th:last-child,
+tbody td:last-child {
+  width: 120px;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+tbody tr:hover {
+  background: #222;
+}
+
+/* =====================================================
+   COLUNA DIREITA (DETALHES)
+===================================================== */
+.details-panel {
+  width: 260px;
+  flex-shrink: 0; /* Não deixa a tabela esmagar o scout */
+  position: sticky;
+  top: 110px; /* AQUI: faz ele te seguir no scroll */
+  height: fit-content;
+  z-index: 10;
+}
+
+/* O conteúdo interno que realmente te persegue no scroll */
+.details-panel > div {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 150px; /* Ele vai parar a 100px do topo da tela enquanto você desce */
+  pointer-events: auto;
+  z-index: 100;
+}
+
+.player-details-card {
+  background: #1b1b1b;
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra mais forte para destacar */
+  animation: fadeIn 0.2s ease-out;
+  width: 100%;
+}
+
+.player-details-card h2 {
+  color: #d4af37;
+  margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  font-size: 15px;
+}
+
+.detail-label {
+  color: #888;
+}
+.detail-value {
+  font-weight: bold;
+  color: #fff;
+}
+
+.empty-state {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+  background: #141414;
+  border-radius: 12px;
+  border: 1px dashed #333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================================
+   CALENDÁRIO & JOGOS (PREMIUM)
+===================================================== */
+.calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Widget do Calendário */
+.calendar-widget {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h2 {
+  color: #d4af37;
+  font-size: 18px;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid #333;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-btn:hover {
+  background: #d4af37;
+  color: #000;
+  border-color: #d4af37;
+}
+
+/* Grid dos Dias */
+.calendar-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ddd;
+  position: relative;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.calendar-day:hover:not(.empty) {
+  background: #222;
+}
+
+.calendar-day.selected {
+  background: #d4af37;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+/* Pontinho Indicador de Jogo */
+.match-dot {
+  width: 5px;
+  height: 5px;
+  background-color: #d4af37;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+}
+
+.calendar-day.selected .match-dot {
+  background-color: #000;
+}
+
+/* Lista de Partidas (Cards) */
+.matches-list-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.date-title {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 5px;
+}
+
+.matches-feed {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.match-card-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #111 0%, #1a1a1a 50%, #111 100%);
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.match-card-display:hover {
+  border-color: #d4af37;
+  transform: translateY(-2px);
+}
+
+.team-side {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+}
+
+.team-name-display {
+  display: block;
+  word-break: break-word;
+}
+
+.score-board {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #000;
+  padding: 8px 20px;
+  border-radius: 30px;
+  border: 1px solid #333;
+  position: relative;
+}
+
+.score-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.versus {
+  color: #555;
+  font-size: 12px;
+}
+
+.penalties-tag {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #d4af37;
+  font-weight: bold;
+  text-align: center;
+}
+
+.no-matches {
+  text-align: center;
+  color: #555;
+  padding: 30px;
+  background: #111;
+  border-radius: 12px;
+  border: 1px dashed #333;
+}
+
+/* =====================================================
+   ESTILOS DE LOGIN (AdminLogin)
+===================================================== */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.login-card {
+  background: #111;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #d4af37;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-icon {
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.login-card h1 {
+  color: #d4af37;
+  margin-bottom: 10px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.login-btn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.back-btn {
+  background: transparent;
+  color: #888;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+/* =====================================================
+   ESTILO EXCLUSIVO DA PÁGINA DE REGRAS (page-container1)
+==================================================== */
+
+.page-container1 {
+  padding-top: 130px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(
+    circle at top,
+    rgba(212, 175, 55, 0.05) 0%,
+    transparent 50%
+  );
+  padding-bottom: 80px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Título com Gradiente e Brilho */
+.page-title {
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+
+  /* Configuração do Gradiente */
+  background: linear-gradient(to bottom, #fff 30%, #d4af37 100%);
+
+  /* Compatibilidade: A ordem aqui importa */
+  -webkit-background-clip: text; /* Safari e Chrome antigo */
+  background-clip: text; /* Propriedade padrão (Navegadores modernos) */
+  -webkit-text-fill-color: transparent; /* Necessário para o efeito no Webkit */
+
+  margin-bottom: 40px;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+  text-align: center;
+}
+
+/* O Documento Estilizado */
+.rules-wrapper {
+  width: 100%;
+  max-width: 900px;
+  animation: fadeInRules 0.8s ease-out;
+}
+
+/* Largura da barra */
+.rules-textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Fundo da barra (Trilho) */
+.rules-textarea::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* A parte que desliza (Dourada) */
+.rules-textarea::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #d4af37, #8a6d1a);
+  border-radius: 10px;
+  border: 2px solid rgba(10, 10, 10, 0.7); /* Cria um respiro em volta */
+}
+
+/* Efeito ao passar o mouse na scrollbar */
+.rules-textarea::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+  box-shadow: 0 0 10px #d4af37;
+}
+
+/* Remove a borda branca padrão que alguns navegadores forçam no textarea */
+.rules-textarea {
+  scrollbar-color: #d4af37 rgba(0, 0, 0, 0.2); /* Firefox */
+  scrollbar-width: thin; /* Firefox */
+  border: none !important;
+  outline: none !important;
+}
+
+@keyframes fadeInRules {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rules-paper {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 50px;
+  position: relative;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.7),
+    inset 0 0 20px rgba(212, 175, 55, 0.05);
+  overflow: hidden;
+}
+
+/* Brilho no topo do papel */
+.rules-paper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent
+  );
+}
+
+/* Cabeçalho Profissional */
+.rules-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.doc-stamp {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #d4af37;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.doc-date {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Conteúdo Organizado */
+.rules-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilo para Títulos de Seção (Ex: ⚽ Pontuação) */
+.rule-section {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 35px;
+  padding-left: 15px;
+  border-left: 3px solid #d4af37;
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo para os itens (Ex: - Vitória) */
+.rule-item {
+  margin-left: 25px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.rule-item:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Editor Admin (Textarea Profissional) */
+.rules-textarea {
+  width: 100%;
+  min-height: 550px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  color: #d4af37;
+  font-family: "Consolas", monospace;
+  font-size: 1rem;
+  padding: 25px;
+  line-height: 1.8;
+  resize: none;
+  outline: none;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Rodapé e Status de Salvamento */
+.rules-footer {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #555;
+  letter-spacing: 1px;
+}
+
+.saving-status {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 8px 20px;
+  border-radius: 50px;
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  font-weight: bold;
+}
+
+/* Animação de Pulsar para o Status */
+.blink {
+  animation: pulseSaving 1.5s infinite;
+}
+
+@keyframes pulseSaving {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .rules-paper {
+    padding: 30px 20px;
+  }
+  .page-title {
+    font-size: 2rem;
+  }
+  .rule-section {
+    font-size: 1.2rem;
+  }
+}
+
+/* Container das ações do PDF */
+.pdf-actions {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pdf-download-btn {
+  background-color: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.pdf-download-btn:hover {
+  background-color: #d4af37;
+  color: #0e141d;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Estilo do Visualizador Incorporado */
+.pdf-embed-container {
+  margin-top: 40px;
+  width: 100%;
+  background: #1a222d;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pdf-title {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rules-iframe {
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  background-color: #fff; /* PDFs geralmente têm fundo branco */
+}
+
+/* =====================================================
+   ESTILOS DE PARTIDAS (AdminMatches)
+===================================================== */
+.page-container2 {
+  padding-top: 110px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 80px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Títulos e Cabeçalhos */
+.page-container2 .page-title {
+  font-size: 2rem;
+  background: linear-gradient(to bottom, #fff, #d4af37);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Box de Inputs (Data, Local, Times) */
+.admin-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  background: rgba(20, 20, 20, 0.6) !important;
+  backdrop-filter: blur(10px);
+  padding: 25px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.input-group-adr label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  color: #d4af37;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.input-group-adr input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 12px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.input-group-adr input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  outline: none;
+}
+
+/* Cards de Escalação */
+.match-teams {
+  margin-top: 30px;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-card h3 {
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Lista de Jogadores */
+.player-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  transition: background 0.2s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.player-line:hover {
+  background: rgba(212, 175, 55, 0.05) !important;
+}
+
+.mini-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #444;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.mini-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: scale(1.1);
+}
+
+/* Preview da Partida */
+.match-preview {
+  background: #000;
+  border: 1px solid #222;
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 20px;
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+.preview-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
+  font-weight: 900;
+  margin: 15px 0;
+}
+
+.score-badge {
+  background: #d4af37;
+  color: #000;
+  padding: 5px 20px;
+  border-radius: 50px;
+  font-family: "Orbitron", sans-serif; /* Ou uma fonte impactante */
+}
+
+.team-name {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.preview-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 15px;
+  border-top: 1px solid #222;
+  padding-top: 15px;
+}
+
+.event-tag {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Pênaltis */
+.penalty-box {
+  animation: pulseGold 2s infinite;
+}
+
+@keyframes pulseGold {
+  0% {
+    border-color: #d4af37;
+  }
+  50% {
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  }
+  100% {
+    border-color: #d4af37;
+  }
+}
+
+/* Botões de Ação Final */
+.btn-voltar-curto {
+  background: transparent;
+  border: 1px solid #444;
+  color: #888;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.btn-voltar-curto:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+/* Scrollbar para as listas de jogadores */
+.info-card div::-webkit-scrollbar {
+  width: 5px;
+}
+.info-card div::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+.info-card div::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* BOTÃO CONFIRMAR (Substitui o antigo login-btn nesta página) */
+.confirm-btn {
+  background: linear-gradient(135deg, #d4af37 0%, #aa8a2e 100%) !important;
+  color: #000 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 800;
+  font-size: 14px !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 15px 25px !important;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.confirm-btn:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+  filter: brightness(1.1);
+  color: #000 !important;
+}
+
+.confirm-btn:active {
+  transform: translateY(-1px);
+}
+
+/* BOTÃO DESFAZER (Substitui o antigo back-btn nesta página) */
+.desfa-btn {
+  background: rgba(255, 77, 77, 0.05) !important;
+  color: #ff4d4d !important;
+  border: 1px solid rgba(255, 77, 77, 0.3) !important;
+  border-radius: 8px !important;
+  font-weight: 700;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  padding: 12px 20px !important;
+  cursor: pointer;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.desfa-btn:hover {
+  background: #ff4d4d !important;
+  color: #fff !important;
+  border-color: #ff4d4d !important;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+}
+
+/* Ajuste no container dos botões para eles ficarem alinhados */
+.action-footer-btns {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  align-items: stretch; /* Garante que tenham a mesma altura visual se necessário */
+}
+
+/* Ajustes Mobile */
+@media (max-width: 768px) {
+  .match-teams {
+    grid-template-columns: 1fr !important;
+  }
+  .page-container2 {
+    padding-top: 80px;
+  }
+}
+/* =====================================================
+   CALENDARIO DE PARTIDAS (AdminMatchCalendar)
+===================================================== */
+
+/* Container Principal da Página */
+.page-container {
+  padding-top: 130px; /* EMPURRA O CONTEÚDO PARA BAIXO DA NAVBAR */
+  padding-bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Opcional: Background sutil para a página toda */
+}
+
+/* O Cartão "Vidro" Centralizado */
+.glass-card {
+  background: rgba(30, 30, 30, 0.6); /* Fundo semi-transparente */
+  backdrop-filter: blur(15px); /* Desfoque atrás */
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px; /* Bordas arredondadas */
+  padding: 30px;
+  width: 100%;
+  max-width: 1200px; /* Largura máxima para não esticar demais */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); /* Sombra de profundidade */
+}
+
+/* Título da Página dentro do Card */
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Ajuste Responsivo para Celular */
+@media (max-width: 768px) {
+  .page-container {
+    padding-top: 110px; /* Um pouco menos no mobile */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .glass-card {
+    padding: 15px;
+    border-radius: 15px;
+  }
+}
+
+.admin-box input {
+  border: 1px solid #333;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.player-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-bottom: 1px solid #222;
+  transition: 0.2s;
+}
+
+.player-line:hover {
+  background: #1a1a1a;
+}
+
+.mini-btn {
+  background: #222;
+  border: 1px solid #444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.2s;
+}
+
+.mini-btn:hover {
+  background: #d4af37;
+  color: black;
+  border-color: #d4af37;
+}
+
+/* Preview da Partida */
+.match-preview {
+  background: #141414;
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.preview-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.score-badge {
+  background: #d4af37;
+  color: #000;
+  padding: 5px 20px;
+  border-radius: 8px;
+  font-size: 28px;
+}
+
+.team-name {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.preview-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.preview-event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.event-tag {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.penalty-info {
+  text-align: center;
+  color: #d4af37;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.action-btns {
+  margin-left: auto;
+}
+
+/* =====================================================
+   EFEITO DE BRILHO TOP 3
+===================================================== */
+/* 1º Lugar - OURO */
+.first-place {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-left: 4px solid #d4af37 !important;
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.2);
+  animation: shine-gold 3s infinite alternate;
+}
+
+/* 2º Lugar - PRATA */
+.second-place {
+  background: linear-gradient(
+    90deg,
+    rgba(192, 192, 192, 0.1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-left: 4px solid #c0c0c0 !important;
+  box-shadow: inset 0 0 10px rgba(192, 192, 192, 0.15);
+  animation: shine-silver 3s infinite alternate;
+}
+
+/* 3º Lugar - BRONZE */
+.third-place {
+  background: linear-gradient(
+    90deg,
+    rgba(205, 127, 50, 0.1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-left: 4px solid #cd7f32 !important;
+  box-shadow: inset 0 0 10px rgba(205, 127, 50, 0.1);
+  animation: shine-bronze 3s infinite alternate;
+}
+
+.last-place {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 55, 55, 0.15) 0%,
+    /* Leve aumento no fundo */ rgba(0, 0, 0, 0) 100%
+  );
+  border-left: 4px solid #dc3545;
+  box-shadow: inset 0 0 15px rgba(212, 55, 55, 0.2);
+  animation: shine-red 2s infinite alternate; /* Diminuí para 2s para o pulso ser mais agressivo */
+}
+
+@keyframes shine-gold {
+  from {
+    box-shadow:
+      inset 0 0 10px rgba(212, 175, 55, 0.1),
+      0 0 5px rgba(212, 175, 55, 0.2);
+  }
+  to {
+    box-shadow:
+      inset 0 0 20px rgba(212, 175, 55, 0.3),
+      0 0 15px rgba(212, 175, 55, 0.4);
+  }
+}
+
+@keyframes shine-silver {
+  from {
+    box-shadow:
+      inset 0 0 8px rgba(192, 192, 192, 0.1),
+      0 0 2px rgba(192, 192, 192, 0.1);
+  }
+  to {
+    box-shadow:
+      inset 0 0 15px rgba(192, 192, 192, 0.2),
+      0 0 10px rgba(192, 192, 192, 0.2);
+  }
+}
+
+@keyframes shine-bronze {
+  from {
+    box-shadow: inset 0 0 5px rgba(205, 127, 50, 0.05);
+  }
+  to {
+    box-shadow:
+      inset 0 0 12px rgba(205, 127, 50, 0.15),
+      0 0 8px rgba(205, 127, 50, 0.15);
+  }
+}
+
+@keyframes shine-red {
+  from {
+    box-shadow:
+      inset 0 0 10px rgba(212, 55, 55, 0.2),
+      0 0 5px rgba(212, 55, 55, 0.1);
+  }
+  to {
+    box-shadow:
+      inset 0 0 25px rgba(212, 55, 55, 0.5),
+      0 0 20px rgba(212, 55, 55, 0.6); /* Brilho externo mais forte */
+  }
+}
+
+.rank-icon {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+  transition: 0.3s;
+}
+.first-place .rank-icon {
+  filter: drop-shadow(0 0 8px #d4af37);
+}
+
+/* =====================================================
+   CORREÇÃO: INTERFACE DE CRIAÇÃO DE PARTIDAS
+===================================================== */
+
+/* Container dos times (A e B lado a lado) */
+.match-teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+/* Linha do jogador dentro da lista de escalação */
+.player-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #222;
+  transition: 0.2s;
+  min-height: 45px; /* Garante que a linha não suma */
+}
+
+.player-line:hover {
+  background: #1a1a1a;
+}
+
+/* Garante que o checkbox e o nome apareçam */
+.player-line input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Área dos botões de ⚽ e 👟 */
+.action-btns {
+  display: flex;
+  gap: 8px;
+  margin-left: auto; /* Joga os botões para a direita */
+}
+
+.mini-btn {
+  background: #222;
+  border: 1px solid #444;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-btn:hover {
+  background: #d4af37;
+  color: black;
+  border-color: #d4af37;
+}
+
+/* CAIXA DE PÊNALTIS (Aparece no empate) */
+.penalty-box {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #d4af37;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.penalty-box label {
+  margin: 0 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* RESUMO / PREVIEW */
+.match-preview {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 15px;
+}
+
+.preview-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.score-badge {
+  background: #d4af37;
+  color: #000;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.event-tag {
+  background: #1a1a1a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  border: 1px solid #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =====================================================
+   DETALHES DA PARTIDA NO CALENDÁRIO (ARTILHEIROS)
+===================================================== */
+
+/* Container que expande abaixo do placar */
+.match-details-expanded {
+  width: 100%;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #222;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Coluna Time A e Time B */
+  gap: 20px;
+}
+
+.events-column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.event-icon {
+  font-size: 12px;
+}
+
+.event-player {
+  font-weight: 500;
+}
+
+.event-assist {
+  color: #666;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* Ajuste para o Time B (alinhar texto à direita) */
+.text-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.text-right .event-item {
+  justify-content: flex-end;
+}
+
+/* =====================================================
+   FORM GUIDE (BOLINHAS DAS ÚLTIMAS 5)
+===================================================== */
+.form-container {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-badge {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-win {
+  background-color: #4bbd50; /* Verde */
+  border-color: #4caf50;
+}
+
+.form-loss {
+  background-color: #fa3636; /* Vermelho */
+  border-color: #ef5350;
+}
+
+.form-draw {
+  background-color: #616161; /* Cinza */
+  border-color: #9e9e9e;
+}
+
+.profile-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile-inputs select {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.title-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.title-input-wrapper input {
+  width: 40px;
+  background: #222;
+  border: 1px solid #444;
+  color: #d4af37;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Garante que a tabela não quebre em telas menores */
+.modern-admin-table td {
+  vertical-align: middle;
+}
+
+/* =====================================================
+   BOTÃO DE EXPORTAR E IMPORTAR BACKUP
+===================================================== */
+
+.btn-backup-export {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-backup-import {
+  background: #2980b9;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* =====================================================
+   ADMIN PANEL
+===================================================== */
+
+.btn-primary {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* =====================================================
+   PAINEL DE DETALHES (SCOUT ATUALIZADO)
+===================================================== */
+.player-profile-card {
+  background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+  border: 1px solid #d4af37;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.4s ease-out;
+  position: -webkit-sticky; /* Suporte para Safari */
+  position: sticky;
+  top: 100px; /* Distância do topo da tela quando ele gruda */
+  z-index: 10;
+  max-height: calc(100vh - 120px); /* Evita que o card seja maior que a tela */
+  overflow-y: auto; /* Se o card for muito grande, cria scroll dentro dele */
+}
+
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 70px;
+  height: 70px;
+  background: #d4af37;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 auto 10px;
+  border: 3px solid #333;
+}
+
+.profile-foot {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.profile-main-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  background: #222;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-val {
+  color: #d4af37;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.stat-lab {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.profile-info-list {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #222;
+  font-size: 0.9rem;
+}
+
+.profile-footer {
+  border-top: 1px solid #333;
+  padding-top: 15px;
+}
+
+.profile-footer p {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.badge-adr {
+  display: inline-block;
+  background: #d4af37;
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.empty-state-card {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 40px 20px;
+  background: #141414;
+  border-radius: 12px;
+  border: 1px dashed #333;
+}
+
+/* =====================================================
+   BOTÕES DE BACKUP E NAVEGAÇÃO ADMIN
+===================================================== */
+.nav-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-backup-export,
+.btn-backup-import {
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  border: none;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-backup-export {
+  background: #27ae60;
+  color: white;
+}
+.btn-backup-export:hover {
+  background: #219150;
+  transform: translateY(-2px);
+}
+
+.btn-backup-import {
+  background: #2980b9;
+  color: white;
+}
+.btn-backup-import:hover {
+  background: #2471a3;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-outline:hover {
+  background: #333;
+}
+
+/* =====================================================
+   AJUSTES NA TABELA HOME
+==================================================== */
+.player-td-name {
+  text-align: left;
+  padding-left: 15px !important;
+  font-weight: bold;
+  cursor: pointer;
+  color: #eee;
+  transition: 0.2s;
+}
+
+.player-td-name:hover {
+  color: #d4af37;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+/* Bolinhas de Forma na Tabela */
+.form-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 2px;
+}
+.form-dot.W {
+  background: #27ae60;
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.4);
+}
+.form-dot.L {
+  background: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.4);
+}
+.form-dot.D {
+  background: #f1c40f;
+  box-shadow: 0 0 5px rgba(241, 196, 15, 0.4);
+}
+
+/* Ajuste Export Button */
+.export-btn {
+  background: #333;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  transition: 0.3s;
+}
+
+.export-btn:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* =====================================================
+   RESTAURAÇÃO TOTAL DAS ANIMAÇÕES DE BRILHO
+===================================================== */
+.first-place {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.2) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  border-left: 4px solid #d4af37 !important;
+  animation: shine-gold 3s infinite alternate;
+}
+
+.second-place {
+  background: linear-gradient(
+    90deg,
+    rgba(192, 192, 192, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  border-left: 4px solid #c0c0c0 !important;
+  animation: shine-silver 3s infinite alternate;
+}
+
+.third-place {
+  background: linear-gradient(
+    90deg,
+    rgba(205, 127, 50, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  border-left: 4px solid #cd7f32 !important;
+  animation: shine-bronze 3s infinite alternate;
+}
+
+.last-place {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 55, 55, 0.2) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  border-left: 4px solid #dc3545 !important;
+  animation: shine-red 2s infinite alternate;
+}
+
+@keyframes shine-gold {
+  from {
+    box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.1);
+  }
+  to {
+    box-shadow:
+      inset 0 0 30px rgba(212, 175, 55, 0.4),
+      0 0 10px rgba(212, 175, 55, 0.2);
+  }
+}
+
+@keyframes shine-silver {
+  from {
+    box-shadow: inset 0 0 8px rgba(192, 192, 192, 0.1);
+  }
+  to {
+    box-shadow: inset 0 0 18px rgba(192, 192, 192, 0.3);
+  }
+}
+
+@keyframes shine-bronze {
+  from {
+    box-shadow: inset 0 0 5px rgba(205, 127, 50, 0.1);
+  }
+  to {
+    box-shadow: inset 0 0 15px rgba(205, 127, 50, 0.2);
+  }
+}
+
+@keyframes shine-red {
+  from {
+    box-shadow: inset 0 0 10px rgba(212, 55, 55, 0.1);
+  }
+  to {
+    box-shadow: inset 0 0 20px rgba(212, 55, 55, 0.5);
+  }
+}
+
+/* =====================================================
+   AJUSTE DOS 3 CARDS À ESQUERDA (ESTILO IMAGEM)
+===================================================== */
+.side-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-card {
+  background: #111111; /* Fundo bem escuro como na imagem */
+  border: 1px solid #d4af37; /* Borda dourada em todos os cards */
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.info-card h3 {
+  text-align: center;
+  color: #d4af37;
+  margin: 0 0 15px 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.05); /* Fundo sutil nas linhas */
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.card-row:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.card-row span {
+  color: #bbb;
+}
+
+.card-row strong {
+  color: #d4af37; /* Valores em destaque dourado */
+}
+
+/* Estilo para os Ranks 1º, 2º, 3º dentro dos cards */
+.card-row .rank-text {
+  font-weight: bold;
+  margin-right: 8px;
+  color: #eee;
+}
+
+/* =====================================================
+   BOTÃO DE EXPORTAR (DENTRO DA SIDEBAR)
+===================================================== */
+.export-btn {
+  width: 100%;
+  background: #d4af37;
+  color: #000;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 5px;
+  transition: 0.3s;
+}
+
+.export-btn:hover {
+  background: #fff;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Botão Voltar Menor para a área de Admin */
+.btn-voltar-curto {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  padding: 6px 15px; /* Reduzido o padding para diminuir o tamanho */
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: auto; /* Garante que ele só ocupe o espaço do texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-voltar-curto:hover {
+  background: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* --- PLAYER MODAL ESTATÍSTICAS --- */
+
+/* Overlay que escurece o fundo */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Container principal do Modal */
+.player-page-deep {
+  background: #121212;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 20px;
+  position: relative;
+  overflow-y: auto;
+  border: 1px solid #333;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.player-profile-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  padding: 30px;
+}
+
+/* Sidebar Esquerda */
+.profile-sidebar {
+  border-right: 1px solid #222;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.main-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  overflow: hidden;
+  margin-bottom: 15px;
+  background: #1a1a1a;
+}
+
+.main-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+.partner-box {
+  background: #1a1a1a;
+  padding: 12px;
+  border-radius: 12px;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.partner-box span {
+  display: block;
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.trophy-gallery h3 {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.trophy-icons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.trophy-item {
+  font-size: 24px;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+}
+
+/* Conteúdo da Direita */
+.profile-stats-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.chart-section h3,
+.history-section h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Histórico de Partidas */
+.match-history-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Scrollbar estilizada */
+.match-history-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.match-history-scroll::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+.history-card-mini {
+  background: #1a1a1a;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.history-card-mini:hover {
+  background: #222;
+}
+
+/* Bordas baseadas no resultado */
+.border-win {
+  border-left: 4px solid #4caf50;
+}
+.border-loss {
+  border-left: 4px solid #f44336;
+}
+.border-draw {
+  border-left: 4px solid #ff9800;
+}
+
+.history-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.match-date-mini {
+  font-size: 11px;
+  color: #666;
+}
+.match-vs {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.match-stats-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-match-stats-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-pill-mini {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.stat-pill-mini.goal {
+  background: #d4af37; /* Amarelo */
+  color: #000;
+}
+
+.stat-pill-mini.assist {
+  background: #2f80ff; /* Azul */
+  color: #fff;
+}
+.status-pill {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+}
+.status-pill.win {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid #4caf50;
+}
+.status-pill.loss {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid #f44336;
+}
+
+/* Botão Fechar */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 10;
+}
+.modal-close:hover {
+  color: #fff;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .player-profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #222;
+    padding-bottom: 20px;
+    padding-right: 0;
+  }
+}
+
+/* =====================================================
+   INTERAÇÃO NA TABELA (SOLUÇÃO DO CLIQUE)
+===================================================== */
+.clickable-row {
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: rgba(212, 175, 55, 0.15) !important;
+  transform: scale(1.005);
+}
+
+/* Impede que o texto bloqueie o clique na linha */
+.clickable-row td {
+  pointer-events: none;
+}
+
+/* Permite que o nome e áreas específicas voltem a ter eventos se necessário */
+.clickable-row td.player-td-name,
+.clickable-row td.form-container {
+  pointer-events: auto;
+}
+
+/* =====================================================
+   CONTINUAÇÃO: PLAYER MODAL (O QUE FOI CORTADO)
+===================================================== */
+.profile-stats-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.chart-section h3,
+.history-section h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.match-history-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Scrollbar estilizada para o Modal */
+.match-history-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.match-history-scroll::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 10px;
+}
+
+.history-card-mini {
+  background: #1a1a1a;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #333;
+}
+
+/* Cores de status no Histórico */
+.border-win {
+  border-left-color: #27ae60 !important;
+}
+.border-loss {
+  border-left-color: #e74c3c !important;
+}
+.border-draw {
+  border-left-color: #f1c40f !important;
+}
+
+/* Botão Fechar Modal */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+
+.modal-close:hover {
+  color: #d4af37;
+  transform: rotate(90deg);
+}
+
+/* Responsividade do Modal */
+@media (max-width: 768px) {
+  .player-profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #222;
+    padding-bottom: 20px;
+    padding-right: 0;
+  }
+}
+
+/* Placar Estilo Retângulo */
+.match-vs-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex: 1;
+}
+
+.score-badge-rect {
+  background: #000;
+  border: 1px solid #333;
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family:
+    "Courier New", Courier, monospace; /* Fonte tipo placar digital */
+  font-weight: bold;
+}
+
+.score-num {
+  color: #fff;
+  font-size: 16px;
+  min-width: 15px;
+  text-align: center;
+}
+
+.score-divider {
+  color: #d4af37;
+}
+
+.team-name {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #bbb;
+  font-weight: 600;
+}
+
+/* Cargo */
+
+.main-avatar {
+  position: relative;
+}
+
+.nat-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.club-role-tag {
+  background: linear-gradient(90deg, #d4af37, #b8860b);
+  color: #000;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: inline-block;
+  margin-top: 0px;
+}
+
+.adr-titles {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+/* Layout do Radar e Sliders */
+.radar-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start; /* Alinha pelo topo */
+  gap: 30px;
+  padding: 10px;
+}
+
+/* Container do Slider com Header */
+.slider-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.slider-header label {
+  font-size: 11px;
+  color: #d4af37;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.attr-value {
+  color: #fff;
+  font-size: 13px;
+  background: rgba(212, 175, 55, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Estilização do Seletor (admin-put-small) */
+.admin-put-small {
+  background: #1a1a1a;
+  color: #eee;
+  border: 1px solid #444;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-put-small:focus {
+  border-color: #d4af37;
+  outline: none;
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.2);
+}
+
+/* Área de Prêmios (Textarea) */
+.edit-awards-textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.edit-awards-textarea:focus {
+  border-color: #d4af37;
+  outline: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Botão Salvar/Editar */
+.btn-edit-player {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #d4af37, #b8962e);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s;
+  letter-spacing: 1px;
+}
+
+.btn-edit-player:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  filter: brightness(1.1);
+}
+
+.btn-print {
+  background: linear-gradient(90deg, #d4af37, #b8962e);
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 10px;
+}
+
+.btn-print:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+
+/* =====================================================
+   Carrossel de elenco 
+*/
+
+/* --- FUNDO GERAL --- */
+.squad-section-full {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: #151515;
+  padding: 60px 0; /* Mais espaço vertical */
+  border-top: 1px solid #333;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza tudo verticalmente */
+}
+
+/* --- TÍTULO BONITO E CENTRALIZADO --- */
+.squad-title-container {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.squad-main-title {
+  color: #ffffff !important; /* Força o branco total */
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.highlight {
+  color: #d4af37; /* A sigla ADR em dourado */
+}
+
+/* Aquele tracinho dourado embaixo do título */
+.title-underline {
+  width: 80px;
+  height: 4px;
+  background: #d4af37;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* --- CARROSSEL (Full Width) --- */
+.squad-carousel {
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-left: 5%; /* Respiro lateral */
+  padding-right: 5%;
+  margin-bottom: 30px; /* Espaço entre as fotos e os botões */
+}
+.squad-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.squad-track {
+  display: flex;
+  gap: 25px;
+  width: max-content;
+  padding: 10px 0 20px 0; /* Espaço para sombra */
+}
+
+/* --- CARD E FUMAÇA (Mantidos como você gostou) --- */
+.player-card {
+  flex: 0 0 280px;
+  height: 400px;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #333;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.player-card:hover {
+  border-color: #d4af37;
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.player-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* Fumaça Baixa */
+.player-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(212, 175, 55, 0.4) 30%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 25px;
+}
+
+.player-info-content {
+  text-align: center;
+  z-index: 2;
+  width: 100%;
+}
+.player-card-name {
+  display: block;
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px #000;
+  margin-bottom: 5px;
+}
+.player-card-foot {
+  display: inline-block;
+  color: #ffeb3b;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* --- BOTÕES EMBAIXO E CENTRALIZADOS --- */
+.carousel-controls-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.nav-btni {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #555; /* Borda um pouco mais grossa */
+  width: 50px; /* Botões maiores */
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btni:hover {
+  background: #d4af37;
+  border-color: #d4af37;
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* =====================================================
+   CARROSSEL DE PARTIDAS
+   */
+
+/* ============================================================
+   CONTAINER PRINCIPAL (PONTA A PONTA)
+   ============================================================ */
+.matches-section-full {
+  /* Força a largura da janela inteira */
+  width: 100vw;
+  /* O pulo do gato: centraliza o elemento de 100vw mesmo dentro de pais menores */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matches-section-full::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  /* O segredo para centralizar o fundo 100vw perfeitamente */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 100%;
+  background: #000000; /* Preto absoluto */
+  z-index: -1;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.squad-title-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.squad-main-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #0b2a5c;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.highlight {
+  color: #d4af37; /* Dourado para o destaque */
+}
+
+/* ============================================================
+   CARROSSEL (ESTRUTURA HORIZONTAL)
+   ============================================================ */
+.matches-carousel {
+  width: 100vw;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  align-items: center;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+/* Esconde a barra no Chrome/Safari */
+.matches-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.matches-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 25px;
+
+  /* AJUSTE AQUI: 
+     Usamos calc(50vw - 220px) para que o primeiro card 
+     comece exatamente no meio da tela (50vw menos metade do card) */
+  padding: 60px calc(50vw - 220px);
+
+  width: max-content;
+}
+/* ============================================================
+   CARD DE PARTIDA (ESTILO TRANSMISSÃO DE TV)
+   ============================================================ */
+.match-card-adr {
+  background-color: #0e141d; /* Azul escuro oficial */
+  border-radius: 16px;
+  width: 440px; /* Largura para garantir tudo na horizontal */
+  min-width: 440px;
+  padding: 25px;
+  color: white;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0; /* Impede o card de ser esmagado */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  scroll-snap-align: center; /* Crucial para o card parar no meio */
+  scroll-snap-stop: always; /* Impede que o scroll pule 2 cards de uma vez */
+}
+
+.match-card-header-adr {
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #4dabf7;
+  font-weight: 800;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.match-info-center {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.match-date-big {
+  font-size: 26px;
+  font-weight: 900;
+  display: block;
+  letter-spacing: -1px;
+}
+
+.match-venue-small {
+  font-size: 13px;
+  color: #bdc3c7;
+  text-transform: uppercase;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   PLACAR E TIMES (HORIZONTAL)
+   ============================================================ */
+.match-display-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinha pelo topo das logos */
+  width: 100%;
+}
+
+.team-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px;
+}
+
+.team-logo-img {
+  width: 75px !important;
+  height: 75px !important;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  margin-bottom: 12px;
+}
+
+.team-name-adr {
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+  min-height: 40px;
+}
+
+/* BLOCO DO PLACAR CENTRAL */
+.score-center {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 20px;
+  border-radius: 12px;
+  height: fit-content;
+  margin-top: 15px; /* Alinha com o centro das logos */
+}
+
+.score-val {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.score-vs {
+  font-size: 24px;
+  color: #4dabf7;
+  font-weight: 900;
+}
+
+/* ============================================================
+   ESTATÍSTICAS (GOLS E ASSISTÊNCIAS)
+   ============================================================ */
+.team-stats-mini {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 60px;
+}
+
+.mini-stat {
+  font-size: 11px;
+  margin: 2px 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Patrocinadores */
+
+/* Container Geral */
+
+.sponsors-footer {
+  width: 100%;
+  padding: 50px 0; /* Aumentei o respiro vertical */
+  display: flex;
+  flex-direction: column; /* Garante que os itens fiquem um abaixo do outro */
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  clear: both; /* Evita interferência de floats anteriores */
+}
+
+.sponsors-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Label acima do master */
+.sponsor-label {
+  color: #666;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  display: block;
+  text-align: center;
+}
+
+/* Logo Master */
+.sponsor-master {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0px;
+}
+
+.sponsor-master .logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.sponsor-master .logo-wrapper img {
+  height: 300px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.8; /* Agora igual ao secundário */
+  transition: all 0.3s ease;
+  object-fit: contain;
+}
+
+/* Hover do Master (Adicionado) */
+.sponsor-master .logo-wrapper img:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Linha divisória */
+.sponsor-divider {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+  margin-top: 0px;
+}
+
+/* Outras logos */
+.sponsors-secondary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px; /* Espaço amplo entre as marcas */
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.sponsors-secondary img {
+  height: 150px; /* Aumentado para 100px */
+  width: auto;
+  max-width: 220px;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.sponsors-secondary img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Responsividade para Celular */
+@media (max-width: 768px) {
+  .sponsor-master .logo-wrapper img {
+    height: 90px;
+  }
+
+  .sponsors-secondary img {
+    height: 50px;
+  }
+
+  .sponsors-secondary {
+    gap: 40px;
+  }
+}
+
+/* Container da imagem no carrossel */
+/* Garante que o container da foto seja a base para o ícone */
+.player-photo-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Mantém o ícone dentro das bordas arredondadas do card */
+}
+
+/* Estilização do Selo All-Star */
+.all-star-badge-icon {
+  position: absolute;
+  top: 0px;
+  right: 170px;
+  width: 100px; /* Ajuste o tamanho conforme sua arte do Canvas */
+  height: auto;
+  z-index: 10; /* Fica acima da foto e do gradiente de fumaça */
+  filter: drop-shadow(
+    0 4px 8px rgba(0, 0, 0, 0.6)
+  ); /* Dá profundidade ao selo */
+  pointer-events: none; /* Garante que o clique passe através do ícone para o card */
+  transition: transform 0.3s ease;
+}
+
+/* Efeito de zoom no selo quando passar o mouse no card */
+.player-card:hover .all-star-badge-icon {
+  transform: scale(1.1) rotate(5deg);
+}

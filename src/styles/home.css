@@ -1,0 +1,101 @@
+/* =====================================================
+   ESTRUTURA PRINCIPAL (WRAPPERS)
+===================================================== */
+
+.main-wrapper {
+  padding-top: 110px; /* Navbar (90px) + Respiro (20px) */
+  padding-bottom: 80px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* CENTRALIZA TUDO NO EIXO HORIZONTAL */
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.home-layout {
+  display: flex;
+  justify-content: center; /* Alinha as 3 colunas no centro */
+  align-items: flex-start; /* Mantém o topo alinhado para o sticky funcionar */
+  gap: 30px;
+  width: 100%;
+  max-width: 1450px; /* Limite para não espalhar demais em telas grandes */
+  margin: 40px auto;
+  padding: 0 20px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   COLUNAS LATERAIS (ASIDE)
+===================================================== */
+
+.side-cards {
+  width: 280px;
+  flex-shrink: 0; /* Impede que a coluna esmague */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.details-panel {
+  width: 300px;
+  flex-shrink: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 110px; /* Onde ele para ao scrollar */
+  z-index: 10;
+  height: fit-content;
+}
+
+/* =====================================================
+   ÁREA CENTRAL (TABELA E CONTEÚDO)
+===================================================== */
+
+.main-content-area {
+  flex: 1; /* Ocupa o máximo de espaço entre as sidebars */
+  min-width: 600px; /* Evita que a tabela fique ilegível */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* =====================================================
+   COMPONENTES EXTRAS (EXPORT E FOOTER)
+===================================================== */
+
+.export-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 10px;
+}
+
+.export-btn:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+.sponsors-footer {
+  width: 100%;
+  margin-top: 60px;
+  padding: 40px 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+}
+
+.sponsors-container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}

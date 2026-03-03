@@ -1,0 +1,455 @@
+.adm-main-layout {
+  padding: 80px 20px 40px;
+  background-color: #0a0a0a;
+  min-height: 100vh;
+  color: #fff;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header e Navegação */
+.adm-header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  padding: 15px 25px;
+  background: #141414;
+  border-radius: 12px;
+  border: 1px solid #222;
+}
+
+.adm-nav-left {
+  display: flex;
+  gap: 10px;
+}
+
+.adm-title-main {
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.adm-title-highlight {
+  color: #d4af37;
+  font-weight: 900;
+}
+
+/* Seção Adicionar Jogador */
+.adm-add-section {
+  max-width: 100%;
+  margin: 0 auto 20px;
+}
+
+.adm-add-form {
+  display: flex;
+  gap: 0;
+}
+
+.adm-input-new-player {
+  flex: 1;
+  max-width: 300px;
+  padding: 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px 0 0 6px;
+  color: #fff;
+}
+
+.adm-btn-add-confirm {
+  padding: 0 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Tabela e Layout de Colunas */
+.adm-table-container {
+  max-width: 100%;
+  margin: 0 auto;
+  background: #111;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid #222;
+  overflow-x: auto;
+}
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* Força o controle exato das larguras */
+}
+
+/* Jogador */
+.adm-table th:nth-child(1),
+td:nth-child(1) {
+  width: 20%;
+}
+/* Estatísticas */
+.adm-table th:nth-child(2),
+td:nth-child(2) {
+  width: 150px;
+}
+/* Gols e Assist */
+.adm-table th:nth-child(3),
+td:nth-child(3),
+.adm-table th:nth-child(4),
+td:nth-child(4) {
+  width: 120px;
+}
+/* Perfil - Esta coluna vai esticar para ocupar o resto da tela */
+.adm-table th:nth-child(5),
+td:nth-child(5) {
+  width: auto;
+}
+/* Delete */
+.adm-table th:nth-child(6),
+td:nth-child(6) {
+  width: 50px;
+}
+
+.adm-thead-tr th {
+  text-align: left;
+  padding: 15px;
+  color: #666;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.adm-tr td {
+  padding: 15px;
+  border-bottom: 1px solid #222;
+  vertical-align: middle;
+}
+
+/* Avatar e Info do Jogador */
+.adm-avatar-wrapper {
+  width: 65px; /* Aumentado de 45px para 65px */
+  height: 65px; /* Aumentado de 45px para 65px */
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #d4af37; /* Borda um pouco mais grossa para destacar */
+  background: #222;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.adm-player-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.adm-player-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.adm-player-name {
+  display: block;
+  color: #fff;
+  font-size: 15px;
+}
+
+.adm-mini-stats {
+  font-size: 11px;
+  color: #666;
+}
+
+/* Badge de Stats Automáticas */
+.adm-total-badge {
+  display: flex;
+  background: #000;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  justify-content: space-around;
+}
+
+.adm-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adm-label {
+  font-size: 9px;
+  color: #d4af37;
+  font-weight: bold;
+}
+.adm-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+.adm-stat-divider {
+  width: 1px;
+  background: #222;
+}
+
+/* Controles de Gols/Assist (Cálculo) */
+.adm-calc-container {
+  display: flex;
+  justify-content: center;
+}
+
+.adm-calc-controls {
+  display: flex;
+  align-items: center;
+  background: #1a1a1a;
+  border-radius: 6px;
+  padding: 3px;
+  border: 1px solid #333;
+  gap: 8px;
+}
+
+.adm-input-number {
+  width: 35px !important;
+  background: transparent;
+  border: none;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.adm-btn-plus,
+.adm-btn-minus {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.adm-btn-plus {
+  background: #28a745;
+  color: #fff;
+}
+.adm-btn-minus {
+  background: #dc3545;
+  color: #fff;
+}
+
+/* Célula de Perfil (Inputs) */
+.adm-profile-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adm-input-titles,
+.adm-input-role,
+.adm-photo-url-input {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #eee;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.adm-input-titles {
+  width: 50px;
+  text-align: center;
+  border-color: #d4af37;
+}
+.adm-input-role {
+  flex: 1;
+}
+
+.adm-label-allstar {
+  font-size: 10px;
+  color: #d4af37;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Botões de Ação Geral */
+.adm-btn-exit,
+.adm-btn-backup,
+.adm-btn-import,
+.adm-btn-matches {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+.adm-btn-exit {
+  background: #222;
+  color: #fff;
+}
+.adm-btn-backup {
+  background: transparent;
+  border-color: #d4af37;
+  color: #d4af37;
+}
+.adm-btn-import {
+  background: transparent;
+  border-color: #444;
+  color: #aaa;
+}
+.adm-btn-matches {
+  background: #d4af37;
+  color: #000;
+}
+
+.adm-btn-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.4;
+}
+
+.adm-btn-delete:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 1. Efeito na linha inteira quando for anônimo */
+.adm-tr.row-anonymous {
+  background-color: rgba(
+    60,
+    60,
+    60,
+    0.25
+  ) !important; /* Deixa a linha mais escura */
+  opacity: 0.6; /* Dá o efeito de desativado */
+  transition: all 0.3s ease;
+}
+
+/* 2. Estilo para a tag "OFF" ao lado do nome */
+.anon-tag {
+  background: #ff4444;
+  color: white;
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 8px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+/* 3. Estilo do Botão de Olhinho (Ações) */
+.adm-btn-anon {
+  background: #222;
+  border: 1px solid #444;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+/* Quando o modo anônimo está ATIVO (clicado) */
+.adm-btn-anon.active {
+  background: #d4af37 !important; /* Dourado para destacar que está em modo café com leite */
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+/* 4. Avatar do jogador fica em preto e branco se for anônimo */
+.row-anonymous .adm-player-img {
+  filter: grayscale(100%);
+}
+
+/* Container da linha para permitir sobreposição */
+.player-row-relative {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* A cobertura cinza */
+.anonymous-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(40, 40, 40, 0.8);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  z-index: 10;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.row-is-anonymous {
+  position: relative; /* Essencial para o texto flutuante se basear na linha */
+  background: rgba(20, 20, 20, 0.4) !important;
+}
+
+/* Dados ao fundo (bem clarinhos) */
+.anon-data {
+  opacity: 0.12 !important;
+  pointer-events: none;
+}
+
+.anon-name-style {
+  opacity: 0.4;
+  color: #aaa !important;
+}
+
+/* O TEXTO QUE NÃO ESTÁ APARECENDO - CORREÇÃO: */
+.anon-text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+
+  /* AJUSTE MANUAL DE LARGURA: 
+     Aumente esse valor até o texto centralizar na área dos números */
+  width: 750px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* ESTILO DO TEXTO */
+  color: #d4af37 !important; /* Dourado ADR */
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  /* FORÇAR VISIBILIDADE */
+  z-index: 999;
+  opacity: 1 !important;
+  pointer-events: none;
+
+  /* Sombra para ler por cima dos números */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}

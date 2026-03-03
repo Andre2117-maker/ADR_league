@@ -1,0 +1,129 @@
+/* src/styles/admin.css */
+
+/* Background total da página */
+.adm-login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+  padding: 20px;
+}
+
+/* Card central com efeito Glassmorphism */
+.adm-login-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 50px 40px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  animation: adm-slide-up 0.5s ease-out;
+}
+
+@keyframes adm-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.adm-login-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.adm-login-title {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.adm-login-subtitle {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+/* Estilo do Input de Senha */
+.adm-login-input {
+  width: 100%;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 25px;
+  outline: none;
+  transition: all 0.3s ease;
+  text-align: center;
+  letter-spacing: 4px; /* Dá um efeito legal nos pontos da senha */
+}
+
+.adm-login-input:focus {
+  border-color: #d4af37;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+.adm-login-input::placeholder {
+  letter-spacing: normal;
+  color: #555;
+}
+
+/* Botão Principal Dourado */
+.adm-login-btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.adm-login-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+  filter: brightness(1.1);
+}
+
+.adm-login-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Botão Voltar */
+.adm-login-btn-back {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.adm-login-btn-back:hover {
+  color: #d4af37;
+  text-decoration: underline;
+}

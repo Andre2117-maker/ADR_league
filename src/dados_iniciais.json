@@ -1,0 +1,3654 @@
+{
+  "players": [
+    {
+      "id": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+      "name": "André",
+      "points": 21,
+      "goals": 8,
+      "assists": 4,
+      "games": 16,
+      "wins": 7,
+      "draws": 0,
+      "losses": 9,
+      "goalInput": "",
+      "assistInput": "",
+      "strongFoot": "Canhoto",
+      "titlesADR": 0,
+      "photo": "/players/Henrique.png",
+      "clubRole": "Comissão de Mídia",
+      "skills": {
+        "velocidade": 60,
+        "corpo": 15,
+        "chute": 60,
+        "mira": 10,
+        "passe": 80,
+        "defesa": 60
+      },
+      "awardDescription": "",
+      "birthDate": "29/06/2005",
+      "achievements": [],
+      "manualGoals": 0,
+      "number": "9"
+    },
+    {
+      "id": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+      "name": "Davi",
+      "points": 18,
+      "goals": 21,
+      "assists": 5,
+      "games": 9,
+      "wins": 6,
+      "draws": 0,
+      "losses": 3,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 1,
+      "strongFoot": "Destro",
+      "awardDescription": "Artilheiro 2025 ",
+      "photo": "/players/1.png",
+      "clubRole": "Vice-Presidente do Clube",
+      "skills": {
+        "velocidade": 100,
+        "corpo": 40,
+        "chute": 100,
+        "mira": 95,
+        "passe": 95,
+        "defesa": 80
+      },
+      "dominantFoot": "Destro",
+      "birthDate": "",
+      "achievements": [
+        {
+          "icon": "🏆",
+          "title": "Artilheiro 2025"
+        }
+      ],
+      "isAllStar": true,
+      "number": "8"
+    },
+    {
+      "id": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+      "name": "Josué",
+      "points": 0,
+      "goals": 3,
+      "assists": 0,
+      "games": 6,
+      "wins": 0,
+      "draws": 0,
+      "losses": 6,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "manualGoals": 0,
+      "photo": "/players/10.png",
+      "skills": {
+        "velocidade": 75,
+        "corpo": 35,
+        "chute": 60,
+        "mira": 30,
+        "passe": 75,
+        "defesa": 50
+      },
+      "awardDescription": "",
+      "strongFoot": "Destro",
+      "clubRole": "Estagiário",
+      "birthDate": "",
+      "achievements": [],
+      "number": "5"
+    },
+    {
+      "id": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+      "name": "Furtado",
+      "points": 18,
+      "goals": 3,
+      "assists": 3,
+      "games": 8,
+      "wins": 6,
+      "draws": 0,
+      "losses": 2,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "manualGoals": 2,
+      "manualAssists": 0,
+      "photo": "/players/4.png",
+      "clubRole": "Comissão de Regras",
+      "skills": {
+        "velocidade": 85,
+        "corpo": 100,
+        "chute": 30,
+        "mira": 40,
+        "passe": 80,
+        "defesa": 80
+      },
+      "awardDescription": "",
+      "strongFoot": "Ambidestro",
+      "number": "21"
+    },
+    {
+      "id": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+      "name": "Renzo",
+      "points": 3,
+      "goals": 4,
+      "assists": 1,
+      "games": 6,
+      "wins": 1,
+      "draws": 0,
+      "losses": 5,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 1,
+      "awardDescription": "Gol Puskas 2025",
+      "photo": "/players/15.png",
+      "skills": {
+        "velocidade": 75,
+        "corpo": 15,
+        "chute": 65,
+        "mira": 65,
+        "passe": 50,
+        "defesa": 45
+      },
+      "strongFoot": "Destro",
+      "clubRole": "",
+      "dominantFoot": "",
+      "birthDate": "",
+      "achievements": [
+        {
+          "icon": "🏆",
+          "title": "GOL PUSKAS 2025"
+        }
+      ],
+      "number": "10"
+    },
+    {
+      "id": "94652561-6595-423b-a87c-ad4158f44ba0",
+      "name": "Fabian",
+      "points": 12,
+      "goals": 3,
+      "assists": 1,
+      "games": 7,
+      "wins": 4,
+      "draws": 0,
+      "losses": 3,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "photo": "/players/6.png",
+      "clubRole": "Comissão de Base",
+      "skills": {
+        "velocidade": 30,
+        "corpo": 90,
+        "chute": 70,
+        "mira": 55,
+        "passe": 65,
+        "defesa": 50
+      },
+      "awardDescription": "",
+      "strongFoot": "Canhoto",
+      "birthDate": "",
+      "achievements": [],
+      "number": "22"
+    },
+    {
+      "id": "da84f076-60b2-4a85-9311-413db068c476",
+      "name": "Rosário",
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "games": 5,
+      "wins": 1,
+      "draws": 0,
+      "losses": 4,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "photo": "/players/2.png",
+      "clubRole": "Comissão de Arbitragem",
+      "skills": {
+        "velocidade": 50,
+        "corpo": 50,
+        "chute": 50,
+        "mira": 50,
+        "passe": 50,
+        "defesa": 50
+      },
+      "awardDescription": "",
+      "strongFoot": "Destro",
+      "birthDate": "",
+      "achievements": [],
+      "number": "33"
+    },
+    {
+      "id": "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+      "name": "Vini",
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "games": 0,
+      "wins": 0,
+      "draws": 0,
+      "losses": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "photo": "/players/Anonimo.png",
+      "clubRole": "",
+      "strongFoot": "",
+      "birthDate": "",
+      "skills": {
+        "velocidade": 50,
+        "corpo": 50,
+        "chute": 50,
+        "mira": 50,
+        "passe": 50,
+        "defesa": 50
+      },
+      "achievements": [],
+      "number": "19"
+    },
+    {
+      "id": "0c45e403-5ed7-4757-8b44-ba956088548d",
+      "name": "Alberto",
+      "points": 3,
+      "goals": 0,
+      "assists": 0,
+      "games": 4,
+      "wins": 1,
+      "draws": 0,
+      "losses": 3,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "photo": "/players/5.png",
+      "skills": {
+        "velocidade": 30,
+        "corpo": 100,
+        "chute": 35,
+        "mira": 20,
+        "passe": 10,
+        "defesa": 65
+      },
+      "awardDescription": "",
+      "strongFoot": "Destro",
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": [],
+      "number": "7"
+    },
+    {
+      "id": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+      "name": "Gustavo",
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "games": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "photo": "/players/11.png",
+      "clubRole": "Presidente do Clube",
+      "skills": {
+        "velocidade": 10,
+        "corpo": 60,
+        "chute": 20,
+        "mira": 15,
+        "passe": 15,
+        "defesa": 70
+      },
+      "awardDescription": "",
+      "strongFoot": "Ambidestro",
+      "birthDate": "",
+      "achievements": [],
+      "number": "11"
+    },
+    {
+      "id": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+      "name": "Lucas",
+      "points": 15,
+      "goals": 0,
+      "assists": 0,
+      "games": 7,
+      "wins": 5,
+      "draws": 0,
+      "losses": 2,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "photo": "/players/17.png",
+      "skills": {
+        "velocidade": 10,
+        "corpo": 15,
+        "chute": 30,
+        "mira": 65,
+        "passe": 65,
+        "defesa": 90
+      },
+      "awardDescription": "",
+      "strongFoot": "Destro",
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": [],
+      "number": "73"
+    },
+    {
+      "id": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+      "name": "Thaiane",
+      "points": 0,
+      "goals": 0,
+      "assists": 0,
+      "games": 3,
+      "wins": 0,
+      "draws": 0,
+      "losses": 3,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 1,
+      "awardDescription": "Melhor Goleira 2025",
+      "photo": "/players/7.png",
+      "skills": {
+        "velocidade": 10,
+        "corpo": 15,
+        "chute": 5,
+        "mira": 10,
+        "passe": 15,
+        "defesa": 90
+      },
+      "strongFoot": "Destro",
+      "clubRole": "",
+      "dominantFoot": "",
+      "birthDate": "",
+      "achievements": [
+        {
+          "icon": "🏆",
+          "title": "MELHOR GOLEIRA 2025"
+        }
+      ],
+      "number": "69"
+    },
+    {
+      "id": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+      "name": "Bob",
+      "points": 24,
+      "goals": 19,
+      "assists": 0,
+      "games": 13,
+      "wins": 8,
+      "draws": 0,
+      "losses": 5,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "manualGoals": 0,
+      "skills": {
+        "velocidade": 60,
+        "corpo": 100,
+        "chute": 90,
+        "mira": 90,
+        "passe": 85,
+        "defesa": 80
+      },
+      "awardDescription": "",
+      "strongFoot": "Destro",
+      "photo": "/players/16.png",
+      "clubRole": "",
+      "isAllStar": true,
+      "birthDate": "",
+      "achievements": []
+    },
+    {
+      "id": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+      "name": "João",
+      "points": 9,
+      "goals": 1,
+      "assists": 1,
+      "games": 5,
+      "wins": 3,
+      "draws": 0,
+      "losses": 2,
+      "goalInput": "",
+      "assistInput": "",
+      "titlesADR": 0,
+      "strongFoot": "Destro",
+      "photo": "/players/9.png",
+      "skills": {
+        "velocidade": 35,
+        "corpo": 50,
+        "chute": 70,
+        "mira": 65,
+        "passe": 70,
+        "defesa": 85
+      },
+      "awardDescription": "",
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": [],
+      "isAnonymous": false
+    },
+    {
+      "id": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+      "name": "Adriany",
+      "points": 12,
+      "goals": 2,
+      "assists": 1,
+      "games": 7,
+      "wins": 4,
+      "draws": 0,
+      "losses": 3,
+      "strongFoot": "Destro",
+      "titlesADR": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "manualGoals": 0,
+      "photo": "/players/14.png",
+      "skills": {
+        "velocidade": 30,
+        "corpo": 35,
+        "chute": 50,
+        "mira": 55,
+        "passe": 60,
+        "defesa": 75
+      },
+      "awardDescription": "",
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": [],
+      "number": "18"
+    },
+    {
+      "id": "0da327d9-b382-4f53-92ca-409ec1b95e51",
+      "name": "Marquinho",
+      "points": 3,
+      "goals": 0,
+      "assists": 2,
+      "games": 5,
+      "wins": 1,
+      "draws": 0,
+      "losses": 4,
+      "strongFoot": "Destro",
+      "titlesADR": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "photo": "/players/13.png",
+      "skills": {
+        "velocidade": 50,
+        "corpo": 50,
+        "chute": 50,
+        "mira": 50,
+        "passe": 50,
+        "defesa": 50
+      },
+      "awardDescription": "",
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": [],
+      "isAnonymous": true
+    },
+    {
+      "id": "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+      "name": "Dedé",
+      "points": 15,
+      "goals": 0,
+      "assists": 1,
+      "games": 7,
+      "wins": 5,
+      "draws": 0,
+      "losses": 2,
+      "strongFoot": "",
+      "titlesADR": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "photo": "/players/Anonimo.png",
+      "clubRole": "",
+      "birthDate": "",
+      "skills": {
+        "velocidade": 50,
+        "corpo": 50,
+        "chute": 50,
+        "mira": 50,
+        "passe": 50,
+        "defesa": 50
+      },
+      "achievements": []
+    },
+    {
+      "id": "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+      "name": "Karen",
+      "points": 9,
+      "goals": 0,
+      "assists": 0,
+      "games": 6,
+      "wins": 3,
+      "draws": 0,
+      "losses": 3,
+      "strongFoot": "Destro",
+      "titlesADR": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "photo": "/players/12.png",
+      "skills": {
+        "velocidade": 35,
+        "corpo": 20,
+        "chute": 65,
+        "mira": 65,
+        "passe": 75,
+        "defesa": 60
+      },
+      "awardDescription": "",
+      "clubRole": "",
+      "birthDate": "17/07/2005",
+      "achievements": []
+    },
+    {
+      "id": "819bebac-6d4c-412c-a479-9778c4226448",
+      "name": "Biel",
+      "points": 12,
+      "goals": 0,
+      "assists": 0,
+      "games": 5,
+      "wins": 4,
+      "draws": 0,
+      "losses": 1,
+      "strongFoot": "Destro",
+      "titlesADR": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "photo": "/players/3.png",
+      "skills": {
+        "velocidade": 50,
+        "corpo": 50,
+        "chute": 50,
+        "mira": 50,
+        "passe": 50,
+        "defesa": 50
+      },
+      "awardDescription": "",
+      "isAnonymous": true,
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": []
+    },
+    {
+      "id": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+      "name": "Marco",
+      "points": 18,
+      "goals": 2,
+      "assists": 2,
+      "games": 8,
+      "wins": 6,
+      "draws": 0,
+      "losses": 2,
+      "strongFoot": "Destro",
+      "titlesADR": 0,
+      "goalInput": "",
+      "assistInput": "",
+      "photo": "/players/8.png",
+      "skills": {
+        "velocidade": 20,
+        "corpo": 25,
+        "chute": 30,
+        "mira": 15,
+        "passe": 15,
+        "defesa": 90
+      },
+      "awardDescription": "",
+      "clubRole": "",
+      "birthDate": "",
+      "achievements": [],
+      "number": "27"
+    },
+    {
+      "id": "1769922269402",
+      "name": "Nicolas",
+      "manualGoals": 0,
+      "manualAssists": 0,
+      "titlesADR": 0,
+      "photo": "/players/Anonimo.png",
+      "clubRole": "",
+      "strongFoot": "",
+      "skills": {
+        "velocidade": 50,
+        "corpo": 50,
+        "chute": 50,
+        "mira": 50,
+        "passe": 50,
+        "defesa": 50
+      },
+      "isAllStar": true
+    }
+  ],
+  "matches": [
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 1 ",
+        "players": [
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "0da327d9-b382-4f53-92ca-409ec1b95e51",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time 2",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "819bebac-6d4c-412c-a479-9778c4226448"
+        ],
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328"
+      },
+      "events": [
+        {
+          "id": "24024c48-e42b-4086-b745-cea35596f935",
+          "team": "A",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        },
+        {
+          "id": "d60aee01-2f55-4fdc-a1bd-d4b993f97b18",
+          "team": "A",
+          "playerId": "0da327d9-b382-4f53-92ca-409ec1b95e51",
+          "type": "ASSIST"
+        },
+        {
+          "id": "54836515-f6b7-4ce7-979b-6f8b343a1d24",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "3c004b52-a1c4-4e50-8627-6938814bf98d",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "b29497ee-10ab-44e5-8cb4-9b118c07acf5",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "a9e11297-7fee-4aa4-9d4e-e621328084b6",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "d6719d63-b520-4bc8-8ad4-a97a87c2f649",
+          "team": "B",
+          "playerId": "94652561-6595-423b-a87c-ad4158f44ba0",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "e6d38dc8-1adb-4d74-b55f-ac39dc661bd3",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 2",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "819bebac-6d4c-412c-a479-9778c4226448"
+        ],
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328"
+      },
+      "teamB": {
+        "name": "Time 3",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+        ],
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+      },
+      "events": [
+        {
+          "id": "8ec807e5-f874-445a-ac7e-8fc02207ef73",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "0fd6d8f9-bdcb-42c3-ba17-cebb29bafa7f",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "65cbf2a1-926b-40f5-b0ca-ad336d4e5fa9",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "0ef1f4cf-ed2e-4286-9788-e3c8ff964a7b",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "b2e2b4c8-5247-4d4d-b4da-51947d46be1b",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "77e432af-7a45-41b4-b817-9c8617c93a3e",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "3e6b872b-9668-4722-bf2e-3dc35f93f6de",
+      "venue": "BIEL CAMP",
+      "positions": {
+        "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a": {
+          "x": "51.0%",
+          "y": "92.0%"
+        },
+        "cfff9638-6e27-4d92-9f89-5b7108d9b71d": {
+          "x": "25.4%",
+          "y": "78.3%"
+        },
+        "74e013a4-5e0a-4d00-a013-f00de1de1bd7": {
+          "x": "64.8%",
+          "y": "60.7%"
+        },
+        "3b52715d-2231-4ccb-b0bd-ac4c21da87d2": {
+          "x": "78.2%",
+          "y": "77.9%"
+        },
+        "e7df82cd-7158-4d54-b20d-7371ac5174e0": {
+          "x": "31.6%",
+          "y": "59.3%"
+        },
+        "819bebac-6d4c-412c-a479-9778c4226448": {
+          "x": "70.6%",
+          "y": "23.7%"
+        },
+        "94652561-6595-423b-a87c-ad4158f44ba0": {
+          "x": "19.0%",
+          "y": "42.0%"
+        },
+        "222bfbbe-f39d-4560-938e-2f6f0a507ddb": {
+          "x": "77.0%",
+          "y": "40.3%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "49.0%",
+          "y": "5.0%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "32.0%",
+          "y": "24.4%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 3",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7"
+        ],
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1,
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+      },
+      "teamB": {
+        "name": "Time 4",
+        "players": [
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d"
+      },
+      "events": [
+        {
+          "id": "7aa9bacb-1404-4670-8526-97371f90d496",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "9c254614-4772-4fae-aca8-26a2286f28b0",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "cd37848f-b468-4a83-8f9d-03ba7cbad827",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "4197f4f0-f326-4c88-96d3-07df675b0bea",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 1",
+        "players": [
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "da84f076-60b2-4a85-9311-413db068c476",
+          "0da327d9-b382-4f53-92ca-409ec1b95e51"
+        ],
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time 3",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7"
+        ],
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1,
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+      },
+      "events": [
+        {
+          "id": "332b1773-5ac7-4765-a731-5f3bc86c01fb",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "c6f10a76-57e9-48de-96ac-8a9015787de8",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "e23ad8bf-8cd0-4787-b39e-6983db05643b",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "3c047a63-b48c-4a04-8317-de1c198f0cf6",
+          "team": "B",
+          "playerId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "type": "GOAL"
+        },
+        {
+          "id": "dbac3d71-84ac-4f91-810e-6a31231cff5a",
+          "team": "B",
+          "playerId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "b8187b2f-5ed4-4b20-b1b9-2fb0ac33ca93",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 2",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "819bebac-6d4c-412c-a479-9778c4226448"
+        ],
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "819bebac-6d4c-412c-a479-9778c4226448"
+      },
+      "teamB": {
+        "name": "Time 4",
+        "players": [
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "da84f076-60b2-4a85-9311-413db068c476",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa"
+        ],
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d"
+      },
+      "events": [
+        {
+          "id": "8a206c0a-5f87-4f97-91bb-6a6064260964",
+          "team": "A",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "ASSIST"
+        },
+        {
+          "id": "ee031be7-1983-4d95-8c46-da5efb54fd34",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "58a5659b-4707-4565-8435-9b90b310104f",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "5c0085ff-67df-48b9-aeb5-5096437e8e89",
+          "team": "A",
+          "playerId": "94652561-6595-423b-a87c-ad4158f44ba0",
+          "type": "GOAL"
+        },
+        {
+          "id": "88a128aa-7636-4ca0-9c43-dacb766a9ff2",
+          "team": "B",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "c009f947-2136-4bf1-befd-b629a50664bd",
+      "venue": "BIEL CAMP",
+      "positions": {
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "51.6%",
+          "y": "54.4%"
+        },
+        "da84f076-60b2-4a85-9311-413db068c476": {
+          "x": "49.8%",
+          "y": "71.1%"
+        },
+        "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4": {
+          "x": "18.0%",
+          "y": "84.3%"
+        },
+        "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d": {
+          "x": "47.0%",
+          "y": "94.7%"
+        },
+        "0c45e403-5ed7-4757-8b44-ba956088548d": {
+          "x": "78.8%",
+          "y": "84.4%"
+        },
+        "819bebac-6d4c-412c-a479-9778c4226448": {
+          "x": "48.2%",
+          "y": "5.3%"
+        },
+        "94652561-6595-423b-a87c-ad4158f44ba0": {
+          "x": "28.0%",
+          "y": "38.9%"
+        },
+        "222bfbbe-f39d-4560-938e-2f6f0a507ddb": {
+          "x": "69.2%",
+          "y": "39.1%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "31.0%",
+          "y": "20.3%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "73.4%",
+          "y": "18.9%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 2",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "819bebac-6d4c-412c-a479-9778c4226448"
+        ],
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time 3 (ALTERADO)",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "f180c8f0-4224-41b1-a6f4-24ccc2fcd832",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "ea1f0ce0-ae9c-46b1-9cdc-4a37c65beddf",
+          "team": "A",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "GOAL"
+        },
+        {
+          "id": "1b165988-d6d6-496f-8381-ab4647acfdb7",
+          "team": "A",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "GOAL"
+        },
+        {
+          "id": "20be8a0a-ac7d-4346-afef-c4e20ef38eab",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "4b024891-8d0f-402e-8f20-bde405802a20",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "e94fa208-434f-453e-bcd8-b731b77c4516",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "6e0406e9-0b75-479f-ad54-e936af152678",
+          "team": "B",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "8e78e045-cab8-4126-b537-a257f1527587",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 2",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "819bebac-6d4c-412c-a479-9778c4226448"
+        ],
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0,
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328"
+      },
+      "teamB": {
+        "name": "Time 3",
+        "players": [
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "087f2167-fbc8-4897-8e65-1c1c019175da",
+          "team": "A",
+          "playerId": "94652561-6595-423b-a87c-ad4158f44ba0",
+          "type": "GOAL"
+        },
+        {
+          "id": "20bd6cca-904b-407e-9002-6465f442fb96",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "38a0c6a8-11fe-4c1f-879e-64d811e4dcc7",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "d8107eac-92b4-476c-8fe3-27d05c132299",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "5ecbdabe-7a29-41f7-b51c-8c9e0b3bc00a",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Migles",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Anônimos",
+        "players": [
+          "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "ed53dc2e-933a-4d12-9136-98e8c394cafb",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "e7dc9d8f-8bf1-4946-9436-d718e9528166",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "68a49701-b2fa-46f6-91e3-0eb71193efe8",
+          "team": "A",
+          "playerId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "type": "GOAL"
+        },
+        {
+          "id": "adaf8603-6726-46d3-ad93-75a4c50c87ea",
+          "team": "B",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "485ea152-1052-44ed-92e3-c031acfe7f62",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 2 (ALTERADO)",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "0da327d9-b382-4f53-92ca-409ec1b95e51",
+          "94652561-6595-423b-a87c-ad4158f44ba0"
+        ],
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time 3",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "a9836455-de95-48f7-9088-5bd2b1967547",
+          "team": "A",
+          "playerId": "94652561-6595-423b-a87c-ad4158f44ba0",
+          "type": "GOAL"
+        },
+        {
+          "id": "8c993e3c-27ff-4832-8179-75f190fb1d4e",
+          "team": "B",
+          "playerId": "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "type": "ASSIST"
+        },
+        {
+          "id": "d0516b9d-5b3e-492b-915d-687ab638e653",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "44f2cafc-f1d2-4740-bf51-e2002b185404",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "5c4c9a68-b62e-4cec-94c5-6adc2c17b72a",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "852ecf80-740c-4d10-bd18-d5e0112eab38",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "1aa321bf-93f9-4e24-be85-a2631f83437d",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Estranhos",
+        "players": [
+          "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "0c45e403-5ed7-4757-8b44-ba956088548d"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time 3",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "2b7d0a78-2b59-41d3-bd56-d06e52fda07f",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "229f704d-3676-4503-82d7-b5c2dfceefe4",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "414b3df7-0034-41e3-82ce-ad5a09a10805",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "b99421cd-776b-49dc-add5-51f87231e746",
+          "team": "A",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "OWN_GOAL"
+        },
+        {
+          "id": "da656186-2d66-45ae-9b98-bbee20477f71",
+          "team": "A",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        },
+        {
+          "id": "731004b7-a446-42b1-8923-1425e3259fe0",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "851c417d-de22-4f13-b34e-543047d5c1ca",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "Time 2 (ALTERADO)",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "0da327d9-b382-4f53-92ca-409ec1b95e51",
+          "94652561-6595-423b-a87c-ad4158f44ba0"
+        ],
+        "goalkeeperGoalsAgainst": 5,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time 3 (ALTERADO)",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7"
+        ],
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "3112568a-388e-4cd3-bb19-cd1e537f02c4",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "4fec14c7-7888-4a99-a55d-358874265d88",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "135423c4-48bc-480a-8b4c-1d3db3a748b3",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "2a7bd3e9-54d6-4535-a7df-e747f7afbc9d",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "ddb78333-2841-4f18-abab-76c2325b3180",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "01df9621-3eb0-48ac-9af8-707e5c0aae10",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "f61f1c1a-0346-42ea-ba21-95fdeca7a5f5",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "40b61f81-f96e-4f7a-80b8-69e69d145589",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "c5a083a9-4815-4153-8c42-8cef1e2ede89",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "f1849d66-60c6-4985-9c2b-9ef40352a879",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "c47649a7-9723-4be2-8f16-c6264fc1d660",
+          "team": "B",
+          "playerId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "type": "ASSIST"
+        },
+        {
+          "id": "ccc8fda5-3ee9-46c3-b063-418911c896c8",
+          "team": "B",
+          "playerId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "2f81d029-7ffe-4884-9ff2-116df183a3d1",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-10",
+      "teamA": {
+        "name": "AMIGOS DO DAVI",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 4,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "AMIGOS DO BOB",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "0da327d9-b382-4f53-92ca-409ec1b95e51",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 4,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "6ee1b9f6-1043-472e-840b-b3af2b07e3f4",
+          "team": "A",
+          "playerId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "type": "ASSIST"
+        },
+        {
+          "id": "b97e4d15-7c50-4c81-8813-8b66f582c62c",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "49693633-ec8e-458d-bef7-7c8f2311ed33",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "b926823e-82aa-4b69-b4dd-063958990152",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "7dcf3eeb-524f-4e5f-8357-77c3687e6870",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "215a5616-ed0e-4031-b599-e699d50c0b1f",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "177319e5-0c6e-4ed2-a1f5-a19199ceb0ed",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "275cb151-55b0-45d3-8753-47e6a38d2d75",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "daa6bb69-2aa6-4040-a9e5-9d4270ce1c2d",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "d7e83d66-5ecf-41b7-877d-f21f93d45087",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "fdff3714-0e80-4ee4-8aa2-5c5a98b79e0b",
+          "team": "B",
+          "playerId": "0da327d9-b382-4f53-92ca-409ec1b95e51",
+          "type": "ASSIST"
+        },
+        {
+          "id": "cc488a8f-eb72-46cd-b393-101a8384e7ea",
+          "team": "B",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": "B",
+      "id": "03249dd6-177d-4918-978c-4a388dff2af8",
+      "venue": "BIEL CAMP"
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Vini ",
+        "players": [
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Furtado",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "31d38885-3b8f-4612-9874-5b46c6fe176e",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "b2d14b6e-650e-4f2c-abfc-af5e3941c74d",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "3635ba56-588e-4b90-8499-881cf7fbb33d",
+          "team": "B",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        },
+        {
+          "id": "7ec37873-afcc-4a53-a72e-9b84ddb11ffa",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "6d5d5359-2c50-40d3-a9a5-92f38321995e",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "44e85897-69b0-48bf-88b0-cfc816efed5e",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a": {
+          "x": "49.2%",
+          "y": "11.2%"
+        },
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "35.4%",
+          "y": "40.7%"
+        },
+        "74e013a4-5e0a-4d00-a013-f00de1de1bd7": {
+          "x": "63.6%",
+          "y": "40.9%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "73.8%",
+          "y": "22.7%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "24.8%",
+          "y": "22.5%"
+        },
+        "893b92a4-80d4-468e-9e89-e75e79a5defc": {
+          "x": "48.7%",
+          "y": "88.2%"
+        },
+        "94652561-6595-423b-a87c-ad4158f44ba0": {
+          "x": "74.2%",
+          "y": "72.6%"
+        },
+        "3b52715d-2231-4ccb-b0bd-ac4c21da87d2": {
+          "x": "29.6%",
+          "y": "73.4%"
+        },
+        "222bfbbe-f39d-4560-938e-2f6f0a507ddb": {
+          "x": "33.0%",
+          "y": "56.4%"
+        },
+        "c36b9270-209b-4efc-be81-966d4ff5f4c5": {
+          "x": "65.8%",
+          "y": "55.9%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Furtado",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do João",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "819bebac-6d4c-412c-a479-9778c4226448"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "5ef91c10-d1ff-4c99-94a2-a07a270c7268",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "bc2bb333-d868-405a-a138-a657ed54a4b9",
+          "team": "B",
+          "playerId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "1d55b52d-7122-4f35-8f34-a857ef0f2e0f",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "819bebac-6d4c-412c-a479-9778c4226448": {
+          "x": "48.2%",
+          "y": "74.5%"
+        },
+        "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d": {
+          "x": "50.4%",
+          "y": "91.9%"
+        },
+        "a87fcd3d-33fe-49a7-8f38-6c92237961c2": {
+          "x": "14.8%",
+          "y": "72.1%"
+        },
+        "cfff9638-6e27-4d92-9f89-5b7108d9b71d": {
+          "x": "83.0%",
+          "y": "72.1%"
+        },
+        "e7df82cd-7158-4d54-b20d-7371ac5174e0": {
+          "x": "50.2%",
+          "y": "54.0%"
+        },
+        "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a": {
+          "x": "50.4%",
+          "y": "10.3%"
+        },
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "79.0%",
+          "y": "22.5%"
+        },
+        "74e013a4-5e0a-4d00-a013-f00de1de1bd7": {
+          "x": "28.4%",
+          "y": "38.4%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "72.0%",
+          "y": "38.9%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "22.8%",
+          "y": "24.1%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do João",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "819bebac-6d4c-412c-a479-9778c4226448",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time do Vini",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "b6fe5cbb-f033-45b7-8e3b-5fdadd6999a1",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "af83cd94-8b2b-4a3f-84a3-6dbe047a5349",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "a566a07f-4982-48be-a551-ae84740dbe90",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "503a6823-5fc9-4283-a88b-5c92fd396ed9",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "c36b9270-209b-4efc-be81-966d4ff5f4c5": {
+          "x": "49.2%",
+          "y": "60.0%"
+        },
+        "893b92a4-80d4-468e-9e89-e75e79a5defc": {
+          "x": "52.6%",
+          "y": "5.0%"
+        },
+        "94652561-6595-423b-a87c-ad4158f44ba0": {
+          "x": "86.0%",
+          "y": "57.2%"
+        },
+        "3b52715d-2231-4ccb-b0bd-ac4c21da87d2": {
+          "x": "50.0%",
+          "y": "77.5%"
+        },
+        "222bfbbe-f39d-4560-938e-2f6f0a507ddb": {
+          "x": "14.0%",
+          "y": "57.2%"
+        },
+        "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d": {
+          "x": "50.2%",
+          "y": "95.0%"
+        },
+        "cfff9638-6e27-4d92-9f89-5b7108d9b71d": {
+          "x": "19.0%",
+          "y": "28.0%"
+        },
+        "a87fcd3d-33fe-49a7-8f38-6c92237961c2": {
+          "x": "82.6%",
+          "y": "30.7%"
+        },
+        "819bebac-6d4c-412c-a479-9778c4226448": {
+          "x": "50.0%",
+          "y": "22.9%"
+        },
+        "e7df82cd-7158-4d54-b20d-7371ac5174e0": {
+          "x": "50.0%",
+          "y": "40.9%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do João",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "819bebac-6d4c-412c-a479-9778c4226448",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Furtado",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "7a42d0f5-3a24-4d12-832b-0e58c82f7e9e",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "7eb5516a-165c-43bc-b657-19258a107f86",
+          "team": "A",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "dfbcf479-ae54-4064-a810-baf2a688c115",
+          "team": "A",
+          "playerId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "type": "ASSIST"
+        },
+        {
+          "id": "0e29c967-2b7f-49bc-8ea2-6571f784281f",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "7775990b-10b5-4c9c-99dd-94c12092fa31",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "2d88e782-ec42-45d9-bd08-a5fc17d098a3",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a": {
+          "x": "46.4%",
+          "y": "5.0%"
+        },
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "21.8%",
+          "y": "40.8%"
+        },
+        "74e013a4-5e0a-4d00-a013-f00de1de1bd7": {
+          "x": "84.6%",
+          "y": "39.1%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "36.2%",
+          "y": "25.3%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "62.8%",
+          "y": "24.0%"
+        },
+        "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d": {
+          "x": "49.4%",
+          "y": "95.0%"
+        },
+        "cfff9638-6e27-4d92-9f89-5b7108d9b71d": {
+          "x": "25.6%",
+          "y": "79.7%"
+        },
+        "a87fcd3d-33fe-49a7-8f38-6c92237961c2": {
+          "x": "77.2%",
+          "y": "77.1%"
+        },
+        "819bebac-6d4c-412c-a479-9778c4226448": {
+          "x": "39.2%",
+          "y": "60.0%"
+        },
+        "e7df82cd-7158-4d54-b20d-7371ac5174e0": {
+          "x": "64.2%",
+          "y": "59.2%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Vini 2.0",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "1769922269402",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Furtado 2.0",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "ecc08314-7236-4fef-a64b-bbae86107a24",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "d4ad948a-9fa0-4c67-958a-d3d9c74c6700",
+          "team": "A",
+          "playerId": "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "type": "ASSIST"
+        },
+        {
+          "id": "5c86e677-b5cb-4989-bc6a-7ce4972b5e4c",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "018553e5-927c-489c-ab55-882b45d885a7",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "030f345b-8f8f-42fe-8415-5f19bedc855b",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "ASSIST"
+        },
+        {
+          "id": "06a630c7-40a4-474d-9420-e34a2f1e95bc",
+          "team": "B",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "5a944b14-506e-4730-b8b6-d753b16016ac",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "09de1131-114d-48b0-99fe-c21ed0d66d1d",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "67d4229a-5e0c-4b3e-9a6c-385e5f388619": {
+          "x": "50.8%",
+          "y": "64.7%"
+        },
+        "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a": {
+          "x": "48.8%",
+          "y": "93.5%"
+        },
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "75.4%",
+          "y": "79.1%"
+        },
+        "74e013a4-5e0a-4d00-a013-f00de1de1bd7": {
+          "x": "82.4%",
+          "y": "56.4%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "21.0%",
+          "y": "56.9%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "25.2%",
+          "y": "76.3%"
+        },
+        "893b92a4-80d4-468e-9e89-e75e79a5defc": {
+          "x": "48.2%",
+          "y": "5.0%"
+        },
+        "1769922269402": {
+          "x": "39.0%",
+          "y": "37.9%"
+        },
+        "c36b9270-209b-4efc-be81-966d4ff5f4c5": {
+          "x": "83.8%",
+          "y": "26.1%"
+        },
+        "94652561-6595-423b-a87c-ad4158f44ba0": {
+          "x": "16.2%",
+          "y": "24.8%"
+        },
+        "3b52715d-2231-4ccb-b0bd-ac4c21da87d2": {
+          "x": "48.8%",
+          "y": "18.4%"
+        },
+        "222bfbbe-f39d-4560-938e-2f6f0a507ddb": {
+          "x": "61.4%",
+          "y": "37.5%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do João 2.0",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "819bebac-6d4c-412c-a479-9778c4226448",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Vini 2.0",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "1769922269402"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "f8138514-6481-4c60-b1b6-1338ace26303",
+          "team": "B",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "64ecb05f-f960-40a2-99ae-3b5fd8097fa9",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "63481424-2c48-47de-beda-ba306d1eea80",
+      "venue": "Casa do Lucas"
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Vini 2.0 ",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "1769922269402"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time do Furtado 2.0",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "14dd2a6d-5f18-4eb7-a0a0-39c03c686f19",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "aabd6576-3665-475d-9d1d-4325cd053eeb",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "5a4cd51d-7348-41a0-8409-7ab51f5d9969",
+      "venue": "Casa do Lucas"
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Magal",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "1769922269402"
+        ],
+        "goalkeeperId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time da Esperança",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "819bebac-6d4c-412c-a479-9778c4226448",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4"
+        ],
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "6d2d051d-82f1-4bd2-85c8-5098199b692e",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "22e31f22-ad8a-4e77-b5ea-f902e020e104",
+          "team": "A",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "ASSIST"
+        },
+        {
+          "id": "a877d6c3-4064-4bb0-80ed-39a0e22e8bd0",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        },
+        {
+          "id": "bd67fd0e-f2ff-4eb9-aaa2-1f98e0581089",
+          "team": "A",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "ASSIST"
+        },
+        {
+          "id": "23c52be2-85be-4d7a-a3c5-88c87701d608",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        },
+        {
+          "id": "12ae263d-4e78-4be5-b4f7-21e99dea7da2",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "7e188288-3b50-4302-94f8-e5abd4ec6440",
+      "venue": "Casa do Lucas"
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Magal ",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "1769922269402"
+        ],
+        "goalkeeperId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Marco",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "aacc4216-310a-4bd6-a6de-38af258d8620",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "913466e2-1958-4224-9b79-1507fe03c953",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "5fbdb996-2ab2-43d1-a8a8-c1de5b3e30cd",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "1942a19b-711b-403a-bebc-05052d554126",
+          "team": "B",
+          "playerId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "type": "ASSIST"
+        },
+        {
+          "id": "5dbd07dc-21e6-4c24-95e1-99fdd2798cde",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "0a1df77e-3105-4ffd-8bbc-78f19b8a7d2e",
+          "team": "B",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "234827f2-2d17-4082-a431-1e0527fcd647",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "893b92a4-80d4-468e-9e89-e75e79a5defc": {
+          "x": "24.0%",
+          "y": "73.1%"
+        },
+        "cfff9638-6e27-4d92-9f89-5b7108d9b71d": {
+          "x": "74.0%",
+          "y": "73.9%"
+        },
+        "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d": {
+          "x": "48.0%",
+          "y": "90.8%"
+        },
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "26.0%",
+          "y": "57.7%"
+        },
+        "e7df82cd-7158-4d54-b20d-7371ac5174e0": {
+          "x": "72.2%",
+          "y": "57.2%"
+        },
+        "1769922269402": {
+          "x": "31.6%",
+          "y": "36.5%"
+        },
+        "a87fcd3d-33fe-49a7-8f38-6c92237961c2": {
+          "x": "47.4%",
+          "y": "5.0%"
+        },
+        "94652561-6595-423b-a87c-ad4158f44ba0": {
+          "x": "85.6%",
+          "y": "20.3%"
+        },
+        "74e013a4-5e0a-4d00-a013-f00de1de1bd7": {
+          "x": "62.2%",
+          "y": "37.3%"
+        },
+        "acbfb017-1bbe-46ac-bf86-6dc021b43150": {
+          "x": "17.8%",
+          "y": "18.4%"
+        }
+      }
+    },
+    {
+      "date": "2026-01-31",
+      "teamA": {
+        "name": "Time do Biel Reformado",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "819bebac-6d4c-412c-a479-9778c4226448",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2"
+        ],
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Marco",
+        "players": [
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "893b92a4-80d4-468e-9e89-e75e79a5defc",
+          "0c45e403-5ed7-4757-8b44-ba956088548d"
+        ],
+        "goalkeeperId": "893b92a4-80d4-468e-9e89-e75e79a5defc",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "6d7d373d-4bd5-4575-8a43-868574622b4d",
+          "team": "B",
+          "playerId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "type": "GOAL"
+        },
+        {
+          "id": "9551590e-c7f5-4b2c-96b0-c4a02428dc74",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "98cb102a-2588-4c78-ba80-0485e3edb5a5",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": "A",
+      "id": "e98ac0bf-e386-46b8-979d-d2864f6432f3",
+      "venue": "Casa do Lucas",
+      "positions": {
+        "0c45e403-5ed7-4757-8b44-ba956088548d": {
+          "x": "30.0%",
+          "y": "76.5%"
+        },
+        "893b92a4-80d4-468e-9e89-e75e79a5defc": {
+          "x": "49.4%",
+          "y": "95.0%"
+        },
+        "4c53c748-fc07-46c1-88fa-7945d85ba9aa": {
+          "x": "62.4%",
+          "y": "76.5%"
+        },
+        "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d": {
+          "x": "77.4%",
+          "y": "60.7%"
+        },
+        "cfff9638-6e27-4d92-9f89-5b7108d9b71d": {
+          "x": "23.2%",
+          "y": "59.5%"
+        },
+        "a87fcd3d-33fe-49a7-8f38-6c92237961c2": {
+          "x": "68.8%",
+          "y": "41.2%"
+        },
+        "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4": {
+          "x": "63.8%",
+          "y": "22.0%"
+        },
+        "67d4229a-5e0c-4b3e-9a6c-385e5f388619": {
+          "x": "19.4%",
+          "y": "39.2%"
+        },
+        "819bebac-6d4c-412c-a479-9778c4226448": {
+          "x": "30.4%",
+          "y": "21.2%"
+        },
+        "7ee81b4c-9e31-494b-9d7e-7d19f90de328": {
+          "x": "50.0%",
+          "y": "5.0%"
+        }
+      }
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Lucas",
+        "players": [
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "1769922269402",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Dedé",
+        "players": [
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "6d9ccdb4-f162-484b-b4b3-62d02441bc90",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "6116b90e-ddce-45cf-ac0b-ebfc93e507b7",
+          "team": "A",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "ASSIST"
+        },
+        {
+          "id": "c7661a1b-37cd-49dc-83a2-0899c05e914a",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        },
+        {
+          "id": "0a61d907-e514-4e98-bb2b-c4cb4509a05d",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "cf0e9ccb-fb74-4dc0-8b1e-763bcbd6fb6a",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "d0b2b676-f307-4899-9a82-846746a34382",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "6a48673e-de53-4e24-99b6-bf3f5bf1b964",
+          "team": "B",
+          "playerId": "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "type": "ASSIST"
+        },
+        {
+          "id": "0792c951-09a7-4e39-8d34-2b37ebba8be8",
+          "team": "B",
+          "playerId": "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "4da4a3a5-d340-4e59-acc3-6aab98868287"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Marco",
+        "players": [
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "da84f076-60b2-4a85-9311-413db068c476",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4"
+        ],
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Dedé",
+        "players": [
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "4b301b23-7f80-4a25-ba0b-87613ca859bf",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "fa9d90ca-3bea-4a7d-88f4-e76f70ef631b",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "9b50dc40-76d4-41eb-b4e4-662399e8b1f5",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "855adf21-b48e-42a2-b819-647a5b40e412",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "839da103-9552-4d90-8d66-72a682e010a9",
+          "team": "B",
+          "playerId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "type": "ASSIST"
+        },
+        {
+          "id": "c581b600-bf36-4bd4-aeb6-8b56d8e0b4b1",
+          "team": "B",
+          "playerId": "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "a6c6247d-4d06-4b06-8979-d272bc90ec2f"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Lucas",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "1769922269402",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Dedé",
+        "players": [
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "835a135c-7702-4349-b388-b96921caf882",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "d968c9da-9354-41c0-a886-07497bbf468a",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "ed30ad33-6aaf-40e5-a095-50bf5c4693fc",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "c66d8ef7-3407-4cb2-bbae-6a6621545272",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "ASSIST"
+        },
+        {
+          "id": "f052cf1f-98f2-470c-b9f9-ccf3d62bcd25",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        },
+        {
+          "id": "eb292109-2d2a-4129-91c6-ef403c94fbc2",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "e63a9e92-56d6-4f05-8f4c-860281290900",
+          "team": "B",
+          "playerId": "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "type": "ASSIST"
+        },
+        {
+          "id": "e988f05b-24d4-4d3c-8c3f-0b062e156aa6",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "9cd79474-bb16-4981-a76b-8163508a09b3"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Lucas",
+        "players": [
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "1769922269402",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Marco",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "da84f076-60b2-4a85-9311-413db068c476",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4"
+        ],
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "002a7e2e-dd55-4eed-bdaa-ccf62fed0ad1",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "574a8b3e-50f3-4af8-bf05-96a5323ef013",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "ASSIST"
+        },
+        {
+          "id": "97061865-1c26-4bb8-b996-4410ed3fdef2",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "23003821-17d4-4c04-a02b-f3d5b0fddd4a",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "ASSIST"
+        },
+        {
+          "id": "9609448c-9395-4064-8cc5-0a1172ef42b1",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "2e61d7cf-64bd-4fd8-b39a-5d3e023a0be2",
+          "team": "A",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "ASSIST"
+        },
+        {
+          "id": "be51d099-c3a8-46dd-b923-b48612506621",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "2c2aa1bf-11bb-487e-b146-18c1815d6c51",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "a46045a9-bb13-4747-9d6e-3f6634e1e22d",
+          "team": "B",
+          "playerId": "da84f076-60b2-4a85-9311-413db068c476",
+          "type": "GOAL"
+        },
+        {
+          "id": "2f57abfa-3e32-4fda-87d0-7d03d843fe1a",
+          "team": "B",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "23eb1519-b779-4d70-a437-83e3b23942a1"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Nicolas ",
+        "players": [
+          "1769922269402",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Renzo",
+        "players": [
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4"
+        ],
+        "goalkeeperId": null,
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "c1261d1d-c2ed-4f66-a3aa-86763d2f0883",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "ad9d3b00-10cd-42f9-8764-b9cec2a92d90",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "879a8215-6410-46f8-abab-28b41c404561",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "ce4e651f-2f57-43be-967a-6fde3f1e024d",
+          "team": "B",
+          "playerId": "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "f6b0c24e-69f6-4a92-894b-e41aeeb8f0fe"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Rosário",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time do Renzo",
+        "players": [
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d"
+        ],
+        "goalkeeperId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "37ac12c3-fa67-499c-972f-f2795293ce86",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "3b809fa9-65bc-4ffb-9240-582bebc2e354",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "35c99851-f2d4-4bfa-b5b1-e6d5eda4bdf1"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Rosário",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Nicolas",
+        "players": [
+          "1769922269402",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "c36b9270-209b-4efc-be81-966d4ff5f4c5"
+        ],
+        "goalkeeperId": "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "4ac3988a-d5b6-4625-bbf3-8453c86f6c76",
+          "team": "A",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        },
+        {
+          "id": "012c1612-e7b6-4992-af69-0677dd814a46",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "37b815cb-ed6c-41fa-9a6d-7e4561c54e13",
+          "team": "A",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        },
+        {
+          "id": "d716ed68-1e28-4b19-9b16-5806cda8212d",
+          "team": "A",
+          "playerId": "da84f076-60b2-4a85-9311-413db068c476",
+          "type": "ASSIST"
+        },
+        {
+          "id": "2ea81f13-f505-4bb2-89c4-1a609e43d721",
+          "team": "B",
+          "playerId": "1769922269402",
+          "type": "GOAL"
+        },
+        {
+          "id": "63fe7c0a-802e-4d18-b936-b6974e380639",
+          "team": "B",
+          "playerId": "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "8bf13010-c2c4-4d4d-a5ef-2b81720b2e13"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Rosário",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "da84f076-60b2-4a85-9311-413db068c476",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa"
+        ],
+        "goalkeeperId": "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Renzo",
+        "players": [
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0"
+        ],
+        "goalkeeperId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "a7609c19-a740-4b7e-a265-50cdb5f5f07c",
+          "team": "A",
+          "playerId": "3b52715d-2231-4ccb-b0bd-ac4c21da87d2",
+          "type": "OWN_GOAL"
+        },
+        {
+          "id": "f015c361-7933-43d6-a9c3-58aa67554034",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        },
+        {
+          "id": "639c2b24-1025-4d17-a29f-3886cf68736b",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "ddbd47c0-333f-4b68-9c91-b96b78e0e93e",
+          "team": "B",
+          "playerId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "type": "GOAL"
+        },
+        {
+          "id": "04a81fc2-b701-4f05-b24b-78a5851196bf",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "7167ac35-39fe-4eb0-9650-6f9b894b93bd"
+    },
+    {
+      "date": "2026-02-16",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Nicolas Reformado",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "acbfb017-1bbe-46ac-bf86-6dc021b43150",
+          "1769922269402",
+          "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+          "b2d42fc5-9ee8-4d8d-a1cb-43ccff7aca2d"
+        ],
+        "goalkeeperId": "c20c40d6-3ad6-43d6-9ce9-80f28a7c3b7a",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time do Renzo",
+        "players": [
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "6d8dc4f4-f307-42e3-a947-da7b72d3fcd4"
+        ],
+        "goalkeeperId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "08e1e691-d181-4d3d-a0a2-d3544a8df7c8",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "6310c8a1-9ead-43e1-800f-2b4515e28f16",
+          "team": "A",
+          "playerId": "1769922269402",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "8a7eb581-07a3-43e3-8efd-0b1c80b3231d"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Bob",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Davi",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "23b48972-40b6-458c-a543-5f15935db801",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "404d0491-3758-411f-a13d-fb0cf98a6cf3",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "74907a80-7566-4913-ab2b-491f88c91d8b",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": "A",
+      "id": "88fb00dd-08c7-4124-9bf1-2651cbbd279f"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Bob",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Davi",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "6dfd1328-3ea1-4c67-b5e8-f156c9fde848",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "325abf49-b55f-4d04-866f-183dae8f075d",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "61bacb23-0cd8-4d1c-b855-77230e7369f4",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "259d1389-8372-4b08-9d2c-39a03f63c319",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "cecc2943-2dcb-4929-99bd-bc7dee0bfdcf",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "51164949-92d6-4f2a-88d9-eb712d8753e1"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Bob",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "0c45e403-5ed7-4757-8b44-ba956088548d"
+        ],
+        "goalkeeperId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time do Davi",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "b33c6540-ade2-421e-9502-369efde4d10d",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "3e3fc53f-1f24-4aef-8f48-cedf2547855b",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "cd187161-4ffb-49ae-a39d-50f6b1ae2730",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "ead56390-1e56-4467-89c7-37bb8454b584",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "fba5bdf9-9e11-4171-9e18-b89ef18ba001",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "f76b970a-da38-409b-9576-d85600a73680",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "9bb62c01-6f07-4f51-a5d3-4fd0753a1263"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Bob",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Davi",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa"
+        ],
+        "goalkeeperId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "54b8d959-effb-489e-a72d-1307ad94a78d",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "305483d1-e0fe-440d-874f-16e7d04da00c",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "ea5080d3-a2a8-4172-8b25-11b5671ed85f",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "37a41c3f-6fed-4e31-a6d0-82a914850d6b",
+          "team": "A",
+          "playerId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "type": "OWN_GOAL"
+        },
+        {
+          "id": "0a89e99f-b823-440b-8ec1-8a30c4ce423f",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "37b16e9d-eaf7-4c26-8c4c-7254bb2e48d2",
+          "team": "A",
+          "playerId": "94652561-6595-423b-a87c-ad4158f44ba0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "970af8dd-dc66-44aa-9a57-92f06119cb6b",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "487c086c-b856-471e-ae1f-03e6fd112c28",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "57804883-74b0-498a-9019-387a8bec387d"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Bob",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "da84f076-60b2-4a85-9311-413db068c476"
+        ],
+        "goalkeeperId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Davi",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa"
+        ],
+        "goalkeeperId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "events": [
+        {
+          "id": "b1e73e92-6158-4e2c-ab59-4385e07c218e",
+          "team": "B",
+          "playerId": "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "type": "GOAL"
+        },
+        {
+          "id": "b77d707f-bf5f-4a89-9089-f9931a98dc8a",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        },
+        {
+          "id": "c20eb63e-6903-4b05-b274-197c1064df60",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "1ce287b1-5cf2-47e4-a01d-faa88f57ff01",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "939de608-705f-4894-8c0a-b56e11a0d54e",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "1505ade0-258e-4e0f-8aaa-bba183e47261",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "50a4435c-daa1-44fc-919f-48bd25d48a0b"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do Bob",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "da84f076-60b2-4a85-9311-413db068c476",
+          "94652561-6595-423b-a87c-ad4158f44ba0"
+        ],
+        "goalkeeperId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+        "goalkeeperGoalsAgainst": 0,
+        "goalkeeperCleanSheet": 1
+      },
+      "teamB": {
+        "name": "Time do Davi",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa"
+        ],
+        "goalkeeperId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+        "goalkeeperGoalsAgainst": 1,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "0b9b6b7c-2a1c-4661-80c5-7bf6f6024519",
+          "team": "A",
+          "playerId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "type": "GOAL"
+        },
+        {
+          "id": "b2035f6a-2af8-4bba-ae37-6e9a02d3397e",
+          "team": "A",
+          "playerId": "94652561-6595-423b-a87c-ad4158f44ba0",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "46b658db-30a5-4a56-835a-bfa042f167ac"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "TIme do Renzo ",
+        "players": [
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619"
+        ],
+        "goalkeeperId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Furtado",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d"
+        ],
+        "goalkeeperId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+        "goalkeeperGoalsAgainst": 2,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "483e22be-3790-4c71-af35-0a673ab1dba9",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "eb32642b-e8e4-457b-981f-bdafd61042a5",
+          "team": "A",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "3d35978e-bb57-4367-9dc3-8b73e7d456f7",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "ASSIST"
+        },
+        {
+          "id": "20435662-1ab5-468b-be76-ee913b22f410",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "ASSIST"
+        },
+        {
+          "id": "09bfc80c-24d2-444c-ad0e-9b7a3e539849",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "GOAL"
+        },
+        {
+          "id": "4ec01f1f-4e6a-4435-b448-d0caa5130820",
+          "team": "B",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "24c0afe7-d860-4d53-a847-92d7cfa67370",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "4b28e732-197c-43bf-9ad7-d40d81f7bab3",
+          "team": "B",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "GOAL"
+        },
+        {
+          "id": "b40278ee-a4e5-4b8b-b67c-d19fbdd85734",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "047740bf-a586-42e8-b2c2-ce35154ea709"
+    },
+    {
+      "date": "2026-02-28",
+      "venue": "Ephigenio Salles",
+      "teamA": {
+        "name": "Time do André",
+        "players": [
+          "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "4c53c748-fc07-46c1-88fa-7945d85ba9aa",
+          "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "74e013a4-5e0a-4d00-a013-f00de1de1bd7"
+        ],
+        "goalkeeperId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+        "goalkeeperGoalsAgainst": 3,
+        "goalkeeperCleanSheet": 0
+      },
+      "teamB": {
+        "name": "Time do Alberto",
+        "players": [
+          "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "94652561-6595-423b-a87c-ad4158f44ba0",
+          "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "cfff9638-6e27-4d92-9f89-5b7108d9b71d"
+        ],
+        "goalkeeperId": "cfff9638-6e27-4d92-9f89-5b7108d9b71d",
+        "goalkeeperGoalsAgainst": 5,
+        "goalkeeperCleanSheet": 0
+      },
+      "events": [
+        {
+          "id": "4fe55116-2732-43de-9155-ed804dad52df",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "505b8bae-c94b-478d-926b-7499c3f01cd0",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "efeb47b6-9442-44f7-9eed-097cf4fad780",
+          "team": "A",
+          "playerId": "a87fcd3d-33fe-49a7-8f38-6c92237961c2",
+          "type": "ASSIST"
+        },
+        {
+          "id": "68c3b313-1bc2-4422-b59c-34a00f45e6a5",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "93bf761f-630c-4749-9c51-60098db45c7e",
+          "team": "A",
+          "playerId": "7ee81b4c-9e31-494b-9d7e-7d19f90de328",
+          "type": "GOAL"
+        },
+        {
+          "id": "72bf5858-7548-4d65-98ef-5f829eba1d28",
+          "team": "A",
+          "playerId": "74e013a4-5e0a-4d00-a013-f00de1de1bd7",
+          "type": "ASSIST"
+        },
+        {
+          "id": "d6563804-3af9-4497-bd42-2237fae8c21f",
+          "team": "A",
+          "playerId": "222bfbbe-f39d-4560-938e-2f6f0a507ddb",
+          "type": "GOAL"
+        },
+        {
+          "id": "64c3af68-9b82-43ec-a78d-bd037e025377",
+          "team": "B",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "GOAL"
+        },
+        {
+          "id": "2ab1bb5e-e9dd-4555-ad0a-283da9cf4477",
+          "team": "B",
+          "playerId": "e7df82cd-7158-4d54-b20d-7371ac5174e0",
+          "type": "ASSIST"
+        },
+        {
+          "id": "e7070942-3f3e-4100-a130-8c53eb81d6cb",
+          "team": "B",
+          "playerId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "type": "GOAL"
+        },
+        {
+          "id": "38bd1cac-facd-439a-8bff-cb6fe9c0f4bb",
+          "team": "B",
+          "playerId": "67d4229a-5e0c-4b3e-9a6c-385e5f388619",
+          "type": "ASSIST"
+        },
+        {
+          "id": "34286564-3e1f-482d-b375-44fc71997f2c",
+          "team": "B",
+          "playerId": "0c45e403-5ed7-4757-8b44-ba956088548d",
+          "type": "GOAL"
+        }
+      ],
+      "penaltiesWinner": null,
+      "id": "0797f7cb-568e-443b-9dbc-cb172c3813c2"
+    }
+  ]
+}

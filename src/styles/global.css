@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #111111, #2b2b2b) fixed;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+  overflow-x: hidden; /* Evita que o carrossel crie barra de rolagem horizontal */
+}
+
+/* Garante que o container do React também ocupe a tela toda */
+#root {
+  width: 100%;
+}
