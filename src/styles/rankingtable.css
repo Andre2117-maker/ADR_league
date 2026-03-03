@@ -167,6 +167,7 @@ tbody td {
   .row-is-anonymous::after {
     font-size: 13px;
     letter-spacing: 2px;
+    content: none !important;
   }
 
   tbody tr {
