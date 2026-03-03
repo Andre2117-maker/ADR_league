@@ -110,16 +110,6 @@
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
-/* Mobile */
-@media (max-width: 900px) {
-  .nvb-section {
-    display: none;
-  } /* Ideal criar um menu burguer depois */
-  .nvb-brand {
-    width: 100%;
-  }
-}
-
 /* Grupo que envolve Painel e Sair */
 .nvb-admin-group {
   display: flex;
@@ -183,4 +173,46 @@
 
 .nvb-logout-btn:hover::after {
   width: 100%;
+}
+
+/* --- NOVA REGRA PARA CELULAR --- */
+@media (max-width: 900px) {
+  .nvb-container {
+    flex-direction: column; /* Empilha o Logo em cima e os links embaixo */
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  .nvb-section {
+    display: flex; /* Garante que os botões APAREÇAM */
+    width: 100%;
+    justify-content: center; /* Centraliza os links no celular */
+    gap: 15px; /* Diminui o espaço entre links para caber na tela */
+  }
+
+  .nvb-brand {
+    width: 100%;
+    order: -1; /* Mantém o logo no topo */
+  }
+
+  .nvb-left,
+  .nvb-right {
+    justify-content: center; /* Alinha tudo ao centro no mobile */
+  }
+
+  .nvb-link {
+    font-size: 11px; /* Diminui um pouco a letra para não quebrar linha */
+    letter-spacing: 0.5px;
+  }
+
+  .nvb-login-btn {
+    padding: 5px 12px;
+    font-size: 10px;
+  }
+
+  /* Se tiver o grupo de admin (painel/sair), reduz o espaço */
+  .nvb-admin-group {
+    gap: 10px;
+    padding-left: 0;
+  }
 }

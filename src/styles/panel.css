@@ -427,29 +427,245 @@ td:nth-child(6) {
   position: absolute;
   top: 50%;
   left: 0;
+  /* Em vez de 750px, usamos 100% da largura da linha */
+  width: 100%;
   transform: translateY(-50%);
-
-  /* AJUSTE MANUAL DE LARGURA: 
-     Aumente esse valor até o texto centralizar na área dos números */
-  width: 750px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  /* ESTILO DO TEXTO */
-  color: #d4af37 !important; /* Dourado ADR */
+  /* Estilo visual */
+  color: #d4af37 !important;
   font-size: 20px;
   font-weight: 900;
   letter-spacing: 5px;
   text-transform: uppercase;
   white-space: nowrap;
 
-  /* FORÇAR VISIBILIDADE */
-  z-index: 999;
-  opacity: 1 !important;
+  /* Garante que não cubra cliques e fique visível */
+  z-index: 99;
   pointer-events: none;
-
-  /* Sombra para ler por cima dos números */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+/* Ajuste para telas pequenas (Celular) */
+@media (max-width: 1024px) {
+  .anon-text-overlay {
+    /* 1. Reset Necessário */
+    transform: none !important;
+    position: absolute !important; /* Mude para sticky se quiser que siga o scroll */
+    height: 100% !important;
+    top: 0 !important;
+
+    /* 2. CONTROLE MANUAL DE POSIÇÃO */
+    /* Aumente o 'left' para empurrar para a direita, diminua para a esquerda */
+    left: 10% !important;
+
+    /* Defina uma largura para o bloco do texto */
+    width: 80% !important;
+
+    /* 3. ALINHAMENTO INTERNO */
+    display: flex !important;
+    justify-content: center !important; /* center = meio | flex-start = esquerda | flex-end = direita */
+    align-items: center !important; /* Alinhamento vertical */
+
+    /* 4. ESTILO */
+    font-size: 14px !important;
+    letter-spacing: 2px !important;
+  }
+
+  /* Garante que a linha tenha espaço para o texto */
+  .row-is-anonymous {
+    min-height: 60px !important;
+  }
+}
+
+/* ==========================================================
+   PAINEL ADMIN - VERSÃO MOBILE (CARD STYLE FINAL)
+   ========================================================== */
+
+@media (max-width: 850px) {
+  /* Garante que o container principal não tenha scroll horizontal */
+  .adm-main-layout {
+    padding: 80px 10px 30px !important;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Header e Navegação */
+  .adm-header-nav {
+    flex-direction: column;
+    padding: 15px;
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .adm-nav-left {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 10px;
+  }
+
+  /* Reset da Tabela para Cards */
+  .adm-table-container {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .adm-table {
+    display: block;
+    width: 100%;
+  }
+
+  .adm-table thead {
+    display: none; /* Esconde cabeçalho */
+  }
+
+  .adm-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  /* O CARD INDIVIDUAL (LINHA DA TABELA) */
+  .adm-tr {
+    display: flex !important;
+    flex-direction: column !important;
+    background: #111 !important;
+    border: 1px solid #222 !important;
+    border-radius: 20px !important;
+    margin-bottom: 25px !important;
+    padding: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    align-items: center; /* Centraliza tudo no card */
+  }
+
+  /* Células da Tabela (TDs) */
+  .adm-tr td {
+    display: block !important;
+    width: 100% !important;
+    padding: 10px 0 !important;
+    border: none !important;
+    text-align: center !important;
+    box-sizing: border-box;
+  }
+
+  /* 1. SEÇÃO DA FOTO E NOME (CENTRALIZADO) */
+  .adm-name-cell {
+    order: 1; /* Garante que é o primeiro */
+  }
+
+  .adm-name-cell > div {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+
+  .adm-avatar-wrapper {
+    width: 100px !important;
+    height: 100px !important;
+    margin: 0 auto !important;
+    border: 3px solid #d4af37 !important;
+  }
+
+  .adm-player-name {
+    font-size: 20px !important;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* 2. BADGE DE STATUS ATUAIS */
+  .adm-auto-stats-cell {
+    order: 2;
+    background: #000;
+    border-radius: 12px;
+    margin: 10px 0 !important;
+  }
+
+  .adm-total-badge {
+    border: none !important;
+    justify-content: space-around !important;
+  }
+
+  /* 3. AJUSTES MANUAIS (GOLS E ASSIST) */
+  .adm-manual-cell {
+    order: 3;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Labels manuais */
+  .adm-manual-cell:nth-child(3)::before {
+    content: "ADICIONAR GOLS";
+    font-size: 10px;
+    color: #d4af37;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .adm-manual-cell:nth-child(4)::before {
+    content: "ADICIONAR ASSISTÊNCIAS";
+    font-size: 10px;
+    color: #d4af37;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .adm-calc-container {
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  /* 4. PERFIL E INPUTS */
+  .adm-profile-cell {
+    order: 4;
+    border-top: 1px solid #222 !important;
+    margin-top: 15px !important;
+    padding-top: 20px !important;
+  }
+
+  .adm-profile-inputs {
+    align-items: center !important;
+    width: 100%;
+    gap: 10px !important;
+  }
+
+  .adm-input-role,
+  .adm-photo-url-input {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .adm-title-input-wrapper {
+    justify-content: center !important;
+  }
+
+  /* 5. AÇÕES (BOTÕES FINAIS) */
+  .adm-actions-cell {
+    order: 5;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0 0 20px 20px;
+    margin-top: 10px !important;
+  }
+
+  .adm-action-buttons {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 40px !important;
+    width: 100%;
+  }
+
+  .adm-btn-delete,
+  .adm-btn-anon {
+    font-size: 26px !important;
+    opacity: 1 !important;
+  }
 }

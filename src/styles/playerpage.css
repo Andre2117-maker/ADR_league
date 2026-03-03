@@ -356,3 +356,155 @@
   gap: 10px;
   margin-top: 10px;
 }
+
+/* ==========================================================
+   PLAYER PAGE - RESPONSIVIDADE MOBILE
+   ========================================================== */
+
+@media (max-width: 850px) {
+  /* 1. Ajustes de Container e Layout Principal */
+  .ppg-main-layout {
+    display: flex;
+    flex-direction: column; /* Empilha aside e main */
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .ppg-page-container {
+    padding: 10px;
+    padding-top: 80px; /* Espaço para o header fixo se houver */
+  }
+
+  /* 2. Header (Botões de Voltar e ADM) */
+  .ppg-top-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    text-align: center;
+    padding: 15px 10px;
+  }
+
+  .ppg-top-header div {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ppg-btn-back,
+  .ppg-btn-capture,
+  .ppg-btn-edit {
+    font-size: 12px;
+    padding: 10px;
+    flex: 1; /* Faz os botões dividirem o espaço */
+  }
+
+  /* 3. Card de Perfil (Centralização) */
+  .ppg-profile-card {
+    text-align: center;
+  }
+
+  .ppg-profile-img {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px;
+  }
+
+  .ppg-mini-stats-row {
+    justify-content: space-around;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 15px;
+  }
+
+  /* 4. Gráficos (Radar e Barras) */
+  .ppg-radar-chart-container,
+  .ppg-bar-chart-container {
+    height: 250px !important; /* Reduz altura para não ocupar a tela toda */
+    width: 100%;
+  }
+
+  /* Ajuste específico para o Radar não cortar os textos laterais */
+  .recharts-polar-angle-axis-tick {
+    font-size: 9px !important;
+  }
+
+  /* 5. Summary Boxes (Jogos, Gols, Assists) */
+  .ppg-stats-summary-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    gap: 10px;
+  }
+
+  .ppg-stat-box {
+    padding: 15px 5px;
+  }
+
+  .ppg-stat-value {
+    font-size: 20px;
+  }
+
+  .ppg-stat-label {
+    font-size: 10px;
+  }
+
+  /* 6. Histórico de Partidas */
+  .ppg-teams-display {
+    flex-direction: column; /* Nome do time em cima, placar no meio, time embaixo */
+    gap: 5px;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .ppg-match-item {
+    flex-direction: column; /* Empilha placar e tags de gols/assist */
+    gap: 15px;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .ppg-match-stats-tags {
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 10px;
+  }
+
+  /* 7. Modo Edição (ADM) */
+  .ppg-edit-card {
+    padding: 15px;
+    width: 95%;
+  }
+
+  .ppg-edit-grid {
+    grid-template-columns: 1fr !important; /* Tudo em uma coluna */
+    gap: 15px;
+  }
+
+  .ppg-add-ach-form {
+    flex-direction: column; /* Input de ícone e título um sobre o outro */
+    gap: 10px;
+  }
+
+  .ppg-add-ach-form button {
+    width: 100%;
+  }
+
+  /* Botões de Salvar/Cancelar no final */
+  .ppg-edit-grid[style*="margin-top: 50px"] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Ajuste para telas muito pequenas (iPhone SE, etc) */
+@media (max-width: 380px) {
+  .ppg-player-name {
+    font-size: 24px;
+  }
+
+  .ppg-vs-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}

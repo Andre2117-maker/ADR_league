@@ -15,20 +15,6 @@
    HOME LAYOUT
 ===================================================== */
 
-.home-layout {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center; /* Centraliza as 3 colunas entre si */
-  align-items: flex-start;
-  gap: 30px;
-  width: 100%;
-  max-width: 1400px; /* Define o limite de largura do seu conteúdo */
-  margin-left: auto; /* Garante centralização se o flex falhar */
-  margin-right: auto; /* Garante centralização se o flex falhar */
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
 @media (max-width: 1100px) {
   .home-layout {
     flex-direction: column;
@@ -120,6 +106,25 @@
   border-radius: 12px;
   padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   REGRA DE OURO PARA O CELULAR
+===================================================== */
+@media (max-width: 1024px) {
+  .main-content-area {
+    /* O container de scroll precisa estar um nível ACIMA da .central-column */
+    overflow-x: auto !important;
+    width: 100%;
+    display: block;
+  }
+
+  .central-column {
+    /* Faz o fundo preto ter a largura exata da tabela, não importa o quão larga ela seja */
+    width: max-content !important;
+    min-width: 100%; /* No mínimo o tamanho da tela */
+    padding: 15px; /* Reduzi o respiro para ganhar espaço */
+  }
 }
 
 .table-logo {
