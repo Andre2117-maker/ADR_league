@@ -33,10 +33,14 @@ export default function RankingTable({
           {/* ATIVOS */}
           {activePlayers.map((p, idx) => {
             const { form } = getPlayerStats(p.id);
+
+            const isLast = idx === activePlayers.length - 1;
+
             let rowClass = "";
             if (idx === 0) rowClass = "first-place";
             else if (idx === 1) rowClass = "second-place";
             else if (idx === 2) rowClass = "third-place";
+            else if (isLast) rowClass = "last-place";
 
             return (
               <tr

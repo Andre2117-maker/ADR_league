@@ -90,30 +90,42 @@ tbody td {
   background: #666;
 }
 
-/* ==========================================================
+/* =========================================
    LINHA ANÔNIMA BASE
-   ========================================================== */
+========================================= */
 
 .row-is-anonymous {
   position: relative;
-  background: rgba(255, 255, 255, 0.02);
 }
 
-/* Apaga os dados */
+/* Apaga os dados da linha */
+.row-is-anonymous td {
+  position: relative;
+  opacity: 0.15;
+  filter: grayscale(100%);
+}
+
+/* Overlay aplicado no primeiro TD e expandido */
+/* =========================================
+   LINHA ANÔNIMA CORRETA
+========================================= */
+
+.row-is-anonymous {
+  position: relative;
+}
+
+/* Apaga dados */
 .row-is-anonymous td {
   opacity: 0.15;
   filter: grayscale(100%);
 }
 
-/* TEXTO DOURADO CENTRALIZADO */
+/* Overlay na linha inteira */
 .row-is-anonymous::after {
   content: "NÃO PARTICIPANDO";
 
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  inset: 0;
 
   display: flex;
   align-items: center;
@@ -160,4 +172,57 @@ tbody td {
   tbody tr {
     height: 42px;
   }
+}
+
+/* =========================================
+   ÚLTIMO COLOCADO - FAIXA VERMELHA
+========================================= */
+
+tbody tr:last-child:not(.row-is-anonymous) {
+  background: linear-gradient(
+    90deg,
+    rgba(180, 0, 0, 0.5),
+    rgba(120, 0, 0, 0.3),
+    transparent
+  );
+}
+
+/* =========================================
+   AURA PISCANDO
+========================================= */
+
+@keyframes glowPulseGold {
+  0% {
+    box-shadow: 0 0 0px rgba(226, 185, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(226, 185, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(226, 185, 0, 0);
+  }
+}
+
+@keyframes glowPulseRed {
+  0% {
+    box-shadow: 0 0 0px rgba(255, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(255, 0, 0, 0);
+  }
+}
+
+/* Top 3 */
+.first-place,
+.second-place,
+.third-place {
+  animation: glowPulseGold 2.5s infinite ease-in-out;
+}
+
+/* Último colocado */
+tbody tr:last-child:not(.row-is-anonymous) {
+  animation: glowPulseRed 2.5s infinite ease-in-out;
 }
