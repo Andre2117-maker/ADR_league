@@ -8,18 +8,19 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center; /* CENTRALIZA TUDO NO EIXO HORIZONTAL */
+  align-items: center;
   min-height: 100vh;
   box-sizing: border-box;
+  background-color: #000; /* Garante o fundo padrão */
 }
 
 .home-layout {
   display: flex;
-  justify-content: center; /* Alinha as 3 colunas no centro */
-  align-items: flex-start; /* Mantém o topo alinhado para o sticky funcionar */
+  justify-content: center;
+  align-items: flex-start;
   gap: 30px;
   width: 100%;
-  max-width: 1450px; /* Limite para não espalhar demais em telas grandes */
+  max-width: 1450px;
   margin: 40px auto;
   padding: 0 20px;
   position: relative;
@@ -27,12 +28,43 @@
 }
 
 /* =====================================================
-   COLUNAS LATERAIS (ASIDE)
+    ÁREA CENTRAL (TABELA COM SCROLL)
+===================================================== */
+
+.main-content-area {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto !important;
+  display: block;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.main-content-area table {
+  width: max-content !important;
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto !important;
+}
+
+/* Coluna dos NOMES fixa para leitura */
+.main-content-area td:nth-child(2),
+.main-content-area th:nth-child(2) {
+  min-width: 180px !important;
+  white-space: nowrap !important;
+  text-align: left;
+  padding-left: 15px;
+}
+
+/* =====================================================
+    COLUNAS LATERAIS (PC)
 ===================================================== */
 
 .side-cards {
   width: 280px;
-  flex-shrink: 0; /* Impede que a coluna esmague */
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -43,25 +75,13 @@
   flex-shrink: 0;
   position: -webkit-sticky;
   position: sticky;
-  top: 110px; /* Onde ele para ao scrollar */
+  top: 110px;
   z-index: 10;
   height: fit-content;
 }
 
 /* =====================================================
-   ÁREA CENTRAL (TABELA E CONTEÚDO)
-===================================================== */
-
-.main-content-area {
-  flex: 1; /* Ocupa o máximo de espaço entre as sidebars */
-  min-width: 600px; /* Evita que a tabela fique ilegível */
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-/* =====================================================
-   COMPONENTES EXTRAS (EXPORT E FOOTER)
+    BOTÕES E INTERAÇÕES
 ===================================================== */
 
 .export-btn {
@@ -75,12 +95,100 @@
   cursor: pointer;
   transition: 0.3s;
   margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
-.export-btn:hover {
+/* REMOVE HOVER NO CELULAR - SÓ FUNCIONA NO PC */
+@media (hover: hover) {
+  .export-btn:hover {
+    background: #d4af37;
+    color: #000;
+    transform: translateY(-2px);
+  }
+}
+
+/* FEEDBACK DE TOQUE PARA CELULAR */
+.export-btn:active {
   background: #d4af37;
   color: #000;
+  opacity: 0.8;
 }
+
+/* =====================================================
+    AJUSTES PARA CELULAR (SOLUÇÃO DEFINITIVA)
+===================================================== */
+
+@media (max-width: 1024px) {
+  /* 1. Reset Global de Hover para Mobile */
+  /* Isso impede que qualquer elemento "cresça" ou mude de z-index no toque */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 2. Forçar o painel de detalhes a se comportar como um bloco comum */
+  .details-panel {
+    order: 3 !important;
+    position: static !important; /* Remove sticky e qualquer flutuação */
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    transform: none !important; /* Anula crescimentos/zoom */
+    margin: 20px 0 !important;
+    box-shadow: none !important;
+    z-index: 1 !important; /* Garante que ele fique por baixo de menus */
+  }
+
+  /* 3. Evitar que o painel de detalhes cubra outros elementos */
+  /* Se ele estiver aparecendo "do nada", forçamos ele a sumir a menos que seja scrollado */
+  .details-panel:hover,
+  .details-panel:active,
+  .details-panel:focus {
+    transform: none !important;
+    position: static !important;
+  }
+
+  .home-layout {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  /* Garante que a área da tabela não permita sobreposição lateral */
+  .main-content-area {
+    order: 1 !important;
+    width: 100% !important;
+    overflow-x: auto;
+    position: relative;
+    z-index: 2; /* Fica acima do painel de detalhes no fluxo */
+  }
+
+  .side-cards {
+    order: 2 !important;
+    width: 100% !important;
+  }
+}
+
+/* =====================================================
+    REMOÇÃO DE HOVER (NÍVEL DE PONTEIRO)
+===================================================== */
+
+/* Se o dispositivo NÃO tem um mouse (celular/tablet) */
+@media (pointer: coarse) {
+  /* Desabilita TODAS as transições e transforms que causam o "bug" da foto cobrindo a tela */
+  .details-panel,
+  .details-panel *,
+  .home-layout *,
+  img {
+    transition: none !important;
+    transform: none !important;
+    pointer-events: auto; /* Permite clicar, mas não "pairar" */
+  }
+}
+
+/* =====================================================
+    FOOTER E PATROCINADORES
+===================================================== */
 
 .sponsors-footer {
   width: 100%;
@@ -98,4 +206,80 @@
   flex-direction: column;
   align-items: center;
   gap: 30px;
+}
+
+.sponsors-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.sponsors-secondary img {
+  max-width: 110px;
+  height: auto;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+@media (hover: hover) {
+  .sponsors-secondary img:hover {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+/* =====================================================
+   SOLUÇÃO PARA ELIMINAR SOBREPOSIÇÃO NO CELULAR
+===================================================== */
+
+@media (max-width: 1024px) {
+  /* 1. Remove a mensagem de "Passe o mouse" que aparece na imagem image_60cc05.png */
+  /* Ajuste a classe abaixo para o nome real que você deu a essa frase */
+  .details-panel p,
+  .main-content-area + div p {
+    display: none !important;
+  }
+
+  /* 2. Força o Card de Detalhes (João/Adriany) a ficar fixo no final da página */
+  .details-panel {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin-top: 30px !important;
+    box-shadow: none !important;
+    transform: none !important;
+    order: 10 !important; /* Manda ele para depois de tudo */
+  }
+
+  /* 3. Mata o efeito de "Hover" que faz o card aparecer do nada no toque */
+  .details-panel,
+  .details-panel * {
+    pointer-events: auto; /* Permite clicar nos botões internos */
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* 4. Ajuste específico para a tabela (image_60cc05.png) */
+  /* Impede que o container da tabela segure estados de hover */
+  .main-content-area table tr:active,
+  .main-content-area table tr:focus {
+    background: transparent !important;
+  }
+}
+
+/* 5. Bloqueio por tipo de dispositivo (Touch) */
+@media (pointer: coarse) {
+  /* Se for touch, o card nunca deve ser "absolute" ou "fixed" */
+  .details-panel {
+    position: relative !important;
+  }
+
+  /* Esconde qualquer texto de instrução de mouse */
+  *[class*="hover-instruction"],
+  *[class*="passe-o-mouse"] {
+    display: none !important;
+  }
 }

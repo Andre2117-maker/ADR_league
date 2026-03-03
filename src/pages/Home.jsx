@@ -173,20 +173,24 @@ function Home({ players, matches, onSelectPlayer }) {
             sortedPlayers={sorted}
             getPlayerStats={getPlayerStats}
             onSelectPlayer={onSelectPlayer}
-            setHoveredPlayer={setHoveredPlayer}
+            setHoveredPlayer={
+              window.innerWidth > 1024 ? setHoveredPlayer : () => {}
+            }
           />
           <AwardsCard />
         </main>
         {/* 4. Lado Direito: Scout Detalhado (Componentizado) */}
-        <aside className="details-panel">
-          <PlayerScoutPanel
-            player={hoveredPlayer}
-            stats={hoveredPlayer ? getPlayerStats(hoveredPlayer.id) : null}
-            bestPartner={
-              hoveredPlayer ? getBestPartner(hoveredPlayer.id) : "Nenhum"
-            }
-          />
-        </aside>
+        {window.innerWidth > 1024 && (
+          <aside className="details-panel">
+            <PlayerScoutPanel
+              player={hoveredPlayer}
+              stats={hoveredPlayer ? getPlayerStats(hoveredPlayer.id) : null}
+              bestPartner={
+                hoveredPlayer ? getBestPartner(hoveredPlayer.id) : "Nenhum"
+              }
+            />
+          </aside>
+        )}
       </div>
 
       {/* 5. Rodapé: Carrossel do Elenco */}
