@@ -14,8 +14,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
-import "../styles/playerPage.css";
-
+import "../styles/playerpage.css";
 
 function PlayerPage({
   player,
@@ -103,7 +102,6 @@ function PlayerPage({
             String(e.playerId) === String(player.id) && e.type === "ASSIST",
         ).length,
       }));
-
 
     return { pMatches, sorted, totalGoals, totalAssists, chartData };
   }, [player, matches]);
