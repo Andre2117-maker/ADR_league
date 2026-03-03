@@ -450,34 +450,25 @@ td:nth-child(6) {
 }
 
 /* Ajuste para telas pequenas (Celular) */
+/* Ajustes de Tamanho por Tela */
 @media (max-width: 1024px) {
   .anon-text-overlay {
-    /* 1. Reset Necessário */
-    transform: none !important;
-    position: absolute !important; /* Mude para sticky se quiser que siga o scroll */
-    height: 100% !important;
-    top: 0 !important;
-
-    /* 2. CONTROLE MANUAL DE POSIÇÃO */
-    /* Aumente o 'left' para empurrar para a direita, diminua para a esquerda */
-    left: 10% !important;
-
-    /* Defina uma largura para o bloco do texto */
-    width: 80% !important;
-
-    /* 3. ALINHAMENTO INTERNO */
-    display: flex !important;
-    justify-content: center !important; /* center = meio | flex-start = esquerda | flex-end = direita */
-    align-items: center !important; /* Alinhamento vertical */
-
-    /* 4. ESTILO */
-    font-size: 14px !important;
-    letter-spacing: 2px !important;
+    font-size: 14px;
+    letter-spacing: 2px;
+    /* Sticky para acompanhar o scroll lateral do celular */
+    position: sticky !important;
+    left: 0;
   }
 
-  /* Garante que a linha tenha espaço para o texto */
   .row-is-anonymous {
-    min-height: 60px !important;
+    height: 50px !important; /* Altura fixa para garantir o centro vertical */
+  }
+}
+
+@media (min-width: 1025px) {
+  .anon-text-overlay {
+    font-size: 24px;
+    letter-spacing: 8px;
   }
 }
 
