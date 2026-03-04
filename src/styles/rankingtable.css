@@ -63,6 +63,15 @@ tbody td {
   background: linear-gradient(90deg, rgba(205, 127, 50, 0.12), transparent);
 }
 
+.last-place {
+  background: linear-gradient(
+    90deg,
+    rgba(180, 0, 0, 0.5),
+    rgba(120, 0, 0, 0.3),
+    transparent
+  );
+}
+
 /* ==========================================================
    FORM (ÚLTIMAS 5)
    ========================================================== */
@@ -176,19 +185,6 @@ tbody td {
 }
 
 /* =========================================
-   ÚLTIMO COLOCADO - FAIXA VERMELHA
-========================================= */
-
-tbody tr:last-child:not(.row-is-anonymous) {
-  background: linear-gradient(
-    90deg,
-    rgba(180, 0, 0, 0.5),
-    rgba(120, 0, 0, 0.3),
-    transparent
-  );
-}
-
-/* =========================================
    AURA PISCANDO
 ========================================= */
 
@@ -224,6 +220,148 @@ tbody tr:last-child:not(.row-is-anonymous) {
 }
 
 /* Último colocado */
-tbody tr:last-child:not(.row-is-anonymous) {
+.last-place {
   animation: glowPulseRed 2.5s infinite ease-in-out;
+}
+
+/* =====================================================
+   COLUNA CENTRAL (TABELA HOME)
+===================================================== */
+.central-column {
+  flex: 1;
+  min-width: 0; /* Permite que o flex-box diminua a tabela se necessário */
+  max-width: 850px;
+  margin: 0; /* Deixe o flexbox do pai (home-layout) controlar o espaço */
+  background: #101010;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   REGRA DE OURO PARA O CELULAR
+===================================================== */
+@media (max-width: 1024px) {
+  .main-content-area {
+    /* O container de scroll precisa estar um nível ACIMA da .central-column */
+    overflow-x: auto !important;
+    width: 100%;
+    display: block;
+  }
+
+  .central-column {
+    /* Faz o fundo preto ter a largura exata da tabela, não importa o quão larga ela seja */
+    width: max-content !important;
+    min-width: 100%; /* No mínimo o tamanho da tela */
+    padding: 15px; /* Reduzi o respiro para ganhar espaço */
+  }
+}
+
+.table-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Espaço entre logo e título */
+  width: 100%; /* Garante que o container da logo ocupe a largura total */
+}
+
+.table-logo img {
+  width: 100px;
+  opacity: 0.9;
+}
+
+/* .page-title {
+  color: #d4af37;
+  margin: 10px 0 20px 0;
+} */
+
+.page-title {
+  /* Reset de propriedades que bugam o print */
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+
+  /* Cor base Dourada ADR */
+  color: #d4af37 !important;
+
+  /* Brilho que funciona na tela e no print */
+  text-shadow: 0px 0px 12px rgba(212, 175, 55, 0.6);
+
+  font-size: 28px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #181818;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  table-layout: auto;
+}
+
+thead th {
+  background: #222;
+  padding: 12px;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+} */
+
+/* Procure a tag table e substitua */
+table {
+  width: 100% !important;
+  border-collapse: collapse;
+  background: #181818;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  table-layout: fixed; /* MUDE PARA FIXED: Isso obriga a tabela a ocupar os 100% */
+}
+
+/* Agora definimos larguras específicas para as colunas não brigarem */
+/* Coluna # */
+thead th:nth-child(1),
+tbody td:nth-child(1) {
+  width: 45px;
+  text-align: center;
+}
+
+/* Coluna JOGADOR (A que deve esticar) */
+thead th:nth-child(2),
+tbody td:nth-child(2) {
+  width: auto;
+  text-align: left;
+  padding-left: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Se o nome for gigante, ele coloca "..." em vez de quebrar a tabela */
+}
+
+/* Colunas de Números (PTS, G, A, etc) */
+thead th:not(:nth-child(2)),
+tbody td:not(:nth-child(2)) {
+  width: 55px;
+  text-align: center;
+}
+
+/* Coluna Últimos 5 (Forma) - Geralmente precisa de uns 120px */
+thead th:last-child,
+tbody td:last-child {
+  width: 120px;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+tbody tr:hover {
+  background: #222;
 }

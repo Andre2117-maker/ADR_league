@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import html2canvas from "html2canvas";
 import "../styles/home.css";
+import "../style.css";
 import master from "../assets/master.png";
 import patro1 from "../assets/patro1.png";
 import patro2 from "../assets/patro2.png";
@@ -21,56 +22,70 @@ import AwardsCard from "../components/AwardsCard";
 function Home({ players, matches, onSelectPlayer }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
 
-  // --- Lógica de Estatísticas (Mantida aqui por enquanto, ou pode mover para um Hook) ---
-  const getPlayerStats = (playerId) => {
-    if (!matches) return { form: [], winRate: 0 };
-    const playerMatches = matches.filter(
-      (m) =>
-        m.teamA.players.includes(playerId) ||
-        m.teamB.players.includes(playerId),
-    );
-    const wins = playerMatches.filter((m) => {
-      const isTeamA = m.teamA.players.includes(playerId);
-      const gA = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "A") ||
-          (e.type === "OWN_GOAL" && e.team === "B"),
-      ).length;
-      const gB = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "B") ||
-          (e.type === "OWN_GOAL" && e.team === "A"),
-      ).length;
-      return (
-        (gA > gB && isTeamA) ||
-        (gB > gA && !isTeamA) ||
-        m.penaltiesWinner === (isTeamA ? "A" : "B")
-      );
-    }).length;
-
-    const winRate =
-      playerMatches.length > 0
-        ? ((wins / playerMatches.length) * 100).toFixed(0)
-        : 0;
-    const form = playerMatches.slice(-5).map((m) => {
-      const isTeamA = m.teamA.players.includes(playerId);
-      const gA = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "A") ||
-          (e.type === "OWN_GOAL" && e.team === "B"),
-      ).length;
-      const gB = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "B") ||
-          (e.type === "OWN_GOAL" && e.team === "A"),
-      ).length;
-      if (gA === gB && !m.penaltiesWinner) return "D";
-      return (gA > gB && isTeamA) ||
-        (gB > gA && !isTeamA) ||
-        m.penaltiesWinner === (isTeamA ? "A" : "B")
-        ? "W"
-        : "L";
+  // Ordenação das partidas por data (Firebase Timestamp)
+  const sortedMatchesByDate = useMemo(() => {
+    if (!matches) return [];
+    return [...matches].sort((a, b) => {
+      const timeA = a.createdAt?.seconds || 0;
+      const timeB = b.createdAt?.seconds || 0;
+      return timeA - timeB;
     });
+  }, [matches]);
+
+  // --- Lógica de Estatísticas e Forma (Últimas 5) ---
+  const getPlayerStats = (playerId) => {
+    // 1. Sempre usamos a lista ordenada por data para garantir cronologia
+    if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
+      return { form: [], winRate: 0 };
+
+    // 2. Filtra partidas do jogador (usando String() para evitar erro de tipo Numero vs String)
+    const playerMatches = sortedMatchesByDate.filter(
+      (m) =>
+        m.teamA.players.some((id) => String(id) === String(playerId)) ||
+        m.teamB.players.some((id) => String(id) === String(playerId)),
+    );
+
+    if (playerMatches.length === 0) return { form: [], winRate: 0 };
+
+    // 3. Mapeia os resultados (W, L, D) seguindo a lógica da PlayerPage
+    // .slice(-5) pega as 5 mais recentes da lista que já ordenamos por data
+    const form = playerMatches.slice(-5).map((m) => {
+      const isTeamA = m.teamA.players.some(
+        (id) => String(id) === String(playerId),
+      );
+
+      // Cálculo de Gols (incluindo Gols Contra)
+      const gA = m.events.filter(
+        (e) =>
+          (e.type === "GOAL" && e.team === "A") ||
+          (e.type === "OWN_GOAL" && e.team === "B"),
+      ).length;
+
+      const gB = m.events.filter(
+        (e) =>
+          (e.type === "GOAL" && e.team === "B") ||
+          (e.type === "OWN_GOAL" && e.team === "A"),
+      ).length;
+
+      // Define Vencedor (incluindo Penais)
+      const winnerField = m.penaltiesWinner || m.winner;
+
+      if (winnerField) {
+        const playerTeam = isTeamA ? "A" : "B";
+        return String(winnerField).toUpperCase() === playerTeam ? "W" : "L";
+      }
+
+      // Se não houve vencedor definido no campo winner, olha o placar
+      if (gA === gB) return "D";
+
+      const won = (gA > gB && isTeamA) || (gB > gA && !isTeamA);
+      return won ? "W" : "L";
+    });
+
+    // 4. Calcula WinRate (Opcional, mas mantém seu padrão)
+    const winsCount = form.filter((res) => res === "W").length;
+    const winRate = ((winsCount / playerMatches.length) * 100).toFixed(0);
+
     return { form, winRate };
   };
 
@@ -105,6 +120,7 @@ function Home({ players, matches, onSelectPlayer }) {
           (e.type === "GOAL" && e.team === "B") ||
           (e.type === "OWN_GOAL" && e.team === "A"),
       ).length;
+
       const won =
         (isTeamA && goalsA > goalsB) ||
         (isTeamB && goalsB > goalsA) ||
@@ -154,32 +170,33 @@ function Home({ players, matches, onSelectPlayer }) {
 
   return (
     <div className="main-wrapper">
-      {/* 1. Carrossel de Partidas (Ponta a Ponta) */}
       <MatchesCarousel matches={matches} players={players} />
       <div className="home-layout">
-        {/* 2. Lado Esquerdo: Rankings Rápidos */}
         <aside className="side-cards">
           <button className="export-btn" onClick={exportTabela}>
             📸 Exportar Tabela
           </button>
           <TopScorersCard players={sortedByGoals} />
           <TopAssistsCard players={sortedByAssists} />
-
           <TopGoalkeepersCard players={players} matches={matches} />
         </aside>
 
         <main className="main-content-area">
-          <RankingTable
-            sortedPlayers={sorted}
-            getPlayerStats={getPlayerStats}
-            onSelectPlayer={onSelectPlayer}
-            setHoveredPlayer={
-              window.innerWidth > 1024 ? setHoveredPlayer : () => {}
-            }
-          />
-          <AwardsCard />
+          <div className="ranking-section">
+            <RankingTable
+              sortedPlayers={sorted}
+              getPlayerStats={getPlayerStats}
+              onSelectPlayer={onSelectPlayer}
+              setHoveredPlayer={
+                window.innerWidth > 1024 ? setHoveredPlayer : () => {}
+              }
+            />
+          </div>
+          <div className="awards-section">
+            <AwardsCard />
+          </div>
         </main>
-        {/* 4. Lado Direito: Scout Detalhado (Componentizado) */}
+
         {window.innerWidth > 1024 && (
           <aside className="details-panel">
             <PlayerScoutPanel
@@ -193,21 +210,16 @@ function Home({ players, matches, onSelectPlayer }) {
         )}
       </div>
 
-      {/* 5. Rodapé: Carrossel do Elenco */}
       <SquadCarousel players={players} onSelectPlayer={onSelectPlayer} />
 
       <footer className="sponsors-footer">
         <div className="sponsors-container">
-          {/* Patrocinador Master */}
           <div className="sponsor-master">
             <div className="logo-wrapper">
               <img src={master} alt="Patrocinador Master" />
             </div>
           </div>
-
           <hr className="sponsor-divider" />
-
-          {/* Patrocinadores Secundários (Os outros 3) */}
           <div className="sponsors-secondary">
             <img src={patro1} alt="Patrocinador" />
             <img src={patro2} alt="Patrocinador" />

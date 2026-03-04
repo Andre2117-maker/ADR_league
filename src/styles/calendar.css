@@ -1,233 +1,319 @@
 /* =====================================================
-   ESTRUTURA GERAL
+   1. FUNDO E ESTRUTURA GLOBAL
 ===================================================== */
 .page-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 100px 20px 40px 20px;
-  box-sizing: border-box;
   min-height: 100vh;
-  color: #fff;
+  background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 100%);
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px 40px;
 }
 
-/* O wrapper agora empilha tudo no centro */
-.calendar-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centraliza o calendário */
-  gap: 50px;
+.glass-card {
   width: 100%;
+  max-width: 1100px;
+  background: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+}
+
+.page-title {
+  text-align: center;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 900;
+  margin-bottom: 40px;
+  background: linear-gradient(180deg, #fff 0%, #888 100%);
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
 }
 
 /* =====================================================
-   WIDGET DO CALENDÁRIO (ESTILO DARK GLASS)
+   2. CALENDÁRIO WIDGET (CORREÇÃO DO CABEÇALHO)
 ===================================================== */
+.calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
 .calendar-widget {
-  background: #151515;
-  border-radius: 24px;
-  padding: 30px;
-  border: 1px solid #333;
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 25px;
   width: 100%;
-  max-width: 480px; /* Tamanho fiel à imagem */
+  max-width: 400px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px; /* Evita que o texto encoste nas setas */
+}
+
+.calendar-header h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #d4af37;
+  letter-spacing: 2px;
+  margin: 0;
+  flex: 1; /* Faz o título ocupar o centro */
+  text-align: center;
+  white-space: nowrap; /* Impede quebra de linha no meio do mês */
+}
+
+.nav-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Impede que a seta seja esmagada */
+}
+
+.nav-btn:hover {
+  background: #d4af37;
+  color: #000;
+  border-color: #d4af37;
+}
+
+.calendar-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  color: #555;
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  text-align: center;
+  gap: 6px;
 }
 
 .calendar-day {
-  padding: 15px 0;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 12px;
-  font-size: 16px;
-  color: #ccc;
-  transition: 0.3s;
+  font-size: 13px;
+  color: #aaa;
+  transition: 0.2s;
+  position: relative;
 }
 
+.calendar-day:hover:not(.empty) {
+  background: #222;
+  color: #fff;
+}
 .calendar-day.selected {
-  background: #f1c40f !important; /* Amarelo vivo da foto */
-  color: #000 !important;
-  font-weight: bold;
-  box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+  background: #d4af37;
+  color: #000;
+  font-weight: 800;
 }
 
-.calendar-day:hover:not(.empty, .selected) {
-  background: #252525;
-}
-
-/* Ponto de indicação de jogo */
 .match-dot {
-  width: 5px;
-  height: 5px;
-  background: #f1c40f;
+  width: 4px;
+  height: 4px;
+  background: #d4af37;
   border-radius: 50%;
-  margin: 4px auto 0;
+  position: absolute;
+  bottom: 6px;
 }
 
 /* =====================================================
-   GRID DE PARTIDAS (DUAS COLUNAS NO PC)
+   3. LISTA DE PARTIDAS & CARDS (DESKTOP)
 ===================================================== */
 .matches-list-container {
   width: 100%;
 }
 
 .matches-feed {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important; /* 2 Colunas como na foto */
-  gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 20px;
+}
+
+.match-card-display {
+  background: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+.match-main-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
   width: 100%;
 }
 
-/* =====================================================
-   CARD DE PARTIDA (DETALHADO)
-===================================================== */
-.match-card-display {
-  background: #111;
-  border: 2px solid #222;
-  border-radius: 20px;
-  padding: 25px;
-  position: relative;
-  transition: border-color 0.3s;
-}
-
-.match-card-display:hover {
-  border-color: #444;
-}
-
-/* Localização (Ephigenio Salles / Casa do Lucas) */
-.match-location {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  color: #f1c40f;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 15px;
-}
-
-/* Área do Placar */
-.match-main-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.team-name-display {
+.team-side {
   flex: 1;
-  font-size: 18px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 1.2;
-  white-space: normal; /* Permite quebrar se o nome for longo no PC */
-}
-
-.team-side:first-child {
-  text-align: left;
-}
-.team-side:last-child {
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .score-board {
   background: #000;
-  padding: 10px 25px;
+  border: 1px solid #222;
+  padding: 8px 18px;
   border-radius: 50px;
-  border: 1px solid #333;
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin: 0 15px;
+  gap: 12px;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .score-number {
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 900;
-  color: #f1c40f;
-}
-
-.versus-text {
-  color: #444;
-  font-size: 14px;
-}
-
-/* Venceu nos Pênaltis */
-.penalty-info {
-  text-align: center;
-  color: #f1c40f;
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: -10px;
-  margin-bottom: 20px;
+  color: #d4af37;
 }
 
 /* =====================================================
-   ESCALAÇÕES (ALINHAMENTO IGUAL À FOTO)
+   4. DETALHES (ESCALAÇÃO)
 ===================================================== */
 .match-details-expanded {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid #222;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 30px;
+  margin-top: 15px;
+  border-top: 1px solid #1a1a1a;
   padding-top: 15px;
-  gap: 20px;
 }
 
-.escalacao-title {
-  font-size: 10px;
-  color: #666;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  display: block;
+.events-column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .event-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #aaa;
-  margin-bottom: 6px;
+  gap: 6px;
+  font-size: 12px;
+  color: #ccc;
 }
 
-.text-left .event-item {
-  justify-content: flex-start;
-}
-/* Time da direita: Nome primeiro, depois ícones */
-.text-right .event-item {
-  justify-content: flex-end;
+.text-right {
   text-align: right;
 }
+/* Alinhamento Espelhado */
+.text-right .event-item {
+  justify-content: flex-end;
+}
+.text-right .event-player {
+  order: 2;
+}
+.text-right .event-icons-group {
+  order: 1;
+}
 
-.event-player.highlight {
-  color: #fff;
-  font-weight: bold;
+.team-name-display {
+  font-size: 12px !important;
+  word-break: break-word; /* Força quebra se o nome for gigante */
+  max-width: 80px; /* Limita para não empurrar o placar */
+  font-weight: 900; /* 900 é o nível máximo de negrito */
+  color: #fff; /* Garante que a cor seja branca para destacar no fundo escuro */
+  text-transform: uppercase; /* Opcional: mantém em letras maiúsculas para um ar mais profissional */
+  font-size: clamp(14px, 1.8vw, 20px); /* Ajusta o tamanho responsivamente */
 }
 
 /* =====================================================
-   RESPONSIVIDADE CELULAR
+   5. UPGRADE PREMIUM MOBILE (CORREÇÕES CRÍTICAS)
 ===================================================== */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 20px 15px;
+  }
+
+  .calendar-header h2 {
+    font-size: 14px;
+  }
+
   .matches-feed {
-    grid-template-columns: 1fr !important; /* Vira lista vertical */
+    grid-template-columns: 1fr !important;
+    width: 100%;
+  }
+
+  .match-card-display {
+    padding: 20px 10px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza tudo no card */
+  }
+
+  .match-main-info {
+    gap: 8px;
+    justify-content: space-between; /* Dá respiro entre os nomes e o placar */
   }
 
   .team-name-display {
-    font-size: 14px; /* Diminui para não esmagar no mobile */
+    font-size: 12px !important;
+    word-break: break-word; /* Força quebra se o nome for gigante */
+    max-width: 80px; /* Limita para não empurrar o placar */
+    font-weight: 900; /* 900 é o nível máximo de negrito */
+    color: #fff; /* Garante que a cor seja branca para destacar no fundo escuro */
+    text-transform: uppercase; /* Opcional: mantém em letras maiúsculas para um ar mais profissional */
+    font-size: clamp(14px, 1.8vw, 20px); /* Ajusta o tamanho responsivamente */
   }
 
   .score-board {
-    padding: 8px 18px;
+    min-width: 70px;
+    padding: 5px 10px;
+    gap: 8px;
   }
 
   .score-number {
-    font-size: 24px;
+    font-size: 18px;
+  }
+
+  /* Escalação no Mobile */
+  .match-details-expanded {
+    gap: 10px;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .event-player {
+    font-size: 10px;
+    max-width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .penalties-tag {
+    font-size: 9px;
+    width: 100%;
+    text-align: center;
   }
 }

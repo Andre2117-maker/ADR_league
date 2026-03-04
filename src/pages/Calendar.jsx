@@ -381,7 +381,7 @@ function Calendar({
                         <div className="events-column">
                           <div
                             style={{
-                              fontSize: "10px",
+                              fontSize: "7px",
                               color: "#666",
                               marginBottom: "5px",
                             }}
@@ -435,7 +435,7 @@ function Calendar({
                         <div className="events-column text-right">
                           <div
                             style={{
-                              fontSize: "10px",
+                              fontSize: "7px",
                               color: "#666",
                               marginBottom: "5px",
                             }}

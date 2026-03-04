@@ -7,7 +7,7 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import "../style.css";
+import "../styles/adminmatches.css";
 
 /* ======================
    PREVIEW DA PARTIDA
@@ -182,8 +182,9 @@ function AdminMatches({
 
     setLoading(true);
 
+    // Montamos os dados base da partida
     const finalMatchData = {
-      date: draft.date,
+      date: draft.date, // Data do calendário (ex: 2024-05-20)
       venue: draft.venue,
       events: draft.events,
       penaltiesWinner: effectivePenaltiesWinner,
@@ -197,27 +198,31 @@ function AdminMatches({
         goalkeeperGoalsAgainst: goalsA,
         goalkeeperCleanSheet: goalsA === 0 ? 1 : 0,
       },
+      // Esse campo garante a ordem cronológica exata no sistema
       updatedAt: serverTimestamp(),
     };
 
     try {
       if (matchToEdit?.id) {
+        // EDIÇÃO: Atualizamos a partida existente
         const matchRef = doc(db, "matches", matchToEdit.id);
         await updateDoc(matchRef, finalMatchData);
         alert("Partida atualizada com sucesso!");
       } else {
+        // NOVA PARTIDA: Adicionamos o createdAt para sabermos a ordem de criação
         await addDoc(collection(db, "matches"), {
           ...finalMatchData,
-          createdAt: serverTimestamp(),
+          createdAt: serverTimestamp(), // Registra a hora exata da criação
         });
-        alert("Partida salva no Firebase!");
+        alert("Partida salva com sucesso!");
       }
+
       setMatchToEdit(null);
       setPage("adminPanel");
       window.scrollTo(0, 0);
     } catch (error) {
       console.error("Erro ao salvar:", error);
-      alert("Erro ao salvar. Verifique o console.");
+      alert("Erro ao salvar no banco de dados.");
     } finally {
       setLoading(false);
     }

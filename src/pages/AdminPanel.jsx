@@ -371,23 +371,15 @@ function AdminPanel({ players, setPage, matches }) {
           <button onClick={() => setPage("home")} className="adm-btn-exit">
             ← Sair
           </button>
-
-          {/* Botões restaurados do código antigo com as classes originais */}
           <button onClick={handleMigrateJSON} className="adm-btn-backup">
             🚀 Migrar JSON
           </button>
-
           <button
-            onClick={() =>
-              alert(
-                "Função desativada: Use o botão Migrar JSON para o Firebase.",
-              )
-            }
+            onClick={() => alert("Função desativada.")}
             className="adm-btn-import"
           >
             📥 Abrir
           </button>
-
           <button
             onClick={() => setPage("adminMatches")}
             className="adm-btn-matches"
@@ -415,19 +407,20 @@ function AdminPanel({ players, setPage, matches }) {
         </form>
       </section>
 
+      {/* AQUI MUDOU: Trocamos table por div */}
       <div className="adm-table-container">
-        <table className="adm-table">
-          <thead>
-            <tr className="adm-thead-tr">
-              <th>JOGADOR</th>
-              <th>ESTATÍSTICAS</th>
-              <th>GOLS</th>
-              <th>ASSIST</th>
-              <th>PERFIL (FOTO/CARGO)</th>
-              <th>AÇÕES</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className="adm-table">
+          {/* Cabeçalho manual (opcional, já que o CSS esconde no mobile) */}
+          <div className="adm-thead-fake-pc">
+            <span>JOGADOR</span>
+            <span>ESTATÍSTICAS</span>
+            <span>GOLS</span>
+            <span>ASSIST</span>
+            <span>PERFIL</span>
+            <span>AÇÕES</span>
+          </div>
+
+          <div className="adm-tbody">
             {sortedPlayers.map((p) => (
               <PlayerRow
                 key={p.id}
@@ -438,8 +431,8 @@ function AdminPanel({ players, setPage, matches }) {
                 onDelete={handleDelete}
               />
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
     </div>
   );

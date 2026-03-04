@@ -4,68 +4,68 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  z-index: 1000;
+  width: 100% !important;
+  z-index: 10000;
   transition: all 0.4s ease;
-  /* Achatando mais a barra no topo */
   padding: 12.5px 0;
+  background: #000; /* Fundo sólido evita transparência bugada no mobile */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 75px; /* Altura fixa para o PC */
+  display: flex;
+  align-items: center;
 }
 
 .nvb-on-scroll {
-  padding: 5px 0; /* Ainda mais achatada ao scrollar */
-  background: rgba(10, 10, 10, 0.85);
+  padding: 5px 0;
+  height: 65px;
+  background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .nvb-container {
-  width: 95%; /* Ocupa quase a largura toda para jogar os itens pros cantos */
-  max-width: 1600px; /* Limite para telas ultra-wide */
+  width: 95%;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Garante a separação extrema */
+  justify-content: space-between;
 }
 
-/* Ajuste das seções laterais */
+/* Estrutura de Terços */
 .nvb-section {
   display: flex;
-  gap: 40px; /* Espaço entre os links */
   align-items: center;
-  width: 33%; /* Define um terço para cada lado */
+  width: 35%;
 }
 
 .nvb-left {
   justify-content: flex-start;
+  gap: 30px;
 }
-
 .nvb-right {
   justify-content: flex-end;
+  gap: 30px;
 }
 
-/* Branding Centralizado */
 .nvb-brand {
+  width: 30%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   cursor: pointer;
-  width: 33%; /* Terço central */
-  transition: transform 0.3s ease;
 }
 
 .nvb-logo-img {
-  width: 42px; /* Reduzido levemente para achatar */
+  width: 40px;
   height: auto;
 }
-
 .nvb-brand-text {
   color: #fff;
   font-weight: 900;
-  font-size: 14px; /* Texto menor para não ocupar altura */
-  letter-spacing: 4px;
+  font-size: 13px;
+  letter-spacing: 3px;
   margin-top: 2px;
 }
 
@@ -77,10 +77,10 @@
 .nvb-link {
   color: #fff;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   cursor: pointer;
   opacity: 0.7;
   transition: 0.3s;
@@ -89,6 +89,88 @@
 .nvb-link:hover {
   opacity: 1;
   color: #d4af37;
+}
+
+.nvb-admin-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nvb-admin-badge {
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+}
+
+.nvb-logout-btn {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* --- AJUSTE MOBILE PARA MOSTRAR TUDO --- */
+@media (max-width: 900px) {
+  .nvb-wrapper {
+    height: auto; /* Deixa a altura se adaptar ao conteúdo se necessário */
+    padding: 8px 0;
+  }
+
+  .nvb-container {
+    flex-direction: row !important; /* Mantém tudo na mesma linha */
+    flex-wrap: wrap; /* Se não couber, ele joga pra baixo sem esticar pro lado */
+    justify-content: center; /* Centraliza o bloco todo */
+    gap: 10px;
+  }
+
+  /* Faz as seções esquerda e direita aparecerem */
+  .nvb-left,
+  .nvb-right {
+    display: flex !important;
+    width: auto;
+    gap: 12px; /* Espaço reduzido entre os links */
+    justify-content: center;
+  }
+
+  /* Ajuste do Logo no Meio */
+  .nvb-brand {
+    width: 100%; /* No mobile, o logo fica no topo sozinho */
+    order: -1; /* Força o logo a ficar em cima */
+    margin-bottom: 5px;
+  }
+
+  .nvb-logo-img {
+    width: 32px;
+  }
+
+  .nvb-brand-text {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  /* Diminui os links para caberem todos */
+  .nvb-link {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .nvb-admin-badge,
+  .nvb-login-btn {
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+
+  .nvb-logout-btn {
+    font-size: 9px;
+  }
 }
 
 .nvb-login-btn {
@@ -108,111 +190,4 @@
   background: #d4af37;
   color: #000;
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-}
-
-/* Grupo que envolve Painel e Sair */
-.nvb-admin-group {
-  display: flex;
-  align-items: center;
-  gap: 20px; /* Espaço entre o badge e o botão sair */
-  padding-left: 10px;
-}
-
-/* Badge do Painel (Selo Dourado sutil) */
-.nvb-admin-badge {
-  background: rgba(212, 175, 55, 0.1); /* Fundo dourado bem transparente */
-  color: #d4af37;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.nvb-admin-badge:hover {
-  background: rgba(212, 175, 55, 0.2);
-  transform: translateY(-1px);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
-}
-
-/* Botão Sair (Vermelho sofisticado) */
-.nvb-logout-btn {
-  background: transparent;
-  border: none;
-  color: #ff4d4d; /* Vermelho mais suave, não tão berrante */
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  padding: 5px 0;
-  position: relative;
-  transition: opacity 0.3s;
-  opacity: 0.8;
-}
-
-.nvb-logout-btn:hover {
-  opacity: 1;
-}
-
-/* Linha decorativa no hover do Sair */
-.nvb-logout-btn::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  background-color: #ff4d4d;
-  transition: width 0.3s ease;
-}
-
-.nvb-logout-btn:hover::after {
-  width: 100%;
-}
-
-/* --- NOVA REGRA PARA CELULAR --- */
-@media (max-width: 900px) {
-  .nvb-container {
-    flex-direction: column; /* Empilha o Logo em cima e os links embaixo */
-    gap: 10px;
-    padding: 10px 0;
-  }
-
-  .nvb-section {
-    display: flex; /* Garante que os botões APAREÇAM */
-    width: 100%;
-    justify-content: center; /* Centraliza os links no celular */
-    gap: 15px; /* Diminui o espaço entre links para caber na tela */
-  }
-
-  .nvb-brand {
-    width: 100%;
-    order: -1; /* Mantém o logo no topo */
-  }
-
-  .nvb-left,
-  .nvb-right {
-    justify-content: center; /* Alinha tudo ao centro no mobile */
-  }
-
-  .nvb-link {
-    font-size: 11px; /* Diminui um pouco a letra para não quebrar linha */
-    letter-spacing: 0.5px;
-  }
-
-  .nvb-login-btn {
-    padding: 5px 12px;
-    font-size: 10px;
-  }
-
-  /* Se tiver o grupo de admin (painel/sair), reduz o espaço */
-  .nvb-admin-group {
-    gap: 10px;
-    padding-left: 0;
-  }
 }

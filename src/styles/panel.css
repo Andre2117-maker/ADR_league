@@ -1,684 +1,477 @@
-.adm-main-layout {
-  padding: 80px 20px 40px;
-  background-color: #0a0a0a;
-  min-height: 100vh;
-  color: #fff;
-  font-family: "Segoe UI", Roboto, sans-serif;
+/* ==========================================================
+   1. BASE & RESET PREMIUM
+   ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Header e Navegação */
+body {
+  background-color: #050505;
+  color: #fff;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+.adm-main-layout {
+  padding: 40px 20px;
+  background: radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%);
+  min-height: 100vh;
+}
+
+/* ==========================================================
+   2. HEADER & NAVEGAÇÃO
+   ========================================================== */
 .adm-header-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto 30px;
-  padding: 15px 25px;
-  background: #141414;
-  border-radius: 12px;
-  border: 1px solid #222;
+  max-width: 1300px;
+  margin: 0 auto 40px;
+  padding: 20px 30px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.adm-title-main {
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.adm-title-highlight {
+  color: #d4af37;
+  font-weight: 900;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 .adm-nav-left {
   display: flex;
   gap: 10px;
 }
-
-.adm-title-main {
-  font-size: 18px;
-  letter-spacing: 1px;
-  margin: 0;
-}
-
-.adm-title-highlight {
-  color: #d4af37;
-  font-weight: 900;
-}
-
-/* Seção Adicionar Jogador */
-.adm-add-section {
-  max-width: 100%;
-  margin: 0 auto 20px;
-}
-
-.adm-add-form {
-  display: flex;
-  gap: 0;
-}
-
-.adm-input-new-player {
-  flex: 1;
-  max-width: 300px;
-  padding: 12px;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 6px 0 0 6px;
-  color: #fff;
-}
-
-.adm-btn-add-confirm {
-  padding: 0 20px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 0 6px 6px 0;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Tabela e Layout de Colunas */
-.adm-table-container {
-  max-width: 100%;
-  margin: 0 auto;
+.adm-nav-left button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #111;
-  border-radius: 12px;
-  padding: 10px;
-  border: 1px solid #222;
-  overflow-x: auto;
-}
-
-.adm-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto; /* Força o controle exato das larguras */
-}
-
-/* Jogador */
-.adm-table th:nth-child(1),
-td:nth-child(1) {
-  width: 20%;
-}
-/* Estatísticas */
-.adm-table th:nth-child(2),
-td:nth-child(2) {
-  width: 150px;
-}
-/* Gols e Assist */
-.adm-table th:nth-child(3),
-td:nth-child(3),
-.adm-table th:nth-child(4),
-td:nth-child(4) {
-  width: 120px;
-}
-/* Perfil - Esta coluna vai esticar para ocupar o resto da tela */
-.adm-table th:nth-child(5),
-td:nth-child(5) {
-  width: auto;
-}
-/* Delete */
-.adm-table th:nth-child(6),
-td:nth-child(6) {
-  width: 50px;
-}
-
-.adm-thead-tr th {
-  text-align: left;
-  padding: 15px;
-  color: #666;
-  font-size: 11px;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.3s ease;
   text-transform: uppercase;
 }
 
-.adm-tr td {
-  padding: 15px;
-  border-bottom: 1px solid #222;
-  vertical-align: middle;
+.adm-nav-left button:hover {
+  border-color: #d4af37;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.adm-btn-matches {
+  background: #d4af37 !important;
+  color: #000 !important;
 }
 
-/* Avatar e Info do Jogador */
-.adm-avatar-wrapper {
-  width: 65px; /* Aumentado de 45px para 65px */
-  height: 65px; /* Aumentado de 45px para 65px */
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #d4af37; /* Borda um pouco mais grossa para destacar */
-  background: #222;
-  flex-shrink: 0;
+/* ==========================================================
+   3. SEÇÃO ADICIONAR JOGADOR
+   ========================================================== */
+.adm-add-section {
+  max-width: 800px;
+  margin: 0 auto 50px;
+}
+.adm-add-form {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  gap: 10px;
+}
+.adm-input-new-player {
+  flex: 1;
+  background: #111;
+  border: 1px solid #222;
+  padding: 15px 20px;
+  border-radius: 12px;
+  color: #fff;
+  outline: none;
+  transition: 0.3s;
+}
+.adm-input-new-player:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+.adm-btn-add-confirm {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 0 25px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
 }
 
+/* ==========================================================
+   4. LAYOUT DE TABELA (DIVS) - PC
+   ========================================================== */
+.adm-table-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho Fake PC */
+.adm-thead-fake-pc {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;
+  padding: 15px 25px;
+  color: #555;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1023px) {
+  .adm-thead-fake-pc {
+    display: none;
+  }
+}
+
+/* Linha do Jogador (Card no Mobile / Linha no PC) */
+.adm-tr {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;
+  align-items: center;
+  background: rgba(20, 20, 20, 0.6);
+  margin-bottom: 12px;
+  padding: 15px 25px;
+  border-radius: 16px;
+  border: 1px solid #1a1a1a;
+  transition: 0.3s ease;
+}
+
+.adm-tr:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(30, 30, 30, 0.8);
+}
+
+/* Avatar & Info */
+.adm-avatar-wrapper {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+}
 .adm-player-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
-
-.adm-player-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
 .adm-player-name {
-  display: block;
-  color: #fff;
   font-size: 15px;
+  color: #fff;
+  display: block;
 }
-
 .adm-mini-stats {
   font-size: 11px;
   color: #666;
+  margin-top: 3px;
+}
+.anon-tag {
+  background: #444;
+  color: #fff;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 5px;
 }
 
-/* Badge de Stats Automáticas */
+/* Badges de Estatística */
 .adm-total-badge {
   display: flex;
+  gap: 10px;
   background: #000;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #333;
-  justify-content: space-around;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #222;
 }
-
 .adm-stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.adm-label {
-  font-size: 9px;
-  color: #d4af37;
+  font-size: 11px;
   font-weight: bold;
 }
+.adm-label {
+  color: #555;
+}
 .adm-value {
-  font-size: 14px;
-  font-weight: 800;
-  color: #fff;
+  color: #d4af37;
+  margin-left: 4px;
 }
 .adm-stat-divider {
   width: 1px;
   background: #222;
 }
 
-/* Controles de Gols/Assist (Cálculo) */
-.adm-calc-container {
-  display: flex;
-  justify-content: center;
-}
-
+/* Controles de Gols/Assist (Cores Restauradas) */
 .adm-calc-controls {
   display: flex;
   align-items: center;
-  background: #1a1a1a;
-  border-radius: 6px;
-  padding: 3px;
-  border: 1px solid #333;
   gap: 8px;
+  justify-content: center;
 }
-
-.adm-input-number {
-  width: 35px !important;
-  background: transparent;
-  border: none;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.adm-btn-plus,
 .adm-btn-minus {
-  width: 24px;
-  height: 24px;
+  background: #dc3545 !important;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
-  transition: 0.2s;
 }
-
 .adm-btn-plus {
-  background: #28a745;
+  background: #28a745 !important;
   color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
 }
-.adm-btn-minus {
-  background: #dc3545;
+.adm-input-number {
+  width: 45px;
+  background: #000;
+  border: 1px solid #333;
   color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  font-weight: bold;
 }
 
-/* Célula de Perfil (Inputs) */
+/* Inputs de Perfil (Títulos, Cargo, Número) */
 .adm-profile-inputs {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: center;
 }
-
 .adm-input-titles,
-.adm-input-role,
-.adm-photo-url-input {
-  background: #1a1a1a;
-  border: 1px solid #333;
+.adm-input-role {
+  background: #000;
+  border: 1px solid #222;
   color: #eee;
   padding: 6px 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 12px;
+  outline: none;
 }
-
 .adm-input-titles {
   width: 50px;
   text-align: center;
-  border-color: #d4af37;
-}
-.adm-input-role {
-  flex: 1;
-}
-
-.adm-label-allstar {
-  font-size: 10px;
   color: #d4af37;
   font-weight: bold;
+}
+.adm-input-role {
+  width: 140px;
+}
+.adm-photo-url-input {
+  width: 100%;
+  max-width: 250px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #222;
+  color: #555;
+  font-size: 10px;
+  text-align: center;
+  padding: 4px;
+}
+
+/* Checkbox All-Star */
+.adm-label-allstar {
+  font-size: 10px;
+  color: #777;
+  font-weight: 800;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
 }
-
-/* Botões de Ação Geral */
-.adm-btn-exit,
-.adm-btn-backup,
-.adm-btn-import,
-.adm-btn-matches {
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: 0.3s;
+.adm-label-allstar input {
+  accent-color: #d4af37;
 }
 
-.adm-btn-exit {
-  background: #222;
-  color: #fff;
+/* Ações */
+.adm-action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
 }
-.adm-btn-backup {
-  background: transparent;
-  border-color: #d4af37;
-  color: #d4af37;
-}
-.adm-btn-import {
-  background: transparent;
-  border-color: #444;
-  color: #aaa;
-}
-.adm-btn-matches {
-  background: #d4af37;
-  color: #000;
-}
-
+.adm-btn-anon,
 .adm-btn-delete {
-  background: transparent;
+  background: none;
   border: none;
   cursor: pointer;
   font-size: 18px;
-  opacity: 0.4;
-}
-
-.adm-btn-delete:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* 1. Efeito na linha inteira quando for anônimo */
-.adm-tr.row-anonymous {
-  background-color: rgba(
-    60,
-    60,
-    60,
-    0.25
-  ) !important; /* Deixa a linha mais escura */
-  opacity: 0.6; /* Dá o efeito de desativado */
-  transition: all 0.3s ease;
-}
-
-/* 2. Estilo para a tag "OFF" ao lado do nome */
-.anon-tag {
-  background: #ff4444;
-  color: white;
-  font-size: 9px;
-  padding: 1px 4px;
-  border-radius: 3px;
-  margin-left: 8px;
-  font-weight: bold;
-  vertical-align: middle;
-}
-
-/* 3. Estilo do Botão de Olhinho (Ações) */
-.adm-btn-anon {
-  background: #222;
-  border: 1px solid #444;
-  padding: 6px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: 0.2s;
 }
-
-/* Quando o modo anônimo está ATIVO (clicado) */
+.adm-btn-anon {
+  color: #444;
+}
 .adm-btn-anon.active {
-  background: #d4af37 !important; /* Dourado para destacar que está em modo café com leite */
-  border-color: #fff;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  color: #d4af37;
 }
-
-/* 4. Avatar do jogador fica em preto e branco se for anônimo */
-.row-anonymous .adm-player-img {
-  filter: grayscale(100%);
-}
-
-/* Container da linha para permitir sobreposição */
-.player-row-relative {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-/* A cobertura cinza */
-.anonymous-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(40, 40, 40, 0.8);
-  backdrop-filter: blur(2px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ccc;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  z-index: 10;
-  border-radius: 6px;
-  text-transform: uppercase;
-}
-
-.row-is-anonymous {
-  position: relative; /* Essencial para o texto flutuante se basear na linha */
-  background: rgba(20, 20, 20, 0.4) !important;
-}
-
-/* Dados ao fundo (bem clarinhos) */
-.anon-data {
-  opacity: 0.12 !important;
-  pointer-events: none;
-}
-
-.anon-name-style {
-  opacity: 0.4;
-  color: #aaa !important;
-}
-
-/* O TEXTO QUE NÃO ESTÁ APARECENDO - CORREÇÃO: */
-.anon-text-overlay {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  /* Em vez de 750px, usamos 100% da largura da linha */
-  width: 100%;
-  transform: translateY(-50%);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Estilo visual */
-  color: #d4af37 !important;
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  white-space: nowrap;
-
-  /* Garante que não cubra cliques e fique visível */
-  z-index: 99;
-  pointer-events: none;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-}
-
-.row-is-anonymous {
-  position: relative !important; /* Essencial para o texto se prender à linha */
-}
-
-/* O Texto flutuante */
-.anon-text-overlay {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important; /* Agora ele cobre a linha toda do começo ao fim */
-  height: 100% !important;
-
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-
-  color: #d4af37 !important;
-  font-size: 20px !important;
-  font-weight: 900 !important;
-  letter-spacing: 5px !important;
-  text-transform: uppercase;
-  white-space: nowrap;
-  z-index: 10;
-  pointer-events: none;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-}
-
-/* Ajuste específico para Celular */
-@media (max-width: 1024px) {
-  .anon-text-overlay {
-    font-size: 14px !important;
-    letter-spacing: 2px !important;
-    /* No celular, usamos sticky para ele não sumir se a tabela for larga */
-    position: sticky !important;
-    left: 0 !important;
-    width: 100% !important;
-  }
-
-  /* Garante que os dados do fundo fiquem bem apagadinhos para não bugar a leitura */
-  .anon-data,
-  .anon-name-style {
-    opacity: 0.1 !important;
-  }
+.adm-btn-delete:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 5px red);
 }
 
 /* ==========================================================
-   PAINEL ADMIN - VERSÃO MOBILE (CARD STYLE FINAL)
+   3. CELULAR (MOBILE) - CARDS INDEPENDENTES
    ========================================================== */
-
-@media (max-width: 850px) {
-  /* Garante que o container principal não tenha scroll horizontal */
-  .adm-main-layout {
-    padding: 80px 10px 30px !important;
-    overflow-x: hidden;
-    width: 100%;
-    box-sizing: border-box;
+@media (max-width: 1023px) {
+  /* Container dos Cards */
+  .adm-tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Espaço entre um jogador e outro */
+    padding-bottom: 50px;
   }
 
-  /* Header e Navegação */
+  .adm-tr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* Estética do Card */
+    background: linear-gradient(145deg, #151515, #0a0a0a);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 25px;
+
+    /* Tamanho e Espaçamento Interno */
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 400px; /* Não deixa o card esticar demais em telas grandes */
+    margin: 0 auto; /* Centraliza o card na largura da tela */
+
+    /* Altura do Card */
+    min-height: auto; /* Deixa o card crescer conforme o conteúdo */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Foto em Círculo */
+  .adm-avatar-wrapper {
+    width: 120px;
+    height: 120px;
+    border: 3px solid #d4af37;
+    margin-bottom: 15px;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  }
+
+  .adm-player-name {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  /* Estatísticas Atuais (Badge) */
+  .adm-auto-stats-cell {
+    width: 100%;
+    margin: 15px 0;
+  }
+  .adm-total-badge {
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-color: #333;
+  }
+
+  /* Controles de Gols e Assistências */
+  .adm-manual-cell {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  .adm-calc-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Deixar os botões de +/- grandes para o polegar */
+  .adm-calc-controls {
+    gap: 20px;
+  }
+  .adm-calc-controls button {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+    border-radius: 12px;
+  }
+
+  /* Inputs de Perfil e Foto */
+  .adm-profile-cell {
+    width: 100%;
+    border-top: 1px solid #222;
+    padding-top: 20px;
+    margin-top: 10px;
+  }
+
+  .adm-profile-inputs {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .adm-input-role,
+  .adm-photo-url-input,
+  .adm-input-titles {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 45px;
+    background: #000 !important;
+    font-size: 14px;
+  }
+
+  /* Botões de Ação (Olho e Lixo) */
+  .adm-actions-cell {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .adm-action-buttons {
+    justify-content: center;
+    gap: 40px;
+  }
+  .adm-btn-anon,
+  .adm-btn-delete {
+    font-size: 30px;
+  }
+}
+
+/* Ajuste específico para o Header no Mobile */
+@media (max-width: 600px) {
   .adm-header-nav {
     flex-direction: column;
-    padding: 15px;
     gap: 15px;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 15px;
   }
-
   .adm-nav-left {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    gap: 10px;
+    gap: 8px;
   }
-
-  /* Reset da Tabela para Cards */
-  .adm-table-container {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
+  .adm-nav-left button {
     width: 100%;
-    overflow: visible;
+    padding: 12px 5px;
   }
-
-  .adm-table {
-    display: block;
-    width: 100%;
-  }
-
-  .adm-table thead {
-    display: none; /* Esconde cabeçalho */
-  }
-
-  .adm-table tbody {
-    display: block;
-    width: 100%;
-  }
-
-  /* O CARD INDIVIDUAL (LINHA DA TABELA) */
-  .adm-tr {
-    display: flex !important;
-    flex-direction: column !important;
-    background: #111 !important;
-    border: 1px solid #222 !important;
-    border-radius: 20px !important;
-    margin-bottom: 25px !important;
-    padding: 20px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    align-items: center; /* Centraliza tudo no card */
-  }
-
-  /* Células da Tabela (TDs) */
-  .adm-tr td {
-    display: block !important;
-    width: 100% !important;
-    padding: 10px 0 !important;
-    border: none !important;
-    text-align: center !important;
-    box-sizing: border-box;
-  }
-
-  /* 1. SEÇÃO DA FOTO E NOME (CENTRALIZADO) */
-  .adm-name-cell {
-    order: 1; /* Garante que é o primeiro */
-  }
-
-  .adm-name-cell > div {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 12px !important;
-  }
-
-  .adm-avatar-wrapper {
-    width: 100px !important;
-    height: 100px !important;
-    margin: 0 auto !important;
-    border: 3px solid #d4af37 !important;
-  }
-
-  .adm-player-name {
-    font-size: 20px !important;
-    text-align: center;
-    width: 100%;
-  }
-
-  /* 2. BADGE DE STATUS ATUAIS */
-  .adm-auto-stats-cell {
-    order: 2;
-    background: #000;
-    border-radius: 12px;
-    margin: 10px 0 !important;
-  }
-
-  .adm-total-badge {
-    border: none !important;
-    justify-content: space-around !important;
-  }
-
-  /* 3. AJUSTES MANUAIS (GOLS E ASSIST) */
-  .adm-manual-cell {
-    order: 3;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-
-  /* Labels manuais */
-  .adm-manual-cell:nth-child(3)::before {
-    content: "ADICIONAR GOLS";
-    font-size: 10px;
-    color: #d4af37;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  .adm-manual-cell:nth-child(4)::before {
-    content: "ADICIONAR ASSISTÊNCIAS";
-    font-size: 10px;
-    color: #d4af37;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .adm-calc-container {
-    justify-content: center !important;
-    width: 100%;
-  }
-
-  /* 4. PERFIL E INPUTS */
-  .adm-profile-cell {
-    order: 4;
-    border-top: 1px solid #222 !important;
-    margin-top: 15px !important;
-    padding-top: 20px !important;
-  }
-
-  .adm-profile-inputs {
-    align-items: center !important;
-    width: 100%;
-    gap: 10px !important;
-  }
-
-  .adm-input-role,
-  .adm-photo-url-input {
-    width: 100% !important;
-    text-align: center !important;
-  }
-
-  .adm-title-input-wrapper {
-    justify-content: center !important;
-  }
-
-  /* 5. AÇÕES (BOTÕES FINAIS) */
-  .adm-actions-cell {
-    order: 5;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 0 0 20px 20px;
-    margin-top: 10px !important;
-  }
-
-  .adm-action-buttons {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 40px !important;
-    width: 100%;
-  }
-
-  .adm-btn-delete,
-  .adm-btn-anon {
-    font-size: 26px !important;
-    opacity: 1 !important;
+  .adm-title-main {
+    order: -1; /* Título fica no topo de tudo */
+    font-size: 16px;
   }
 }

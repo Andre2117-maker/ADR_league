@@ -35,11 +35,29 @@
   flex: 1;
   width: 100%;
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* O gap funciona se os componentes forem filhos diretos */
+  gap: 80px;
   overflow-x: auto !important;
-  display: block;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 15px;
+  padding-bottom: 30px;
   box-sizing: border-box;
+}
+
+/* GARANTIA EXTRA: Se o gap do flexbox não pegar, 
+   isso adiciona espaço entre QUALQUER bloco dentro da área central */
+.main-content-area > * + * {
+  margin-top: 80px;
+}
+
+/* Ajuste para que as seções ocupem largura total e não quebrem o flex */
+.ranking-section,
+.awards-section,
+.main-content-area > div,
+.main-content-area > section {
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .main-content-area table {
@@ -187,7 +205,7 @@
 }
 
 /* =====================================================
-    FOOTER E PATROCINADORES
+    FOOTER E PATROCINADORES (ESTILO UNIFICADO)
 ===================================================== */
 
 .sponsors-footer {
@@ -208,26 +226,44 @@
   gap: 30px;
 }
 
-.sponsors-secondary {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+/* Unificando o estilo para MASTER e SECUNDÁRIOS */
+.sponsor-master img,
+.sponsors-secondary img {
+  height: auto;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.sponsor-master img {
+  max-width: 200px; /* Master um pouco maior */
 }
 
 .sponsors-secondary img {
   max-width: 110px;
-  height: auto;
-  filter: grayscale(1);
-  opacity: 0.7;
-  transition: 0.3s;
 }
 
+/* Efeito Hover unificado (apenas PC) */
 @media (hover: hover) {
+  .sponsor-master img:hover,
   .sponsors-secondary img:hover {
     filter: grayscale(0);
     opacity: 1;
+    transform: scale(1.05);
   }
+}
+
+.sponsor-divider {
+  width: 100%;
+  border: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(212, 175, 55, 0.5),
+    transparent
+  );
+  margin: 10px 0;
 }
 
 /* =====================================================
