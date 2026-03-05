@@ -99,18 +99,6 @@ OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais
             )}
           </div>
         </div>
-
-        {/* SEGUNDA OPÇÃO: Visualizador Incorporado abaixo do papel */}
-        <div className="pdf-embed-container">
-          <h3 className="pdf-title">Consulta Rápida - Livro de Regras</h3>
-          <iframe
-            src="/docs/Regras.pdf" // #toolbar=0 esconde a barra se o navegador permitir
-            width="100%"
-            height="600px"
-            className="rules-iframe"
-            title="PDF Regras ADR"
-          ></iframe>
-        </div>
       </div>
     </div>
   );
