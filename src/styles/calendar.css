@@ -368,3 +368,25 @@
     padding: 40px 15px;
   }
 }
+
+/* =====================================================
+   AJUSTES EXCLUSIVOS PARA CELULAR (Telas até 768px)
+===================================================== */
+@media (max-width: 768px) {
+  /* Diminui os emojis de Gols, Assistências e Gols Contra */
+  .event-icons-group span {
+    font-size: 9px !important; /* Tamanho bem pequeno para mobile */
+    margin-left: 2px;
+  }
+
+  /* Diminui o emoji da Luva do goleiro */
+  .event-player {
+    font-size: 10px; /* Reduz o nome do jogador um pouco também */
+  }
+
+  /* Se quiser que os emojis fiquem ainda mais discretos */
+  .event-item {
+    gap: 4px; /* Diminui o espaço entre o nome e o emoji */
+    line-height: 1.2; /* Deixa as linhas da escalação mais juntas */
+  }
+}
