@@ -138,10 +138,19 @@ function MatchPage({ matches, players, isAdmin }) {
     const playerEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
-    const goals = playerEvents.filter((e) => e.type === "GOAL").length;
+
+    // Contagem de Gols normais (Quando o time do evento é o mesmo do time da coluna)
+    const goals = playerEvents.filter(
+      (e) => e.type === "GOAL" && e.team === teamKey,
+    ).length;
+
+    // Contagem de Assistências
     const assists = playerEvents.filter((e) => e.type === "ASSIST").length;
-    const yellow = playerEvents.filter((e) => e.type === "YELLOW_CARD").length;
-    const red = playerEvents.filter((e) => e.type === "RED_CARD").length;
+
+    // Contagem de Gols Contra (Quando o tipo é OWN_GOAL ou quando é GOAL mas o time do evento é o oposto)
+    const ownGoals = playerEvents.filter(
+      (e) => e.type === "OWN_GOAL" || (e.type === "GOAL" && e.team !== teamKey),
+    ).length;
 
     return (
       <div
@@ -153,19 +162,29 @@ function MatchPage({ matches, players, isAdmin }) {
           <div className="player-tactical">
             {/* CONTAINER DE EMOJIS/BADGES */}
             <div className="player-badges">
-              {p.position === "Goleiro" && (
+              {/* LUVA: Verifica a posição salva no cadastro do jogador */}
+              {(p.position === "Goleiro" || p.posicao === "Goleiro") && (
                 <span className="badge glove">🧤</span>
               )}
+
+              {/* GOLS */}
               {goals > 0 && (
                 <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
               )}
+
+              {/* ASSISTÊNCIAS */}
               {assists > 0 && (
                 <span className="badge-item">
                   👟{assists > 1 ? assists : ""}
                 </span>
               )}
-              {yellow > 0 && <span className="badge-item">🟨</span>}
-              {red > 0 && <span className="badge-item">🟥</span>}
+
+              {/* GOL CONTRA (GC) */}
+              {ownGoals > 0 && (
+                <span className="badge-item GC">
+                  {ownGoals > 1 ? ownGoals : ""} GC
+                </span>
+              )}
             </div>
 
             <img

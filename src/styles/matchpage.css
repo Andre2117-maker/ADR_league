@@ -1,3 +1,6 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS E LAYOUT
+   ========================================================================== */
 .match-view-wrapper {
   background: #080808;
   min-height: 100vh;
@@ -6,9 +9,9 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  font-family: "Segoe UI", Roboto, sans-serif;
 }
 
-/* BOTÃO VOLTAR */
 .back-btn {
   position: absolute;
   top: 20px;
@@ -24,40 +27,40 @@
   z-index: 100;
   transition: 0.3s;
 }
-
 .back-btn:hover {
   background: #d4af37;
   color: #000;
 }
 
-/* PLACAR AJUSTADO */
+/* ==========================================================================
+   PLACAR E PÊNALTIS (CORRIGIDO)
+   ========================================================================== */
 .scoreboard-container {
   margin-top: 50px;
   margin-bottom: 30px;
   text-align: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .sb-main {
   display: flex;
   align-items: center;
-  justify-content: center; /* Garante alinhamento lateral */
+  justify-content: center;
   gap: 20px;
   background: rgba(255, 255, 255, 0.03);
-  padding: 10px 20px;
+  padding: 15px 30px;
   border-radius: 100px;
   border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .sb-team-name {
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #fff;
   text-transform: uppercase;
   flex: 1;
 }
-
 .team-left {
   text-align: right;
 }
@@ -68,282 +71,127 @@
 .sb-score-box {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .score {
-  font-size: 2.2rem;
+  font-size: 3rem;
   font-weight: 900;
   color: #d4af37;
-  min-width: 40px;
-}
-
-.vs-badge {
-  background: #d4af37;
-  color: #000;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.7rem;
-}
-
-.penalties-pill {
-  margin-top: 10px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-/* CAMPOS */
-.dual-fields-layout {
-  display: flex;
-  gap: 40px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.field-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 360px;
-}
-
-.pitch-canvas {
-  width: 100%;
-  height: 520px;
-  background: #142b12;
-  border: 3px solid #2d4d29;
-  border-radius: 8px;
-  position: relative;
-  overflow: hidden; /* Corta o que sobrar */
-}
-
-/* POSICIONAMENTO DOS JOGADORES */
-.tactical-slot {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 80px;
-}
-
-/* AJUSTE DA IMAGEM DO JOGADOR */
-.player-img {
-  width: 100px; /* Ajuste a largura */
-  height: 100px; /* Ajuste a altura */
-  object-fit: contain;
-  /* Se a imagem estiver muito para cima, aumente o margin-bottom negativo 
-     ou use transform: translateY(5px); */
-  margin-bottom: -4px;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
-  z-index: 1;
-}
-
-.player-card-label {
-  display: flex;
-  background: #fff;
-  border-radius: 3px;
-  min-width: 80px;
-  z-index: 2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.p-card-num {
-  background: #d4af37;
-  color: #000;
-  padding: 2px 4px;
-  font-weight: 900;
-  font-size: 9px;
-}
-.p-card-name {
-  color: #111;
-  padding: 2px 4px;
-  font-weight: 700;
-  font-size: 9px;
-  flex: 1;
-  text-align: center;
-}
-
-/* REGRAS MOBILE */
-@media (max-width: 768px) {
-  .back-btn {
-    top: 10px;
-    left: 10px;
-    padding: 5px 10px;
-    font-size: 10px;
-  }
-
-  .sb-main {
-    gap: 10px;
-    padding: 8px 15px;
-    border-radius: 15px;
-  }
-
-  .sb-team-name {
-    font-size: 0.8rem;
-  }
-  .score {
-    font-size: 1.6rem;
-    min-width: 25px;
-  }
-
-  .field-section {
-    width: 95vw;
-  }
-  .pitch-canvas {
-    height: 130vw;
-  }
-
-  .player-img {
-    width: 100px; /* Ajuste a largura */
-    height: 100px; /* Ajuste a altura */
-    object-fit: contain;
-    /* Se a imagem estiver muito para cima, aumente o margin-bottom negativo 
-     ou use transform: translateY(5px); */
-    margin-bottom: -4px;
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
-    z-index: 1;
-  }
-  .player-card-label {
-    min-width: 65px;
-  }
-  .p-card-num,
-  .p-card-name {
-    font-size: 8px;
-  }
-
-  .dual-fields-layout {
-    gap: 30px;
-  }
-}
-
-.match-view-wrapper {
-  background: #080808;
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* PLACAR */
-.scoreboard-container {
-  margin-bottom: 40px;
-  text-align: center;
-}
-.sb-main {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 15px 45px;
-  border-radius: 25px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-}
-.sb-team-name {
-  font-weight: 900;
-  font-size: 1.3rem;
-  color: #fff;
-  text-transform: uppercase;
-  width: 140px;
-}
-.score {
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: #d4af37;
+  min-width: 60px;
   text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
+
 .vs-badge {
   background: #d4af37;
   color: #000;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: 4px;
   font-weight: bold;
   font-size: 0.8rem;
 }
+
 .penalties-pill {
-  margin-top: 12px;
+  margin-top: 15px;
   display: inline-block;
-  padding: 6px 18px;
+  padding: 6px 20px;
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid #d4af37;
   color: #d4af37;
   border-radius: 50px;
   font-size: 12px;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* CAMPOS */
-.dual-fields-layout {
-  display: flex;
-  gap: 60px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.field-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.field-team-title {
-  color: #d4af37;
-  font-weight: 900;
-  margin-bottom: 10px;
-}
-
-/* CONTROLES DE FORMAÇÃO */
+/* ==========================================================================
+   CONTROLES DE FORMAÇÃO (ADICIONADO)
+   ========================================================================== */
 .formation-controls {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 15px;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 8px;
 }
+
 .formation-group {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
 }
+
 .group-label {
-  font-size: 9px;
-  color: #666;
+  font-size: 10px;
+  color: #888;
   font-weight: bold;
-  width: 35px;
+  width: 30px;
 }
+
 .formation-group button {
-  background: #151515;
+  background: #1a1a1a;
   border: 1px solid #333;
-  color: #999;
-  padding: 2px 6px;
-  font-size: 9px;
-  border-radius: 3px;
+  color: #aaa;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 4px;
   cursor: pointer;
+  transition: 0.2s;
 }
+
+.formation-group button:hover {
+  border-color: #d4af37;
+}
+
 .formation-group button.active {
   background: #d4af37;
   color: #000;
   border-color: #d4af37;
 }
 
-/* CANVAS DO CAMPO */
-.pitch-canvas {
+/* ==========================================================================
+   CAMPO E JOGADORES
+   ========================================================================== */
+.dual-fields-layout {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.field-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 380px;
+}
+
+.field-team-title {
+  color: #d4af37;
+  font-weight: 900;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.pitch-canvas {
+  width: 100%;
   height: 580px;
   background: #142b12;
   border: 4px solid #2d4d29;
-  border-radius: 10px;
+  border-radius: 12px;
   position: relative;
+  overflow: visible;
 }
+
 .field-lines {
   position: absolute;
   width: 100%;
   height: 100%;
-  opacity: 0.15;
+  opacity: 0.2;
   pointer-events: none;
 }
 .c-line {
@@ -357,8 +205,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   border: 2px solid #fff;
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -368,7 +216,7 @@
   position: absolute;
   left: 50%;
   width: 60%;
-  height: 14%;
+  height: 15%;
   border: 2px solid #fff;
   transform: translateX(-50%);
 }
@@ -381,111 +229,145 @@
   border-bottom: 0;
 }
 
-/* JOGADORES NO CAMPO */
 .tactical-slot {
   position: absolute;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100px;
+  z-index: 10;
+}
+
+.player-tactical {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* EMOJIS */
+.player-badges {
+  position: absolute;
+  top: -20px;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  width: 100%;
+  z-index: 25;
+}
+.badge-item,
+.glove {
+  font-size: 14px;
+  filter: drop-shadow(0 2px 2px #000);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+.badge-item.GC {
+  background: #ff4d4d;
+  color: #fff;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.player-img {
   width: 90px;
-  transition: all 0.3s ease;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: -12px;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.6));
+  z-index: 1;
 }
 
 .player-card-label {
   display: flex;
   background: #fff;
   border-radius: 4px;
-  min-width: 85px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  z-index: 2;
+  min-width: 90px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  overflow: hidden;
 }
 .p-card-num {
   background: #d4af37;
   color: #000;
-  padding: 2px 5px;
+  padding: 3px 7px;
   font-weight: 900;
-  font-size: 10px;
+  font-size: 11px;
 }
 .p-card-name {
   color: #111;
-  padding: 2px 5px;
+  padding: 3px 7px;
   font-weight: 700;
-  font-size: 9px;
+  font-size: 10px;
   flex: 1;
   text-align: center;
 }
 
+/* INTERROGAÇÃO / ADMIN */
 .empty-slot-marker {
-  width: 50px;
-  height: 70px;
-  border: 2px dashed rgba(212, 175, 55, 0.3);
-  border-radius: 8px;
+  width: 55px;
+  height: 75px;
+  border: 2px dashed rgba(212, 175, 55, 0.4);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #d4af37;
-  font-size: 20px;
-  background: rgba(0, 0, 0, 0.2);
+  font-size: 26px;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .slot-selector {
-  margin-top: 6px;
-  background: #000;
+  margin-top: 10px;
+  background: #111;
   color: #d4af37;
   border: 1px solid #d4af37;
-  font-size: 8px;
+  font-size: 10px;
   width: 100%;
-  border-radius: 2px;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
 }
 
-@media (max-width: 850px) {
-  .dual-fields-layout {
-    flex-direction: column;
-    gap: 80px;
+/* ==========================================================================
+   RESPONSIVIDADE MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+  .back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+  .sb-main {
+    width: 92vw;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 20px;
+  }
+  .sb-team-name {
+    font-size: 0.9rem;
+  }
+  .score {
+    font-size: 2.2rem;
+    min-width: 40px;
+  }
+  .field-section {
+    width: 95vw;
   }
   .pitch-canvas {
-    width: 92vw;
     height: 140vw;
   }
-}
-
-/* CONTAINER DOS EMOJIS */
-.player-badges {
-  position: absolute;
-  top: -20px; /* Ajuste aqui para subir ou descer os emojis */
-  display: flex;
-  gap: 2px;
-  justify-content: center;
-  width: 100%;
-  z-index: 5;
-}
-
-.badge-item,
-.glove {
-  font-size: 12px;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8));
-  background: rgba(0, 0, 0, 0.4);
-  padding: 1px 3px;
-  border-radius: 4px;
-}
-
-/* PLACAR MOBILE ENCAIXADO */
-@media (max-width: 768px) {
-  .sb-main {
-    gap: 10px;
-    padding: 10px 15px;
-    width: 90vw; /* Ocupa quase toda a largura */
+  .player-img {
+    width: 75px;
+    height: 85px;
   }
-
-  .sb-team-name {
-    font-size: 0.8rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .player-card-label {
+    min-width: 75px;
   }
-
-  .score {
-    font-size: 1.8rem;
+  .dual-fields-layout {
+    gap: 40px;
   }
 }
