@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Adicionado useEffect
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
@@ -98,12 +98,17 @@ const FORMATIONS_DATA = {
 function MatchPage({ matches, players, isAdmin }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [formA, setFormA] = useState("5_JOG_2-1-1");
-  const [formB, setFormB] = useState("5_JOG_2-1-1");
 
   const match = matches.find((m) => String(m.id) === String(id));
+
+  const [formA, setFormA] = useState(() => match?.formationA || "5_JOG_2-1-1");
+  const [formB, setFormB] = useState(() => match?.formationB || "5_JOG_2-1-1");
+
+  // SINCRONIZA A FORMAÇÃO COM O BANCO AO CARREGAR
+
   if (!match) return null;
 
+  // LÓGICA DE PLACAR
   const scoreA =
     match.events?.filter(
       (e) =>
@@ -117,10 +122,26 @@ function MatchPage({ matches, players, isAdmin }) {
         (e.type === "OWN_GOAL" && e.team === "A"),
     ).length || 0;
 
+  // SALVAR ESCALAÇÃO
   const handleEscalar = async (teamKey, slotId, pId) => {
     const field =
       teamKey === "A" ? `tacticalA.${slotId}` : `tacticalB.${slotId}`;
     await updateDoc(doc(db, "matches", match.id), { [field]: pId });
+  };
+
+  // SALVAR FORMAÇÃO NO BANCO (NOVO)
+  const handleSetFormation = async (teamKey, formationKey) => {
+    if (teamKey === "A") {
+      setFormA(formationKey);
+      await updateDoc(doc(db, "matches", match.id), {
+        formationA: formationKey,
+      });
+    } else {
+      setFormB(formationKey);
+      await updateDoc(doc(db, "matches", match.id), {
+        formationB: formationKey,
+      });
+    }
   };
 
   const getActiveSlots = (formKey) =>
@@ -134,20 +155,13 @@ function MatchPage({ matches, players, isAdmin }) {
       (player) => String(player.id) === String(occupantId),
     );
 
-    // Lógica para capturar eventos do jogador nesta partida específica
     const playerEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
-
-    // Contagem de Gols normais (Quando o time do evento é o mesmo do time da coluna)
     const goals = playerEvents.filter(
       (e) => e.type === "GOAL" && e.team === teamKey,
     ).length;
-
-    // Contagem de Assistências
     const assists = playerEvents.filter((e) => e.type === "ASSIST").length;
-
-    // Contagem de Gols Contra (Quando o tipo é OWN_GOAL ou quando é GOAL mas o time do evento é o oposto)
     const ownGoals = playerEvents.filter(
       (e) => e.type === "OWN_GOAL" || (e.type === "GOAL" && e.team !== teamKey),
     ).length;
@@ -160,39 +174,30 @@ function MatchPage({ matches, players, isAdmin }) {
       >
         {p ? (
           <div className="player-tactical">
-            {/* CONTAINER DE EMOJIS/BADGES */}
             <div className="player-badges">
-              {/* LUVA: Verifica a posição salva no cadastro do jogador */}
-              {(p.position === "Goleiro" || p.posicao === "Goleiro") && (
+              {(p.position?.toLowerCase() === "goleiro" ||
+                p.posicao?.toLowerCase() === "goleiro") && (
                 <span className="badge glove">🧤</span>
               )}
-
-              {/* GOLS */}
               {goals > 0 && (
                 <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
               )}
-
-              {/* ASSISTÊNCIAS */}
               {assists > 0 && (
                 <span className="badge-item">
                   👟{assists > 1 ? assists : ""}
                 </span>
               )}
-
-              {/* GOL CONTRA (GC) */}
               {ownGoals > 0 && (
                 <span className="badge-item GC">
                   {ownGoals > 1 ? ownGoals : ""} GC
                 </span>
               )}
             </div>
-
             <img
               src={p.photo || "/players/default.png"}
               className="player-img"
               alt={p.name}
             />
-
             <div className="player-card-label">
               <span className="p-card-num">{p.number || "0"}</span>
               <span className="p-card-name">{p.name.split(" ")[0]}</span>
@@ -248,20 +253,8 @@ function MatchPage({ matches, players, isAdmin }) {
 
       <div className="dual-fields-layout">
         {[
-          {
-            k: "A",
-            f: formA,
-            sf: setFormA,
-            n: match.teamA.name,
-            p: match.teamA.players,
-          },
-          {
-            k: "B",
-            f: formB,
-            sf: setFormB,
-            n: match.teamB.name,
-            p: match.teamB.players,
-          },
+          { k: "A", f: formA, n: match.teamA.name, p: match.teamA.players },
+          { k: "B", f: formB, n: match.teamB.name, p: match.teamB.players },
         ].map((t) => (
           <div key={t.k} className="field-section">
             <h3 className="field-team-title">{t.n}</h3>
@@ -273,7 +266,7 @@ function MatchPage({ matches, players, isAdmin }) {
                     <button
                       key={k}
                       className={t.f === k ? "active" : ""}
-                      onClick={() => t.sf(k)}
+                      onClick={() => handleSetFormation(t.k, k)}
                     >
                       {FORMATIONS_DATA.FUT5[k].label}
                     </button>
@@ -285,7 +278,7 @@ function MatchPage({ matches, players, isAdmin }) {
                     <button
                       key={k}
                       className={t.f === k ? "active" : ""}
-                      onClick={() => t.sf(k)}
+                      onClick={() => handleSetFormation(t.k, k)}
                     >
                       {FORMATIONS_DATA.FUT6[k].label}
                     </button>
