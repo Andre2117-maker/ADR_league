@@ -317,3 +317,54 @@
     text-align: center;
   }
 }
+
+/* =====================================================
+   6. ESTADO VAZIO (NO MATCHES)
+===================================================== */
+.no-matches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.02); /* Levíssimo destaque */
+  border: 1px dashed rgba(212, 175, 55, 0.2); /* Borda dourada pontilhada */
+  border-radius: 20px;
+  margin-top: 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.no-matches-emoji {
+  font-size: 40px;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+  animation: float 3s ease-in-out infinite; /* Efeito de flutuar */
+}
+
+.no-matches p {
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Animação para o emoji não ficar estático */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Ajuste mobile */
+@media (max-width: 768px) {
+  .no-matches {
+    padding: 40px 15px;
+  }
+}
