@@ -131,16 +131,25 @@
 }
 
 /* EMOJIS DE STATUS */
-.player-stats-bubble {
+.player-stats-floating {
   position: absolute;
-  top: -15px;
-  background: rgba(0, 0, 0, 0.8);
+  top: -20px; /* Ajustado para não colar na imagem */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 25;
+}
+
+.stat-emoji-wrapper {
+  background: rgba(0, 0, 0, 0.75);
   padding: 2px 8px;
   border-radius: 20px;
-  font-size: 12px;
   border: 1px solid #d4af37;
-  white-space: nowrap;
-  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 14px; /* Tamanho no Desktop */
+  backdrop-filter: blur(4px);
 }
 
 .back-btn {
@@ -200,6 +209,23 @@
   font-size: 0.7rem;
 }
 
+.penalties-winner-label {
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 15px;
+  border-radius: 50px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  margin: 10px auto 0;
+  width: fit-content;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  animation: fadeInDown 0.5s ease-out;
+}
+
 /* ==========================================================
    AJUSTES PARA CELULAR (MOBILE)
    ========================================================== */
@@ -237,6 +263,19 @@
   .vs {
     font-size: 0.6rem;
     padding: 2px 5px;
+  }
+
+  /* Forçando a redução dos emojis no celular */
+  .player-stats-floating .stat-emoji-wrapper {
+    font-size: 9px !important; /* Aqui reduz o emoji de fato */
+    padding: 1px 5px !important;
+    top: 5px;
+  }
+
+  .penalties-winner-label {
+    font-size: 10px !important;
+    padding: 4px 10px !important;
+    margin-top: 5px !important;
   }
 
   /* 2. CAMPO MOBILE */

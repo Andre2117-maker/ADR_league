@@ -67,9 +67,11 @@ function MatchPage({ matches, players, isAdmin }) {
 
     return (
       <div className="player-stats-floating">
-        {isGoalkeeper && <span className="stat-emoji">🧤</span>}
-        {"⚽".repeat(goals)}
-        {"👟".repeat(assists)}
+        <span className="stat-emoji-wrapper">
+          {isGoalkeeper && <span className="stat-emoji">🧤</span>}
+          {goals > 0 && <span>{"⚽".repeat(goals)}</span>}
+          {assists > 0 && <span>{"👟".repeat(assists)}</span>}
+        </span>
       </div>
     );
   };
