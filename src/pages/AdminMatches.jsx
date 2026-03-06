@@ -209,10 +209,11 @@ function AdminMatches({
         await updateDoc(matchRef, finalMatchData);
         alert("Partida atualizada com sucesso!");
       } else {
-        // NOVA PARTIDA: Adicionamos o createdAt para sabermos a ordem de criação
+        // NOVA PARTIDA: Adicionamos o createdAt E o order
         await addDoc(collection(db, "matches"), {
           ...finalMatchData,
-          createdAt: serverTimestamp(), // Registra a hora exata da criação
+          createdAt: serverTimestamp(),
+          order: Date.now(), // Isso dará uma ordem numérica baseada no tempo
         });
         alert("Partida salva com sucesso!");
       }

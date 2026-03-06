@@ -364,6 +364,38 @@ function AdminPanel({ players, setPage, matches }) {
     return stats;
   };
 
+  const migrateOldMatches = async () => {
+    if (
+      !window.confirm(
+        "Isso vai atribuir ordem numérica a todas as partidas. Confirmar?",
+      )
+    )
+      return;
+
+    const batch = writeBatch(db);
+
+    // 1. Ordena pelo que você tem (data), garantindo a sequência correta
+    const sorted = [...matches].sort(
+      (a, b) => new Date(a.date) - new Date(b.date),
+    );
+
+    // 2. Adiciona cada atualização ao lote (batch)
+    sorted.forEach((match, index) => {
+      const matchRef = doc(db, "matches", match.id);
+      // Aqui definimos o 'order' baseado no índice da lista ordenada
+      batch.update(matchRef, { order: index });
+    });
+
+    try {
+      // 3. Executa tudo de uma vez só no Firebase
+      await batch.commit();
+      alert("Migração concluída com sucesso!");
+    } catch (err) {
+      console.error("Erro na migração:", err);
+      alert("Erro ao salvar no banco.");
+    }
+  };
+
   return (
     <div className="adm-main-layout">
       <header className="adm-header-nav">
@@ -385,6 +417,14 @@ function AdminPanel({ players, setPage, matches }) {
             className="adm-btn-matches"
           >
             ⚽ Partidas
+          </button>
+
+          <button
+            onClick={migrateOldMatches}
+            className="adm-btn-backup"
+            style={{ background: "red" }}
+          >
+            🔧 Fix Order
           </button>
         </div>
         <h1 className="adm-title-main">

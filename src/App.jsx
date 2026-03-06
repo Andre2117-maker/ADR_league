@@ -11,6 +11,7 @@ import {
   doc, // Adicione este
   updateDoc, // Adicione este
   deleteDoc,
+  writeBatch,
 } from "firebase/firestore";
 
 // Componentes e Páginas
@@ -157,7 +158,7 @@ function App() {
 
   // 2. Efeito para carregar Partidas em tempo real
   useEffect(() => {
-    const q = query(collection(db, "matches"), orderBy("date", "desc"));
+    const q = query(collection(db, "matches"), orderBy("order", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setMatches(data);
@@ -203,6 +204,26 @@ function App() {
     } catch (error) {
       console.error("Erro ao deletar partida:", error);
       alert("Erro ao excluir a partida do banco de dados.");
+    }
+  };
+
+  const handleUpdateMatchOrder = async (newMatches) => {
+    // 1. Criamos um batch
+    const batch = writeBatch(db);
+
+    // 2. Iteramos e adicionamos cada update
+    newMatches.forEach((match, index) => {
+      const matchRef = doc(db, "matches", match.id);
+      batch.update(matchRef, { order: index });
+    });
+
+    try {
+      // 3. Executamos
+      await batch.commit();
+      console.log("Ordem sincronizada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar ordem no Firebase:", error);
+      alert("Erro ao salvar a nova ordem. Verifique o console.");
     }
   };
 
@@ -256,6 +277,7 @@ function App() {
                     setPage={setPage}
                     setMatchToEdit={setMatchToEdit}
                     onDeleteMatch={handleDeleteMatch}
+                    onUpdateMatchOrder={handleUpdateMatchOrder}
                   />
                 )}
 
