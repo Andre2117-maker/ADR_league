@@ -53,7 +53,7 @@ export default function RankingTable({
                   onMouseEnter={() => setHoveredPlayer(p)}
                   className={rowClass}
                 >
-                  <td>
+                  <td className="fw-bold">
                     {idx < 3 ? (
                       <img
                         src={[primeiro, segundo, terceiro][idx]}
@@ -65,7 +65,7 @@ export default function RankingTable({
                     )}
                   </td>
                   <td
-                    className="player-td-name"
+                    className="player-td-name fw-bold"
                     onClick={() => onSelectPlayer(p)}
                   >
                     {p.name}
