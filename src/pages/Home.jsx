@@ -34,11 +34,10 @@ function Home({ players, matches, onSelectPlayer }) {
 
   // --- Lógica de Estatísticas e Forma (Últimas 5) ---
   const getPlayerStats = (playerId) => {
-    // 1. Sempre usamos a lista ordenada por data para garantir cronologia
     if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
       return { form: [], winRate: 0 };
 
-    // 2. Filtra partidas do jogador (usando String() para evitar erro de tipo Numero vs String)
+    // 1. Filtra TODAS as partidas do jogador
     const playerMatches = sortedMatchesByDate.filter(
       (m) =>
         m.teamA.players.some((id) => String(id) === String(playerId)) ||
@@ -47,44 +46,70 @@ function Home({ players, matches, onSelectPlayer }) {
 
     if (playerMatches.length === 0) return { form: [], winRate: 0 };
 
-    // 3. Mapeia os resultados (W, L, D) seguindo a lógica da PlayerPage
-    // .slice(-5) pega as 5 mais recentes da lista que já ordenamos por data
+    // 2. Calcula a "Forma" (últimas 5 partidas)
     const form = playerMatches.slice(-5).map((m) => {
       const isTeamA = m.teamA.players.some(
         (id) => String(id) === String(playerId),
       );
-
-      // Cálculo de Gols (incluindo Gols Contra)
       const gA = m.events.filter(
         (e) =>
           (e.type === "GOAL" && e.team === "A") ||
           (e.type === "OWN_GOAL" && e.team === "B"),
       ).length;
-
       const gB = m.events.filter(
         (e) =>
           (e.type === "GOAL" && e.team === "B") ||
           (e.type === "OWN_GOAL" && e.team === "A"),
       ).length;
-
-      // Define Vencedor (incluindo Penais)
       const winnerField = m.penaltiesWinner || m.winner;
 
       if (winnerField) {
         const playerTeam = isTeamA ? "A" : "B";
         return String(winnerField).toUpperCase() === playerTeam ? "W" : "L";
       }
-
-      // Se não houve vencedor definido no campo winner, olha o placar
       if (gA === gB) return "D";
-
       const won = (gA > gB && isTeamA) || (gB > gA && !isTeamA);
       return won ? "W" : "L";
     });
 
-    // 4. Calcula WinRate (Opcional, mas mantém seu padrão)
-    const winsCount = form.filter((res) => res === "W").length;
-    const winRate = ((winsCount / playerMatches.length) * 100).toFixed(0);
+    // 3. Calcula o WinRate REAL (Todas as vitórias / Total de partidas)
+    const totalWins = playerMatches.filter((m) => {
+      const isTeamA = m.teamA.players.some(
+        (id) => String(id) === String(playerId),
+      );
+
+      // Conta gols reais de cada lado
+      const goalsA = m.events.filter(
+        (e) =>
+          (e.type === "GOAL" && e.team === "A") ||
+          (e.type === "OWN_GOAL" && e.team === "B"),
+      ).length;
+      const goalsB = m.events.filter(
+        (e) =>
+          (e.type === "GOAL" && e.team === "B") ||
+          (e.type === "OWN_GOAL" && e.team === "A"),
+      ).length;
+
+      let winner = null;
+
+      // Define o vencedor: Prioriza pênaltis, se não houver, compara gols
+      if (m.penaltiesWinner) {
+        winner = m.penaltiesWinner;
+      } else if (goalsA > goalsB) {
+        winner = "A";
+      } else if (goalsB > goalsA) {
+        winner = "B";
+      }
+
+      const playerTeam = isTeamA ? "A" : "B";
+      return winner === playerTeam;
+    }).length;
+
+    // Cálculo da porcentagem (evitando divisão por zero)
+    const winRate =
+      playerMatches.length > 0
+        ? Math.round((totalWins / playerMatches.length) * 100)
+        : 0;
 
     return { form, winRate };
   };
