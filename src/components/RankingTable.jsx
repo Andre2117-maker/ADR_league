@@ -10,21 +10,26 @@ export default function RankingTable({
   onSelectPlayer,
   setHoveredPlayer,
 }) {
-  // Filtra jogadores ativos e anônimos
   const activePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
   const anonymousPlayers = sortedPlayers.filter((p) => p.isAnonymous);
 
   return (
     <main className="central-column" id="tabela-content">
       <h1 className="page-title">Classificação Geral</h1>
+
       <div className="table-responsive">
         <table>
           <thead>
             <tr style={{ color: "#e2b900", fontSize: "12px" }}>
-              <th>#</th>
-              <th style={{ textAlign: "left", paddingLeft: "15px" }}>
+              {/* COLUNAS FIXAS NO THEAD */}
+              <th className="sticky-col pin-pos">#</th>
+              <th
+                className="sticky-col pin-name"
+                style={{ textAlign: "left", paddingLeft: "15px" }}
+              >
                 Jogador
               </th>
+              {/* REMOVIDA A LINHA VERTICAL AQUI NO CSS */}
               <th>Pts</th>
               <th>Gols</th>
               <th>Assis</th>
@@ -35,17 +40,16 @@ export default function RankingTable({
             </tr>
           </thead>
           <tbody>
-            {/* --- JOGADORES ATIVOS --- */}
             {activePlayers.map((p, idx) => {
               const { form } = getPlayerStats(p.id);
 
-              // Classes de destaque para o pódio
+              // Classes de destaque para o pódio e último colocado
               let rowClass = "";
-              if (idx === 0) rowClass = "first-place";
-              else if (idx === 1) rowClass = "second-place";
-              else if (idx === 2) rowClass = "third-place";
+              if (idx === 0) rowClass = "first-place destaque-top3";
+              else if (idx === 1) rowClass = "second-place destaque-top3";
+              else if (idx === 2) rowClass = "third-place destaque-top3";
               else if (idx === activePlayers.length - 1)
-                rowClass = "last-place";
+                rowClass = "last-place destaque-ultimo";
 
               return (
                 <tr
@@ -53,7 +57,8 @@ export default function RankingTable({
                   onMouseEnter={() => setHoveredPlayer(p)}
                   className={rowClass}
                 >
-                  <td className="fw-bold">
+                  {/* DADOS FIXOS NO TBODY */}
+                  <td className="fw-bold sticky-col pin-pos">
                     {idx < 3 ? (
                       <img
                         src={[primeiro, segundo, terceiro][idx]}
@@ -65,11 +70,14 @@ export default function RankingTable({
                     )}
                   </td>
                   <td
-                    className="player-td-name fw-bold"
+                    className="player-td-name fw-bold sticky-col pin-name"
                     onClick={() => onSelectPlayer(p)}
                   >
                     {p.name}
                   </td>
+
+                  {/* COLUNAS QUE SCROLLAM */}
+                  {/* REMOVIDA A LINHA VERTICAL AQUI NO CSS */}
                   <td className="fw-bold">{p.points}</td>
                   <td>{p.goals}</td>
                   <td>{p.assists}</td>
@@ -101,49 +109,37 @@ export default function RankingTable({
               );
             })}
 
-            {/* --- JOGADORES ANÔNIMOS (CAFÉ COM LEITE) --- */}
-            {anonymousPlayers.length > 0 && (
-              <>
-                <tr className="separator-row">
-                  <td
-                    colSpan="9"
-                    style={{
-                      fontSize: "10px",
-                      color: "#666",
-                      padding: "10px 0",
-                    }}
-                  >
-                    JOGADORES AVULSOS / ANTIGOS
+            {/* SEÇÃO ANÔNIMOS */}
+            {anonymousPlayers.map((p) => {
+              const { form } = getPlayerStats(p.id);
+              return (
+                <tr key={p.id} className="row-is-anonymous">
+                  {/* Adicione as classes sticky-col pin-pos */}
+                  <td className="sticky-col pin-pos">-</td>
+
+                  {/* Adicione as classes sticky-col pin-name */}
+                  <td className="player-td-name sticky-col pin-name">
+                    {p.name}
+                  </td>
+
+                  {/* O resto permanece igual */}
+                  <td>{p.points}</td>
+                  <td>{p.goals}</td>
+                  <td>{p.assists}</td>
+                  <td>{p.games}</td>
+                  <td>{p.wins || 0}</td>
+                  <td>{p.losses || 0}</td>
+                  <td>
+                    <div className="form-container">
+                      {form &&
+                        form.map((result, i) => (
+                          <span key={i} className={`form-dot ${result}`}></span>
+                        ))}
+                    </div>
                   </td>
                 </tr>
-                {anonymousPlayers.map((p) => {
-                  const { form } = getPlayerStats(p.id);
-                  return (
-                    <tr key={p.id} className="row-is-anonymous">
-                      <td>-</td>
-                      <td className="player-td-name">{p.name}</td>
-                      <td>{p.points}</td>
-                      <td>{p.goals}</td>
-                      <td>{p.assists}</td>
-                      <td>{p.games}</td>
-                      <td>{p.wins || 0}</td>
-                      <td>{p.losses || 0}</td>
-                      <td>
-                        <div className="form-container">
-                          {form &&
-                            form.map((result, i) => (
-                              <span
-                                key={i}
-                                className={`form-dot ${result}`}
-                              ></span>
-                            ))}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </>
-            )}
+              );
+            })}
           </tbody>
         </table>
       </div>

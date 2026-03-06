@@ -1,46 +1,102 @@
 /* ==========================================================
-   CONTAINER PRINCIPAL
+   ESTRUTURA DE SCROLL E FIXAÇÃO (ESTILO GOOGLE)
    ========================================================== */
-.central-column {
+
+.table-responsive {
   width: 100%;
-  background: #0f0f0f;
-  border-radius: 12px;
-  border: 1px solid #222;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; /* Scroll suave no iPhone */
+  border-radius: 8px;
+}
+
+/* Força a tabela a não espremer no mobile */
+table {
+  width: 100%;
+  border-collapse: separate; /* Necessário para sticky funcionar bem */
+  border-spacing: 0;
+  min-width: 700px; /* Garante que o scroll apareça no celular */
+  background: #181818;
+}
+
+/* COLUNAS FIXAS */
+.sticky-col {
+  position: sticky;
+  z-index: 5;
+  background-color: #181818; /* Cor sólida para não vazar fundo */
+}
+
+/* Cabeçalho fixo precisa de z-index maior */
+thead th.sticky-col {
+  z-index: 10;
+  background-color: #161616;
+}
+
+.pin-pos {
+  left: 0;
+  width: 45px;
+  min-width: 45px;
+}
+
+.pin-name {
+  left: 45px; /* Largura da coluna anterior */
+  width: 140px;
+  min-width: 140px;
+  text-align: left;
+  /* border-right: 1px solid #333; */ /* REMOVIDA A LINHA VERTICAL */
 }
 
 /* ==========================================================
-   TABELA BASE
+   ESTILOS GERAIS E ANIMAÇÕES
    ========================================================== */
-table {
+
+.central-column {
   width: 100%;
-  border-collapse: collapse;
-  position: relative;
+  max-width: 850px;
+  background: #101010;
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid #222;
+}
+
+.page-title {
+  color: #d4af37;
+  text-shadow: 0px 0px 12px rgba(212, 175, 55, 0.6);
+  font-size: 28px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
 thead th {
-  padding: 10px;
+  padding: 12px 10px;
   background: #161616;
   font-size: 11px;
   text-transform: uppercase;
   color: #e2b900;
+  border-bottom: 2px solid #222;
 }
 
 tbody tr {
   border-bottom: 1px solid #1a1a1a;
-  height: 48px; /* 🔥 LINHAS MAIS ESTREITAS */
+  height: 48px;
+  transition: background 0.2s;
+}
+
+tbody tr:hover {
+  background: #222;
 }
 
 tbody td {
   font-size: 13px;
   padding: 0 8px;
   text-align: center;
-  vertical-align: middle;
+  border-bottom: 1px solid #222;
 }
 
 .player-td-name {
-  text-align: left;
-  padding-left: 15px;
+  padding-left: 15px !important;
   cursor: pointer;
 }
 
@@ -48,111 +104,138 @@ tbody td {
   font-weight: 700;
 }
 
+/* --- FIXAÇÃO CORRIGIDA --- */
+
+.sticky-col {
+  position: sticky;
+  z-index: 10; /* Z-index alto para ficar por cima */
+  background-color: #181818 !important; /* COR SÓLIDA: isso vai esconder o que passa por baixo */
+}
+
+/* Coluna # (Posição) */
+.pin-pos {
+  left: 0 !important;
+  width: 45px;
+  min-width: 45px;
+  z-index: 12; /* Posição deve estar ligeiramente acima do nome */
+}
+
+/* Coluna Nome */
+.pin-name {
+  left: 45px !important; /* Deve ser a largura exata da coluna anterior */
+  width: 140px;
+  min-width: 140px;
+  z-index: 11; /* Nome deve estar abaixo da posição, mas acima do restante */
+}
+
+/* --- DESTAQUE LATERAL NA COLUNA FIXA --- */
+
+/* O destaque agora é desenhado dentro da célula fixa, então ele scrolla JUNTO com ela */
+tr.destaque-top3 td.pin-pos::before,
+tr.destaque-ultimo td.pin-pos::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  z-index: 10;
+}
+
+tr.destaque-top3 td.pin-pos::before {
+  background-color: #007bff;
+}
+tr.destaque-ultimo td.pin-pos::before {
+  background-color: #dc3545;
+}
 /* ==========================================================
-   DESTAQUE PODIUM
-   ========================================================== */
-.first-place {
-  background: linear-gradient(90deg, rgba(226, 185, 0, 0.15), transparent);
-}
-
-.second-place {
-  background: linear-gradient(90deg, rgba(180, 180, 180, 0.12), transparent);
-}
-
-.third-place {
-  background: linear-gradient(90deg, rgba(205, 127, 50, 0.12), transparent);
-}
-
-.last-place {
-  background: linear-gradient(
-    90deg,
-    rgba(180, 0, 0, 0.5),
-    rgba(120, 0, 0, 0.3),
-    transparent
-  );
-}
-
-/* ==========================================================
-   FORM (ÚLTIMAS 5)
+   FORM DOTS (MODERNOS)
    ========================================================== */
 .form-container {
   display: flex;
-  gap: 4px;
+  gap: 5px;
   justify-content: center;
+  align-items: center;
 }
 
 .form-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4); /* Sombra para profundidade */
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+  cursor: default;
 }
 
+/* Efeito de zoom ao passar o mouse */
+.form-dot:hover {
+  transform: scale(1.3);
+  filter: brightness(1.2);
+}
+
+/* Estilos individuais com gradiente sutil */
 .form-dot.W {
-  background: #48e26c;
+  background: radial-gradient(circle at 30% 30%, #48e26c, #2a8a40);
+  box-shadow: 0 0 6px rgba(72, 226, 108, 0.4);
 }
-
 .form-dot.L {
-  background: #c73443;
+  background: radial-gradient(circle at 30% 30%, #ff4d4d, #a31e1e);
+  box-shadow: 0 0 6px rgba(255, 77, 77, 0.4);
 }
-
 .form-dot.D {
-  background: #666;
+  background: radial-gradient(circle at 30% 30%, #a0a0a0, #666);
+  box-shadow: 0 0 6px rgba(160, 160, 160, 0.2);
+}
+/* ==========================================================
+   SEPARADOR ANÔNIMOS
+   ========================================================== */
+.separator-cell {
+  font-size: 10px;
+  color: #666;
+  padding: 15px 0 !important;
+  background: #121212;
+  text-align: center;
 }
 
-/* =========================================
-   LINHA ANÔNIMA BASE
-========================================= */
-
-.row-is-anonymous {
-  position: relative;
-}
-
-/* Apaga os dados da linha */
-.row-is-anonymous td {
-  position: relative;
-  opacity: 0.15;
-  filter: grayscale(100%);
+/* MOBILE RESPONSIVE OVERRIDES */
+@media (max-width: 768px) {
+  .central-column {
+    padding: 10px;
+    border: none;
+  }
+  .page-title {
+    font-size: 20px;
+  }
+  .pin-name {
+    width: 120px;
+    min-width: 120px;
+  }
 }
 
 /* Overlay aplicado no primeiro TD e expandido */
 /* =========================================
-   LINHA ANÔNIMA CORRETA
+   LINHAS ANÔNIMAS - CORREÇÃO DE Z-INDEX E FUNDO
 ========================================= */
 
-.row-is-anonymous {
-  position: relative;
+/* 1. Removemos os filtros das células fixas para não ficarem transparentes */
+.row-is-anonymous td.sticky-col {
+  opacity: 1 !important;
+  filter: none !important;
+  background-color: #181818 !important; /* Fundo sólido obrigatório */
+  z-index: 100 !important; /* Garante que fiquem acima de tudo */
 }
 
-/* Apaga dados */
-.row-is-anonymous td {
-  opacity: 0.15;
+/* 2. Aplicamos o efeito "apagado" apenas no texto dentro das células fixas */
+.row-is-anonymous td.sticky-col {
+  color: #666 !important;
+}
+
+/* 3. Mantemos o efeito visual apagado nas colunas de dados (que scrollam) */
+.row-is-anonymous td:not(.sticky-col) {
+  opacity: 0.3;
   filter: grayscale(100%);
-}
-
-/* Overlay na linha inteira */
-.row-is-anonymous::after {
-  content: "NÃO PARTICIPANDO";
-
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #d4af37;
-  font-weight: 900;
-  font-size: 18px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  white-space: nowrap;
-
-  pointer-events: none;
-  z-index: 5;
-
-  text-shadow:
-    0 0 15px rgba(0, 0, 0, 1),
-    2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* ==========================================================
@@ -184,96 +267,6 @@ tbody td {
   }
 }
 
-/* =========================================
-   AURA PISCANDO
-========================================= */
-
-@keyframes glowPulseGold {
-  0% {
-    box-shadow: 0 0 0px rgba(226, 185, 0, 0);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(226, 185, 0, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 0px rgba(226, 185, 0, 0);
-  }
-}
-
-@keyframes glowPulseRed {
-  0% {
-    box-shadow: 0 0 0px rgba(255, 0, 0, 0);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 0px rgba(255, 0, 0, 0);
-  }
-}
-
-/* Top 3 */
-.first-place,
-.second-place,
-.third-place {
-  animation: glowPulseGold 2.5s infinite ease-in-out;
-}
-
-/* Último colocado */
-.last-place {
-  animation: glowPulseRed 2.5s infinite ease-in-out;
-}
-
-/* =====================================================
-   COLUNA CENTRAL (TABELA HOME)
-===================================================== */
-.central-column {
-  flex: 1;
-  min-width: 0; /* Permite que o flex-box diminua a tabela se necessário */
-  max-width: 850px;
-  margin: 0; /* Deixe o flexbox do pai (home-layout) controlar o espaço */
-  background: #101010;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* =====================================================
-   REGRA DE OURO PARA O CELULAR
-===================================================== */
-@media (max-width: 1024px) {
-  .main-content-area {
-    /* O container de scroll precisa estar um nível ACIMA da .central-column */
-    overflow-x: auto !important;
-    width: 100%;
-    display: block;
-  }
-
-  .central-column {
-    /* Faz o fundo preto ter a largura exata da tabela, não importa o quão larga ela seja */
-    width: max-content !important;
-    min-width: 100%; /* No mínimo o tamanho da tela */
-    padding: 15px; /* Reduzi o respiro para ganhar espaço */
-  }
-}
-
-.table-logo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px; /* Espaço entre logo e título */
-  width: 100%; /* Garante que o container da logo ocupe a largura total */
-}
-
-.table-logo img {
-  width: 100px;
-  opacity: 0.9;
-}
-
-/* .page-title {
-  color: #d4af37;
-  margin: 10px 0 20px 0;
-} */
-
 .page-title {
   /* Reset de propriedades que bugam o print */
   background: none !important;
@@ -293,75 +286,4 @@ tbody td {
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 20px;
-}
-
-/* table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #181818;
-  border-radius: 8px;
-  overflow: hidden;
-  font-size: 14px;
-  table-layout: auto;
-}
-
-thead th {
-  background: #222;
-  padding: 12px;
-  color: #d4af37;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 1px;
-} */
-
-/* Procure a tag table e substitua */
-table {
-  width: 100% !important;
-  border-collapse: collapse;
-  background: #181818;
-  border-radius: 8px;
-  overflow: hidden;
-  font-size: 14px;
-  table-layout: fixed; /* MUDE PARA FIXED: Isso obriga a tabela a ocupar os 100% */
-}
-
-/* Agora definimos larguras específicas para as colunas não brigarem */
-/* Coluna # */
-thead th:nth-child(1),
-tbody td:nth-child(1) {
-  width: 45px;
-  text-align: center;
-}
-
-/* Coluna JOGADOR (A que deve esticar) */
-thead th:nth-child(2),
-tbody td:nth-child(2) {
-  width: auto;
-  text-align: left;
-  padding-left: 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Se o nome for gigante, ele coloca "..." em vez de quebrar a tabela */
-}
-
-/* Colunas de Números (PTS, G, A, etc) */
-thead th:not(:nth-child(2)),
-tbody td:not(:nth-child(2)) {
-  width: 55px;
-  text-align: center;
-}
-
-/* Coluna Últimos 5 (Forma) - Geralmente precisa de uns 120px */
-thead th:last-child,
-tbody td:last-child {
-  width: 120px;
-}
-
-tbody td {
-  padding: 10px;
-  border-bottom: 1px solid #333;
-}
-
-tbody tr:hover {
-  background: #222;
 }
