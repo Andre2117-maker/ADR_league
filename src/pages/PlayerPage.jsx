@@ -32,7 +32,7 @@ function PlayerPage({
     "velocidade",
     "chute",
     "passe",
-    "drible",
+    "mira",
     "defesa",
     "corpo",
   ];
