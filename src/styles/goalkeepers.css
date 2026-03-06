@@ -1,0 +1,124 @@
+/* ==========================================================
+   COMPONENT: TOP GOALKEEPERS CARD (PREFIX: gk-)
+   ========================================================== */
+
+.gk-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  background: linear-gradient(
+    145deg,
+    rgba(30, 30, 30, 0.9),
+    rgba(15, 15, 15, 0.95)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.gk-title {
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 10px;
+  color: #d4af37;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.gk-header {
+  padding: 8px;
+  opacity: 0.5;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+
+.gk-header-stats {
+  display: flex;
+  gap: 10px;
+}
+.gk-stat-label {
+  width: 35px;
+  text-align: center;
+}
+
+.gk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gk-row {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 8px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.gk-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gk-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gk-rank {
+  font-size: 10px;
+  color: #666;
+  font-weight: 900;
+  width: 18px;
+}
+.gk-rank.is-first {
+  color: #d4af37;
+}
+.gk-name {
+  font-size: 13px;
+  color: #eee;
+}
+
+.gk-stats {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.gk-val {
+  font-size: 14px;
+  font-weight: 700;
+  width: 35px;
+  text-align: center;
+}
+.mgs {
+  color: #ff5252;
+}
+.cs {
+  color: #4caf50;
+}
+.j {
+  color: #aaa;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.gk-footer {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-size: 9px;
+  opacity: 0.4;
+  text-transform: uppercase;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+}
+
+.gk-footer strong {
+  color: #d4af37; /* Dourado para destacar a sigla */
+}
