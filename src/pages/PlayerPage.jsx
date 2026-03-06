@@ -28,6 +28,15 @@ function PlayerPage({
   const [formData, setFormData] = useState({ ...player });
   const [newAch, setNewAch] = useState({ icon: "🏆", title: "" });
 
+  const SKILLS_ORDER = [
+    "velocidade",
+    "chute",
+    "passe",
+    "drible",
+    "defesa",
+    "corpo",
+  ];
+
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
     const parts = dateStr.split("T")[0].split("-");
@@ -147,6 +156,17 @@ function PlayerPage({
                   <option value="Canhoto">Canhoto</option>
                   <option value="Ambidestro">Ambidestro</option>
                 </select>
+              </div>
+              <div>
+                <label className="ppg-mini-label">Data de Nascimento</label>
+                <input
+                  type="text"
+                  placeholder="DD/MM/AAAA"
+                  value={formData.birthDate || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, birthDate: e.target.value })
+                  }
+                />
               </div>
             </div>
           </div>
@@ -279,9 +299,6 @@ function PlayerPage({
           ← VOLTAR AO SCOUT
         </button>
         <div>
-          <button onClick={() => window.print()} className="ppg-btn-capture">
-            📸 SALVAR STATUS
-          </button>
           {isAdmin && (
             <button onClick={() => setIsEditing(true)} className="ppg-btn-edit">
               MODO ADM
@@ -312,6 +329,12 @@ function PlayerPage({
                   {getBestPartner(player.id)}
                 </span>
               </div>
+              <div>
+                <span className="ppg-mini-label">Nascimento</span>
+                <span className="ppg-mini-value">
+                  {player.birthDate || "N/A"}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -320,7 +343,7 @@ function PlayerPage({
             <div className="ppg-radar-chart-container">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart
-                  data={Object.keys(player.skills || {}).map((k) => ({
+                  data={SKILLS_ORDER.map((k) => ({
                     subject: k.toUpperCase(),
                     A: player.skills[k],
                   }))}
