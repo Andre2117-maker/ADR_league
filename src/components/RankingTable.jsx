@@ -142,21 +142,21 @@ export default function RankingTable({
             })}
           </tbody>
         </table>
-        <div className="legend-container">
-          <div className="legend-item">
-            <span
-              className="legend-color"
-              style={{ backgroundColor: "#007bff" }}
-            ></span>
-            <span>Prêmios</span>
-          </div>
-          <div className="legend-item">
-            <span
-              className="legend-color"
-              style={{ backgroundColor: "#dc3545" }}
-            ></span>
-            <span>Punição</span>
-          </div>
+      </div>
+      <div className="legend-container">
+        <div className="legend-item">
+          <span
+            className="legend-color"
+            style={{ backgroundColor: "#007bff" }}
+          ></span>
+          <span>Prêmios</span>
+        </div>
+        <div className="legend-item">
+          <span
+            className="legend-color"
+            style={{ backgroundColor: "#dc3545" }}
+          ></span>
+          <span>Punição</span>
         </div>
       </div>
     </main>
