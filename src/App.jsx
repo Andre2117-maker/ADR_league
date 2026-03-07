@@ -227,6 +227,10 @@ function App() {
     }
   };
 
+  const playersSortedByPoints = [...playersWithStats].sort(
+    (a, b) => b.points - a.points,
+  );
+
   return (
     <BrowserRouter>
       <Routes>
@@ -260,6 +264,7 @@ function App() {
                       ) || selectedPlayer
                     }
                     matches={matches}
+                    sortedPlayers={playersSortedByPoints}
                     isAdmin={isAdmin}
                     getBestPartner={(id) =>
                       getBestPartner(id, matches, players)

@@ -1,0 +1,43 @@
+.bds-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 40px; /* <--- Adicionei este respiro embaixo do container */
+  font-family: "Inter", sans-serif;
+}
+
+.bds-card {
+  flex: 1;
+  background: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 20px;
+  padding-bottom: 25px; /* <--- Um pouco mais de espaço interno no fim do card */
+  text-align: center;
+  position: relative;
+  border-top: 4px solid #ffd700;
+}
+
+/* ... resto do seu código permanece igual ... */
+
+.bds-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.bds-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  margin: 5px 0;
+}
+
+.bds-footer {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}

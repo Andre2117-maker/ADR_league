@@ -1,0 +1,65 @@
+.rs-container {
+  background: #0a0a0a; /* Fundo quase preto */
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  border: 1px solid #1a1a1a; /* Borda cinza bem escura */
+}
+
+.rs-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #666; /* Cinza para o título */
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+}
+
+.rs-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  border-bottom: 1px solid #1a1a1a; /* Separador cinza escuro */
+  transition: background 0.2s;
+  font-family: "Inter", sans-serif;
+}
+
+.rs-row:last-child {
+  border-bottom: none;
+}
+
+.rs-pos {
+  font-weight: 700;
+  color: #888; /* Cinza claro para a posição */
+  width: 10px;
+  text-align: left;
+}
+
+.rs-separator {
+  color: #333; /* Separador cinza escuro */
+  margin: 0 10px;
+  font-weight: 300;
+}
+
+.rs-name {
+  flex: 1;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.rs-pts {
+  font-size: 0.9em;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Destaque "Premier League" ajustado para preto/dourado */
+.rs-row.active {
+  background: #1a1a1a; /* Cinza escuro para o destaque */
+  border-radius: 6px;
+  border-left: 4px solid #ffd700; /* Borda dourada lateral mantida */
+}
+
+/* Opcional: deixar a posição dourada quando estiver ativo */
+.rs-row.active .rs-pos {
+  color: #ffd700;
+}

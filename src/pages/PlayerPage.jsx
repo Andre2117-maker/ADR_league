@@ -15,6 +15,8 @@ import {
   Legend,
 } from "recharts";
 import "../styles/playerpage.css";
+import RankingSlice from "../components/RankingSlice";
+import BestDayStats from "../components/BestDayStats";
 
 function PlayerPage({
   player,
@@ -23,6 +25,7 @@ function PlayerPage({
   onBack,
   isAdmin,
   onUpdatePlayer,
+  sortedPlayers,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ ...player });
@@ -369,9 +372,11 @@ function PlayerPage({
               </ResponsiveContainer>
             </div>
           </div>
+          <RankingSlice player={player} sortedPlayers={sortedPlayers} />
         </aside>
 
         <main>
+          <BestDayStats matches={matches} playerId={player.id} />
           <div className="ppg-stats-summary-row">
             <div className="ppg-stat-box">
               <span className="ppg-stat-value">{stats.pMatches.length}</span>
