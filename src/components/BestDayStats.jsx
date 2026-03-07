@@ -55,9 +55,7 @@ export default function BestDayStats({ matches, playerId }) {
       {/* Recorde de Assistências */}
       <div className="bds-card">
         <span className="bds-label">Recorde Assis.</span>
-        <div className="bds-value" style={{ color: "#ffd700" }}>
-          {records.bestAssistDay.count}
-        </div>
+        <div className="bds-value">{records.bestAssistDay.count}</div>
         <span className="bds-footer">{records.bestAssistDay.date}</span>
       </div>
     </div>

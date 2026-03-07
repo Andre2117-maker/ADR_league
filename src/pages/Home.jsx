@@ -15,6 +15,7 @@ import TopGoalkeepersCard from "../components/TopGoalkeepersCard";
 import TopScorersCard from "../components/TopScorersCard";
 import TopAssistsCard from "../components/TopAssistsCard";
 import AwardsCard from "../components/AwardsCard";
+import AddBanner from "../components/AddBanner";
 
 /* ======================
    HOME PRINCIPAL
