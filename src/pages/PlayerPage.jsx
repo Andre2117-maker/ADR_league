@@ -299,7 +299,7 @@ function PlayerPage({
     <div className="ppg-page-container" id="player-card-capture">
       <header className="ppg-top-header">
         <button onClick={onBack} className="ppg-btn-back">
-          ← VOLTAR AO SCOUT
+          ← VOLTAR AO INÍCIO
         </button>
         <div>
           {isAdmin && (

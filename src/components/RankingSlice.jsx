@@ -2,34 +2,40 @@ import React from "react";
 import "../styles/rankingslice.css";
 
 export default function RankingSlice({ player, sortedPlayers = [] }) {
-  // A lista já chega ordenada pelo App.jsx
-  const index = sortedPlayers.findIndex(
+  // 1. Filtramos os anônimos ANTES de qualquer cálculo de posição
+  const visiblePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
+
+  // Procuramos o jogador na lista de visíveis
+  const index = visiblePlayers.findIndex(
     (p) => String(p.id) === String(player.id),
   );
+
+  // Se o jogador selecionado for anônimo ou não estiver na lista, não renderiza o slice
   if (index === -1) return null;
 
-  // Lógica de centralização (mantém o jogador no meio das 5 posições)
+  // 2. Lógica de centralização baseada na lista filtrada
   let start = Math.max(0, index - 2);
-  let end = Math.min(start + 5, sortedPlayers.length);
-  // Ajuste fino para garantir sempre 5 itens se possível
-  if (end - start < 5 && start > 0) start = Math.max(0, end - 5);
+  let end = Math.min(start + 5, visiblePlayers.length);
 
-  const tableSlice = sortedPlayers.slice(start, end);
+  if (end - start < 5 && start > 0) {
+    start = Math.max(0, end - 5);
+  }
+
+  const tableSlice = visiblePlayers.slice(start, end);
 
   return (
     <div className="rs-container">
       <h3 className="rs-title">Posição no Ranking</h3>
       <div className="rs-list">
         {tableSlice.map((p) => {
-          // O índice real é o índice na lista de pontos + 1
-          const realPosition = sortedPlayers.indexOf(p) + 1;
+          // O índice real agora reflete a posição APENAS entre os visíveis
+          const realPosition = visiblePlayers.indexOf(p) + 1;
           const isActive = String(p.id) === String(player.id);
 
           return (
             <div key={p.id} className={`rs-row ${isActive ? "active" : ""}`}>
               <span className="rs-pos">{realPosition}</span>
-              <span className="rs-separator">–</span>{" "}
-              {/* Separador adicionado aqui */}
+              <span className="rs-separator">–</span>
               <span className="rs-name">{p.name}</span>
               <span className="rs-pts">
                 <strong>{p.points}</strong> pts

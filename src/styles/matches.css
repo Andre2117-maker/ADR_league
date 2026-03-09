@@ -572,6 +572,24 @@
   }
 }
 
+.sqd-player-card.is-anonymous {
+  cursor: pointer; /* Alterado de 'not-allowed' para 'pointer' */
+  opacity: 0.8; /* Um pouco menos opaco para parecer "clicável" */
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.sqd-player-card.is-anonymous .sqd-player-img {
+  filter: grayscale(1);
+}
+
+/* Efeito de hover para dar feedback de clique no anônimo */
+.sqd-player-card.is-anonymous:hover {
+  filter: grayscale(0.5); /* Volta um pouco da cor ao passar o mouse */
+  transform: scale(1.02);
+}
+
 /* =====================================================
 
    ESTILOS DE PARTIDAS (AdminMatches)

@@ -55,7 +55,7 @@ function SquadCarousel({ players, onSelectPlayer }) {
           {infiniteSquad.map((player, index) => (
             <div
               key={`${player.id}-${index}`}
-              className="sqd-player-card"
+              className={`sqd-player-card ${player.isAnonymous ? "is-anonymous" : ""}`}
               onClick={() => onSelectPlayer(player)}
             >
               <div className="sqd-photo-area">
