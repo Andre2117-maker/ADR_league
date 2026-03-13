@@ -147,9 +147,7 @@ function AdminMatches({
 
   const goalsA = goals("A");
   const goalsB = goals("B");
-  const isDraw =
-    goalsA === goalsB &&
-    (draft.events.length > 0 || (matchToEdit && (goalsA > 0 || goalsB > 0)));
+  const isDraw = goalsA === goalsB;
 
   const togglePlayer = (team, playerId) => {
     setDraft((prev) => {
