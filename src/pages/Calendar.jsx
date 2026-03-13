@@ -395,16 +395,35 @@ function Calendar({
                             .map((player) => {
                               const isGK =
                                 match.teamA.goalkeeperId === player.id;
-                              const pEvents = match.events.filter(
-                                (e) => e.playerId === player.id,
+
+                              // Busca Gols, Gols Contras e Assistências deste jogador
+                              const goals = match.events.filter(
+                                (e) =>
+                                  e.playerId === player.id && e.type === "GOAL",
                               );
+                              const ownGoals = match.events.filter(
+                                (e) =>
+                                  e.playerId === player.id &&
+                                  e.type === "OWN_GOAL",
+                              );
+                              const assists = match.events.filter(
+                                (e) =>
+                                  e.assistId === player.id ||
+                                  (e.playerId === player.id &&
+                                    e.type === "ASSIST"),
+                              );
+
+                              const hasEvents =
+                                goals.length > 0 ||
+                                ownGoals.length > 0 ||
+                                assists.length > 0;
+
                               return (
                                 <div
                                   key={player.id}
                                   className="event-item"
                                   style={{
-                                    opacity:
-                                      pEvents.length > 0 || isGK ? 1 : 0.6,
+                                    opacity: hasEvents || isGK ? 1 : 0.6,
                                   }}
                                 >
                                   <span
@@ -416,14 +435,14 @@ function Calendar({
                                     {player.name} {isGK && "🧤"}
                                   </span>
                                   <span className="event-icons-group">
-                                    {pEvents.map((e, i) => (
-                                      <span key={i}>
-                                        {e.type === "GOAL"
-                                          ? "⚽"
-                                          : e.type === "ASSIST"
-                                            ? "👟"
-                                            : "GC"}
-                                      </span>
+                                    {assists.map((_, i) => (
+                                      <span key={`ast-${i}`}>👟</span>
+                                    ))}
+                                    {goals.map((_, i) => (
+                                      <span key={`gol-${i}`}>⚽</span>
+                                    ))}
+                                    {ownGoals.map((_, i) => (
+                                      <span key={`og-${i}`}>GC</span>
                                     ))}
                                   </span>
                                 </div>
@@ -449,28 +468,47 @@ function Calendar({
                             .map((player) => {
                               const isGK =
                                 match.teamB.goalkeeperId === player.id;
-                              const pEvents = match.events.filter(
-                                (e) => e.playerId === player.id,
+
+                              // Busca Gols, Gols Contras e Assistências deste jogador
+                              const goals = match.events.filter(
+                                (e) =>
+                                  e.playerId === player.id && e.type === "GOAL",
                               );
+                              const ownGoals = match.events.filter(
+                                (e) =>
+                                  e.playerId === player.id &&
+                                  e.type === "OWN_GOAL",
+                              );
+                              const assists = match.events.filter(
+                                (e) =>
+                                  e.assistId === player.id ||
+                                  (e.playerId === player.id &&
+                                    e.type === "ASSIST"),
+                              );
+
+                              const hasEvents =
+                                goals.length > 0 ||
+                                ownGoals.length > 0 ||
+                                assists.length > 0;
+
                               return (
                                 <div
                                   key={player.id}
                                   className="event-item"
                                   style={{
                                     justifyContent: "flex-end",
-                                    opacity:
-                                      pEvents.length > 0 || isGK ? 1 : 0.6,
+                                    opacity: hasEvents || isGK ? 1 : 0.6,
                                   }}
                                 >
                                   <span className="event-icons-group">
-                                    {pEvents.map((e, i) => (
-                                      <span key={i}>
-                                        {e.type === "GOAL"
-                                          ? "⚽"
-                                          : e.type === "ASSIST"
-                                            ? "👟"
-                                            : "GC"}
-                                      </span>
+                                    {assists.map((_, i) => (
+                                      <span key={`ast-${i}`}>👟</span>
+                                    ))}
+                                    {goals.map((_, i) => (
+                                      <span key={`gol-${i}`}>⚽</span>
+                                    ))}
+                                    {ownGoals.map((_, i) => (
+                                      <span key={`og-${i}`}>GC</span>
                                     ))}
                                   </span>
                                   <span

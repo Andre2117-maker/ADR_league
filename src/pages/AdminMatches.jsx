@@ -10,24 +10,21 @@ import {
 import "../styles/adminmatches.css";
 
 /* ======================
-   PREVIEW DA PARTIDA
+   PREVIEW DA PARTIDA + LISTA DE EXCLUSÃO
 ====================== */
-function MatchPreview({ draft, players, goalsA, goalsB, penaltiesWinner }) {
+function MatchPreview({
+  draft,
+  players,
+  goalsA,
+  goalsB,
+  penaltiesWinner,
+  removeEvent,
+}) {
   const playerName = (id) =>
     players.find((p) => p.id === id)?.name || "Jogador";
 
   return (
     <div className="match-preview">
-      <div
-        style={{
-          textAlign: "center",
-          fontSize: "12px",
-          color: "#aaa",
-          marginBottom: "5px",
-        }}
-      >
-        📍 {draft.venue || "Local Indefinido"}
-      </div>
       <div className="preview-score">
         <span className="team-name">{draft.teamA.name || "Time A"}</span>
         <span className="score-badge">
@@ -43,19 +40,54 @@ function MatchPreview({ draft, players, goalsA, goalsB, penaltiesWinner }) {
         </div>
       )}
 
-      <div className="preview-columns">
-        {["A", "B"].map((team) => (
-          <div key={team} className="preview-event-list">
-            {draft.events
-              .filter((e) => e.team === team)
-              .map((e) => (
-                <div key={e.id} className="event-tag">
-                  {e.type === "GOAL" && "⚽"}
-                  {e.type === "ASSIST" && "👟"}
-                  {e.type === "OWN_GOAL" && "GC"}
-                  <span>{playerName(e.playerId)}</span>
-                </div>
-              ))}
+      {/* LISTA PARA REMOVER GOLS/EVENTOS ESPECÍFICOS */}
+      <div className="events-manager-list">
+        <h4
+          style={{
+            color: "#d4af37",
+            fontSize: "11px",
+            textAlign: "center",
+            marginBottom: "10px",
+          }}
+        >
+          LINHA DO TEMPO (Clique no X para excluir)
+        </h4>
+        {draft.events.length === 0 && (
+          <p style={{ fontSize: "10px", textAlign: "center", color: "#666" }}>
+            Nenhum gol registrado
+          </p>
+        )}
+        {draft.events.map((e) => (
+          <div key={e.id} className="event-item-removable">
+            <button
+              className="delete-event-btn"
+              onClick={() => removeEvent(e.id)}
+            >
+              ✕
+            </button>
+
+            <span
+              className="event-icon"
+              style={{ marginRight: "10px", fontSize: "16px" }}
+            >
+              {e.type === "GOAL" ? "⚽" : "⚠️ GC"}
+            </span>
+
+            <span className="event-details">
+              <strong style={{ marginRight: "8px" }}>
+                {playerName(e.playerId)}
+              </strong>
+              {e.assistId && (
+                <span className="assist-text">
+                  (Assist: {playerName(e.assistId)} 👟)
+                </span>
+              )}
+              <span className="team-indicator">
+                {e.team === "A"
+                  ? `[${draft.teamA.name}]`
+                  : `[${draft.teamB.name}]`}
+              </span>
+            </span>
           </div>
         ))}
       </div>
@@ -64,7 +96,7 @@ function MatchPreview({ draft, players, goalsA, goalsB, penaltiesWinner }) {
 }
 
 /* ======================
-   ADMIN MATCHES (FIREBASE VERSION COMPLETA)
+   COMPONENTE PRINCIPAL
 ====================== */
 function AdminMatches({
   players,
@@ -86,9 +118,25 @@ function AdminMatches({
     };
   });
 
+  // O useMemo DEVE vir aqui, antes do check de isAdmin
   const sortedPlayers = useMemo(() => {
     return [...players].sort((a, b) => a.name.localeCompare(b.name));
   }, [players]);
+
+  // SÓ AGORA você pode fazer o check de segurança
+  if (!isAdmin) {
+    return (
+      <div
+        className="page-container"
+        style={{ textAlign: "center", paddingTop: "120px" }}
+      >
+        <h2 style={{ color: "red" }}>🚫 Acesso Negado</h2>
+        <button onClick={() => setPage("home")} className="back-btn">
+          Voltar
+        </button>
+      </div>
+    );
+  }
 
   const goals = (team) =>
     draft.events.filter((e) => {
@@ -102,28 +150,12 @@ function AdminMatches({
   const isDraw =
     goalsA === goalsB &&
     (draft.events.length > 0 || (matchToEdit && (goalsA > 0 || goalsB > 0)));
-  const effectivePenaltiesWinner = isDraw ? draft.penaltiesWinner : null;
-
-  if (!isAdmin) {
-    return (
-      <div
-        className="page-container"
-        style={{ textAlign: "center", paddingTop: "90px" }}
-      >
-        <h2>🚫 Acesso Negado</h2>
-        <button onClick={() => setPage("home")} className="back-btn">
-          Voltar
-        </button>
-      </div>
-    );
-  }
 
   const togglePlayer = (team, playerId) => {
     setDraft((prev) => {
       const key = team === "A" ? "teamA" : "teamB";
       const list = prev[key].players;
       const isRemoving = list.includes(playerId);
-
       return {
         ...prev,
         [key]: {
@@ -136,109 +168,109 @@ function AdminMatches({
               ? null
               : prev[key].goalkeeperId,
         },
-        // Remove eventos do jogador se ele for desmarcado
+        // Se remover o jogador da escalação, remove os gols dele também
         events: isRemoving
-          ? prev.events.filter((e) => e.playerId !== playerId)
+          ? prev.events.filter(
+              (e) => e.playerId !== playerId && e.assistId !== playerId,
+            )
           : prev.events,
       };
     });
   };
 
-  const setGoalkeeper = (team, playerId) => {
-    const key = team === "A" ? "teamA" : "teamB";
-    setDraft((prev) => ({
-      ...prev,
-      [key]: { ...prev[key], goalkeeperId: playerId },
-    }));
-  };
+  const addGoalWithAssist = (team, playerId) => {
+    const teamData = team === "A" ? draft.teamA : draft.teamB;
+    const teammates = players.filter(
+      (p) => teamData.players.includes(p.id) && p.id !== playerId,
+    );
 
-  const addEvent = (team, playerId, type) => {
+    let msg = `Assistência para o gol de ${players.find((p) => p.id === playerId).name}:\n\n0 - Sem assistência\n`;
+    teammates.forEach((p, i) => (msg += `${i + 1} - ${p.name}\n`));
+
+    const choice = prompt(msg, "0");
+    if (choice === null) return;
+
+    const index = parseInt(choice) - 1;
+    const assistId = teammates[index] ? teammates[index].id : null;
+
     setDraft((prev) => ({
       ...prev,
       events: [
         ...prev.events,
-        { id: crypto.randomUUID(), team, playerId, type },
+        { id: crypto.randomUUID(), team, playerId, type: "GOAL", assistId },
       ],
     }));
   };
 
-  const removeLastEvent = () => {
-    setDraft((prev) => ({ ...prev, events: prev.events.slice(0, -1) }));
+  const addOwnGoal = (team, playerId) => {
+    setDraft((prev) => ({
+      ...prev,
+      events: [
+        ...prev.events,
+        { id: crypto.randomUUID(), team, playerId, type: "OWN_GOAL" },
+      ],
+    }));
+  };
+
+  const removeEvent = (eventId) => {
+    setDraft((prev) => ({
+      ...prev,
+      events: prev.events.filter((e) => e.id !== eventId),
+    }));
   };
 
   const saveMatch = async () => {
-    if (!draft.date || !draft.teamA.name || !draft.teamB.name) {
-      alert("Preencha a data e os nomes dos times!");
-      return;
-    }
-    if (isDraw && !effectivePenaltiesWinner) {
-      alert("Empate! Selecione quem venceu nos pênaltis.");
-      return;
-    }
-    if (!draft.teamA.goalkeeperId || !draft.teamB.goalkeeperId) {
-      alert("Selecione os goleiros para computar estatísticas!");
-      return;
-    }
+    if (!draft.date || !draft.teamA.name || !draft.teamB.name)
+      return alert("Erro: Data e nomes dos times são obrigatórios.");
+    if (isDraw && !draft.penaltiesWinner)
+      return alert("Empate! Selecione o vencedor nos pênaltis.");
+    if (!draft.teamA.goalkeeperId || !draft.teamB.goalkeeperId)
+      return alert("Selecione os goleiros para as estatísticas.");
 
     setLoading(true);
-
-    // Montamos os dados base da partida
-    const finalMatchData = {
-      date: draft.date, // Data do calendário (ex: 2024-05-20)
-      venue: draft.venue,
-      events: draft.events,
-      penaltiesWinner: effectivePenaltiesWinner,
-      teamA: {
-        ...draft.teamA,
-        goalkeeperGoalsAgainst: goalsB,
-        goalkeeperCleanSheet: goalsB === 0 ? 1 : 0,
-      },
-      teamB: {
-        ...draft.teamB,
-        goalkeeperGoalsAgainst: goalsA,
-        goalkeeperCleanSheet: goalsA === 0 ? 1 : 0,
-      },
-      // Esse campo garante a ordem cronológica exata no sistema
-      updatedAt: serverTimestamp(),
-    };
-
     try {
-      if (matchToEdit?.id) {
-        // EDIÇÃO: Atualizamos a partida existente
-        const matchRef = doc(db, "matches", matchToEdit.id);
-        await updateDoc(matchRef, finalMatchData);
-        alert("Partida atualizada com sucesso!");
-      } else {
-        // NOVA PARTIDA: Adicionamos o createdAt E o order
-        await addDoc(collection(db, "matches"), {
-          ...finalMatchData,
-          createdAt: serverTimestamp(),
-          order: Date.now(), // Isso dará uma ordem numérica baseada no tempo
-        });
-        alert("Partida salva com sucesso!");
-      }
+      const finalData = {
+        ...draft,
+        updatedAt: serverTimestamp(),
+        teamA: {
+          ...draft.teamA,
+          goalkeeperGoalsAgainst: goalsB,
+          goalkeeperCleanSheet: goalsB === 0 ? 1 : 0,
+        },
+        teamB: {
+          ...draft.teamB,
+          goalkeeperGoalsAgainst: goalsA,
+          goalkeeperCleanSheet: goalsA === 0 ? 1 : 0,
+        },
+      };
 
+      if (matchToEdit?.id) {
+        await updateDoc(doc(db, "matches", matchToEdit.id), finalData);
+        alert("Partida atualizada!");
+      } else {
+        await addDoc(collection(db, "matches"), {
+          ...finalData,
+          createdAt: serverTimestamp(),
+          order: Date.now(),
+        });
+        alert("Partida salva!");
+      }
       setMatchToEdit(null);
       setPage("adminPanel");
-      window.scrollTo(0, 0);
-    } catch (error) {
-      console.error("Erro ao salvar:", error);
-      alert("Erro ao salvar no banco de dados.");
+    } catch (e) {
+      console.error(e);
+      alert("Erro ao salvar no Firebase.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="page-container2" style={{ paddingTop: "100px" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
+    <div
+      className="page-container2"
+      style={{ paddingTop: "100px", paddingBottom: "80px" }}
+    >
+      <header className="admin-header-flex">
         <button
           onClick={() => {
             setMatchToEdit(null);
@@ -248,75 +280,34 @@ function AdminMatches({
         >
           ← Voltar
         </button>
-        <h1 className="page-title" style={{ margin: 0 }}>
-          {matchToEdit ? "Editar Partida" : "Nova Partida"}
+        <h1 className="page-title">
+          {matchToEdit ? "Editar Partida" : "Cadastrar Partida"}
         </h1>
-        <div style={{ width: "80px" }}></div>
-      </div>
+        <div style={{ width: "60px" }}></div>
+      </header>
 
-      <div
-        className="admin-box"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "20px",
-          marginBottom: "30px",
-          background: "#1a1a1a",
-          padding: "20px",
-          borderRadius: "8px",
-          border: "1px solid #333",
-        }}
-      >
-        <div className="input-group-adr">
-          <label
-            style={{
-              display: "block",
-              fontSize: "12px",
-              color: "#d4af37",
-              marginBottom: "8px",
-            }}
-          >
-            DATA DO JOGO
-          </label>
+      {/* BOX DE CONFIGURAÇÃO BÁSICA */}
+      <div className="admin-box-grid">
+        <div className="field">
+          <label>DATA</label>
           <input
             type="date"
-            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
             value={draft.date}
             onChange={(e) => setDraft({ ...draft, date: e.target.value })}
           />
         </div>
-        <div className="input-group-adr">
-          <label
-            style={{
-              display: "block",
-              fontSize: "12px",
-              color: "#d4af37",
-              marginBottom: "8px",
-            }}
-          >
-            LOCAL
-          </label>
+        <div className="field">
+          <label>LOCAL</label>
           <input
-            placeholder="Ex: Arena ADR"
-            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
+            placeholder="Ex: Maracanã"
             value={draft.venue}
             onChange={(e) => setDraft({ ...draft, venue: e.target.value })}
           />
         </div>
-        <div className="input-group-adr">
-          <label
-            style={{
-              display: "block",
-              fontSize: "12px",
-              color: "#d4af37",
-              marginBottom: "8px",
-            }}
-          >
-            NOME TIME A
-          </label>
+        <div className="field">
+          <label>TIME A</label>
           <input
-            placeholder="Ex: Real Madrid"
-            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
+            placeholder="Ex: ADR"
             value={draft.teamA.name}
             onChange={(e) =>
               setDraft({
@@ -326,20 +317,10 @@ function AdminMatches({
             }
           />
         </div>
-        <div className="input-group-adr">
-          <label
-            style={{
-              display: "block",
-              fontSize: "12px",
-              color: "#d4af37",
-              marginBottom: "8px",
-            }}
-          >
-            NOME TIME B
-          </label>
+        <div className="field">
+          <label>TIME B</label>
           <input
-            placeholder="Ex: Barcelona"
-            style={{ width: "100%", padding: "10px", boxSizing: "border-box" }}
+            placeholder="Ex: IDR"
             value={draft.teamB.name}
             onChange={(e) =>
               setDraft({
@@ -351,94 +332,59 @@ function AdminMatches({
         </div>
       </div>
 
-      <div
-        className="match-teams"
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" }}
-      >
+      {/* ESCALAÇÃO E GOLS */}
+      <div className="match-teams-grid">
         {["A", "B"].map((team) => (
-          <div key={team} className="info-card">
-            <h3
-              style={{ borderBottom: "1px solid #333", paddingBottom: "10px" }}
-            >
+          <div key={team} className="team-card">
+            <h3>
               Escalar{" "}
               {team === "A"
                 ? draft.teamA.name || "Time A"
                 : draft.teamB.name || "Time B"}
             </h3>
-            <div
-              style={{
-                maxHeight: "350px",
-                overflowY: "auto",
-                paddingRight: "10px",
-              }}
-            >
+            <div className="players-scroll">
               {sortedPlayers.map((p) => {
-                const teamData = team === "A" ? draft.teamA : draft.teamB;
-                const selected = teamData.players.includes(p.id);
-                const isGK = teamData.goalkeeperId === p.id;
-
+                const teamObj = team === "A" ? draft.teamA : draft.teamB;
+                const isSelected = teamObj.players.includes(p.id);
+                const isGK = teamObj.goalkeeperId === p.id;
                 return (
                   <div
                     key={p.id}
-                    className="player-line"
-                    style={{
-                      background: selected ? "#1e1e1e" : "transparent",
-                      padding: "8px 5px",
-                      borderRadius: "4px",
-                      marginBottom: "2px",
-                    }}
+                    className={`player-row ${isSelected ? "active" : ""}`}
                   >
                     <input
                       type="checkbox"
-                      checked={selected}
+                      checked={isSelected}
                       onChange={() => togglePlayer(team, p.id)}
                     />
-                    <span
-                      style={{
-                        flex: 1,
-                        fontSize: "14px",
-                        color: isGK ? "#d4af37" : "#fff",
-                        fontWeight: isGK ? "bold" : "normal",
-                      }}
-                    >
+                    <span className="p-name">
                       {p.name} {isGK && "🧤"}
                     </span>
-                    {selected && (
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "5px",
-                          alignItems: "center",
-                        }}
-                      >
+                    {isSelected && (
+                      <div className="actions">
                         <button
-                          className="mini-btn"
-                          style={{
-                            background: isGK ? "#d4af37" : "#333",
-                            color: isGK ? "#000" : "#fff",
-                            fontSize: "10px",
-                            padding: "2px 5px",
-                          }}
-                          onClick={() => setGoalkeeper(team, p.id)}
-                          title="Marcar como Goleiro"
+                          className={`btn-gk ${isGK ? "is-gk" : ""}`}
+                          onClick={() =>
+                            setDraft({
+                              ...draft,
+                              [team === "A" ? "teamA" : "teamB"]: {
+                                ...teamObj,
+                                goalkeeperId: p.id,
+                              },
+                            })
+                          }
                         >
                           GK
                         </button>
                         <button
-                          className="mini-btn"
-                          onClick={() => addEvent(team, p.id, "GOAL")}
+                          className="btn-goal"
+                          onClick={() => addGoalWithAssist(team, p.id)}
                         >
                           ⚽
                         </button>
                         <button
-                          className="mini-btn"
-                          onClick={() => addEvent(team, p.id, "ASSIST")}
-                        >
-                          👟
-                        </button>
-                        <button
-                          className="mini-btn"
-                          onClick={() => addEvent(team, p.id, "OWN_GOAL")}
+                          className="btn-og"
+                          onClick={() => addOwnGoal(team, p.id)}
                         >
                           GC
                         </button>
@@ -452,87 +398,42 @@ function AdminMatches({
         ))}
       </div>
 
-      <div style={{ marginTop: "30px" }}>
-        <h2 className="page-title" style={{ fontSize: "20px" }}>
-          Resumo da Partida
-        </h2>
+      <MatchPreview
+        draft={draft}
+        players={players}
+        goalsA={goalsA}
+        goalsB={goalsB}
+        penaltiesWinner={isDraw ? draft.penaltiesWinner : null}
+        removeEvent={removeEvent}
+      />
 
-        {isDraw && (
-          <div
-            className="penalty-box"
-            style={{
-              background: "#1a1a1a",
-              padding: "15px",
-              borderRadius: "8px",
-              border: "1px solid #d4af37",
-              textAlign: "center",
-              marginBottom: "15px",
-            }}
-          >
-            <p
-              style={{
-                margin: "0 0 10px 0",
-                color: "#d4af37",
-                fontWeight: "bold",
-              }}
+      {isDraw && (
+        <div className="penalty-selector">
+          <p>EMPATOU! QUEM GANHOU NOS PÊNALTIS?</p>
+          <div className="p-btns">
+            <button
+              className={draft.penaltiesWinner === "A" ? "selected" : ""}
+              onClick={() => setDraft({ ...draft, penaltiesWinner: "A" })}
             >
-              EMPATE! Quem venceu nos pênaltis?
-            </p>
-            <div
-              style={{ display: "flex", justifyContent: "center", gap: "20px" }}
+              {draft.teamA.name || "Time A"}
+            </button>
+            <button
+              className={draft.penaltiesWinner === "B" ? "selected" : ""}
+              onClick={() => setDraft({ ...draft, penaltiesWinner: "B" })}
             >
-              <label>
-                <input
-                  type="radio"
-                  name="penalties"
-                  checked={draft.penaltiesWinner === "A"}
-                  onChange={() => setDraft({ ...draft, penaltiesWinner: "A" })}
-                />{" "}
-                {draft.teamA.name || "Time A"}
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="penalties"
-                  checked={draft.penaltiesWinner === "B"}
-                  onChange={() => setDraft({ ...draft, penaltiesWinner: "B" })}
-                />{" "}
-                {draft.teamB.name || "Time B"}
-              </label>
-            </div>
+              {draft.teamB.name || "Time B"}
+            </button>
           </div>
-        )}
-
-        <MatchPreview
-          draft={draft}
-          players={players}
-          goalsA={goalsA}
-          goalsB={goalsB}
-          penaltiesWinner={effectivePenaltiesWinner}
-        />
-
-        <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-          <button
-            onClick={removeLastEvent}
-            className="desfa-btn"
-            style={{ flex: 1 }}
-          >
-            Desfazer Último Evento
-          </button>
-          <button
-            onClick={saveMatch}
-            disabled={loading}
-            className="confirm-btn"
-            style={{ flex: 2, margin: 0 }}
-          >
-            {loading
-              ? "Salvando..."
-              : matchToEdit
-                ? "Salvar Alterações"
-                : "Confirmar e Salvar Partida"}
-          </button>
         </div>
-      </div>
+      )}
+
+      <button
+        onClick={saveMatch}
+        disabled={loading}
+        className="confirm-btn-final"
+      >
+        {loading ? "PROCESSANDO..." : "CONCLUIR E SALVAR"}
+      </button>
     </div>
   );
 }
