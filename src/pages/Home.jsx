@@ -180,7 +180,6 @@ function Home({ players, matches, onSelectPlayer }) {
       a.name.localeCompare(b.name),
   );
   const sortedByGoals = [...players].sort((a, b) => b.goals - a.goals);
-  const sortedByAssists = [...players].sort((a, b) => b.assists - a.assists);
 
   const exportTabela = () => {
     const element = document.getElementById("tabela-content");
@@ -194,6 +193,28 @@ function Home({ players, matches, onSelectPlayer }) {
     );
   };
 
+  const getTotalAssists = (playerId) => {
+    if (!matches) return 0;
+
+    return matches.reduce((total, match) => {
+      if (!match.events || !Array.isArray(match.events)) return total;
+
+      const count = match.events.reduce((matchTotal, e) => {
+        // Caso antigo: Evento dedicado do tipo 'ASSIST'
+        if (e.type === "ASSIST" && String(e.playerId) === String(playerId)) {
+          return matchTotal + 1;
+        }
+        // Caso novo: O jogador está no campo assistId dentro de um GOAL
+        if (e.type === "GOAL" && String(e.assistId) === String(playerId)) {
+          return matchTotal + 1;
+        }
+        return matchTotal;
+      }, 0);
+
+      return total + count;
+    }, 0);
+  };
+
   return (
     <div className="main-wrapper">
       <MatchesCarousel matches={matches} players={players} />
@@ -203,7 +224,7 @@ function Home({ players, matches, onSelectPlayer }) {
             📸 Exportar Tabela
           </button>
           <TopScorersCard players={sortedByGoals} />
-          <TopAssistsCard players={sortedByAssists} />
+          <TopAssistsCard players={players} matches={matches} />
           <TopGoalkeepersCard players={players} matches={matches} />
         </aside>
 
@@ -212,6 +233,7 @@ function Home({ players, matches, onSelectPlayer }) {
             <RankingTable
               sortedPlayers={sorted}
               getPlayerStats={getPlayerStats}
+              getTotalAssists={getTotalAssists}
               onSelectPlayer={onSelectPlayer}
               setHoveredPlayer={
                 window.innerWidth > 1024 ? setHoveredPlayer : () => {}
@@ -227,6 +249,7 @@ function Home({ players, matches, onSelectPlayer }) {
           <aside className="details-panel">
             <PlayerScoutPanel
               player={hoveredPlayer}
+              matches={matches}
               stats={hoveredPlayer ? getPlayerStats(hoveredPlayer.id) : null}
               bestPartner={
                 hoveredPlayer ? getBestPartner(hoveredPlayer.id) : "Nenhum"

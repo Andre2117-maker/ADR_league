@@ -51,7 +51,6 @@ function PlayerPage({
     setIsEditing(false);
   };
 
-  // Funções para Conquistas
   const addAchievement = () => {
     if (!newAch.title) return;
     const updated = [...(formData.achievements || []), { ...newAch }];
@@ -64,14 +63,36 @@ function PlayerPage({
     setFormData({ ...formData, achievements: updated });
   };
 
+  // Cálculo unificado e corrigido (sem hooks dentro de callbacks)
   const stats = useMemo(() => {
     if (!player || !matches) return null;
 
+    // Filtra partidas do jogador
     const pMatches = matches.filter(
       (m) =>
         m.teamA.players.some((id) => String(id) === String(player.id)) ||
         m.teamB.players.some((id) => String(id) === String(player.id)),
     );
+
+    let totalGoals = 0;
+    let totalAssists = 0;
+
+    // Calcula Totais de forma híbrida
+    pMatches.forEach((m) => {
+      if (!m.events || !Array.isArray(m.events)) return;
+      m.events.forEach((e) => {
+        if (String(e.playerId) === String(player.id) && e.type === "GOAL") {
+          totalGoals++;
+        }
+        // Híbrido: Antigo (ASSIST) + Novo (GOAL com assistId)
+        if (
+          (e.type === "ASSIST" && String(e.playerId) === String(player.id)) ||
+          (e.type === "GOAL" && String(e.assistId) === String(player.id))
+        ) {
+          totalAssists++;
+        }
+      });
+    });
 
     const mappedMatches = pMatches.map((m, index) => ({
       ...m,
@@ -83,24 +104,6 @@ function PlayerPage({
       return tA !== tB ? tB - tA : b._originalIndex - a._originalIndex;
     });
 
-    const totalGoals = pMatches.reduce(
-      (acc, m) =>
-        acc +
-        m.events.filter(
-          (e) => String(e.playerId) === String(player.id) && e.type === "GOAL",
-        ).length,
-      0,
-    );
-    const totalAssists = pMatches.reduce(
-      (acc, m) =>
-        acc +
-        m.events.filter(
-          (e) =>
-            String(e.playerId) === String(player.id) && e.type === "ASSIST",
-        ).length,
-      0,
-    );
-
     const chartData = [...sorted]
       .slice(0, 5)
       .reverse()
@@ -111,7 +114,8 @@ function PlayerPage({
         ).length,
         Assists: m.events.filter(
           (e) =>
-            String(e.playerId) === String(player.id) && e.type === "ASSIST",
+            (e.type === "ASSIST" && String(e.playerId) === String(player.id)) ||
+            (e.type === "GOAL" && String(e.assistId) === String(player.id)),
         ).length,
       }));
 
@@ -501,8 +505,12 @@ function PlayerPage({
                 ).length;
                 const pA = m.events.filter(
                   (e) =>
-                    String(e.playerId) === String(player.id) &&
-                    e.type === "ASSIST",
+                    // Opção 1: Evento antigo de assistência
+                    (e.type === "ASSIST" &&
+                      String(e.playerId) === String(player.id)) ||
+                    // Opção 2: Evento novo de gol onde o jogador é o assistente
+                    (e.type === "GOAL" &&
+                      String(e.assistId) === String(player.id)),
                 ).length;
 
                 return (

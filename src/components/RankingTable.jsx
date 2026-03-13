@@ -8,6 +8,7 @@ export default function RankingTable({
   sortedPlayers,
   getPlayerStats,
   onSelectPlayer,
+  getTotalAssists,
   setHoveredPlayer,
 }) {
   const activePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
@@ -80,7 +81,7 @@ export default function RankingTable({
                   {/* REMOVIDA A LINHA VERTICAL AQUI NO CSS */}
                   <td className="fw-bold">{p.points}</td>
                   <td>{p.goals}</td>
-                  <td>{p.assists}</td>
+                  <td>{getTotalAssists(p.id)}</td>
                   <td>{p.games}</td>
                   <td>{p.wins || 0}</td>
                   <td>{p.losses || 0}</td>
