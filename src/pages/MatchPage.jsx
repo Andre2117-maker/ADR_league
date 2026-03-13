@@ -203,7 +203,12 @@ function MatchPage({ matches, players, isAdmin }) {
     const goals = playerEvents.filter(
       (e) => e.type === "GOAL" && e.team === teamKey,
     ).length;
-    const assists = playerEvents.filter((e) => e.type === "ASSIST").length;
+    const assists =
+      match.events?.filter(
+        (e) =>
+          (e.type === "ASSIST" && String(e.playerId) === String(occupantId)) ||
+          (e.type === "GOAL" && String(e.assistId) === String(occupantId)),
+      ).length || 0;
     const ownGoals = playerEvents.filter(
       (e) => e.type === "OWN_GOAL" || (e.type === "GOAL" && e.team !== teamKey),
     ).length;
