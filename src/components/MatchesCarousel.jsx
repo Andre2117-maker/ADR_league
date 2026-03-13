@@ -89,20 +89,27 @@ function MatchesCarousel({ matches, players }) {
                     <span className="mtc-team-name">{match.teamA.name}</span>
                     <div className="mtc-stats-list">
                       {match.events
-                        .filter((e) => e.team === "A" && e.type === "GOAL")
-                        .map((goal, i) => (
+                        .filter(
+                          (e) =>
+                            (e.team === "A" && e.type === "GOAL") ||
+                            (e.team === "A" && e.type === "OWN_GOAL"),
+                        )
+                        .map((e, i) => (
                           <p key={i} className="mtc-mini-stat">
-                            ⚽ {getName(goal.playerId)}
-                            {goal.assistId && (
-                              <span
-                                style={{
-                                  marginLeft: "6px",
-                                  fontSize: "10px",
-                                  opacity: 0.8,
-                                }}
-                              >
-                                [👟 {getName(goal.assistId)}]
-                              </span>
+                            {e.type === "GOAL" ? (
+                              <>
+                                ⚽ {getName(e.playerId)}
+                                {e.assistId && (
+                                  <span
+                                    style={{ fontSize: "10px", opacity: 0.7 }}
+                                  >
+                                    {" "}
+                                    [👟 {getName(e.assistId)}]
+                                  </span>
+                                )}
+                              </>
+                            ) : (
+                              <span>GC {getName(e.playerId)}</span>
                             )}
                           </p>
                         ))}
@@ -131,20 +138,27 @@ function MatchesCarousel({ matches, players }) {
                     <span className="mtc-team-name">{match.teamB.name}</span>
                     <div className="mtc-stats-list">
                       {match.events
-                        .filter((e) => e.team === "B" && e.type === "GOAL")
-                        .map((goal, i) => (
+                        .filter(
+                          (e) =>
+                            (e.team === "B" && e.type === "GOAL") ||
+                            (e.team === "B" && e.type === "OWN_GOAL"),
+                        )
+                        .map((e, i) => (
                           <p key={i} className="mtc-mini-stat">
-                            ⚽ {getName(goal.playerId)}
-                            {goal.assistId && (
-                              <span
-                                style={{
-                                  marginLeft: "6px",
-                                  fontSize: "10px",
-                                  opacity: 0.8,
-                                }}
-                              >
-                                [👟 {getName(goal.assistId)}]
-                              </span>
+                            {e.type === "GOAL" ? (
+                              <>
+                                ⚽ {getName(e.playerId)}
+                                {e.assistId && (
+                                  <span
+                                    style={{ fontSize: "10px", opacity: 0.7 }}
+                                  >
+                                    {" "}
+                                    [👟 {getName(e.assistId)}]
+                                  </span>
+                                )}
+                              </>
+                            ) : (
+                              <span>GC {getName(e.playerId)}</span>
                             )}
                           </p>
                         ))}
