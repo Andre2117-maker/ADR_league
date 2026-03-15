@@ -16,6 +16,7 @@ import TopScorersCard from "../components/TopScorersCard";
 import TopAssistsCard from "../components/TopAssistsCard";
 import AwardsCard from "../components/AwardsCard";
 import AdminTransparency from "./AdminTransparency";
+import BirthdaySchedule from "../components/BirthdaySchedule";
 
 /* ======================
    HOME PRINCIPAL
@@ -217,6 +218,7 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
 
   return (
     <div className="main-wrapper">
+      <BirthdaySchedule players={players} />
       <div className="transparency-nav-container">
         <button
           className="btn-transparency-nav"

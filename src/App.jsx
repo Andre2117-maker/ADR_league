@@ -238,12 +238,7 @@ function App() {
         <Route
           path="/match/:id"
           element={
-            <MatchPage
-              matches={matches}
-              players={players}
-              isAdmin={isAdmin}
-              setPage={setPage}
-            />
+            <MatchPage matches={matches} players={players} isAdmin={isAdmin} />
           }
         />
 

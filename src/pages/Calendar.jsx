@@ -115,6 +115,24 @@ function Calendar({
     "Dezembro",
   ];
 
+  const getBirthdayOnDate = (day) => {
+    if (!day) return null;
+    const month = currentMonth.getMonth() + 1;
+    const dayStr = String(day).padStart(2, "0");
+    const monthStr = String(month).padStart(2, "0");
+
+    return players.find((p) => {
+      // 1. Usamos p.birthDate (como está no seu Firebase)
+      if (!p.birthDate) return false;
+
+      // 2. O split agora lida com o formato "DD/MM/YYYY"
+      const bday = p.birthDate.split("/");
+
+      // bday[0] = dia, bday[1] = mês
+      return bday[1] === monthStr && bday[0] === dayStr;
+    });
+  };
+
   return (
     <div className="page-container">
       <div className="glass-card">
@@ -161,6 +179,9 @@ function Calendar({
                   >
                     {day}
                     {hasMatchOnDate(day) && <div className="match-dot"></div>}
+                    {getBirthdayOnDate(day) && (
+                      <div className="birthday-dot"></div>
+                    )}
                   </div>
                 );
               })}
@@ -201,6 +222,31 @@ function Calendar({
                 📸 SALVAR FOTO
               </button>
             </div>
+
+            {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])) && (
+              <div
+                className="birthday-card"
+                style={{
+                  background: "#122a3d",
+                  padding: "15px",
+                  borderRadius: "10px",
+                  marginBottom: "15px",
+                  border: "1px solid #2196f3",
+                  color: "#fff",
+                  textAlign: "center",
+                }}
+              >
+                <span style={{ fontSize: "20px" }}>🎂</span>
+                <h4 style={{ margin: "5px 0" }}>
+                  Aniversário de{" "}
+                  {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])).name}
+                  !
+                </h4>
+                <p style={{ margin: 0, fontSize: "12px", color: "#b3e5fc" }}>
+                  Hoje o dia é todo dele(a)!
+                </p>
+              </div>
+            )}
 
             <div
               ref={printRef}

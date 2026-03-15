@@ -159,6 +159,7 @@ function PlayerPage({
                     setFormData({ ...formData, strongFoot: e.target.value })
                   }
                 >
+                  <option value="select">Selecione</option>
                   <option value="Destro">Destro</option>
                   <option value="Canhoto">Canhoto</option>
                   <option value="Ambidestro">Ambidestro</option>

@@ -132,13 +132,27 @@
   font-weight: 800;
 }
 
+.birthday-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #2196f3; /* Azul */
+  border-radius: 50%;
+  position: absolute;
+  top: 6px; /* Colocamos no topo da célula */
+  right: 6px; /* E a bolinha de jogo fica embaixo, assim não se sobrepõem */
+  box-shadow: 0 0 4px rgba(33, 150, 243, 0.5);
+  pointer-events: none;
+}
+
 .match-dot {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   background: #d4af37;
   border-radius: 50%;
   position: absolute;
   bottom: 6px;
+  left: 6px;
+  pointer-events: none;
 }
 
 /* =====================================================

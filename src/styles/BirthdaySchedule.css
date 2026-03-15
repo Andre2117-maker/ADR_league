@@ -1,0 +1,173 @@
+/* =====================================================
+   BIRTHDAY SCHEDULE - FULL-WIDTH COM PAGINAÇÃO
+   ===================================================== */
+
+/* Container que centraliza o conteúdo */
+.schedule-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
+  overflow: hidden; /* Garante que nada extravase */
+}
+
+/* O Grid agora centraliza e limita os cards */
+.schedule-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1150px;
+  padding: 20px;
+  flex-wrap: nowrap;
+  position: relative;
+  left: -130px; /* Seu ajuste manual do desktop */
+}
+
+/* Ajuste nos cards para garantir que caibam */
+.schedule-card {
+  flex: 1 1 350px; /* O "1 1" permite que eles se ajustem proporcionalmente */
+  max-width: 350px; /* Garante que não passem de 350px */
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box; /* Essencial para o padding não quebrar o tamanho */
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto 25px auto;
+  padding: 0 20px;
+}
+
+.schedule-title {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+/* --- PAGINAÇÃO E CONTROLES (POSICIONADOS ABAIXO) --- */
+.schedule-pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-arrow {
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.nav-arrow:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+/* Barrinhas de status */
+.pagination-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 30px;
+  height: 6px;
+  background: #333; /* Cor inativa */
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #d4af37; /* Cor ativa (Dourado ADR) */
+  width: 50px; /* Barra mais larga para o item ativo */
+}
+
+@media (min-width: 1340px) {
+  .schedule-grid {
+    padding-left: calc(50% - 650px);
+  }
+}
+
+/* Cards */
+.schedule-card {
+  flex: 0 0 350px;
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.schedule-card:hover {
+  border-color: #d4af37;
+  background: #222;
+}
+
+.bday-date {
+  color: #d4af37;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.bday-text {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+.bday-tag {
+  color: #666;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Mobile */
+/* 2. APENAS O QUE MUDA NO CELULAR */
+@media (max-width: 768px) {
+  .schedule-grid {
+    left: 0 !important; /* FORÇA o grid a voltar para a posição zero no celular */
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0;
+  }
+
+  .schedule-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .schedule-card {
+    flex: 0 0 280px;
+  }
+}
