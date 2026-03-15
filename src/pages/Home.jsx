@@ -15,12 +15,12 @@ import TopGoalkeepersCard from "../components/TopGoalkeepersCard";
 import TopScorersCard from "../components/TopScorersCard";
 import TopAssistsCard from "../components/TopAssistsCard";
 import AwardsCard from "../components/AwardsCard";
-import AddBanner from "../components/AddBanner";
+import AdminTransparency from "./AdminTransparency";
 
 /* ======================
    HOME PRINCIPAL
 ====================== */
-function Home({ players, matches, onSelectPlayer }) {
+function Home({ players, matches, onSelectPlayer, setPage }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
 
   // Ordenação das partidas por data (Firebase Timestamp)
@@ -217,6 +217,15 @@ function Home({ players, matches, onSelectPlayer }) {
 
   return (
     <div className="main-wrapper">
+      <div className="transparency-nav-container">
+        <button
+          className="btn-transparency-nav"
+          onClick={() => setPage("AdminTransparency")} // Ajuste o nome da página conforme seu router
+        >
+          📊 CONSULTAR TRANSPARÊNCIA ADR
+        </button>
+      </div>
+
       <MatchesCarousel matches={matches} players={players} />
       <div className="home-layout">
         <aside className="side-cards">

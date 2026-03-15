@@ -50,6 +50,34 @@
   margin-top: 80px;
 }
 
+.transparency-nav-container {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+  margin-bottom: 10px;
+}
+
+.btn-transparency-nav {
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+}
+
+.btn-transparency-nav:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5);
+}
+
 /* Ajuste para que as seções ocupem largura total e não quebrem o flex */
 .ranking-section,
 .awards-section,

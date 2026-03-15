@@ -461,6 +461,38 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
+.btn-voltar-curto {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Borda dourada fina e translúcida */
+  color: #d4af37; /* Texto dourado */
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.btn-voltar-curto:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: #d4af37;
+  color: #fff;
+  transform: translateX(
+    -5px
+  ); /* Efeito de empurrão para a esquerda ao voltar */
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.btn-voltar-curto:active {
+  transform: scale(0.95);
+}
+
 /* Mobile */
 
 @media (max-width: 768px) {
@@ -529,5 +561,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
     font-size: 1.2rem;
     font-weight: 800;
+  }
+
+  .btn-voltar-curto {
+    width: 100%; /* No mobile, ele expande para ser fácil de tocar */
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 15px;
   }
 }

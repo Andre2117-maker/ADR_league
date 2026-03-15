@@ -1,0 +1,207 @@
+/* =====================================================
+   TRANSPARENCY - ESTILO PREMIUM ELITE (EXPANDED)
+   ===================================================== */
+
+/* Container Principal - Expande em telas grandes */
+.admin-box {
+  background: linear-gradient(
+    145deg,
+    rgba(26, 26, 26, 0.9),
+    rgba(10, 10, 10, 0.95)
+  );
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
+  max-width: 1400px; /* Expansão maior no desktop */
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.admin-box h3 {
+  font-size: 1.5rem;
+  background: linear-gradient(180deg, #ffffff 30%, #d4af37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+/* Layout do Formulário - No desktop os campos ficam lado a lado */
+.admin-form-transparency {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto; /* Alinhamento horizontal elegante */
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 40px;
+}
+
+.admin-form-transparency input,
+.admin-form-transparency select {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-form-transparency input:focus,
+.admin-form-transparency select:focus {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+  outline: none;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.admin-form-transparency button {
+  padding: 16px 30px;
+  background: linear-gradient(135deg, #d4af37 0%, #aa8a2e 100%);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+.admin-form-transparency button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+}
+
+/* Listagem de Transações */
+.transparency-list {
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  padding-top: 30px;
+}
+
+.t-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.t-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+.t-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.t-desc {
+  font-weight: 700;
+  color: #eee;
+  font-size: 1.1rem;
+}
+
+.t-date {
+  color: #888;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.t-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.text-green {
+  color: #00ff88;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+}
+
+.text-red {
+  color: #ff4d4d;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+}
+
+.delete-btn {
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* =====================================================
+   VERSÃO MOBILE (ESTREITA E FOCADA)
+   ===================================================== */
+@media (max-width: 900px) {
+  .admin-form-transparency {
+    grid-template-columns: 1fr; /* Vira lista no mobile */
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-box {
+    padding: 20px;
+    border-radius: 0; /* Opcional: ocupa a tela toda nas laterais */
+  }
+
+  .t-item {
+    padding: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .t-actions {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .t-desc {
+    font-size: 1rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

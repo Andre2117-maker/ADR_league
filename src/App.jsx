@@ -24,6 +24,7 @@ import Calendar from "./pages/Calendar.jsx";
 import Navbar from "./pages/NavBar.jsx";
 import PlayerPage from "./pages/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage.jsx";
+import AdminTransparency from "./pages/AdminTransparency.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -237,7 +238,12 @@ function App() {
         <Route
           path="/match/:id"
           element={
-            <MatchPage matches={matches} players={players} isAdmin={isAdmin} />
+            <MatchPage
+              matches={matches}
+              players={players}
+              isAdmin={isAdmin}
+              setPage={setPage}
+            />
           }
         />
 
@@ -253,6 +259,7 @@ function App() {
                     players={playersWithStats}
                     matches={matches}
                     onSelectPlayer={handleOpenPlayerProfile}
+                    setPage={setPage}
                   />
                 )}
 
@@ -308,6 +315,10 @@ function App() {
                     matchToEdit={matchToEdit}
                     setMatchToEdit={setMatchToEdit}
                   />
+                )}
+
+                {page === "AdminTransparency" && (
+                  <AdminTransparency isAdmin={isAdmin} />
                 )}
               </div>
             </>
