@@ -118,7 +118,9 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
 
   const getBestPartner = (playerId) => {
     if (!matches || matches.length === 0) return "Nenhum";
+
     const scores = {};
+
     matches.forEach((m) => {
       const isTeamA = m.teamA.players.includes(playerId);
       const isTeamB = m.teamB.players.includes(playerId);
@@ -128,15 +130,18 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
 
       m.events.forEach((e) => {
         if (e.type === "GOAL") {
+          // Se eu fiz o gol, o assistente ganha +5
           if (e.playerId === playerId && e.assistId && e.assistId !== "none") {
-            scores[e.assistId] = (scores[e.assistId] || 0) + 3;
+            scores[e.assistId] = (scores[e.assistId] || 0) + 5;
           }
+          // Se eu dei a assistência, quem fez o gol ganha +5
           if (e.assistId === playerId && e.playerId) {
-            scores[e.playerId] = (scores[e.playerId] || 0) + 2;
+            scores[e.playerId] = (scores[e.playerId] || 0) + 5;
           }
         }
       });
 
+      // Bônus por vitória juntos (peso menor, pois é uma consequência do time)
       const goalsA = m.events.filter(
         (e) =>
           (e.type === "GOAL" && e.team === "A") ||

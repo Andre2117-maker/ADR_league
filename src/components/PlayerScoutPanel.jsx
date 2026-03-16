@@ -38,7 +38,6 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
           )}
         </div>
         <h2>{player.name}</h2>
-        <span className="profile-foot">{player.strongFoot || "Destro"}</span>
       </div>
 
       <div className="profile-main-stats">
