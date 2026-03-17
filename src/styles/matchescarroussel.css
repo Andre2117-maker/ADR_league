@@ -1,0 +1,186 @@
+.mtc-section-full {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 0;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom, #050505 0%, #1a1608 50%, #111111 100%);
+}
+
+.mtc-carousel-window {
+  width: 100vw;
+  overflow-x: auto;
+  display: flex;
+  scrollbar-width: none;
+}
+
+.mtc-carousel-window::-webkit-scrollbar {
+  display: none;
+}
+
+.mtc-track {
+  display: flex;
+  gap: 25px;
+  padding: 20px 40px;
+}
+
+.mtc-card {
+  width: 440px;
+  background: rgba(18, 18, 18, 0.98);
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 25px;
+  flex-shrink: 0;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.mtc-card-header {
+  text-align: center;
+  font-size: 0.7rem;
+  color: #d4af37;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  opacity: 0.7;
+}
+
+.mtc-info-center {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.mtc-date-big {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.mtc-venue {
+  font-size: 0.65rem;
+  color: #666;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* Estrutura de Exibição */
+.mtc-display-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+}
+
+.mtc-team-col {
+  display: flex;
+  flex-direction: column;
+  width: 155px; /* Largura fixa para manter simetria */
+}
+
+.mtc-team-logo {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  margin: 0 auto 12px auto;
+}
+
+.mtc-team-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Alinhamento de Estatísticas */
+.mtc-stats-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mtc-mini-stat {
+  font-size: 0.75rem;
+  color: #eee;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.mtc-left-team .mtc-mini-stat {
+  text-align: right;
+}
+.mtc-right-team .mtc-mini-stat {
+  text-align: left;
+}
+
+.mtc-assist-text {
+  font-size: 10px;
+  color: #d4af37;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+/* Placar */
+.mtc-score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.mtc-score-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mtc-score-val {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.mtc-score-vs {
+  font-size: 1.2rem;
+  color: #d4af37;
+  opacity: 0.5;
+}
+
+/* Indicador (P) e Vencedor */
+.mtc-p-indicator {
+  color: #d4af37;
+  font-weight: 900;
+  font-size: 0.8rem;
+  margin: 0 4px;
+}
+
+.mtc-winner-pen .mtc-team-name {
+  color: #d4af37;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Controles */
+.mtc-controls {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.mtc-nav-btn {
+  background: none;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mtc-nav-btn:hover {
+  background: #d4af37;
+  color: #000;
+}

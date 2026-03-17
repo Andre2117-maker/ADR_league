@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import LogoADR from "../assets/logo.png";
+import "../styles/matchescarroussel.css";
 
 function MatchesCarousel({ matches, players }) {
   const carouselRef = useRef(null);
@@ -50,13 +51,6 @@ function MatchesCarousel({ matches, players }) {
 
   return (
     <section className="mtc-section-full">
-      <div className="mtc-header">
-        <h2 className="mtc-main-title">
-          ÚLTIMAS <span className="mtc-highlight">PARTIDAS</span>
-        </h2>
-        <div className="mtc-underline"></div>
-      </div>
-
       <div className="mtc-carousel-window" ref={carouselRef}>
         <div className="mtc-track">
           {infiniteMatches.map((match, index) => {
@@ -84,9 +78,16 @@ function MatchesCarousel({ matches, players }) {
 
                 <div className="mtc-display-row">
                   {/* TIME A */}
-                  <div className="mtc-team-col">
+                  <div
+                    className={`mtc-team-col mtc-left-team ${match.penaltiesWinner === "A" ? "mtc-winner-pen" : ""}`}
+                  >
                     <img src={LogoADR} alt="L" className="mtc-team-logo" />
-                    <span className="mtc-team-name">{match.teamA.name}</span>
+                    <span className="mtc-team-name">
+                      {match.teamA.name}{" "}
+                      {match.penaltiesWinner === "A" && (
+                        <span className="mtc-p-indicator">(P)</span>
+                      )}
+                    </span>
                     <div className="mtc-stats-list">
                       {match.events
                         .filter(
@@ -98,44 +99,41 @@ function MatchesCarousel({ matches, players }) {
                           <p key={i} className="mtc-mini-stat">
                             {e.type === "GOAL" ? (
                               <>
-                                ⚽ {getName(e.playerId)}
-                                {e.assistId && (
-                                  <span
-                                    style={{ fontSize: "10px", opacity: 0.7 }}
-                                  >
-                                    {" "}
-                                    [👟 {getName(e.assistId)}]
+                                {e.assistId && e.assistId !== "none" && (
+                                  <span className="mtc-assist-text">
+                                    [{getName(e.assistId)}]{" "}
                                   </span>
                                 )}
+                                <span>{getName(e.playerId)} ⚽</span>
                               </>
                             ) : (
-                              <span>GC {getName(e.playerId)}</span>
+                              <span>{getName(e.playerId)} (GC) ⚽</span>
                             )}
                           </p>
                         ))}
                     </div>
                   </div>
 
+                  {/* PLACAR */}
                   <div className="mtc-score-container">
                     <div className="mtc-score-box">
                       <span className="mtc-score-val">{goalsA}</span>
                       <span className="mtc-score-vs">:</span>
                       <span className="mtc-score-val">{goalsB}</span>
                     </div>
-                    {match.penaltiesWinner && (
-                      <div className="mtc-penalties-badge">
-                        (P){" "}
-                        {match.penaltiesWinner === "A"
-                          ? match.teamA.name
-                          : match.teamB.name}
-                      </div>
-                    )}
                   </div>
 
                   {/* TIME B */}
-                  <div className="mtc-team-col">
+                  <div
+                    className={`mtc-team-col mtc-right-team ${match.penaltiesWinner === "B" ? "mtc-winner-pen" : ""}`}
+                  >
                     <img src={LogoADR} alt="L" className="mtc-team-logo" />
-                    <span className="mtc-team-name">{match.teamB.name}</span>
+                    <span className="mtc-team-name">
+                      {match.penaltiesWinner === "B" && (
+                        <span className="mtc-p-indicator">(P)</span>
+                      )}{" "}
+                      {match.teamB.name}
+                    </span>
                     <div className="mtc-stats-list">
                       {match.events
                         .filter(
@@ -147,18 +145,16 @@ function MatchesCarousel({ matches, players }) {
                           <p key={i} className="mtc-mini-stat">
                             {e.type === "GOAL" ? (
                               <>
-                                ⚽ {getName(e.playerId)}
-                                {e.assistId && (
-                                  <span
-                                    style={{ fontSize: "10px", opacity: 0.7 }}
-                                  >
+                                <span>⚽ {getName(e.playerId)}</span>
+                                {e.assistId && e.assistId !== "none" && (
+                                  <span className="mtc-assist-text">
                                     {" "}
-                                    [👟 {getName(e.assistId)}]
+                                    [{getName(e.assistId)}]
                                   </span>
                                 )}
                               </>
                             ) : (
-                              <span>GC {getName(e.playerId)}</span>
+                              <span>⚽ (GC) {getName(e.playerId)}</span>
                             )}
                           </p>
                         ))}
