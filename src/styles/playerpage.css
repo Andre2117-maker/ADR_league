@@ -508,3 +508,164 @@
     font-size: 11px;
   }
 }
+
+/* CONTAINER PRINCIPAL DO MODO ADM */
+.ppg-edit-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Fundo escurecido */
+  backdrop-filter: blur(8px); /* Efeito de desfoque ao fundo */
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* CARD DE EDIÇÃO */
+.ppg-edit-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: ppgFadeIn 0.3s ease-out;
+}
+
+@keyframes ppgFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* SEÇÕES DENTRO DO CARD */
+.ppg-edit-section {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  border-left: 4px solid var(--gold);
+}
+
+.ppg-card-title {
+  color: var(--gold);
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* INPUTS E LABELS */
+.ppg-edit-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.ppg-edit-section label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.ppg-edit-section input[type="text"],
+.ppg-edit-section input[type="number"],
+.ppg-edit-section input[type="date"] {
+  width: 100%;
+  background: #000;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.ppg-edit-section input:focus {
+  border-color: var(--gold);
+  outline: none;
+}
+
+/* ESTILIZAÇÃO DO RANGE (SLIDER) */
+.ppg-edit-section input[type="range"] {
+  accent-color: var(--gold);
+  height: 6px;
+  margin-top: 10px;
+}
+
+/* BOTÕES */
+.ppg-btn-save {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.ppg-btn-save:hover {
+  background: #e6c300;
+  transform: scale(1.02);
+}
+
+.ppg-btn-cancel {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.ppg-btn-cancel:hover {
+  background: #444;
+}
+
+/* GERENCIADOR DE CONQUISTAS */
+.ppg-add-ach-form input {
+  background: #222 !important;
+  border-color: #555 !important;
+}
+
+.ppg-edit-ach-item {
+  transition: background 0.2s;
+}
+
+.ppg-edit-ach-item:hover {
+  background: #333 !important;
+}
+
+.ppg-edit-ach-item span {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+  .ppg-edit-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ppg-edit-card {
+    padding: 15px;
+  }
+}
