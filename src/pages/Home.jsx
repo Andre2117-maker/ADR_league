@@ -2,11 +2,8 @@ import React, { useState, useMemo } from "react";
 import html2canvas from "html2canvas";
 import "../styles/home.css";
 import "../style.css";
-import master from "../assets/master.png";
-import patro1 from "../assets/patro1.png";
-import patro2 from "../assets/patro2.png";
 
-// Importação de Componentes
+// Componentes
 import MatchesCarousel from "../components/MatchesCarousel";
 import SquadCarousel from "../components/SquadCarousel";
 import RankingTable from "../components/RankingTable";
@@ -15,31 +12,25 @@ import TopGoalkeepersCard from "../components/TopGoalkeepersCard";
 import TopScorersCard from "../components/TopScorersCard";
 import TopAssistsCard from "../components/TopAssistsCard";
 import AwardsCard from "../components/AwardsCard";
-import AdminTransparency from "./AdminTransparency";
 import BirthdaySchedule from "../components/BirthdaySchedule";
+import HistoryCarousel from "../components/HistoryCarousel";
+import Footer from "../components/Footer";
 
-/* ======================
-   HOME PRINCIPAL
-====================== */
-function Home({ players, matches, onSelectPlayer, setPage }) {
+function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
 
-  // Ordenação das partidas por data (Firebase Timestamp)
+  // --- Lógica de Ordenação e Stats ---
   const sortedMatchesByDate = useMemo(() => {
     if (!matches) return [];
-    return [...matches].sort((a, b) => {
-      const timeA = a.createdAt?.seconds || 0;
-      const timeB = b.createdAt?.seconds || 0;
-      return timeA - timeB;
-    });
+    return [...matches].sort(
+      (a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0),
+    );
   }, [matches]);
 
-  // --- Lógica de Estatísticas e Forma (Últimas 5) ---
   const getPlayerStats = (playerId) => {
     if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
       return { form: [], winRate: 0 };
 
-    // 1. Filtra TODAS as partidas do jogador
     const playerMatches = sortedMatchesByDate.filter(
       (m) =>
         m.teamA.players.some((id) => String(id) === String(playerId)) ||
@@ -48,142 +39,71 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
 
     if (playerMatches.length === 0) return { form: [], winRate: 0 };
 
-    // 2. Calcula a "Forma" (últimas 5 partidas)
+    // CALCULA A FORMA (BOLINHAS)
     const form = playerMatches.slice(-5).map((m) => {
       const isTeamA = m.teamA.players.some(
         (id) => String(id) === String(playerId),
       );
-      const gA = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "A") ||
-          (e.type === "OWN_GOAL" && e.team === "B"),
-      ).length;
-      const gB = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "B") ||
-          (e.type === "OWN_GOAL" && e.team === "A"),
-      ).length;
+      const playerTeam = isTeamA ? "A" : "B";
+
+      // 1. Prioridade: Vencedor definido (Penaltis ou Campo Winner)
       const winnerField = m.penaltiesWinner || m.winner;
 
       if (winnerField) {
-        const playerTeam = isTeamA ? "A" : "B";
+        // O .toUpperCase() é o segredo aqui para não falhar se for minúsculo
         return String(winnerField).toUpperCase() === playerTeam ? "W" : "L";
       }
-      if (gA === gB) return "D";
-      const won = (gA > gB && isTeamA) || (gB > gA && !isTeamA);
+
+      // 2. Fallback: Se não houver campo winner, calcula pelo placar de eventos
+      const goalsA =
+        m.events?.filter(
+          (e) =>
+            (e.type === "GOAL" && e.team === "A") ||
+            (e.type === "OWN_GOAL" && e.team === "B"),
+        ).length || 0;
+      const goalsB =
+        m.events?.filter(
+          (e) =>
+            (e.type === "GOAL" && e.team === "B") ||
+            (e.type === "OWN_GOAL" && e.team === "A"),
+        ).length || 0;
+
+      if (goalsA === goalsB) return "D";
+      const won = (goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA);
       return won ? "W" : "L";
     });
 
-    // 3. Calcula o WinRate REAL (Todas as vitórias / Total de partidas)
-    const totalWins = playerMatches.filter((m) => {
+    // CALCULA O WINRATE
+    const wins = playerMatches.filter((m) => {
       const isTeamA = m.teamA.players.some(
         (id) => String(id) === String(playerId),
       );
-
-      // Conta gols reais de cada lado
-      const goalsA = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "A") ||
-          (e.type === "OWN_GOAL" && e.team === "B"),
-      ).length;
-      const goalsB = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "B") ||
-          (e.type === "OWN_GOAL" && e.team === "A"),
-      ).length;
-
-      let winner = null;
-
-      // Define o vencedor: Prioriza pênaltis, se não houver, compara gols
-      if (m.penaltiesWinner) {
-        winner = m.penaltiesWinner;
-      } else if (goalsA > goalsB) {
-        winner = "A";
-      } else if (goalsB > goalsA) {
-        winner = "B";
-      }
-
       const playerTeam = isTeamA ? "A" : "B";
-      return winner === playerTeam;
+      const goalsA =
+        m.events?.filter(
+          (e) =>
+            (e.type === "GOAL" && e.team === "A") ||
+            (e.type === "OWN_GOAL" && e.team === "B"),
+        ).length || 0;
+      const goalsB =
+        m.events?.filter(
+          (e) =>
+            (e.type === "GOAL" && e.team === "B") ||
+            (e.type === "OWN_GOAL" && e.team === "A"),
+        ).length || 0;
+
+      const winner =
+        m.penaltiesWinner ||
+        (goalsA > goalsB ? "A" : goalsB > goalsA ? "B" : null);
+      return winner && String(winner).toUpperCase() === playerTeam;
     }).length;
 
-    // Cálculo da porcentagem (evitando divisão por zero)
-    const winRate =
-      playerMatches.length > 0
-        ? Math.round((totalWins / playerMatches.length) * 100)
-        : 0;
-
-    return { form, winRate };
+    return { form, winRate: Math.round((wins / playerMatches.length) * 100) };
   };
 
-  const getBestPartner = (playerId) => {
-    if (!matches || matches.length === 0) return "Nenhum";
-
-    const scores = {};
-
-    matches.forEach((m) => {
-      const isTeamA = m.teamA.players.includes(playerId);
-      const isTeamB = m.teamB.players.includes(playerId);
-      if (!isTeamA && !isTeamB) return;
-
-      const myTeam = isTeamA ? m.teamA.players : m.teamB.players;
-
-      m.events.forEach((e) => {
-        if (e.type === "GOAL") {
-          // Se eu fiz o gol, o assistente ganha +5
-          if (e.playerId === playerId && e.assistId && e.assistId !== "none") {
-            scores[e.assistId] = (scores[e.assistId] || 0) + 5;
-          }
-          // Se eu dei a assistência, quem fez o gol ganha +5
-          if (e.assistId === playerId && e.playerId) {
-            scores[e.playerId] = (scores[e.playerId] || 0) + 5;
-          }
-        }
-      });
-
-      // Bônus por vitória juntos (peso menor, pois é uma consequência do time)
-      const goalsA = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "A") ||
-          (e.type === "OWN_GOAL" && e.team === "B"),
-      ).length;
-      const goalsB = m.events.filter(
-        (e) =>
-          (e.type === "GOAL" && e.team === "B") ||
-          (e.type === "OWN_GOAL" && e.team === "A"),
-      ).length;
-
-      const won =
-        (isTeamA && goalsA > goalsB) ||
-        (isTeamB && goalsB > goalsA) ||
-        m.penaltiesWinner === (isTeamA ? "A" : "B");
-
-      if (won) {
-        myTeam.forEach((pId) => {
-          if (pId !== playerId) scores[pId] = (scores[pId] || 0) + 1;
-        });
-      }
-    });
-
-    let bestId = null;
-    let maxScore = 0;
-    for (const [id, total] of Object.entries(scores)) {
-      if (total > maxScore) {
-        maxScore = total;
-        bestId = id;
-      }
-    }
-    const partner = players.find((p) => String(p.id) === String(bestId));
-    return partner ? partner.name : "Nenhum";
-  };
-
-  // Ordenações
   const sorted = [...players].sort(
     (a, b) =>
-      b.points - a.points ||
-      b.goals - a.goals ||
-      b.assists - a.assists ||
-      a.name.localeCompare(b.name),
+      b.points - a.points || b.goals - a.goals || a.name.localeCompare(b.name),
   );
   const sortedByGoals = [...players].sort((a, b) => b.goals - a.goals);
 
@@ -200,40 +120,40 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
   };
 
   const getTotalAssists = (playerId) => {
-    if (!matches) return 0;
-
-    return matches.reduce((total, match) => {
-      if (!match.events || !Array.isArray(match.events)) return total;
-
-      const count = match.events.reduce((matchTotal, e) => {
-        // Caso antigo: Evento dedicado do tipo 'ASSIST'
-        if (e.type === "ASSIST" && String(e.playerId) === String(playerId)) {
-          return matchTotal + 1;
-        }
-        // Caso novo: O jogador está no campo assistId dentro de um GOAL
-        if (e.type === "GOAL" && String(e.assistId) === String(playerId)) {
-          return matchTotal + 1;
-        }
-        return matchTotal;
-      }, 0);
-
-      return total + count;
-    }, 0);
+    return matches?.reduce(
+      (acc, m) =>
+        acc +
+        (m.events?.filter(
+          (e) =>
+            (e.type === "ASSIST" && String(e.playerId) === String(playerId)) ||
+            (e.type === "GOAL" && String(e.assistId) === String(playerId)),
+        ).length || 0),
+      0,
+    );
   };
 
   return (
     <div className="main-wrapper">
       <BirthdaySchedule players={players} />
+
+      {/* NAVEGAÇÃO ENTRE PÁGINAS */}
       <div className="transparency-nav-container">
         <button
           className="btn-transparency-nav"
-          onClick={() => setPage("AdminTransparency")} // Ajuste o nome da página conforme seu router
+          onClick={() => setPage("HallHistorico")}
         >
-          📊 CONSULTAR TRANSPARÊNCIA ADR
+          🏛️ MEMORIAL DOS JOGADORES
+        </button>
+        <button
+          className="btn-transparency-nav"
+          onClick={() => setPage("AdminTransparency")}
+        >
+          💰 TRANSPARÊNCIA
         </button>
       </div>
 
       <MatchesCarousel matches={matches} players={players} />
+
       <div className="home-layout">
         <aside className="side-cards">
           <button className="export-btn" onClick={exportTabela}>
@@ -245,7 +165,7 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
         </aside>
 
         <main className="main-content-area">
-          <div className="ranking-section">
+          <div className="ranking-section" id="tabela-content">
             <RankingTable
               sortedPlayers={sorted}
               getPlayerStats={getPlayerStats}
@@ -277,20 +197,9 @@ function Home({ players, matches, onSelectPlayer, setPage }) {
 
       <SquadCarousel players={players} onSelectPlayer={onSelectPlayer} />
 
-      <footer className="sponsors-footer">
-        <div className="sponsors-container">
-          <div className="sponsor-master">
-            <div className="logo-wrapper">
-              <img src={master} alt="Patrocinador Master" />
-            </div>
-          </div>
-          <hr className="sponsor-divider" />
-          <div className="sponsors-secondary">
-            <img src={patro1} alt="Patrocinador" />
-            <img src={patro2} alt="Patrocinador" />
-          </div>
-        </div>
-      </footer>
+      <HistoryCarousel />
+
+      <Footer />
     </div>
   );
 }

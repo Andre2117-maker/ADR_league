@@ -25,6 +25,7 @@ import Navbar from "./pages/NavBar.jsx";
 import PlayerPage from "./pages/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage.jsx";
 import AdminTransparency from "./pages/AdminTransparency.jsx";
+import HallHistorico from "./components/HallHistorico.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -36,51 +37,68 @@ import "./styles/playerpage.css";
 
 // --- FUNÇÕES AUXILIARES (Lógica de Negócio) ---
 
-function getBestPartner(playerId, matches, players) {
+const getBestPartner = (playerId, matches, players) => {
   if (!matches || matches.length === 0) return "Nenhum";
-  const partnersCount = {};
+
+  const scores = {};
 
   matches.forEach((m) => {
-    const isTeamA = m.teamA.players.includes(playerId);
-    const isTeamB = m.teamB.players.includes(playerId);
+    // 1. Identifica se o jogador participou e em qual time
+    const isTeamA = m.teamA.players.some(
+      (id) => String(id) === String(playerId),
+    );
+    const isTeamB = m.teamB.players.some(
+      (id) => String(id) === String(playerId),
+    );
+
     if (!isTeamA && !isTeamB) return;
 
-    const goalsA = m.events.filter(
-      (e) =>
-        (e.type === "GOAL" && e.team === "A") ||
-        (e.type === "OWN_GOAL" && e.team === "B"),
-    ).length;
-    const goalsB = m.events.filter(
-      (e) =>
-        (e.type === "GOAL" && e.team === "B") ||
-        (e.type === "OWN_GOAL" && e.team === "A"),
-    ).length;
+    const myTeam = isTeamA ? m.teamA.players : m.teamB.players;
+    const myTeamLetter = isTeamA ? "A" : "B";
+    const winner = m.penaltiesWinner || m.winner;
 
-    const won =
-      (isTeamA && goalsA > goalsB) ||
-      (isTeamB && goalsB > goalsA) ||
-      m.penaltiesWinner === (isTeamA ? "A" : "B");
+    // --- PESO 1: PARCERIA DE CAMPO (2 pontos por cada jogo juntos) ---
+    myTeam.forEach((pId) => {
+      if (String(pId) !== String(playerId)) {
+        scores[pId] = (scores[pId] || 0) + 2;
 
-    if (won) {
-      const team = isTeamA ? m.teamA.players : m.teamB.players;
-      team.forEach((pId) => {
-        if (pId !== playerId)
-          partnersCount[pId] = (partnersCount[pId] || 0) + 1;
-      });
-    }
+        // --- PESO 2: VITÓRIA CONJUNTA (+5 pontos extras) ---
+        if (winner && String(winner).toUpperCase() === myTeamLetter) {
+          scores[pId] += 5;
+        }
+      }
+    });
+
+    // --- PESO 3: CONEXÃO DIRETA DE GOLS (+10 pontos extras) ---
+    m.events?.forEach((e) => {
+      if (e.type === "GOAL") {
+        // Se eu fiz o gol com assistência do parceiro
+        if (
+          String(e.playerId) === String(playerId) &&
+          e.assistId &&
+          e.assistId !== "none"
+        ) {
+          scores[e.assistId] = (scores[e.assistId] || 0) + 10;
+        }
+        // Se o parceiro fez o gol com a minha assistência
+        if (String(e.assistId) === String(playerId) && e.playerId) {
+          scores[e.playerId] = (scores[e.playerId] || 0) + 10;
+        }
+      }
+    });
   });
 
-  let bestId = null;
-  let maxWins = 0;
-  for (const [id, count] of Object.entries(partnersCount)) {
-    if (count > maxWins) {
-      maxWins = count;
-      bestId = id;
-    }
-  }
+  // Encontra o ID com maior pontuação acumulada
+  const bestId = Object.keys(scores).reduce(
+    (a, b) => (scores[a] > scores[b] ? a : b),
+    null,
+  );
+
+  if (!bestId) return "Nenhum";
+
   const partner = players.find((p) => String(p.id) === String(bestId));
   return partner ? partner.name : "Nenhum";
-}
+};
 
 function calculateStandings(players, matches) {
   return players.map((player) => {
@@ -255,6 +273,10 @@ function App() {
                     matches={matches}
                     onSelectPlayer={handleOpenPlayerProfile}
                     setPage={setPage}
+                    isAdmin={isAdmin}
+                    getBestPartner={(id) =>
+                      getBestPartner(id, matches, players)
+                    }
                   />
                 )}
 
@@ -314,6 +336,10 @@ function App() {
 
                 {page === "AdminTransparency" && (
                   <AdminTransparency isAdmin={isAdmin} />
+                )}
+
+                {page === "HallHistorico" && (
+                  <HallHistorico isAdmin={isAdmin} setPage={setPage} />
                 )}
               </div>
             </>

@@ -1,0 +1,105 @@
+.hall-vertical-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: #fff;
+}
+
+.hall-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+
+/* FORMULÁRIO ADM */
+.hall-admin-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.hall-admin-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hall-admin-form input {
+  background: #000;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.hall-admin-form button {
+  background: var(--gold);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* LISTA */
+.hall-group {
+  margin-bottom: 40px;
+}
+
+.year-label {
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+  padding-right: 30px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+
+.hall-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.hall-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hall-item.retired {
+  opacity: 0.6;
+}
+.hall-item.active {
+  border-left: 3px solid #00ff7f;
+}
+
+.player-name {
+  display: block;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.player-dates {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.btn-del {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

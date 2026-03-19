@@ -1,0 +1,128 @@
+/* Container Principal do Rodapé */
+.sponsors-footer {
+  width: 100%;
+  background-color: #000; /* Fundo preto para sumir no site */
+  padding: 60px 0 30px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto; /* Empurra para o fim da página se usar flex no App */
+}
+
+/* Container centralizador */
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.sponsors-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Texto "PATROCINADORES OFICIAIS" */
+.footer-label {
+  color: #555;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+/* Container das Logos */
+.sponsors-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Item de Patrocinador (Efeito comum para todos) */
+.sponsor-item img {
+  width: auto;
+  filter: grayscale(1) brightness(0.8); /* Fica P&B por padrão */
+  transition: all 0.4s ease;
+  opacity: 0.7;
+}
+
+.sponsor-item:hover img {
+  filter: grayscale(0) brightness(1); /* Ganha cor no hover */
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Estilo específico para o Patrocinador Master (Topo) */
+.sponsor-item.master img {
+  height: 200px; /* Maior que os outros */
+}
+
+/* A linha divisória dourada (estilo a sua imagem) */
+.footer-divider {
+  width: 100%;
+  max-width: 1000px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(212, 175, 55, 0.4),
+    /* Dourado suave */ transparent
+  );
+  margin: 15px 0;
+}
+
+/* Container dos patrocinadores de baixo */
+.sponsors-secondary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px; /* Espaço entre os dois de baixo */
+}
+
+.sponsors-secondary img {
+  height: 100px; /* Menores para dar hierarquia */
+}
+
+/* Parte final: Copyright e Lema */
+.footer-bottom {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  text-align: center;
+  width: 100%;
+}
+
+.footer-bottom p {
+  color: #444;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.footer-motto {
+  color: #d4af37; /* Dourado do seu tema */
+  font-family: "serif";
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+/* Responsividade para Celular */
+@media (max-width: 600px) {
+  .sponsors-secondary {
+    gap: 30px;
+  }
+
+  .sponsor-item.master img {
+    height: 200px;
+  }
+
+  .sponsors-secondary img {
+    height: 100px;
+  }
+}

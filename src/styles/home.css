@@ -1,17 +1,17 @@
 /* =====================================================
    ESTRUTURA PRINCIPAL (WRAPPERS)
 ===================================================== */
-
 .main-wrapper {
-  padding-top: 110px; /* Navbar (90px) + Respiro (20px) */
-  padding-bottom: 80px;
+  padding-top: 110px;
+  /* Removido o padding-bottom fixo para o footer encostar no fim */
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Mudamos para stretch para o footer ocupar 100% da largura */
+  align-items: stretch;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #000; /* Garante o fundo padrão */
+  background-color: #000;
 }
 
 .home-layout {
@@ -28,73 +28,159 @@
 }
 
 /* =====================================================
-    ÁREA CENTRAL (TABELA COM SCROLL)
+   NAVEGAÇÃO DE TABS (BOTÕES SUPERIORES)
 ===================================================== */
+.transparency-nav-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px 0;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
 
+.btn-transparency-nav {
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Estado Ativo/Selecionado */
+.btn-transparency-nav.active-tab {
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000;
+  border: none;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-transparency-nav:hover:not(.active-tab) {
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   HALL DA FAMA (HISTÓRICO)
+===================================================== */
+.hall-vertical-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: white;
+}
+
+.hall-admin-form {
+  background: #111;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border: 1px dashed #d4af37;
+}
+
+.hall-admin-form input {
+  background: #222;
+  border: 1px solid #444;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.hall-list-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hall-group {
+  border-left: 2px solid #d4af37;
+  padding-left: 20px;
+}
+
+.year-label {
+  color: #d4af37;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.hall-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #222;
+  transition: 0.3s;
+}
+
+/* Efeito Cinza para quem saiu */
+.hall-item.retired {
+  color: #666;
+}
+
+.hall-item.active {
+  color: #fff;
+  font-weight: 500;
+}
+
+.player-name {
+  font-size: 1.1rem;
+  margin-right: 15px;
+}
+
+.player-dates {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.btn-del {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* =====================================================
+   ÁREA CENTRAL (TABELA E RANKING)
+===================================================== */
 .main-content-area {
   flex: 1;
   width: 100%;
-  max-width: 100%;
   display: flex;
   flex-direction: column;
-  /* O gap funciona se os componentes forem filhos diretos */
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 30px;
   box-sizing: border-box;
 }
 
-/* GARANTIA EXTRA: Se o gap do flexbox não pegar, 
-   isso adiciona espaço entre QUALQUER bloco dentro da área central */
 .main-content-area > * + * {
   margin-top: 80px;
 }
 
-.transparency-nav-container {
-  display: flex;
-  justify-content: center;
-  padding: 15px 0;
-  margin-bottom: 10px;
-}
-
-.btn-transparency-nav {
-  background: linear-gradient(135deg, #d4af37, #b8860b);
-  color: #000;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-}
-
-.btn-transparency-nav:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5);
-}
-
-/* Ajuste para que as seções ocupem largura total e não quebrem o flex */
 .ranking-section,
-.awards-section,
-.main-content-area > div,
-.main-content-area > section {
+.awards-section {
   width: 100%;
-  flex-shrink: 0;
 }
 
 .main-content-area table {
   width: max-content !important;
   min-width: 100%;
   border-collapse: collapse;
-  table-layout: auto !important;
 }
 
-/* Coluna dos NOMES fixa para leitura */
 .main-content-area td:nth-child(2),
 .main-content-area th:nth-child(2) {
   min-width: 180px !important;
@@ -104,9 +190,8 @@
 }
 
 /* =====================================================
-    COLUNAS LATERAIS (PC)
+   LATERAIS E BOTÕES
 ===================================================== */
-
 .side-cards {
   width: 280px;
   flex-shrink: 0;
@@ -118,16 +203,11 @@
 .details-panel {
   width: 300px;
   flex-shrink: 0;
-  position: -webkit-sticky;
   position: sticky;
   top: 110px;
   z-index: 10;
   height: fit-content;
 }
-
-/* =====================================================
-    BOTÕES E INTERAÇÕES
-===================================================== */
 
 .export-btn {
   width: 100%;
@@ -139,210 +219,85 @@
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
-  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
-/* REMOVE HOVER NO CELULAR - SÓ FUNCIONA NO PC */
-@media (hover: hover) {
-  .export-btn:hover {
-    background: #d4af37;
-    color: #000;
-    transform: translateY(-2px);
-  }
-}
-
-/* FEEDBACK DE TOQUE PARA CELULAR */
-.export-btn:active {
+.export-btn:hover {
   background: #d4af37;
   color: #000;
-  opacity: 0.8;
 }
 
 /* =====================================================
-    AJUSTES PARA CELULAR (SOLUÇÃO DEFINITIVA)
+   FOOTER E PATROCINADORES
 ===================================================== */
-
-@media (max-width: 1024px) {
-  /* 1. Reset Global de Hover para Mobile */
-  /* Isso impede que qualquer elemento "cresça" ou mude de z-index no toque */
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* 2. Forçar o painel de detalhes a se comportar como um bloco comum */
-  .details-panel {
-    order: 3 !important;
-    position: static !important; /* Remove sticky e qualquer flutuação */
-    width: 100% !important;
-    max-width: 100% !important;
-    display: block !important;
-    transform: none !important; /* Anula crescimentos/zoom */
-    margin: 20px 0 !important;
-    box-shadow: none !important;
-    z-index: 1 !important; /* Garante que ele fique por baixo de menus */
-  }
-
-  /* 3. Evitar que o painel de detalhes cubra outros elementos */
-  /* Se ele estiver aparecendo "do nada", forçamos ele a sumir a menos que seja scrollado */
-  .details-panel:hover,
-  .details-panel:active,
-  .details-panel:focus {
-    transform: none !important;
-    position: static !important;
-  }
-
-  .home-layout {
-    flex-direction: column !important;
-    align-items: center;
-    gap: 20px;
-    padding: 0 10px;
-  }
-
-  /* Garante que a área da tabela não permita sobreposição lateral */
-  .main-content-area {
-    order: 1 !important;
-    width: 100% !important;
-    overflow-x: auto;
-    position: relative;
-    z-index: 2; /* Fica acima do painel de detalhes no fluxo */
-  }
-
-  .side-cards {
-    order: 2 !important;
-    width: 100% !important;
-  }
-}
-
-/* =====================================================
-    REMOÇÃO DE HOVER (NÍVEL DE PONTEIRO)
-===================================================== */
-
-/* Se o dispositivo NÃO tem um mouse (celular/tablet) */
-@media (pointer: coarse) {
-  /* Desabilita TODAS as transições e transforms que causam o "bug" da foto cobrindo a tela */
-  .details-panel,
-  .details-panel *,
-  .home-layout *,
-  img {
-    transition: none !important;
-    transform: none !important;
-    pointer-events: auto; /* Permite clicar, mas não "pairar" */
-  }
-}
-
-/* =====================================================
-    FOOTER E PATROCINADORES (ESTILO UNIFICADO)
-===================================================== */
-
 .sponsors-footer {
   width: 100%;
   margin-top: 60px;
   padding: 40px 0;
   background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
 }
 
 .sponsors-container {
   max-width: 1200px;
-  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
 }
 
-/* Unificando o estilo para MASTER e SECUNDÁRIOS */
-.sponsor-master img,
-.sponsors-secondary img {
-  height: auto;
+.sponsor-master img {
+  height: 80px;
   filter: grayscale(1);
   opacity: 0.7;
-  transition: all 0.3s ease;
 }
-
-.sponsor-master img {
-  max-width: 200px; /* Master um pouco maior */
-}
-
 .sponsors-secondary img {
-  max-width: 110px;
-}
-
-/* Efeito Hover unificado (apenas PC) */
-@media (hover: hover) {
-  .sponsor-master img:hover,
-  .sponsors-secondary img:hover {
-    filter: grayscale(0);
-    opacity: 1;
-    transform: scale(1.05);
-  }
+  height: 50px;
+  filter: grayscale(1);
+  opacity: 0.7;
+  margin: 0 20px;
 }
 
 .sponsor-divider {
-  width: 100%;
-  border: 0;
+  width: 80%;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(212, 175, 55, 0.5),
-    transparent
-  );
-  margin: 10px 0;
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+  border: none;
 }
 
 /* =====================================================
-   SOLUÇÃO PARA ELIMINAR SOBREPOSIÇÃO NO CELULAR
+   RESPONSIVIDADE (MOBILE)
 ===================================================== */
-
 @media (max-width: 1024px) {
-  /* 1. Remove a mensagem de "Passe o mouse" que aparece na imagem image_60cc05.png */
-  /* Ajuste a classe abaixo para o nome real que você deu a essa frase */
-  .details-panel p,
-  .main-content-area + div p {
-    display: none !important;
+  .home-layout {
+    flex-direction: column !important;
+    padding: 0 10px;
   }
 
-  /* 2. Força o Card de Detalhes (João/Adriany) a ficar fixo no final da página */
+  .side-cards,
   .details-panel {
-    position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
     width: 100% !important;
-    margin-top: 30px !important;
-    box-shadow: none !important;
-    transform: none !important;
-    order: 10 !important; /* Manda ele para depois de tudo */
+    position: static !important;
   }
 
-  /* 3. Mata o efeito de "Hover" que faz o card aparecer do nada no toque */
-  .details-panel,
-  .details-panel * {
-    pointer-events: auto; /* Permite clicar nos botões internos */
-    visibility: visible !important;
-    opacity: 1 !important;
+  .hall-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
   }
 
-  /* 4. Ajuste específico para a tabela (image_60cc05.png) */
-  /* Impede que o container da tabela segure estados de hover */
-  .main-content-area table tr:active,
-  .main-content-area table tr:focus {
-    background: transparent !important;
+  .year-divider {
+    font-size: 1.5rem;
+    text-align: center;
   }
 }
 
-/* 5. Bloqueio por tipo de dispositivo (Touch) */
-@media (pointer: coarse) {
-  /* Se for touch, o card nunca deve ser "absolute" ou "fixed" */
-  .details-panel {
-    position: relative !important;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-
-  /* Esconde qualquer texto de instrução de mouse */
-  *[class*="hover-instruction"],
-  *[class*="passe-o-mouse"] {
-    display: none !important;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
