@@ -9,17 +9,17 @@ const HistoryCarousel = () => {
     {
       ano: "2023",
       titulo: "ADR: O INÍCiO",
-      img: "/public/elenco/2023.png", // Caminho direto da pasta public
+      img: "/elenco/2023.png", // Caminho direto da pasta public
     },
     {
       ano: "2024",
       titulo: "ADR 2: A RESSUREIÇÃO",
-      img: "/public/elenco/2024.png",
+      img: "/elenco/2024.png",
     },
     {
       ano: "2025",
       titulo: "ADR 3: A VINGANÇA",
-      img: "/public/elenco/2025.png",
+      img: "/elenco/2025.png",
     },
   ];
 
