@@ -31,7 +31,7 @@ function AwardsCard() {
           letterSpacing: "2px",
         }}
       >
-        🏛️ Hall da Fama 2025
+        ⭐ Hall da Fama 2025
       </h3>
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "10px" }}>
         {awards.map((award, idx) => (

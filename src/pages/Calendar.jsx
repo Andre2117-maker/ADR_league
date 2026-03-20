@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 import "../styles/calendar.css";
+import Footer from "../components/Footer";
 
 function Calendar({
   matches,
@@ -589,6 +590,7 @@ function Calendar({
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

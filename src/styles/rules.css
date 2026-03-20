@@ -1,10 +1,19 @@
 /* Container Principal */
 .page-container1 {
-  padding: 40px 20px;
-  max-width: 950px;
+  padding: 40px 20px 0; /* Zero no bottom para o footer colar no fim */
+  width: 100%;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: #000; /* Fundo da página totalmente preto */
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* O segredo: use um seletor universal para o último filho do container */
+.page-container1 > *:last-child {
+  margin-top: auto;
+  width: 100%;
 }
 
 .page-title {
@@ -16,6 +25,14 @@
   margin-bottom: 50px;
   font-weight: 900;
   text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.rules-wrapper {
+  width: 100%;
+  max-width: 950px; /* O max-width que estava antes no container */
+  flex: 1; /* Faz o conteúdo crescer e ocupar o espaço vazio */
+  display: flex;
+  flex-direction: column;
 }
 
 /* O "Papel" em estilo Glassmorphism */

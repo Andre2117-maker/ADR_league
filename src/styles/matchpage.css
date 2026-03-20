@@ -239,38 +239,6 @@
   z-index: 10;
 }
 
-.player-tactical {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* EMOJIS */
-.player-badges {
-  position: absolute;
-  top: -20px;
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  width: 100%;
-  z-index: 25;
-}
-.badge-item,
-.glove {
-  font-size: 14px;
-  filter: drop-shadow(0 2px 2px #000);
-  background: rgba(0, 0, 0, 0.7);
-  padding: 2px 5px;
-  border-radius: 4px;
-}
-.badge-item.GC {
-  background: #ff4d4d;
-  color: #fff;
-  font-weight: bold;
-  font-size: 10px;
-}
-
 .player-img {
   width: 90px;
   height: 100px;
@@ -369,5 +337,268 @@
   }
   .dual-fields-layout {
     gap: 40px;
+  }
+}
+
+/* ==========================================================================
+   ESTRELA DO MVP E STATUS (GOLS/ASSISTÊNCIAS)
+   ========================================================================== */
+
+/* Container do Jogador */
+.player-tactical {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Garante que nada saia do container de forma desordenada */
+}
+
+/* ESTRELA DO MVP - No topo de tudo */
+.player-tactical.is-mvp::after {
+  content: "⭐";
+  position: absolute;
+  top: -35px; /* Subi um pouco mais para não bater nos badges */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  filter: drop-shadow(0 0 8px #d4af37);
+  animation: shine 1.5s infinite ease-in-out;
+  z-index: 30; /* Maior z-index para ficar por cima */
+}
+
+/* BADGES (Gols, Chuteiras, Luvas) */
+.player-badges {
+  position: absolute;
+  top: -12px; /* Posicionado sobre a cabeça, mas abaixo da estrela */
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  width: auto;
+  z-index: 25;
+}
+
+.badge-item,
+.glove {
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 5px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.badge-item.GC {
+  background: #cc0000;
+  border-color: #ff4d4d;
+}
+
+/* EFEITO DE BRILHO NO JOGADOR MVP */
+.player-tactical.is-mvp .player-img {
+  border: 2px solid #d4af37 !important;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.2) 0%,
+    transparent 70%
+  );
+}
+
+@keyframes shine {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    filter: drop-shadow(0 0 5px #d4af37);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+    filter: drop-shadow(0 0 15px #fff);
+  }
+}
+
+/* ==========================================================================
+   MATCHSTATS - ESTILO PROFISSIONAL (PÍLULAS)
+   ========================================================================== */
+
+.team-stats-card {
+  background: rgba(15, 15, 15, 0.95);
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 25px 30px;
+  margin: 40px auto;
+  width: 95%;
+  max-width: 550px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* Cabeçalho com Nomes dos Times */
+.stats-header-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 15px;
+}
+
+.team-name-a,
+.team-name-b {
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  width: 30%;
+}
+
+.team-name-a {
+  text-align: left;
+}
+.team-name-b {
+  text-align: right;
+}
+
+.stats-title-center {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 40%;
+}
+
+/* Corpo das Estatísticas */
+.stats-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* Espaço entre Gols, Assistências, etc */
+}
+
+.text-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.stat-col.left {
+  justify-content: flex-start;
+}
+.stat-col.center {
+  justify-content: center;
+}
+.stat-col.right {
+  justify-content: flex-end;
+}
+
+/* Texto Central (Gols, Assistências...) */
+.stat-label-text {
+  color: #bbb;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Estilo das Pílulas de Valor */
+.stat-val {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  min-width: 40px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+/* Destaque para o Vencedor da Estatística (Dourado) */
+.stat-val.highlight-winner {
+  background: #d4af37;
+  color: #000;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  border-color: #f1c40f;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .team-stats-card {
+    padding: 20px 15px;
+    margin: 20px auto;
+  }
+
+  .team-name-a,
+  .team-name-b {
+    font-size: 11px;
+  }
+
+  .stat-label-text {
+    font-size: 10px;
+  }
+
+  .stat-val {
+    font-size: 14px;
+    padding: 3px 10px;
+    min-width: 35px;
+  }
+}
+
+/* ==========================================================================
+   BOTÃO DE CAPTURA (SCREENSHOT)
+   ========================================================================== */
+.match-top-bar {
+  width: 100%;
+  max-width: 810px;
+  display: flex;
+  justify-content: center; /* Mudado de space-between para center */
+  align-items: center;
+  margin: 0 auto 30px auto; /* Centraliza a barra e dá espaço para o placar */
+  padding: 0 10px;
+}
+
+.screenshot-btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 10px 24px; /* Aumentei um pouco para dar mais presença */
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.screenshot-btn:hover {
+  background: #d4af37; /* Dourado no hover para combinar com o tema */
+  color: #000;
+  border-color: #d4af37;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+.screenshot-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Responsividade do Botão */
+@media (max-width: 768px) {
+  .screenshot-btn {
+    padding: 6px 12px;
+    font-size: 10px;
   }
 }

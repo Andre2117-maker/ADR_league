@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/rules.css";
+import Footer from "../components/Footer";
 
 function Regras({ isAdmin }) {
   // Estado inicial com o texto que vi na sua imagem
@@ -100,6 +101,7 @@ OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

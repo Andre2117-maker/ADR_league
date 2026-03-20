@@ -3,6 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import "../styles/matchpage.css";
+import { calculateMatchStats } from "../components/matchpages/matchUtils";
+import { exportMatchImage } from "../components/matchpages/screenshotHelper";
+import MatchStats from "../components/matchpages/MatchStats";
+import Footer from "../components/Footer";
 
 const FORMATIONS_DATA = {
   FUT5: {
@@ -197,6 +201,9 @@ function MatchPage({ matches, players, isAdmin }) {
       (player) => String(player.id) === String(occupantId),
     );
 
+    // Lógica da Estrela do MVP
+    const isMVP = mvp && p && String(p.id) === String(mvp.id);
+
     const playerEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
@@ -220,7 +227,8 @@ function MatchPage({ matches, players, isAdmin }) {
         style={{ left: slot.x, top: slot.y }}
       >
         {p ? (
-          <div className="player-tactical">
+          /* Adicionada a classe is-mvp condicionalmente */
+          <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
             <div className="player-badges">
               {(p.position?.toLowerCase() === "goleiro" ||
                 p.posicao?.toLowerCase() === "goleiro") && (
@@ -272,11 +280,26 @@ function MatchPage({ matches, players, isAdmin }) {
     );
   };
 
+  const { stats, mvp } = calculateMatchStats(match, players);
+
   return (
-    <div className="match-view-wrapper">
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        ❮ VOLTAR
-      </button>
+    <div className="match-view-wrapper" id="capture-area">
+      <div className="match-top-bar">
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          ❮ VOLTAR
+        </button>
+        <button
+          className="screenshot-btn"
+          onClick={() =>
+            exportMatchImage(
+              "capture-area",
+              `${match.teamA.name}-vs-${match.teamB.name}`,
+            )
+          }
+        >
+          📸 SALVAR RESUMO
+        </button>
+      </div>
 
       <div className="scoreboard-container">
         <div className="sb-main">
@@ -297,6 +320,8 @@ function MatchPage({ matches, players, isAdmin }) {
           </div>
         )}
       </div>
+
+      {/* O card flutuante do MVP foi removido daqui conforme solicitado */}
 
       <div className="dual-fields-layout">
         {[
@@ -345,6 +370,12 @@ function MatchPage({ matches, players, isAdmin }) {
           </div>
         ))}
       </div>
+
+      <MatchStats
+        teamStats={stats}
+        teamAName={match.teamA.name}
+        teamBName={match.teamB.name}
+      />
     </div>
   );
 }

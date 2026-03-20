@@ -6,8 +6,11 @@
   min-height: 100vh;
   background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 100%);
   display: flex;
-  justify-content: center;
-  padding: 80px 20px 40px;
+  flex-direction: column;
+  align-items: center;
+  /* Mudança aqui: */
+  justify-content: flex-start;
+  padding: 80px 20px 0px; /* Tirei o padding-bottom para o footer encostar no chão se necessário */
 }
 
 .glass-card {
@@ -265,8 +268,22 @@
    5. UPGRADE PREMIUM MOBILE (CORREÇÕES CRÍTICAS)
 ===================================================== */
 @media (max-width: 768px) {
+  .page-container {
+    padding-left: 0; /* Remove o recuo lateral do container pai */
+    padding-right: 0;
+  }
+
   .glass-card {
+    width: calc(100% - 30px); /* Dá uma margem de 15px de cada lado */
+    margin: 0 auto 40px; /* Centraliza e dá espaço para o que vem abaixo */
     padding: 20px 15px;
+  }
+
+  .page-container > footer,
+  .page-container > div:last-child {
+    width: 100% !important;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .calendar-header h2 {
