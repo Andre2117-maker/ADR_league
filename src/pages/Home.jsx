@@ -223,7 +223,7 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
           className="btn-transparency-nav"
           onClick={() => setPage("HallHistorico")}
         >
-          🏛️ MEMORIAL DOS JOGADORES
+          MEMORIAL DOS JOGADORES
         </button>
         <button
           className="btn-transparency-nav"

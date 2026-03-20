@@ -71,7 +71,7 @@ const HallHistorico = ({ isAdmin }) => {
 
   return (
     <div className="hall-vertical-container">
-      <h1 className="hall-title">🏛️ MEMORIAL DE MEMBROS</h1>
+      <h1 className="hall-title"> MEMORIAL DE MEMBROS</h1>
 
       {isAdmin && (
         <div className="hall-admin-card">
