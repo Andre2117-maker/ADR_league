@@ -1,36 +1,9 @@
 import React from "react";
 
-function TopAssistsCard({ matches, players }) {
-  const safeMatches = matches || [];
-  const safePlayers = players || [];
-
-  const playersWithStats = safePlayers.map((player) => {
-    let totalAssists = 0;
-
-    safeMatches.forEach((match) => {
-      if (match.events && Array.isArray(match.events)) {
-        // Lógica Híbrida: Soma assistências antigas E novas
-        const assistsInMatch = match.events.reduce((count, e) => {
-          // Caso 1: Evento antigo de tipo 'ASSIST'
-          if (e.type === "ASSIST" && String(e.playerId) === String(player.id)) {
-            return count + 1;
-          }
-          // Caso 2: Evento novo de tipo 'GOAL' com assistId
-          if (e.type === "GOAL" && String(e.assistId) === String(player.id)) {
-            return count + 1;
-          }
-          return count;
-        }, 0);
-
-        totalAssists += assistsInMatch;
-      }
-    });
-
-    return { ...player, totalAssists };
-  });
-
-  const topPlayers = playersWithStats
-    .sort((a, b) => b.totalAssists - a.totalAssists)
+function TopAssistsCard({ players }) {
+  // Agora usamos os players que já vêm ordenados e calculados do Home.js
+  const topPlayers = (players || [])
+    .filter((p) => p.assists > 0) // Opcional: só mostra quem tem assistência
     .slice(0, 3);
 
   return (
@@ -57,49 +30,66 @@ function TopAssistsCard({ matches, players }) {
         LÍDERES EM ASSISTÊNCIAS
       </h3>
       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-        {topPlayers.map((p, i) => (
+        {topPlayers.length > 0 ? (
+          topPlayers.map((p, i) => (
+            <div
+              key={p.id}
+              className="card-row"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                padding: "10px 12px",
+                borderRadius: "8px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "12px" }}
+              >
+                <span
+                  style={{
+                    color: i === 0 ? "#2196f3" : "#555",
+                    fontWeight: "900",
+                    fontSize: "12px",
+                  }}
+                >
+                  0{i + 1}
+                </span>
+                <span
+                  style={{ fontSize: "13px", fontWeight: "500", color: "#eee" }}
+                >
+                  {p.name}
+                </span>
+              </div>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "4px" }}
+              >
+                <span
+                  style={{ fontSize: "16px", fontWeight: "800", color: "#fff" }}
+                >
+                  {p.assists} {/* Mudado de totalAssists para assists */}
+                </span>
+                <small
+                  style={{ fontSize: "9px", color: "#666", marginTop: "4px" }}
+                >
+                  AST
+                </small>
+              </div>
+            </div>
+          ))
+        ) : (
           <div
-            key={p.id}
-            className="card-row"
             style={{
-              background: "rgba(255,255,255,0.02)",
-              padding: "10px 12px",
-              borderRadius: "8px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              color: "#666",
+              fontSize: "12px",
+              textAlign: "center",
+              padding: "10px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <span
-                style={{
-                  color: i === 0 ? "#2196f3" : "#555",
-                  fontWeight: "900",
-                  fontSize: "12px",
-                }}
-              >
-                0{i + 1}
-              </span>
-              <span
-                style={{ fontSize: "13px", fontWeight: "500", color: "#eee" }}
-              >
-                {p.name}
-              </span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <span
-                style={{ fontSize: "16px", fontWeight: "800", color: "#fff" }}
-              >
-                {p.totalAssists}
-              </span>
-              <small
-                style={{ fontSize: "9px", color: "#666", marginTop: "4px" }}
-              >
-                AST
-              </small>
-            </div>
+            Nenhuma assistência registrada
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

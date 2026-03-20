@@ -1,0 +1,225 @@
+import React, { useState } from "react";
+import "../styles/playeradmin.css";
+
+const PlayerAdminMode = ({ player, onSave, onCancel, SKILLS_ORDER }) => {
+  // Inicializamos o formulário com os dados atuais do jogador
+  const [formData, setFormData] = useState({ ...player });
+  const [selectedYear, setSelectedYear] = useState("2026");
+  const [newAch, setNewAch] = useState({ icon: "🏆", title: "" });
+
+  // Pega os stats da temporada selecionada dentro do mapa 'statsBySeason'
+  // Se não existir no Firebase ainda, inicia com 0
+  const currentSeasonStats = formData.statsBySeason?.[selectedYear] || {
+    goals: 0,
+    assists: 0,
+    games: 0,
+  };
+
+  const handleSeasonChange = (field, value) => {
+    const updatedStatsBySeason = {
+      ...(formData.statsBySeason || {}),
+      [selectedYear]: {
+        ...currentSeasonStats,
+        [field]: Number(value) || 0,
+      },
+    };
+    setFormData({ ...formData, statsBySeason: updatedStatsBySeason });
+  };
+
+  const handleSave = () => {
+    const seasons = formData.statsBySeason || {};
+
+    let totalManualGoals = 0;
+    let totalManualAssists = 0;
+    let totalManualMatches = 0;
+
+    // Percorre TODAS as temporadas do mapa (2025, 2026 manual, etc)
+    Object.keys(seasons).forEach((year) => {
+      const s = seasons[year];
+      totalManualGoals += Number(s.goals || 0);
+      totalManualAssists += Number(s.assists || 0);
+      totalManualMatches += Number(s.matches || s.games || 0);
+    });
+
+    const dataToSave = {
+      ...formData,
+      // Agora a raiz tem a soma fiel de todo o histórico manual
+      manualGoals: totalManualGoals,
+      manualAssists: totalManualAssists,
+      manualMatches: totalManualMatches,
+      // Mantemos os automáticos zerados para o Dashboard calcular via Matches
+      goals: 0,
+      assists: 0,
+      games: 0,
+      statsBySeason: seasons,
+    };
+
+    onSave(dataToSave);
+  };
+
+  // Funções de Conquistas (mantidas iguais)
+  const addAchievement = () => {
+    if (!newAch.title) return;
+    const updated = [...(formData.achievements || []), { ...newAch }];
+    setFormData({ ...formData, achievements: updated });
+    setNewAch({ icon: "🏆", title: "" });
+  };
+
+  const removeAchievement = (index) => {
+    const updated = formData.achievements.filter((_, i) => i !== index);
+    setFormData({ ...formData, achievements: updated });
+  };
+
+  return (
+    <div className="adm-container">
+      <div className="adm-card">
+        <h1 className="adm-main-title">Configurações: {player.name}</h1>
+
+        {/* --- DADOS PESSOAIS --- */}
+        <div className="adm-section">
+          <h3 className="adm-title">1. Dados Pessoais</h3>
+          <div className="adm-grid-stats">
+            <div className="adm-input-group">
+              <label>Aniversário</label>
+              <input
+                type="date"
+                value={formData.birthDate || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, birthDate: e.target.value })
+                }
+              />
+            </div>
+            <div className="adm-input-group">
+              <label>Pé Forte</label>
+              <select
+                className="adm-select-field"
+                value={formData.strongFoot || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, strongFoot: e.target.value })
+                }
+              >
+                <option value="Destro">Destro</option>
+                <option value="Canhoto">Canhoto</option>
+                <option value="Ambidestro">Ambidestro</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* --- HISTÓRICO MANUAL --- */}
+        <div className="adm-section">
+          <div className="adm-section-header">
+            <h3 className="adm-title">2. Histórico por Temporada</h3>
+            <select
+              className="adm-season-select"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+            >
+              <option value="2026">TEMPORADA 2026</option>
+              <option value="2025">TEMPORADA 2025</option>
+              <option value="2024">TEMPORADA 2024</option>
+            </select>
+          </div>
+
+          <div className="adm-grid-stats">
+            <div className="adm-input-group">
+              <label>Gols ({selectedYear})</label>
+              <input
+                type="number"
+                value={currentSeasonStats.goals}
+                onChange={(e) => handleSeasonChange("goals", e.target.value)}
+              />
+            </div>
+            <div className="adm-input-group">
+              <label>Assists ({selectedYear})</label>
+              <input
+                type="number"
+                value={currentSeasonStats.assists}
+                onChange={(e) => handleSeasonChange("assists", e.target.value)}
+              />
+            </div>
+            <div className="adm-input-group">
+              <label>Jogos ({selectedYear})</label>
+              <input
+                type="number"
+                value={currentSeasonStats.games}
+                onChange={(e) => handleSeasonChange("games", e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* --- ATRIBUTOS --- */}
+        <div className="adm-section">
+          <h3 className="adm-title">3. Atributos Técnicos</h3>
+          <div className="adm-grid-skills">
+            {SKILLS_ORDER.map((s) => (
+              <div key={s} className="adm-skill-item">
+                <label>
+                  {s.toUpperCase()}: {formData.skills[s]}
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={formData.skills[s]}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      skills: {
+                        ...formData.skills,
+                        [s]: parseInt(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* --- CONQUISTAS --- */}
+        <div className="adm-section">
+          <h3 className="adm-title">4. Conquistas</h3>
+          <div className="adm-ach-inputs">
+            <input
+              className="adm-ach-icon"
+              value={newAch.icon}
+              onChange={(e) => setNewAch({ ...newAch, icon: e.target.value })}
+            />
+            <input
+              className="adm-ach-title"
+              placeholder="Título..."
+              value={newAch.title}
+              onChange={(e) => setNewAch({ ...newAch, title: e.target.value })}
+            />
+            <button onClick={addAchievement} className="adm-btn-add">
+              ADD
+            </button>
+          </div>
+          <div className="adm-ach-list">
+            {formData.achievements?.map((ach, idx) => (
+              <div key={idx} className="adm-ach-item">
+                <span>
+                  {ach.icon} {ach.title}
+                </span>
+                <button onClick={() => removeAchievement(idx)}>X</button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="adm-actions">
+          <button className="adm-btn-save" onClick={handleSave}>
+            SALVAR TUDO
+          </button>
+          <button className="adm-btn-cancel" onClick={onCancel}>
+            CANCELAR
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PlayerAdminMode;

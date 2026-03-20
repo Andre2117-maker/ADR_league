@@ -11,10 +11,16 @@ function Calendar({
   setMatchToEdit,
   onDeleteMatch,
 }) {
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0],
+  const localDate = new Date();
+  const year = localDate.getFullYear();
+  const month = String(localDate.getMonth() + 1).padStart(2, "0");
+  const day = String(localDate.getDate()).padStart(2, "0");
+  const todayStr = `${year}-${month}-${day}`;
+
+  const [selectedDate, setSelectedDate] = useState(todayStr);
+  const [currentMonth, setCurrentMonth] = useState(
+    new Date(year, localDate.getMonth(), 1),
   );
-  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const printRef = useRef(null);
   const navigate = useNavigate();

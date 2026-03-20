@@ -28,57 +28,97 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
   }, [matches]);
 
   const getPlayerStats = (playerId) => {
+    const defaultReturn = {
+      form: [],
+      winRate: 0,
+      goals: 0,
+      assists: 0,
+      games: 0,
+      wins: 0,
+      losses: 0,
+      draws: 0,
+      points: 0,
+    };
+
     if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
-      return { form: [], winRate: 0 };
+      return defaultReturn;
 
     const playerMatches = sortedMatchesByDate.filter(
       (m) =>
-        m.teamA.players.some((id) => String(id) === String(playerId)) ||
-        m.teamB.players.some((id) => String(id) === String(playerId)),
+        m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
+        m.teamB?.players?.some((id) => String(id) === String(playerId)),
     );
 
-    if (playerMatches.length === 0) return { form: [], winRate: 0 };
+    if (playerMatches.length === 0) return defaultReturn;
 
-    // CALCULA A FORMA (BOLINHAS)
-    const form = playerMatches.slice(-5).map((m) => {
-      const isTeamA = m.teamA.players.some(
+    let totalGoals = 0;
+    let totalAssists = 0;
+    let totalWins = 0;
+    let totalLosses = 0;
+    let totalDraws = 0;
+
+    playerMatches.forEach((m) => {
+      const isTeamA = m.teamA?.players?.some(
         (id) => String(id) === String(playerId),
       );
       const playerTeam = isTeamA ? "A" : "B";
+      const pIdStr = String(playerId);
 
-      // 1. Prioridade: Vencedor definido (Penaltis ou Campo Winner)
-      const winnerField = m.penaltiesWinner || m.winner;
+      // --- GOLS E ASSISTÊNCIAS (TRATA OS DOIS CASOS) ---
+      m.events?.forEach((e) => {
+        // Caso 1: Jogador fez o gol
+        if (e.type === "GOAL" && String(e.playerId) === pIdStr) {
+          totalGoals++;
+        }
 
-      if (winnerField) {
-        // O .toUpperCase() é o segredo aqui para não falhar se for minúsculo
-        return String(winnerField).toUpperCase() === playerTeam ? "W" : "L";
+        // Caso 2: Jogador deu assistência (Evento separado OU campo assistId no gol)
+        const ehEventoAssist =
+          e.type === "ASSIST" && String(e.playerId) === pIdStr;
+        const ehCampoNoGol = e.type === "GOAL" && String(e.assistId) === pIdStr;
+
+        if (ehEventoAssist || ehCampoNoGol) {
+          totalAssists++;
+        }
+      });
+
+      // --- LÓGICA DE RESULTADO (W, L, D) ---
+      const goalsA =
+        m.events?.filter(
+          (e) =>
+            (e.type === "GOAL" && e.team === "A") ||
+            (e.type === "OWN_GOAL" && e.team === "B"),
+        ).length || 0;
+      const goalsB =
+        m.events?.filter(
+          (e) =>
+            (e.type === "GOAL" && e.team === "B") ||
+            (e.type === "OWN_GOAL" && e.team === "A"),
+        ).length || 0;
+
+      const winner = m.penaltiesWinner || m.winner;
+      let result = "";
+
+      if (winner) {
+        result = String(winner).toUpperCase() === playerTeam ? "W" : "L";
+      } else {
+        if (goalsA === goalsB) result = "D";
+        else if ((goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA))
+          result = "W";
+        else result = "L";
       }
 
-      // 2. Fallback: Se não houver campo winner, calcula pelo placar de eventos
-      const goalsA =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "A") ||
-            (e.type === "OWN_GOAL" && e.team === "B"),
-        ).length || 0;
-      const goalsB =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "B") ||
-            (e.type === "OWN_GOAL" && e.team === "A"),
-        ).length || 0;
-
-      if (goalsA === goalsB) return "D";
-      const won = (goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA);
-      return won ? "W" : "L";
+      if (result === "W") totalWins++;
+      else if (result === "D") totalDraws++;
+      else if (result === "L") totalLosses++;
     });
 
-    // CALCULA O WINRATE
-    const wins = playerMatches.filter((m) => {
-      const isTeamA = m.teamA.players.some(
+    // --- FORMA (ÚLTIMAS 5) ---
+    const form = playerMatches.slice(-5).map((m) => {
+      const isTeamA = m.teamA?.players?.some(
         (id) => String(id) === String(playerId),
       );
       const playerTeam = isTeamA ? "A" : "B";
+
       const goalsA =
         m.events?.filter(
           (e) =>
@@ -92,20 +132,61 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
             (e.type === "OWN_GOAL" && e.team === "A"),
         ).length || 0;
 
-      const winner =
-        m.penaltiesWinner ||
-        (goalsA > goalsB ? "A" : goalsB > goalsA ? "B" : null);
-      return winner && String(winner).toUpperCase() === playerTeam;
-    }).length;
+      const winner = m.penaltiesWinner || m.winner;
+      if (winner)
+        return String(winner).toUpperCase() === playerTeam ? "W" : "L";
+      if (goalsA === goalsB) return "D";
+      return (goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA)
+        ? "W"
+        : "L";
+    });
 
-    return { form, winRate: Math.round((wins / playerMatches.length) * 100) };
+    return {
+      form,
+      winRate: Math.round((totalWins / playerMatches.length) * 100) || 0,
+      goals: totalGoals,
+      assists: totalAssists,
+      games: playerMatches.length,
+      wins: totalWins,
+      losses: totalLosses,
+      draws: totalDraws,
+      points: totalWins * 3 + totalDraws * 1,
+    };
   };
 
-  const sorted = [...players].sort(
+  const playersWith2026Stats = useMemo(() => {
+    return players.map((p) => {
+      const stats = getPlayerStats(p.id);
+      const manual26 = p.statsBySeason?.["2026"] || {};
+
+      return {
+        ...p,
+        // Prioriza os pontos calculados em 2026
+        points: stats.points,
+        // Soma real + manual
+        goals: stats.goals + Number(manual26.goals || 0),
+        assists: stats.assists + Number(manual26.assists || 0),
+        games: stats.games + Number(manual26.matches || manual26.games || 0),
+        wins: stats.wins,
+        losses: stats.losses,
+        form: stats.form,
+      };
+    });
+  }, [players, matches]);
+
+  // Agora as listas ordenadas usam os dados de 2026:
+  const sorted = [...playersWith2026Stats].sort(
     (a, b) =>
       b.points - a.points || b.goals - a.goals || a.name.localeCompare(b.name),
   );
-  const sortedByGoals = [...players].sort((a, b) => b.goals - a.goals);
+
+  const sortedByGoals = [...playersWith2026Stats].sort(
+    (a, b) => b.goals - a.goals,
+  );
+
+  const sortedByAssists = [...playersWith2026Stats].sort(
+    (a, b) => b.assists - a.assists,
+  );
 
   const exportTabela = () => {
     const element = document.getElementById("tabela-content");
@@ -160,7 +241,7 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
             📸 Exportar Tabela
           </button>
           <TopScorersCard players={sortedByGoals} />
-          <TopAssistsCard players={players} matches={matches} />
+          <TopAssistsCard players={sortedByAssists} />
           <TopGoalkeepersCard players={players} matches={matches} />
         </aside>
 

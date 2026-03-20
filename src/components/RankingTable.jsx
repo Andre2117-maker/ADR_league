@@ -6,9 +6,8 @@ import "../styles/rankingtable.css";
 
 export default function RankingTable({
   sortedPlayers,
-  getPlayerStats,
+  getPlayerStats, // Usaremos essa função para pegar os dados das partidas reais
   onSelectPlayer,
-  getTotalAssists,
   setHoveredPlayer,
 }) {
   const activePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
@@ -22,7 +21,6 @@ export default function RankingTable({
         <table>
           <thead>
             <tr style={{ color: "#e2b900", fontSize: "12px" }}>
-              {/* COLUNAS FIXAS NO THEAD */}
               <th className="sticky-col pin-pos">#</th>
               <th
                 className="sticky-col pin-name"
@@ -30,7 +28,6 @@ export default function RankingTable({
               >
                 Jogador
               </th>
-              {/* REMOVIDA A LINHA VERTICAL AQUI NO CSS */}
               <th>Pts</th>
               <th>Gols</th>
               <th>Assis</th>
@@ -42,7 +39,30 @@ export default function RankingTable({
           </thead>
           <tbody>
             {activePlayers.map((p, idx) => {
-              const { form } = getPlayerStats(p.id);
+              // 1. Pega os dados calculados das PARTIDAS REAIS
+              const realStats = getPlayerStats(p.id);
+
+              // 2. Pega os dados MANUAIS salvos em statsBySeason["2026"]
+              const manualStats26 = p.statsBySeason?.["2026"] || {};
+              const manualGoals = Number(manualStats26.goals || 0);
+              const manualAssists = Number(manualStats26.assists || 0);
+              const manualGames = Number(
+                manualStats26.matches || manualStats26.games || 0,
+              );
+
+              // 3. SOMA (Partidas Reais + Manuais de 2026)
+              // Se getPlayerStats não retornar gols/assists/games, usamos fallback para 0
+              const totalGoals26 = (realStats.goals || 0) + manualGoals;
+              const totalAssists26 = (realStats.assists || 0) + manualAssists;
+              const totalGames26 =
+                (realStats.matches || realStats.games || 0) + manualGames;
+
+              // Para os Pontos, Vitórias e Derrotas, estou mantendo o cálculo atual do getPlayerStats.
+              // Se você também edita V/D/Pts manualmente no ADM para 2026, precisará somar aqui também.
+              const points = realStats.points || p.points || 0;
+              const wins = realStats.wins || p.wins || 0;
+              const losses = realStats.losses || p.losses || 0;
+              const form = realStats.form || [];
 
               // Classes de destaque para o pódio e último colocado
               let rowClass = "";
@@ -58,7 +78,6 @@ export default function RankingTable({
                   onMouseEnter={() => setHoveredPlayer(p)}
                   className={rowClass}
                 >
-                  {/* DADOS FIXOS NO TBODY */}
                   <td className="fw-bold sticky-col pin-pos">
                     {idx < 3 ? (
                       <img
@@ -77,14 +96,12 @@ export default function RankingTable({
                     {p.name}
                   </td>
 
-                  {/* COLUNAS QUE SCROLLAM */}
-                  {/* REMOVIDA A LINHA VERTICAL AQUI NO CSS */}
-                  <td className="fw-bold">{p.points}</td>
-                  <td>{p.goals}</td>
-                  <td>{getTotalAssists(p.id)}</td>
-                  <td>{p.games}</td>
-                  <td>{p.wins || 0}</td>
-                  <td>{p.losses || 0}</td>
+                  <td className="fw-bold">{points}</td>
+                  <td>{totalGoals26}</td>
+                  <td>{totalAssists26}</td>
+                  <td>{totalGames26}</td>
+                  <td>{wins}</td>
+                  <td>{losses}</td>
                   <td>
                     <div className="form-container">
                       {form && form.length > 0 ? (
@@ -112,24 +129,38 @@ export default function RankingTable({
 
             {/* SEÇÃO ANÔNIMOS */}
             {anonymousPlayers.map((p) => {
-              const { form } = getPlayerStats(p.id);
+              const realStats = getPlayerStats(p.id);
+
+              const manualStats26 = p.statsBySeason?.["2026"] || {};
+              const manualGoals = Number(manualStats26.goals || 0);
+              const manualAssists = Number(manualStats26.assists || 0);
+              const manualGames = Number(
+                manualStats26.matches || manualStats26.games || 0,
+              );
+
+              const totalGoals26 = (realStats.goals || 0) + manualGoals;
+              const totalAssists26 = (realStats.assists || 0) + manualAssists;
+              const totalGames26 =
+                (realStats.matches || realStats.games || 0) + manualGames;
+
+              const points = realStats.points || p.points || 0;
+              const wins = realStats.wins || p.wins || 0;
+              const losses = realStats.losses || p.losses || 0;
+              const form = realStats.form || [];
+
               return (
                 <tr key={p.id} className="row-is-anonymous">
-                  {/* Adicione as classes sticky-col pin-pos */}
                   <td className="sticky-col pin-pos">-</td>
-
-                  {/* Adicione as classes sticky-col pin-name */}
                   <td className="player-td-name sticky-col pin-name">
                     {p.name}
                   </td>
 
-                  {/* O resto permanece igual */}
-                  <td>{p.points}</td>
-                  <td>{p.goals}</td>
-                  <td>{p.assists}</td>
-                  <td>{p.games}</td>
-                  <td>{p.wins || 0}</td>
-                  <td>{p.losses || 0}</td>
+                  <td>{points}</td>
+                  <td>{totalGoals26}</td>
+                  <td>{totalAssists26}</td>
+                  <td>{totalGames26}</td>
+                  <td>{wins}</td>
+                  <td>{losses}</td>
                   <td>
                     <div className="form-container">
                       {form &&

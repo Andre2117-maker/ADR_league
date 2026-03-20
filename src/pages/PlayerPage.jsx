@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   Radar,
   RadarChart,
@@ -12,6 +12,7 @@ import RankingSlice from "../components/RankingSlice";
 import PlayerStatsDashboard from "../components/PlayerStatsDashboard";
 import MatchHistory from "../components/MatchHistory";
 import Footer from "../components/Footer";
+import PlayerAdminMode from "../components/PlayerAdminMode";
 
 function PlayerPage({
   player,
@@ -23,15 +24,10 @@ function PlayerPage({
   sortedPlayers,
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ ...player });
-  const [newAch, setNewAch] = useState({ icon: "🏆", title: "" });
   const topRef = useRef(null);
 
   useEffect(() => {
-    // Tentativa 1: Scroll do Window
     window.scrollTo(0, 0);
-
-    // Tentativa 2: Scroll do elemento específico (mais garantido)
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: "instant", block: "start" });
     }
@@ -46,29 +42,7 @@ function PlayerPage({
     "corpo",
   ];
 
-  const handleSave = () => {
-    const dataToSave = {
-      ...formData,
-      manualGoals: Number(formData.manualGoals) || 0,
-      manualAssists: Number(formData.manualAssists) || 0,
-      manualMatches: Number(formData.manualMatches) || 0,
-    };
-    onUpdatePlayer(player.id, dataToSave);
-    setIsEditing(false);
-  };
-
-  const addAchievement = () => {
-    if (!newAch.title) return;
-    const updated = [...(formData.achievements || []), { ...newAch }];
-    setFormData({ ...formData, achievements: updated });
-    setNewAch({ icon: "🏆", title: "" });
-  };
-
-  const removeAchievement = (index) => {
-    const updated = formData.achievements.filter((_, i) => i !== index);
-    setFormData({ ...formData, achievements: updated });
-  };
-
+  // FILTRO DE PARTIDAS RESTAURADO: Necessário para o MatchHistory
   const playerMatches = useMemo(() => {
     if (!player || !matches) return [];
     return matches.filter(
@@ -78,188 +52,18 @@ function PlayerPage({
     );
   }, [player, matches]);
 
-  // Função para renderizar o conteúdo principal (Visualização ou Edição)
   const renderContent = () => {
     if (isEditing && isAdmin) {
       return (
-        <div className="ppg-edit-container">
-          <div className="ppg-edit-card">
-            <h1 style={{ color: "var(--gold)", marginBottom: "30px" }}>
-              Configurações: {player.name}
-            </h1>
-            {/* ... seções de edição ... */}
-            <div className="ppg-edit-section">
-              <h3 className="ppg-card-title">
-                1. Histórico Antigo (2023-2025)
-              </h3>
-              <div className="ppg-edit-grid">
-                <div>
-                  <label className="ppg-mini-label">Gols</label>
-                  <input
-                    type="number"
-                    value={formData.manualGoals || 0}
-                    onChange={(e) =>
-                      setFormData({ ...formData, manualGoals: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="ppg-mini-label">Assists</label>
-                  <input
-                    type="number"
-                    value={formData.manualAssists || 0}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        manualAssists: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="ppg-mini-label">Jogos</label>
-                  <input
-                    type="number"
-                    value={formData.manualMatches || 0}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        manualMatches: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="ppg-edit-section">
-              <h3 className="ppg-card-title">Aniversário</h3>
-              <input
-                type="date"
-                value={formData.birthDate || ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, birthDate: e.target.value })
-                }
-              />
-            </div>
-
-            <div className="ppg-edit-section">
-              <h3 className="ppg-card-title">2. Atributos Técnicos</h3>
-              <div
-                className="ppg-edit-grid"
-                style={{
-                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                }}
-              >
-                {SKILLS_ORDER.map((s) => (
-                  <div
-                    key={s}
-                    style={{
-                      background: "rgba(255,255,255,0.03)",
-                      padding: "10px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <label className="ppg-mini-label">
-                      {s.toUpperCase()}: {formData.skills[s]}
-                    </label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={formData.skills[s]}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          skills: {
-                            ...formData.skills,
-                            [s]: parseInt(e.target.value),
-                          },
-                        })
-                      }
-                      style={{ width: "100%" }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="ppg-edit-section">
-              <h3 className="ppg-card-title">3. Gerenciar Conquistas</h3>
-              <div
-                style={{ display: "flex", gap: "10px", marginBottom: "15px" }}
-              >
-                <input
-                  style={{ width: "50px" }}
-                  value={newAch.icon}
-                  onChange={(e) =>
-                    setNewAch({ ...newAch, icon: e.target.value })
-                  }
-                />
-                <input
-                  style={{ flex: 1 }}
-                  value={newAch.title}
-                  onChange={(e) =>
-                    setNewAch({ ...newAch, title: e.target.value })
-                  }
-                  placeholder="Título..."
-                />
-                <button onClick={addAchievement} className="ppg-btn-capture">
-                  ADD
-                </button>
-              </div>
-              {formData.achievements?.map((ach, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "8px",
-                    background: "#222",
-                    marginBottom: "5px",
-                    borderRadius: "5px",
-                  }}
-                >
-                  <span>
-                    {ach.icon} {ach.title}
-                  </span>
-                  <button
-                    onClick={() => removeAchievement(idx)}
-                    style={{
-                      background: "red",
-                      border: "none",
-                      color: "white",
-                      padding: "2px 8px",
-                      borderRadius: "3px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <div
-              className="ppg-edit-grid"
-              style={{
-                marginTop: "30px",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "15px",
-              }}
-            >
-              <button className="ppg-btn-save" onClick={handleSave}>
-                SALVAR TUDO
-              </button>
-              <button
-                className="ppg-btn-cancel"
-                onClick={() => setIsEditing(false)}
-              >
-                CANCELAR
-              </button>
-            </div>
-          </div>
-        </div>
+        <PlayerAdminMode
+          player={player}
+          SKILLS_ORDER={SKILLS_ORDER}
+          onCancel={() => setIsEditing(false)}
+          onSave={(updatedData) => {
+            onUpdatePlayer(player.id, updatedData);
+            setIsEditing(false);
+          }}
+        />
       );
     }
 
@@ -287,6 +91,7 @@ function PlayerPage({
               />
               <h1 className="ppg-player-name">{player.name}</h1>
               <p className="ppg-player-role">{player.clubRole}</p>
+
               <div
                 className="ppg-mini-stats-row"
                 style={{
@@ -362,6 +167,7 @@ function PlayerPage({
 
           <main>
             <PlayerStatsDashboard player={player} matches={matches} />
+
             <div className="ppg-card">
               <h3 className="ppg-card-title">Conquistas na Carreira</h3>
               <div
@@ -390,6 +196,8 @@ function PlayerPage({
                 )}
               </div>
             </div>
+
+            {/* VOLTADO PARA O ORIGINAL: Agora passa matches E player */}
             <MatchHistory matches={playerMatches} player={player} />
           </main>
         </div>

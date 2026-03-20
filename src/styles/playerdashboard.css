@@ -207,6 +207,55 @@
   transition: color 0.3s ease;
 }
 
+.psd-lower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Apenas 2 colunas agora */
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Ajuste opcional para os ícones nos cards principais */
+.psd-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.psd-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.psd-season-select {
+  background: #111;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+}
+
+.psd-season-select option {
+  background: #000;
+  color: #fff;
+}
+
+/* No mobile, empilha o select e o título se necessário */
+@media (max-width: 600px) {
+  .psd-header-row {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}
+
 /* Mobile Responsividade */
 @media (max-width: 480px) {
   .psd-grid-season {
