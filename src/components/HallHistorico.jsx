@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Ajuste o caminho conforme seu projeto
+import { db } from "../firebase";
 import {
   collection,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
   query,
   orderBy,
@@ -15,15 +16,15 @@ const HallHistorico = ({ isAdmin }) => {
   const [listaHistorica, setListaHistorica] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // States do Formulário
+  // States do Formulário (Add e Edit)
   const [novoNome, setNovoNome] = useState("");
+  const [titulo, setTitulo] = useState(""); // Novo campo para títulos/apelidos
   const [anoIn, setAnoIn] = useState("");
   const [anoOut, setAnoOut] = useState("");
+  const [editingId, setEditingId] = useState(null); // ID da pessoa sendo editada
 
-  // BUSCAR DADOS DO FIREBASE EM TEMPO REAL
   useEffect(() => {
     const q = query(collection(db, "memorial"), orderBy("entrada", "desc"));
-
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const dados = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -32,28 +33,53 @@ const HallHistorico = ({ isAdmin }) => {
       setListaHistorica(dados);
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 
-  const adicionarAoHall = async () => {
+  const salvarNoHall = async () => {
     if (!novoNome || !anoIn) return;
 
-    try {
-      await addDoc(collection(db, "memorial"), {
-        nome: novoNome,
-        entrada: String(anoIn),
-        saida: String(anoOut) || "",
-        createdAt: new Date(),
-      });
+    const data = {
+      nome: novoNome,
+      titulo: titulo, // "O Matador", "Capitão", etc.
+      entrada: String(anoIn),
+      saida: String(anoOut) || "",
+      updatedAt: new Date(),
+    };
 
-      // Limpar campos
-      setNovoNome("");
-      setAnoIn("");
-      setAnoOut("");
+    try {
+      if (editingId) {
+        // MODO EDIÇÃO
+        await updateDoc(doc(db, "memorial", editingId), data);
+        setEditingId(null);
+      } else {
+        // MODO ADIÇÃO
+        await addDoc(collection(db, "memorial"), {
+          ...data,
+          createdAt: new Date(),
+        });
+      }
+      limparCampos();
     } catch (e) {
       console.error("Erro ao salvar:", e);
     }
+  };
+
+  const prepararEdicao = (p) => {
+    setEditingId(p.id);
+    setNovoNome(p.nome);
+    setTitulo(p.titulo || "");
+    setAnoIn(p.entrada);
+    setAnoOut(p.saida || "");
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Sobe para o form
+  };
+
+  const limparCampos = () => {
+    setNovoNome("");
+    setTitulo("");
+    setAnoIn("");
+    setAnoOut("");
+    setEditingId(null);
   };
 
   const removerDoHall = async (id) => {
@@ -62,7 +88,6 @@ const HallHistorico = ({ isAdmin }) => {
     }
   };
 
-  // Agrupar por ano de entrada para o layout
   const anos = [...new Set(listaHistorica.map((p) => p.entrada))].sort(
     (a, b) => b - a,
   );
@@ -71,17 +96,25 @@ const HallHistorico = ({ isAdmin }) => {
 
   return (
     <div className="hall-vertical-container">
-      <h1 className="hall-title"> MEMORIAL DE MEMBROS</h1>
+      <h1 className="hall-title">MEMORIAL DE MEMBROS</h1>
 
       {isAdmin && (
         <div className="hall-admin-card">
-          <h3>Adicionar novo membro</h3>
+          <h3>
+            {editingId ? "📝 Editando Membro" : "➕ Adicionar novo membro"}
+          </h3>
           <div className="hall-admin-form">
             <input
               type="text"
-              placeholder="Nome do Jogador"
+              placeholder="Nome do Jogador (Ex: João)"
               value={novoNome}
               onChange={(e) => setNovoNome(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Título/Apelido (Ex: O Matador)"
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
             />
             <input
               type="number"
@@ -95,7 +128,16 @@ const HallHistorico = ({ isAdmin }) => {
               value={anoOut}
               onChange={(e) => setAnoOut(e.target.value)}
             />
-            <button onClick={adicionarAoHall}>Gravar no Banco</button>
+            <div className="hall-form-btns">
+              <button onClick={salvarNoHall} className="btn-save">
+                {editingId ? "Atualizar Dados" : "Gravar no Banco"}
+              </button>
+              {editingId && (
+                <button onClick={limparCampos} className="btn-cancel">
+                  Cancelar
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -113,18 +155,31 @@ const HallHistorico = ({ isAdmin }) => {
                     className={`hall-item ${p.saida ? "retired" : "active"}`}
                   >
                     <div className="hall-item-info">
-                      <span className="player-name">{p.nome}</span>
+                      <div className="name-wrapper">
+                        <span className="player-name">{p.nome}</span>
+                        {p.titulo && (
+                          <span className="player-nickname">"{p.titulo}"</span>
+                        )}
+                      </div>
                       <span className="player-dates">
                         {p.entrada} — {p.saida || "Atualmente"}
                       </span>
                     </div>
                     {isAdmin && (
-                      <button
-                        className="btn-del"
-                        onClick={() => removerDoHall(p.id)}
-                      >
-                        ×
-                      </button>
+                      <div className="hall-item-actions">
+                        <button
+                          className="btn-edit"
+                          onClick={() => prepararEdicao(p)}
+                        >
+                          ✎
+                        </button>
+                        <button
+                          className="btn-del"
+                          onClick={() => removerDoHall(p.id)}
+                        >
+                          ×
+                        </button>
+                      </div>
                     )}
                   </div>
                 ))}

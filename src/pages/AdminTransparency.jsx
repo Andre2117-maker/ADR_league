@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import {
   collection,
   addDoc,
+  updateDoc,
   serverTimestamp,
   query,
   orderBy,
@@ -19,6 +20,9 @@ export default function AdminTransparency({ isAdmin }) {
   const [loading, setLoading] = useState(false);
   const [transacoes, setTransacoes] = useState([]);
 
+  // Estado para controle de edição
+  const [editingId, setEditingId] = useState(null);
+
   // Carregar lista em tempo real do Firebase
   useEffect(() => {
     const q = query(
@@ -33,29 +37,63 @@ export default function AdminTransparency({ isAdmin }) {
     return () => unsubscribe();
   }, []);
 
-  const handleAddEntry = async (e) => {
+  // Função para salvar (Novo ou Editar)
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!desc || !valor) return alert("Preencha todos os campos!");
 
     setLoading(true);
+    const numericValue =
+      tipo === "EXPENSE"
+        ? -Math.abs(parseFloat(valor))
+        : Math.abs(parseFloat(valor));
+
     try {
-      await addDoc(collection(db, "transparency"), {
-        description: desc,
-        value:
-          tipo === "EXPENSE"
-            ? -Math.abs(parseFloat(valor))
-            : Math.abs(parseFloat(valor)),
-        type: tipo,
-        createdAt: serverTimestamp(),
-      });
+      if (editingId) {
+        // LÓGICA DE ATUALIZAR
+        await updateDoc(doc(db, "transparency", editingId), {
+          description: desc,
+          value: numericValue,
+          type: tipo,
+          updatedAt: serverTimestamp(), // opcional: saber quando foi editado
+        });
+        setEditingId(null);
+      } else {
+        // LÓGICA DE ADICIONAR NOVO
+        await addDoc(collection(db, "transparency"), {
+          description: desc,
+          value: numericValue,
+          type: tipo,
+          createdAt: serverTimestamp(),
+        });
+      }
+
+      // Limpar campos
       setDesc("");
       setValor("");
+      setTipo("INCOME");
     } catch (err) {
       console.error("Erro ao salvar:", err);
-      alert("Erro ao salvar no banco de dados.");
+      alert("Erro ao processar operação.");
     } finally {
       setLoading(false);
     }
+  };
+
+  // Prepara os campos para edição
+  const startEdit = (t) => {
+    setEditingId(t.id);
+    setDesc(t.description);
+    setValor(Math.abs(t.value)); // Carrega valor positivo para o input
+    setTipo(t.type);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setDesc("");
+    setValor("");
+    setTipo("INCOME");
   };
 
   const handleDelete = async (id) => {
@@ -72,8 +110,10 @@ export default function AdminTransparency({ isAdmin }) {
   return (
     <div className="admin-box">
       {isAdmin && (
-        <form onSubmit={handleAddEntry} className="admin-form-transparency">
-          <h3>Nova Movimentação</h3>
+        <form onSubmit={handleSubmit} className="admin-form-transparency">
+          <h3>
+            {editingId ? "📝 Editar Movimentação" : "➕ Nova Movimentação"}
+          </h3>
           <input
             placeholder="Descrição (ex: Aluguel da Quadra)"
             value={desc}
@@ -81,6 +121,7 @@ export default function AdminTransparency({ isAdmin }) {
           />
           <input
             type="number"
+            step="0.01"
             placeholder="Valor (R$)"
             value={valor}
             onChange={(e) => setValor(e.target.value)}
@@ -89,9 +130,21 @@ export default function AdminTransparency({ isAdmin }) {
             <option value="INCOME">Entrada (+)</option>
             <option value="EXPENSE">Saída (-)</option>
           </select>
-          <button type="submit" disabled={loading}>
-            {loading ? "Salvando..." : "Adicionar Item"}
-          </button>
+
+          <div className="form-actions">
+            <button type="submit" disabled={loading} className="save-btn">
+              {loading
+                ? "Salvando..."
+                : editingId
+                  ? "Atualizar"
+                  : "Adicionar Item"}
+            </button>
+            {editingId && (
+              <button type="button" onClick={cancelEdit} className="cancel-btn">
+                Cancelar
+              </button>
+            )}
+          </div>
         </form>
       )}
 
@@ -113,13 +166,19 @@ export default function AdminTransparency({ isAdmin }) {
                   currency: "BRL",
                 })}
               </span>
+
               {isAdmin && (
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(t.id)}
-                >
-                  🗑️
-                </button>
+                <div className="admin-btns">
+                  <button className="edit-btn" onClick={() => startEdit(t)}>
+                    ✏️
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(t.id)}
+                  >
+                    🗑️
+                  </button>
+                </div>
               )}
             </div>
           </div>
