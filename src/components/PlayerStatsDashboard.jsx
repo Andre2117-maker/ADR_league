@@ -7,93 +7,134 @@ const PlayerStatsDashboard = ({ player, matches }) => {
   const stats = useMemo(() => {
     if (!player || !matches) return null;
 
-    // 1. Dados Manuais Globais (da raiz do banco)
+    // 1. Dados Manuais
     const mGoalsGlobal = Number(player.manualGoals || 0);
     const mAssistsGlobal = Number(player.manualAssists || 0);
     const mMatchesGlobal = Number(player.manualMatches || 0);
 
-    // 2. Filtro de Partidas Reais
-    const pMatches = matches.filter(
-      (m) =>
-        m.teamA.players.some((id) => String(id) === String(player.id)) ||
-        m.teamB.players.some((id) => String(id) === String(player.id)),
-    );
+    // 2. Filtrar e Ordenar (mais recentes primeiro para os recordes)
+    const pMatches = matches
+      .filter(
+        (m) =>
+          m.teamA.players.some((id) => String(id) === String(player.id)) ||
+          m.teamB.players.some((id) => String(id) === String(player.id)),
+      )
+      .sort((a, b) => (b.order || 0) - (a.order || 0));
 
-    let filtered = { goals: 0, assists: 0, yellow: 0, red: 0, matches: 0 };
+    let filtered = {
+      goals: 0,
+      assists: 0,
+      yellow: 0,
+      red: 0,
+      matches: 0,
+      gamesAsGK: 0,
+      cleanSheets: 0,
+      goalsAgainst: 0,
+    };
+
     let dailyGroup = {};
 
     pMatches.forEach((m) => {
       const matchYear = new Date(m.date).getFullYear();
+      const isSelectedSeason =
+        selectedSeason === "ALL" || matchYear === Number(selectedSeason);
 
-      // Se não for ALL, filtra pelo ano
-      if (selectedSeason !== "ALL" && matchYear !== Number(selectedSeason))
-        return;
+      if (isSelectedSeason) {
+        filtered.matches++;
 
-      filtered.matches++;
+        // Lógica de Goleiro
+        const isGkTeamA = String(m.teamA.goalkeeperId) === String(player.id);
+        const isGkTeamB = String(m.teamB.goalkeeperId) === String(player.id);
 
-      const rawDate = m.date?.split("T")[0] || "S/D";
-      const displayDate =
-        rawDate !== "S/D"
-          ? rawDate.split("-").reverse().slice(0, 2).join("/")
-          : "S/D";
-
-      if (!dailyGroup[displayDate]) dailyGroup[displayDate] = { g: 0, a: 0 };
-
-      m.events.forEach((e) => {
-        const isAuthor = String(e.playerId) === String(player.id);
-        const isAssist = String(e.assistId) === String(player.id);
-
-        if (e.type === "GOAL" && isAuthor) {
-          filtered.goals++;
-          dailyGroup[displayDate].g++;
+        if (isGkTeamA || isGkTeamB) {
+          filtered.gamesAsGK++;
+          let conceded = 0;
+          m.events?.forEach((e) => {
+            if (
+              isGkTeamA &&
+              ((e.type === "GOAL" && e.team === "B") ||
+                (e.type === "OWN_GOAL" && e.team === "A"))
+            )
+              conceded++;
+            if (
+              isGkTeamB &&
+              ((e.type === "GOAL" && e.team === "A") ||
+                (e.type === "OWN_GOAL" && e.team === "B"))
+            )
+              conceded++;
+          });
+          filtered.goalsAgainst += conceded;
+          if (conceded === 0) filtered.cleanSheets++;
         }
-        if (
-          (e.type === "GOAL" && isAssist) ||
-          (e.type === "ASSIST" && isAuthor)
-        ) {
-          filtered.assists++;
-          dailyGroup[displayDate].a++;
-        }
-        if (isAuthor) {
-          if (e.type === "YELLOW_CARD") filtered.yellow++;
-          if (e.type === "RED_CARD") filtered.red++;
-        }
-      });
-    });
 
-    // Restaurado: Cálculo de Recordes Diários
-    let recordG = { value: 0, date: "" };
-    let recordA = { value: 0, date: "" };
-    Object.entries(dailyGroup).forEach(([date, val]) => {
-      if (val.g >= recordG.value && val.g > 0) recordG = { value: val.g, date };
-      if (val.a >= recordA.value && val.a > 0) recordA = { value: val.a, date };
+        // Gols e Assistências
+        const rawDate = m.date?.split("T")[0] || "S/D";
+        const displayDate =
+          rawDate !== "S/D" ? rawDate.split("-").reverse().join("/") : "S/D";
+        if (!dailyGroup[displayDate]) dailyGroup[displayDate] = { g: 0, a: 0 };
+
+        m.events?.forEach((e) => {
+          const isAuthor = String(e.playerId) === String(player.id);
+          const isAssist = String(e.assistId) === String(player.id);
+
+          if (e.type === "GOAL" && isAuthor) {
+            filtered.goals++;
+            dailyGroup[displayDate].g++;
+          }
+          if (
+            (e.type === "GOAL" && isAssist) ||
+            (e.type === "ASSIST" && isAuthor)
+          ) {
+            filtered.assists++;
+            dailyGroup[displayDate].a++;
+          }
+          if (isAuthor) {
+            if (e.type === "YELLOW_CARD") filtered.yellow++;
+            if (e.type === "RED_CARD") filtered.red++;
+          }
+        });
+      }
     });
 
     const isAll = selectedSeason === "ALL";
-
-    // 3. Dados Manuais da Temporada Selecionada (Ex: só 2026 ou só 2025)
     const seasonMap = player.statsBySeason?.[selectedSeason] || {};
-    const sManualGoals = Number(seasonMap.goals || 0);
-    const sManualAssists = Number(seasonMap.assists || 0);
-    const sManualMatches = Number(seasonMap.matches || seasonMap.games || 0);
+
+    const finalGoals = isAll
+      ? filtered.goals + mGoalsGlobal
+      : filtered.goals + Number(seasonMap.goals || 0);
+    const finalAssists = isAll
+      ? filtered.assists + mAssistsGlobal
+      : filtered.assists + Number(seasonMap.assists || 0);
 
     return {
       display: {
-        // Se ALL: soma Partidas Totais + Manual Global
-        // Se Temporada: soma Partidas do Ano + Manual do Ano
         matches: isAll
           ? filtered.matches + mMatchesGlobal
-          : filtered.matches + sManualMatches,
-        goals: isAll
-          ? filtered.goals + mGoalsGlobal
-          : filtered.goals + sManualGoals,
-        assists: isAll
-          ? filtered.assists + mAssistsGlobal
-          : filtered.assists + sManualAssists,
+          : filtered.matches + Number(seasonMap.matches || 0),
+        goals: finalGoals,
+        assists: finalAssists,
+        participation: finalGoals + finalAssists,
         yellow: filtered.yellow,
         red: filtered.red,
+        gamesAsGK: filtered.gamesAsGK,
+        cleanSheets: filtered.cleanSheets,
+        mgs:
+          filtered.gamesAsGK > 0
+            ? (filtered.goalsAgainst / filtered.gamesAsGK).toFixed(2)
+            : "0.00",
       },
-      records: { goals: recordG, assists: recordA },
+      records: {
+        goals: Object.entries(dailyGroup).reduce(
+          (max, [date, val]) =>
+            val.g >= max.value ? { value: val.g, date } : max,
+          { value: 0, date: "" },
+        ),
+        assists: Object.entries(dailyGroup).reduce(
+          (max, [date, val]) =>
+            val.a >= max.value ? { value: val.a, date } : max,
+          { value: 0, date: "" },
+        ),
+      },
     };
   }, [player, matches, selectedSeason]);
 
@@ -118,6 +159,7 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         </h3>
       </div>
 
+      {/* GRID PRINCIPAL (LINHA) */}
       <div className="psd-grid-season">
         <div className="psd-card season-main">
           <span className="psd-label">JOGOS</span>
@@ -125,11 +167,15 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         </div>
         <div className="psd-card season-goals">
           <span className="psd-label">GOLS</span>
-          <span className="psd-value"> {stats.display.goals}</span>
+          <span className="psd-value">{stats.display.goals}</span>
         </div>
         <div className="psd-card season-assists">
           <span className="psd-label">ASSISTS</span>
-          <span className="psd-value"> {stats.display.assists}</span>
+          <span className="psd-value">{stats.display.assists}</span>
+        </div>
+        <div className="psd-card participation-box">
+          <span className="psd-label">PARTICIPAÇÕES EM GOLS</span>
+          <span className="psd-value">{stats.display.participation}</span>
         </div>
         <div className="psd-card cards-box">
           <div className="card-item yellow">
@@ -142,19 +188,36 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         </div>
       </div>
 
+      {/* GRID GOLEIRO */}
+      <div className="psd-grid-season" style={{ marginTop: "12px" }}>
+        <div className="psd-card season-main gk-style">
+          <span className="psd-label">JOGOS (GL)</span>
+          <span className="psd-value">{stats.display.gamesAsGK}</span>
+        </div>
+        <div className="psd-card season-goals gk-style">
+          <span className="psd-label">CLEAN SHEETS</span>
+          <span className="psd-value">{stats.display.cleanSheets}</span>
+        </div>
+        <div className="psd-card season-assists gk-style">
+          <span className="psd-label">MGS</span>
+          <span className="psd-value">{stats.display.mgs}</span>
+        </div>
+      </div>
+
+      {/* RECORDES DIÁRIOS */}
       <div className="psd-lower-grid">
         <div className="psd-mini-card">
-          <span className="psd-mini-label">RECORDE DIA (G)</span>
+          <span className="psd-mini-label">RECORDE DIA (GOLS)</span>
           <span className="psd-mini-value">{stats.records.goals.value}</span>
           <span className="psd-record-date">
-            {stats.records.goals.date || "--/--"}
+            {stats.records.goals.date || "--/--/----"}
           </span>
         </div>
         <div className="psd-mini-card">
-          <span className="psd-mini-label">RECORDE DIA (A)</span>
+          <span className="psd-mini-label">RECORDE DIA (ASSISTS)</span>
           <span className="psd-mini-value">{stats.records.assists.value}</span>
           <span className="psd-record-date">
-            {stats.records.assists.date || "--/--"}
+            {stats.records.assists.date || "--/--/----"}
           </span>
         </div>
       </div>

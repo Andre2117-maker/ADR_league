@@ -248,6 +248,55 @@
   color: #fff;
 }
 
+.psd-highlight-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.psd-h-card {
+  flex: 1;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.psd-h-card.streak {
+  border-color: #e67e22; /* Cor de fogo/laranja para a sequência */
+}
+
+/* Ajuste do Grid para comportar mais itens */
+.psd-grid-season {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+  gap: 10px;
+  width: 100%;
+}
+
+/* Estilo para o box de G+A e Streak para seguirem o padrão */
+.participation-box,
+.streak-box {
+  background: #111;
+  border: 1px solid #222;
+}
+
+.streak-box .psd-value {
+  color: #e67e22; /* Laranja para o fogo */
+}
+
+/* Responsividade: em telas muito pequenas, pode mudar para 2 colunas */
+@media (max-width: 480px) {
+  .psd-grid-season {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* No mobile, empilha o select e o título se necessário */
 @media (max-width: 600px) {
   .psd-header-row {
