@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // Adicionado useEffect
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
@@ -6,7 +6,6 @@ import "../styles/matchpage.css";
 import { calculateMatchStats } from "../components/matchpages/matchUtils";
 import { exportMatchImage } from "../components/matchpages/screenshotHelper";
 import MatchStats from "../components/matchpages/MatchStats";
-import Footer from "../components/Footer";
 
 const FORMATIONS_DATA = {
   FUT5: {
@@ -147,14 +146,24 @@ function MatchPage({ matches, players, isAdmin }) {
 
   const match = matches.find((m) => String(m.id) === String(id));
 
-  const [formA, setFormA] = useState(() => match?.formationA || "5_JOG_2-1-1");
-  const [formB, setFormB] = useState(() => match?.formationB || "5_JOG_2-1-1");
+  // 1. Inicializamos o estado DIRETAMENTE com o valor do match, se existir.
+  // 2. Usamos o ID no useState para "resetar" o estado caso o usuário mude de partida sem recarregar a página.
+  const [formA, setFormA] = useState(match?.formationA || "5_JOG_2-1-1");
+  const [formB, setFormB] = useState(match?.formationB || "5_JOG_2-1-1");
 
-  // SINCRONIZA A FORMAÇÃO COM O BANCO AO CARREGAR
+  // Ajuste técnico: Se o componente não desmontar ao trocar de ID (navegação interna),
+  // verificamos se os estados batem com o match atual durante o render (padrão recomendado pelo React)
+  const [prevId, setPrevId] = useState(id);
 
-  if (!match) return null;
+  if (id !== prevId) {
+    setPrevId(id);
+    setFormA(match?.formationA || "5_JOG_2-1-1");
+    setFormB(match?.formationB || "5_JOG_2-1-1");
+  }
 
-  // LÓGICA DE PLACAR
+  if (!match) return <div className="loading">Partida não encontrada...</div>;
+
+  // Lógica de Placar
   const scoreA =
     match.events?.filter(
       (e) =>
@@ -168,25 +177,34 @@ function MatchPage({ matches, players, isAdmin }) {
         (e.type === "OWN_GOAL" && e.team === "A"),
     ).length || 0;
 
-  // SALVAR ESCALAÇÃO
+  const { stats, mvp } = calculateMatchStats(match, players);
+
+  // Funções de atualização do banco
   const handleEscalar = async (teamKey, slotId, pId) => {
     const field =
       teamKey === "A" ? `tacticalA.${slotId}` : `tacticalB.${slotId}`;
-    await updateDoc(doc(db, "matches", match.id), { [field]: pId });
+    try {
+      await updateDoc(doc(db, "matches", match.id), { [field]: pId });
+    } catch (err) {
+      console.error("Erro ao escalar:", err);
+    }
   };
 
-  // SALVAR FORMAÇÃO NO BANCO (NOVO)
   const handleSetFormation = async (teamKey, formationKey) => {
-    if (teamKey === "A") {
-      setFormA(formationKey);
-      await updateDoc(doc(db, "matches", match.id), {
-        formationA: formationKey,
-      });
-    } else {
-      setFormB(formationKey);
-      await updateDoc(doc(db, "matches", match.id), {
-        formationB: formationKey,
-      });
+    try {
+      if (teamKey === "A") {
+        setFormA(formationKey);
+        await updateDoc(doc(db, "matches", match.id), {
+          formationA: formationKey,
+        });
+      } else {
+        setFormB(formationKey);
+        await updateDoc(doc(db, "matches", match.id), {
+          formationB: formationKey,
+        });
+      }
+    } catch (err) {
+      console.error("Erro ao salvar formação:", err);
     }
   };
 
@@ -200,10 +218,9 @@ function MatchPage({ matches, players, isAdmin }) {
     const p = players.find(
       (player) => String(player.id) === String(occupantId),
     );
-
-    // Lógica da Estrela do MVP
     const isMVP = mvp && p && String(p.id) === String(mvp.id);
 
+    // Eventos do Jogador no Slot
     const playerEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
@@ -216,9 +233,7 @@ function MatchPage({ matches, players, isAdmin }) {
           (e.type === "ASSIST" && String(e.playerId) === String(occupantId)) ||
           (e.type === "GOAL" && String(e.assistId) === String(occupantId)),
       ).length || 0;
-    const ownGoals = playerEvents.filter(
-      (e) => e.type === "OWN_GOAL" || (e.type === "GOAL" && e.team !== teamKey),
-    ).length;
+    const ownGoals = playerEvents.filter((e) => e.type === "OWN_GOAL").length;
 
     return (
       <div
@@ -227,13 +242,8 @@ function MatchPage({ matches, players, isAdmin }) {
         style={{ left: slot.x, top: slot.y }}
       >
         {p ? (
-          /* Adicionada a classe is-mvp condicionalmente */
           <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
             <div className="player-badges">
-              {(p.position?.toLowerCase() === "goleiro" ||
-                p.posicao?.toLowerCase() === "goleiro") && (
-                <span className="badge glove">🧤</span>
-              )}
               {goals > 0 && (
                 <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
               )}
@@ -242,11 +252,7 @@ function MatchPage({ matches, players, isAdmin }) {
                   👟{assists > 1 ? assists : ""}
                 </span>
               )}
-              {ownGoals > 0 && (
-                <span className="badge-item GC">
-                  {ownGoals > 1 ? ownGoals : ""} GC
-                </span>
-              )}
+              {ownGoals > 0 && <span className="badge-item GC">GC</span>}
             </div>
             <img
               src={p.photo || "/players/default.png"}
@@ -279,8 +285,6 @@ function MatchPage({ matches, players, isAdmin }) {
       </div>
     );
   };
-
-  const { stats, mvp } = calculateMatchStats(match, players);
 
   return (
     <div className="match-view-wrapper" id="capture-area">
@@ -320,8 +324,6 @@ function MatchPage({ matches, players, isAdmin }) {
           </div>
         )}
       </div>
-
-      {/* O card flutuante do MVP foi removido daqui conforme solicitado */}
 
       <div className="dual-fields-layout">
         {[

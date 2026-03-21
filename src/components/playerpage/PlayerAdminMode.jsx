@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/playeradmin.css";
+import "../../styles/playeradmin.css";
 
 const PlayerAdminMode = ({ player, onSave, onCancel, SKILLS_ORDER }) => {
   // Inicializamos o formulário com os dados atuais do jogador

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Importe o Link
 import logo from "../assets/logo.png";
 
-function Navbar({ setPage, isAdmin, logout }) {
+function Navbar({ isAdmin, logout }) {
+  // Removido setPage pois não usaremos mais estados
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -17,47 +19,41 @@ function Navbar({ setPage, isAdmin, logout }) {
       <div className="nvb-container">
         {/* Esquerda */}
         <nav className="nvb-section nvb-left">
-          <a className="nvb-link" onClick={() => setPage("home")}>
+          <Link to="/" className="nvb-link">
             Início
-          </a>
-          <a className="nvb-link" onClick={() => setPage("Calendar")}>
+          </Link>
+          <Link to="/calendar" className="nvb-link">
             Calendário
-          </a>
+          </Link>
         </nav>
 
         {/* Centro (Logo) */}
-        <div className="nvb-brand" onClick={() => setPage("home")}>
+        <Link to="/" className="nvb-brand" style={{ textDecoration: "none" }}>
           <img src={logo} alt="ADR League Logo" className="nvb-logo-img" />
           <div className="nvb-brand-text">
             ADR <span className="nvb-highlight">LEAGUE</span>
           </div>
-        </div>
+        </Link>
 
         {/* Direita */}
         <nav className="nvb-section nvb-right">
-          <a className="nvb-link" onClick={() => setPage("regras")}>
+          <Link to="/regras" className="nvb-link">
             Regras
-          </a>
+          </Link>
 
           {isAdmin ? (
             <div className="nvb-admin-group">
-              <a
-                onClick={() => setPage("adminPanel")}
-                className="nvb-admin-badge"
-              >
+              <Link to="/admin-panel" className="nvb-admin-badge">
                 Painel
-              </a>
+              </Link>
               <button className="nvb-logout-btn" onClick={logout}>
                 Sair
               </button>
             </div>
           ) : (
-            <button
-              className="nvb-login-btn"
-              onClick={() => setPage("adminLogin")}
-            >
+            <Link to="/admin-login" className="nvb-login-btn">
               Acesso Admin
-            </button>
+            </Link>
           )}
         </nav>
       </div>

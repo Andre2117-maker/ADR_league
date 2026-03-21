@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import html2canvas from "html2canvas";
 import "../styles/home.css";
 import "../style.css";
@@ -16,8 +17,9 @@ import BirthdaySchedule from "../components/BirthdaySchedule";
 import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";
 
-function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
+function Home({ players, matches, getBestPartner }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
+  const navigate = useNavigate();
 
   // --- Lógica de Ordenação e Stats ---
   const sortedMatchesByDate = useMemo(() => {
@@ -27,143 +29,153 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
     );
   }, [matches]);
 
-  const getPlayerStats = (playerId) => {
-    const defaultReturn = {
-      form: [],
-      winRate: 0,
-      goals: 0,
-      assists: 0,
-      games: 0,
-      wins: 0,
-      losses: 0,
-      draws: 0,
-      points: 0,
-    };
+  const handlePlayerClick = (player) => {
+    navigate(`/player/${player.id}`);
+  };
 
-    if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
-      return defaultReturn;
+  const getPlayerStats = useCallback(
+    (playerId) => {
+      const defaultReturn = {
+        form: [],
+        winRate: 0,
+        goals: 0,
+        assists: 0,
+        games: 0,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        points: 0,
+      };
 
-    const playerMatches = sortedMatchesByDate.filter(
-      (m) =>
-        m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
-        m.teamB?.players?.some((id) => String(id) === String(playerId)),
-    );
+      // 1. Verificação de segurança
+      if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
+        return defaultReturn;
 
-    if (playerMatches.length === 0) return defaultReturn;
-
-    let totalGoals = 0;
-    let totalAssists = 0;
-    let totalWins = 0;
-    let totalLosses = 0;
-    let totalDraws = 0;
-
-    playerMatches.forEach((m) => {
-      const isTeamA = m.teamA?.players?.some(
-        (id) => String(id) === String(playerId),
+      // 2. Filtra partidas onde o jogador participou
+      const playerMatches = sortedMatchesByDate.filter(
+        (m) =>
+          m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
+          m.teamB?.players?.some((id) => String(id) === String(playerId)),
       );
-      const playerTeam = isTeamA ? "A" : "B";
-      const pIdStr = String(playerId);
 
-      // --- GOLS E ASSISTÊNCIAS (TRATA OS DOIS CASOS) ---
-      m.events?.forEach((e) => {
-        // Caso 1: Jogador fez o gol
-        if (e.type === "GOAL" && String(e.playerId) === pIdStr) {
-          totalGoals++;
+      if (playerMatches.length === 0) return defaultReturn;
+
+      let totalGoals = 0;
+      let totalAssists = 0;
+      let totalWins = 0;
+      let totalLosses = 0;
+      let totalDraws = 0;
+
+      // 3. Processamento das estatísticas
+      playerMatches.forEach((m) => {
+        const isTeamA = m.teamA?.players?.some(
+          (id) => String(id) === String(playerId),
+        );
+        const playerTeam = isTeamA ? "A" : "B";
+        const pIdStr = String(playerId);
+
+        // Gols e Assistências
+        m.events?.forEach((e) => {
+          if (e.type === "GOAL" && String(e.playerId) === pIdStr) {
+            totalGoals++;
+          }
+          const ehEventoAssist =
+            e.type === "ASSIST" && String(e.playerId) === pIdStr;
+          const ehCampoNoGol =
+            e.type === "GOAL" && String(e.assistId) === pIdStr;
+
+          if (ehEventoAssist || ehCampoNoGol) {
+            totalAssists++;
+          }
+        });
+
+        // Cálculo do Placar (considerando gols contra)
+        const goalsA =
+          m.events?.filter(
+            (e) =>
+              (e.type === "GOAL" && e.team === "A") ||
+              (e.type === "OWN_GOAL" && e.team === "B"),
+          ).length || 0;
+
+        const goalsB =
+          m.events?.filter(
+            (e) =>
+              (e.type === "GOAL" && e.team === "B") ||
+              (e.type === "OWN_GOAL" && e.team === "A"),
+          ).length || 0;
+
+        // Determinação do Resultado
+        const winner = m.penaltiesWinner || m.winner;
+        let result = "";
+
+        if (winner) {
+          result = String(winner).toUpperCase() === playerTeam ? "W" : "L";
+        } else {
+          if (goalsA === goalsB) result = "D";
+          else if (
+            (goalsA > goalsB && isTeamA) ||
+            (goalsB > goalsA && !isTeamA)
+          )
+            result = "W";
+          else result = "L";
         }
 
-        // Caso 2: Jogador deu assistência (Evento separado OU campo assistId no gol)
-        const ehEventoAssist =
-          e.type === "ASSIST" && String(e.playerId) === pIdStr;
-        const ehCampoNoGol = e.type === "GOAL" && String(e.assistId) === pIdStr;
-
-        if (ehEventoAssist || ehCampoNoGol) {
-          totalAssists++;
-        }
+        if (result === "W") totalWins++;
+        else if (result === "D") totalDraws++;
+        else if (result === "L") totalLosses++;
       });
 
-      // --- LÓGICA DE RESULTADO (W, L, D) ---
-      const goalsA =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "A") ||
-            (e.type === "OWN_GOAL" && e.team === "B"),
-        ).length || 0;
-      const goalsB =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "B") ||
-            (e.type === "OWN_GOAL" && e.team === "A"),
-        ).length || 0;
+      // 4. Cálculo da Forma (últimos 5 jogos)
+      const form = playerMatches.slice(-5).map((m) => {
+        const isTeamA = m.teamA?.players?.some(
+          (id) => String(id) === String(playerId),
+        );
+        const playerTeam = isTeamA ? "A" : "B";
+        const goalsA =
+          m.events?.filter(
+            (e) =>
+              (e.type === "GOAL" && e.team === "A") ||
+              (e.type === "OWN_GOAL" && e.team === "B"),
+          ).length || 0;
+        const goalsB =
+          m.events?.filter(
+            (e) =>
+              (e.type === "GOAL" && e.team === "B") ||
+              (e.type === "OWN_GOAL" && e.team === "A"),
+          ).length || 0;
+        const winner = m.penaltiesWinner || m.winner;
 
-      const winner = m.penaltiesWinner || m.winner;
-      let result = "";
+        if (winner)
+          return String(winner).toUpperCase() === playerTeam ? "W" : "L";
+        if (goalsA === goalsB) return "D";
+        return (goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA)
+          ? "W"
+          : "L";
+      });
 
-      if (winner) {
-        result = String(winner).toUpperCase() === playerTeam ? "W" : "L";
-      } else {
-        if (goalsA === goalsB) result = "D";
-        else if ((goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA))
-          result = "W";
-        else result = "L";
-      }
-
-      if (result === "W") totalWins++;
-      else if (result === "D") totalDraws++;
-      else if (result === "L") totalLosses++;
-    });
-
-    // --- FORMA (ÚLTIMAS 5) ---
-    const form = playerMatches.slice(-5).map((m) => {
-      const isTeamA = m.teamA?.players?.some(
-        (id) => String(id) === String(playerId),
-      );
-      const playerTeam = isTeamA ? "A" : "B";
-
-      const goalsA =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "A") ||
-            (e.type === "OWN_GOAL" && e.team === "B"),
-        ).length || 0;
-      const goalsB =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "B") ||
-            (e.type === "OWN_GOAL" && e.team === "A"),
-        ).length || 0;
-
-      const winner = m.penaltiesWinner || m.winner;
-      if (winner)
-        return String(winner).toUpperCase() === playerTeam ? "W" : "L";
-      if (goalsA === goalsB) return "D";
-      return (goalsA > goalsB && isTeamA) || (goalsB > goalsA && !isTeamA)
-        ? "W"
-        : "L";
-    });
-
-    return {
-      form,
-      winRate: Math.round((totalWins / playerMatches.length) * 100) || 0,
-      goals: totalGoals,
-      assists: totalAssists,
-      games: playerMatches.length,
-      wins: totalWins,
-      losses: totalLosses,
-      draws: totalDraws,
-      points: totalWins * 3 + totalDraws * 1,
-    };
-  };
+      return {
+        form,
+        winRate: Math.round((totalWins / playerMatches.length) * 100) || 0,
+        goals: totalGoals,
+        assists: totalAssists,
+        games: playerMatches.length,
+        wins: totalWins,
+        losses: totalLosses,
+        draws: totalDraws,
+        points: totalWins * 3 + totalDraws * 1,
+      };
+    },
+    [sortedMatchesByDate],
+  );
 
   const playersWith2026Stats = useMemo(() => {
     return players.map((p) => {
-      const stats = getPlayerStats(p.id);
+      const stats = getPlayerStats(p.id); // <-- Você usa a função aqui
       const manual26 = p.statsBySeason?.["2026"] || {};
 
       return {
         ...p,
-        // Prioriza os pontos calculados em 2026
         points: stats.points,
-        // Soma real + manual
         goals: stats.goals + Number(manual26.goals || 0),
         assists: stats.assists + Number(manual26.assists || 0),
         games: stats.games + Number(manual26.matches || manual26.games || 0),
@@ -172,7 +184,8 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
         form: stats.form,
       };
     });
-  }, [players, matches]);
+    // AQUI ESTÁ A CORREÇÃO: Adicione getPlayerStats no array abaixo
+  }, [players, getPlayerStats]);
 
   // Agora as listas ordenadas usam os dados de 2026:
   const sorted = [...playersWith2026Stats].sort(
@@ -219,18 +232,12 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
 
       {/* NAVEGAÇÃO ENTRE PÁGINAS */}
       <div className="transparency-nav-container">
-        <button
-          className="btn-transparency-nav"
-          onClick={() => setPage("HallHistorico")}
-        >
+        <Link to="/hall-historico" className="btn-transparency-nav">
           MEMORIAL DOS JOGADORES
-        </button>
-        <button
-          className="btn-transparency-nav"
-          onClick={() => setPage("AdminTransparency")}
-        >
+        </Link>
+        <Link to="/transparency" className="btn-transparency-nav">
           💰 TRANSPARÊNCIA
-        </button>
+        </Link>
       </div>
 
       <MatchesCarousel matches={matches} players={players} />
@@ -251,7 +258,7 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
               sortedPlayers={sorted}
               getPlayerStats={getPlayerStats}
               getTotalAssists={getTotalAssists}
-              onSelectPlayer={onSelectPlayer}
+              onSelectPlayer={handlePlayerClick}
               setHoveredPlayer={
                 window.innerWidth > 1024 ? setHoveredPlayer : () => {}
               }
@@ -276,7 +283,7 @@ function Home({ players, matches, onSelectPlayer, setPage, getBestPartner }) {
         )}
       </div>
 
-      <SquadCarousel players={players} onSelectPlayer={onSelectPlayer} />
+      <SquadCarousel players={players} onSelectPlayer={handlePlayerClick} />
 
       <HistoryCarousel />
 

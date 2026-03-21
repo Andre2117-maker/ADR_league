@@ -1,5 +1,6 @@
 import "../styles/panel.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 1. Importe o useNavigate
 import { db } from "../firebase";
 import {
   collection,
@@ -13,8 +14,9 @@ import {
 import dadosIniciais from "../dados_iniciais.json";
 
 /* ==========================================================
-   COMPONENTE DE LINHA INDIVIDUAL (RESTAURADO)
+   COMPONENTE DE LINHA INDIVIDUAL
    ========================================================== */
+// (Mantive o PlayerRow igual, pois ele não lida com navegação direta de página)
 function PlayerRow({ p, total, onUpdateManual, onUpdateProfile, onDelete }) {
   const [inputValueG, setInputValueG] = useState(0);
   const [inputValueA, setInputValueA] = useState(0);
@@ -133,7 +135,6 @@ function PlayerRow({ p, total, onUpdateManual, onUpdateProfile, onDelete }) {
               flexWrap: "wrap",
             }}
           >
-            {/* Títulos ADR */}
             <div className="adm-title-input-wrapper">
               🏆{" "}
               <input
@@ -146,7 +147,6 @@ function PlayerRow({ p, total, onUpdateManual, onUpdateProfile, onDelete }) {
               />
             </div>
 
-            {/* Cargo no Clube */}
             <input
               type="text"
               className="adm-input-role"
@@ -157,7 +157,6 @@ function PlayerRow({ p, total, onUpdateManual, onUpdateProfile, onDelete }) {
               }
             />
 
-            {/* Número da Camisa */}
             <div
               style={{
                 display: "flex",
@@ -197,7 +196,6 @@ function PlayerRow({ p, total, onUpdateManual, onUpdateProfile, onDelete }) {
               />
             </div>
 
-            {/* All-Star Checkbox */}
             <label className="adm-label-allstar">
               <input
                 type="checkbox"
@@ -244,10 +242,12 @@ function PlayerRow({ p, total, onUpdateManual, onUpdateProfile, onDelete }) {
 }
 
 /* ==========================================================
-   PAINEL PRINCIPAL (ADMIN PANEL - INTEGRADO)
+   PAINEL PRINCIPAL
    ========================================================== */
-function AdminPanel({ players, setPage, matches }) {
+function AdminPanel({ players, matches }) {
+  // 2. Removido setPage
   const [newName, setNewName] = useState("");
+  const navigate = useNavigate(); // 3. Inicializa o navigate
 
   const sortedPlayers = [...players].sort((a, b) =>
     a.name.localeCompare(b.name, "pt-BR"),
@@ -268,8 +268,7 @@ function AdminPanel({ players, setPage, matches }) {
         number: "",
         isAllStar: false,
         isAnonymous: false,
-        strongFoot: "Destro", // Adicione um padrão
-        // Adicione o esqueleto das skills
+        strongFoot: "Destro",
         skills: {
           velocidade: 50,
           corpo: 50,
@@ -288,8 +287,6 @@ function AdminPanel({ players, setPage, matches }) {
   const handleUpdateManual = async (id, field, value) => {
     try {
       const playerRef = doc(db, "players", id);
-      // Mantive a lógica de Math.max(0) via Firebase não é direta no increment,
-      // então usamos o valor atual para garantir que não fique negativo se desejar:
       await updateDoc(playerRef, { [field]: increment(value) });
     } catch (err) {
       console.error(err);
@@ -315,13 +312,11 @@ function AdminPanel({ players, setPage, matches }) {
     }
   };
 
-  // --- FUNÇÃO DE MIGRAÇÃO (🚀 BOTÃO IMPORTAR JSON) ---
   const handleMigrateJSON = async () => {
     if (
       !window.confirm("Deseja importar todos os dados do JSON para o Firebase?")
     )
       return;
-
     const batch = writeBatch(db);
     dadosIniciais.players.forEach((player) => {
       const playerRef = doc(db, "players", String(player.id));
@@ -331,7 +326,6 @@ function AdminPanel({ players, setPage, matches }) {
       const matchRef = doc(db, "matches", String(match.id));
       batch.set(matchRef, { ...match });
     });
-
     try {
       await batch.commit();
       alert("Dados migrados com sucesso!");
@@ -371,23 +365,15 @@ function AdminPanel({ players, setPage, matches }) {
       )
     )
       return;
-
     const batch = writeBatch(db);
-
-    // 1. Ordena pelo que você tem (data), garantindo a sequência correta
     const sorted = [...matches].sort(
       (a, b) => new Date(a.date) - new Date(b.date),
     );
-
-    // 2. Adiciona cada atualização ao lote (batch)
     sorted.forEach((match, index) => {
       const matchRef = doc(db, "matches", match.id);
-      // Aqui definimos o 'order' baseado no índice da lista ordenada
       batch.update(matchRef, { order: index });
     });
-
     try {
-      // 3. Executa tudo de uma vez só no Firebase
       await batch.commit();
       alert("Migração concluída com sucesso!");
     } catch (err) {
@@ -400,7 +386,8 @@ function AdminPanel({ players, setPage, matches }) {
     <div className="adm-main-layout">
       <header className="adm-header-nav">
         <div className="adm-nav-left">
-          <button onClick={() => setPage("home")} className="adm-btn-exit">
+          {/* 4. Trocado setPage por navigate("/") */}
+          <button onClick={() => navigate("/")} className="adm-btn-exit">
             ← Sair
           </button>
           <button onClick={handleMigrateJSON} className="adm-btn-backup">
@@ -412,13 +399,13 @@ function AdminPanel({ players, setPage, matches }) {
           >
             📥 Abrir
           </button>
+          {/* 5. Trocado setPage por navigate("/admin-matches") */}
           <button
-            onClick={() => setPage("adminMatches")}
+            onClick={() => navigate("/admin-matches")}
             className="adm-btn-matches"
           >
             ⚽ Partidas
           </button>
-
           <button
             onClick={migrateOldMatches}
             className="adm-btn-backup"
@@ -447,10 +434,8 @@ function AdminPanel({ players, setPage, matches }) {
         </form>
       </section>
 
-      {/* AQUI MUDOU: Trocamos table por div */}
       <div className="adm-table-container">
         <div className="adm-table">
-          {/* Cabeçalho manual (opcional, já que o CSS esconde no mobile) */}
           <div className="adm-thead-fake-pc">
             <span>JOGADOR</span>
             <span>ESTATÍSTICAS</span>

@@ -1,0 +1,221 @@
+/* src/styles/playerbanner.css */
+
+.ppg-player-banner {
+  width: 100vw; /* Garante largura total da janela */
+  height: 450px; /* Aumentei um pouco para compensar os 75px da Navbar */
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  position: relative;
+  overflow: hidden;
+
+  /* REMOVIDO: border-radius (Para não sobrar espaço nos cantos) */
+  border-radius: 0;
+
+  /* FORÇA A SUBIDA: */
+  margin-top: -75px !important; /* Exatamente a altura da sua Navbar */
+  padding-top: 75px !important; /* Empurra o CONTEÚDO do banner para baixo da Nav */
+
+  border-bottom: 4px solid #d4af37;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  /* Truque para centralizar banner 100vw dentro de container menor se necessário */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.ppg-banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.ppg-banner-info {
+  padding-bottom: 60px; /* Ajuste para subir um pouco o texto */
+  flex: 1;
+}
+
+/* Número em Dourado */
+.ppg-banner-number {
+  font-size: 2.5rem;
+  color: #d4af37; /* Gold */
+  font-weight: 900;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.ppg-banner-name {
+  margin: 5px 0 30px 0;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 0.85;
+}
+
+.ppg-firstname {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: #e0e0e0;
+}
+
+.ppg-lastname {
+  display: block;
+  font-size: 5.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  /* Efeito de brilho sutil no sobrenome */
+  color: #ffffff;
+}
+
+/* Detalhes Inferiores */
+.ppg-banner-details {
+  display: flex;
+  gap: 60px;
+}
+
+.ppg-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ppg-detail-label {
+  font-size: 0.75rem;
+  color: #888; /* Cinza para não brigar com o dourado */
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.ppg-detail-value {
+  font-size: 1.6rem;
+  color: #d4af37; /* Valores em Dourado */
+  font-weight: 700;
+}
+
+/* Foto do Jogador */
+.ppg-banner-photo-container {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex: 1;
+  position: relative;
+}
+
+.ppg-banner-photo {
+  height: 110%; /* Aumentado para o efeito 'pop-out' */
+  object-fit: contain;
+  filter: drop-shadow(20px 10px 40px rgba(0, 0, 0, 0.9));
+  z-index: 3;
+}
+
+/* Grid de fundo decorativo em Dourado Sutil */
+.ppg-banner-overlay-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 1;
+  pointer-events: none;
+  /* Vinheta para escurecer as bordas */
+  mask-image: radial-gradient(circle, black 40%, transparent 90%);
+}
+
+@media (max-width: 768px) {
+  .ppg-player-banner {
+    height: auto;
+    min-height: 600px; /* Aumentado para acomodar a iluminação */
+    padding-top: 90px !important; /* Mantém o espaço da Nav */
+    margin-top: -75px !important; /* Mantém a subida para cobrir o espaço */
+    border-radius: 0;
+
+    /* NOVO GRADIENTE MOBILE: Iluminação centralizada atrás do jogador */
+    background: radial-gradient(circle at 50% 60%, #2b2b2b 0%, #000000 70%);
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ppg-banner-content {
+    flex-direction: column; /* Empilha o texto e a foto verticalmente */
+    align-items: flex-start; /* Alinha o texto à esquerda como na imagem */
+    padding: 0 25px;
+  }
+
+  .ppg-banner-info {
+    padding-bottom: 20px;
+    z-index: 4; /* Garante que o texto fique sobre o fundo */
+    width: 100%;
+  }
+
+  /* Ajuste do Nome para Mobile */
+  .ppg-firstname {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+
+  .ppg-lastname {
+    font-size: 3.8rem; /* Diminui para caber na largura do celular */
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+  }
+
+  .ppg-banner-number {
+    font-size: 1.8rem;
+  }
+
+  /* Alinhamento Vertical dos Detalhes (Igual à imagem 2) */
+  .ppg-banner-details {
+    flex-direction: column; /* Transforma em lista vertical */
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .ppg-detail-item {
+    gap: 2px;
+  }
+
+  .ppg-detail-label {
+    font-size: 0.9rem; /* Um pouco maior para leitura no celular */
+  }
+
+  .ppg-detail-value {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .ppg-banner-photo {
+    height: 380px;
+    opacity: 1; /* Voltei para 1 para não perder a vivacidade das cores */
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.8));
+
+    /* Ajuste de máscara para suavizar o corte dos pés no fundo escuro */
+    mask-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 1) 70%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .ppg-banner-photo-container {
+    width: 100%;
+    justify-content: center; /* Centraliza o foco de luz no jogador */
+    margin-top: -120px; /* Ajuste fino para o topo da cabeça não sumir */
+    position: relative;
+    z-index: 1;
+  }
+}

@@ -157,10 +157,8 @@ function calculateStandings(players, matches) {
 // --- APP PRINCIPAL ---
 
 function App() {
-  const [page, setPage] = useState("home");
   const [isAdmin, setIsAdmin] = useState(false);
   const [matchToEdit, setMatchToEdit] = useState(null);
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   const [players, setPlayers] = useState([]);
   const [matches, setMatches] = useState([]);
@@ -186,16 +184,6 @@ function App() {
   }, []);
 
   const playersWithStats = calculateStandings(players, matches);
-
-  const logout = () => {
-    setIsAdmin(false);
-    setPage("home");
-  };
-
-  const handleOpenPlayerProfile = (player) => {
-    setSelectedPlayer(player);
-    setPage("playerProfile");
-  };
 
   const handleUpdatePlayer = async (playerId, updatedData) => {
     try {
@@ -250,102 +238,103 @@ function App() {
     (a, b) => b.points - a.points,
   );
 
+  const logout = () => {
+    setIsAdmin(false);
+  };
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/match/:id"
-          element={
-            <MatchPage matches={matches} players={players} isAdmin={isAdmin} />
-          }
-        />
+      {/* A Navbar agora fica fora das Routes para aparecer em todas, mas dentro do Router */}
+      <Navbar isAdmin={isAdmin} logout={logout} />
 
-        <Route
-          path="/*"
-          element={
-            <>
-              <Navbar setPage={setPage} isAdmin={isAdmin} logout={logout} />
+      <div className="main-wrapper">
+        <Routes>
+          {/* ROTA HOME */}
+          <Route
+            path="/"
+            element={
+              <Home
+                players={playersWithStats}
+                matches={matches}
+                isAdmin={isAdmin}
+                getBestPartner={(id) => getBestPartner(id, matches, players)}
+              />
+            }
+          />
 
-              <div className="main-wrapper">
-                {page === "home" && (
-                  <Home
-                    players={playersWithStats}
-                    matches={matches}
-                    onSelectPlayer={handleOpenPlayerProfile}
-                    setPage={setPage}
-                    isAdmin={isAdmin}
-                    getBestPartner={(id) =>
-                      getBestPartner(id, matches, players)
-                    }
-                  />
-                )}
+          {/* ROTA PERFIL DO JOGADOR (Dinamica) */}
+          <Route
+            path="/player/:id"
+            element={
+              <PlayerPage
+                playersWithStats={playersWithStats}
+                matches={matches}
+                sortedPlayers={playersSortedByPoints}
+                isAdmin={isAdmin}
+                getBestPartner={(id) => getBestPartner(id, matches, players)}
+                onUpdatePlayer={handleUpdatePlayer}
+              />
+            }
+          />
 
-                {page === "playerProfile" && selectedPlayer && (
-                  <PlayerPage
-                    player={
-                      playersWithStats.find(
-                        (p) => p.id === selectedPlayer.id,
-                      ) || selectedPlayer
-                    }
-                    matches={matches}
-                    sortedPlayers={playersSortedByPoints}
-                    isAdmin={isAdmin}
-                    getBestPartner={(id) =>
-                      getBestPartner(id, matches, players)
-                    }
-                    onBack={() => setPage("home")}
-                    onUpdatePlayer={handleUpdatePlayer}
-                  />
-                )}
+          {/* ROTA CALENDÁRIO */}
+          <Route
+            path="/calendar"
+            element={
+              <Calendar
+                matches={matches}
+                players={players}
+                isAdmin={isAdmin}
+                setMatchToEdit={setMatchToEdit}
+                onDeleteMatch={handleDeleteMatch}
+                onUpdateMatchOrder={handleUpdateMatchOrder}
+              />
+            }
+          />
 
-                {page === "Calendar" && (
-                  <Calendar
-                    matches={matches}
-                    players={players}
-                    isAdmin={isAdmin}
-                    setPage={setPage}
-                    setMatchToEdit={setMatchToEdit}
-                    onDeleteMatch={handleDeleteMatch}
-                    onUpdateMatchOrder={handleUpdateMatchOrder}
-                  />
-                )}
+          {/* OUTRAS ROTAS */}
+          <Route path="/regras" element={<Regras isAdmin={isAdmin} />} />
+          <Route
+            path="/admin-login"
+            element={<AdminLogin setIsAdmin={setIsAdmin} />}
+          />
+          <Route
+            path="/admin-panel"
+            element={<AdminPanel players={players} matches={matches} />}
+          />
+          <Route
+            path="/admin-matches"
+            element={
+              <AdminMatches
+                players={players}
+                isAdmin={isAdmin}
+                matchToEdit={matchToEdit}
+                setMatchToEdit={setMatchToEdit}
+              />
+            }
+          />
+          <Route
+            path="/transparency"
+            element={<AdminTransparency isAdmin={isAdmin} />}
+          />
+          <Route
+            path="/hall-historico"
+            element={<HallHistorico isAdmin={isAdmin} />}
+          />
 
-                {page === "regras" && <Regras isAdmin={isAdmin} />}
-
-                {page === "adminLogin" && (
-                  <AdminLogin setIsAdmin={setIsAdmin} setPage={setPage} />
-                )}
-
-                {page === "adminPanel" && (
-                  <AdminPanel
-                    players={players}
-                    setPage={setPage}
-                    matches={matches}
-                  />
-                )}
-
-                {page === "adminMatches" && (
-                  <AdminMatches
-                    players={players}
-                    setPage={setPage}
-                    isAdmin={isAdmin}
-                    matchToEdit={matchToEdit}
-                    setMatchToEdit={setMatchToEdit}
-                  />
-                )}
-
-                {page === "AdminTransparency" && (
-                  <AdminTransparency isAdmin={isAdmin} />
-                )}
-
-                {page === "HallHistorico" && (
-                  <HallHistorico isAdmin={isAdmin} setPage={setPage} />
-                )}
-              </div>
-            </>
-          }
-        />
-      </Routes>
+          {/* ROTA DE PARTIDA (Já existente) */}
+          <Route
+            path="/match/:id"
+            element={
+              <MatchPage
+                matches={matches}
+                players={players}
+                isAdmin={isAdmin}
+              />
+            }
+          />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

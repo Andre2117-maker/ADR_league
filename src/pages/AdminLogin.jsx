@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importe o navigate
 import "../styles/admin.css";
 
-function AdminLogin({ setPage, setIsAdmin }) {
+function AdminLogin({ setIsAdmin }) {
+  // Removido setPage
   const [senha, setSenha] = useState("");
+  const navigate = useNavigate(); // Inicializa o hook
 
   const login = () => {
     if (senha === "s3r3n4") {
       setIsAdmin(true);
-      setPage("adminPanel");
+      // Redireciona para o painel. O "replace: true" substitui a tela de login
+      // no histórico para o usuário não voltar nela sem querer.
+      navigate("/admin-panel", { replace: true });
     } else {
       alert("Senha incorreta!");
     }
@@ -40,7 +45,7 @@ function AdminLogin({ setPage, setIsAdmin }) {
           Acessar Painel
         </button>
 
-        <button className="adm-login-btn-back" onClick={() => setPage("home")}>
+        <button className="adm-login-btn-back" onClick={() => navigate("/")}>
           Voltar para a Tabela
         </button>
       </div>
