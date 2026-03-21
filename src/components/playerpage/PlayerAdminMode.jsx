@@ -80,17 +80,30 @@ const PlayerAdminMode = ({ player, onSave, onCancel, SKILLS_ORDER }) => {
           <h3 className="adm-title">1. Dados Pessoais</h3>
           <div className="adm-grid-stats">
             <div className="adm-input-group">
-              <label>Aniversário</label>
+              <label>Aniversário (DD/MM/AAAA)</label>
               <input
                 type="date"
-                value={formData.birthDate || ""}
-                onChange={(e) =>
-                  setFormData({ ...formData, birthDate: e.target.value })
+                // CONVERSÃO PARA EXIBIR: "25/12/2026" vira "2026-12-25" para o input ler
+                value={
+                  formData.birthDate && formData.birthDate.includes("/")
+                    ? formData.birthDate.split("/").reverse().join("-")
+                    : ""
                 }
+                onChange={(e) => {
+                  const dateVal = e.target.value; // Vem como AAAA-MM-DD
+                  if (!dateVal) return;
+
+                  // CONVERSÃO PARA SALVAR: "2026-12-25" vira "25/12/2026"
+                  const [year, month, day] = dateVal.split("-");
+                  const dateWithSlash = `${day}/${month}/${year}`;
+
+                  setFormData({ ...formData, birthDate: dateWithSlash });
+                }}
               />
             </div>
             <div className="adm-input-group">
               <label>Pé Forte</label>
+
               <select
                 className="adm-select-field"
                 value={formData.strongFoot || ""}
