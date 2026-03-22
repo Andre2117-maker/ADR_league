@@ -1,41 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react"; // 1. Adicionado useMemo
+import { db } from "../firebase";
+import { doc, setDoc, onSnapshot } from "firebase/firestore"; // 2. Removido getDoc
 import "../styles/rules.css";
 import Footer from "../components/Footer";
 
 function Regras({ isAdmin }) {
-  // Estado inicial com o texto que vi na sua imagem
-  const [textoRegras, setTextoRegras] = useState(`⚽ Pontuação
-- Vitória: 3 pontos
-- Derrota: 0 pontos
-Se der empate, não haverá prorrogação e vai direto para os pênaltis:
-- Vencedor nos pênaltis: 3 pontos
-- Perdedor nos pênaltis: 0 ponto
-
-🥇 Premiação
-- 1º lugar: Troféu
-- 2º lugar: Caixa de Bombom (paga pelo Josué)
-- 3º lugar: High-five
-
-💀 Punição
-- Último lugar sofre punição definida pelo grupo
-
-📜 Critérios de desempate
-1. Pontos
-2. Gols
-3. Assistências
-4. Ordem alfabética
-
-OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais do ADR`);
-
+  const [textoRegras, setTextoRegras] = useState("Carregando regulamento...");
   const [isSaving, setIsSaving] = useState(false);
 
-  // Simula o salvamento automático quando o texto muda
-  const handleChange = (e) => {
-    setTextoRegras(e.target.value);
-    setIsSaving(true);
+  // 3. useMemo resolve o erro de dependência do useEffect
+  // Ele garante que a referência do documento não mude a cada renderização
+  const regrasDocRef = useMemo(() => doc(db, "settings", "regulamento"), []);
 
-    // Debounce fake para simular salvamento
-    setTimeout(() => setIsSaving(false), 1000);
+  useEffect(() => {
+    const unsubscribe = onSnapshot(regrasDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setTextoRegras(docSnap.data().content);
+      } else {
+        setTextoRegras("⚽ Pontuação...");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [regrasDocRef]); // 4. Agora podemos incluir com segurança no array de dependências
+
+  const handleSaveToFirebase = async (novoTexto) => {
+    setIsSaving(true);
+    try {
+      await setDoc(regrasDocRef, {
+        content: novoTexto,
+        lastUpdated: new Date(),
+      });
+
+      // Pequeno delay apenas para o feedback visual não piscar rápido demais
+      setTimeout(() => setIsSaving(false), 500);
+    } catch (error) {
+      console.error("Erro ao salvar regras:", error);
+      setIsSaving(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const valor = e.target.value;
+    setTextoRegras(valor);
+    handleSaveToFirebase(valor);
   };
 
   return (
@@ -43,7 +51,6 @@ OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais
       <h1 className="page-title">Regulamento Oficial</h1>
 
       <div className="rules-wrapper">
-        {/* Adicionamos o botão de download/abertura externa aqui */}
         <div className="pdf-actions">
           <a
             href="/docs/Regras.pdf"
@@ -56,7 +63,6 @@ OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais
         </div>
 
         <div className={`rules-paper ${isAdmin ? "editable" : ""}`}>
-          {/* ... (Todo o seu código do rules-header, content e footer continua aqui igual) ... */}
           <div className="rules-header">
             <div className="doc-stamp">ADR LEAGUE</div>
             <div className="doc-date">Vigência: 2026</div>
@@ -68,6 +74,7 @@ OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais
               value={textoRegras}
               onChange={handleChange}
               spellCheck={false}
+              placeholder="Digite as regras aqui..."
             />
           ) : (
             <div className="rules-content">
@@ -88,15 +95,11 @@ OBS: Minimo de jogadores para a partida contar na tabela são 8 membros oficiais
 
           <div className="rules-footer">
             {isAdmin ? (
-              <span
-                className={isSaving ? "saving-status blink" : "saving-status"}
-              >
-                {isSaving
-                  ? "💾 Salvando alterações..."
-                  : "✅ Todas as alterações salvas"}
+              <span className={`saving-status ${isSaving ? "blink" : ""}`}>
+                {isSaving ? "💾 Salvando na Nuvem..." : "✅ Sincronizado"}
               </span>
             ) : (
-              <span>Documento aprovado pela diretoria.</span>
+              <span>Documento oficial registrado.</span>
             )}
           </div>
         </div>
