@@ -1,0 +1,256 @@
+/* CONTAINER PRINCIPAL */
+.match-preview-container {
+  margin: 40px 0;
+  width: 100%;
+}
+
+.preview-card-glass {
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* PLACAR ESTILO TV */
+.tv-scoreboard {
+  background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.scoreboard-team {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.team-left {
+  justify-content: flex-end;
+}
+.team-right {
+  justify-content: flex-start;
+}
+
+.team-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.logo-wrapper {
+  width: 60px;
+  height: 60px;
+  background: #000;
+  border-radius: 15px;
+  padding: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.logo-placeholder {
+  font-size: 24px;
+  font-weight: 900;
+  color: #d4af37;
+}
+
+/* NÚMEROS DO PLACAR */
+.score-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+}
+
+.score-numbers {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 54px;
+  font-weight: 900;
+  color: #d4af37;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.score-numbers .divider {
+  color: #444;
+  font-size: 30px;
+}
+
+.penalties-tag {
+  background: #000000;
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 5px;
+}
+
+/* LINHA DO TEMPO */
+.timeline-section {
+  padding: 30px;
+}
+
+.section-label {
+  font-size: 10px;
+  color: #d4af37;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 25px;
+  opacity: 0.7;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+}
+
+.event-card-mini {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.event-card-mini:hover {
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-2px);
+}
+
+.event-main-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.e-icon {
+  font-size: 20px;
+}
+
+.e-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.e-player {
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+}
+
+.og-label {
+  color: #ff4d4d;
+  font-size: 10px;
+}
+
+.e-assist {
+  font-size: 11px;
+  color: #888;
+}
+
+.event-side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.e-team-tag {
+  font-size: 9px;
+  font-weight: 800;
+  color: #666;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.e-delete {
+  background: none;
+  border: none;
+  color: rgba(255, 77, 77, 0.4);
+  cursor: pointer;
+  padding: 5px;
+  transition: 0.2s;
+}
+
+.e-delete:hover {
+  color: #ff4d4d;
+  transform: scale(1.2);
+}
+
+.empty-timeline {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #444;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  /* Alinha tudo em coluna no centro */
+  .tv-scoreboard {
+    flex-direction: column;
+    padding: 30px 15px;
+    gap: 15px; /* Espaço entre time A, Placar e time B */
+  }
+
+  /* Garante que o placar (score-center) fique no meio */
+  .score-center {
+    order: 2; /* Fica em segundo na ordem visual */
+    margin: 10px 0;
+  }
+
+  .scoreboard-team.team-left {
+    order: 1; /* Time A em primeiro */
+    flex-direction: column; /* Logo acima do nome ou abaixo, conforme preferir */
+    justify-content: center;
+  }
+
+  .scoreboard-team.team-right {
+    order: 3; /* Time B em terceiro */
+    flex-direction: column-reverse; /* Se quiser a logo abaixo do nome */
+    justify-content: center;
+  }
+
+  /* Ajusta o tamanho da fonte para não quebrar em telas pequenas */
+  .team-text {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .score-numbers {
+    font-size: 45px;
+  }
+
+  .logo-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Ajusta o grid de eventos para ocupar a tela toda no mobile */
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+}

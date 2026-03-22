@@ -307,6 +307,7 @@ function App() {
             element={
               <AdminMatches
                 players={players}
+                matches={matches}
                 isAdmin={isAdmin}
                 matchToEdit={matchToEdit}
                 setMatchToEdit={setMatchToEdit}

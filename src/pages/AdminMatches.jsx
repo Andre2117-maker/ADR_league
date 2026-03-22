@@ -1,129 +1,126 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { db } from "../firebase";
 import {
-  collection,
-  addDoc,
-  doc,
   updateDoc,
+  doc,
+  addDoc,
+  collection,
   serverTimestamp,
 } from "firebase/firestore";
+import MatchPreview from "../components/adminmatches/MatchPreview";
 import "../styles/adminmatches.css";
 
-/* ======================
-   PREVIEW DA PARTIDA + LISTA DE EXCLUSÃO
-====================== */
-function MatchPreview({
-  draft,
-  players,
-  goalsA,
-  goalsB,
-  penaltiesWinner,
-  removeEvent,
-}) {
-  const playerName = (id) =>
-    players.find((p) => p.id === id)?.name || "Jogador";
+/* ==========================================================================
+   SUB-COMPONENTE: LINHA DO JOGADOR
+   ========================================================================== */
+const PlayerRow = ({
+  player,
+  isSelected,
+  isGK,
+  onToggle,
+  onSetGK,
+  onGoal,
+  onOwnGoal,
+  onCard,
+}) => (
+  <div className={`player-row ${isSelected ? "active" : ""}`}>
+    <div className="p-clickable-area" onClick={onToggle}>
+      <input type="checkbox" checked={isSelected} readOnly />
+      <span className="p-name">
+        {player.name} {isGK && "🧤"}
+      </span>
+    </div>
 
-  return (
-    <div className="match-preview">
-      <div className="preview-score">
-        <span className="team-name">{draft.teamA.name || "Time A"}</span>
-        <span className="score-badge">
-          {goalsA} x {goalsB}
-        </span>
-        <span className="team-name">{draft.teamB.name || "Time B"}</span>
-      </div>
-
-      {penaltiesWinner && (
-        <div className="penalty-info">
-          🏆 Venceu nos Pênaltis:{" "}
-          {penaltiesWinner === "A" ? draft.teamA.name : draft.teamB.name}
-        </div>
-      )}
-
-      {/* LISTA PARA REMOVER GOLS/EVENTOS ESPECÍFICOS */}
-      <div className="events-manager-list">
-        <h4
-          style={{
-            color: "#d4af37",
-            fontSize: "11px",
-            textAlign: "center",
-            marginBottom: "10px",
+    {isSelected && (
+      <div className="actions">
+        <button
+          title="Goleiro"
+          className={`btn-gk ${isGK ? "is-gk" : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSetGK();
           }}
         >
-          LINHA DO TEMPO (Clique no X para excluir)
-        </h4>
-        {draft.events.length === 0 && (
-          <p style={{ fontSize: "10px", textAlign: "center", color: "#666" }}>
-            Nenhum gol registrado
-          </p>
-        )}
-        {draft.events.map((e) => (
-          <div key={e.id} className="event-item-removable">
-            <button
-              className="delete-event-btn"
-              onClick={() => removeEvent(e.id)}
-            >
-              ✕
-            </button>
-
-            <span
-              className="event-icon"
-              style={{ marginRight: "10px", fontSize: "16px" }}
-            >
-              {e.type === "GOAL" ? "⚽" : "⚠️ GC"}
-            </span>
-
-            <span className="event-details">
-              <strong style={{ marginRight: "8px" }}>
-                {playerName(e.playerId)}
-              </strong>
-              {e.assistId && (
-                <span className="assist-text">
-                  (Assist: {playerName(e.assistId)} 👟)
-                </span>
-              )}
-              <span className="team-indicator">
-                {e.team === "A"
-                  ? `[${draft.teamA.name}]`
-                  : `[${draft.teamB.name}]`}
-              </span>
-            </span>
-          </div>
-        ))}
+          GK
+        </button>
+        <button
+          title="Marcar Gol"
+          className="btn-goal"
+          onClick={(e) => {
+            e.stopPropagation();
+            onGoal();
+          }}
+        >
+          ⚽
+        </button>
+        <button
+          title="Gol Contra"
+          className="btn-og"
+          onClick={(e) => {
+            e.stopPropagation();
+            onOwnGoal();
+          }}
+        >
+          GC
+        </button>
+        <button
+          title="Cartão Amarelo"
+          className="btn-card yellow"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCard("YELLOW");
+          }}
+        >
+          🟨
+        </button>
+        <button
+          title="Cartão Vermelho"
+          className="btn-card red"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCard("RED");
+          }}
+        >
+          🟥
+        </button>
       </div>
-    </div>
-  );
-}
+    )}
+  </div>
+);
 
-/* ======================
+/* ==========================================================================
    COMPONENTE PRINCIPAL
-====================== */
+   ========================================================================== */
 function AdminMatches({
   players,
   setPage,
   isAdmin,
   matchToEdit,
   setMatchToEdit,
+  matches,
 }) {
   const [loading, setLoading] = useState(false);
+  const [matchType, setMatchType] = useState(matchToEdit?.type || "TREINO");
+  const [showAssistModal, setShowAssistModal] = useState(null);
+  const [extScorerName, setExtScorerName] = useState(""); // <-- NOVO ESTADO AQUI
+
   const [draft, setDraft] = useState(() => {
     if (matchToEdit) return matchToEdit;
     return {
-      date: "",
+      date: new Date().toISOString().split("T")[0],
       venue: "",
-      teamA: { name: "", players: [], goalkeeperId: null },
-      teamB: { name: "", players: [], goalkeeperId: null },
+      teamA: { name: "", players: [], goalkeeperId: null, logo: "" },
+      teamB: { name: "", players: [], goalkeeperId: null, logo: "" },
       events: [],
       penaltiesWinner: null,
     };
   });
 
-  // O useMemo DEVE vir aqui, antes do check de isAdmin
-  const sortedPlayers = useMemo(() => {
-    return [...players].sort((a, b) => a.name.localeCompare(b.name));
-  }, [players]);
+  const sortedPlayers = useMemo(
+    () => [...players].sort((a, b) => a.name.localeCompare(b.name)),
+    [players],
+  );
 
-  // SÓ AGORA você pode fazer o check de segurança
   if (!isAdmin) {
     return (
       <div
@@ -138,126 +135,159 @@ function AdminMatches({
     );
   }
 
-  const goals = (team) =>
-    draft.events.filter((e) => {
-      if (e.type === "GOAL" && e.team === team) return true;
-      if (e.type === "OWN_GOAL" && e.team !== team) return true;
-      return false;
-    }).length;
-
-  const goalsA = goals("A");
-  const goalsB = goals("B");
+  // Cálculos de Gols (Lógica corrigida: GC soma para o adversário)
+  const goalsA = draft.events.filter(
+    (e) =>
+      (e.type === "GOAL" && e.team === "A") ||
+      (e.type === "OWN_GOAL" && e.team === "B"),
+  ).length;
+  const goalsB = draft.events.filter(
+    (e) =>
+      (e.type === "GOAL" && e.team === "B") ||
+      (e.type === "OWN_GOAL" && e.team === "A"),
+  ).length;
   const isDraw = goalsA === goalsB;
 
-  const togglePlayer = (team, playerId) => {
-    setDraft((prev) => {
-      const key = team === "A" ? "teamA" : "teamB";
-      const list = prev[key].players;
-      const isRemoving = list.includes(playerId);
-      return {
-        ...prev,
-        [key]: {
-          ...prev[key],
-          players: isRemoving
-            ? list.filter((id) => id !== playerId)
-            : [...list, playerId],
-          goalkeeperId:
-            isRemoving && prev[key].goalkeeperId === playerId
-              ? null
-              : prev[key].goalkeeperId,
-        },
-        // Se remover o jogador da escalação, remove os gols dele também
-        events: isRemoving
-          ? prev.events.filter(
-              (e) => e.playerId !== playerId && e.assistId !== playerId,
-            )
-          : prev.events,
-      };
-    });
+  // --- FUNÇÕES DE MANIPULAÇÃO ---
+
+  const addEvent = (
+    team,
+    playerId,
+    type,
+    assistId = null,
+    externalName = null,
+  ) => {
+    setDraft((prev) => ({
+      ...prev,
+      events: [
+        ...prev.events,
+        {
+          id: crypto.randomUUID(),
+          team,
+          playerId,
+          type,
+          assistId,
+          externalName,
+        }, // Salva o nome aqui
+      ],
+    }));
+    setShowAssistModal(null);
   };
 
-  const addGoalWithAssist = (team, playerId) => {
-    const teamData = team === "A" ? draft.teamA : draft.teamB;
-    const teammates = players.filter(
-      (p) => teamData.players.includes(p.id) && p.id !== playerId,
+  const handleGoalClick = (team, playerId, externalName = null) => {
+    if (playerId === "OPONENTE_EXTERNO") {
+      addEvent(team, playerId, "GOAL", null, externalName);
+    } else {
+      setShowAssistModal({ team, playerId });
+    }
+  };
+
+  const handleRepeatSquad = () => {
+    if (!matches || matches.length === 0) {
+      return alert("Nenhuma partida anterior encontrada para repetir.");
+    }
+
+    // Pega a última partida (baseado na propriedade 'order' ou a última do array)
+    const lastMatch = [...matches].sort((a, b) => b.order - a.order)[0];
+
+    setDraft((prev) => ({
+      ...prev,
+      // Mantém data e local atuais do formulário, mas puxa os times da última partida
+      teamA: {
+        name: lastMatch.teamA.name,
+        players: lastMatch.teamA.players,
+        goalkeeperId: lastMatch.teamA.goalkeeperId,
+        logo: lastMatch.teamA.logo || "",
+      },
+      teamB: {
+        name: lastMatch.teamB.name,
+        players: lastMatch.teamB.players,
+        goalkeeperId: lastMatch.teamB.goalkeeperId,
+        logo: lastMatch.teamB.logo || "",
+      },
+      events: [], // Sempre começa com 0 gols
+      penaltiesWinner: null,
+    }));
+
+    alert(
+      `Escalação de "${lastMatch.teamA.name} vs ${lastMatch.teamB.name}" carregada!`,
     );
-
-    let msg = `Assistência para o gol de ${players.find((p) => p.id === playerId).name}:\n\n0 - Sem assistência\n`;
-    teammates.forEach((p, i) => (msg += `${i + 1} - ${p.name}\n`));
-
-    const choice = prompt(msg, "0");
-    if (choice === null) return;
-
-    const index = parseInt(choice) - 1;
-    const assistId = teammates[index] ? teammates[index].id : null;
-
-    setDraft((prev) => ({
-      ...prev,
-      events: [
-        ...prev.events,
-        { id: crypto.randomUUID(), team, playerId, type: "GOAL", assistId },
-      ],
-    }));
-  };
-
-  const addOwnGoal = (team, playerId) => {
-    setDraft((prev) => ({
-      ...prev,
-      events: [
-        ...prev.events,
-        { id: crypto.randomUUID(), team, playerId, type: "OWN_GOAL" },
-      ],
-    }));
-  };
-
-  const removeEvent = (eventId) => {
-    setDraft((prev) => ({
-      ...prev,
-      events: prev.events.filter((e) => e.id !== eventId),
-    }));
   };
 
   const saveMatch = async () => {
-    if (!draft.date || !draft.teamA.name || !draft.teamB.name)
-      return alert("Erro: Data e nomes dos times são obrigatórios.");
+    if (!draft.date || !draft.venue)
+      return alert("Preencha data e localização.");
     if (isDraw && !draft.penaltiesWinner)
-      return alert("Empate! Selecione o vencedor nos pênaltis.");
-    if (!draft.teamA.goalkeeperId || !draft.teamB.goalkeeperId)
-      return alert("Selecione os goleiros para as estatísticas.");
+      return alert("Selecione o vencedor nos pênaltis.");
+
+    const needsGkB = matchType === "TREINO";
+    if (!draft.teamA.goalkeeperId || (needsGkB && !draft.teamB.goalkeeperId)) {
+      return alert("Selecione os goleiros!");
+    }
 
     setLoading(true);
     try {
+      const teamAData = {
+        ...draft.teamA,
+        goalkeeperGoalsAgainst: Number(goalsB),
+        goalkeeperCleanSheet: Number(goalsB) === 0 ? 1 : 0,
+      };
+
+      const teamBData = {
+        ...draft.teamB,
+        goalkeeperGoalsAgainst: Number(goalsA),
+        goalkeeperCleanSheet: Number(goalsA) === 0 ? 1 : 0,
+      };
+
       const finalData = {
-        ...draft,
+        date: draft.date,
+        venue: draft.venue,
+        events: draft.events,
+        teamA: teamAData,
+        teamB: teamBData,
+        goalsA: Number(goalsA),
+        goalsB: Number(goalsB),
+        type: matchType,
+        penaltiesWinner: isDraw ? draft.penaltiesWinner : null,
         updatedAt: serverTimestamp(),
-        teamA: {
-          ...draft.teamA,
-          goalkeeperGoalsAgainst: goalsB,
-          goalkeeperCleanSheet: goalsB === 0 ? 1 : 0,
-        },
-        teamB: {
-          ...draft.teamB,
-          goalkeeperGoalsAgainst: goalsA,
-          goalkeeperCleanSheet: goalsA === 0 ? 1 : 0,
-        },
+        formationA: draft.formationA || "5_JOG_1-2-2",
+        formationB: draft.formationB || "5_JOG_1-2-2",
+        order: Date.now(),
       };
 
       if (matchToEdit?.id) {
         await updateDoc(doc(db, "matches", matchToEdit.id), finalData);
-        alert("Partida atualizada!");
       } else {
         await addDoc(collection(db, "matches"), {
           ...finalData,
           createdAt: serverTimestamp(),
-          order: Date.now(),
         });
-        alert("Partida salva!");
       }
-      setMatchToEdit(null);
-      setPage("adminPanel");
+
+      alert("Partida salva com sucesso!");
+
+      // --- LOGICA DE LIMPEZA APÓS SALVAR ---
+      // Guardamos os times em uma variável temporária se quiser facilitar o "Repetir"
+      // mas para seguir sua regra de LIMPAR TUDO:
+      setDraft({
+        date: draft.date, // Mantém a data e local para agilizar
+        venue: draft.venue,
+        teamA: { name: "ADR", players: [], goalkeeperId: null, logo: "" },
+        teamB: {
+          name: matchType === "TREINO" ? "ADR" : "",
+          players: [],
+          goalkeeperId: null,
+          logo: "",
+        },
+        events: [],
+        penaltiesWinner: null,
+      });
+
+      if (setMatchToEdit) setMatchToEdit(null);
+      // REMOVIDO: navigate("/admin-panel"); <-- Agora você fica na página
     } catch (e) {
-      console.error(e);
-      alert("Erro ao salvar no Firebase.");
+      console.error("Erro ao salvar:", e);
+      alert("Erro: " + e.message);
     } finally {
       setLoading(false);
     }
@@ -269,22 +299,18 @@ function AdminMatches({
       style={{ paddingTop: "100px", paddingBottom: "80px" }}
     >
       <header className="admin-header-flex">
-        <button
-          onClick={() => {
-            setMatchToEdit(null);
-            setPage("adminPanel");
-          }}
-          className="btn-voltar-curto"
-        >
-          ← Voltar
-        </button>
-        <h1 className="page-title">
-          {matchToEdit ? "Editar Partida" : "Cadastrar Partida"}
-        </h1>
-        <div style={{ width: "60px" }}></div>
+        <div className="match-type-selector">
+          <select
+            value={matchType}
+            onChange={(e) => setMatchType(e.target.value)}
+          >
+            <option value="TREINO">🏟️ TREINO INTERNO</option>
+            <option value="AMISTOSO">🤝 AMISTOSO EXTERNO</option>
+          </select>
+        </div>
       </header>
 
-      {/* BOX DE CONFIGURAÇÃO BÁSICA */}
+      {/* BOX CONFIGURAÇÃO */}
       <div className="admin-box-grid">
         <div className="field">
           <label>DATA</label>
@@ -295,106 +321,196 @@ function AdminMatches({
           />
         </div>
         <div className="field">
-          <label>LOCAL</label>
+          <label>LOCALIZAÇÃO</label>
           <input
-            placeholder="Ex: Maracanã"
+            type="text"
+            placeholder="Arena ADR..."
             value={draft.venue}
             onChange={(e) => setDraft({ ...draft, venue: e.target.value })}
           />
         </div>
         <div className="field">
-          <label>TIME A</label>
-          <input
-            placeholder="Ex: ADR"
-            value={draft.teamA.name}
-            onChange={(e) =>
-              setDraft({
-                ...draft,
-                teamA: { ...draft.teamA, name: e.target.value },
-              })
-            }
-          />
-        </div>
-        <div className="field">
-          <label>TIME B</label>
-          <input
-            placeholder="Ex: IDR"
-            value={draft.teamB.name}
-            onChange={(e) =>
-              setDraft({
-                ...draft,
-                teamB: { ...draft.teamB, name: e.target.value },
-              })
-            }
-          />
+          <label>AÇÕES RÁPIDAS</label>
+          <button className="btn-repeat" onClick={handleRepeatSquad}>
+            🔄 Limpar Placar (Manter Time)
+          </button>
         </div>
       </div>
 
-      {/* ESCALAÇÃO E GOLS */}
       <div className="match-teams-grid">
-        {["A", "B"].map((team) => (
-          <div key={team} className="team-card">
-            <h3>
-              Escalar{" "}
-              {team === "A"
-                ? draft.teamA.name || "Time A"
-                : draft.teamB.name || "Time B"}
-            </h3>
-            <div className="players-scroll">
-              {sortedPlayers.map((p) => {
-                const teamObj = team === "A" ? draft.teamA : draft.teamB;
-                const isSelected = teamObj.players.includes(p.id);
-                const isGK = teamObj.goalkeeperId === p.id;
-                return (
-                  <div
-                    key={p.id}
-                    className={`player-row ${isSelected ? "active" : ""}`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => togglePlayer(team, p.id)}
-                    />
-                    <span className="p-name">
-                      {p.name} {isGK && "🧤"}
-                    </span>
-                    {isSelected && (
-                      <div className="actions">
-                        <button
-                          className={`btn-gk ${isGK ? "is-gk" : ""}`}
-                          onClick={() =>
-                            setDraft({
-                              ...draft,
-                              [team === "A" ? "teamA" : "teamB"]: {
-                                ...teamObj,
-                                goalkeeperId: p.id,
-                              },
-                            })
-                          }
-                        >
-                          GK
-                        </button>
-                        <button
-                          className="btn-goal"
-                          onClick={() => addGoalWithAssist(team, p.id)}
-                        >
-                          ⚽
-                        </button>
-                        <button
-                          className="btn-og"
-                          onClick={() => addOwnGoal(team, p.id)}
-                        >
-                          GC
-                        </button>
-                      </div>
+        {["A", "B"].map((t) => (
+          <div key={t} className="team-card">
+            <input
+              className="team-name-input"
+              placeholder="ADR"
+              value={t === "A" ? draft.teamA.name : draft.teamB.name}
+              onChange={(e) =>
+                setDraft({
+                  ...draft,
+                  [t === "A" ? "teamA" : "teamB"]: {
+                    ...draft[t === "A" ? "teamA" : "teamB"],
+                    name: e.target.value,
+                  },
+                })
+              }
+            />
+
+            {matchType === "AMISTOSO" && t === "B" ? (
+              <div className="external-tools">
+                <div className="external-field">
+                  <label>Logo do Adversário (Pasta /png)</label>
+                  <div className="logo-input-group">
+                    {draft.teamB.logo && (
+                      <img
+                        src={draft.teamB.logo}
+                        alt="Logo"
+                        className="ext-logo-preview"
+                      />
                     )}
+                    <input
+                      type="text"
+                      placeholder="Ex: /png/adversario.png"
+                      value={draft.teamB.logo}
+                      onChange={(e) =>
+                        setDraft({
+                          ...draft,
+                          teamB: { ...draft.teamB, logo: e.target.value },
+                        })
+                      }
+                    />
                   </div>
-                );
-              })}
-            </div>
+                </div>
+
+                <div className="external-field" style={{ marginTop: "20px" }}>
+                  <label>Registrar Gol do Adversário</label>
+                  <div className="external-goal-group">
+                    <input
+                      type="text"
+                      placeholder="Nome do Jogador"
+                      value={extScorerName}
+                      onChange={(e) => setExtScorerName(e.target.value)}
+                    />
+                    <button
+                      className="btn-external-goal"
+                      onClick={() => {
+                        handleGoalClick(
+                          "B",
+                          "OPONENTE_EXTERNO",
+                          extScorerName || "Desconhecido",
+                        );
+                        setExtScorerName(""); // Limpa o campo após o gol
+                      }}
+                    >
+                      ⚽ Gol
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="players-scroll">
+                {sortedPlayers.map((p) => (
+                  <PlayerRow
+                    key={p.id}
+                    player={p}
+                    isSelected={draft[
+                      t === "A" ? "teamA" : "teamB"
+                    ].players.includes(p.id)}
+                    isGK={
+                      draft[t === "A" ? "teamA" : "teamB"].goalkeeperId === p.id
+                    }
+                    onToggle={() => {
+                      const key = t === "A" ? "teamA" : "teamB";
+                      const isRemoving = draft[key].players.includes(p.id);
+                      setDraft({
+                        ...draft,
+                        [key]: {
+                          ...draft[key],
+                          players: isRemoving
+                            ? draft[key].players.filter((id) => id !== p.id)
+                            : [...draft[key].players, p.id],
+                        },
+                        events: isRemoving
+                          ? draft.events.filter((e) => e.playerId !== p.id)
+                          : draft.events,
+                      });
+                    }}
+                    onSetGK={() =>
+                      setDraft({
+                        ...draft,
+                        [t === "A" ? "teamA" : "teamB"]: {
+                          ...draft[t === "A" ? "teamA" : "teamB"],
+                          goalkeeperId: p.id,
+                        },
+                      })
+                    }
+                    onGoal={() => handleGoalClick(t, p.id)}
+                    onOwnGoal={() => addEvent(t, p.id, "OWN_GOAL")}
+                    onCard={(type) => addEvent(t, p.id, type)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
+
+      {/* MODAL DE ASSISTÊNCIA */}
+      {showAssistModal && (
+        <div className="assist-modal-overlay">
+          <div className="assist-modal">
+            <h3>
+              ASSISTÊNCIA PARA:{" "}
+              {
+                sortedPlayers.find((p) => p.id === showAssistModal.playerId)
+                  ?.name
+              }
+            </h3>
+            <div className="assist-grid">
+              <button
+                className="btn-no-assist"
+                onClick={() =>
+                  addEvent(
+                    showAssistModal.team,
+                    showAssistModal.playerId,
+                    "GOAL",
+                  )
+                }
+              >
+                ❌ Sem Assistência
+              </button>
+              {sortedPlayers
+                .filter(
+                  (p) =>
+                    draft[
+                      showAssistModal.team === "A" ? "teamA" : "teamB"
+                    ].players.includes(p.id) &&
+                    p.id !== showAssistModal.playerId,
+                )
+                .map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() =>
+                      addEvent(
+                        showAssistModal.team,
+                        showAssistModal.playerId,
+                        "GOAL",
+                        p.id,
+                      )
+                    }
+                  >
+                    {p.name}
+                  </button>
+                ))}
+            </div>
+            <button
+              className="btn-cancel"
+              onClick={() => setShowAssistModal(null)}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
 
       <MatchPreview
         draft={draft}
@@ -402,24 +518,29 @@ function AdminMatches({
         goalsA={goalsA}
         goalsB={goalsB}
         penaltiesWinner={isDraw ? draft.penaltiesWinner : null}
-        removeEvent={removeEvent}
+        removeEvent={(id) =>
+          setDraft((prev) => ({
+            ...prev,
+            events: prev.events.filter((e) => e.id !== id),
+          }))
+        }
       />
 
       {isDraw && (
         <div className="penalty-selector">
-          <p>EMPATOU! QUEM GANHOU NOS PÊNALTIS?</p>
+          <p>QUEM VENCEU NOS PÊNALTIS?</p>
           <div className="p-btns">
             <button
-              className={draft.penaltiesWinner === "A" ? "selected" : ""}
+              className={draft.penaltiesWinner === "A" ? "sel" : ""}
               onClick={() => setDraft({ ...draft, penaltiesWinner: "A" })}
             >
-              {draft.teamA.name || "Time A"}
+              {draft.teamA.name}
             </button>
             <button
-              className={draft.penaltiesWinner === "B" ? "selected" : ""}
+              className={draft.penaltiesWinner === "B" ? "sel" : ""}
               onClick={() => setDraft({ ...draft, penaltiesWinner: "B" })}
             >
-              {draft.teamB.name || "Time B"}
+              {draft.teamB.name}
             </button>
           </div>
         </div>
@@ -430,7 +551,7 @@ function AdminMatches({
         disabled={loading}
         className="confirm-btn-final"
       >
-        {loading ? "PROCESSANDO..." : "CONCLUIR E SALVAR"}
+        {loading ? "SALVANDO..." : "CONCLUIR E SALVAR PARTIDA"}
       </button>
     </div>
   );
