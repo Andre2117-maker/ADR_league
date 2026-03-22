@@ -8,7 +8,6 @@ function Calendar({
   matches,
   players,
   isAdmin,
-  setPage,
   setMatchToEdit,
   onDeleteMatch,
 }) {
@@ -63,8 +62,11 @@ function Calendar({
   };
 
   const handleEditMatch = (match) => {
+    // 1. Opcional: Ainda setar o estado global se o seu AdminMatches depender dele
     setMatchToEdit(match);
-    setPage("adminMatches");
+
+    // 2. Navegar para a rota do admin levando os dados no state
+    navigate("/admin", { state: { matchData: match } });
   };
 
   // --- LÓGICA DO CALENDÁRIO ---
@@ -373,9 +375,11 @@ function Calendar({
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
+                            gap: "2px",
                           }}
                         >
                           <div className="score-board">
+                            {/* Placar Real Time A */}
                             <span className="score-number">
                               {
                                 match.events.filter(
@@ -384,9 +388,40 @@ function Calendar({
                                     (e.type === "OWN_GOAL" && e.team === "B"),
                                 ).length
                               }
+                              {/* Mini Placar de Pênaltis Time A */}
+                              {match.penaltiesScoreA !== undefined &&
+                                match.penaltiesScoreA !== null && (
+                                  <span
+                                    style={{
+                                      fontSize: "12px",
+                                      marginLeft: "4px",
+                                      color: "#d4af37",
+                                      verticalAlign: "top",
+                                    }}
+                                  >
+                                    ({match.penaltiesScoreA})
+                                  </span>
+                                )}
                             </span>
+
                             <span className="versus">X</span>
+
+                            {/* Placar Real Time B */}
                             <span className="score-number">
+                              {/* Mini Placar de Pênaltis Time B */}
+                              {match.penaltiesScoreB !== undefined &&
+                                match.penaltiesScoreB !== null && (
+                                  <span
+                                    style={{
+                                      fontSize: "12px",
+                                      marginRight: "4px",
+                                      color: "#d4af37",
+                                      verticalAlign: "top",
+                                    }}
+                                  >
+                                    ({match.penaltiesScoreB})
+                                  </span>
+                                )}
                               {
                                 match.events.filter(
                                   (e) =>
@@ -396,22 +431,8 @@ function Calendar({
                               }
                             </span>
                           </div>
-                          {match.penaltiesWinner && (
-                            <div
-                              className="penalties-tag"
-                              style={{
-                                marginTop: "5px",
-                                color: "#d4af37",
-                                fontSize: "11px",
-                                fontWeight: "bold",
-                              }}
-                            >
-                              🏆 Venceu nos Pênaltis:{" "}
-                              {match.penaltiesWinner === "A"
-                                ? match.teamA.name
-                                : match.teamB.name}
-                            </div>
-                          )}
+
+                          {/* A TAG penalties-tag FOI REMOVIDA DAQUI */}
                         </div>
 
                         <div className="team-side">

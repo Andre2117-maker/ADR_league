@@ -9,6 +9,8 @@ import {
 } from "firebase/firestore";
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import "../styles/adminmatches.css";
+import { query, orderBy, limit, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 /* ==========================================================================
    SUB-COMPONENTE: LINHA DO JOGADOR
@@ -93,7 +95,6 @@ const PlayerRow = ({
    ========================================================================== */
 function AdminMatches({
   players,
-  setPage,
   isAdmin,
   matchToEdit,
   setMatchToEdit,
@@ -103,6 +104,7 @@ function AdminMatches({
   const [matchType, setMatchType] = useState(matchToEdit?.type || "TREINO");
   const [showAssistModal, setShowAssistModal] = useState(null);
   const [extScorerName, setExtScorerName] = useState(""); // <-- NOVO ESTADO AQUI
+  const navigate = useNavigate();
 
   const [draft, setDraft] = useState(() => {
     if (matchToEdit) return matchToEdit;
@@ -113,6 +115,8 @@ function AdminMatches({
       teamB: { name: "", players: [], goalkeeperId: null, logo: "" },
       events: [],
       penaltiesWinner: null,
+      penaltiesScoreA: "", // <-- NOVO
+      penaltiesScoreB: "",
     };
   });
 
@@ -128,7 +132,8 @@ function AdminMatches({
         style={{ textAlign: "center", paddingTop: "120px" }}
       >
         <h2 style={{ color: "red" }}>🚫 Acesso Negado</h2>
-        <button onClick={() => setPage("home")} className="back-btn">
+        {/* 3. Troque setPage por navigate */}
+        <button onClick={() => navigate("/")} className="back-btn">
           Voltar
         </button>
       </div>
@@ -214,45 +219,68 @@ function AdminMatches({
     );
   };
 
-  const saveMatch = async () => {
-    if (!draft.date || !draft.venue)
-      return alert("Preencha data e localização.");
-    if (isDraw && !draft.penaltiesWinner)
-      return alert("Selecione o vencedor nos pênaltis.");
+  const getNextOrder = async () => {
+    try {
+      const q = query(
+        collection(db, "matches"),
+        orderBy("order", "desc"),
+        limit(1),
+      );
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const lastMatch = querySnapshot.docs[0].data();
+        return (Number(lastMatch.order) || 0) + 1;
+      }
+      return 1; // Se for a primeira partida do banco
+    } catch (error) {
+      console.error("Erro ao buscar ordem:", error);
+      return 1;
+    }
+  };
 
-    const needsGkB = matchType === "TREINO";
-    if (!draft.teamA.goalkeeperId || (needsGkB && !draft.teamB.goalkeeperId)) {
-      return alert("Selecione os goleiros!");
+  // 1. Certifique-se de ter isso no topo do seu componente:
+  // import { useNavigate } from "react-router-dom";
+  // const navigate = useNavigate();
+
+  const saveMatch = async () => {
+    if (!draft.date || !draft.venue) {
+      return alert("Preencha data e localização.");
+    }
+
+    if (isDraw) {
+      if (draft.penaltiesScoreA === "" || draft.penaltiesScoreB === "") {
+        return alert("Preencha o placar dos pênaltis.");
+      }
+      if (Number(draft.penaltiesScoreA) === Number(draft.penaltiesScoreB)) {
+        return alert("O placar dos pênaltis não pode ser empate.");
+      }
     }
 
     setLoading(true);
     try {
-      const teamAData = {
-        ...draft.teamA,
-        goalkeeperGoalsAgainst: Number(goalsB),
-        goalkeeperCleanSheet: Number(goalsB) === 0 ? 1 : 0,
-      };
+      const pWinner =
+        Number(draft.penaltiesScoreA) > Number(draft.penaltiesScoreB)
+          ? "A"
+          : "B";
 
-      const teamBData = {
-        ...draft.teamB,
-        goalkeeperGoalsAgainst: Number(goalsA),
-        goalkeeperCleanSheet: Number(goalsA) === 0 ? 1 : 0,
-      };
+      const finalOrder = matchToEdit?.order
+        ? matchToEdit.order
+        : await getNextOrder();
 
       const finalData = {
         date: draft.date,
         venue: draft.venue,
         events: draft.events,
-        teamA: teamAData,
-        teamB: teamBData,
+        teamA: { ...draft.teamA, goalkeeperGoalsAgainst: Number(goalsB) },
+        teamB: { ...draft.teamB, goalkeeperGoalsAgainst: Number(goalsA) },
         goalsA: Number(goalsA),
         goalsB: Number(goalsB),
         type: matchType,
-        penaltiesWinner: isDraw ? draft.penaltiesWinner : null,
+        penaltiesScoreA: isDraw ? Number(draft.penaltiesScoreA) : null,
+        penaltiesScoreB: isDraw ? Number(draft.penaltiesScoreB) : null,
+        penaltiesWinner: isDraw ? pWinner : null,
         updatedAt: serverTimestamp(),
-        formationA: draft.formationA || "5_JOG_1-2-2",
-        formationB: draft.formationB || "5_JOG_1-2-2",
-        order: Date.now(),
+        order: finalOrder,
       };
 
       if (matchToEdit?.id) {
@@ -264,30 +292,19 @@ function AdminMatches({
         });
       }
 
-      alert("Partida salva com sucesso!");
+      alert(`Partida #${finalOrder} salva com sucesso!`);
 
-      // --- LOGICA DE LIMPEZA APÓS SALVAR ---
-      // Guardamos os times em uma variável temporária se quiser facilitar o "Repetir"
-      // mas para seguir sua regra de LIMPAR TUDO:
-      setDraft({
-        date: draft.date, // Mantém a data e local para agilizar
-        venue: draft.venue,
-        teamA: { name: "ADR", players: [], goalkeeperId: null, logo: "" },
-        teamB: {
-          name: matchType === "TREINO" ? "ADR" : "",
-          players: [],
-          goalkeeperId: null,
-          logo: "",
-        },
-        events: [],
-        penaltiesWinner: null,
-      });
+      // Limpa o estado de edição
+      if (typeof setMatchToEdit === "function") {
+        setMatchToEdit(null);
+      }
 
-      if (setMatchToEdit) setMatchToEdit(null);
-      // REMOVIDO: navigate("/admin-panel"); <-- Agora você fica na página
+      // --- CORREÇÃO AQUI ---
+      // Em vez de setPage, usamos o navigate para voltar à home/calendário
+      navigate("/");
     } catch (e) {
-      console.error("Erro ao salvar:", e);
-      alert("Erro: " + e.message);
+      console.error(e);
+      alert("Erro ao salvar: " + e.message);
     } finally {
       setLoading(false);
     }
@@ -528,20 +545,31 @@ function AdminMatches({
 
       {isDraw && (
         <div className="penalty-selector">
-          <p>QUEM VENCEU NOS PÊNALTIS?</p>
-          <div className="p-btns">
-            <button
-              className={draft.penaltiesWinner === "A" ? "sel" : ""}
-              onClick={() => setDraft({ ...draft, penaltiesWinner: "A" })}
-            >
-              {draft.teamA.name}
-            </button>
-            <button
-              className={draft.penaltiesWinner === "B" ? "sel" : ""}
-              onClick={() => setDraft({ ...draft, penaltiesWinner: "B" })}
-            >
-              {draft.teamB.name}
-            </button>
+          <p>🏆 PLACAR DOS PÊNALTIS</p>
+          <div className="p-score-input-wrapper">
+            <div className="p-input-side">
+              <label>{draft.teamA.name || "Time A"}</label>
+              <input
+                type="number"
+                value={draft.penaltiesScoreA}
+                onChange={(e) =>
+                  setDraft({ ...draft, penaltiesScoreA: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="p-vs-circle">X</div>
+
+            <div className="p-input-side">
+              <label>{draft.teamB.name || "Time B"}</label>
+              <input
+                type="number"
+                value={draft.penaltiesScoreB}
+                onChange={(e) =>
+                  setDraft({ ...draft, penaltiesScoreB: e.target.value })
+                }
+              />
+            </div>
           </div>
         </div>
       )}

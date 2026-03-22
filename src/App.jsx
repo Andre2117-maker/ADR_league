@@ -11,7 +11,6 @@ import {
   doc, // Adicione este
   updateDoc, // Adicione este
   deleteDoc,
-  writeBatch,
 } from "firebase/firestore";
 
 // Componentes e Páginas
@@ -214,26 +213,6 @@ function App() {
     }
   };
 
-  const handleUpdateMatchOrder = async (newMatches) => {
-    // 1. Criamos um batch
-    const batch = writeBatch(db);
-
-    // 2. Iteramos e adicionamos cada update
-    newMatches.forEach((match, index) => {
-      const matchRef = doc(db, "matches", match.id);
-      batch.update(matchRef, { order: index });
-    });
-
-    try {
-      // 3. Executamos
-      await batch.commit();
-      console.log("Ordem sincronizada com sucesso!");
-    } catch (error) {
-      console.error("Erro ao salvar ordem no Firebase:", error);
-      alert("Erro ao salvar a nova ordem. Verifique o console.");
-    }
-  };
-
   const playersSortedByPoints = [...playersWithStats].sort(
     (a, b) => b.points - a.points,
   );
@@ -244,12 +223,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* A Navbar agora fica fora das Routes para aparecer em todas, mas dentro do Router */}
       <Navbar isAdmin={isAdmin} logout={logout} />
 
       <div className="main-wrapper">
         <Routes>
-          {/* ROTA HOME */}
+          {/* ROTA HOME (Ranking) */}
           <Route
             path="/"
             element={
@@ -262,7 +240,35 @@ function App() {
             }
           />
 
-          {/* ROTA PERFIL DO JOGADOR (Dinamica) */}
+          {/* ROTA CALENDÁRIO (Agora com path próprio) */}
+          <Route
+            path="/calendar"
+            element={
+              <Calendar
+                isAdmin={isAdmin}
+                matches={matches}
+                players={players}
+                setMatchToEdit={setMatchToEdit}
+                handleDeleteMatch={handleDeleteMatch}
+              />
+            }
+          />
+
+          {/* ROTA ADMIN (Onde a edição acontece) */}
+          <Route
+            path="/admin"
+            element={
+              <AdminMatches
+                players={players}
+                isAdmin={isAdmin}
+                matchToEdit={matchToEdit}
+                setMatchToEdit={setMatchToEdit}
+                matches={matches}
+              />
+            }
+          />
+
+          {/* ROTA PERFIL DO JOGADOR */}
           <Route
             path="/player/:id"
             element={
@@ -277,22 +283,7 @@ function App() {
             }
           />
 
-          {/* ROTA CALENDÁRIO */}
-          <Route
-            path="/calendar"
-            element={
-              <Calendar
-                matches={matches}
-                players={players}
-                isAdmin={isAdmin}
-                setMatchToEdit={setMatchToEdit}
-                onDeleteMatch={handleDeleteMatch}
-                onUpdateMatchOrder={handleUpdateMatchOrder}
-              />
-            }
-          />
-
-          {/* OUTRAS ROTAS */}
+          {/* Restante das rotas... */}
           <Route path="/regras" element={<Regras isAdmin={isAdmin} />} />
           <Route
             path="/admin-login"
@@ -303,18 +294,6 @@ function App() {
             element={<AdminPanel players={players} matches={matches} />}
           />
           <Route
-            path="/admin-matches"
-            element={
-              <AdminMatches
-                players={players}
-                matches={matches}
-                isAdmin={isAdmin}
-                matchToEdit={matchToEdit}
-                setMatchToEdit={setMatchToEdit}
-              />
-            }
-          />
-          <Route
             path="/transparency"
             element={<AdminTransparency isAdmin={isAdmin} />}
           />
@@ -322,8 +301,6 @@ function App() {
             path="/hall-historico"
             element={<HallHistorico isAdmin={isAdmin} />}
           />
-
-          {/* ROTA DE PARTIDA (Já existente) */}
           <Route
             path="/match/:id"
             element={

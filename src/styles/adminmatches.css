@@ -392,6 +392,60 @@
   border-color: #d4af37;
 }
 
+.penalty-selector {
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid #d4af37;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.p-score-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 15px;
+}
+
+.p-input-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.p-input-side label {
+  font-size: 12px;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.p-input-side input {
+  width: 70px;
+  height: 60px;
+  background: #000;
+  border: 2px solid #d4af37;
+  color: #fff;
+  font-size: 32px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 900;
+}
+
+.p-vs-circle {
+  width: 40px;
+  height: 40px;
+  background: #d4af37;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-top: 25px; /* Compensa o label */
+}
+
 .confirm-btn-final {
   width: 100%;
   padding: 22px;
