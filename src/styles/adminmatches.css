@@ -510,6 +510,13 @@
 
 /* --- MOBILE --- */
 @media (max-width: 768px) {
+  .page-container2 {
+    padding-top: 120px !important; /* Empurra o conteúdo para baixo da sua Nav */
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .admin-box-grid {
     grid-template-columns: 1fr;
   }

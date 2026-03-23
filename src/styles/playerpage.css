@@ -14,6 +14,7 @@
   min-height: 100vh;
   width: 100%;
   font-family: "Inter", sans-serif;
+  padding-top: 50px !important;
 }
 
 .ppg-screen-content {
@@ -204,6 +205,10 @@
 /* --- RESPONSIVIDADE (MOBILE) --- */
 
 @media (max-width: 900px) {
+  .ppg-screen-wrapper {
+    /* No Mobile a Nav pode ser mais alta ou o respiro precisa ser maior */
+    padding-top: 120px !important;
+  }
   /* 1. Ajuste do Container Geral */
   .ppg-page-container {
     padding: 0 15px;

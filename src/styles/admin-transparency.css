@@ -1,24 +1,30 @@
 /* =====================================================
-   TRANSPARENCY - ESTILO PREMIUM ELITE (EXPANDED)
+   ADMIN TRANSPARENCY - ESTILO PREMIUM ELITE (EXPANDED)
    ===================================================== */
 
-/* Container Principal - Expande em telas grandes */
+/* Container Principal - Ajustado para a Navbar */
 .admin-box {
-  background: linear-gradient(
-    145deg,
-    rgba(26, 26, 26, 0.9),
-    rgba(10, 10, 10, 0.95)
+  /* CORREÇÃO DA NAVBAR: 75px da Nav + 60px de respiro */
+  padding-top: 135px !important;
+
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(26, 26, 26, 0.9) 0%,
+    rgba(0, 0, 0, 0.95) 100%
   );
   backdrop-filter: blur(15px);
-  padding: 40px;
+  -webkit-backdrop-filter: blur(15px);
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
   border-radius: 24px;
   border: 1px solid rgba(212, 175, 55, 0.2);
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  margin-bottom: 30px;
-  max-width: 1400px; /* Expansão maior no desktop */
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1400px;
+  margin: 0 auto 30px;
   animation: fadeIn 0.6s ease-out;
+  box-sizing: border-box;
+  width: 95%; /* Pequena margem nas laterais */
 }
 
 .admin-box h3 {
@@ -33,13 +39,18 @@
   margin-bottom: 30px;
 }
 
-/* Layout do Formulário - No desktop os campos ficam lado a lado */
+/* Layout do Formulário - Grid Horizontal no Desktop */
 .admin-form-transparency {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto; /* Alinhamento horizontal elegante */
+  grid-template-columns: 2fr 1fr 1fr auto;
   gap: 20px;
   align-items: end;
   margin-bottom: 40px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  scroll-margin-top: 120px; /* Para o scroll de edição não colar na Nav */
 }
 
 .admin-form-transparency input,
@@ -47,21 +58,23 @@
   padding: 16px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   color: #fff;
   font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.admin-form-transparency input:focus,
-.admin-form-transparency select:focus {
+.admin-form-transparency input:focus {
   border-color: #d4af37;
   background: rgba(212, 175, 55, 0.05);
   outline: none;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
-.admin-form-transparency button {
+/* Botões */
+.save-btn {
   padding: 16px 30px;
   background: linear-gradient(135deg, #d4af37 0%, #aa8a2e 100%);
   color: #000;
@@ -75,9 +88,15 @@
   box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
 }
 
-.admin-form-transparency button:hover {
+.save-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Listagem de Transações */
@@ -95,14 +114,13 @@
   margin-bottom: 12px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .t-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.03);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: scale(1.005);
 }
 
 .t-info {
@@ -113,99 +131,83 @@
 
 .t-desc {
   font-weight: 700;
-  color: #eee;
+  color: #fff;
   font-size: 1.1rem;
 }
 
 .t-date {
-  color: #888;
+  color: #666;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.t-actions {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
+/* Cores Financeiras */
 .text-green {
   color: #00ff88;
   font-weight: 800;
-  font-size: 1.1rem;
   text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
 }
 
 .text-red {
   color: #ff4d4d;
   font-weight: 800;
-  font-size: 1.1rem;
   text-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
 }
 
-.delete-btn {
-  background: rgba(255, 77, 77, 0.1);
-  color: #ff4d4d;
-  border: 1px solid rgba(255, 77, 77, 0.2);
-  border-radius: 8px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.delete-btn:hover {
-  background: #ff4d4d;
-  color: #fff;
-  transform: scale(1.1);
-}
-
+/* Botões de Ação na Lista */
 .admin-btns {
   display: flex;
-  gap: 10px;
-  align-items: center;
+  gap: 12px;
 }
 
 .edit-btn,
 .delete-btn {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 1.1rem;
-  transition: transform 0.2s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .edit-btn:hover {
-  transform: scale(1.2);
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #d4af37;
+  transform: translateY(-2px);
 }
 
-.form-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.cancel-btn {
-  background-color: #666 !important;
+.delete-btn:hover {
+  background: rgba(255, 77, 77, 0.2);
+  border-color: #ff4d4d;
+  transform: translateY(-2px);
 }
 
 /* =====================================================
-   VERSÃO MOBILE (ESTREITA E FOCADA)
+   RESPONSIVIDADE
    ===================================================== */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .admin-form-transparency {
-    grid-template-columns: 1fr; /* Vira lista no mobile */
-    gap: 15px;
+    grid-template-columns: 1fr 1fr; /* 2 por linha em telas médias */
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .admin-box {
-    padding: 20px;
-    border-radius: 0; /* Opcional: ocupa a tela toda nas laterais */
+    padding-top: 110px !important; /* Respiro menor no mobile */
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .admin-form-transparency {
+    grid-template-columns: 1fr; /* Lista no mobile */
+    padding: 15px;
   }
 
   .t-item {
-    padding: 15px;
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
@@ -217,16 +219,12 @@
     padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
-
-  .t-desc {
-    font-size: 1rem;
-  }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;

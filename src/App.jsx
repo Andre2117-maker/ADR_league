@@ -293,6 +293,18 @@ function App() {
             path="/admin-panel"
             element={<AdminPanel players={players} matches={matches} />}
           />
+
+          <Route
+            path="/admin-matches"
+            element={
+              <AdminMatches
+                players={players}
+                isAdmin={isAdmin}
+                matches={matches}
+              />
+            }
+          />
+
           <Route
             path="/transparency"
             element={<AdminTransparency isAdmin={isAdmin} />}

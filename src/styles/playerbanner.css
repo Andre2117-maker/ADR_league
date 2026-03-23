@@ -6,13 +6,8 @@
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   position: relative;
   overflow: hidden;
-
   /* REMOVIDO: border-radius (Para não sobrar espaço nos cantos) */
   border-radius: 0;
-
-  /* FORÇA A SUBIDA: */
-  margin-top: -75px !important; /* Exatamente a altura da sua Navbar */
-  padding-top: 75px !important; /* Empurra o CONTEÚDO do banner para baixo da Nav */
 
   border-bottom: 4px solid #d4af37;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);

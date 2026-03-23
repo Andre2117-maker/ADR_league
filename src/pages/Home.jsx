@@ -228,6 +228,7 @@ function Home({ players, matches, getBestPartner }) {
 
   return (
     <div className="main-wrapper">
+      <MatchesCarousel matches={matches} players={players} />
       <BirthdaySchedule players={players} />
 
       {/* NAVEGAÇÃO ENTRE PÁGINAS */}
@@ -239,8 +240,6 @@ function Home({ players, matches, getBestPartner }) {
           💰 TRANSPARÊNCIA
         </Link>
       </div>
-
-      <MatchesCarousel matches={matches} players={players} />
 
       <div className="home-layout">
         <aside className="side-cards">

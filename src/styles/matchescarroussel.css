@@ -9,7 +9,7 @@
   justify-content: center;
   overflow: hidden;
   border-bottom: 3px solid #d4af37;
-  padding: 40px 0;
+  padding: 150px 0;
 }
 
 .mtc-banner-content {
@@ -208,6 +208,7 @@
   .mtc-banner-container {
     min-height: 500px;
     padding: 20px 10px;
+    padding-top: 135px;
   }
 
   .mtc-dots {

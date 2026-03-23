@@ -6,6 +6,7 @@ import "../styles/matchpage.css";
 import { calculateMatchStats } from "../components/matchpages/matchUtils";
 import { exportMatchImage } from "../components/matchpages/screenshotHelper";
 import MatchStats from "../components/matchpages/MatchStats";
+import MatchTimeline from "../components/matchpages/MatchTimeline";
 
 const FORMATIONS_DATA = {
   FUT5: {
@@ -308,22 +309,37 @@ function MatchPage({ matches, players, isAdmin }) {
       <div className="scoreboard-container">
         <div className="sb-main">
           <div className="sb-team-name team-left">{match.teamA.name}</div>
-          <div className="sb-score-box">
-            <span className="score">{scoreA}</span>
-            <span className="vs-badge">VS</span>
-            <span className="score">{scoreB}</span>
+
+          <div className="sb-score-box-wrapper">
+            {" "}
+            {/* Wrapper para agrupar placar + penaltis */}
+            <div className="sb-score-box">
+              {/* Pênaltis Time A (Fica à esquerda do gol A) */}
+              {(match.penaltiesScoreA !== undefined ||
+                match.penaltiesScoreB !== undefined) && (
+                <span className="penalties-mini-score">
+                  ({match.penaltiesScoreA || 0})
+                </span>
+              )}
+
+              <span className="score">{scoreA}</span>
+              <span className="vs-badge">VS</span>
+              <span className="score">{scoreB}</span>
+
+              {/* Pênaltis Time B (Fica à direita do gol B) */}
+              {(match.penaltiesScoreA !== undefined ||
+                match.penaltiesScoreB !== undefined) && (
+                <span className="penalties-mini-score">
+                  ({match.penaltiesScoreB || 0})
+                </span>
+              )}
+            </div>
           </div>
+
           <div className="sb-team-name team-right">{match.teamB.name}</div>
         </div>
-        {match.penaltiesWinner && (
-          <div className="penalties-pill">
-            🏆 VENCEDOR PÊNALTIS:{" "}
-            {match.penaltiesWinner === "A"
-              ? match.teamA.name
-              : match.teamB.name}
-          </div>
-        )}
       </div>
+      <MatchTimeline events={match.events} players={players} />
 
       <div className="dual-fields-layout">
         {[

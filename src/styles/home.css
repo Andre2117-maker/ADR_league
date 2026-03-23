@@ -12,6 +12,8 @@
   min-height: 100vh;
   box-sizing: border-box;
   background-color: #000;
+  margin-top: -75px !important; /* Puxa o conteúdo para trás da Nav */
+  padding-top: 75px !important;
 }
 
 .home-layout {
@@ -21,52 +23,49 @@
   gap: 30px;
   width: 100%;
   max-width: 1450px;
-  margin: 40px auto;
+  margin: 20px auto 40px;
   padding: 0 20px;
   position: relative;
   box-sizing: border-box;
 }
 
 /* =====================================================
-   NAVEGAÇÃO DE TABS (BOTÕES SUPERIORES)
-===================================================== */
+   1. ESTRUTURA PRINCIPAL (CORREÇÃO DE NAVBAR)
+   ===================================================== */
+
 .transparency-nav-container {
   display: flex;
   justify-content: center;
   gap: 12px;
-  padding: 15px 0;
-  margin-bottom: 10px;
+
+  /* Se os botões estiverem sumindo, use padding ou margin aqui */
+  margin-top: 110px !important;
+  padding: 20px 0;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .btn-transparency-nav {
-  background: #1a1a1a;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
   color: #fff;
   border: 1px solid rgba(212, 175, 55, 0.3);
   padding: 10px 25px;
   border-radius: 50px;
-  font-weight: bold;
-  font-size: 0.85rem;
+  font-weight: 800; /* Mais negrito para combinar com o estilo Premium */
+  font-size: 0.8rem;
   text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Estado Ativo/Selecionado */
 .btn-transparency-nav.active-tab {
   background: linear-gradient(135deg, #d4af37, #b8860b);
   color: #000;
   border: none;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
-
-.btn-transparency-nav:hover:not(.active-tab) {
-  border-color: #d4af37;
-  color: #d4af37;
-  transform: translateY(-2px);
-}
-
 /* =====================================================
    HALL DA FAMA (HISTÓRICO)
 ===================================================== */

@@ -1,14 +1,15 @@
 import React from "react";
 
 function MatchStats({ teamStats, teamAName, teamBName }) {
-  // Se o objeto stats não chegar, não renderiza
   if (!teamStats) return null;
 
-  // Mapeamos os rótulos para as chaves que existem dentro de teamA e teamB do seu matchUtils
+  // Definimos as linhas e quais delas devem ter o destaque invertido (menor é melhor)
   const rows = [
-    { label: "Gols", key: "goals" },
-    { label: "Assistências", key: "assists" },
-    { label: "Gols Contra", key: "ownGoals" },
+    { label: "GOLS", key: "goals", lowerIsBetter: false },
+    { label: "ASSISTÊNCIAS", key: "assists", lowerIsBetter: false },
+    { label: "GOLS CONTRA", key: "ownGoals", lowerIsBetter: true },
+    { label: "AMARELOS", key: "yellowCards", lowerIsBetter: true },
+    { label: "VERMELHOS", key: "redCards", lowerIsBetter: true },
   ];
 
   return (
@@ -21,16 +22,24 @@ function MatchStats({ teamStats, teamAName, teamBName }) {
 
       <div className="stats-body">
         {rows.map((row) => {
-          // Acessa os valores conforme a estrutura do seu matchUtils: stats.teamA.goals, etc.
           const valA = teamStats.teamA?.[row.key] || 0;
           const valB = teamStats.teamB?.[row.key] || 0;
 
-          // Define as cores das pílulas de destaque
           let classA = "stat-val";
           let classB = "stat-val";
 
-          if (valA > valB) classA += " highlight-winner";
-          else if (valB > valA) classB += " highlight-winner";
+          // Lógica de Destaque
+          if (valA !== valB) {
+            if (row.lowerIsBetter) {
+              // Se menos é melhor (Cartões e Gols Contra)
+              if (valA < valB) classA += " highlight-winner";
+              else classB += " highlight-winner";
+            } else {
+              // Se mais é melhor (Gols e Assistências)
+              if (valA > valB) classA += " highlight-winner";
+              else classB += " highlight-winner";
+            }
+          }
 
           return (
             <div className="text-stat-row" key={row.label}>

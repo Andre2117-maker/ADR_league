@@ -1,133 +1,214 @@
 /* ==========================================================
+
    1. BASE & RESET PREMIUM
+
    ========================================================== */
+
 * {
   box-sizing: border-box;
+
   margin: 0;
+
   padding: 0;
 }
 
 body {
   background-color: #050505;
+
   color: #fff;
+
   font-family: "Inter", "Segoe UI", sans-serif;
+
   overflow-x: hidden;
 }
 
 .adm-main-layout {
   padding: 40px 20px;
+
   background: radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%);
+
   min-height: 100vh;
+
+  padding-top: 135px !important;
 }
 
 /* ==========================================================
+
    2. HEADER & NAVEGAÇÃO
+
    ========================================================== */
+
 .adm-header-nav {
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
+
   max-width: 1300px;
+
   margin: 0 auto 40px;
+
   padding: 20px 30px;
+
   background: rgba(255, 255, 255, 0.02);
+
   backdrop-filter: blur(10px);
+
   border-radius: 20px;
+
   border: 1px solid rgba(212, 175, 55, 0.15);
+
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .adm-title-main {
   font-size: 18px;
+
   letter-spacing: 3px;
+
   font-weight: 300;
+
   text-transform: uppercase;
 }
+
 .adm-title-highlight {
   color: #d4af37;
+
   font-weight: 900;
+
   text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 .adm-nav-left {
   display: flex;
+
   gap: 10px;
 }
+
 .adm-nav-left button {
   padding: 10px 16px;
+
   border-radius: 10px;
+
   font-size: 12px;
+
   font-weight: 700;
+
   border: 1px solid rgba(255, 255, 255, 0.1);
+
   background: #111;
+
   color: #aaa;
+
   cursor: pointer;
+
   transition: all 0.3s ease;
+
   text-transform: uppercase;
 }
 
 .adm-nav-left button:hover {
   border-color: #d4af37;
+
   color: #fff;
+
   transform: translateY(-2px);
 }
+
 .adm-btn-matches {
   background: #d4af37 !important;
+
   color: #000 !important;
 }
 
 /* ==========================================================
+
    3. SEÇÃO ADICIONAR JOGADOR
+
    ========================================================== */
+
 .adm-add-section {
   max-width: 800px;
+
   margin: 0 auto 50px;
 }
+
 .adm-add-form {
   display: flex;
+
   gap: 10px;
 }
+
 .adm-input-new-player {
   flex: 1;
+
   background: #111;
+
   border: 1px solid #222;
+
   padding: 15px 20px;
+
   border-radius: 12px;
+
   color: #fff;
+
   outline: none;
+
   transition: 0.3s;
 }
+
 .adm-input-new-player:focus {
   border-color: #d4af37;
+
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
 }
+
 .adm-btn-add-confirm {
   background: #28a745;
+
   color: #fff;
+
   border: none;
+
   padding: 0 25px;
+
   border-radius: 12px;
+
   font-weight: 800;
+
   cursor: pointer;
 }
 
 /* ==========================================================
+
    4. LAYOUT DE TABELA (DIVS) - PC
+
    ========================================================== */
+
 .adm-table-container {
   max-width: 1300px;
+
   margin: 0 auto;
 }
 
 /* Cabeçalho Fake PC */
+
 .adm-thead-fake-pc {
   display: grid;
+
   grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;
+
   padding: 15px 25px;
+
   color: #555;
+
   font-size: 11px;
+
   font-weight: 900;
+
   letter-spacing: 1px;
+
   text-transform: uppercase;
 }
 
@@ -138,293 +219,465 @@ body {
 }
 
 /* Linha do Jogador (Card no Mobile / Linha no PC) */
+
 .adm-tr {
   display: grid;
+
   grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;
+
   align-items: center;
+
   background: rgba(20, 20, 20, 0.6);
+
   margin-bottom: 12px;
+
   padding: 15px 25px;
+
   border-radius: 16px;
+
   border: 1px solid #1a1a1a;
+
   transition: 0.3s ease;
 }
 
 .adm-tr:hover {
   border-color: rgba(212, 175, 55, 0.4);
+
   background: rgba(30, 30, 30, 0.8);
 }
 
 /* Avatar & Info */
+
 .adm-avatar-wrapper {
   width: 55px;
+
   height: 55px;
+
   border-radius: 50%;
+
   border: 2px solid #d4af37;
+
   overflow: hidden;
+
   background: #000;
+
   flex-shrink: 0;
 }
+
 .adm-player-img {
   width: 100%;
+
   height: 100%;
+
   object-fit: cover;
 }
+
 .adm-player-name {
   font-size: 15px;
+
   color: #fff;
+
   display: block;
 }
+
 .adm-mini-stats {
   font-size: 11px;
+
   color: #666;
+
   margin-top: 3px;
 }
+
 .anon-tag {
   background: #444;
+
   color: #fff;
+
   font-size: 9px;
+
   padding: 2px 6px;
+
   border-radius: 4px;
+
   margin-left: 5px;
 }
 
 /* Badges de Estatística */
+
 .adm-total-badge {
   display: flex;
+
   gap: 10px;
+
   background: #000;
+
   padding: 8px 12px;
+
   border-radius: 10px;
+
   border: 1px solid #222;
 }
+
 .adm-stat-item {
   font-size: 11px;
+
   font-weight: bold;
 }
+
 .adm-label {
   color: #555;
 }
+
 .adm-value {
   color: #d4af37;
+
   margin-left: 4px;
 }
+
 .adm-stat-divider {
   width: 1px;
+
   background: #222;
 }
 
 /* Controles de Gols/Assist (Cores Restauradas) */
+
 .adm-calc-controls {
   display: flex;
+
   align-items: center;
+
   gap: 8px;
+
   justify-content: center;
 }
+
 .adm-btn-minus {
   background: #dc3545 !important;
+
   color: #fff;
+
   border: none;
+
   width: 30px;
+
   height: 30px;
+
   border-radius: 6px;
+
   cursor: pointer;
+
   font-weight: bold;
 }
+
 .adm-btn-plus {
   background: #28a745 !important;
+
   color: #fff;
+
   border: none;
+
   width: 30px;
+
   height: 30px;
+
   border-radius: 6px;
+
   cursor: pointer;
+
   font-weight: bold;
 }
+
 .adm-input-number {
   width: 45px;
+
   background: #000;
+
   border: 1px solid #333;
+
   color: #fff;
+
   text-align: center;
+
   border-radius: 6px;
+
   padding: 5px;
+
   font-weight: bold;
 }
 
 /* Inputs de Perfil (Títulos, Cargo, Número) */
+
 .adm-profile-inputs {
   display: flex;
+
   flex-direction: column;
+
   gap: 8px;
+
   align-items: center;
 }
+
 .adm-input-titles,
 .adm-input-role {
   background: #000;
+
   border: 1px solid #222;
+
   color: #eee;
+
   padding: 6px 10px;
+
   border-radius: 6px;
+
   font-size: 12px;
+
   outline: none;
 }
+
 .adm-input-titles {
   width: 50px;
+
   text-align: center;
+
   color: #d4af37;
+
   font-weight: bold;
 }
+
 .adm-input-role {
   width: 140px;
 }
+
 .adm-photo-url-input {
   width: 100%;
+
   max-width: 250px;
+
   background: transparent;
+
   border: none;
+
   border-bottom: 1px solid #222;
+
   color: #555;
+
   font-size: 10px;
+
   text-align: center;
+
   padding: 4px;
 }
 
 /* Checkbox All-Star */
+
 .adm-label-allstar {
   font-size: 10px;
+
   color: #777;
+
   font-weight: 800;
+
   cursor: pointer;
+
   display: flex;
+
   align-items: center;
+
   gap: 5px;
 }
+
 .adm-label-allstar input {
   accent-color: #d4af37;
 }
 
 /* Ações */
+
 .adm-action-buttons {
   display: flex;
+
   gap: 15px;
+
   justify-content: flex-end;
 }
+
 .adm-btn-anon,
 .adm-btn-delete {
   background: none;
+
   border: none;
+
   cursor: pointer;
+
   font-size: 18px;
+
   transition: 0.2s;
 }
+
 .adm-btn-anon {
   color: #444;
 }
+
 .adm-btn-anon.active {
   color: #d4af37;
 }
+
 .adm-btn-delete:hover {
   transform: scale(1.2);
+
   filter: drop-shadow(0 0 5px red);
 }
 
 /* ==========================================================
+
    3. CELULAR (MOBILE) - CARDS INDEPENDENTES
+
    ========================================================== */
+
 @media (max-width: 1023px) {
   /* Container dos Cards */
+  .adm-main-layout {
+    /* Ajuste fino para telas menores */
+    padding-top: 120px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
   .adm-tbody {
     display: flex;
+
     flex-direction: column;
+
     gap: 25px; /* Espaço entre um jogador e outro */
+
     padding-bottom: 50px;
   }
 
   .adm-tr {
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
 
     /* Estética do Card */
+
     background: linear-gradient(145deg, #151515, #0a0a0a);
+
     border: 1px solid rgba(212, 175, 55, 0.3);
+
     border-radius: 25px;
 
     /* Tamanho e Espaçamento Interno */
+
     padding: 30px 20px;
+
     width: 100%;
+
     max-width: 400px; /* Não deixa o card esticar demais em telas grandes */
+
     margin: 0 auto; /* Centraliza o card na largura da tela */
 
     /* Altura do Card */
+
     min-height: auto; /* Deixa o card crescer conforme o conteúdo */
+
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
 
   /* Foto em Círculo */
+
   .adm-avatar-wrapper {
     width: 120px;
+
     height: 120px;
+
     border: 3px solid #d4af37;
+
     margin-bottom: 15px;
+
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
   }
 
   .adm-player-name {
     font-size: 24px;
+
     text-align: center;
+
     margin-bottom: 5px;
   }
 
   /* Estatísticas Atuais (Badge) */
+
   .adm-auto-stats-cell {
     width: 100%;
+
     margin: 15px 0;
   }
+
   .adm-total-badge {
     justify-content: center;
+
     background: rgba(0, 0, 0, 0.4);
+
     border-color: #333;
   }
 
   /* Controles de Gols e Assistências */
+
   .adm-manual-cell {
     width: 100%;
+
     display: flex;
+
     justify-content: center;
+
     margin-bottom: 15px;
   }
 
   .adm-calc-container {
     width: 100%;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     gap: 10px;
   }
 
   /* Deixar os botões de +/- grandes para o polegar */
+
   .adm-calc-controls {
     gap: 20px;
   }
+
   .adm-calc-controls button {
     width: 55px;
+
     height: 55px;
+
     font-size: 22px;
+
     border-radius: 12px;
   }
 
   /* Inputs de Perfil e Foto */
+
   .adm-profile-cell {
     width: 100%;
+
     border-top: 1px solid #222;
+
     padding-top: 20px;
+
     margin-top: 10px;
   }
 
   .adm-profile-inputs {
     width: 100%;
+
     gap: 12px;
   }
 
@@ -432,21 +685,30 @@ body {
   .adm-photo-url-input,
   .adm-input-titles {
     width: 100% !important;
+
     max-width: 100% !important;
+
     height: 45px;
+
     background: #000 !important;
+
     font-size: 14px;
   }
 
   /* Botões de Ação (Olho e Lixo) */
+
   .adm-actions-cell {
     width: 100%;
+
     margin-top: 20px;
   }
+
   .adm-action-buttons {
     justify-content: center;
+
     gap: 40px;
   }
+
   .adm-btn-anon,
   .adm-btn-delete {
     font-size: 30px;
@@ -454,34 +716,51 @@ body {
 }
 
 /* Ajuste específico para o Header no Mobile */
+
 @media (max-width: 600px) {
   .adm-header-nav {
     flex-direction: column;
+
     gap: 15px;
+
     padding: 15px;
   }
+
   .adm-nav-left {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     width: 100%;
+
     gap: 8px;
   }
+
   .adm-nav-left button {
     width: 100%;
+
     padding: 12px 5px;
   }
+
   .adm-title-main {
     order: -1; /* Título fica no topo de tudo */
+
     font-size: 16px;
   }
 
   .adm-input-titles {
     width: 60px !important; /* Tamanho fixo menor */
+
     height: 40px;
+
     background: #000 !important;
+
     text-align: center;
+
     color: #d4af37;
+
     font-weight: bold;
+
     border-radius: 8px;
   }
 }
