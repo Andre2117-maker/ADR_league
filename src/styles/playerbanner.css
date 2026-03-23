@@ -107,7 +107,7 @@
 }
 
 .ppg-banner-photo {
-  height: 110%; /* Aumentado para o efeito 'pop-out' */
+  height: 100%; /* Aumentado para o efeito 'pop-out' */
   object-fit: contain;
   filter: drop-shadow(20px 10px 40px rgba(0, 0, 0, 0.9));
   z-index: 3;

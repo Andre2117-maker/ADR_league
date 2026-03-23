@@ -249,7 +249,7 @@ function App() {
                 matches={matches}
                 players={players}
                 setMatchToEdit={setMatchToEdit}
-                handleDeleteMatch={handleDeleteMatch}
+                onDeleteMatch={handleDeleteMatch}
               />
             }
           />
