@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import html2canvas from "html2canvas";
-import "../styles/home.css";
+import "../styles/Home/home.css";
 import "../style.css";
 
 // Componentes

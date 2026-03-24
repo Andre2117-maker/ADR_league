@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoADR from "../assets/logo.png";
-import "../styles/matchescarroussel.css";
+import "../styles/Home/matchescarroussel.css";
 
 function MatchesCarousel({ matches, players }) {
   const [currentIndex, setCurrentIndex] = useState(0);

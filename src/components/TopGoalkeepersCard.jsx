@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/goalkeepers.css";
+import "../styles/Tabelas/goalkeepers.css";
 
 function TopGoalkeepersCard({ players, matches }) {
   const MIN_GAMES = 2; // Ajuste conforme desejar: mínimo de jogos para entrar no ranking

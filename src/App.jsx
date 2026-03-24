@@ -29,7 +29,7 @@ import HallHistorico from "./components/HallHistorico.jsx";
 // Estilos
 import "./styles/global.css";
 import "./styles/navbar.css";
-import "./styles/home.css";
+import "./styles/Home/home.css";
 import "./styles/matches.css";
 import "./styles/admin.css";
 import "./styles/playerpage.css";

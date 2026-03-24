@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/BirthdaySchedule.css";
+import "../styles/Home/BirthdaySchedule.css";
 
 const BirthdaySchedule = ({ players }) => {
   const [pageIndex, setPageIndex] = useState(0);

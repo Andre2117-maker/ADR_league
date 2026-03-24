@@ -2,7 +2,7 @@ import React from "react";
 import primeiro from "../assets/primeiro.png";
 import segundo from "../assets/segundo.png";
 import terceiro from "../assets/terceiro.png";
-import "../styles/rankingtable.css";
+import "../styles/Tabelas/rankingtable.css";
 
 export default function RankingTable({
   sortedPlayers,
