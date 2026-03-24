@@ -19,7 +19,7 @@ const PlayerBanner = ({ player, getBestPartner }) => {
 
     if (!year || !month || !day) return "—";
 
-    const today = new Date(2026, 2, 20); // 20 de Março de 2026
+    const today = new Date(); // 20 de Março de 2026
     const birth = new Date(year, month - 1, day);
 
     let age = today.getFullYear() - birth.getFullYear();

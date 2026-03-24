@@ -271,3 +271,12 @@
   filter: grayscale(0.5); /* Volta um pouco da cor ao passar o mouse */
   transform: scale(1.02);
 }
+
+/* Ajuste específico para Telas Pequenas */
+@media (max-width: 768px) {
+  .player-number-badge {
+    font-size: 50px; /* Diminuir um pouco no celular evita que ele "fuja" do card */
+    top: 10px;
+    right: 10px;
+  }
+}
