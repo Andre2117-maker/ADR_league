@@ -11,7 +11,7 @@ import {
 import "../styles/playerpage.css";
 import RankingSlice from "../components/RankingSlice";
 import PlayerStatsDashboard from "../components/PlayerStatsDashboard";
-import MatchHistory from "../components/MatchHistory";
+import MatchHistory from "../components/playerpage/MatchHistory";
 import Footer from "../components/Footer";
 import PlayerAdminMode from "../components/playerpage/PlayerAdminMode";
 import PlayerBanner from "../components/playerpage/PlayerBanner";

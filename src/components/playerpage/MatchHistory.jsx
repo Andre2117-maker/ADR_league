@@ -1,7 +1,10 @@
 import React from "react";
-import "../styles/matchHistory.css";
+import { useNavigate } from "react-router-dom"; // 1. Importar o hook
+import "../../styles/matchHistory.css";
 
 const MatchHistory = ({ matches, player }) => {
+  const navigate = useNavigate(); // 2. Inicializar o navigate
+
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
     const parts = dateStr.split("T")[0].split("-");
@@ -58,7 +61,12 @@ const MatchHistory = ({ matches, player }) => {
             ).length || 0;
 
           return (
-            <div key={m.id} className={`ppg-match-item border-${statusClass}`}>
+            <div
+              key={m.id}
+              className={`ppg-match-item border-${statusClass} clickable-match`} // 3. Adicionei a classe clickable-match
+              onClick={() => navigate(`/match/${m.id}`)} // 4. Evento de clique
+              style={{ cursor: "pointer" }} // Garantia rápida de feedback visual
+            >
               <div style={{ flex: 1 }}>
                 <div
                   style={{
@@ -89,6 +97,8 @@ const MatchHistory = ({ matches, player }) => {
               <div className="ppg-match-stats-tags">
                 {pG > 0 && <span className="ppg-tag-goal">+{pG} G</span>}
                 {pA > 0 && <span className="ppg-tag-assist">+{pA} A</span>}
+
+                <span className="ppg-chevron">›</span>
               </div>
             </div>
           );

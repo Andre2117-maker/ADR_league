@@ -95,6 +95,45 @@
   color: #00bfff;
 }
 
+.ppg-match-item.clickable-match:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
+  transition: all 0.2s ease;
+}
+
+/* Container dos stats e da seta */
+.ppg-match-stats-tags {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Estilização da Seta */
+.ppg-chevron {
+  font-size: 24px;
+  color: rgba(212, 175, 55, 0.5); /* Dourado suave */
+  font-weight: 300;
+  margin-left: 10px;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Efeito ao passar o mouse no card inteiro */
+.ppg-match-item:hover .ppg-chevron {
+  color: #d4af37; /* Dourado brilha no hover */
+  transform: translateX(3px); /* Seta dá um "pulinho" para a direita */
+}
+
+/* Garante que o item do histórico tenha um hover visual */
+.ppg-match-item.clickable-match {
+  transition: background 0.2s ease;
+}
+
+.ppg-match-item.clickable-match:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 /* ==========================================================
    AJUSTES PARA CELULAR (Telas menores que 600px)
    ========================================================== */
