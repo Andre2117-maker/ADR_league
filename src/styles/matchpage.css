@@ -634,9 +634,15 @@
   .player-name {
     font-size: 0.75rem;
   }
+
   .timeline-assist {
-    display: none; /* Esconde assistência no celular para não amontoar */
+    display: inline-block; /* Garante que apareça */
+    font-size: 0.6rem; /* Reduz um pouco mais para caber */
+    color: #888; /* Um cinza mais discreto */
+    margin-left: -10px;
+    vertical-align: middle;
   }
+
   .event-icon {
     margin: 0 5px;
     font-size: 0.9rem;

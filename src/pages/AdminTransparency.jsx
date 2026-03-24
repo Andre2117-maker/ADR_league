@@ -12,6 +12,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import "../styles/admin-transparency.css";
+import Footer from "../components/Footer";
 
 export default function AdminTransparency({ isAdmin }) {
   const [desc, setDesc] = useState("");
@@ -108,82 +109,89 @@ export default function AdminTransparency({ isAdmin }) {
   };
 
   return (
-    <div className="admin-box">
-      {isAdmin && (
-        <form onSubmit={handleSubmit} className="admin-form-transparency">
-          <h3>
-            {editingId ? "📝 Editar Movimentação" : "➕ Nova Movimentação"}
-          </h3>
-          <input
-            placeholder="Descrição (ex: Aluguel da Quadra)"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          />
-          <input
-            type="number"
-            step="0.01"
-            placeholder="Valor (R$)"
-            value={valor}
-            onChange={(e) => setValor(e.target.value)}
-          />
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-            <option value="INCOME">Entrada (+)</option>
-            <option value="EXPENSE">Saída (-)</option>
-          </select>
+    <div>
+      <div className="admin-box">
+        {isAdmin && (
+          <form onSubmit={handleSubmit} className="admin-form-transparency">
+            <h3>
+              {editingId ? "📝 Editar Movimentação" : "➕ Nova Movimentação"}
+            </h3>
+            <input
+              placeholder="Descrição (ex: Aluguel da Quadra)"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+            />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="Valor (R$)"
+              value={valor}
+              onChange={(e) => setValor(e.target.value)}
+            />
+            <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+              <option value="INCOME">Entrada (+)</option>
+              <option value="EXPENSE">Saída (-)</option>
+            </select>
 
-          <div className="form-actions">
-            <button type="submit" disabled={loading} className="save-btn">
-              {loading
-                ? "Salvando..."
-                : editingId
-                  ? "Atualizar"
-                  : "Adicionar Item"}
-            </button>
-            {editingId && (
-              <button type="button" onClick={cancelEdit} className="cancel-btn">
-                Cancelar
+            <div className="form-actions">
+              <button type="submit" disabled={loading} className="save-btn">
+                {loading
+                  ? "Salvando..."
+                  : editingId
+                    ? "Atualizar"
+                    : "Adicionar Item"}
               </button>
-            )}
-          </div>
-        </form>
-      )}
-
-      <div className="transparency-list">
-        <h3>Histórico Financeiro</h3>
-        {transacoes.map((t) => (
-          <div key={t.id} className="t-item">
-            <div className="t-info">
-              <span className="t-desc">{t.description}</span>
-              <small className="t-date">
-                {t.createdAt?.toDate().toLocaleDateString("pt-BR")}
-              </small>
-            </div>
-
-            <div className="t-actions">
-              <span className={t.value > 0 ? "text-green" : "text-red"}>
-                {t.value.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
-              </span>
-
-              {isAdmin && (
-                <div className="admin-btns">
-                  <button className="edit-btn" onClick={() => startEdit(t)}>
-                    ✏️
-                  </button>
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(t.id)}
-                  >
-                    🗑️
-                  </button>
-                </div>
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={cancelEdit}
+                  className="cancel-btn"
+                >
+                  Cancelar
+                </button>
               )}
             </div>
-          </div>
-        ))}
+          </form>
+        )}
+
+        <div className="transparency-list">
+          <h3>Histórico Financeiro</h3>
+          {transacoes.map((t) => (
+            <div key={t.id} className="t-item">
+              <div className="t-info">
+                <span className="t-desc">{t.description}</span>
+                <small className="t-date">
+                  {t.createdAt?.toDate().toLocaleDateString("pt-BR")}
+                </small>
+              </div>
+
+              <div className="t-actions">
+                <span className={t.value > 0 ? "text-green" : "text-red"}>
+                  {t.value.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </span>
+
+                {isAdmin && (
+                  <div className="admin-btns">
+                    <button className="edit-btn" onClick={() => startEdit(t)}>
+                      ✏️
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(t.id)}
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
