@@ -149,6 +149,18 @@
   stroke-width: 1.5px; /* Deixa o ícone mais elegante/fino */
 }
 
+.egg-trigger {
+  cursor: default; /* Ou 'pointer' se quiser facilitar a descoberta */
+  user-select: none; /* Evita que o texto fique azul ao clicar rápido */
+  transition: color 0.3s ease;
+}
+
+/* Opcional: um brilho dourado beeeeem sutil quando passa o mouse, 
+   quase imperceptível para quem não está procurando */
+.egg-trigger:hover {
+  color: #d4af37;
+}
+
 /* Responsividade para Celular */
 @media (max-width: 600px) {
   .sponsors-secondary {

@@ -25,6 +25,8 @@ import PlayerPage from "./pages/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage.jsx";
 import AdminTransparency from "./pages/AdminTransparency.jsx";
 import HallHistorico from "./components/HallHistorico.jsx";
+import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
+import Altar from "./components/Easter Egg/Altar.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -267,6 +269,9 @@ function App() {
               />
             }
           />
+          {/* ROTA DO EASTER EGG*/}
+          <Route path="/quiz-secret" element={<SecretQuiz />} />
+          <Route path="/altar-adr" element={<Altar />} />
 
           {/* ROTA PERFIL DO JOGADOR */}
           <Route

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react"; // Adicionamos o useState
+import { useNavigate } from "react-router-dom";
 import "../styles/footer.css";
 
 import master from "../assets/master.png";
 import patro1 from "../assets/patro1.png";
 import patro2 from "../assets/patro2.png";
 
-// Ícones SVG (Sem dependência de biblioteca, 100% seguro)
 const InstagramIcon = () => (
   <svg
     width="20"
@@ -25,21 +25,37 @@ const InstagramIcon = () => (
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+
+  // ESTADO DO EASTER EGG
+  // false = nada clicado | true = clicou em ADR, esperando Piscina
+  const [adrClicked, setAdrClicked] = useState(false);
+
+  const handleAdrClick = () => {
+    setAdrClicked(true);
+    // Opcional: define um tempo para resetar se ele não clicar em piscina logo
+    setTimeout(() => setAdrClicked(false), 5000); // 5 segundos para completar a sequência
+    console.log("Sequência iniciada...");
+  };
+
+  const handlePiscinaClick = () => {
+    if (adrClicked) {
+      console.log("Easter Egg Ativado!");
+      navigate("/quiz-secret"); // Abre a página
+    }
+  };
 
   return (
     <footer className="sponsors-footer">
       <div className="footer-container">
-        {/* Seção de Patrocinadores */}
+        {/* Seção de Patrocinadores (Mantenha seu código original aqui) */}
         <div className="sponsors-wrapper">
           <p className="footer-label">PATROCINADORES OFICIAIS</p>
-
           <div className="sponsors-display">
             <div className="sponsor-item master">
               <img src={master} alt="Patrocinador Master" />
             </div>
-
             <div className="footer-divider"></div>
-
             <div className="sponsors-secondary">
               <div className="sponsor-item">
                 <img src={patro1} alt="Patrocinador 1" />
@@ -53,7 +69,6 @@ const Footer = () => {
 
         <div className="footer-divider"></div>
 
-        {/* REDES SOCIAIS (Agora usando os SVGs internos) */}
         <div className="footer-socials">
           <a
             href="https://www.instagram.com/clube_do_adr/"
@@ -65,10 +80,24 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Rodapé Final */}
+        {/* Rodapé Final com a Sequência */}
         <div className="footer-bottom">
-          <p>© {currentYear} ADR LEAGUE — Todos os direitos reservados.</p>
-          <div className="footer-motto">"Honra, Suor e Resenha"</div>
+          <p>
+            © {currentYear}
+            <span className="egg-trigger" onClick={handleAdrClick}>
+              {" "}
+              ADR
+            </span>{" "}
+            LEAGUE — Todos os direitos reservados.
+          </p>
+          <div className="footer-motto">
+            "Honra,
+            <span className="egg-trigger" onClick={handlePiscinaClick}>
+              {" "}
+              Piscina
+            </span>{" "}
+            e Resenha"
+          </div>
         </div>
       </div>
     </footer>
