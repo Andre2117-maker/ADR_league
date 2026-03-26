@@ -274,4 +274,7 @@
   .stats-box {
     width: 100%;
   }
+  .altar-container {
+    padding-top: 150px;
+  }
 }
