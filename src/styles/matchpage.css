@@ -670,6 +670,12 @@
     padding: 3px 10px;
     min-width: 35px;
   }
+
+  .match-view-wrapper {
+    /* Aumentamos o padding-top para o conteúdo descer mais no celular */
+    padding-top: 120px !important;
+    padding-bottom: 50px;
+  }
 }
 
 /* ==========================================================================

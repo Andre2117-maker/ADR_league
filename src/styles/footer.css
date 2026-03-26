@@ -82,6 +82,7 @@
   justify-content: center;
   align-items: center;
   gap: 60px; /* Espaço entre os dois de baixo */
+  margin-bottom: 20px;
 }
 
 .sponsors-secondary img {
@@ -112,6 +113,42 @@
   opacity: 0.8;
 }
 
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px; /* Espaço entre os ícones */
+  margin: 30px 0 10px 0; /* Espaço após os patrocinadores e antes do copyright */
+  width: 100%;
+}
+
+.social-link {
+  color: #d4af37; /* Dourado do seu tema */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 0.6; /* Começa um pouco apagado como os patrocinadores */
+}
+
+/* Efeito de Hover igual ao dos patrocinadores */
+.social-link:hover {
+  color: #fff; /* Muda para branco no hover */
+  opacity: 1;
+  transform: translateY(-3px); /* Leve subida */
+  filter: drop-shadow(
+    0 0 8px rgba(212, 175, 55, 0.4)
+  ); /* Brilho dourado suave */
+}
+
+/* Ajuste do SVG para manter o padrão visual */
+.social-link svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.5px; /* Deixa o ícone mais elegante/fino */
+}
+
 /* Responsividade para Celular */
 @media (max-width: 600px) {
   .sponsors-secondary {
@@ -124,5 +161,10 @@
 
   .sponsors-secondary img {
     height: 100px;
+  }
+
+  .footer-socials {
+    gap: 35px; /* Aumenta o espaço do clique no celular */
+    margin-top: 40px;
   }
 }
