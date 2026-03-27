@@ -160,24 +160,39 @@
 
 .mtc-arrow {
   position: absolute;
-  background: none;
+  top: 50%; /* Centraliza verticalmente */
+  transform: translateY(-50%); /* Ajuste fino da centralização */
+  background: rgba(
+    0,
+    0,
+    0,
+    0.2
+  ); /* Fundo leve para facilitar o clique no mobile */
   border: none;
-  color: rgba(212, 175, 55, 0.4);
+  color: #d4af37;
   font-size: 2.5rem;
+  padding: 10px;
   cursor: pointer;
-  z-index: 5;
+  z-index: 10; /* Garante que fique acima de tudo */
   transition: 0.3s;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
 }
 
 .mtc-arrow:hover {
-  color: #d4af37;
-  transform: scale(1.2);
+  background: rgba(212, 175, 55, 0.2);
+  transform: translateY(-50%) scale(1.1);
 }
+
 .mtc-arrow.left {
-  left: 20px;
+  left: 10px; /* Gruda na esquerda */
 }
 .mtc-arrow.right {
-  right: 20px;
+  right: 10px; /* Gruda na direita */
 }
 
 .mtc-dots {
@@ -253,8 +268,11 @@
 
   .mtc-arrow {
     font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    top: 55%; /* Ajusta um pouco para baixo para não bater no header do card */
+    background: rgba(0, 0, 0, 0.5); /* Aumenta o contraste no celular */
   }
-
   .mtc-banner-header {
     font-size: 0.8rem;
   }
