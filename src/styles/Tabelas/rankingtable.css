@@ -61,14 +61,28 @@ thead th.sticky-col {
 }
 
 .page-title {
-  color: #d4af37;
+  /* Reset de propriedades que bugam o print */
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+
+  /* Cor base Dourada ADR */
+  color: #d4af37 !important;
+
+  /* Brilho */
   text-shadow: 0px 0px 12px rgba(212, 175, 55, 0.6);
+
   font-size: 28px;
   font-weight: 900;
-  text-align: center;
+  text-align: center; /* Centraliza o texto */
   text-transform: uppercase;
+  letter-spacing: 2px;
   margin-bottom: 20px;
-  margin-left: 160px;
+
+  /* CORREÇÃO AQUI: Removemos o margin-left que causava o desalinhamento */
+  margin-left: 0 !important;
+  width: 100%;
 }
 
 thead th {

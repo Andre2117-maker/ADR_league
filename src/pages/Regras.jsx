@@ -44,7 +44,7 @@ function Regras({ isAdmin }) {
 
   return (
     <div className="page-container1">
-      <h1 className="page-title">Regulamento Oficial</h1>
+      <h1 className="page-title1">Regulamento Oficial</h1>
 
       <div className="rules-wrapper">
         <div className="pdf-actions">

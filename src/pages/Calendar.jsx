@@ -120,7 +120,7 @@ function Calendar({
   return (
     <div className="page-container">
       <div className="glass-card">
-        <h1 className="page-title">Calendário da Temporada</h1>
+        <h1 className="page-title2">Calendário da Temporada</h1>
 
         <div className="calendar-wrapper">
           {/* WIDGET DO CALENDÁRIO */}
