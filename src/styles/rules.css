@@ -2,54 +2,84 @@
    RULES - ESTILO PREMIUM ELITE (REGULAMENTO)
    ===================================================== */
 
-/* Container Principal */
 .page-container1 {
-  /* CORREÇÃO CRÍTICA: 75px da Nav + 60px de respiro */
   padding-top: 135px !important;
-
-  padding-left: 20px;
-  padding-right: 20px;
   padding-bottom: 50px;
   width: 100%;
-  margin: 0 auto;
   min-height: 100vh;
   background-color: #000;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centraliza o helper na tela */
   box-sizing: border-box;
 }
 
-/* Garante que o footer ou último elemento cole no fim se houver pouco texto */
-.page-container1 > *:last-child {
-  margin-top: auto;
+.content-center-helper {
   width: 100%;
+  max-width: 950px; /* Largura máxima do conteúdo das regras */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza Título, Botão e Papel verticalmente */
 }
 
 .page-title {
+  width: 100%;
   background: linear-gradient(180deg, #ffffff 30%, #d4af37 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-align: center;
   font-size: 2.5rem;
   text-transform: uppercase;
   letter-spacing: 4px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   font-weight: 900;
   filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+  padding-left: 560px;
 }
 
 .rules-wrapper {
   width: 100%;
   max-width: 950px;
-  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Centraliza o botão do PDF e o papel */
   animation: fadeIn 0.8s ease-out;
 }
 
-/* O "Papel" em estilo Glassmorphism Refinado */
+/* Botão do PDF - Melhoria no Mobile */
+.pdf-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.pdf-download-btn {
+  background: rgba(20, 20, 20, 0.6);
+  color: #d4af37;
+  padding: 14px 25px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  text-align: center;
+  display: inline-block;
+  white-space: nowrap; /* Impede que o texto quebre em duas linhas no mobile */
+}
+
+.pdf-download-btn:hover {
+  background: #d4af37;
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+/* O Papel (Glassmorphism) */
 .rules-paper {
   background: rgba(15, 15, 15, 0.8);
   backdrop-filter: blur(15px);
@@ -60,23 +90,11 @@
   position: relative;
   border: 1px solid rgba(212, 175, 55, 0.15);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
-  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Moldura interna dourada sutil */
-.rules-paper::before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.05);
-  border-radius: 18px;
-  pointer-events: none;
-}
-
-/* Cabeçalho do Documento */
+/* Cabeçalho do Doc */
 .rules-header {
   display: flex;
   justify-content: space-between;
@@ -88,38 +106,30 @@
 
 .doc-stamp {
   font-weight: 900;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #d4af37;
   border: 2px solid #d4af37;
-  padding: 6px 16px;
+  padding: 5px 12px;
   text-transform: uppercase;
-  letter-spacing: 2px;
   border-radius: 4px;
 }
 
-.doc-date {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: #666;
-  letter-spacing: 1.5px;
-}
-
-/* Estilo do Texto (Conteúdo) */
+/* Estilo do Conteúdo */
 .rules-content {
   line-height: 1.9;
+  text-align: left;
 }
 
 .rule-section {
   font-weight: 800;
-  font-size: 1.3rem;
-  margin-top: 40px;
+  font-size: 1.2rem;
+  margin-top: 35px;
   margin-bottom: 15px;
   color: #d4af37;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 15px;
-  letter-spacing: 1px;
 }
 
 .rule-section::after {
@@ -132,103 +142,54 @@
 .rule-item {
   margin-left: 5px;
   color: #bbb;
-  padding: 10px 0 10px 25px;
-  font-size: 1.1rem;
+  padding: 8px 0 8px 20px;
+  font-size: 1rem;
   border-left: 2px solid rgba(212, 175, 55, 0.1);
-  transition: all 0.3s ease;
 }
 
-.rule-item:hover {
-  color: #fff;
-  border-left-color: rgba(212, 175, 55, 0.5);
-  background: rgba(255, 255, 255, 0.02);
+/* Status de Salvamento */
+.rules-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  color: #555;
+  text-align: center;
 }
 
-/* Modo Edição (Admin Area) */
-.rules-textarea {
-  width: 100%;
-  min-height: 600px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px dashed rgba(212, 175, 55, 0.2);
-  border-radius: 12px;
-  padding: 20px;
-  font-family: inherit;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  resize: vertical;
-  outline: none;
-  color: #ddd;
-  box-sizing: border-box;
-}
-
-.rules-textarea:focus {
-  border-color: #d4af37;
-  background: rgba(0, 0, 0, 0.4);
-}
-
-/* Botões de Ação (PDF) */
-.pdf-actions {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  gap: 15px;
-}
-
-.pdf-download-btn {
-  background: rgba(20, 20, 20, 0.6);
+.saving-status.blink {
   color: #d4af37;
-  padding: 14px 30px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(5px);
+  animation: blink 1s infinite;
 }
 
-.pdf-download-btn:hover {
-  background: #d4af37;
-  color: #000;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
 }
 
-/* Ajustes Mobile */
+/* --- RESPONSIVIDADE (MOBILE) --- */
 @media (max-width: 768px) {
-  .page-container1 {
-    padding-top: 110px !important;
+  .page-title {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    padding-left: 18px;
+  }
+
+  .pdf-download-btn {
+    font-size: 0.75rem;
+    padding: 12px 20px;
+    width: 90%; /* Botão quase largura total no celular para não quebrar */
+    white-space: normal; /* No celular muito pequeno, permite quebrar se necessário */
   }
 
   .rules-paper {
-    padding: 40px 25px;
-    border-radius: 15px;
+    padding: 35px 20px;
   }
 
-  .page-title {
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-  }
-
-  .rule-section {
-    font-size: 1.1rem;
-  }
-
-  .rule-item {
-    font-size: 1rem;
-    padding-left: 15px;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .rules-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
   }
 }

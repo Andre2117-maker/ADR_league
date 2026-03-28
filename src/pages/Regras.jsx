@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react"; // 1. Adicionado useMemo
+import { useState, useEffect, useMemo } from "react";
 import { db } from "../firebase";
-import { doc, setDoc, onSnapshot } from "firebase/firestore"; // 2. Removido getDoc
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import "../styles/rules.css";
 import Footer from "../components/Footer";
 
@@ -8,8 +8,6 @@ function Regras({ isAdmin }) {
   const [textoRegras, setTextoRegras] = useState("Carregando regulamento...");
   const [isSaving, setIsSaving] = useState(false);
 
-  // 3. useMemo resolve o erro de dependência do useEffect
-  // Ele garante que a referência do documento não mude a cada renderização
   const regrasDocRef = useMemo(() => doc(db, "settings", "regulamento"), []);
 
   useEffect(() => {
@@ -22,7 +20,7 @@ function Regras({ isAdmin }) {
     });
 
     return () => unsubscribe();
-  }, [regrasDocRef]); // 4. Agora podemos incluir com segurança no array de dependências
+  }, [regrasDocRef]);
 
   const handleSaveToFirebase = async (novoTexto) => {
     setIsSaving(true);
@@ -31,8 +29,6 @@ function Regras({ isAdmin }) {
         content: novoTexto,
         lastUpdated: new Date(),
       });
-
-      // Pequeno delay apenas para o feedback visual não piscar rápido demais
       setTimeout(() => setIsSaving(false), 500);
     } catch (error) {
       console.error("Erro ao salvar regras:", error);
@@ -58,7 +54,7 @@ function Regras({ isAdmin }) {
             rel="noopener noreferrer"
             className="pdf-download-btn"
           >
-            📖 Abrir Livro de Regras Completo (PDF)
+            📖 Abrir Livro de Regras (PDF)
           </a>
         </div>
 
