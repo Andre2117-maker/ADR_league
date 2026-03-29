@@ -17,6 +17,7 @@ import Footer from "../components/Footer";
 export default function AdminTransparency({ isAdmin }) {
   const [desc, setDesc] = useState("");
   const [valor, setValor] = useState("");
+  const [quantidade, setQuantidade] = useState(1);
   const [tipo, setTipo] = useState("INCOME");
   const [loading, setLoading] = useState(false);
   const [transacoes, setTransacoes] = useState([]);
@@ -41,29 +42,35 @@ export default function AdminTransparency({ isAdmin }) {
   // Função para salvar (Novo ou Editar)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!desc || !valor) return alert("Preencha todos os campos!");
+    if (!desc || !valor || !quantidade)
+      return alert("Preencha todos os campos!");
 
     setLoading(true);
+
+    // Cálculo: Valor Unitário * Quantidade
+    const totalValue = parseFloat(valor) * parseInt(quantidade);
     const numericValue =
-      tipo === "EXPENSE"
-        ? -Math.abs(parseFloat(valor))
-        : Math.abs(parseFloat(valor));
+      tipo === "EXPENSE" ? -Math.abs(totalValue) : Math.abs(totalValue);
 
     try {
       if (editingId) {
-        // LÓGICA DE ATUALIZAR
+        // ATUALIZAR
         await updateDoc(doc(db, "transparency", editingId), {
           description: desc,
           value: numericValue,
+          unitValue: parseFloat(valor),
+          quantity: parseInt(quantidade),
           type: tipo,
-          updatedAt: serverTimestamp(), // opcional: saber quando foi editado
+          updatedAt: serverTimestamp(),
         });
         setEditingId(null);
       } else {
-        // LÓGICA DE ADICIONAR NOVO
+        // ADICIONAR NOVO
         await addDoc(collection(db, "transparency"), {
           description: desc,
           value: numericValue,
+          unitValue: parseFloat(valor),
+          quantity: parseInt(quantidade),
           type: tipo,
           createdAt: serverTimestamp(),
         });
@@ -72,6 +79,7 @@ export default function AdminTransparency({ isAdmin }) {
       // Limpar campos
       setDesc("");
       setValor("");
+      setQuantidade(1);
       setTipo("INCOME");
     } catch (err) {
       console.error("Erro ao salvar:", err);
@@ -85,7 +93,9 @@ export default function AdminTransparency({ isAdmin }) {
   const startEdit = (t) => {
     setEditingId(t.id);
     setDesc(t.description);
-    setValor(Math.abs(t.value)); // Carrega valor positivo para o input
+    // Tenta carregar o unitValue salvo, senão pega o absoluto do total
+    setValor(t.unitValue || Math.abs(t.value));
+    setQuantidade(t.quantity || 1);
     setTipo(t.type);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -94,6 +104,7 @@ export default function AdminTransparency({ isAdmin }) {
     setEditingId(null);
     setDesc("");
     setValor("");
+    setQuantidade(1);
     setTipo("INCOME");
   };
 
@@ -109,25 +120,42 @@ export default function AdminTransparency({ isAdmin }) {
   };
 
   return (
-    <div>
+    <div className="transparency-page">
       <div className="admin-box">
         {isAdmin && (
           <form onSubmit={handleSubmit} className="admin-form-transparency">
             <h3>
               {editingId ? "📝 Editar Movimentação" : "➕ Nova Movimentação"}
             </h3>
+
             <input
               placeholder="Descrição (ex: Aluguel da Quadra)"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
+              className="input-full"
             />
-            <input
-              type="number"
-              step="0.01"
-              placeholder="Valor (R$)"
-              value={valor}
-              onChange={(e) => setValor(e.target.value)}
-            />
+
+            <div
+              className="input-group-row"
+              style={{ display: "flex", gap: "10px", width: "100%" }}
+            >
+              <input
+                type="number"
+                step="0.01"
+                placeholder="Valor Unit. (R$)"
+                value={valor}
+                onChange={(e) => setValor(e.target.value)}
+                style={{ flex: 2 }}
+              />
+              <input
+                type="number"
+                placeholder="Qtd"
+                value={quantidade}
+                onChange={(e) => setQuantidade(e.target.value)}
+                style={{ flex: 1 }}
+              />
+            </div>
+
             <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
               <option value="INCOME">Entrada (+)</option>
               <option value="EXPENSE">Saída (-)</option>
@@ -156,10 +184,19 @@ export default function AdminTransparency({ isAdmin }) {
 
         <div className="transparency-list">
           <h3>Histórico Financeiro</h3>
+          {transacoes.length === 0 && (
+            <p className="no-data">Nenhuma movimentação registrada.</p>
+          )}
+
           {transacoes.map((t) => (
             <div key={t.id} className="t-item">
               <div className="t-info">
-                <span className="t-desc">{t.description}</span>
+                <span className="t-desc">
+                  {t.description}
+                  {t.quantity > 1 && (
+                    <span className="qty-tag"> x{t.quantity}</span>
+                  )}
+                </span>
                 <small className="t-date">
                   {t.createdAt?.toDate().toLocaleDateString("pt-BR")}
                 </small>
