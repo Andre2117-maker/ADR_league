@@ -1,8 +1,21 @@
 import React from "react";
 import "../styles/Tabelas/goalkeepers.css";
 
-function TopGoalkeepersCard({ players, matches }) {
-  const MIN_GAMES = 2; // Ajuste conforme desejar: mínimo de jogos para entrar no ranking
+// Adicionamos a prop 'limit' com valor padrão 5
+function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
+  const MIN_GAMES = 2;
+  const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+  if (!players.length || !matches.length) {
+    return (
+      <div className="gk-card">
+        <h3 className="gk-title">Paredões da Temporada</h3>
+        <p style={{ color: "#666", textAlign: "center", padding: "20px" }}>
+          Aguardando dados...
+        </p>
+      </div>
+    );
+  }
 
   const goalkeeperStats = players
     .map((player) => {
@@ -10,19 +23,20 @@ function TopGoalkeepersCard({ players, matches }) {
       let totalGoalsAgainst = 0;
       let gamesAsGK = 0;
 
-      matches.forEach((match) => {
-        const isA = match.teamA.goalkeeperId === player.id;
-        const isB = match.teamB.goalkeeperId === player.id;
+      matches?.forEach((match) => {
+        const isA = match.teamA?.goalkeeperId === player.id;
+        const isB = match.teamB?.goalkeeperId === player.id;
 
         if (isA || isB) {
           gamesAsGK++;
+          const events = match.events || [];
           const goals = isA
-            ? match.events.filter(
+            ? events.filter(
                 (e) =>
                   (e.type === "GOAL" && e.team === "B") ||
                   (e.type === "OWN_GOAL" && e.team === "A"),
               ).length
-            : match.events.filter(
+            : events.filter(
                 (e) =>
                   (e.type === "GOAL" && e.team === "A") ||
                   (e.type === "OWN_GOAL" && e.team === "B"),
@@ -33,16 +47,12 @@ function TopGoalkeepersCard({ players, matches }) {
         }
       });
 
-      // Cálculo da Média: Gols Sofridos / Jogos
       const mgs = gamesAsGK > 0 ? totalGoalsAgainst / gamesAsGK : 999;
-
       return { ...player, totalCleanSheets, totalGoalsAgainst, gamesAsGK, mgs };
     })
-    // Filtros: Tem que ter jogado o mínimo, ter jogado no gol e não ser anônimo
     .filter((p) => p.gamesAsGK >= MIN_GAMES && !p.isAnonymous)
-    // Ordenação: Menor MGS primeiro (mais eficiente), depois mais CS
     .sort((a, b) => a.mgs - b.mgs || b.totalCleanSheets - a.totalCleanSheets)
-    .slice(0, 5);
+    .slice(0, limit); // Agora usa a variável 'limit'
 
   return (
     <div className="gk-card">
@@ -58,26 +68,38 @@ function TopGoalkeepersCard({ players, matches }) {
       </div>
 
       <div className="gk-list">
-        {goalkeeperStats.map((p, i) => (
-          <div key={p.id} className="gk-row">
-            <div className="gk-info">
-              <span className={`gk-rank ${i === 0 ? "is-first" : ""}`}>
-                {i + 1}º
-              </span>
-              <span className="gk-name">{p.name}</span>
+        {goalkeeperStats.length > 0 ? (
+          goalkeeperStats.map((p, i) => (
+            <div key={p.id} className="gk-row">
+              <div className="gk-info">
+                <span className={`gk-rank ${i === 0 ? "is-first" : ""}`}>
+                  {i + 1}º
+                </span>
+                {/* Adicionada a foto do jogador */}
+                <img
+                  src={p.photo || defaultAvatar}
+                  alt={p.name}
+                  className="gk-avatar-img"
+                />
+                <span className="gk-name">{p.name}</span>
+              </div>
+              <div className="gk-stats">
+                <span className="gk-val mgs">{p.mgs.toFixed(2)}</span>
+                <span className="gk-val cs">{p.totalCleanSheets}</span>
+                <span className="gk-val j">{p.gamesAsGK}</span>
+              </div>
             </div>
-            <div className="gk-stats">
-              <span className="gk-val mgs">{p.mgs.toFixed(1)}</span>
-              <span className="gk-val cs">{p.totalCleanSheets}</span>
-              <span className="gk-val j">{p.gamesAsGK}</span>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p style={{ color: "#666", textAlign: "center", fontSize: "0.8rem" }}>
+            Nenhum goleiro atingiu o mínimo de {MIN_GAMES} jogos.
+          </p>
+        )}
       </div>
 
       <div className="gk-footer">
         <span>
-          <strong>MGS</strong> Média de Gols Sofridos
+          <strong>MGS</strong> Média de Gols
         </span>
         <span>
           <strong>CS</strong> Clean Sheets

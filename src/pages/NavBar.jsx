@@ -25,6 +25,9 @@ function Navbar({ isAdmin, logout }) {
           <Link to="/calendar" className="nvb-link">
             Calendário
           </Link>
+          <Link to="/estatisticas" className="nvb-link">
+            Estatísticas
+          </Link>
         </nav>
 
         {/* Centro (Logo) */}

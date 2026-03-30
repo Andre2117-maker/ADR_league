@@ -246,9 +246,9 @@ function Home({ players, matches, getBestPartner }) {
           <button className="export-btn" onClick={exportTabela}>
             📸 Exportar Tabela
           </button>
-          <TopScorersCard players={sortedByGoals} />
-          <TopAssistsCard players={sortedByAssists} />
-          <TopGoalkeepersCard players={players} matches={matches} />
+          <TopScorersCard players={sortedByGoals} limit={3} />
+          <TopAssistsCard players={sortedByAssists} limit={3} />
+          <TopGoalkeepersCard players={players} matches={matches} limit={5} />
         </aside>
 
         <main className="main-content-area">

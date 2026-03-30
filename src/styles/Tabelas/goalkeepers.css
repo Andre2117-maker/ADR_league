@@ -4,8 +4,7 @@
 
 .gk-card {
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
+  /* Removi o max-width rígido para ele poder expandir no Statics se necessário */
   background: linear-gradient(
     145deg,
     rgba(30, 30, 30, 0.9),
@@ -14,6 +13,7 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 15px;
   border-radius: 12px;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
 }
 
 .gk-title {
@@ -33,14 +33,17 @@
   text-transform: uppercase;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .gk-header-stats {
   display: flex;
   gap: 10px;
+  flex-shrink: 0; /* Impede que os cabeçalhos das colunas encolham */
 }
+
 .gk-stat-label {
-  width: 35px;
+  width: 30px; /* Reduzi um pouco para ganhar espaço lateral */
   text-align: center;
 }
 
@@ -58,40 +61,58 @@
   justify-content: space-between;
   align-items: center;
   transition: background 0.2s;
-}
-
-.gk-row:hover {
-  background: rgba(255, 255, 255, 0.08);
+  gap: 8px; /* Espaço entre info e stats */
 }
 
 .gk-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex: 1; /* Ocupa todo o espaço restante */
+  min-width: 0; /* NECESSÁRIO para o texto com "..." funcionar */
 }
+
 .gk-rank {
   font-size: 10px;
   color: #666;
   font-weight: 900;
-  width: 18px;
+  width: 20px;
+  flex-shrink: 0;
 }
+
 .gk-rank.is-first {
   color: #d4af37;
 }
+
+.gk-avatar-img {
+  width: 28px; /* Reduzi levemente de 30px para 28px */
+  height: 28px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #222;
+  flex-shrink: 0; /* Impede a imagem de ser esmagada */
+}
+
 .gk-name {
   font-size: 13px;
   color: #eee;
+  /* TRUNCATE: Coloca "..." se o nome for muito grande */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gk-stats {
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-shrink: 0; /* Impede os números de sumirem */
 }
+
 .gk-val {
-  font-size: 14px;
+  font-size: 13px; /* Reduzi de 14px para 13px */
   font-weight: 700;
-  width: 35px;
+  width: 30px; /* Alinhado com o header */
   text-align: center;
 }
 .mgs {
@@ -121,4 +142,12 @@
 
 .gk-footer strong {
   color: #d4af37; /* Dourado para destacar a sigla */
+}
+
+.gk-avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #000000;
 }

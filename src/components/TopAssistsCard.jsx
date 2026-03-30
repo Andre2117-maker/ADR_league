@@ -1,10 +1,13 @@
 import React from "react";
 
-function TopAssistsCard({ players }) {
-  // Agora usamos os players que já vêm ordenados e calculados do Home.js
+// Adicionamos a prop 'limit' com valor padrão 3
+function TopAssistsCard({ players, limit = 3 }) {
+  const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+  // Agora usamos o limite dinâmico vindo da prop
   const topPlayers = (players || [])
-    .filter((p) => p.assists > 0) // Opcional: só mostra quem tem assistência
-    .slice(0, 3);
+    .filter((p) => p.assists > 0)
+    .slice(0, limit);
 
   return (
     <div
@@ -45,17 +48,42 @@ function TopAssistsCard({ players }) {
               }}
             >
               <div
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  flex: 1,
+                  minWidth: 0,
+                }}
               >
                 <span
                   style={{
                     color: i === 0 ? "#2196f3" : "#555",
                     fontWeight: "900",
                     fontSize: "12px",
+                    minWidth: "20px",
                   }}
                 >
-                  0{i + 1}
+                  {i + 1 < 10 ? `0${i + 1}` : i + 1}
                 </span>
+
+                {/* Adicionada a foto do jogador igual ao do Goleiro */}
+                <img
+                  src={p.photo || defaultAvatar}
+                  alt={p.name}
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "4px",
+                    objectFit: "cover",
+                    background: "#000",
+                    border:
+                      i === 0
+                        ? "1px solid #2196f3"
+                        : "1px solid rgba(255,255,255,0.1)",
+                  }}
+                />
+
                 <span
                   style={{ fontSize: "13px", fontWeight: "500", color: "#eee" }}
                 >
@@ -68,7 +96,7 @@ function TopAssistsCard({ players }) {
                 <span
                   style={{ fontSize: "16px", fontWeight: "800", color: "#fff" }}
                 >
-                  {p.assists} {/* Mudado de totalAssists para assists */}
+                  {p.assists}
                 </span>
                 <small
                   style={{ fontSize: "9px", color: "#666", marginTop: "4px" }}

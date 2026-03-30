@@ -13,16 +13,16 @@
   box-sizing: border-box;
   background-color: #000;
   margin-top: -75px !important; /* Puxa o conteúdo para trás da Nav */
-  padding-top: 75px !important;
+  padding-top: 100px !important;
 }
 
 .home-layout {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px;
+  gap: 40px; /* Aumentei o espaço entre as colunas para respirar melhor */
   width: 100%;
-  max-width: 1450px;
+  max-width: 1600px; /* Aumentado para acomodar a lateral maior */
   margin: 20px auto 40px;
   padding: 0 20px;
   position: relative;
@@ -157,6 +157,7 @@
 .main-content-area {
   flex: 1;
   max-width: 850px;
+  min-width: 800px; /* Isso impede a compressão da tabela principal */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -194,7 +195,7 @@
    LATERAIS E BOTÕES
 ===================================================== */
 .side-cards {
-  width: 280px;
+  width: 380px !important;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -267,28 +268,96 @@
 }
 
 /* =====================================================
-   RESPONSIVIDADE (MOBILE)
+   RESPONSIVIDADE (MOBILE & TABLET)
 ===================================================== */
 @media (max-width: 1024px) {
   .home-layout {
-    flex-direction: column !important;
+    flex-direction: column !important; /* Empilha as colunas verticalmente */
+    align-items: center;
+    gap: 20px;
     padding: 0 10px;
+    margin-top: 10px;
   }
 
-  .side-cards,
-  .details-panel {
-    width: 100% !important;
-    position: static !important;
-  }
-
-  .hall-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  /* 1. Ajuste da Lateral (Cards de Artilharia/Goleiros) */
+  .side-cards {
+    width: 100% !important; /* Ocupa toda a largura do celular */
+    max-width: 100%;
+    order: 2; /* Move os cards para baixo da tabela principal, se preferir */
     gap: 15px;
   }
 
-  .year-divider {
-    font-size: 1.5rem;
+  /* 2. Ajuste da Área Central (Tabela de Ranking) */
+  .main-content-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important; /* Remove a trava de 800px no mobile */
+    order: 1; /* Tabela principal aparece primeiro */
+    overflow-x: auto; /* Permite scroll horizontal na tabela se ela for larga */
+  }
+
+  /* Forçar a tabela a ser rolável lateralmente para não quebrar o layout */
+  .ranking-section {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 3. Painel de Scout (Geralmente escondemos ou simplificamos no mobile) */
+  .details-panel {
+    width: 100% !important;
+    position: static !important;
+    order: 3;
+    margin-top: 20px;
+  }
+
+  /* 4. Ajustes internos dos cards para telas pequenas */
+  .card-row,
+  .gk-row {
+    padding: 8px 10px !important;
+  }
+
+  .gk-name,
+  .player-name {
+    font-size: 12px !important; /* Diminui um pouco a fonte para caber tudo */
+  }
+
+  .gk-avatar-img,
+  .info-card img {
+    width: 32px !important; /* Fotos levemente menores no celular */
+    height: 32px !important;
+  }
+
+  /* 5. Botões de Navegação (Transparência/Memorial) */
+  .transparency-nav-container {
+    margin-top: 85px !important; /* Ajuste para não bater na Navbar fixa */
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .btn-transparency-nav {
+    padding: 8px 15px;
+    font-size: 11px; /* Botões menores para não quebrarem linha estranho */
+    flex: 1; /* Faz os botões dividirem o espaço */
     text-align: center;
+  }
+
+  /* 6. Exportar Tabela */
+  .export-btn {
+    position: relative;
+    margin-bottom: 10px;
+  }
+}
+
+/* Ajuste específico para celulares muito pequenos (iPhone SE, etc) */
+@media (max-width: 380px) {
+  .gk-stats {
+    gap: 5px; /* Reduz espaço entre MGS, CS e J */
+  }
+
+  .gk-val {
+    width: 25px; /* Colunas de números mais estreitas */
+    font-size: 11px;
   }
 }
 

@@ -27,6 +27,7 @@ import AdminTransparency from "./pages/AdminTransparency.jsx";
 import HallHistorico from "./components/HallHistorico.jsx";
 import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
 import Altar from "./components/Easter Egg/Altar.jsx";
+import Statics from "./pages/Statics.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -269,6 +270,9 @@ function App() {
               />
             }
           />
+
+          <Route path="/estatisticas" element={<Statics players={players} matches={matches}/>} />
+
           {/* ROTA DO EASTER EGG*/}
           <Route path="/quiz-secret" element={<SecretQuiz />} />
           <Route path="/altar-adr" element={<Altar />} />
