@@ -7,139 +7,7 @@ import { calculateMatchStats } from "../components/matchpages/matchUtils";
 import { exportMatchImage } from "../components/matchpages/screenshotHelper";
 import MatchStats from "../components/matchpages/MatchStats";
 import MatchTimeline from "../components/matchpages/MatchTimeline";
-
-const FORMATIONS_DATA = {
-  FUT5: {
-    "5_JOG_2-1-1": {
-      label: "2-1-1",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "25%", y: "38%" },
-        { id: "s3", x: "75%", y: "38%" },
-        { id: "s4", x: "50%", y: "60%" },
-        { id: "s5", x: "50%", y: "85%" },
-      ],
-    },
-    "5_JOG_1-3-1": {
-      label: "1-3-1",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "20%", y: "45%" },
-        { id: "s3", x: "50%", y: "45%" },
-        { id: "s4", x: "80%", y: "45%" },
-        { id: "s5", x: "50%", y: "85%" },
-      ],
-    },
-    "5_JOG_2-0-2": {
-      label: "2-0-2",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "30%", y: "40%" },
-        { id: "s3", x: "70%", y: "40%" },
-        { id: "s4", x: "30%", y: "80%" },
-        { id: "s5", x: "70%", y: "80%" },
-      ],
-    },
-    "5_JOG_1-2-1": {
-      label: "1-2-1",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "50%", y: "38%" },
-        { id: "s3", x: "25%", y: "58%" },
-        { id: "s4", x: "75%", y: "58%" },
-        { id: "s5", x: "50%", y: "85%" },
-      ],
-    },
-    "5_JOG_1-1-2": {
-      label: "1-1-2",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "50%", y: "38%" },
-        { id: "s3", x: "30%", y: "68%" },
-        { id: "s4", x: "70%", y: "68%" },
-        { id: "s5", x: "50%", y: "85%" },
-      ],
-    },
-    "5_JOG_1-2-2": {
-      label: "1-2-2",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "25%", y: "45%" },
-        { id: "s3", x: "75%", y: "45%" },
-        { id: "s4", x: "30%", y: "75%" },
-        { id: "s5", x: "70%", y: "75%" },
-      ],
-    },
-  },
-  FUT6: {
-    "6_JOG_3-1-1": {
-      label: "3-1-1",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "20%", y: "35%" },
-        { id: "s3", x: "50%", y: "35%" },
-        { id: "s4", x: "80%", y: "35%" },
-        { id: "s5", x: "50%", y: "58%" },
-        { id: "s6", x: "50%", y: "85%" },
-      ],
-    },
-    "6_JOG_3-2-1": {
-      label: "3-2-1",
-      slots: [
-        { id: "s1", x: "50%", y: "15%" },
-        { id: "s2", x: "20%", y: "35%" },
-        { id: "s3", x: "50%", y: "35%" },
-        { id: "s4", x: "80%", y: "35%" },
-        { id: "s5", x: "35%", y: "65%" },
-        { id: "s6", x: "65%", y: "65%" },
-      ],
-    },
-    "6_JOG_2-3-1": {
-      label: "2-3-1",
-      slots: [
-        { id: "s1", x: "50%", y: "15%" },
-        { id: "s2", x: "30%", y: "35%" },
-        { id: "s3", x: "70%", y: "35%" },
-        { id: "s4", x: "20%", y: "60%" },
-        { id: "s5", x: "50%", y: "60%" },
-        { id: "s6", x: "80%", y: "60%" },
-      ],
-    },
-    "6_JOG_2-2-1": {
-      label: "2-2-1",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "30%", y: "35%" },
-        { id: "s3", x: "70%", y: "35%" },
-        { id: "s4", x: "30%", y: "62%" },
-        { id: "s5", x: "70%", y: "62%" },
-        { id: "s6", x: "50%", y: "85%" },
-      ],
-    },
-    "6_JOG_2-1-2": {
-      label: "2-1-2",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "30%", y: "35%" },
-        { id: "s3", x: "70%", y: "35%" },
-        { id: "s4", x: "50%", y: "58%" },
-        { id: "s5", x: "30%", y: "80%" },
-        { id: "s6", x: "70%", y: "80%" },
-      ],
-    },
-    "6_JOG_1-3-1": {
-      label: "1-3-1",
-      slots: [
-        { id: "s1", x: "50%", y: "18%" },
-        { id: "s2", x: "50%", y: "35%" },
-        { id: "s3", x: "20%", y: "58%" },
-        { id: "s4", x: "50%", y: "58%" },
-        { id: "s5", x: "80%", y: "58%" },
-        { id: "s6", x: "50%", y: "85%" },
-      ],
-    },
-  },
-};
+import { FORMATIONS_DATA } from "../data/formationsConfig";
 
 function MatchPage({ matches, players, isAdmin }) {
   const { id } = useParams();
@@ -147,13 +15,8 @@ function MatchPage({ matches, players, isAdmin }) {
 
   const match = matches.find((m) => String(m.id) === String(id));
 
-  // 1. Inicializamos o estado DIRETAMENTE com o valor do match, se existir.
-  // 2. Usamos o ID no useState para "resetar" o estado caso o usuário mude de partida sem recarregar a página.
   const [formA, setFormA] = useState(match?.formationA || "5_JOG_2-1-1");
   const [formB, setFormB] = useState(match?.formationB || "5_JOG_2-1-1");
-
-  // Ajuste técnico: Se o componente não desmontar ao trocar de ID (navegação interna),
-  // verificamos se os estados batem com o match atual durante o render (padrão recomendado pelo React)
   const [prevId, setPrevId] = useState(id);
 
   if (id !== prevId) {
@@ -164,7 +27,6 @@ function MatchPage({ matches, players, isAdmin }) {
 
   if (!match) return <div className="loading">Partida não encontrada...</div>;
 
-  // Lógica de Placar
   const scoreA =
     match.events?.filter(
       (e) =>
@@ -180,7 +42,6 @@ function MatchPage({ matches, players, isAdmin }) {
 
   const { stats, mvp } = calculateMatchStats(match, players);
 
-  // Funções de atualização do banco
   const handleEscalar = async (teamKey, slotId, pId) => {
     const field =
       teamKey === "A" ? `tacticalA.${slotId}` : `tacticalB.${slotId}`;
@@ -193,17 +54,10 @@ function MatchPage({ matches, players, isAdmin }) {
 
   const handleSetFormation = async (teamKey, formationKey) => {
     try {
-      if (teamKey === "A") {
-        setFormA(formationKey);
-        await updateDoc(doc(db, "matches", match.id), {
-          formationA: formationKey,
-        });
-      } else {
-        setFormB(formationKey);
-        await updateDoc(doc(db, "matches", match.id), {
-          formationB: formationKey,
-        });
-      }
+      const field = teamKey === "A" ? "formationA" : "formationB";
+      if (teamKey === "A") setFormA(formationKey);
+      else setFormB(formationKey);
+      await updateDoc(doc(db, "matches", match.id), { [field]: formationKey });
     } catch (err) {
       console.error("Erro ao salvar formação:", err);
     }
@@ -213,7 +67,7 @@ function MatchPage({ matches, players, isAdmin }) {
     (FORMATIONS_DATA.FUT5[formKey] || FORMATIONS_DATA.FUT6[formKey])?.slots ||
     [];
 
-  const renderSlot = (slot, teamKey, teamPlayers) => {
+  const renderSlot = (slot, teamKey, teamPlayersIds) => {
     const occupantId =
       teamKey === "A" ? match.tacticalA?.[slot.id] : match.tacticalB?.[slot.id];
     const p = players.find(
@@ -221,20 +75,19 @@ function MatchPage({ matches, players, isAdmin }) {
     );
     const isMVP = mvp && p && String(p.id) === String(mvp.id);
 
-    // Eventos do Jogador no Slot
-    const playerEvents =
+    // Lógica de Emojis/Status
+    const pEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
-    const goals = playerEvents.filter(
-      (e) => e.type === "GOAL" && e.team === teamKey,
-    ).length;
+    const goals = pEvents.filter((e) => e.type === "GOAL").length;
+    const yellows = pEvents.filter((e) => e.type === "YELLOW_CARD").length;
+    const reds = pEvents.filter((e) => e.type === "RED_CARD").length;
+
+    // Assistências (Pode estar no assistId de um GOAL)
     const assists =
       match.events?.filter(
-        (e) =>
-          (e.type === "ASSIST" && String(e.playerId) === String(occupantId)) ||
-          (e.type === "GOAL" && String(e.assistId) === String(occupantId)),
+        (e) => e.type === "GOAL" && String(e.assistId) === String(occupantId),
       ).length || 0;
-    const ownGoals = playerEvents.filter((e) => e.type === "OWN_GOAL").length;
 
     return (
       <div
@@ -244,7 +97,9 @@ function MatchPage({ matches, players, isAdmin }) {
       >
         {p ? (
           <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
+            {/* Badges de Status */}
             <div className="player-badges">
+              {slot.role === "GK" && <span className="badge-item">🧤</span>}
               {goals > 0 && (
                 <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
               )}
@@ -253,13 +108,16 @@ function MatchPage({ matches, players, isAdmin }) {
                   👟{assists > 1 ? assists : ""}
                 </span>
               )}
-              {ownGoals > 0 && <span className="badge-item GC">GC</span>}
+              {yellows > 0 && <span className="badge-item">🟨</span>}
+              {reds > 0 && <span className="badge-item">🟥</span>}
             </div>
+
             <img
               src={p.photo || "/players/default.png"}
               className="player-img"
               alt={p.name}
             />
+
             <div className="player-card-label">
               <span className="p-card-num">{p.number || "0"}</span>
               <span className="p-card-name">{p.name.split(" ")[0]}</span>
@@ -276,11 +134,16 @@ function MatchPage({ matches, players, isAdmin }) {
             onChange={(e) => handleEscalar(teamKey, slot.id, e.target.value)}
           >
             <option value="">Escalar...</option>
-            {teamPlayers.map((pId) => (
-              <option key={pId} value={pId}>
-                {players.find((pl) => String(pl.id) === String(pId))?.name}
-              </option>
-            ))}
+            {teamPlayersIds?.map((pId) => {
+              const playerInfo = players.find(
+                (pl) => String(pl.id) === String(pId),
+              );
+              return (
+                <option key={pId} value={pId}>
+                  {playerInfo ? playerInfo.name : "Carregando..."}
+                </option>
+              );
+            })}
           </select>
         )}
       </div>
@@ -309,73 +172,72 @@ function MatchPage({ matches, players, isAdmin }) {
       <div className="scoreboard-container">
         <div className="sb-main">
           <div className="sb-team-name team-left">{match.teamA.name}</div>
-
-          <div className="sb-score-box-wrapper">
-            {" "}
-            {/* Wrapper para agrupar placar + penaltis */}
-            <div className="sb-score-box">
-              {/* Pênaltis Time A (Fica à esquerda do gol A) */}
-              {(match.penaltiesScoreA !== undefined ||
-                match.penaltiesScoreB !== undefined) && (
-                <span className="penalties-mini-score">
-                  ({match.penaltiesScoreA || 0})
-                </span>
-              )}
-
-              <span className="score">{scoreA}</span>
-              <span className="vs-badge">VS</span>
-              <span className="score">{scoreB}</span>
-
-              {/* Pênaltis Time B (Fica à direita do gol B) */}
-              {(match.penaltiesScoreA !== undefined ||
-                match.penaltiesScoreB !== undefined) && (
-                <span className="penalties-mini-score">
-                  ({match.penaltiesScoreB || 0})
-                </span>
-              )}
-            </div>
+          <div className="sb-score-box">
+            {match.penaltiesScoreA !== undefined && (
+              <span className="penalties-mini-score">
+                ({match.penaltiesScoreA})
+              </span>
+            )}
+            <span className="score">{scoreA}</span>
+            <span className="vs-badge">VS</span>
+            <span className="score">{scoreB}</span>
+            {match.penaltiesScoreB !== undefined && (
+              <span className="penalties-mini-score">
+                ({match.penaltiesScoreB})
+              </span>
+            )}
           </div>
-
           <div className="sb-team-name team-right">{match.teamB.name}</div>
         </div>
       </div>
+
       <MatchTimeline events={match.events} players={players} />
 
       <div className="dual-fields-layout">
         {[
-          { k: "A", f: formA, n: match.teamA.name, p: match.teamA.players },
-          { k: "B", f: formB, n: match.teamB.name, p: match.teamB.players },
+          {
+            k: "A",
+            f: formA,
+            n: match.teamA.name,
+            p: match.teamA.players,
+            tact: match.tacticalA,
+          },
+          {
+            k: "B",
+            f: formB,
+            n: match.teamB.name,
+            p: match.teamB.players,
+            tact: match.tacticalB,
+          },
         ].map((t) => (
           <div key={t.k} className="field-section">
             <h3 className="field-team-title">{t.n}</h3>
+
             {isAdmin && (
-              <div className="formation-controls">
-                <div className="formation-group">
-                  <span className="group-label">F5:</span>
-                  {Object.keys(FORMATIONS_DATA.FUT5).map((k) => (
-                    <button
-                      key={k}
-                      className={t.f === k ? "active" : ""}
-                      onClick={() => handleSetFormation(t.k, k)}
-                    >
-                      {FORMATIONS_DATA.FUT5[k].label}
-                    </button>
-                  ))}
-                </div>
-                <div className="formation-group">
-                  <span className="group-label">F6:</span>
-                  {Object.keys(FORMATIONS_DATA.FUT6).map((k) => (
-                    <button
-                      key={k}
-                      className={t.f === k ? "active" : ""}
-                      onClick={() => handleSetFormation(t.k, k)}
-                    >
-                      {FORMATIONS_DATA.FUT6[k].label}
-                    </button>
-                  ))}
-                </div>
+              <div className="formation-select-wrapper">
+                <select
+                  className="formation-dropdown"
+                  value={t.f}
+                  onChange={(e) => handleSetFormation(t.k, e.target.value)}
+                >
+                  <optgroup label="FUT 5">
+                    {Object.keys(FORMATIONS_DATA.FUT5).map((k) => (
+                      <option key={k} value={k}>
+                        {FORMATIONS_DATA.FUT5[k].label}
+                      </option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="FUT 6">
+                    {Object.keys(FORMATIONS_DATA.FUT6).map((k) => (
+                      <option key={k} value={k}>
+                        {FORMATIONS_DATA.FUT6[k].label}
+                      </option>
+                    ))}
+                  </optgroup>
+                </select>
               </div>
             )}
+
             <div className="pitch-canvas">
               <div className="field-lines">
                 <div className="c-circle"></div>
@@ -385,10 +247,34 @@ function MatchPage({ matches, players, isAdmin }) {
               </div>
               {getActiveSlots(t.f).map((s) => renderSlot(s, t.k, t.p))}
             </div>
+
+            <div className="squad-list-container">
+              <h4 className="squad-title">Elenco:</h4>
+              <div className="squad-grid">
+                {t.p?.map((pId) => {
+                  const pInfo = players.find(
+                    (pl) => String(pl.id) === String(pId),
+                  );
+                  const isOnField = Object.values(
+                    t.k === "A" ? match.tacticalA || {} : match.tacticalB || {},
+                  ).includes(pId);
+                  return (
+                    <div
+                      key={pId}
+                      className={`squad-player-item ${isOnField ? "on-field" : ""}`}
+                    >
+                      <span className="squad-num">{pInfo?.number || "0"}</span>
+                      <span className="squad-name">
+                        {pInfo?.name.split(" ")[0]}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         ))}
       </div>
-
       <MatchStats
         teamStats={stats}
         teamAName={match.teamA.name}

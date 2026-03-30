@@ -10,7 +10,7 @@
   align-items: center;
   position: relative;
   font-family: "Segoe UI", Roboto, sans-serif;
-  margin-top: -75px !important; /* Exatamente a altura da sua Navbar */
+  margin-top: -75px !important;
   padding-top: 75px !important;
 }
 
@@ -29,13 +29,14 @@
   z-index: 100;
   transition: 0.3s;
 }
+
 .back-btn:hover {
   background: #d4af37;
   color: #000;
 }
 
 /* ==========================================================================
-   PLACAR E PÊNALTIS (CORRIGIDO)
+   PLACAR E PÊNALTIS
    ========================================================================== */
 .scoreboard-container {
   margin-top: 50px;
@@ -63,6 +64,7 @@
   text-transform: uppercase;
   flex: 1;
 }
+
 .team-left {
   text-align: right;
 }
@@ -73,7 +75,8 @@
 .sb-score-box {
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  gap: 10px;
 }
 
 .score {
@@ -93,65 +96,41 @@
   font-size: 0.8rem;
 }
 
-.penalties-pill {
-  margin-top: 15px;
-  display: inline-block;
-  padding: 6px 20px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid #d4af37;
+.penalties-mini-score {
+  font-size: 1.2rem;
   color: #d4af37;
-  border-radius: 50px;
-  font-size: 12px;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  opacity: 0.9;
+  margin: 0 5px;
 }
 
 /* ==========================================================================
-   CONTROLES DE FORMAÇÃO (ADICIONADO)
+   CONTROLES DE FORMAÇÃO (DROPDOWN ADMIN)
    ========================================================================== */
-.formation-controls {
+.formation-select-wrapper {
+  margin-bottom: 15px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px;
-  border-radius: 8px;
+  justify-content: center;
 }
 
-.formation-group {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.group-label {
-  font-size: 10px;
-  color: #888;
-  font-weight: bold;
-  width: 30px;
-}
-
-.formation-group button {
+.formation-dropdown {
   background: #1a1a1a;
+  color: #d4af37;
   border: 1px solid #333;
-  color: #aaa;
-  padding: 4px 10px;
-  font-size: 10px;
-  font-weight: bold;
-  border-radius: 4px;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: 0.2s;
+  width: 100%;
+  max-width: 220px;
+  transition: 0.3s;
 }
 
-.formation-group button:hover {
-  border-color: #d4af37;
-}
-
-.formation-group button.active {
-  background: #d4af37;
-  color: #000;
+.formation-dropdown:hover {
   border-color: #d4af37;
 }
 
@@ -196,6 +175,7 @@
   opacity: 0.2;
   pointer-events: none;
 }
+
 .c-line {
   position: absolute;
   top: 50%;
@@ -259,6 +239,7 @@
   z-index: 5;
   overflow: hidden;
 }
+
 .p-card-num {
   background: #d4af37;
   color: #000;
@@ -266,6 +247,7 @@
   font-weight: 900;
   font-size: 11px;
 }
+
 .p-card-name {
   color: #111;
   padding: 3px 7px;
@@ -275,7 +257,83 @@
   text-align: center;
 }
 
-/* INTERROGAÇÃO / ADMIN */
+.player-role-badge {
+  position: absolute;
+  top: -10px;
+  right: 0;
+  background: #000;
+  color: #fff;
+  font-size: 9px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid #d4af37;
+  z-index: 20;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   LISTA DE ELENCO (SQUAD LIST)
+   ========================================================================== */
+.squad-list-container {
+  margin-top: 30px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  width: 100%;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.squad-title {
+  font-size: 11px;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 5px;
+}
+
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 8px;
+}
+
+.squad-player-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #111;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.squad-player-item.on-field {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.08);
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.squad-num {
+  font-weight: 900;
+  font-size: 10px;
+  color: #d4af37;
+}
+.squad-name {
+  font-size: 10px;
+  color: #eee;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   ADMIN / SELETORES
+   ========================================================================== */
 .empty-slot-marker {
   width: 55px;
   height: 75px;
@@ -291,96 +349,49 @@
 
 .slot-selector {
   margin-top: 10px;
-  background: #111;
+  background: #000;
   color: #d4af37;
   border: 1px solid #d4af37;
   font-size: 10px;
   width: 100%;
+  max-width: 100px;
   border-radius: 4px;
-  padding: 5px;
+  padding: 4px;
   cursor: pointer;
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE MOBILE
+   ESTRELA DO MVP E BADGES
    ========================================================================== */
-@media (max-width: 768px) {
-  .back-btn {
-    top: 10px;
-    left: 10px;
-    padding: 6px 12px;
-    font-size: 10px;
-  }
-  .sb-main {
-    width: 92vw;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 20px;
-  }
-  .sb-team-name {
-    font-size: 0.9rem;
-  }
-  .score {
-    font-size: 2.2rem;
-    min-width: 40px;
-  }
-  .field-section {
-    width: 95vw;
-  }
-  .pitch-canvas {
-    height: 140vw;
-  }
-  .player-img {
-    width: 75px;
-    height: 85px;
-  }
-  .player-card-label {
-    min-width: 75px;
-  }
-  .dual-fields-layout {
-    gap: 40px;
-  }
-}
-
-/* ==========================================================================
-   ESTRELA DO MVP E STATUS (GOLS/ASSISTÊNCIAS)
-   ========================================================================== */
-
-/* Container do Jogador */
 .player-tactical {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Garante que nada saia do container de forma desordenada */
 }
 
-/* ESTRELA DO MVP - No topo de tudo */
 .player-tactical.is-mvp::after {
   content: "⭐";
   position: absolute;
-  top: -35px; /* Subi um pouco mais para não bater nos badges */
+  top: -35px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 22px;
   filter: drop-shadow(0 0 8px #d4af37);
   animation: shine 1.5s infinite ease-in-out;
-  z-index: 30; /* Maior z-index para ficar por cima */
+  z-index: 30;
 }
 
-/* BADGES (Gols, Chuteiras, Luvas) */
 .player-badges {
   position: absolute;
-  top: -12px; /* Posicionado sobre a cabeça, mas abaixo da estrela */
+  top: -12px;
   display: flex;
   gap: 3px;
   justify-content: center;
-  width: auto;
   z-index: 25;
 }
 
-.badge-item,
-.glove {
+.badge-item {
   font-size: 12px;
   background: rgba(0, 0, 0, 0.85);
   color: #fff;
@@ -391,12 +402,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.badge-item.GC {
-  background: #cc0000;
-  border-color: #ff4d4d;
-}
-
-/* EFEITO DE BRILHO NO JOGADOR MVP */
 .player-tactical.is-mvp .player-img {
   border: 2px solid #d4af37 !important;
   border-radius: 10px;
@@ -421,120 +426,12 @@
 }
 
 /* ==========================================================================
-   MATCHSTATS - ESTILO PROFISSIONAL (PÍLULAS)
+   TIMELINE DA PARTIDA
    ========================================================================== */
-
-.team-stats-card {
-  background: rgba(15, 15, 15, 0.95);
-  border: 1px solid #222;
-  border-radius: 12px;
-  padding: 25px 30px;
-  margin: 40px auto;
-  width: 95%;
-  max-width: 550px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  font-family: "Segoe UI", Roboto, sans-serif;
-}
-
-/* Cabeçalho com Nomes dos Times */
-.stats-header-text {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 15px;
-}
-
-.team-name-a,
-.team-name-b {
-  font-size: 13px;
-  font-weight: 900;
-  color: #fff;
-  text-transform: uppercase;
-  width: 30%;
-}
-
-.team-name-a {
-  text-align: left;
-}
-.team-name-b {
-  text-align: right;
-}
-
-.stats-title-center {
-  font-size: 11px;
-  color: #aaa;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-align: center;
-  width: 40%;
-}
-
-/* Corpo das Estatísticas */
-.stats-body {
-  display: flex;
-  flex-direction: column;
-  gap: 18px; /* Espaço entre Gols, Assistências, etc */
-}
-
-.text-stat-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.stat-col {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.stat-col.left {
-  justify-content: flex-start;
-}
-.stat-col.center {
-  justify-content: center;
-}
-.stat-col.right {
-  justify-content: flex-end;
-}
-
-/* Texto Central (Gols, Assistências...) */
-.stat-label-text {
-  color: #bbb;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Estilo das Pílulas de Valor */
-.stat-val {
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 20px;
-  min-width: 40px;
-  text-align: center;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
-}
-
-/* Destaque para o Vencedor da Estatística (Dourado) */
-.stat-val.highlight-winner {
-  background: #d4af37;
-  color: #000;
-  font-weight: 900;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-  border-color: #f1c40f;
-}
 .match-timeline-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px; /* Reduzi um pouco o gap para os nomes ficarem mais próximos do centro */
+  gap: 20px;
   width: 100%;
   max-width: 900px;
   margin: -15px auto 30px;
@@ -546,8 +443,6 @@
   flex-direction: column;
   gap: 8px;
 }
-
-/* Item da linha do tempo */
 .timeline-event-item {
   display: flex;
   align-items: center;
@@ -555,139 +450,130 @@
   font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
-
-/* Alinhamento específico por coluna */
 .timeline-column.left .timeline-event-item {
-  justify-content: flex-end; /* Empurra tudo para a direita (encostando no centro) */
+  justify-content: flex-end;
 }
-
 .timeline-column.right .timeline-event-item {
-  justify-content: flex-start; /* Empurra tudo para a esquerda (encostando no centro) */
+  justify-content: flex-start;
 }
-
-/* O Emoji da Bola */
 .event-icon {
   font-size: 1.1rem;
-  margin: 0 10px; /* Espaço fixo entre a bola e os nomes */
-  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 1));
+  margin: 0 10px;
+  filter: drop-shadow(0 0 2px #000);
 }
-
-/* Nome do Jogador */
-.player-name {
-  white-space: nowrap;
-}
-
-/* Assistência [Nome] */
 .timeline-assist {
   font-size: 0.7rem;
   color: #aaa;
   font-weight: 400;
   margin: 0 5px;
-  text-transform: none; /* Mantém minúsculo se preferir */
-}
-
-.sb-score-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px; /* Espaço entre os elementos */
-
-  padding: 10px 20px;
-  border-radius: 8px;
-  /* Opcional: borda dourada para destacar final de jogo */
-}
-
-/* Estilo do placar de pênaltis "menorzinho" */
-.penalties-mini-score {
-  font-size: 1rem; /* Bem menor que o placar principal */
-  color: #d4af37; /* Cor dourada para indicar decisão */
-  font-weight: 800;
-  align-self: flex-end; /* Alinha levemente abaixo da linha central se preferir */
-  margin-bottom: 5px; /* Ajuste de altura */
-  opacity: 0.9;
-}
-
-/* Placar principal para comparação */
-.score {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.vs-badge {
-  font-size: 0.8rem;
-  background: #d4af37;
-  color: #000;
-  padding: 2px 6px;
-  font-weight: bold;
-  border-radius: 4px;
-  margin: 0 5px;
-}
-
-/* Ajuste para Celular */
-@media (max-width: 768px) {
-  .match-timeline-container {
-    gap: 10px;
-  }
-  .player-name {
-    font-size: 0.75rem;
-  }
-
-  .timeline-assist {
-    display: inline-block; /* Garante que apareça */
-    font-size: 0.6rem; /* Reduz um pouco mais para caber */
-    color: #888; /* Um cinza mais discreto */
-    margin-left: -10px;
-    vertical-align: middle;
-  }
-
-  .event-icon {
-    margin: 0 5px;
-    font-size: 0.9rem;
-  }
-}
-
-/* Responsividade Mobile */
-@media (max-width: 768px) {
-  .team-stats-card {
-    padding: 20px 15px;
-    margin: 20px auto;
-  }
-
-  .team-name-a,
-  .team-name-b {
-    font-size: 11px;
-  }
-
-  .stat-label-text {
-    font-size: 10px;
-  }
-
-  .stat-val {
-    font-size: 14px;
-    padding: 3px 10px;
-    min-width: 35px;
-  }
-
-  .match-view-wrapper {
-    /* Aumentamos o padding-top para o conteúdo descer mais no celular */
-    padding-top: 120px !important;
-    padding-bottom: 50px;
-  }
+  text-transform: none;
 }
 
 /* ==========================================================================
-   BOTÃO DE CAPTURA (SCREENSHOT)
+   ESTATÍSTICAS (MATCHSTATS)
+   ========================================================================== */
+.team-stats-card {
+  background: rgba(15, 15, 15, 0.95);
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 25px 30px;
+  margin: 40px auto;
+  width: 95%;
+  max-width: 550px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.stats-header-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 15px;
+}
+.team-name-a,
+.team-name-b {
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  width: 30%;
+}
+.team-name-a {
+  text-align: left;
+}
+.team-name-b {
+  text-align: right;
+}
+.stats-title-center {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  width: 40%;
+}
+
+.stats-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.text-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.stat-col.left {
+  justify-content: flex-start;
+}
+.stat-col.center {
+  justify-content: center;
+}
+.stat-col.right {
+  justify-content: flex-end;
+}
+
+.stat-label-text {
+  color: #bbb;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.stat-val {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+.stat-val.highlight-winner {
+  background: #d4af37;
+  color: #000;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  border-color: #f1c40f;
+}
+
+/* ==========================================================================
+   BOTÃO DE CAPTURA E TOP BAR
    ========================================================================== */
 .match-top-bar {
   width: 100%;
   max-width: 810px;
   display: flex;
-  justify-content: center; /* Mudado de space-between para center */
+  justify-content: center;
   align-items: center;
-  margin: 0 auto 30px auto; /* Centraliza a barra e dá espaço para o placar */
+  margin: 0 auto 30px auto;
   padding: 0 10px;
 }
 
@@ -695,7 +581,7 @@
   background: #1a1a1a;
   color: #fff;
   border: 1px solid #333;
-  padding: 10px 24px; /* Aumentei um pouco para dar mais presença */
+  padding: 10px 24px;
   border-radius: 8px;
   font-weight: 800;
   font-size: 13px;
@@ -703,27 +589,67 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 0.3s;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .screenshot-btn:hover {
-  background: #d4af37; /* Dourado no hover para combinar com o tema */
+  background: #d4af37;
   color: #000;
   border-color: #d4af37;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
 }
 
-.screenshot-btn:active {
-  transform: translateY(-1px);
-}
-
-/* Responsividade do Botão */
+/* ==========================================================================
+   RESPONSIVIDADE MOBILE
+   ========================================================================== */
 @media (max-width: 768px) {
-  .screenshot-btn {
-    padding: 6px 12px;
-    font-size: 10px;
+  .match-view-wrapper {
+    padding-top: 120px !important;
+  }
+  .back-btn {
+    top: 10px;
+    left: 10px;
+  }
+  .sb-main {
+    width: 92vw;
+    padding: 10px;
+    border-radius: 20px;
+    gap: 10px;
+  }
+  .sb-team-name {
+    font-size: 0.9rem;
+  }
+  .score {
+    font-size: 2.2rem;
+    min-width: 40px;
+  }
+  .field-section {
+    width: 95vw;
+  }
+  .pitch-canvas {
+    height: 140vw;
+  }
+  .player-img {
+    width: 75px;
+    height: 85px;
+  }
+  .player-card-label {
+    min-width: 75px;
+  }
+  .squad-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .match-timeline-container {
+    gap: 10px;
+  }
+  .player-name {
+    font-size: 0.75rem;
+  }
+  .timeline-assist {
+    font-size: 0.6rem;
+    margin-left: -10px;
   }
 }
