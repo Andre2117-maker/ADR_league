@@ -27,6 +27,7 @@ function MatchPage({ matches, players, isAdmin }) {
 
   if (!match) return <div className="loading">Partida não encontrada...</div>;
 
+  // Cálculo de Placar Real (Gols Pro + Gols Contra do adversário)
   const scoreA =
     match.events?.filter(
       (e) =>
@@ -75,15 +76,20 @@ function MatchPage({ matches, players, isAdmin }) {
     );
     const isMVP = mvp && p && String(p.id) === String(mvp.id);
 
-    // Lógica de Emojis/Status
+    // Eventos do Jogador Específico
     const pEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
-    const goals = pEvents.filter((e) => e.type === "GOAL").length;
-    const yellows = pEvents.filter((e) => e.type === "YELLOW_CARD").length;
-    const reds = pEvents.filter((e) => e.type === "RED_CARD").length;
 
-    // Assistências (Pode estar no assistId de um GOAL)
+    const goals = pEvents.filter((e) => e.type === "GOAL").length;
+    const ownGoals = pEvents.filter((e) => e.type === "OWN_GOAL").length; // Gols Contra
+    const yellows = pEvents.filter(
+      (e) => e.type === "YELLOW_CARD" || e.type === "YELLOW",
+    ).length;
+    const reds = pEvents.filter(
+      (e) => e.type === "RED_CARD" || e.type === "RED",
+    ).length;
+
     const assists =
       match.events?.filter(
         (e) => e.type === "GOAL" && String(e.assistId) === String(occupantId),
@@ -97,11 +103,19 @@ function MatchPage({ matches, players, isAdmin }) {
       >
         {p ? (
           <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
-            {/* Badges de Status */}
             <div className="player-badges">
               {slot.role === "GK" && <span className="badge-item">🧤</span>}
               {goals > 0 && (
                 <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
+              )}
+              {/* Marcação de Gol Contra em Vermelho */}
+              {ownGoals > 0 && (
+                <span
+                  className="badge-item"
+                  style={{ color: "#ff4444", fontWeight: "bold" }}
+                >
+                  🔴{ownGoals > 1 ? ownGoals : ""} <small>GC</small>
+                </span>
               )}
               {assists > 0 && (
                 <span className="badge-item">
@@ -173,19 +187,21 @@ function MatchPage({ matches, players, isAdmin }) {
         <div className="sb-main">
           <div className="sb-team-name team-left">{match.teamA.name}</div>
           <div className="sb-score-box">
-            {match.penaltiesScoreA !== undefined && (
-              <span className="penalties-mini-score">
-                ({match.penaltiesScoreA})
-              </span>
-            )}
+            {match.penaltiesScoreA !== null &&
+              match.penaltiesScoreA !== undefined && (
+                <span className="penalties-mini-score">
+                  ({match.penaltiesScoreA})
+                </span>
+              )}
             <span className="score">{scoreA}</span>
             <span className="vs-badge">VS</span>
             <span className="score">{scoreB}</span>
-            {match.penaltiesScoreB !== undefined && (
-              <span className="penalties-mini-score">
-                ({match.penaltiesScoreB})
-              </span>
-            )}
+            {match.penaltiesScoreB !== null &&
+              match.penaltiesScoreB !== undefined && (
+                <span className="penalties-mini-score">
+                  ({match.penaltiesScoreB})
+                </span>
+              )}
           </div>
           <div className="sb-team-name team-right">{match.teamB.name}</div>
         </div>
@@ -200,6 +216,7 @@ function MatchPage({ matches, players, isAdmin }) {
             f: formA,
             n: match.teamA.name,
             p: match.teamA.players,
+            gk: match.teamA.goalkeeperId,
             tact: match.tacticalA,
           },
           {
@@ -207,6 +224,7 @@ function MatchPage({ matches, players, isAdmin }) {
             f: formB,
             n: match.teamB.name,
             p: match.teamB.players,
+            gk: match.teamB.goalkeeperId,
             tact: match.tacticalB,
           },
         ].map((t) => (
@@ -255,17 +273,30 @@ function MatchPage({ matches, players, isAdmin }) {
                   const pInfo = players.find(
                     (pl) => String(pl.id) === String(pId),
                   );
+                  // Verifica se este ID é o ID do Goleiro definido para o time
+                  const isGK = String(pId) === String(t.gk);
+
                   const isOnField = Object.values(
                     t.k === "A" ? match.tacticalA || {} : match.tacticalB || {},
                   ).includes(pId);
+
                   return (
                     <div
                       key={pId}
                       className={`squad-player-item ${isOnField ? "on-field" : ""}`}
                     >
-                      <span className="squad-num">{pInfo?.number || "0"}</span>
+                      <span className="squad-num">
+                        {isGK ? "" : pInfo?.number || "0"}
+                      </span>
                       <span className="squad-name">
                         {pInfo?.name.split(" ")[0]}
+                        {isGK && (
+                          <small
+                            style={{ marginLeft: "3px", fontSize: "0.7em" }}
+                          >
+                            (GK)
+                          </small>
+                        )}
                       </span>
                     </div>
                   );
@@ -275,6 +306,7 @@ function MatchPage({ matches, players, isAdmin }) {
           </div>
         ))}
       </div>
+
       <MatchStats
         teamStats={stats}
         teamAName={match.teamA.name}

@@ -50,6 +50,26 @@ export const FORMATIONS_DATA = {
         { id: "s5", x: "70%", y: "20%", role: "PIVO" },
       ],
     },
+    "5_JOG_1-1-2": {
+      label: "1-1-2 (Ofensiva)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "50%", y: "70%", role: "FIXO" },
+        { id: "s3", x: "50%", y: "45%", role: "ALA" },
+        { id: "s4", x: "25%", y: "20%", role: "PIVO" },
+        { id: "s5", x: "75%", y: "20%", role: "PIVO" },
+      ],
+    },
+    "5_JOG_4-0": {
+      label: "4-0 (Linha Defensiva)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "15%", y: "65%", role: "FIXO" },
+        { id: "s3", x: "38%", y: "65%", role: "FIXO" },
+        { id: "s4", x: "62%", y: "65%", role: "FIXO" },
+        { id: "s5", x: "85%", y: "65%", role: "FIXO" },
+      ],
+    },
   },
   FUT6: {
     "6_JOG_3-1-1": {
@@ -116,6 +136,28 @@ export const FORMATIONS_DATA = {
         { id: "s4", x: "20%", y: "30%", role: "ATA" },
         { id: "s5", x: "50%", y: "30%", role: "ATA" },
         { id: "s6", x: "80%", y: "30%", role: "ATA" },
+      ],
+    },
+    "6_JOG_3-0-2": {
+      label: "3-0-2 (Contra-ataque)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "20%", y: "70%", role: "ZAG" },
+        { id: "s3", x: "50%", y: "75%", role: "ZAG" },
+        { id: "s4", x: "80%", y: "70%", role: "ZAG" },
+        { id: "s5", x: "30%", y: "30%", role: "ATA" },
+        { id: "s6", x: "70%", y: "30%", role: "ATA" },
+      ],
+    },
+    "6_JOG_1-2-2": {
+      label: "1-2-2 (W-W)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "50%", y: "72%", role: "ZAG" },
+        { id: "s3", x: "25%", y: "48%", role: "MEI" },
+        { id: "s4", x: "75%", y: "48%", role: "MEI" },
+        { id: "s5", x: "30%", y: "22%", role: "ATA" },
+        { id: "s6", x: "70%", y: "22%", role: "ATA" },
       ],
     },
   },
