@@ -12,8 +12,14 @@ const MatchPreview = ({
   const getPlayerName = (playerId, externalName) => {
     if (playerId === "OPONENTE_EXTERNO")
       return externalName || "Jogador Adversário";
-    // O parâmetro da função é 'playerId', então devemos comparar com ele
     return players.find((p) => p.id === playerId)?.name || "Jogador";
+  };
+
+  // Função para encontrar o nome do capitão
+  const getCaptainName = (teamSide) => {
+    const team = teamSide === "A" ? draft.teamA : draft.teamB;
+    if (!team.captainId) return null;
+    return players.find((p) => p.id === team.captainId)?.name;
   };
 
   const renderEventIcon = (type) => {
@@ -44,7 +50,13 @@ const MatchPreview = ({
                 <div className="logo-placeholder">A</div>
               )}
             </div>
-            <span className="team-text">{draft.teamA.name || "TIME A"}</span>
+            <div className="team-info-preview">
+              <span className="team-text">{draft.teamA.name || "TIME A"}</span>
+              {/* ADICIONADO: Captain ID Visual */}
+              {getCaptainName("A") && (
+                <span className="captain-badge">© {getCaptainName("A")}</span>
+              )}
+            </div>
           </div>
 
           <div className="score-center">
@@ -63,7 +75,13 @@ const MatchPreview = ({
           </div>
 
           <div className="scoreboard-team team-right">
-            <span className="team-text">{draft.teamB.name || "TIME B"}</span>
+            <div className="team-info-preview align-right">
+              <span className="team-text">{draft.teamB.name || "TIME B"}</span>
+              {/* ADICIONADO: Captain ID Visual */}
+              {getCaptainName("B") && (
+                <span className="captain-badge">© {getCaptainName("B")}</span>
+              )}
+            </div>
             <div className="logo-wrapper">
               {draft.teamB.logo ? (
                 <img src={draft.teamB.logo} alt="L" />
@@ -77,7 +95,7 @@ const MatchPreview = ({
         {/* TIMELINE ESTILIZADA */}
         <div className="timeline-section">
           <h4 className="section-label">LINHA DO TEMPO DOS EVENTOS</h4>
-
+          {/* ... resto do código da timeline (mantido igual) ... */}
           <div className="events-grid">
             {draft.events.length === 0 ? (
               <div className="empty-timeline">
@@ -105,7 +123,6 @@ const MatchPreview = ({
                       )}
                     </div>
                   </div>
-
                   <div className="event-side">
                     <span className="e-team-tag">
                       {e.team === "A" ? draft.teamA.name : draft.teamB.name}

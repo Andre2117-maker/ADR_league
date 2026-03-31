@@ -94,7 +94,9 @@ function MatchPage({ matches, players, isAdmin }) {
       match.events?.filter(
         (e) => e.type === "GOAL" && String(e.assistId) === String(occupantId),
       ).length || 0;
-
+    const isCaptain =
+      (teamKey === "A" ? match.teamA.captainId : match.teamB.captainId) ===
+      String(occupantId);
     return (
       <div
         key={slot.id}
@@ -104,6 +106,7 @@ function MatchPage({ matches, players, isAdmin }) {
         {p ? (
           <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
             <div className="player-badges">
+              {isCaptain && <span className="badge-item captain-pill">©</span>}
               {slot.role === "GK" && <span className="badge-item">🧤</span>}
               {goals > 0 && (
                 <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
@@ -285,9 +288,7 @@ function MatchPage({ matches, players, isAdmin }) {
                       key={pId}
                       className={`squad-player-item ${isOnField ? "on-field" : ""}`}
                     >
-                      <span className="squad-num">
-                        {isGK ? "" : pInfo?.number || "0"}
-                      </span>
+                      <span className="squad-num">{pInfo?.number || "0"}</span>
                       <span className="squad-name">
                         {pInfo?.name.split(" ")[0]}
                         {isGK && (
