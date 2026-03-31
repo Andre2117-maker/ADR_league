@@ -8,10 +8,12 @@ function AdminLogin({ setIsAdmin }) {
   const navigate = useNavigate(); // Inicializa o hook
 
   const login = () => {
-    if (senha === "s3r3n4") {
+    // Pega a senha das variáveis de ambiente
+    const senhaCorreta = import.meta.env.VITE_ADMIN_PASSWORD;
+    // Se estiver usando Vite, use: import.meta.env.VITE_ADMIN_PASSWORD;
+
+    if (senha === senhaCorreta) {
       setIsAdmin(true);
-      // Redireciona para o painel. O "replace: true" substitui a tela de login
-      // no histórico para o usuário não voltar nela sem querer.
       navigate("/admin-panel", { replace: true });
     } else {
       alert("Senha incorreta!");
