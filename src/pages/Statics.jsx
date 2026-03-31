@@ -127,16 +127,17 @@ export default function Statics({ players = [], matches = [] }) {
     return <div className="statics-container">Carregando...</div>;
 
   return (
-    <div className="statics-container">
-      <h1 className="page-title">Estatísticas da Temporada</h1>
+    <div>
+      <div className="statics-container">
+        <h1 className="page-title">Estatísticas da Temporada</h1>
 
-      <div className="statics-grid">
-        {/* Agora passamos as listas JÁ ORDENADAS e com os gols somados */}
-        <TopScorersCard players={sortedByGoals} limit={10} />
-        <TopAssistsCard players={sortedByAssists} limit={10} />
-        <TopGoalkeepersCard players={players} matches={matches} limit={10} />
+        <div className="statics-grid">
+          {/* Agora passamos as listas JÁ ORDENADAS e com os gols somados */}
+          <TopScorersCard players={sortedByGoals} limit={10} />
+          <TopAssistsCard players={sortedByAssists} limit={10} />
+          <TopGoalkeepersCard players={players} matches={matches} limit={10} />
+        </div>
       </div>
-
       <Footer />
     </div>
   );

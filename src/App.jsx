@@ -28,6 +28,7 @@ import HallHistorico from "./components/HallHistorico.jsx";
 import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
 import Altar from "./components/Easter Egg/Altar.jsx";
 import Statics from "./pages/Statics.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -271,11 +272,24 @@ function App() {
             }
           />
 
-          <Route path="/estatisticas" element={<Statics players={players} matches={matches}/>} />
+          {/* ROTA DAS ESTATISTICAS*/}
+          <Route
+            path="/estatisticas"
+            element={<Statics players={players} matches={matches} />}
+          />
+
+          {/* Rota "Sobre Nós" */}
+          <Route path="/about" element={<AboutPage />} />
 
           {/* ROTA DO EASTER EGG*/}
           <Route path="/quiz-secret" element={<SecretQuiz />} />
           <Route path="/altar-adr" element={<Altar />} />
+
+          {/* Rota de Erro 404 */}
+          <Route
+            path="*"
+            element={<div className="loading">Página não encontrada</div>}
+          />
 
           {/* ROTA PERFIL DO JOGADOR */}
           <Route

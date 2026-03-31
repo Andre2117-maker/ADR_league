@@ -43,6 +43,9 @@ function Navbar({ isAdmin, logout }) {
           <Link to="/regras" className="nvb-link">
             Regras
           </Link>
+          <Link to="/about" className="nvb-link">
+            Sobre nós
+          </Link>
 
           {isAdmin ? (
             <div className="nvb-admin-group">

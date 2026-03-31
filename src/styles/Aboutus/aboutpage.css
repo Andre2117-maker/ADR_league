@@ -1,0 +1,314 @@
+.about-wrapper {
+  background: #080808;
+  min-height: 100vh;
+  color: #fff;
+  padding: 80px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  padding-top: 100px;
+}
+
+.back-btn-about {
+  position: absolute;
+  top: 40px;
+  left: 30px;
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.back-btn-about:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.gold-text {
+  color: #d4af37;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.hero-subtitle {
+  color: #888;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.about-content {
+  max-width: 900px;
+  width: 100%;
+}
+
+.about-section {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 40px;
+  border-radius: 15px;
+  border-left: 4px solid #d4af37;
+  margin-bottom: 40px;
+}
+
+.about-section.highlight-border {
+  border-left-color: #cc0000;
+  background: linear-gradient(
+    90deg,
+    rgba(204, 0, 0, 0.05) 0%,
+    transparent 100%
+  );
+}
+
+.section-title {
+  color: #d4af37;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.section-text {
+  color: #ccc;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* Logos Timeline */
+.teams-logos-section {
+  margin: 80px 0;
+  text-align: center;
+}
+
+.section-subtitle {
+  color: #888;
+  font-size: 0.9rem;
+  margin-top: -15px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+.logos-timeline {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.01);
+  border-radius: 20px;
+}
+
+.logo-timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 160px;
+}
+
+.logo-container {
+  width: 110px;
+  height: 110px;
+  background: #111;
+  border: 2px solid #222;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.logo-container img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.logo-timeline-item:hover .logo-container {
+  border-color: #d4af37;
+  transform: translateY(-5px);
+}
+
+.logo-info {
+  margin-top: 15px;
+}
+.logo-version {
+  display: block;
+  color: #fff;
+  font-weight: 800;
+}
+.logo-year {
+  color: #d4af37;
+  font-size: 0.8rem;
+}
+
+.timeline-connector {
+  position: absolute;
+  top: 55px;
+  right: -35px;
+  width: 40px;
+  height: 2px;
+  background: #d4af37;
+  opacity: 0.3;
+}
+
+.logo-container.placeholder {
+  border: 2px dashed #333;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+/* Vision Card */
+.vision-card {
+  background: linear-gradient(145deg, #111, #050505);
+  padding: 50px;
+  border: 1px solid #d4af37;
+  border-radius: 20px;
+  text-align: center;
+  margin: 60px 0;
+}
+
+.vision-title {
+  color: #d4af37;
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.vision-text {
+  color: #eee;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+.vision-quote {
+  margin-top: 25px;
+  font-weight: 800;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+/* Values Grid */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 80px;
+}
+
+.value-card {
+  background: #111;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #222;
+}
+
+.value-title {
+  color: #d4af37;
+  font-weight: 900;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.value-desc {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Seção de Mantos */
+.kits-section {
+  margin: 80px 0;
+  text-align: center;
+}
+
+.kits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.kit-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #222;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.4s ease;
+}
+
+.kit-card:hover {
+  transform: translateY(-10px);
+  border-color: #d4af37;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+}
+
+.kit-image-wrapper {
+  padding: 30px;
+  background: radial-gradient(circle, #1a1a1a 0%, #080808 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kit-image-wrapper img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.5));
+}
+
+.kit-details {
+  padding: 20px;
+  border-top: 1px solid #222;
+}
+
+.kit-name {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.kit-season {
+  color: #d4af37;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .about-wrapper {
+    padding-top: 140px;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .back-btn-about {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 30px;
+  }
+  .timeline-connector {
+    display: none;
+  }
+}
