@@ -59,10 +59,6 @@ function AboutPage() {
 
   return (
     <div className="about-wrapper">
-      <button className="back-btn-about" onClick={() => navigate(-1)}>
-        ❮ VOLTAR
-      </button>
-
       <section className="about-hero">
         <h1 className="hero-title">
           ADR <span className="gold-text">ORGANIZATION</span>
