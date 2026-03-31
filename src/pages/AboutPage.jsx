@@ -1,12 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";
 import "../styles/Aboutus/aboutpage.css";
 
 function AboutPage() {
-  const navigate = useNavigate();
-
   const values = [
     {
       title: "Excelência",

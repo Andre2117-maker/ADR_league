@@ -284,8 +284,6 @@ function Home({ players, matches, getBestPartner }) {
 
       <SquadCarousel players={players} onSelectPlayer={handlePlayerClick} />
 
-      <HistoryCarousel />
-
       <Footer />
     </div>
   );
