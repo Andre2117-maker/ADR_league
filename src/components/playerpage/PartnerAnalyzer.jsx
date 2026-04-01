@@ -16,84 +16,77 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
   const stats = useMemo(() => {
     if (!partner) return null;
 
+    const p1Id = String(currentPlayer.id);
+    const p2Id = String(partnerId);
+
+    // 1. Filtrar partidas em comum (Garantindo que players existe)
     const allCommonMatches = matches.filter((m) => {
-      const p1 = String(currentPlayer.id);
-      const p2 = String(partnerId);
-      return (
-        (m.teamA.players.map(String).includes(p1) ||
-          m.teamB.players.map(String).includes(p1)) &&
-        (m.teamA.players.map(String).includes(p2) ||
-          m.teamB.players.map(String).includes(p2))
-      );
+      const playersA = m.teamA?.players?.map(String) || [];
+      const playersB = m.teamB?.players?.map(String) || [];
+      const p1InMatch = playersA.includes(p1Id) || playersB.includes(p1Id);
+      const p2InMatch = playersA.includes(p2Id) || playersB.includes(p2Id);
+      return p1InMatch && p2InMatch;
     });
 
     const sameTeamMatches = [];
     const opponentMatches = [];
 
+    // 2. Separar Aliados de Rivais
     allCommonMatches.forEach((m) => {
-      const p1 = String(currentPlayer.id);
-      const p2 = String(partnerId);
-      const p1InA = m.teamA.players.map(String).includes(p1);
-      const p2InA = m.teamA.players.map(String).includes(p2);
-
+      const p1InA = m.teamA?.players?.map(String).includes(p1Id);
+      const p2InA = m.teamA?.players?.map(String).includes(p2Id);
       if (p1InA === p2InA) sameTeamMatches.push(m);
       else opponentMatches.push(m);
     });
 
     let partnerWins = 0;
     let duoGoals = 0;
+    let winsAgainst = 0;
+    let lossesAgainst = 0;
 
+    // --- PROCESSAR PARCERIA ---
     sameTeamMatches.forEach((m) => {
-      const isTeamA = m.teamA.players
-        .map(String)
-        .includes(String(currentPlayer.id));
-      const scoreA =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "A") ||
-            (e.type === "OWN_GOAL" && e.team === "B"),
-        ).length || 0;
-      const scoreB =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "B") ||
-            (e.type === "OWN_GOAL" && e.team === "A"),
-        ).length || 0;
+      const p1InA = m.teamA?.players?.map(String).includes(p1Id);
+      const gA = Number(m.goalsA || 0);
+      const gB = Number(m.goalsB || 0);
 
-      if ((isTeamA && scoreA > scoreB) || (!isTeamA && scoreB > scoreA))
+      let winnerSide = "";
+      if (gA > gB) winnerSide = "A";
+      else if (gB > gA) winnerSide = "B";
+      else winnerSide = m.penaltiesWinner; // "A" ou "B" do seu banco
+
+      if ((p1InA && winnerSide === "A") || (!p1InA && winnerSide === "B")) {
         partnerWins++;
+      }
 
       const assistEvents = m.events?.filter(
         (e) =>
           e.type === "GOAL" &&
-          ((String(e.playerId) === String(currentPlayer.id) &&
-            String(e.assistId) === String(partnerId)) ||
-            (String(e.playerId) === String(partnerId) &&
-              String(e.assistId) === String(currentPlayer.id))),
+          ((String(e.playerId) === p1Id && String(e.assistId) === p2Id) ||
+            (String(e.playerId) === p2Id && String(e.assistId) === p1Id)),
       );
       duoGoals += assistEvents?.length || 0;
     });
 
-    let winsAgainst = 0;
+    // --- PROCESSAR RIVALIDADE ---
     opponentMatches.forEach((m) => {
-      const isTeamA = m.teamA.players
-        .map(String)
-        .includes(String(currentPlayer.id));
-      const scoreA =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "A") ||
-            (e.type === "OWN_GOAL" && e.team === "B"),
-        ).length || 0;
-      const scoreB =
-        m.events?.filter(
-          (e) =>
-            (e.type === "GOAL" && e.team === "B") ||
-            (e.type === "OWN_GOAL" && e.team === "A"),
-        ).length || 0;
+      const p1InA = m.teamA?.players?.map(String).includes(p1Id);
+      const gA = Number(m.goalsA || 0);
+      const gB = Number(m.goalsB || 0);
 
-      if ((isTeamA && scoreA > scoreB) || (!isTeamA && scoreB > scoreA))
-        winsAgainst++;
+      let winnerSide = "";
+      if (gA > gB) winnerSide = "A";
+      else if (gB > gA) winnerSide = "B";
+      else winnerSide = m.penaltiesWinner;
+
+      // Se mesmo com penaltiesWinner for vazio, não deixa 0-0 (usa quem fez mais gols ou assume B)
+      if (!winnerSide) winnerSide = gA > gB ? "A" : "B";
+
+      if (winnerSide === "A") {
+        p1InA ? winsAgainst++ : lossesAgainst++;
+      } else {
+        !p1InA ? winsAgainst++ : lossesAgainst++;
+      }
     });
 
     const winRate =
@@ -104,8 +97,8 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
     return {
       totalTogether: sameTeamMatches.length,
       totalAgainst: opponentMatches.length,
-      partnerWins,
       winsAgainst,
+      lossesAgainst,
       duoGoals,
       winRate,
     };
@@ -131,7 +124,6 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
 
       {stats ? (
         <div className="partner-results-wrapper">
-          {/* SEÇÃO 1: PARCERIA (MESMO TIME) */}
           <div className="partner-section">
             <h4 className="partner-section-title">🤝 NA MESMA EQUIPE</h4>
             <div className="partner-grid-row">
@@ -148,7 +140,6 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
                 <span className="p-stat-label">Gols em Conjunto</span>
               </div>
             </div>
-
             <div className="partner-verdict">
               {stats.winRate >= 70
                 ? "🔥 DUPLA DINÂMICA"
@@ -158,12 +149,10 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
             </div>
           </div>
 
-          {/* DIVISÓRIA ESTILIZADA */}
           <div className="partner-divider">
             <span>VS</span>
           </div>
 
-          {/* SEÇÃO 2: RIVALIDADE (TIMES OPOSTOS) */}
           <div className="partner-section">
             <h4 className="partner-section-title">⚔️ CONFRONTO DIRETO</h4>
             <div className="partner-grid-row">
@@ -173,12 +162,10 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
               </div>
               <div className="partner-stat-box rivalry">
                 <span className="p-stat-val">{stats.winsAgainst}</span>
-                <span className="p-stat-label">Vitórias MINHAS</span>
+                <span className="p-stat-label">Minhas Vitórias</span>
               </div>
               <div className="partner-stat-box rivalry">
-                <span className="p-stat-val">
-                  {stats.totalAgainst - stats.winsAgainst}
-                </span>
+                <span className="p-stat-val">{stats.lossesAgainst}</span>
                 <span className="p-stat-label">Vitórias dele</span>
               </div>
             </div>
@@ -186,8 +173,7 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers, matches }) => {
         </div>
       ) : (
         <p className="partner-empty">
-          Selecione um atleta para analisar a química e o histórico de
-          confrontos.
+          Selecione um atleta para analisar a química.
         </p>
       )}
     </div>
