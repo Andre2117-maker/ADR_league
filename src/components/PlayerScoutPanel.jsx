@@ -47,7 +47,7 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
         </div>
         <div className="stat-box">
           <span className="stat-val">
-            {(player.goals / (player.games || 1)).toFixed(1)}
+            {(player.goals / (player.games || 1)).toFixed(2)}
           </span>
           <span className="stat-lab">Gols/J</span>
         </div>
