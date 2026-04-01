@@ -1,0 +1,197 @@
+/* --- PARTNER ANALYZER CONTAINER --- */
+.partner-card {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+/* --- SELECTOR DE PARCEIRO --- */
+.partner-selector {
+  margin-bottom: 20px;
+}
+
+.partner-selector select {
+  width: 100%;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.partner-selector select:focus {
+  border-color: #d4af37;
+}
+
+/* --- ESTRUTURA DE RESULTADOS --- */
+.partner-results-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.partner-section {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.partner-section-title {
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* --- GRID DE 3 COLUNAS --- */
+.partner-grid-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.partner-stat-box {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 10px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.partner-stat-box:hover {
+  transform: translateY(-2px);
+}
+
+/* Cores de Destaque */
+.partner-stat-box.highlight {
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.partner-stat-box.rivalry {
+  border-bottom: 2px solid rgba(255, 68, 68, 0.3);
+}
+
+.p-stat-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #d4af37; /* Padrão Dourado */
+  display: block;
+}
+
+/* Cor específica para números na rivalidade */
+.partner-stat-box.rivalry .p-stat-val {
+  color: #ff4444;
+}
+
+.p-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* --- DIVISÓRIA CENTRAL (VS) --- */
+.partner-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 5px 0;
+}
+
+.partner-divider::before,
+.partner-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.partner-divider span {
+  padding: 0 15px;
+  font-size: 10px;
+  font-weight: 900;
+  color: #555;
+  font-style: italic;
+}
+
+/* --- VEREDITO --- */
+.partner-verdict {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 15px;
+  border-left: 4px solid #d4af37;
+  letter-spacing: 1px;
+}
+
+.partner-empty {
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+  padding: 30px 0;
+  font-style: italic;
+}
+
+/* --- ANIMAÇÕES --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media (max-width: 480px) {
+  .partner-grid-row {
+    grid-template-columns: repeat(
+      3,
+      1fr
+    ); /* Mantém 3 colunas para compacidade */
+    gap: 6px;
+  }
+
+  .partner-section {
+    padding: 10px;
+  }
+
+  .p-stat-val {
+    font-size: 16px;
+  }
+
+  .p-stat-label {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+
+  .partner-verdict {
+    font-size: 10px;
+    padding: 10px;
+  }
+}

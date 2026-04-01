@@ -15,6 +15,7 @@ import MatchHistory from "../components/playerpage/MatchHistory";
 import Footer from "../components/Footer";
 import PlayerAdminMode from "../components/playerpage/PlayerAdminMode";
 import PlayerBanner from "../components/playerpage/PlayerBanner";
+import PartnerAnalyzer from "../components/playerpage/PartnerAnalyzer";
 
 function PlayerPage({
   playersWithStats, // Recebe a lista completa para encontrar o player pelo ID
@@ -148,6 +149,12 @@ function PlayerPage({
                 </div>
               </div>
               <RankingSlice player={player} sortedPlayers={sortedPlayers} />
+
+              <PartnerAnalyzer
+                currentPlayer={player}
+                allPlayers={playersWithStats}
+                matches={matches}
+              />
             </aside>
 
             <main>
