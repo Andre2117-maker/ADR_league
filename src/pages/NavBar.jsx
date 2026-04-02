@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // Importe o Link
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+import "../styles/navbar.css";
 
 function Navbar({ isAdmin, logout }) {
   // Removido setPage pois não usaremos mais estados

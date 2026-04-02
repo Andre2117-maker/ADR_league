@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react"; // Adicionado useEffect
 import { useNavigate } from "react-router-dom";
 import "../styles/calendar.css";
 import Footer from "../components/Footer";
@@ -17,13 +17,25 @@ function Calendar({
   const day = String(localDate.getDate()).padStart(2, "0");
   const todayStr = `${year}-${month}-${day}`;
 
-  const [selectedDate, setSelectedDate] = useState(todayStr);
-  const [currentMonth, setCurrentMonth] = useState(
-    new Date(year, localDate.getMonth(), 1),
-  );
+  // 1. Tenta recuperar a data salva ou usa hoje
+  const savedDate =
+    localStorage.getItem("adr_calendar_selected_date") || todayStr;
+
+  const [selectedDate, setSelectedDate] = useState(savedDate);
+
+  // 2. Define o mês inicial baseado na data salva (para não abrir em março se você estava vendo abril)
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const [sYear, sMonth] = savedDate.split("-");
+    return new Date(parseInt(sYear), parseInt(sMonth) - 1, 1);
+  });
 
   const printRef = useRef(null);
   const navigate = useNavigate();
+
+  // 3. Efeito para salvar a data e o mês sempre que mudarem
+  useEffect(() => {
+    localStorage.setItem("adr_calendar_selected_date", selectedDate);
+  }, [selectedDate]);
 
   // --- FUNÇÕES DE ADMIN ---
   const handleDeleteMatch = (id) => {
@@ -32,15 +44,12 @@ function Calendar({
         "Deseja realmente eliminar esta partida? Os pontos serão recalculados.",
       )
     ) {
-      onDeleteMatch(id); // <--- Chama a função que deleta no Firebase
+      onDeleteMatch(id);
     }
   };
 
   const handleEditMatch = (match) => {
-    // 1. Opcional: Ainda setar o estado global se o seu AdminMatches depender dele
     setMatchToEdit(match);
-
-    // 2. Navegar para a rota do admin levando os dados no state
     navigate("/admin", { state: { matchData: match } });
   };
 
@@ -63,7 +72,6 @@ function Calendar({
     const days = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
     const daysArray = [];
-
     for (let i = 0; i < firstDay; i++) daysArray.push(null);
     for (let i = 1; i <= days; i++) daysArray.push(i);
     return daysArray;
@@ -106,13 +114,8 @@ function Calendar({
     const monthStr = String(month).padStart(2, "0");
 
     return players.find((p) => {
-      // 1. Usamos p.birthDate (como está no seu Firebase)
       if (!p.birthDate) return false;
-
-      // 2. O split agora lida com o formato "DD/MM/YYYY"
       const bday = p.birthDate.split("/");
-
-      // bday[0] = dia, bday[1] = mês
       return bday[1] === monthStr && bday[0] === dayStr;
     });
   };
@@ -123,7 +126,6 @@ function Calendar({
         <h1 className="page-title2">Calendário da Temporada</h1>
 
         <div className="calendar-wrapper">
-          {/* WIDGET DO CALENDÁRIO */}
           <div className="calendar-widget">
             <div className="calendar-header">
               <button onClick={prevMonth} className="nav-btn">
@@ -172,20 +174,10 @@ function Calendar({
             </div>
           </div>
 
-          {/* LISTA DE PARTIDAS */}
           <div className="matches-list-container">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "15px",
-              }}
-            >
-              <h3 className="date-title" style={{ margin: 0 }}>
-                Jogos em {selectedDate.split("-").reverse().join("/")}
-              </h3>
-            </div>
+            <h3 className="date-title">
+              Jogos em {selectedDate.split("-").reverse().join("/")}
+            </h3>
 
             {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])) && (
               <div
@@ -200,22 +192,19 @@ function Calendar({
                   textAlign: "center",
                 }}
               >
-                <span style={{ fontSize: "20px" }}>🎂</span>
-                <h4 style={{ margin: "5px 0" }}>
+                <span>🎂</span>
+                <h4>
                   Aniversário de{" "}
                   {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])).name}
                   !
                 </h4>
-                <p style={{ margin: 0, fontSize: "12px", color: "#b3e5fc" }}>
+                <p style={{ fontSize: "12px", color: "#b3e5fc" }}>
                   Hoje o dia é todo dele(a)!
                 </p>
               </div>
             )}
 
-            <div
-              ref={printRef}
-              style={{ padding: "5px", background: "transparent" }}
-            >
+            <div ref={printRef}>
               {filteredMatches.length > 0 ? (
                 <div className="matches-feed">
                   {filteredMatches.map((match) => (

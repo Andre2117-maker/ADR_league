@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/rankingslice.css";
+import "../../styles/rankingslice.css";
 
 export default function RankingSlice({ player, sortedPlayers = [] }) {
   // 1. Filtramos os anônimos ANTES de qualquer cálculo de posição

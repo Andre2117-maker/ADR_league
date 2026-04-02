@@ -9,8 +9,8 @@ import {
   PolarRadiusAxis,
 } from "recharts";
 import "../styles/playerpage.css";
-import RankingSlice from "../components/RankingSlice";
-import PlayerStatsDashboard from "../components/PlayerStatsDashboard";
+import RankingSlice from "../components/playerpage/RankingSlice";
+import PlayerStatsDashboard from "../components/playerpage/PlayerStatsDashboard";
 import MatchHistory from "../components/playerpage/MatchHistory";
 import Footer from "../components/Footer";
 import PlayerAdminMode from "../components/playerpage/PlayerAdminMode";
