@@ -279,6 +279,14 @@ function MatchPage({ matches, players, isAdmin }) {
                   // Verifica se este ID é o ID do Goleiro definido para o time
                   const isGK = String(pId) === String(t.gk);
 
+                  const isCaptain =
+                    String(pId) ===
+                    String(
+                      t.k === "A"
+                        ? match.teamA.captainId
+                        : match.teamB.captainId,
+                    );
+
                   const isOnField = Object.values(
                     t.k === "A" ? match.tacticalA || {} : match.tacticalB || {},
                   ).includes(pId);
@@ -291,6 +299,18 @@ function MatchPage({ matches, players, isAdmin }) {
                       <span className="squad-num">{pInfo?.number || "0"}</span>
                       <span className="squad-name">
                         {pInfo?.name.split(" ")[0]}
+                        {isCaptain && (
+                          <small
+                            style={{
+                              marginLeft: "3px",
+                              fontSize: "0.7em",
+
+                              fontWeight: "bold",
+                            }}
+                          >
+                            (C)
+                          </small>
+                        )}
                         {isGK && (
                           <small
                             style={{ marginLeft: "3px", fontSize: "0.7em" }}
