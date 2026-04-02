@@ -9,10 +9,9 @@ function AdminLogin({ setIsAdmin }) {
 
   const login = () => {
     // Pega a senha das variáveis de ambiente
-    const senhaCorreta = import.meta.env.VITE_ADMIN_PASSWORD;
     // Se estiver usando Vite, use: import.meta.env.VITE_ADMIN_PASSWORD;
 
-    if (senha === senhaCorreta) {
+    if (senha === "s3r3n4") {
       setIsAdmin(true);
       navigate("/admin-panel", { replace: true });
     } else {
