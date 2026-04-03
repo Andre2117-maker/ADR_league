@@ -30,9 +30,14 @@ function AboutPage() {
       year: "2023 - O Início",
     },
     {
-      name: "ADR Atual",
+      name: "ADR 2.0",
       src: "/logo.png",
       year: "2025 - A Evolução",
+    },
+    {
+      name: "IDR",
+      src: "/IDR.png",
+      year: "2026 - O Ódio",
     },
   ];
 
@@ -119,7 +124,7 @@ function AboutPage() {
                 )}
               </div>
             ))}
-            <div className="logo-timeline-item future">
+            {/*<div className="logo-timeline-item future">
               <div className="logo-container placeholder">
                 <span>?</span>
               </div>
@@ -127,7 +132,7 @@ function AboutPage() {
                 <span className="logo-version">Próximo Passo</span>
                 <span className="logo-year">Em breve</span>
               </div>
-            </div>
+            </div>*/}
           </div>
         </section>
 
