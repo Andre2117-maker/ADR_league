@@ -4,32 +4,63 @@ const MatchTimeline = ({ events, players }) => {
   const getPlayerName = (id) =>
     players.find((p) => String(p.id) === String(id))?.name || "Jogador";
 
-  const teamAEvents = events?.filter((e) => e.team === "A") || [];
-  const teamBEvents = events?.filter((e) => e.team === "B") || [];
+  // LÓGICA CORRIGIDA:
+  // O evento aparece no Time A se: (Foi gol do A) OU (Foi gol contra do B)
+  const teamAEvents =
+    events?.filter(
+      (e) =>
+        (e.team === "A" && e.type !== "OWN_GOAL") ||
+        (e.team === "B" && e.type === "OWN_GOAL"),
+    ) || [];
 
-  // Adicionamos o 'index' no mapeamento para criar uma key estável
-  const renderEvent = (e, index) => {
+  const teamBEvents =
+    events?.filter(
+      (e) =>
+        (e.team === "B" && e.type !== "OWN_GOAL") ||
+        (e.team === "A" && e.type === "OWN_GOAL"),
+    ) || [];
+
+  const renderEvent = (e, index, side) => {
+    const isOwnGoal = e.type === "OWN_GOAL";
     const name = getPlayerName(e.playerId);
-    // Assistência formatada com [] e classe menor
-    const assist = e.assistId ? (
-      <span className="timeline-assist">[{getPlayerName(e.assistId)}]</span>
-    ) : null;
 
-    const stableKey = e.id || `${e.type}-${index}`;
+    // Assistência só aparece se não for gol contra
+    const assist =
+      e.assistId && !isOwnGoal ? (
+        <span className="timeline-assist">[{getPlayerName(e.assistId)}]</span>
+      ) : null;
+
+    const stableKey = e.id || `${e.type}-${index}-${side}`;
+
+    // Ícone: Bola normal ou Bola vermelha para GC
+    const icon = isOwnGoal ? (
+      <span className="event-icon" style={{ color: "#ff4444" }}>
+        ⚽
+      </span>
+    ) : (
+      <span className="event-icon">⚽</span>
+    );
+
+    // Texto de Gol Contra
+    const gcLabel = isOwnGoal ? (
+      <small
+        style={{ color: "#ff4444", fontWeight: "bold", marginLeft: "4px" }}
+      >
+        (GC)
+      </small>
+    ) : null;
 
     return (
       <div key={stableKey} className="timeline-event-item">
-        {/* Se for time A (Esquerda), a assistência vem antes do nome */}
-        {e.team === "A" ? (
+        {side === "A" ? (
           <>
-            {assist} <span className="player-name">{name}</span>{" "}
-            <span className="event-icon">⚽</span>
+            {assist} <span className="player-name">{name}</span> {gcLabel}{" "}
+            {icon}
           </>
         ) : (
-          /* Se for time B (Direita), a bola vem primeiro, depois nome, depois assistência */
           <>
-            <span className="event-icon">⚽</span>{" "}
-            <span className="player-name">{name}</span> {assist}
+            {icon} <span className="player-name">{name}</span> {gcLabel}{" "}
+            {assist}
           </>
         )}
       </div>
@@ -39,10 +70,10 @@ const MatchTimeline = ({ events, players }) => {
   return (
     <div className="match-timeline-container">
       <div className="timeline-column left">
-        {teamAEvents.map((e, i) => renderEvent(e, i))}
+        {teamAEvents.map((e, i) => renderEvent(e, i, "A"))}
       </div>
       <div className="timeline-column right">
-        {teamBEvents.map((e, i) => renderEvent(e, i))}
+        {teamBEvents.map((e, i) => renderEvent(e, i, "B"))}
       </div>
     </div>
   );
