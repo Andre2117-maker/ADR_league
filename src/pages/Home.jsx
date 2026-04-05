@@ -16,6 +16,7 @@ import AwardsCard from "../components/AwardsCard";
 import BirthdaySchedule from "../components/BirthdaySchedule";
 import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";
+import BirthdayAlert from "../components/BirthdayAlert";
 
 function Home({ players, matches, getBestPartner }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
@@ -230,6 +231,8 @@ function Home({ players, matches, getBestPartner }) {
     <div className="main-wrapper">
       <MatchesCarousel matches={matches} players={players} />
       <BirthdaySchedule players={players} />
+
+      <BirthdayAlert players={players} />
 
       {/* NAVEGAÇÃO ENTRE PÁGINAS */}
       <div className="transparency-nav-container">

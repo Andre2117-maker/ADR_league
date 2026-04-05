@@ -1,0 +1,95 @@
+.bday-photo-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+}
+
+.bday-player-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.bday-crown {
+  position: absolute;
+  top: -15px;
+  right: -5px;
+  font-size: 30px;
+  transform: rotate(20deg);
+}
+
+.bday-name {
+  font-size: 1.8rem !important;
+  font-weight: 900;
+  color: #fff;
+  margin: 5px 0;
+  letter-spacing: 2px;
+}
+
+/* O restante mantém o estilo anterior... */
+
+.bday-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+}
+
+.bday-card {
+  background: #111;
+  border: 2px solid #d4af37;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.bday-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.bday-card h2 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.bday-card .highlight {
+  color: #d4af37;
+}
+
+.bday-card p {
+  color: #aaa;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.bday-btn {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.bday-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #d4af37;
+}

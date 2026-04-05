@@ -1,173 +1,257 @@
-.ppg-scroll-area {
-  max-height: 700px;
-  overflow-y: auto;
-  padding-right: 10px;
+/* Container Principal */
+.adr-history-container {
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  margin-top: 20px;
 }
 
-.ppg-match-item {
+.adr-history-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.adr-history-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.adr-history-count {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* Lista de Cards */
+.adr-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Custom Scrollbar */
+.adr-history-list::-webkit-scrollbar {
+  width: 4px;
+}
+.adr-history-list::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 10px;
+}
+
+/* Card da Partida */
+.adr-match-card {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
   align-items: center;
   background: rgba(255, 255, 255, 0.03);
-  margin-bottom: 10px;
-  padding: 12px 15px;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-left: 4px solid transparent;
-  transition: background 0.2s;
-}
-
-/* Bordas simples em vez de aura */
-.border-win {
-  border-left-color: #00ff7f;
-}
-.border-loss {
-  border-left-color: #ff4d4d;
-}
-
-/* Tags de Vitória/Derrota */
-.status-tag {
-  font-size: 9px;
-  font-weight: 900;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.status-tag.win {
-  color: #51ff00;
-  background: rgba(0, 255, 127, 0.1);
-}
-
-.status-tag.loss {
-  color: #ff4d4d;
-  background: rgba(255, 77, 77, 0.1);
-}
-
-.ppg-date-tag {
-  font-size: 10px;
-  color: #555;
-}
-
-.ppg-teams-display {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.ppg-teams-display span {
-  font-size: 13px;
-  color: #777;
-}
-
-.ppg-teams-display span.active {
-  color: #fff;
-  font-weight: 600;
-}
-
-.ppg-vs-badge {
-  background: #1a1a1a;
-  padding: 2px 8px;
-  border-radius: 4px;
-  color: #d4af37;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.ppg-match-stats-tags {
-  display: flex;
-  gap: 6px;
-}
-
-.ppg-tag-goal,
-.ppg-tag-assist {
-  font-size: 10px;
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-weight: bold;
-}
-
-.ppg-tag-goal {
-  background: rgba(179, 255, 0, 0.1);
-  color: #ffee00;
-}
-.ppg-tag-assist {
-  background: rgba(0, 191, 255, 0.1);
-  color: #00bfff;
-}
-
-.ppg-match-item.clickable-match:hover {
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateX(5px);
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-/* Container dos stats e da seta */
-.ppg-match-stats-tags {
+.adr-match-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateX(4px);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Status Indicator (V/D/E) */
+.adr-match-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.adr-status-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: #000;
 }
 
-/* Estilização da Seta */
-.ppg-chevron {
-  font-size: 24px;
-  color: rgba(212, 175, 55, 0.5); /* Dourado suave */
-  font-weight: 300;
-  margin-left: 10px;
-  transition:
-    transform 0.2s ease,
-    color 0.2s ease;
+.adr-status-indicator.win {
+  background: #00ff7f;
+  box-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
+}
+.adr-status-indicator.loss {
+  background: #ff4d4d;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+.adr-status-indicator.draw {
+  background: #aaa;
 }
 
-/* Efeito ao passar o mouse no card inteiro */
-.ppg-match-item:hover .ppg-chevron {
-  color: #d4af37; /* Dourado brilha no hover */
-  transform: translateX(3px); /* Seta dá um "pulinho" para a direita */
+.adr-match-date {
+  font-size: 11px;
+  color: #666;
+  font-weight: 600;
 }
 
-/* Garante que o item do histórico tenha um hover visual */
-.ppg-match-item.clickable-match {
-  transition: background 0.2s ease;
+/* Miolo: Placar e Times */
+.adr-match-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
-.ppg-match-item.clickable-match:hover {
-  background: rgba(255, 255, 255, 0.03);
+.adr-team-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 }
 
-/* ==========================================================
-   AJUSTES PARA CELULAR (Telas menores que 600px)
-   ========================================================== */
+.adr-team-mini.team-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.adr-team-avatar {
+  width: 30px;
+  height: 30px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #d4af37;
+  font-size: 12px;
+}
+
+.adr-team-name {
+  font-size: 0.85rem;
+  color: #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+  text-transform: uppercase;
+}
+
+.adr-team-name.highlight {
+  color: #fff;
+  font-weight: 700;
+}
+
+.adr-match-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  min-width: 60px;
+  justify-content: center;
+  position: relative;
+}
+
+.score-num {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+}
+.score-divider {
+  color: #d4af37;
+  opacity: 0.6;
+}
+.penalties-alert {
+  position: absolute;
+  bottom: -12px;
+  font-size: 8px;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+/* Stats do Jogador */
+.adr-match-player-stats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.stats-badges {
+  display: flex;
+  gap: 4px;
+}
+
+.badge-goal,
+.badge-assist {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.badge-goal {
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+.badge-assist {
+  background: rgba(0, 191, 255, 0.1);
+  color: #00bfff;
+  border: 1px solid rgba(0, 191, 255, 0.2);
+}
+
+.adr-match-chevron {
+  font-size: 1.5rem;
+  color: #333;
+  transition: 0.2s;
+}
+
+.adr-match-card:hover .adr-match-chevron {
+  color: #d4af37;
+  transform: translateX(2px);
+}
+
+/* MOBILE */
 @media (max-width: 600px) {
-  .ppg-match-item {
-    flex-direction: column; /* Empilha as informações */
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-    padding: 15px 10px;
+  .adr-match-card {
+    grid-template-columns: 50px 1fr 60px;
+    padding: 10px;
   }
 
-  .ppg-teams-display {
-    flex-direction: column; /* Nome do time em cima, placar no meio, outro time embaixo */
+  .adr-team-name {
+    display: none;
+  } /* Esconde nomes no mobile pra não encavalar */
+  .adr-match-main {
     gap: 8px;
   }
-
-  .ppg-teams-display span {
-    font-size: 14px; /* Aumenta um pouco para ler melhor no celular */
+  .adr-match-date {
+    font-size: 9px;
+  }
+  .adr-status-indicator {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
   }
 
-  .ppg-vs-badge {
-    width: fit-content;
-    margin: 0 auto;
-  }
-
-  .ppg-match-stats-tags {
-    width: 100%;
-    justify-content: center; /* Centraliza gols e assists no fundo do card */
-    padding-top: 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .ppg-date-tag {
-    margin-bottom: 2px;
+  .stats-badges {
+    flex-direction: column;
+    gap: 2px;
   }
 }

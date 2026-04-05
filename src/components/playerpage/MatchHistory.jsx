@@ -1,24 +1,32 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // 1. Importar o hook
+import { useNavigate } from "react-router-dom";
 import "../../styles/matchHistory.css";
 
 const MatchHistory = ({ matches, player }) => {
-  const navigate = useNavigate(); // 2. Inicializar o navigate
+  const navigate = useNavigate();
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
-    const parts = dateStr.split("T")[0].split("-");
-    return `${parts[2]}/${parts[1]}`;
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+    });
   };
 
+  // Ordenar por ordem decrescente (mais recentes primeiro)
   const sortedMatches = [...matches].sort(
     (a, b) => (b.order || 0) - (a.order || 0),
   );
 
   return (
-    <div className="ppg-card">
-      <h3 className="ppg-card-title">Histórico de Partidas</h3>
-      <div className="ppg-scroll-area">
+    <div className="adr-history-container">
+      <div className="adr-history-header">
+        <h3 className="adr-history-title">Histórico de Performance</h3>
+        <div className="adr-history-count">{matches.length} partidas</div>
+      </div>
+
+      <div className="adr-history-list">
         {sortedMatches.map((m) => {
           const isTeamA = m.teamA.players.some(
             (id) => String(id) === String(player.id),
@@ -30,6 +38,7 @@ const MatchHistory = ({ matches, player }) => {
                 (e.team === "A" && e.type === "GOAL") ||
                 (e.team === "B" && e.type === "OWN_GOAL"),
             ).length || 0;
+
           const sB =
             m.events?.filter(
               (e) =>
@@ -37,15 +46,18 @@ const MatchHistory = ({ matches, player }) => {
                 (e.team === "A" && e.type === "OWN_GOAL"),
             ).length || 0;
 
-          let won = false;
-          if (sA > sB) won = isTeamA;
-          else if (sB > sA) won = !isTeamA;
-          else
-            won =
+          let result = "draw"; // win, loss, draw
+          if (sA > sB) result = isTeamA ? "win" : "loss";
+          else if (sB > sA) result = !isTeamA ? "win" : "loss";
+
+          // Se houve pênaltis
+          if (sA === sB && m.penaltiesWinner) {
+            const wonPenalties =
               (m.penaltiesWinner === "A" && isTeamA) ||
               (m.penaltiesWinner === "B" && !isTeamA);
+            result = wonPenalties ? "win" : "loss";
+          }
 
-          const statusClass = won ? "win" : "loss";
           const pG =
             m.events?.filter(
               (e) =>
@@ -54,51 +66,58 @@ const MatchHistory = ({ matches, player }) => {
           const pA =
             m.events?.filter(
               (e) =>
-                (e.type === "GOAL" &&
-                  String(e.assistId) === String(player.id)) ||
-                (e.type === "ASSIST" &&
-                  String(e.playerId) === String(player.id)),
+                e.type === "GOAL" && String(e.assistId) === String(player.id),
             ).length || 0;
 
           return (
             <div
               key={m.id}
-              className={`ppg-match-item border-${statusClass} clickable-match`} // 3. Adicionei a classe clickable-match
-              onClick={() => navigate(`/match/${m.id}`)} // 4. Evento de clique
-              style={{ cursor: "pointer" }} // Garantia rápida de feedback visual
+              className={`adr-match-card result-${result}`}
+              onClick={() => navigate(`/match/${m.id}`)}
             >
-              <div style={{ flex: 1 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    marginBottom: "4px",
-                  }}
-                >
-                  <span className="ppg-date-tag">{formatDate(m.date)}</span>
-                  <span className={`status-tag ${statusClass}`}>
-                    {won ? "VITÓRIA" : "DERROTA"}
-                    {sA === sB && " (P)"}
-                  </span>
+              {/* Lado Esquerdo: Data e Círculo de Status */}
+              <div className="adr-match-info">
+                <div className={`adr-status-indicator ${result}`}>
+                  {result === "win" ? "V" : result === "loss" ? "D" : "E"}
                 </div>
-                <div className="ppg-teams-display">
-                  <span className={isTeamA ? "active" : ""}>
+                <span className="adr-match-date">{formatDate(m.date)}</span>
+              </div>
+
+              {/* Centro: Placar e Times */}
+              <div className="adr-match-main">
+                <div className="adr-team-mini">
+                  <span
+                    className={`adr-team-name ${isTeamA ? "highlight" : ""}`}
+                  >
                     {m.teamA.name}
                   </span>
-                  <span className="ppg-vs-badge">
-                    {sA} : {sB}
-                  </span>
-                  <span className={!isTeamA ? "active" : ""}>
+                </div>
+
+                <div className="adr-match-score">
+                  <span className="score-num">{sA}</span>
+                  <span className="score-divider">:</span>
+                  <span className="score-num">{sB}</span>
+                  {m.penaltiesWinner && (
+                    <small className="penalties-alert">P</small>
+                  )}
+                </div>
+
+                <div className="adr-team-mini team-right">
+                  <span
+                    className={`adr-team-name ${!isTeamA ? "highlight" : ""}`}
+                  >
                     {m.teamB.name}
                   </span>
                 </div>
               </div>
-              <div className="ppg-match-stats-tags">
-                {pG > 0 && <span className="ppg-tag-goal">+{pG} G</span>}
-                {pA > 0 && <span className="ppg-tag-assist">+{pA} A</span>}
 
-                <span className="ppg-chevron">›</span>
+              {/* Lado Direito: Stats do Jogador */}
+              <div className="adr-match-player-stats">
+                <div className="stats-badges">
+                  {pG > 0 && <span className="badge-goal"> +{pG} G</span>}
+                  {pA > 0 && <span className="badge-assist"> +{pA} A</span>}
+                </div>
+                <span className="adr-match-chevron">›</span>
               </div>
             </div>
           );

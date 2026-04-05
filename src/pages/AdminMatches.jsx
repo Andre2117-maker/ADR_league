@@ -310,6 +310,7 @@ function AdminMatches({
           <label>LOCALIZAÇÃO</label>
           <input
             type="text"
+            placeholder="Ex: Casa Do Lucas"
             value={draft.venue}
             onChange={(e) => setDraft({ ...draft, venue: e.target.value })}
           />
