@@ -98,6 +98,42 @@ function PlayerPage({
       );
     }
 
+    const checkConsecutiveAbsences = (player, allMatches) => {
+      if (!allMatches || allMatches.length === 0)
+        return { isOut: false, missedCount: 0 };
+
+      // 1. Pega todas as datas únicas
+      const rawDates = [...new Set(allMatches.map((m) => m.date))];
+
+      // 2. Ordena as datas da mais RECENTE para a mais ANTIGA
+      const trainingDays = rawDates.sort((a, b) => {
+        // Como a data é "2026-03-28", o Date(ano, mes, dia) funciona bem
+        const [y1, m1, d1] = a.split("-").map(Number);
+        const [y2, m2, d2] = b.split("-").map(Number);
+        return new Date(y2, m2 - 1, d2, 12) - new Date(y1, m1 - 1, d1, 12);
+      });
+
+      let missedCount = 0;
+      for (const day of trainingDays) {
+        const playedOnThisDay = allMatches.some((match) => {
+          return (
+            match.date === day &&
+            (match.teamA.players.some(
+              (pId) => String(pId) === String(player.id),
+            ) ||
+              match.teamB.players.some(
+                (pId) => String(pId) === String(player.id),
+              ))
+          );
+        });
+
+        if (playedOnThisDay) break;
+        else missedCount++;
+      }
+
+      return { isOut: missedCount >= 3, missedCount };
+    };
+
     return (
       <div className="ppg-screen-content" ref={topRef}>
         <header className="ppg-header-overlay">
@@ -118,6 +154,179 @@ function PlayerPage({
         <div className="ppg-page-container">
           <div className="ppg-main-layout">
             <aside>
+              {/* --- PAINEL ADM: REGRA DE 3 TREINOS SEGUIDOS --- */}
+              {isAdmin &&
+                (() => {
+                  const { isOut, missedCount } = checkConsecutiveAbsences(
+                    player,
+                    matches,
+                  );
+
+                  return (
+                    <div
+                      className="ppg-card"
+                      style={{
+                        border: isOut
+                          ? "1px solid #ff4d4d"
+                          : "1px dashed var(--gold)",
+                        background: isOut
+                          ? "rgba(255, 77, 77, 0.05)"
+                          : "rgba(212, 175, 55, 0.05)",
+                        padding: "15px",
+                        marginBottom: "15px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          marginBottom: "12px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            fontWeight: "900",
+                            color: "var(--gold)",
+                            background: "rgba(212, 175, 55, 0.1)",
+                            padding: "2px 8px",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          🛡️ CONTROLE DE SEQUÊNCIA
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: isOut
+                              ? "#ff4d4d"
+                              : missedCount > 0
+                                ? "#ffcc00"
+                                : "#00ff7f",
+                            fontWeight: "900",
+                          }}
+                        >
+                          {missedCount}/3 FALTAS SEGUIDAS
+                        </span>
+                      </div>
+
+                      {/* Barra de Progresso de Faltas (Visual) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "4px",
+                          marginBottom: "15px",
+                        }}
+                      >
+                        {[1, 2, 3].map((i) => (
+                          <div
+                            key={i}
+                            style={{
+                              flex: 1,
+                              height: "4px",
+                              borderRadius: "2px",
+                              background:
+                                i <= missedCount
+                                  ? isOut
+                                    ? "#ff4d4d"
+                                    : "#ffcc00"
+                                  : "rgba(255,255,255,0.1)",
+                            }}
+                          />
+                        ))}
+                      </div>
+
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span style={{ color: "#888" }}>Status Atual:</span>
+                          <span
+                            style={{
+                              fontWeight: "800",
+                              color: isOut ? "#ff4d4d" : "#fff",
+                            }}
+                          >
+                            {isOut
+                              ? "REMOVER DA TABELA"
+                              : missedCount > 0
+                                ? "EM ALERTA"
+                                : "ATIVO"}
+                          </span>
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span style={{ color: "#888" }}>
+                            Último Treino Realizado:
+                          </span>
+                          <span style={{ fontWeight: "700", color: "#fff" }}>
+                            {playerMatches.length > 0
+                              ? (() => {
+                                  // Ordena para pegar o mais recente
+                                  const sorted = [...playerMatches].sort(
+                                    (a, b) => {
+                                      const [y1, m1, d1] = a.date
+                                        .split("-")
+                                        .map(Number);
+                                      const [y2, m2, d2] = b.date
+                                        .split("-")
+                                        .map(Number);
+                                      return (
+                                        new Date(y2, m2 - 1, d2, 12) -
+                                        new Date(y1, m1 - 1, d1, 12)
+                                      );
+                                    },
+                                  );
+
+                                  // Pega a data "YYYY-MM-DD" e inverte para "DD/MM/YYYY"
+                                  const lastDate = sorted[0].date;
+                                  const [y, m, d] = lastDate.split("-");
+                                  return `${d}/${m}/${y}`;
+                                })()
+                              : "Sem registros"}
+                          </span>
+                        </div>
+                      </div>
+
+                      {isOut && (
+                        <div
+                          style={{
+                            marginTop: "12px",
+                            background: "rgba(255, 77, 77, 0.2)",
+                            color: "#ff4d4d",
+                            fontSize: "10px",
+                            fontWeight: "900",
+                            padding: "10px",
+                            borderRadius: "6px",
+                            textAlign: "center",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          JOGADOR FALTOU AOS ÚLTIMOS 3 TREINOS.
+                          <br />
+                          PASSAR PARA ANÔNIMO.
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
               <div className="ppg-card">
                 <h3 className="ppg-card-title">Habilidades</h3>
                 <div className="ppg-radar-chart-container">

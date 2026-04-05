@@ -7,13 +7,15 @@ const MatchHistory = ({ matches, player }) => {
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-    });
-  };
 
+    if (dateStr.includes("/")) {
+      return dateStr.substring(0, 5);
+    }
+
+    // Note a vírgula vazia no início: ela pula o primeiro item (ano)
+    const [, month, day] = dateStr.split("T")[0].split("-");
+    return `${day}/${month}`;
+  };
   // Ordenar por ordem decrescente (mais recentes primeiro)
   const sortedMatches = [...matches].sort(
     (a, b) => (b.order || 0) - (a.order || 0),
