@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import "../../styles/playerdashboard.css";
+import "../../styles/Playerpage/playerdashboard.css";
 
 const PlayerStatsDashboard = ({ player, matches }) => {
   const [selectedSeason, setSelectedSeason] = useState("ALL");

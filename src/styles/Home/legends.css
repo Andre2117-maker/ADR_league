@@ -1,0 +1,135 @@
+.legends-wrapper {
+  background-color: #000;
+  min-height: 100vh;
+  padding-top: 80px;
+  color: #fff;
+}
+
+.legends-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.legends-main-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 5px;
+  background: linear-gradient(to bottom, #fff, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.legends-subtitle {
+  color: #777;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+.legends-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Milestone Section */
+.milestone-section {
+  margin-bottom: 80px;
+}
+
+.milestone-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-left: 4px solid;
+  padding: 15px 25px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.05), transparent);
+  margin-bottom: 30px;
+}
+
+.milestone-icon {
+  font-size: 2.5rem;
+}
+
+.milestone-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2px;
+}
+
+.milestone-text span {
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: bold;
+}
+
+/* Grid & Cards */
+.legends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+}
+
+.legend-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.legend-card:hover {
+  transform: translateY(-10px);
+  border-color: #d4af37;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+}
+
+.legend-photo-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 15px;
+}
+
+.legend-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #333;
+}
+
+.legend-goal-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -10px;
+  color: #000;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.legend-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.legend-status {
+  display: block;
+  font-size: 10px;
+  color: #ff4d4d;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .legends-main-title {
+    font-size: 2.2rem;
+  }
+  .legends-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

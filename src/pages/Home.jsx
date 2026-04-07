@@ -237,10 +237,13 @@ function Home({ players, matches, getBestPartner }) {
       {/* NAVEGAÇÃO ENTRE PÁGINAS */}
       <div className="transparency-nav-container">
         <Link to="/hall-historico" className="btn-transparency-nav">
-          MEMORIAL DOS JOGADORES
+          🗿 MEMORIAL DOS JOGADORES
         </Link>
         <Link to="/transparency" className="btn-transparency-nav">
           💰 TRANSPARÊNCIA
+        </Link>
+        <Link to="/Legends" className="btn-transparency-nav">
+          👑 Legends
         </Link>
       </div>
 

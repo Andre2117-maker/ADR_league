@@ -10,7 +10,7 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import "../styles/hallHistorico.css";
+import "../styles/Home/hallHistorico.css";
 import Footer from "./Footer";
 
 const HallHistorico = ({ isAdmin }) => {

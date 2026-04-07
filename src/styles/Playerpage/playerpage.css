@@ -202,6 +202,53 @@
   stroke: rgba(255, 255, 255, 0.05) !important;
 }
 
+/* --- SEÇÃO DE CONQUISTAS (ACHIEVEMENTS) --- */
+
+.ppg-achievements-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.ppg-tag-goal {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Borda dourada sutil */
+  color: #eee;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de brilho ao passar o mouse */
+.ppg-tag-goal:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.15);
+  color: #fff;
+}
+
+/* Estilização do ícone dentro da conquista */
+.ppg-tag-goal span,
+.ppg-tag-goal i {
+  font-size: 1.1rem;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+}
+
+/* Variante para conquistas mais raras (opcional) */
+.ppg-tag-goal.rare {
+  border-color: #00ffff;
+  background: rgba(0, 255, 255, 0.05);
+}
+
 /* --- RESPONSIVIDADE (MOBILE) --- */
 
 @media (max-width: 900px) {
@@ -256,6 +303,16 @@
 
   .ppg-stat-value {
     font-size: 32px;
+  }
+
+  .ppg-achievements-list {
+    gap: 8px;
+  }
+
+  .ppg-tag-goal {
+    padding: 6px 12px;
+    font-size: 11px;
+    border-radius: 8px;
   }
 
   /* 6. Radar Chart */

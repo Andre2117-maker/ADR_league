@@ -36,6 +36,27 @@
   flex: 1;
 }
 
+.ppg-banner-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212, 175, 55, 0.15); /* Fundo dourado suave */
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  backdrop-filter: blur(10px);
+  width: fit-content;
+}
+
+.role-icon {
+  font-size: 12px;
+}
+
 /* Número em Dourado */
 .ppg-banner-number {
   font-size: 2.5rem;
@@ -151,6 +172,12 @@
     padding: 0 25px;
   }
 
+  .ppg-banner-role {
+    font-size: 9px;
+    padding: 3px 8px;
+    margin-bottom: 5px;
+  }
+
   .ppg-banner-info {
     padding-bottom: 20px;
     z-index: 4; /* Garante que o texto fique sobre o fundo */
@@ -197,6 +224,7 @@
     height: 380px;
     opacity: 1; /* Voltei para 1 para não perder a vivacidade das cores */
     filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.8));
+    margin-left: 50px;
 
     /* Ajuste de máscara para suavizar o corte dos pés no fundo escuro */
     mask-image: linear-gradient(

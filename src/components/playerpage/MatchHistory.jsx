@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/matchHistory.css";
+import "../../styles/Playerpage/matchHistory.css";
 
 const MatchHistory = ({ matches, player }) => {
   const navigate = useNavigate();

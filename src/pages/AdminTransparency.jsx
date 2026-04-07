@@ -11,7 +11,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import "../styles/admin-transparency.css";
+import "../styles/Home/admin-transparency.css";
 import Footer from "../components/Footer";
 
 export default function AdminTransparency({ isAdmin }) {

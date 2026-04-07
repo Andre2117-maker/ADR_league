@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/playerbanner.css";
+import "../../styles/Playerpage/playerbanner.css";
 
 const PlayerBanner = ({ player, getBestPartner }) => {
   if (!player) return null;
@@ -49,6 +49,13 @@ const PlayerBanner = ({ player, getBestPartner }) => {
     <section className="ppg-player-banner">
       <div className="ppg-banner-content">
         <div className="ppg-banner-info">
+          {player.clubRole && (
+            <div className="ppg-banner-role">
+              <span className="role-icon">🛡️</span>
+              {player.clubRole.toUpperCase()}
+            </div>
+          )}
+
           <h2 className="ppg-banner-number">{player.number || "00"}</h2>
 
           <h1 className="ppg-banner-name">

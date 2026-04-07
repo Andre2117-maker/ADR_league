@@ -30,6 +30,7 @@ import Altar from "./components/Easter Egg/Altar.jsx";
 import Statics from "./pages/Statics.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import Legends from "./pages/Legends.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -210,6 +211,11 @@ function App() {
           <Route
             path="/transparency"
             element={<AdminTransparency isAdmin={isAdmin} />}
+          />
+
+          <Route
+            path="/Legends"
+            element={<Legends playersWithStats={playersWithStats} />}
           />
 
           <Route

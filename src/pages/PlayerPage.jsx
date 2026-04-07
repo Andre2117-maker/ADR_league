@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   PolarRadiusAxis,
 } from "recharts";
-import "../styles/playerpage.css";
+import "../styles/Playerpage/playerpage.css";
 import RankingSlice from "../components/playerpage/RankingSlice";
 import PlayerStatsDashboard from "../components/playerpage/PlayerStatsDashboard";
 import MatchHistory from "../components/playerpage/MatchHistory";
