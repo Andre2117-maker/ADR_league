@@ -126,6 +126,9 @@
 }
 
 @media (max-width: 600px) {
+  .legends-wrapper {
+    padding-top: 110px;
+  }
   .legends-main-title {
     font-size: 2.2rem;
   }
