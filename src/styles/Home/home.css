@@ -334,16 +334,22 @@
 
   /* 5. Botões de Navegação (Transparência/Memorial) */
   .transparency-nav-container {
-    margin-top: 85px !important; /* Ajuste para não bater na Navbar fixa */
-    gap: 8px;
+    margin-top: 85px !important;
+    gap: 10px; /* Aumentei um pouco o espaçamento */
     padding: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Garante que os botões pulem de linha */
+    justify-content: center;
   }
 
   .btn-transparency-nav {
-    padding: 8px 15px;
-    font-size: 11px; /* Botões menores para não quebrarem linha estranho */
-    flex: 1; /* Faz os botões dividirem o espaço */
+    padding: 12px 18px; /* Padding mais gordinho para facilitar o toque */
+    font-size: 11px;
+    /* REMOVIDO: flex: 1; <-- Isso era o que estava comprimindo */
+    min-width: 140px; /* Garante que o botão tenha um tamanho mínimo */
+    flex: 0 1 auto; /* Ocupa apenas o espaço necessário, mas permite crescer se precisar */
     text-align: center;
+    white-space: nowrap; /* Impede que o texto dentro do botão quebre linha */
   }
 
   /* 6. Exportar Tabela */

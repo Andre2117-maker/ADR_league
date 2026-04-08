@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap");
+/* Garanta que não haja nada impedindo o carregamento antes desta linha */
 
 /* ==========================================
    CONTAINER PRINCIPAL
@@ -260,17 +261,20 @@
     right: 15px;
     font-family: "Bungee Spice", sans-serif;
     font-size: 50px;
-    font-weight: 900;
-    color: #d4af37;
-    text-shadow:
-      2px 2px 0px #000,
-      4px 4px 10px rgba(0, 0, 0, 0.5);
-    line-height: 1;
+    font-weight: 400; /* Bungee Spice geralmente é 400 */
 
-    /* AJUSTES PARA IPHONE */
-    z-index: 99 !important;
-    transform: translateZ(0); /* Força o Safari a colocar na frente */
-    -webkit-font-smoothing: antialiased;
+    /* REMOVA ou COMENTE as linhas abaixo para o Safari */
+    /* color: #d4af37; */
+    /* text-shadow: ...; */
+
+    line-height: 1;
+    z-index: 999 !important; /* Valor bem alto */
+
+    /* Força a renderização de fontes coloridas no Webkit */
+    -webkit-font-palette: --gold; /* Se disponível */
+
+    /* Impede que o sistema tente aplicar estilos de texto padrão */
+    font-synthesis: none;
   }
 
   .sqd-title {
