@@ -16,7 +16,7 @@ import "../styles/adminmatches.css";
 import { useNavigate } from "react-router-dom";
 
 /* ==========================================================================
-   SUB-COMPONENTE: LINHA DO JOGADOR
+   SUB-COMPONENTE: LINHA DO JOGADOR (ADR)
    ========================================================================== */
 const PlayerRow = ({
   player,
@@ -110,13 +110,7 @@ const PlayerRow = ({
 /* ==========================================================================
    COMPONENTE PRINCIPAL
    ========================================================================== */
-function AdminMatches({
-  players,
-  isAdmin,
-  matchToEdit,
-  setMatchToEdit,
-  matches,
-}) {
+function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [loading, setLoading] = useState(false);
   const [matchType, setMatchType] = useState(matchToEdit?.type || "TREINO");
   const [showAssistModal, setShowAssistModal] = useState(null);
@@ -129,14 +123,14 @@ function AdminMatches({
       date: new Date().toISOString().split("T")[0],
       venue: "",
       teamA: {
-        name: "",
+        name: "ADR",
         players: [],
         goalkeeperId: null,
         captainId: null,
         logo: "",
       },
       teamB: {
-        name: "",
+        name: "ADR",
         players: [],
         goalkeeperId: null,
         captainId: null,
@@ -154,29 +148,29 @@ function AdminMatches({
     [players],
   );
 
-  if (!isAdmin) {
-    return (
-      <div
-        className="page-container"
-        style={{ textAlign: "center", paddingTop: "120px" }}
-      >
-        <h2 style={{ color: "red" }}>🚫 Acesso Negado</h2>
-        <button onClick={() => navigate("/")} className="back-btn">
-          Voltar
-        </button>
-      </div>
-    );
-  }
+  const handleImageUpload = (e, teamKey) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setDraft((prev) => ({
+          ...prev,
+          [teamKey]: { ...prev[teamKey], logo: reader.result },
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const goalsA = draft.events.filter(
     (e) =>
-      (e.type === "GOAL" && e.team === "A") ||
-      (e.type === "OWN_GOAL" && e.team === "B"),
+      (e.team === "A" && e.type === "GOAL") ||
+      (e.team === "B" && e.type === "OWN_GOAL"),
   ).length;
   const goalsB = draft.events.filter(
     (e) =>
-      (e.type === "GOAL" && e.team === "B") ||
-      (e.type === "OWN_GOAL" && e.team === "A"),
+      (e.team === "B" && e.type === "GOAL") ||
+      (e.team === "A" && e.type === "OWN_GOAL"),
   ).length;
   const isDraw = goalsA === goalsB;
 
@@ -198,32 +192,11 @@ function AdminMatches({
           type,
           assistId,
           externalName,
+          matchType: matchType,
         },
       ],
     }));
     setShowAssistModal(null);
-  };
-
-  const handleRepeatSquad = () => {
-    if (!matches || matches.length === 0)
-      return alert("Sem partidas anteriores.");
-    const last = [...matches].sort((a, b) => b.order - a.order)[0];
-    setDraft((prev) => ({
-      ...prev,
-      teamA: {
-        ...last.teamA,
-        players: last.teamA.players,
-        goalkeeperId: last.teamA.goalkeeperId,
-        captainId: last.teamA.captainId,
-      },
-      teamB: {
-        ...last.teamB,
-        players: last.teamB.players,
-        goalkeeperId: last.teamB.goalkeeperId,
-        captainId: last.teamB.captainId,
-      },
-      events: [],
-    }));
   };
 
   const saveMatch = async () => {
@@ -247,11 +220,6 @@ function AdminMatches({
         type: matchType,
         order: nextOrder,
         updatedAt: serverTimestamp(),
-        penaltiesWinner: isDraw
-          ? Number(draft.penaltiesScoreA) > Number(draft.penaltiesScoreB)
-            ? "A"
-            : "B"
-          : null,
       };
 
       if (matchToEdit?.id) {
@@ -263,10 +231,8 @@ function AdminMatches({
         });
       }
 
-      // LIMPA O ESTADO DE EDIÇÃO
       if (setMatchToEdit) setMatchToEdit(null);
-
-      alert("Sucesso!");
+      alert("Partida salva!");
       navigate("/");
     } catch (e) {
       alert(e.message);
@@ -275,26 +241,33 @@ function AdminMatches({
     }
   };
 
-  const handleCancel = () => {
-    if (setMatchToEdit) setMatchToEdit(null);
-    navigate("/");
-  };
+  if (!isAdmin)
+    return (
+      <div className="page-container">
+        <h2>🚫 Acesso Negado</h2>
+      </div>
+    );
 
   return (
     <div className="page-container2">
       <header className="admin-header-flex">
         <select
           value={matchType}
-          onChange={(e) => setMatchType(e.target.value)}
+          onChange={(e) => {
+            const newType = e.target.value;
+            setMatchType(newType);
+            // Reseta o nome do time B se mudar para Treino
+            if (newType === "TREINO") {
+              setDraft((prev) => ({
+                ...prev,
+                teamB: { ...prev.teamB, name: "ADR" },
+              }));
+            }
+          }}
         >
           <option value="TREINO">🏟️ TREINO INTERNO</option>
           <option value="AMISTOSO">🤝 AMISTOSO EXTERNO</option>
         </select>
-        {matchToEdit && (
-          <button className="btn-cancel-edit" onClick={handleCancel}>
-            ❌ CANCELAR EDIÇÃO
-          </button>
-        )}
       </header>
 
       <div className="admin-box-grid">
@@ -310,72 +283,100 @@ function AdminMatches({
           <label>LOCALIZAÇÃO</label>
           <input
             type="text"
-            placeholder="Ex: Casa Do Lucas"
+            placeholder="Ex: Arena ADR"
             value={draft.venue}
             onChange={(e) => setDraft({ ...draft, venue: e.target.value })}
           />
-        </div>
-        <div className="field">
-          <label>AÇÕES</label>
-          <button className="btn-repeat" onClick={handleRepeatSquad}>
-            🔄 Repetir Escalação
-          </button>
         </div>
       </div>
 
       <div className="match-teams-grid">
         {["A", "B"].map((t) => {
           const teamKey = t === "A" ? "teamA" : "teamB";
-          const isExt = matchType === "AMISTOSO" && t === "B";
+
+          // Lógica corrigida: No TREINO, ambos são ADR. No AMISTOSO, só o B é externo.
+          const isExternal = matchType === "AMISTOSO" && t === "B";
+
           return (
-            <div key={t} className="team-card">
-              <input
-                className="team-name-input"
-                placeholder="ADR"
-                value={draft[teamKey].name}
-                onChange={(e) =>
-                  setDraft({
-                    ...draft,
-                    [teamKey]: { ...draft[teamKey], name: e.target.value },
-                  })
-                }
-              />
-              {isExt ? (
-                <div className="external-tools">
-                  <label>Logo URL</label>
+            <div
+              key={t}
+              className={`team-card ${isExternal ? "opponent-card" : ""}`}
+            >
+              <div className="team-upload-header">
+                <div
+                  className="logo-box"
+                  onClick={() => document.getElementById(`file-${t}`).click()}
+                >
+                  {draft[teamKey].logo ? (
+                    <img src={draft[teamKey].logo} alt="logo" />
+                  ) : (
+                    <span>+ LOGO</span>
+                  )}
                   <input
-                    type="text"
-                    value={draft.teamB.logo}
-                    onChange={(e) =>
-                      setDraft({
-                        ...draft,
-                        teamB: { ...draft.teamB, logo: e.target.value },
-                      })
-                    }
+                    id={`file-${t}`}
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => handleImageUpload(e, teamKey)}
                   />
+                </div>
+                <input
+                  className="team-name-input"
+                  placeholder="Nome do Time"
+                  value={draft[teamKey].name}
+                  disabled={!isExternal && matchType === "AMISTOSO"} // Trava ADR no amistoso
+                  onChange={(e) =>
+                    setDraft({
+                      ...draft,
+                      [teamKey]: { ...draft[teamKey], name: e.target.value },
+                    })
+                  }
+                />
+              </div>
+
+              {isExternal ? (
+                /* INTERFACE PARA TIME ADVERSÁRIO (AMISTOSO) */
+                <div className="external-tools">
                   <div className="external-goal-group">
                     <input
-                      placeholder="Marcador"
+                      placeholder="Nome do Jogador"
                       value={extScorerName}
                       onChange={(e) => setExtScorerName(e.target.value)}
                     />
                     <button
                       onClick={() => {
-                        addEvent(
-                          "B",
-                          "OPONENTE_EXTERNO",
-                          "GOAL",
-                          null,
-                          extScorerName,
-                        );
+                        if (!extScorerName) return;
+                        addEvent(t, "EXTERNO", "GOAL", null, extScorerName);
                         setExtScorerName("");
                       }}
                     >
-                      ⚽ Gol
+                      ⚽ + Gol
                     </button>
+                  </div>
+                  <div className="external-events-list">
+                    {draft.events
+                      .filter((e) => e.team === t)
+                      .map((e) => (
+                        <div key={e.id} className="event-tag">
+                          {e.externalName} ⚽{" "}
+                          <span
+                            onClick={() =>
+                              setDraft((prev) => ({
+                                ...prev,
+                                events: prev.events.filter(
+                                  (ev) => ev.id !== e.id,
+                                ),
+                              }))
+                            }
+                          >
+                            x
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 </div>
               ) : (
+                /* INTERFACE PADRÃO ADR (TREINO OU TIME A DO AMISTOSO) */
                 <div className="players-scroll">
                   {sortedPlayers.map((p) => (
                     <PlayerRow
@@ -407,14 +408,14 @@ function AdminMatches({
                         })
                       }
                       onSetCaptain={() =>
-                        setDraft((prev) => ({
-                          ...prev,
+                        setDraft({
+                          ...draft,
                           [teamKey]: {
-                            ...prev[teamKey],
+                            ...draft[teamKey],
                             captainId:
-                              prev[teamKey].captainId === p.id ? null : p.id,
+                              draft[teamKey].captainId === p.id ? null : p.id,
                           },
-                        }))
+                        })
                       }
                       onGoal={() =>
                         setShowAssistModal({ team: t, playerId: p.id })
@@ -494,31 +495,6 @@ function AdminMatches({
           }))
         }
       />
-
-      {isDraw && (
-        <div className="penalty-selector">
-          <p>🏆 PÊNALTIS</p>
-          <div className="p-score-input-wrapper">
-            <input
-              type="number"
-              placeholder="0"
-              value={draft.penaltiesScoreA}
-              onChange={(e) =>
-                setDraft({ ...draft, penaltiesScoreA: e.target.value })
-              }
-            />
-            <span>X</span>
-            <input
-              type="number"
-              placeholder="0"
-              value={draft.penaltiesScoreB}
-              onChange={(e) =>
-                setDraft({ ...draft, penaltiesScoreB: e.target.value })
-              }
-            />
-          </div>
-        </div>
-      )}
 
       <button
         onClick={saveMatch}

@@ -48,12 +48,17 @@ function Home({ players, matches, getBestPartner }) {
         points: 0,
       };
 
-      // 1. Verificação de segurança
       if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
         return defaultReturn;
 
-      // 2. Filtra partidas onde o jogador participou
-      const playerMatches = sortedMatchesByDate.filter(
+      // --- CORREÇÃO AQUI: FILTRAR APENAS TREINOS ---
+      // A Tabela Geral e os cards laterais devem ignorar AMISTOSOS
+      const onlyTrainings = sortedMatchesByDate.filter(
+        (m) => m.type === "TREINO",
+      );
+
+      // Agora filtramos apenas onde o jogador participou DENTRO DOS TREINOS
+      const playerMatches = onlyTrainings.filter(
         (m) =>
           m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
           m.teamB?.players?.some((id) => String(id) === String(playerId)),
@@ -67,7 +72,6 @@ function Home({ players, matches, getBestPartner }) {
       let totalLosses = 0;
       let totalDraws = 0;
 
-      // 3. Processamento das estatísticas
       playerMatches.forEach((m) => {
         const isTeamA = m.teamA?.players?.some(
           (id) => String(id) === String(playerId),
@@ -77,9 +81,11 @@ function Home({ players, matches, getBestPartner }) {
 
         // Gols e Assistências
         m.events?.forEach((e) => {
+          // Garante que não conta gols de "OPONENTE_EXTERNO" para seus jogadores
           if (e.type === "GOAL" && String(e.playerId) === pIdStr) {
             totalGoals++;
           }
+
           const ehEventoAssist =
             e.type === "ASSIST" && String(e.playerId) === pIdStr;
           const ehCampoNoGol =
@@ -90,14 +96,13 @@ function Home({ players, matches, getBestPartner }) {
           }
         });
 
-        // Cálculo do Placar (considerando gols contra)
+        // Placar (Calculado dinamicamente para cada partida do loop)
         const goalsA =
           m.events?.filter(
             (e) =>
               (e.type === "GOAL" && e.team === "A") ||
               (e.type === "OWN_GOAL" && e.team === "B"),
           ).length || 0;
-
         const goalsB =
           m.events?.filter(
             (e) =>
@@ -105,7 +110,6 @@ function Home({ players, matches, getBestPartner }) {
               (e.type === "OWN_GOAL" && e.team === "A"),
           ).length || 0;
 
-        // Determinação do Resultado
         const winner = m.penaltiesWinner || m.winner;
         let result = "";
 
@@ -126,7 +130,7 @@ function Home({ players, matches, getBestPartner }) {
         else if (result === "L") totalLosses++;
       });
 
-      // 4. Cálculo da Forma (últimos 5 jogos)
+      // Cálculo da Forma (últimos 5 jogos de TREINO)
       const form = playerMatches.slice(-5).map((m) => {
         const isTeamA = m.teamA?.players?.some(
           (id) => String(id) === String(playerId),
