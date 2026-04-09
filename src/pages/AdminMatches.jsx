@@ -8,7 +8,6 @@ import {
   serverTimestamp,
   query,
   orderBy,
-  limit,
   getDocs,
 } from "firebase/firestore";
 import MatchPreview from "../components/adminmatches/MatchPreview";
@@ -203,39 +202,67 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     if (!draft.date || !draft.venue) return alert("Preencha data e local.");
     setLoading(true);
     try {
-      const q = query(
-        collection(db, "matches"),
-        orderBy("order", "desc"),
-        limit(1),
-      );
+      // 1. Pegar TODAS as partidas do banco para reordenar
+      const q = query(collection(db, "matches"), orderBy("date", "asc"));
       const snap = await getDocs(q);
-      const nextOrder =
-        matchToEdit?.order ||
-        (snap.empty ? 1 : (snap.docs[0].data().order || 0) + 1);
 
-      const finalData = {
+      let allMatches = snap.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // 2. Criar o objeto da nova partida (ou atualizar a existente)
+      const currentMatchData = {
         ...draft,
         goalsA,
         goalsB,
         type: matchType,
-        order: nextOrder,
         updatedAt: serverTimestamp(),
       };
 
       if (matchToEdit?.id) {
-        await updateDoc(doc(db, "matches", matchToEdit.id), finalData);
-      } else {
-        await addDoc(collection(db, "matches"), {
-          ...finalData,
-          createdAt: serverTimestamp(),
-        });
+        // Se for edição, removemos a versão antiga da lista para re-inserir na ordem certa
+        allMatches = allMatches.filter((m) => m.id !== matchToEdit.id);
       }
 
+      // 3. Adicionar a partida atual na lista local para ordenação
+      allMatches.push(currentMatchData);
+
+      // 4. Ordenar TODA a lista por data (e usar updatedAt como desempate)
+      allMatches.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // 5. Salvar no Firebase
+      if (matchToEdit?.id) {
+        // Se for edição, atualiza os dados e depois as orders
+        await updateDoc(doc(db, "matches", matchToEdit.id), currentMatchData);
+      } else {
+        // Se for nova, cria o documento e pega o ID gerado
+        const newDoc = await addDoc(collection(db, "matches"), {
+          ...currentMatchData,
+          createdAt: serverTimestamp(),
+        });
+        currentMatchData.id = newDoc.id;
+      }
+
+      // 6. Loop de atualização de ordens (MUITO IMPORTANTE)
+      // Isso garante que se você inseriu um jogo em 2025, ele ganhe order 1, 2, 3...
+      const updatePromises = allMatches.map((match, index) => {
+        const matchId = match.id;
+        if (!matchId) return Promise.resolve(); // Pula se não tiver ID ainda
+
+        return updateDoc(doc(db, "matches", matchId), {
+          order: index + 1,
+        });
+      });
+
+      await Promise.all(updatePromises);
+
       if (setMatchToEdit) setMatchToEdit(null);
-      alert("Partida salva!");
+      alert("Partidas reordenadas por data com sucesso!");
       navigate("/");
     } catch (e) {
-      alert(e.message);
+      console.error(e);
+      alert("Erro ao salvar: " + e.message);
     } finally {
       setLoading(false);
     }

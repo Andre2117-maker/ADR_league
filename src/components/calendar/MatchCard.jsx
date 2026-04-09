@@ -1,7 +1,14 @@
 import React from "react";
 import "./MatchCard.css";
 
-const MatchCard = ({ match, isAdmin, onEdit, onDelete, onNavigate }) => {
+const MatchCard = ({
+  match,
+  isAdmin,
+  onEdit,
+  onDelete,
+  onNavigate,
+  onSwapOrder,
+}) => {
   // Função para calcular o placar
   const getTeamScore = (teamLetter) => {
     const opponentLetter = teamLetter === "A" ? "B" : "A";
@@ -25,7 +32,7 @@ const MatchCard = ({ match, isAdmin, onEdit, onDelete, onNavigate }) => {
           className="admin-actions-bar"
           style={{
             display: "flex",
-            gap: "15px",
+            gap: "12px",
             justifyContent: "flex-end",
             width: "100%",
             marginBottom: "10px",
@@ -33,6 +40,42 @@ const MatchCard = ({ match, isAdmin, onEdit, onDelete, onNavigate }) => {
             paddingBottom: "8px",
           }}
         >
+          {/* SETAS DE ORDENAÇÃO */}
+          <div style={{ display: "flex", gap: "8px", marginRight: "auto" }}>
+            <button
+              title="Subir Ordem"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSwapOrder(match, "UP");
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "16px",
+                color: "#e2b900",
+              }}
+            >
+              ▼
+            </button>
+            <button
+              title="Descer Ordem"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSwapOrder(match, "DOWN");
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "16px",
+                color: "#e2b900",
+              }}
+            >
+              ▲
+            </button>
+          </div>
+
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -54,6 +97,7 @@ const MatchCard = ({ match, isAdmin, onEdit, onDelete, onNavigate }) => {
               EDITAR
             </span>
           </button>
+
           <button
             onClick={(e) => {
               e.stopPropagation();

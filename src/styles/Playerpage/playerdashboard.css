@@ -1,3 +1,6 @@
+/* ============================================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   ============================================================ */
 :root {
   --premium-gold: #d4af37;
   --premium-gold-bright: #f9e29c;
@@ -5,6 +8,8 @@
   --card-bg: #1a1a1a;
   --glass-bg: rgba(255, 255, 255, 0.03);
   --border-color: rgba(255, 255, 255, 0.08);
+  --gk-cyan: #00bcd4;
+  --orange-streak: #e67e22;
 }
 
 .psd-dashboard {
@@ -19,23 +24,64 @@
   color: #fff;
 }
 
-/* Título e Header */
+/* ============================================================
+   2. HEADER E FILTROS (SELECTS)
+   ============================================================ */
+.psd-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 15px;
+}
+
+.psd-filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.psd-season-select,
+.psd-type-select {
+  background: #111;
+  border: 1px solid var(--premium-gold);
+  color: var(--premium-gold);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.psd-season-select:hover,
+.psd-type-select:hover {
+  background: var(--premium-gold);
+  color: #000;
+}
+
 .psd-title {
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   color: var(--premium-gold);
-  margin-bottom: -5px;
   border-left: 3px solid var(--premium-gold);
   padding-left: 10px;
 }
 
-/* Grid Principal da Temporada */
+/* ============================================================
+   3. CARDS E GRIDS (ESTRUTURA BASE)
+   ============================================================ */
 .psd-grid-season {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  width: 100%;
 }
 
 .psd-card {
@@ -60,29 +106,13 @@
   border-color: rgba(212, 175, 55, 0.4);
 }
 
-/* Detalhes de brilho nas cartas */
-.psd-card::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.03) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-/* Labels e Valores */
 .psd-label {
   font-size: 9px;
   font-weight: 700;
   color: #888;
   letter-spacing: 1px;
   margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
 .psd-value {
@@ -94,15 +124,24 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Card Principal (Jogos) */
+/* ============================================================
+   4. ESTILIZAÇÃO ESPECÍFICA DE CARDS (LINHA)
+   ============================================================ */
 .season-main .psd-value {
   background: linear-gradient(180deg, #fff 0%, var(--premium-gold) 100%);
   -webkit-background-clip: text;
 }
 
-/* Cards de Cartões */
+.participation-box {
+  background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Cards de Cartões (Amarelo/Vermelho) */
 .cards-box {
   background: var(--glass-bg);
+  flex-direction: row;
+  gap: 15px;
 }
 
 .card-item {
@@ -117,23 +156,43 @@
   width: 12px;
   height: 18px;
   border-radius: 3px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .yellow .card-rect {
   background: #ffd700;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
+
 .red .card-rect {
   background: #ff4d4d;
   box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
 }
 
-/* Grid Inferior (Recordes e Carreira) */
+/* ============================================================
+   5. ESTILIZAÇÃO ESPECÍFICA DE CARDS (GOLEIRO - GK)
+   ============================================================ */
+.gk-style {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d1a1d 100%);
+  border: 1px solid rgba(0, 188, 212, 0.1);
+}
+
+.gk-style .psd-label {
+  color: var(--gk-cyan);
+}
+
+.gk-style .psd-value {
+  background: linear-gradient(180deg, #fff 0%, var(--gk-cyan) 100%);
+  -webkit-background-clip: text;
+}
+
+/* ============================================================
+   6. RECORDES DIÁRIOS (GRID INFERIOR)
+   ============================================================ */
 .psd-lower-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .psd-mini-card {
@@ -142,9 +201,11 @@
   border-radius: 12px;
   padding: 12px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.psd-mini-card:hover {
+  background: rgba(212, 175, 55, 0.05);
 }
 
 .psd-mini-label {
@@ -160,160 +221,109 @@
   color: var(--premium-gold-bright);
 }
 
-/* Total Carreira - O Grande Destaque */
-.all-time {
-  background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  position: relative;
-}
-
-.all-time::before {
-  content: "TOTAL";
-  position: absolute;
-  right: 10px;
-  bottom: 0px;
-  font-size: 30px;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.02);
-  letter-spacing: -2px;
-}
-
-.psd-alltime-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 5px;
-}
-
-.psd-alltime-row span {
-  font-size: 16px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
 .psd-record-date {
   font-size: 9px;
   color: #555;
   font-weight: 600;
   margin-top: 2px;
-  letter-spacing: 0.5px;
 }
 
-/* Opcional: Se quiser que a data brilhe levemente quando houver recorde */
-.psd-mini-card:hover .psd-record-date {
-  color: var(--premium-gold);
-  transition: color 0.3s ease;
+/* ============================================================
+   1. GRID PRINCIPAL (MOBILE - 2 COLUNAS)
+   ============================================================ */
+@media (max-width: 480px) {
+  .psd-grid-season {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas fixas */
+    gap: 10px;
+  }
+
+  .psd-card {
+    padding: 15px 10px;
+    min-height: 90px; /* Altura controlada para não ser gigante */
+    border-radius: 12px;
+  }
+
+  .psd-value {
+    font-size: 24px; /* Tamanho equilibrado para 2 colunas */
+  }
+
+  .psd-label {
+    font-size: 8px;
+    margin-bottom: 5px;
+  }
 }
 
+/* ============================================================
+   2. RECORDES DE GOLS E ASSISTS (ESTILO SLIM)
+   ============================================================ */
 .psd-lower-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Apenas 2 colunas agora */
-  gap: 15px;
-  margin-top: 20px;
-}
-
-/* Ajuste opcional para os ícones nos cards principais */
-.psd-value {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.psd-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 15px;
-}
-
-.psd-season-select {
-  background: #111;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  cursor: pointer;
-  outline: none;
-  text-transform: uppercase;
-}
-
-.psd-season-select option {
-  background: #000;
-  color: #fff;
-}
-
-.psd-highlight-row {
-  display: flex;
+  grid-template-columns: 1fr 1fr; /* Lado a lado */
   gap: 12px;
-  margin-bottom: 20px;
-  width: 100%;
+  margin-top: 10px;
 }
 
-.psd-h-card {
-  flex: 1;
+.psd-mini-card {
   background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.psd-h-card.streak {
-  border-color: #e67e22; /* Cor de fogo/laranja para a sequência */
+/* Identificadores visuais para os recordes */
+.psd-mini-card:first-child {
+  border-top: 2px solid var(--premium-gold);
+} /* Gols */
+.psd-mini-card:last-child {
+  border-top: 2px solid #aaa;
+} /* Assists */
+
+.psd-mini-label {
+  font-size: 7px;
+  font-weight: 800;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
-/* Ajuste do Grid para comportar mais itens */
-.psd-grid-season {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
-  gap: 10px;
-  width: 100%;
+.psd-mini-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
 }
 
-/* Estilo para o box de G+A e Streak para seguirem o padrão */
-.participation-box,
-.streak-box {
-  background: #111;
-  border: 1px solid #222;
+.psd-record-date {
+  font-size: 8px;
+  color: var(--premium-gold-bright);
+  font-weight: 600;
+  margin-top: 5px;
+  display: block;
 }
 
-.streak-box .psd-value {
-  color: #e67e22; /* Laranja para o fogo */
-}
-
-/* Responsividade: em telas muito pequenas, pode mudar para 2 colunas */
-@media (max-width: 480px) {
-  .psd-grid-season {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* No mobile, empilha o select e o título se necessário */
+/* ============================================================
+   3. AJUSTE DE FILTROS NO MOBILE
+   ============================================================ */
 @media (max-width: 600px) {
   .psd-header-row {
-    flex-direction: column-reverse;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
-}
 
-/* Mobile Responsividade */
-@media (max-width: 480px) {
-  .psd-grid-season {
-    grid-template-columns: repeat(2, 1fr);
+  .psd-filters {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Temporada um pouco maior que o Tipo */
+    gap: 8px;
   }
-  .psd-lower-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .all-time {
-    grid-column: span 2;
+
+  .psd-season-select,
+  .psd-type-select {
+    font-size: 9px;
+    padding: 8px 5px;
+    text-align: center;
   }
 }

@@ -3,16 +3,12 @@ import "../../styles/Playerpage/playerdashboard.css";
 
 const PlayerStatsDashboard = ({ player, matches }) => {
   const [selectedSeason, setSelectedSeason] = useState("ALL");
+  const [matchFilter, setMatchFilter] = useState("ALL_TYPES");
 
   const stats = useMemo(() => {
     if (!player || !matches) return null;
 
-    // 1. Dados Manuais
-    const mGoalsGlobal = Number(player.manualGoals || 0);
-    const mAssistsGlobal = Number(player.manualAssists || 0);
-    const mMatchesGlobal = Number(player.manualMatches || 0);
-
-    // 2. Filtrar e Ordenar (mais recentes primeiro para os recordes)
+    // 1. Filtrar partidas em que o jogador participou
     const pMatches = matches
       .filter(
         (m) =>
@@ -26,7 +22,7 @@ const PlayerStatsDashboard = ({ player, matches }) => {
       assists: 0,
       yellow: 0,
       red: 0,
-      matches: 0,
+      matchesCount: 0,
       gamesAsGK: 0,
       cleanSheets: 0,
       goalsAgainst: 0,
@@ -38,11 +34,13 @@ const PlayerStatsDashboard = ({ player, matches }) => {
       const matchYear = new Date(m.date).getFullYear();
       const isSelectedSeason =
         selectedSeason === "ALL" || matchYear === Number(selectedSeason);
+      const isSelectedType =
+        matchFilter === "ALL_TYPES" || m.type === matchFilter;
 
-      if (isSelectedSeason) {
-        filtered.matches++;
+      if (isSelectedSeason && isSelectedType) {
+        filtered.matchesCount++;
 
-        // Lógica de Goleiro
+        // Goleiro
         const isGkTeamA = String(m.teamA.goalkeeperId) === String(player.id);
         const isGkTeamB = String(m.teamB.goalkeeperId) === String(player.id);
 
@@ -96,24 +94,34 @@ const PlayerStatsDashboard = ({ player, matches }) => {
       }
     });
 
-    const isAll = selectedSeason === "ALL";
-    const seasonMap = player.statsBySeason?.[selectedSeason] || {};
+    // --- LÓGICA DE DADOS MANUAIS (APENAS PARA TREINOS) ---
+    const isAllSeason = selectedSeason === "ALL";
+    // Regra: Se o filtro for "AMISTOSO", os manuais (que são de treinos) viram 0.
+    const showManual = matchFilter === "ALL_TYPES" || matchFilter === "TREINO";
 
-    const finalGoals = isAll
-      ? filtered.goals + mGoalsGlobal
-      : filtered.goals + Number(seasonMap.goals || 0);
-    const finalAssists = isAll
-      ? filtered.assists + mAssistsGlobal
-      : filtered.assists + Number(seasonMap.assists || 0);
+    let mGoals = 0;
+    let mAssists = 0;
+    let mMatches = 0;
+
+    if (showManual) {
+      if (isAllSeason) {
+        mGoals = Number(player.manualGoals || 0);
+        mAssists = Number(player.manualAssists || 0);
+        mMatches = Number(player.manualMatches || 0);
+      } else {
+        const seasonMap = player.statsBySeason?.[selectedSeason] || {};
+        mGoals = Number(seasonMap.goals || 0);
+        mAssists = Number(seasonMap.assists || 0);
+        mMatches = Number(seasonMap.matches || 0);
+      }
+    }
 
     return {
       display: {
-        matches: isAll
-          ? filtered.matches + mMatchesGlobal
-          : filtered.matches + Number(seasonMap.matches || 0),
-        goals: finalGoals,
-        assists: finalAssists,
-        participation: finalGoals + finalAssists,
+        matches: filtered.matchesCount + mMatches,
+        goals: filtered.goals + mGoals,
+        assists: filtered.assists + mAssists,
+        participation: filtered.goals + mGoals + (filtered.assists + mAssists),
         yellow: filtered.yellow,
         red: filtered.red,
         gamesAsGK: filtered.gamesAsGK,
@@ -136,30 +144,48 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         ),
       },
     };
-  }, [player, matches, selectedSeason]);
+  }, [player, matches, selectedSeason, matchFilter]);
 
   if (!stats) return null;
 
   return (
     <div className="psd-dashboard">
       <div className="psd-header-row">
-        <select
-          className="psd-season-select"
-          value={selectedSeason}
-          onChange={(e) => setSelectedSeason(e.target.value)}
-        >
-          <option value="ALL">TODAS AS TEMPORADAS</option>
-          <option value="2026">TEMPORADA 26</option>
-          <option value="2025">TEMPORADA 25</option>
-        </select>
+        <div className="psd-filters">
+          <select
+            className="psd-season-select"
+            value={selectedSeason}
+            onChange={(e) => setSelectedSeason(e.target.value)}
+          >
+            <option value="ALL">TODAS AS TEMPORADAS</option>
+            <option value="2026">TEMPORADA 26</option>
+            <option value="2025">TEMPORADA 25</option>
+          </select>
+
+          <select
+            className="psd-type-select"
+            value={matchFilter}
+            onChange={(e) => setMatchFilter(e.target.value)}
+            style={{
+              marginLeft: "10px",
+              border: "1px solid #d4af37",
+              borderRadius: "5px",
+              background: "#000",
+              color: "#fff",
+              padding: "5px",
+            }}
+          >
+            <option value="ALL_TYPES">GERAL</option>
+            <option value="TREINO">APENAS TREINOS</option>
+            <option value="AMISTOSO">APENAS AMISTOSOS</option>
+          </select>
+        </div>
+
         <h3 className="psd-title">
-          {selectedSeason === "ALL"
-            ? "Carreira Completa"
-            : `Temporada ${selectedSeason}`}
+          {matchFilter === "ALL_TYPES" ? "Estatísticas" : matchFilter}
         </h3>
       </div>
 
-      {/* GRID PRINCIPAL (LINHA) */}
       <div className="psd-grid-season">
         <div className="psd-card season-main">
           <span className="psd-label">JOGOS</span>
@@ -174,7 +200,7 @@ const PlayerStatsDashboard = ({ player, matches }) => {
           <span className="psd-value">{stats.display.assists}</span>
         </div>
         <div className="psd-card participation-box">
-          <span className="psd-label">PARTICIPAÇÕES EM GOLS</span>
+          <span className="psd-label">PARTICIPAÇÕES</span>
           <span className="psd-value">{stats.display.participation}</span>
         </div>
         <div className="psd-card cards-box">
@@ -188,7 +214,6 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         </div>
       </div>
 
-      {/* GRID GOLEIRO */}
       <div className="psd-grid-season" style={{ marginTop: "12px" }}>
         <div className="psd-card season-main gk-style">
           <span className="psd-label">JOGOS (GL)</span>
@@ -204,17 +229,16 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         </div>
       </div>
 
-      {/* RECORDES DIÁRIOS */}
       <div className="psd-lower-grid">
         <div className="psd-mini-card">
-          <span className="psd-mini-label">RECORDE DIA (GOLS)</span>
+          <span className="psd-mini-label">RECORDE DIA (G)</span>
           <span className="psd-mini-value">{stats.records.goals.value}</span>
           <span className="psd-record-date">
             {stats.records.goals.date || "--/--/----"}
           </span>
         </div>
         <div className="psd-mini-card">
-          <span className="psd-mini-label">RECORDE DIA (ASSISTS)</span>
+          <span className="psd-mini-label">RECORDE DIA (A)</span>
           <span className="psd-mini-value">{stats.records.assists.value}</span>
           <span className="psd-record-date">
             {stats.records.assists.date || "--/--/----"}

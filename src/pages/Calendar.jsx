@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react"; // Adicionado useEffect
 import { useNavigate } from "react-router-dom";
+import { db } from "../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import "../styles/calendar.css";
 import Footer from "../components/Footer";
 import MatchCard from "../components/calendar/MatchCard";
@@ -120,6 +122,28 @@ function Calendar({
     });
   };
 
+  const handleSwapOrder = async (currentMatch, direction) => {
+    // Encontra o vizinho na lista ordenada
+    const sorted = [...matches].sort((a, b) => b.order - a.order);
+    const currentIndex = sorted.findIndex((m) => m.id === currentMatch.id);
+    const targetIndex =
+      direction === "UP" ? currentIndex - 1 : currentIndex + 1;
+
+    if (targetIndex >= 0 && targetIndex < sorted.length) {
+      const targetMatch = sorted[targetIndex];
+
+      // Inverte as ordens no Firebase
+      await updateDoc(doc(db, "matches", currentMatch.id), {
+        order: targetMatch.order,
+      });
+      await updateDoc(doc(db, "matches", targetMatch.id), {
+        order: currentMatch.order,
+      });
+
+      // Opcional: recarregar os dados
+    }
+  };
+
   return (
     <div className="page-container">
       <div className="glass-card">
@@ -216,6 +240,7 @@ function Calendar({
                       onEdit={handleEditMatch}
                       onDelete={handleDeleteMatch}
                       onNavigate={(id) => navigate(`/match/${id}`)}
+                      onSwapOrder={handleSwapOrder}
                     />
                   ))}
                 </div>
