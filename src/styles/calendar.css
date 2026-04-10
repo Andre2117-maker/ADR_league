@@ -141,6 +141,10 @@
   font-weight: 900;
 }
 
+.calendar-day.selected .match-dot.purple {
+  background-color: #fff; /* Opcional: fica branco quando selecionado para contrastar */
+}
+
 .match-dot {
   width: 5px;
   height: 5px;
@@ -149,6 +153,12 @@
   position: absolute;
   bottom: 5px;
 }
+
+.match-dot.purple {
+  background-color: #a855f7; /* Roxo vibrante */
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+}
+
 .birthday-dot {
   width: 5px;
   height: 5px;
@@ -195,5 +205,50 @@
   }
   .matches-feed {
     grid-template-columns: 1fr !important;
+  }
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot-sample {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Cores combinando com os pontos do calendário */
+.dot-sample.training {
+  background-color: #d4af37;
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+}
+
+.dot-sample.amistoso {
+  background-color: #a855f7;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+}
+
+.dot-sample.bday {
+  background-color: #2196f3;
+  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+}
+
+.legend-text {
+  font-size: 11px;
+  color: #aaa;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .calendar-legend {
+    gap: 12px;
+  }
+  .legend-text {
+    font-size: 9px;
   }
 }

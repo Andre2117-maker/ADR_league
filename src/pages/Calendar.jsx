@@ -87,12 +87,6 @@ function Calendar({
     setSelectedDate(`${year}-${month}-${dayStr}`);
   };
 
-  const hasMatchOnDate = (day) => {
-    if (!day) return false;
-    const dateStr = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    return matches.some((m) => m.date === dateStr);
-  };
-
   const filteredMatches = matches.filter((m) => m.date === selectedDate);
   const monthNames = [
     "Janeiro",
@@ -179,6 +173,15 @@ function Calendar({
                 const dateKey = day
                   ? `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
                   : null;
+
+                // Encontra se existe partida nesse dia e qual o tipo dela
+                const dayMatches = day
+                  ? matches.filter((m) => m.date === dateKey)
+                  : [];
+                const hasAmistoso = dayMatches.some(
+                  (m) => m.type === "AMISTOSO",
+                );
+                const hasTreino = dayMatches.length > 0;
                 const isSelected = day && selectedDate === dateKey;
 
                 return (
@@ -188,13 +191,34 @@ function Calendar({
                     onClick={() => handleDayClick(day)}
                   >
                     {day}
-                    {hasMatchOnDate(day) && <div className="match-dot"></div>}
+
+                    {/* Se tem jogo, mostra a bolinha. A classe 'purple' só entra se houver amistoso */}
+                    {hasTreino && (
+                      <div
+                        className={`match-dot ${hasAmistoso ? "purple" : ""}`}
+                      ></div>
+                    )}
+
                     {getBirthdayOnDate(day) && (
                       <div className="birthday-dot"></div>
                     )}
                   </div>
                 );
               })}
+            </div>
+            <div className="calendar-legend">
+              <div className="legend-item">
+                <span className="dot-sample training"></span>
+                <span className="legend-text">Treino</span>
+              </div>
+              <div className="legend-item">
+                <span className="dot-sample amistoso"></span>
+                <span className="legend-text">Amistoso</span>
+              </div>
+              <div className="legend-item">
+                <span className="dot-sample bday"></span>
+                <span className="legend-text">Aniversário</span>
+              </div>
             </div>
           </div>
 
