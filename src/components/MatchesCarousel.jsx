@@ -41,6 +41,7 @@ function MatchesCarousel({ matches, players }) {
   if (sortedMatches.length === 0) return null;
 
   const match = sortedMatches[currentIndex];
+  const matchType = (match.type || "TREINO").toLowerCase();
 
   const goalsA =
     match.events?.filter(
@@ -61,7 +62,7 @@ function MatchesCarousel({ matches, players }) {
     match.penaltiesScoreA !== "";
 
   return (
-    <section className="mtc-banner-container">
+    <section className={`mtc-banner-container mtc-type-${matchType}`}>
       <button className="mtc-arrow left" onClick={prevMatch}>
         ❮
       </button>

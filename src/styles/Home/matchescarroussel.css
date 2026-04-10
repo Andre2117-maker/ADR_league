@@ -203,6 +203,68 @@
 }
 
 /* ===========================================
+   VARIAÇÕES POR TIPO DE PARTIDA
+   =========================================== */
+
+/* --- ESTILO AMISTOSO (AZUL ESCURO) --- */
+.mtc-type-amistoso {
+  border-bottom: 3px solid #0056b3; /* Azul mais sóbrio */
+  background: linear-gradient(
+    180deg,
+    #050a0f 0%,
+    #0a141d 100%
+  ); /* Fundo levemente azulado */
+}
+
+/* Placar Azul */
+.mtc-type-amistoso .mtc-score-wrapper {
+  background: #004085; /* Azul Escuro */
+  box-shadow: 0 10px 20px rgba(0, 64, 133, 0.3);
+}
+
+.mtc-type-amistoso .mtc-big-num {
+  color: #fff; /* Texto branco para dar contraste no fundo azul */
+}
+
+.mtc-type-amistoso .mtc-vs-text {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.mtc-type-amistoso .mtc-penalty-small {
+  color: #b8daff;
+}
+
+/* Botão de Detalhes Azul */
+.mtc-type-amistoso .mtc-details-btn {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.mtc-type-amistoso .mtc-details-btn:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Setas e Indicadores Azuis */
+.mtc-type-amistoso .mtc-arrow:hover {
+  color: #007bff;
+}
+
+.mtc-type-amistoso .mtc-dot.active {
+  background: #007bff;
+}
+
+.mtc-type-amistoso .mtc-venue-top {
+  color: #007bff;
+}
+
+/* --- ESTILO TREINO (MANTER DOURADO) --- */
+/* (Opcional: Caso queira garantir que o padrão não mude) */
+.mtc-type-treino {
+  border-bottom: 3px solid #d4af37;
+}
+
+/* ===========================================
    RESPONSIVO (CELULAR)
    =========================================== */
 @media (max-width: 768px) {
