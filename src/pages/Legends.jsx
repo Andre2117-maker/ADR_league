@@ -22,7 +22,7 @@ const Legends = ({ playersWithStats }) => {
       <header className="legends-header">
         <h1 className="legends-main-title">HALL DA FAMA</h1>
         <p className="legends-subtitle">
-          OS MAIORES ARTILHEIROS DA HISTÓRIA DA ADR
+          OS MAIORES ARTILHEIROS DA HISTÓRIA DO ADR
         </p>
       </header>
 
