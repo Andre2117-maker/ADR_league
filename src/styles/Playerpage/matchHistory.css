@@ -1,257 +1,458 @@
-/* Container Principal */
-.adr-history-container {
-  background: rgba(20, 20, 20, 0.6);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  margin-top: 20px;
+/* ============================================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS (ESSENCIAL)
+   ============================================================ */
+:root {
+  --premium-gold: #d4af37;
+  --dark-bg: #050505;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --border-color: rgba(255, 255, 255, 0.05);
 }
 
+.adr-history-container {
+  /* Fundo Escuro Sólido - Evita o bug de ficar transparente/preto demais */
+  background: #0a0a0a;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  margin-top: 25px;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+  width: 100%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+/* HEADER & TÍTULO */
 .adr-history-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  gap: 15px;
 }
 
 .adr-history-title {
   color: #fff;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0;
+  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================================
+   2. SISTEMA DE ABAS (TABS) - AJUSTADO
+   ============================================================ */
+.adr-history-tabs {
+  display: flex;
+  background: #000;
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 4px;
+}
+
+.adr-tab-btn {
+  background: transparent;
+  border: none;
+  color: #555;
+  padding: 8px 18px;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.adr-history-count {
-  color: #888;
-  font-size: 0.8rem;
+/* Cores dinâmicas das abas */
+.adr-tab-btn.active:nth-child(1) {
+  background: var(--premium-gold);
+  color: #000;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+.adr-tab-btn.active:nth-child(2) {
+  background: #00bcd4;
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 188, 212, 0.3);
 }
 
-/* Lista de Cards */
+/* ============================================================
+   3. LISTA E CARDS - ESTRUTURA BASE (DESKTOP)
+   ============================================================ */
 .adr-history-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-height: 600px;
+  gap: 14px;
+  max-height: 550px;
   overflow-y: auto;
   padding-right: 8px;
 }
 
-/* Custom Scrollbar */
+/* Scrollbar Custom */
 .adr-history-list::-webkit-scrollbar {
   width: 4px;
 }
 .adr-history-list::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
+  background: #333;
   border-radius: 10px;
 }
 
-/* Card da Partida */
 .adr-match-card {
   display: grid;
-  grid-template-columns: 80px 1fr 100px;
+  grid-template-columns: 80px 1fr 100px; /* Três colunas fixas no desktop */
   align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
+  padding: 15px 20px;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 70px; /* Evita o bug de achatar */
 }
 
 .adr-match-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateX(5px);
   border-color: rgba(212, 175, 55, 0.3);
 }
 
-/* Status Indicator (V/D/E) */
+/* ============================================================
+   4. ELEMENTOS INTERNOS (PLACAR, LOGO, STATS)
+   ============================================================ */
 .adr-match-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .adr-status-indicator {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
   color: #000;
+  margin-bottom: 5px;
 }
-
 .adr-status-indicator.win {
   background: #00ff7f;
-  box-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
 }
 .adr-status-indicator.loss {
   background: #ff4d4d;
-  box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
 }
 .adr-status-indicator.draw {
   background: #aaa;
 }
 
 .adr-match-date {
-  font-size: 11px;
-  color: #666;
-  font-weight: 600;
+  font-size: 10px;
+  color: #555;
+  font-weight: 700;
 }
 
-/* Miolo: Placar e Times */
 .adr-match-main {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
+  padding: 0 15px;
 }
 
 .adr-team-mini {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
+  min-width: 0;
 }
 
 .adr-team-mini.team-right {
   justify-content: flex-end;
-  text-align: right;
 }
 
-.adr-team-avatar {
-  width: 30px;
-  height: 30px;
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: #d4af37;
-  font-size: 12px;
+.adr-history-logo {
+  width: 28px;
+  height: 28px;
+  min-width: 28px; /* Impede a logo de diminuir */
+  object-fit: contain;
 }
 
 .adr-team-name {
-  font-size: 0.85rem;
-  color: #777;
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  max-width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80px;
-  text-transform: uppercase;
 }
 
 .adr-team-name.highlight {
   color: #fff;
-  font-weight: 700;
+  font-weight: 800;
+}
+
+/* PLACAR CENTRAL */
+.adr-match-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #000 !important; /* Força o fundo preto do placar */
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.score-num {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #fff;
+}
+.score-divider {
+  color: var(--premium-gold);
+  font-weight: 900;
+}
+
+/* STATS DO JOGADOR */
+.adr-match-player-stats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.stats-badges {
+  display: flex;
+  gap: 6px;
+}
+
+.badge-goal,
+.badge-assist {
+  font-size: 9px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+.badge-goal {
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+.badge-assist {
+  background: rgba(0, 188, 212, 0.1);
+  color: #00bcd4;
+  border: 1px solid rgba(0, 188, 212, 0.3);
+}
+
+.adr-match-chevron {
+  color: #222;
+  font-size: 1.2rem;
+}
+
+/* ============================================================
+   6. RESPONSIVIDADE (MOBILE) - VERSÃO ESTÁVEL
+   ============================================================ */
+@media (max-width: 600px) {
+  .adr-history-container {
+    padding: 12px;
+    /* Força o container a nunca ser maior que a tela, descontando as margens */
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    margin: 20px auto;
+    box-sizing: border-box;
+    overflow: hidden; /* Corta qualquer tentativa de vazar */
+  }
+
+  .adr-match-card {
+    /* Grid ultra compacto para telas pequenas */
+    display: grid !important;
+    grid-template-columns: 45px 1fr 50px !important;
+    padding: 10px 8px !important;
+    gap: 4px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Removemos paddings laterais extras que empurram o conteúdo */
+  .adr-match-main {
+    padding: 0 !important;
+    gap: 6px !important;
+    justify-content: center !important;
+    min-width: 0;
+  }
+
+  /* Esconde nomes e ícones de navegação */
+  .adr-team-name,
+  .adr-match-chevron,
+  .full-name,
+  .short-name {
+    display: none !important;
+  }
+
+  .adr-history-logo {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    flex-shrink: 0;
+  }
+
+  /* Placar Centralizado e Menor */
+  .adr-match-score {
+    padding: 4px 6px !important;
+    min-width: 42px !important;
+    gap: 3px !important;
+    background: #000 !important;
+  }
+
+  .score-num {
+    font-size: 0.9rem !important;
+  }
+
+  /* Ajuste das informações de Status (V/D/E) */
+  .adr-match-info {
+    width: 100% !important;
+    border-right: none !important;
+  }
+
+  .adr-status-indicator {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 8px !important;
+  }
+
+  .adr-match-date {
+    font-size: 8px !important;
+  }
+
+  /* Stats do Jogador */
+  .adr-match-player-stats {
+    width: 100% !important;
+    justify-content: flex-end !important;
+  }
+
+  .stats-badges {
+    flex-direction: column !important;
+    gap: 2px !important;
+  }
+
+  .badge-goal,
+  .badge-assist {
+    font-size: 7.5px !important;
+    padding: 1px 2px !important;
+    min-width: 30px !important;
+    text-align: center;
+  }
+}
+
+/* Container do Miolo */
+.adr-match-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex: 1;
+}
+
+/* O "abraço": Logo - Placar - Logo */
+.adr-score-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre a logo e o placar */
 }
 
 .adr-match-score {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.3);
+  background: #000;
   padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  min-width: 60px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  min-width: 50px;
   justify-content: center;
-  position: relative;
 }
 
-.score-num {
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: #fff;
-}
-.score-divider {
-  color: #d4af37;
-  opacity: 0.6;
-}
-.penalties-alert {
-  position: absolute;
-  bottom: -12px;
-  font-size: 8px;
-  color: #d4af37;
-  font-weight: bold;
+.adr-history-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
-/* Stats do Jogador */
-.adr-match-player-stats {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+/* Nomes dos times nas pontas do miolo */
+.adr-team-name {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 700;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.stats-badges {
-  display: flex;
-  gap: 4px;
+.adr-team-name.team-a {
+  text-align: right;
+}
+.adr-team-name.team-b {
+  text-align: left;
 }
 
-.badge-goal,
-.badge-assist {
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 800;
-}
-
-.badge-goal {
-  background: rgba(255, 215, 0, 0.1);
-  color: #ffd700;
-  border: 1px solid rgba(255, 215, 0, 0.2);
-}
-.badge-assist {
-  background: rgba(0, 191, 255, 0.1);
-  color: #00bfff;
-  border: 1px solid rgba(0, 191, 255, 0.2);
-}
-
-.adr-match-chevron {
-  font-size: 1.5rem;
-  color: #333;
-  transition: 0.2s;
-}
-
-.adr-match-card:hover .adr-match-chevron {
-  color: #d4af37;
-  transform: translateX(2px);
-}
-
-/* MOBILE */
+/* ============================================================
+   MOBILE - FIX DEFINITIVO (PARA NÃO VAZAR)
+   ============================================================ */
 @media (max-width: 600px) {
+  .adr-history-container {
+    width: calc(100vw - 30px); /* Garante respiro nas bordas do celular */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
   .adr-match-card {
-    grid-template-columns: 50px 1fr 60px;
-    padding: 10px;
+    display: grid !important;
+    grid-template-columns: 45px 1fr 55px !important; /* Status | Miolo | Stats */
+    padding: 10px 5px !important;
+    gap: 5px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
-  .adr-team-name {
-    display: none;
-  } /* Esconde nomes no mobile pra não encavalar */
-  .adr-match-main {
-    gap: 8px;
-  }
-  .adr-match-date {
-    font-size: 9px;
-  }
-  .adr-status-indicator {
-    width: 20px;
-    height: 20px;
-    font-size: 9px;
+  .adr-team-name,
+  .adr-match-chevron {
+    display: none !important; /* Esconde nomes no mobile para focar na logo/placar */
   }
 
-  .stats-badges {
-    flex-direction: column;
-    gap: 2px;
+  .adr-score-wrapper {
+    gap: 5px; /* Logos mais coladas no placar no mobile */
+  }
+
+  .adr-history-logo {
+    width: 22px;
+    height: 22px;
+  }
+
+  .adr-match-score {
+    padding: 3px 8px;
+    min-width: 40px;
+  }
+
+  .score-num {
+    font-size: 0.95rem;
   }
 }
