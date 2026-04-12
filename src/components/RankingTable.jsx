@@ -6,12 +6,12 @@ import "../styles/Tabelas/rankingtable.css";
 
 export default function RankingTable({
   sortedPlayers,
-  getPlayerStats, // Usaremos essa função para pegar os dados das partidas reais
+  getPlayerStats,
   onSelectPlayer,
   setHoveredPlayer,
 }) {
+  // Filtra apenas jogadores ativos (não anônimos)
   const activePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
-  const anonymousPlayers = sortedPlayers.filter((p) => p.isAnonymous);
 
   return (
     <main className="central-column" id="tabela-content">
@@ -39,10 +39,10 @@ export default function RankingTable({
           </thead>
           <tbody>
             {activePlayers.map((p, idx) => {
-              // 1. Pega os dados calculados das PARTIDAS REAIS
+              // 1. Dados das PARTIDAS REAIS
               const realStats = getPlayerStats(p.id);
 
-              // 2. Pega os dados MANUAIS salvos em statsBySeason["2026"]
+              // 2. Dados MANUAIS de 2026
               const manualStats26 = p.statsBySeason?.["2026"] || {};
               const manualGoals = Number(manualStats26.goals || 0);
               const manualAssists = Number(manualStats26.assists || 0);
@@ -50,21 +50,18 @@ export default function RankingTable({
                 manualStats26.matches || manualStats26.games || 0,
               );
 
-              // 3. SOMA (Partidas Reais + Manuais de 2026)
-              // Se getPlayerStats não retornar gols/assists/games, usamos fallback para 0
+              // 3. SOMA (Real + Manual)
               const totalGoals26 = (realStats.goals || 0) + manualGoals;
               const totalAssists26 = (realStats.assists || 0) + manualAssists;
               const totalGames26 =
                 (realStats.matches || realStats.games || 0) + manualGames;
 
-              // Para os Pontos, Vitórias e Derrotas, estou mantendo o cálculo atual do getPlayerStats.
-              // Se você também edita V/D/Pts manualmente no ADM para 2026, precisará somar aqui também.
               const points = realStats.points || p.points || 0;
               const wins = realStats.wins || p.wins || 0;
               const losses = realStats.losses || p.losses || 0;
               const form = realStats.form || [];
 
-              // Classes de destaque para o pódio e último colocado
+              // Classes de destaque
               let rowClass = "";
               if (idx === 0) rowClass = "first-place destaque-top3";
               else if (idx === 1) rowClass = "second-place destaque-top3";
@@ -126,55 +123,10 @@ export default function RankingTable({
                 </tr>
               );
             })}
-
-            {/* SEÇÃO ANÔNIMOS */}
-            {anonymousPlayers.map((p) => {
-              const realStats = getPlayerStats(p.id);
-
-              const manualStats26 = p.statsBySeason?.["2026"] || {};
-              const manualGoals = Number(manualStats26.goals || 0);
-              const manualAssists = Number(manualStats26.assists || 0);
-              const manualGames = Number(
-                manualStats26.matches || manualStats26.games || 0,
-              );
-
-              const totalGoals26 = (realStats.goals || 0) + manualGoals;
-              const totalAssists26 = (realStats.assists || 0) + manualAssists;
-              const totalGames26 =
-                (realStats.matches || realStats.games || 0) + manualGames;
-
-              const points = realStats.points || p.points || 0;
-              const wins = realStats.wins || p.wins || 0;
-              const losses = realStats.losses || p.losses || 0;
-              const form = realStats.form || [];
-
-              return (
-                <tr key={p.id} className="row-is-anonymous">
-                  <td className="sticky-col pin-pos">-</td>
-                  <td className="player-td-name sticky-col pin-name">
-                    {p.name}
-                  </td>
-
-                  <td>{points}</td>
-                  <td>{totalGoals26}</td>
-                  <td>{totalAssists26}</td>
-                  <td>{totalGames26}</td>
-                  <td>{wins}</td>
-                  <td>{losses}</td>
-                  <td>
-                    <div className="form-container">
-                      {form &&
-                        form.map((result, i) => (
-                          <span key={i} className={`form-dot ${result}`}></span>
-                        ))}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
           </tbody>
         </table>
       </div>
+
       <div className="legend-container">
         <div className="legend-item">
           <span

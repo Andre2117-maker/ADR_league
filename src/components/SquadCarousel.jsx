@@ -5,8 +5,11 @@ import "../styles/matches.css";
 function SquadCarousel({ players, onSelectPlayer }) {
   const carouselRef = useRef(null);
 
-  // 1. Ordena e TRIPLICA a lista para o efeito infinito
-  const baseSquad = [...players].sort((a, b) => a.name.localeCompare(b.name));
+  // 1. Filtra (remove anônimos), ordena e TRIPLICA a lista para o efeito infinito
+  const baseSquad = [...players]
+    .filter((p) => !p.isAnonymous) // Remove os anônimos aqui
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   const infiniteSquad = [...baseSquad, ...baseSquad, ...baseSquad];
 
   const CARD_FULL_WIDTH = 305; // 280px (card) + 25px (gap)
@@ -56,13 +59,14 @@ function SquadCarousel({ players, onSelectPlayer }) {
           {infiniteSquad.map((player, index) => (
             <div
               key={`${player.id}-${index}`}
-              className={`sqd-player-card ${player.isAnonymous ? "is-anonymous" : ""}`}
+              className="sqd-player-card"
               onClick={() => onSelectPlayer(player)}
             >
               <div className="sqd-photo-area">
                 {player.isAllStar && (
                   <img src={ALL} className="sqd-badge-icon" alt="All Star" />
                 )}
+
                 {/* CANTO DIREITO: Número da Camisa */}
                 {player.number && (
                   <div className="player-number-badge">{player.number}</div>
