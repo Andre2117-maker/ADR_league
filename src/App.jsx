@@ -24,7 +24,7 @@ import Navbar from "./pages/NavBar.jsx";
 import PlayerPage from "./pages/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage.jsx";
 import AdminTransparency from "./pages/AdminTransparency.jsx";
-import HallHistorico from "./components/HallHistorico.jsx";
+import HallHistorico from "./pages/HallHistorico.jsx";
 import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
 import Altar from "./components/Easter Egg/Altar.jsx";
 import Statics from "./pages/Statics.jsx";

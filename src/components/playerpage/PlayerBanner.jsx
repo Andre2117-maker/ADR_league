@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/Playerpage/playerbanner.css";
 
-const PlayerBanner = ({ player, getBestPartner }) => {
+const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
   if (!player) return null;
 
   // Cálculo da Idade Exato (Baseado em 20/03/2026)
@@ -82,6 +82,21 @@ const PlayerBanner = ({ player, getBestPartner }) => {
                 {getBestPartner ? getBestPartner(player.id) : "—"}
               </span>
             </div>
+          </div>
+
+          <div className="ppg-career-timeline">
+            <div className="career-item">
+              <span className="career-label">SINCE</span>
+              <span className="career-value">
+                {careerDates?.entrada || "—"}
+              </span>
+            </div>
+            {careerDates?.saida && (
+              <div className="career-item">
+                <span className="career-label">LAST YEAR</span>
+                <span className="career-value">{careerDates.saida}</span>
+              </div>
+            )}
           </div>
         </div>
 

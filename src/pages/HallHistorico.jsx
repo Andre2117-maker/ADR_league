@@ -11,22 +11,28 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import "../styles/Home/hallHistorico.css";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
 const HallHistorico = ({ isAdmin }) => {
   const [listaHistorica, setListaHistorica] = useState([]);
+  const [jogadoresDB, setJogadoresDB] = useState([]); // Lista de jogadores reais para o Select
   const [loading, setLoading] = useState(true);
 
-  // States do Formulário (Add e Edit)
+  // States do Formulário
   const [novoNome, setNovoNome] = useState("");
-  const [titulo, setTitulo] = useState(""); // Novo campo para títulos/apelidos
+  const [titulo, setTitulo] = useState("");
   const [anoIn, setAnoIn] = useState("");
   const [anoOut, setAnoOut] = useState("");
-  const [editingId, setEditingId] = useState(null); // ID da pessoa sendo editada
+  const [linkedPlayerId, setLinkedPlayerId] = useState(""); // NOVO: ID do jogador vinculado
+  const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    const q = query(collection(db, "memorial"), orderBy("entrada", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    // 1. Busca Memorial
+    const qMemorial = query(
+      collection(db, "memorial"),
+      orderBy("entrada", "desc"),
+    );
+    const unsubMemorial = onSnapshot(qMemorial, (snapshot) => {
       const dados = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -34,7 +40,21 @@ const HallHistorico = ({ isAdmin }) => {
       setListaHistorica(dados);
       setLoading(false);
     });
-    return () => unsubscribe();
+
+    // 2. Busca Jogadores Atuais (para o dropdown de link)
+    const qPlayers = query(collection(db, "players"), orderBy("name", "asc"));
+    const unsubPlayers = onSnapshot(qPlayers, (snapshot) => {
+      const pData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+      }));
+      setJogadoresDB(pData);
+    });
+
+    return () => {
+      unsubMemorial();
+      unsubPlayers();
+    };
   }, []);
 
   const salvarNoHall = async () => {
@@ -42,19 +62,18 @@ const HallHistorico = ({ isAdmin }) => {
 
     const data = {
       nome: novoNome,
-      titulo: titulo, // "O Matador", "Capitão", etc.
+      titulo: titulo,
       entrada: String(anoIn),
       saida: String(anoOut) || "",
+      playerId: linkedPlayerId || null, // Salva o vínculo com o ID do banco
       updatedAt: new Date(),
     };
 
     try {
       if (editingId) {
-        // MODO EDIÇÃO
         await updateDoc(doc(db, "memorial", editingId), data);
         setEditingId(null);
       } else {
-        // MODO ADIÇÃO
         await addDoc(collection(db, "memorial"), {
           ...data,
           createdAt: new Date(),
@@ -72,7 +91,8 @@ const HallHistorico = ({ isAdmin }) => {
     setTitulo(p.titulo || "");
     setAnoIn(p.entrada);
     setAnoOut(p.saida || "");
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Sobe para o form
+    setLinkedPlayerId(p.playerId || ""); // Carrega o link existente
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const limparCampos = () => {
@@ -80,6 +100,7 @@ const HallHistorico = ({ isAdmin }) => {
     setTitulo("");
     setAnoIn("");
     setAnoOut("");
+    setLinkedPlayerId("");
     setEditingId(null);
   };
 
@@ -108,10 +129,27 @@ const HallHistorico = ({ isAdmin }) => {
             <div className="hall-admin-form">
               <input
                 type="text"
-                placeholder="Nome do Jogador (Ex: João)"
+                placeholder="Nome do Jogador"
                 value={novoNome}
                 onChange={(e) => setNovoNome(e.target.value)}
               />
+
+              {/* SELECT PARA LINKAR JOGADOR */}
+              <select
+                value={linkedPlayerId}
+                onChange={(e) => setLinkedPlayerId(e.target.value)}
+                className="hall-select-link"
+              >
+                <option value="">
+                  Vincular a um jogador atual? (Opcional)
+                </option>
+                {jogadoresDB.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+
               <input
                 type="text"
                 placeholder="Título/Apelido (Ex: O Matador)"
@@ -158,7 +196,12 @@ const HallHistorico = ({ isAdmin }) => {
                     >
                       <div className="hall-item-info">
                         <div className="name-wrapper">
-                          <span className="player-name">{p.nome}</span>
+                          <span className="player-name">
+                            {p.nome}{" "}
+                            {p.playerId && (
+                              <small className="linked-badge">🔗</small>
+                            )}
+                          </span>
                           {p.titulo && (
                             <span className="player-nickname">
                               "{p.titulo}"

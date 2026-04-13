@@ -8,6 +8,8 @@ import {
   ResponsiveContainer,
   PolarRadiusAxis,
 } from "recharts";
+import { db } from "../firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import "../styles/Playerpage/playerpage.css";
 import RankingSlice from "../components/playerpage/RankingSlice";
 import PlayerStatsDashboard from "../components/playerpage/PlayerStatsDashboard";
@@ -28,6 +30,7 @@ function PlayerPage({
   const { id } = useParams(); // Pega o ID da URL (ex: /player/21)
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [careerDates, setCareerDates] = useState(null);
   const topRef = useRef(null);
 
   // 1. Encontra o jogador baseado no ID da URL
@@ -37,13 +40,26 @@ function PlayerPage({
 
   // 2. Scroll para o topo ao carregar ou mudar de jogador
   useEffect(() => {
-    if (player) {
-      window.scrollTo(0, 0);
-      if (topRef.current) {
-        topRef.current.scrollIntoView({ behavior: "instant", block: "start" });
+    const fetchMemorialData = async () => {
+      if (!id) return;
+      try {
+        const q = query(
+          collection(db, "memorial"),
+          where("playerId", "==", id), // Busca pelo ID da URL
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          setCareerDates(querySnapshot.docs[0].data());
+        } else {
+          setCareerDates(null);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados do memorial:", error);
       }
-    }
-  }, [id, player]);
+    };
+
+    fetchMemorialData();
+  }, [id]);
 
   const SKILLS_ORDER = [
     "velocidade",
@@ -149,7 +165,11 @@ function PlayerPage({
           </div>
         </header>
 
-        <PlayerBanner player={player} getBestPartner={getBestPartner} />
+        <PlayerBanner
+          player={player}
+          getBestPartner={getBestPartner}
+          careerDates={careerDates}
+        />
 
         <div className="ppg-page-container">
           <div className="ppg-main-layout">
