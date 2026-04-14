@@ -26,6 +26,7 @@ function PlayerPage({
   isAdmin,
   onUpdatePlayer,
   sortedPlayers,
+  getPlayerStats,
 }) {
   const { id } = useParams(); // Pega o ID da URL (ex: /player/21)
   const navigate = useNavigate();
@@ -377,7 +378,12 @@ function PlayerPage({
                   </ResponsiveContainer>
                 </div>
               </div>
-              <RankingSlice player={player} sortedPlayers={sortedPlayers} />
+              <RankingSlice
+                player={player}
+                sortedPlayers={sortedPlayers}
+                matches={matches}
+                getPlayerStats={getPlayerStats}
+              />
 
               <PartnerAnalyzer
                 currentPlayer={player}

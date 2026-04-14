@@ -63,6 +63,11 @@ function App() {
   // --- USANDO AS FUNÇÕES IMPORTADAS ---
   const playersWithStats = calculateStandings(players, matches);
 
+  const trainingMatches = matches.filter(
+    (m) => m.type === "TREINO" || m.category === "TREINO",
+  );
+  const playersWithTrainingStats = calculateStandings(players, trainingMatches);
+
   const playersSortedByPoints = [...playersWithStats].sort(
     (a, b) => b.points - a.points,
   );
@@ -179,6 +184,12 @@ function App() {
                 isAdmin={isAdmin}
                 getBestPartner={(id) => getBestPartner(id, matches, players)}
                 onUpdatePlayer={handleUpdatePlayer}
+                getPlayerStats={(playerId) => {
+                  const found = playersWithTrainingStats.find(
+                    (p) => String(p.id) === String(playerId),
+                  );
+                  return found || {};
+                }}
               />
             }
           />
