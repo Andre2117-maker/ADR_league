@@ -25,6 +25,13 @@ function Calendar({
 
   const [selectedDate, setSelectedDate] = useState(savedDate);
 
+  const handleAddMatch = () => {
+    // Limpa qualquer edição anterior para entrar em modo de criação
+    setMatchToEdit(null);
+    // Navega para o admin passando a data selecionada no calendário
+    navigate("/admin", { state: { initialDate: selectedDate } });
+  };
+
   // 2. Define o mês inicial baseado na data salva (para não abrir em março se você estava vendo abril)
   const [currentMonth, setCurrentMonth] = useState(() => {
     const [sYear, sMonth] = savedDate.split("-");
@@ -223,9 +230,38 @@ function Calendar({
           </div>
 
           <div className="matches-list-container">
-            <h3 className="date-title">
-              Jogos em {selectedDate.split("-").reverse().join("/")}
-            </h3>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <h3 className="date-title" style={{ margin: 0 }}>
+                {selectedDate.split("-").reverse().join("/")}
+              </h3>
+
+              {/* Botão visível apenas para Admin */}
+
+              {isAdmin && (
+                <button
+                  onClick={handleAddMatch}
+                  className="btn-add-match"
+                  style={{
+                    fontSize: "12px",
+                    padding: "8px 15px",
+                    background: "var(--gold)", // Usando sua variável de cor
+                    color: "#000",
+                    fontWeight: "bold",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                  }}
+                >
+                  + ADD PARTIDA
+                </button>
+              )}
+            </div>
 
             {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])) && (
               <div

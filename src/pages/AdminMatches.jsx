@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import "../styles/adminmatches.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /* ==========================================================================
    SUB-COMPONENTE: LINHA DO JOGADOR (ADR)
@@ -115,11 +115,18 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [showAssistModal, setShowAssistModal] = useState(null);
   const [extScorerName, setExtScorerName] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const initialDate = useMemo(() => {
+    if (matchToEdit?.date) return matchToEdit.date;
+    if (location.state?.initialDate) return location.state.initialDate;
+    return new Date().toISOString().split("T")[0];
+  }, [matchToEdit, location.state]);
 
   const [draft, setDraft] = useState(() => {
     if (matchToEdit) return matchToEdit;
     return {
-      date: new Date().toISOString().split("T")[0],
+      date: initialDate, // Agora usa a data inteligente
       venue: "",
       teamA: {
         name: "ADR",
@@ -141,6 +148,12 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       penaltiesScoreB: "",
     };
   });
+
+  React.useEffect(() => {
+    if (!matchToEdit && location.state?.initialDate) {
+      setDraft((prev) => ({ ...prev, date: location.state.initialDate }));
+    }
+  }, [location.state, matchToEdit]);
 
   const sortedPlayers = useMemo(
     () => [...players].sort((a, b) => a.name.localeCompare(b.name)),
@@ -202,16 +215,13 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     if (!draft.date || !draft.venue) return alert("Preencha data e local.");
     setLoading(true);
     try {
-      // 1. Pegar TODAS as partidas do banco para reordenar
-      const q = query(collection(db, "matches"), orderBy("date", "asc"));
+      const matchesRef = collection(db, "matches");
+
+      // 1. Pega todas as partidas atuais ordenadas pela ordem que VOCÊ definiu
+      const q = query(matchesRef, orderBy("order", "asc"));
       const snap = await getDocs(q);
+      let allMatches = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-      let allMatches = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      // 2. Criar o objeto da nova partida (ou atualizar a existente)
       const currentMatchData = {
         ...draft,
         goalsA,
@@ -221,44 +231,47 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       };
 
       if (matchToEdit?.id) {
-        // Se for edição, removemos a versão antiga da lista para re-inserir na ordem certa
-        allMatches = allMatches.filter((m) => m.id !== matchToEdit.id);
-      }
-
-      // 3. Adicionar a partida atual na lista local para ordenação
-      allMatches.push(currentMatchData);
-
-      // 4. Ordenar TODA a lista por data (e usar updatedAt como desempate)
-      allMatches.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-      // 5. Salvar no Firebase
-      if (matchToEdit?.id) {
-        // Se for edição, atualiza os dados e depois as orders
+        // Se for apenas edição de placar/jogadores, não mexe na ordem
         await updateDoc(doc(db, "matches", matchToEdit.id), currentMatchData);
       } else {
-        // Se for nova, cria o documento e pega o ID gerado
-        const newDoc = await addDoc(collection(db, "matches"), {
+        // É UMA NOVA PARTIDA:
+        // Inserimos ela no array e ordenamos com "memória"
+        allMatches.push(currentMatchData);
+
+        allMatches.sort((a, b) => {
+          // Regra 1: Datas diferentes? Ordem cronológica pura.
+          if (a.date !== b.date) {
+            return new Date(a.date) - new Date(b.date);
+          }
+          // Regra 2: Mesma data? Mantém a ordem manual (order) que já existia.
+          // Se um deles for o novo (não tem order), ele vai por último no dia.
+          return (a.order || 999) - (b.order || 999);
+        });
+
+        // Salva a nova partida para ganhar um ID
+        const newDoc = await addDoc(matchesRef, {
           ...currentMatchData,
           createdAt: serverTimestamp(),
         });
-        currentMatchData.id = newDoc.id;
+
+        // Atualiza o ID no nosso array local para salvar as ordens certas
+        const index = allMatches.findIndex((m) => m === currentMatchData);
+        allMatches[index].id = newDoc.id;
+
+        // 2. Reatribui as ordens (1, 2, 3...) baseada na nova arrumação
+        const updatePromises = allMatches.map((match, i) => {
+          return updateDoc(doc(db, "matches", match.id), {
+            order: i + 1,
+          });
+        });
+
+        await Promise.all(updatePromises);
       }
 
-      // 6. Loop de atualização de ordens (MUITO IMPORTANTE)
-      // Isso garante que se você inseriu um jogo em 2025, ele ganhe order 1, 2, 3...
-      const updatePromises = allMatches.map((match, index) => {
-        const matchId = match.id;
-        if (!matchId) return Promise.resolve(); // Pula se não tiver ID ainda
-
-        return updateDoc(doc(db, "matches", matchId), {
-          order: index + 1,
-        });
-      });
-
-      await Promise.all(updatePromises);
-
       if (setMatchToEdit) setMatchToEdit(null);
-      alert("Partidas reordenadas por data com sucesso!");
+      alert(
+        "Partida salva! A cronologia foi ajustada respeitando sua organização.",
+      );
       navigate("/");
     } catch (e) {
       console.error(e);
