@@ -490,3 +490,73 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Container Principal da seção no Admin */
+.penalties-admin-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 0, 0.3); /* Borda tracejada para indicar seção especial */
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  animation: slideIn 0.3s ease-out;
+}
+
+.section-title {
+  color: #ffcc00;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Grupo de Inputs (Time A X Time B) */
+.penalties-input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.penalty-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.penalty-field label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  max-width: 100px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.penalty-field input {
+  width: 70px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.penalty-field input:focus {
+  border-color: #ffcc00;
+  background: rgba(255, 204, 0, 0.05);
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
+}
+
+.penalty-vs {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 25px;
+}

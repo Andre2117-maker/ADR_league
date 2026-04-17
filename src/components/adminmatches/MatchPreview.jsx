@@ -6,16 +6,27 @@ const MatchPreview = ({
   players,
   goalsA,
   goalsB,
-  penaltiesWinner,
+  penaltiesScoreA, // Recebendo os gols de pênalti
+  penaltiesScoreB, // Recebendo os gols de pênalti
   removeEvent,
 }) => {
+  // Lógica de empate: gols normais iguais
+  const isDraw = goalsA === goalsB && goalsA !== undefined;
+
+  // Lógica de vencedor automático: quem tem mais gols de pênalti
+  const autoWinner =
+    penaltiesScoreA > penaltiesScoreB
+      ? "A"
+      : penaltiesScoreB > penaltiesScoreA
+        ? "B"
+        : null;
+
   const getPlayerName = (playerId, externalName) => {
     if (playerId === "OPONENTE_EXTERNO")
       return externalName || "Jogador Adversário";
     return players.find((p) => p.id === playerId)?.name || "Jogador";
   };
 
-  // Função para encontrar o nome do capitão
   const getCaptainName = (teamSide) => {
     const team = teamSide === "A" ? draft.teamA : draft.teamB;
     if (!team.captainId) return null;
@@ -52,7 +63,6 @@ const MatchPreview = ({
             </div>
             <div className="team-info-preview">
               <span className="team-text">{draft.teamA.name || "TIME A"}</span>
-              {/* ADICIONADO: Captain ID Visual */}
               {getCaptainName("A") && (
                 <span className="captain-badge">© {getCaptainName("A")}</span>
               )}
@@ -62,13 +72,32 @@ const MatchPreview = ({
           <div className="score-center">
             <div className="score-numbers">
               <span className="n">{goalsA}</span>
+
+              {/* Placar de Pênaltis: Só aparece se for empate e houver gols de pênalti */}
+              {isDraw && (penaltiesScoreA > 0 || penaltiesScoreB > 0) && (
+                <span className="penalties-score">
+                  ({penaltiesScoreA || 0})
+                </span>
+              )}
+
               <span className="divider">-</span>
+
+              {isDraw && (penaltiesScoreA > 0 || penaltiesScoreB > 0) && (
+                <span className="penalties-score">
+                  ({penaltiesScoreB || 0})
+                </span>
+              )}
+
               <span className="n">{goalsB}</span>
             </div>
-            {penaltiesWinner && (
+
+            {/* Vencedor automático nos pênaltis: Só aparece se for empate e tiver vencedor */}
+            {isDraw && autoWinner && (
               <div className="penalties-tag">
                 PÊNALTIS:{" "}
-                {penaltiesWinner === "A" ? draft.teamA.name : draft.teamB.name}{" "}
+                <strong>
+                  {autoWinner === "A" ? draft.teamA.name : draft.teamB.name}
+                </strong>{" "}
                 🏆
               </div>
             )}
@@ -77,7 +106,6 @@ const MatchPreview = ({
           <div className="scoreboard-team team-right">
             <div className="team-info-preview align-right">
               <span className="team-text">{draft.teamB.name || "TIME B"}</span>
-              {/* ADICIONADO: Captain ID Visual */}
               {getCaptainName("B") && (
                 <span className="captain-badge">© {getCaptainName("B")}</span>
               )}
@@ -95,7 +123,6 @@ const MatchPreview = ({
         {/* TIMELINE ESTILIZADA */}
         <div className="timeline-section">
           <h4 className="section-label">LINHA DO TEMPO DOS EVENTOS</h4>
-          {/* ... resto do código da timeline (mantido igual) ... */}
           <div className="events-grid">
             {draft.events.length === 0 ? (
               <div className="empty-timeline">

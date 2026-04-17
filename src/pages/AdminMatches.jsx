@@ -536,6 +536,43 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         }
       />
 
+      {/* ==========================================================================
+    SEÇÃO DE PÊNALTIS (SÓ APARECE EM CASO DE EMPATE)
+    ========================================================================== */}
+      {isDraw && (
+        <div className="penalties-admin-section">
+          <h3 className="section-title">🏆 DECISÃO POR PÊNALTIS</h3>
+
+          <div className="penalties-input-group">
+            <div className="penalty-field">
+              <label>{draft.teamA.name}</label>
+              <input
+                type="number"
+                placeholder="0"
+                value={draft.penaltiesScoreA}
+                onChange={(e) =>
+                  setDraft({ ...draft, penaltiesScoreA: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="penalty-vs">X</div>
+
+            <div className="penalty-field">
+              <label>{draft.teamB.name}</label>
+              <input
+                type="number"
+                placeholder="0"
+                value={draft.penaltiesScoreB}
+                onChange={(e) =>
+                  setDraft({ ...draft, penaltiesScoreB: e.target.value })
+                }
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       <button
         onClick={saveMatch}
         disabled={loading}
