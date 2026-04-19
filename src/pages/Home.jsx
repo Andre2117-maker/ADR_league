@@ -235,10 +235,10 @@ function Home({ players, matches, getBestPartner }) {
   const amistososAgendados = [
     {
       title: "AMISTOSO",
-      teamA: { name: "Amigos do Renzo", logo: "./public/logo.png" },
+      teamA: { name: "Amigos do Renzo", logo: "/logo.png" },
       teamB: {
         name: "IMBROCHAVEIS FC",
-        logo: "./public/times rivais/IMBROCHAVEIS.png",
+        logo: "/times rivais/IMBROCHAVEIS.png",
       },
       date: "20/04",
       time: "19:00",
@@ -246,10 +246,10 @@ function Home({ players, matches, getBestPartner }) {
     },
     {
       title: "AMISTOSO",
-      teamA: { name: "Amigos do Renzo", logo: "./public/logo.png" },
+      teamA: { name: "Amigos do Renzo", logo: "/logo.png" },
       teamB: {
         name: "RATOS DE CAMPO",
-        logo: "./public/times rivais/RATOSDECAMPO.png",
+        logo: "/times rivais/RATOSDECAMPO.png",
       },
       date: "20/04",
       time: "19:00",
