@@ -17,6 +17,7 @@ import BirthdaySchedule from "../components/BirthdaySchedule";
 import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";
 import BirthdayAlert from "../components/BirthdayAlert";
+import MatchBanner from "../components/matchbanner/MatchBanner";
 
 function Home({ players, matches, getBestPartner }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
@@ -231,9 +232,35 @@ function Home({ players, matches, getBestPartner }) {
     );
   };
 
+  const amistososAgendados = [
+    {
+      title: "AMISTOSO",
+      teamA: { name: "Amigos do Renzo", logo: "./public/logo.png" },
+      teamB: {
+        name: "IMBROCHAVEIS FC",
+        logo: "./public/times rivais/IMBROCHAVEIS.png",
+      },
+      date: "20/04",
+      time: "19:00",
+      location: "Quinta das Laranjeiras",
+    },
+    {
+      title: "AMISTOSO",
+      teamA: { name: "Amigos do Renzo", logo: "./public/logo.png" },
+      teamB: {
+        name: "RATOS DE CAMPO",
+        logo: "./public/times rivais/RATOSDECAMPO.png",
+      },
+      date: "20/04",
+      time: "19:00",
+      location: "Quinta das Laranjeiras",
+    },
+  ];
+
   return (
     <div className="main-wrapper">
       <MatchesCarousel matches={matches} players={players} />
+      <MatchBanner matches={amistososAgendados} />
       <BirthdaySchedule players={players} />
 
       <BirthdayAlert players={players} />

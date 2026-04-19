@@ -1,0 +1,245 @@
+.match-banner-container {
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 900px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.banner-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffcc00;
+  color: #000;
+  padding: 4px 15px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  border-radius: 0 0 10px 10px;
+  letter-spacing: 2px;
+}
+
+.banner-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.banner-team {
+  display: flex;
+  flex-direction: column; /* Garante que fiquem um em cima do outro */
+  align-items: center; /* Centraliza a logo e o bloco de texto horizontalmente */
+  justify-content: center;
+  flex: 1;
+  text-align: center; /* ESSENCIAL: Centraliza as linhas do texto quando ele quebra */
+  padding: 10px;
+}
+
+.banner-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
+.banner-team-name {
+  font-weight: 900;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #fff;
+  margin-top: 10px;
+
+  /* Garante que o texto ocupe a largura disponível para o alinhamento funcionar */
+  display: block;
+  width: 100%;
+
+  /* Faz com que, ao quebrar linha, o conteúdo fique no meio */
+  text-align: center;
+
+  /* Ajuste de linha para nomes compostos não ficarem colados */
+  line-height: 1.2;
+}
+
+.banner-info {
+  text-align: center;
+  flex: 1;
+}
+
+.banner-datetime {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.b-divider {
+  color: #ffcc00;
+  margin: 0 10px;
+}
+
+.banner-location {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* Letreiro Rodapé */
+.banner-footer {
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.scrolling-text {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #ffcc00;
+  font-weight: 600;
+  animation: scrollText 15s linear infinite;
+}
+
+.upload-wrapper {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.upload-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.file-input-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Esconde o botão feio do sistema */
+  cursor: pointer;
+}
+
+.banners-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 30px auto;
+}
+
+/* Área de upload sobre a logo */
+.logo-upload-area {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.logo-upload-area:hover {
+  transform: scale(1.1);
+}
+
+.banner-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Invisível, mas clicável */
+  cursor: pointer;
+}
+
+@keyframes scrollText {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ==========================================================================
+   AJUSTES PARA CELULAR (MOBILE)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .match-banner-container {
+    padding: 15px 10px;
+    margin: 10px auto;
+    border-radius: 12px;
+  }
+
+  .banner-badge {
+    font-size: 0.6rem;
+    padding: 3px 10px;
+  }
+
+  /* Ajusta a grade para os itens não brigarem por espaço */
+  .banner-content {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 1fr; /* Time | VS | Time */
+    gap: 5px;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  /* Reduz as logos para caberem lado a lado */
+  .banner-logo,
+  .logo-upload-area {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Diminui a fonte dos nomes para não quebrarem tantas linhas */
+  .banner-team-name {
+    font-size: 0.65rem;
+    margin-top: 5px;
+    min-height: 25px; /* Garante alinhamento mesmo com nomes curtos */
+    line-height: 1.1;
+  }
+
+  .banner-team {
+    padding: 5px;
+    min-width: 0; /* Remove a restrição de largura mínima no mobile */
+  }
+
+  /* Ajusta a parte central (Data/Hora) */
+  .banner-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .banner-datetime {
+    font-size: 0.9rem; /* Diminui o placar/hora */
+    display: flex;
+    flex-direction: column; /* Empilha data e hora no mobile */
+    gap: 2px;
+  }
+
+  .b-divider {
+    display: none; /* Esconde a barra horizontal no mobile */
+  }
+
+  .banner-location {
+    font-size: 0.6rem;
+    margin-top: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas para não quebrar o layout */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .scrolling-text {
+    font-size: 0.6rem;
+  }
+}
