@@ -237,17 +237,6 @@ function Home({ players, matches, getBestPartner }) {
       title: "AMISTOSO",
       teamA: { name: "Amigos do Renzo", logo: "/logo.png" },
       teamB: {
-        name: "IMBROCHAVEIS FC",
-        logo: "/times rivais/IMBROCHAVEIS.png",
-      },
-      date: "20/04",
-      time: "19:00",
-      location: "Quinta das Laranjeiras",
-    },
-    {
-      title: "AMISTOSO",
-      teamA: { name: "Amigos do Renzo", logo: "/logo.png" },
-      teamB: {
         name: "RATOS DE CAMPO",
         logo: "/times rivais/RATOSDECAMPO.png",
       },
