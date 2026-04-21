@@ -243,3 +243,71 @@
     font-size: 0.6rem;
   }
 }
+
+.admin-toggle-btn {
+  background: #ffcc00;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 900;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.admin-internal-panel {
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #ffcc00;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.admin-grid input {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.upload-group {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.confirm-btn {
+  grid-column: span 2;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.del-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}

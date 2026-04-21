@@ -1,11 +1,15 @@
 import React from "react";
 
 const MatchTimeline = ({ events, players }) => {
-  const getPlayerName = (id) =>
-    players.find((p) => String(p.id) === String(id))?.name || "Jogador";
+  // FUNÇÃO ATUALIZADA PARA LIDAR COM JOGADORES EXTERNOS
+  const getPlayerName = (id, externalName) => {
+    if (id === "EXTERNO" || id === "OPONENTE_EXTERNO") {
+      return externalName || "Jogador Externo";
+    }
+    return players.find((p) => String(p.id) === String(id))?.name || "Jogador";
+  };
 
-  // LÓGICA CORRIGIDA:
-  // O evento aparece no Time A se: (Foi gol do A) OU (Foi gol contra do B)
+  // LÓGICA DE FILTRO (Mantida como você enviou)
   const teamAEvents =
     events?.filter(
       (e) =>
@@ -22,17 +26,20 @@ const MatchTimeline = ({ events, players }) => {
 
   const renderEvent = (e, index, side) => {
     const isOwnGoal = e.type === "OWN_GOAL";
-    const name = getPlayerName(e.playerId);
 
-    // Assistência só aparece se não for gol contra
+    // AGORA PASSAMOS O ID E O EXTERNALNAME
+    const name = getPlayerName(e.playerId, e.externalName);
+
+    // Assistência (Também atualizada caso haja assist externo no futuro)
     const assist =
       e.assistId && !isOwnGoal ? (
-        <span className="timeline-assist">[{getPlayerName(e.assistId)}]</span>
+        <span className="timeline-assist">
+          [{getPlayerName(e.assistId, e.externalAssistName)}]
+        </span>
       ) : null;
 
     const stableKey = e.id || `${e.type}-${index}-${side}`;
 
-    // Ícone: Bola normal ou Bola vermelha para GC
     const icon = isOwnGoal ? (
       <span className="event-icon" style={{ color: "#ff4444" }}>
         ⚽
@@ -41,7 +48,6 @@ const MatchTimeline = ({ events, players }) => {
       <span className="event-icon">⚽</span>
     );
 
-    // Texto de Gol Contra
     const gcLabel = isOwnGoal ? (
       <small
         style={{ color: "#ff4444", fontWeight: "bold", marginLeft: "4px" }}

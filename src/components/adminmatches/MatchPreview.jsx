@@ -22,7 +22,7 @@ const MatchPreview = ({
         : null;
 
   const getPlayerName = (playerId, externalName) => {
-    if (playerId === "OPONENTE_EXTERNO")
+    if (playerId === "EXTERNO" || playerId === "OPONENTE_EXTERNO")
       return externalName || "Jogador Adversário";
     return players.find((p) => p.id === playerId)?.name || "Jogador";
   };

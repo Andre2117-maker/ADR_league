@@ -19,7 +19,7 @@ import Footer from "../components/Footer";
 import BirthdayAlert from "../components/BirthdayAlert";
 import MatchBanner from "../components/matchbanner/MatchBanner";
 
-function Home({ players, matches, getBestPartner }) {
+function Home({ players, matches, getBestPartner, isAdmin }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
   const navigate = useNavigate();
 
@@ -249,7 +249,9 @@ function Home({ players, matches, getBestPartner }) {
   return (
     <div className="main-wrapper">
       <MatchesCarousel matches={matches} players={players} />
-      <MatchBanner matches={amistososAgendados} />
+
+      {/* <MatchBanner matches={amistososAgendados} isAdmin={isAdmin} /> */}
+
       <BirthdaySchedule players={players} />
 
       <BirthdayAlert players={players} />

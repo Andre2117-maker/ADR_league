@@ -560,3 +560,41 @@ body {
   color: rgba(255, 255, 255, 0.2);
   margin-top: 25px;
 }
+.external-field-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.external-field-group label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #ffcc00;
+}
+
+.external-btns-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.external-btns-row button {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.event-tag.og {
+  border-left: 4px solid #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+}
+
+.admin-divider {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 15px 0;
+}

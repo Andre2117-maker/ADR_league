@@ -139,6 +139,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         name: "ADR",
         players: [],
         goalkeeperId: null,
+        externalGoalkeeperName: "",
         captainId: null,
         logo: "",
       },
@@ -377,29 +378,76 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
               {isExternal ? (
                 /* INTERFACE PARA TIME ADVERSÁRIO (AMISTOSO) */
                 <div className="external-tools">
+                  {/* CAMPO DO GOLEIRO ADVERSÁRIO */}
+                  <div className="external-field-group">
+                    <label>🧤 GOLEIRO ADVERSÁRIO</label>
+                    <input
+                      placeholder="Nome do Goleiro"
+                      value={draft[teamKey].externalGoalkeeperName || ""}
+                      onChange={(e) =>
+                        setDraft({
+                          ...draft,
+                          [teamKey]: {
+                            ...draft[teamKey],
+                            externalGoalkeeperName: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+
+                  <hr className="admin-divider" />
+
+                  {/* ÁREA DE GOLS E GOLS CONTRA */}
                   <div className="external-goal-group">
                     <input
                       placeholder="Nome do Jogador"
                       value={extScorerName}
                       onChange={(e) => setExtScorerName(e.target.value)}
                     />
-                    <button
-                      onClick={() => {
-                        if (!extScorerName) return;
-                        addEvent(t, "EXTERNO", "GOAL", null, extScorerName);
-                        setExtScorerName("");
-                      }}
-                    >
-                      ⚽ + Gol
-                    </button>
+                    <div className="external-btns-row">
+                      <button
+                        className="btn-goal"
+                        onClick={() => {
+                          if (!extScorerName) return;
+                          addEvent(t, "EXTERNO", "GOAL", null, extScorerName);
+                          setExtScorerName("");
+                        }}
+                      >
+                        ⚽ + Gol
+                      </button>
+                      <button
+                        className="btn-og"
+                        onClick={() => {
+                          if (!extScorerName) return;
+                          // Gol contra do Time B (Soma ponto para o ADR)
+                          addEvent(
+                            t,
+                            "EXTERNO",
+                            "OWN_GOAL",
+                            null,
+                            extScorerName,
+                          );
+                          setExtScorerName("");
+                        }}
+                      >
+                        ❌ + GC
+                      </button>
+                    </div>
                   </div>
+
                   <div className="external-events-list">
                     {draft.events
                       .filter((e) => e.team === t)
                       .map((e) => (
-                        <div key={e.id} className="event-tag">
-                          {e.externalName} ⚽{" "}
+                        <div
+                          key={e.id}
+                          className={`event-tag ${e.type === "OWN_GOAL" ? "og" : ""}`}
+                        >
+                          {e.externalName}{" "}
+                          {e.type === "GOAL" ? "⚽" : "❌ (GC)"}
                           <span
+                            className="remove-event"
                             onClick={() =>
                               setDraft((prev) => ({
                                 ...prev,
