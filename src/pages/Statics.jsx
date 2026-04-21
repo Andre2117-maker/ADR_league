@@ -24,8 +24,9 @@ export default function Statics({ players = [], matches = [] }) {
 
       const playerMatches = sortedMatchesByDate.filter(
         (m) =>
-          m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
-          m.teamB?.players?.some((id) => String(id) === String(playerId)),
+          m.type === "TREINO" && // <--- ADICIONE ESTA LINHA
+          (m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
+            m.teamB?.players?.some((id) => String(id) === String(playerId))),
       );
 
       let totalGoals = 0;
