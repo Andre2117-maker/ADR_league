@@ -119,12 +119,16 @@ function PlayerPage({
       if (!allMatches || allMatches.length === 0)
         return { isOut: false, missedCount: 0 };
 
-      // 1. Pega todas as datas únicas
-      const rawDates = [...new Set(allMatches.map((m) => m.date))];
+      // 1. Filtra para considerar APENAS TREINOS (ignora Amistosos)
+      const onlyTrainings = allMatches.filter((m) => m.type === "TREINO");
 
-      // 2. Ordena as datas da mais RECENTE para a mais ANTIGA
+      if (onlyTrainings.length === 0) return { isOut: false, missedCount: 0 };
+
+      // 2. Pega todas as datas únicas de treinos
+      const rawDates = [...new Set(onlyTrainings.map((m) => m.date))];
+
+      // 3. Ordena as datas da mais RECENTE para a mais ANTIGA
       const trainingDays = rawDates.sort((a, b) => {
-        // Como a data é "2026-03-28", o Date(ano, mes, dia) funciona bem
         const [y1, m1, d1] = a.split("-").map(Number);
         const [y2, m2, d2] = b.split("-").map(Number);
         return new Date(y2, m2 - 1, d2, 12) - new Date(y1, m1 - 1, d1, 12);
@@ -132,7 +136,8 @@ function PlayerPage({
 
       let missedCount = 0;
       for (const day of trainingDays) {
-        const playedOnThisDay = allMatches.some((match) => {
+        // Verifica se o jogador participou de algum treino naquele dia específico
+        const playedOnThisDay = onlyTrainings.some((match) => {
           return (
             match.date === day &&
             (match.teamA.players.some(
@@ -144,7 +149,8 @@ function PlayerPage({
           );
         });
 
-        if (playedOnThisDay) break;
+        if (playedOnThisDay)
+          break; // Paramos de contar quando achamos um treino que ele foi
         else missedCount++;
       }
 
