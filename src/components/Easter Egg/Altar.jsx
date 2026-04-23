@@ -7,6 +7,7 @@ import "./altar.css";
 import carlos1 from "../../assets/easteregg/carlos1.jpeg";
 import carlos2 from "../../assets/easteregg/carlos2.jpeg";
 import carlos3 from "../../assets/easteregg/carlos3.png";
+import carlosVideo from "../../assets/easteregg/CARLOS10.mp4";
 
 const Altar = () => {
   const navigate = useNavigate();
@@ -56,6 +57,21 @@ const Altar = () => {
               <img src={carlos3} alt="O Atleta" className="img-atleta" />
             </div>
             <span>O ATLETA</span>
+          </div>
+        </div>
+
+        {/* --- NOVA SEÇÃO DE VÍDEO --- */}
+        <div className="video-section">
+          <h2 className="video-title">REGISTRO HISTÓRICO</h2>
+          <div className="video-frame">
+            <video
+              src={carlosVideo}
+              controls
+              autoPlay
+              muted
+              loop
+              className="carlos-video-player"
+            />
           </div>
         </div>
 

@@ -75,6 +75,33 @@
   display: block;
 }
 
+.video-section {
+  margin: 30px 0;
+  width: 100%;
+  max-width: 900px;
+  margin: center;
+}
+
+.video-title {
+  font-size: 1.2rem;
+  color: #d4af37;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.video-frame {
+  border: 3px solid #d4af37;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  background: #000;
+}
+
+.carlos-video-player {
+  width: 100%;
+  display: block;
+}
+
 /* --- CAIXAS DE STATUS --- */
 .stats-container {
   display: flex;
