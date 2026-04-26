@@ -250,7 +250,7 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
     <div className="main-wrapper">
       <MatchesCarousel matches={matches} players={players} />
 
-      {/* <MatchBanner matches={amistososAgendados} isAdmin={isAdmin} /> */}
+      <MatchBanner matches={amistososAgendados} isAdmin={isAdmin} />
 
       <BirthdaySchedule players={players} />
 
