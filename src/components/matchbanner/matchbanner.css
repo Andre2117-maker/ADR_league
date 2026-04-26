@@ -1,266 +1,170 @@
-.match-banner-container {
-  background: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 204, 0, 0.3);
-  border-radius: 15px;
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+/* Container Principal */
+.banners-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px;
-  margin: 20px auto;
-  max-width: 900px;
+  align-items: center;
+}
+
+/* Banner Principal */
+.match-banner-container {
+  width: 100%;
+  max-width: 800px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  border: 2px solid #e2b317; /* Dourado ADR */
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* Badge de Título (AMISTOSO / TREINO) */
 .banner-badge {
+  background: #e2b317;
+  color: #000;
+  font-weight: 900;
+  padding: 5px 25px;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background: #ffcc00;
-  color: #000;
-  padding: 4px 15px;
-  font-size: 0.7rem;
-  font-weight: 900;
-  border-radius: 0 0 10px 10px;
-  letter-spacing: 2px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  z-index: 2;
 }
 
+/* Conteúdo do Banner */
 .banner-content {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 10px;
+  padding: 40px 20px;
+  min-height: 180px;
 }
 
+/* Times */
 .banner-team {
-  display: flex;
-  flex-direction: column; /* Garante que fiquem um em cima do outro */
-  align-items: center; /* Centraliza a logo e o bloco de texto horizontalmente */
-  justify-content: center;
   flex: 1;
-  text-align: center; /* ESSENCIAL: Centraliza as linhas do texto quando ele quebra */
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .banner-logo {
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+  filter: drop-shadow(0 0 10px rgba(226, 179, 23, 0.3));
 }
 
 .banner-team-name {
-  font-weight: 900;
-  font-size: 0.8rem;
-  text-transform: uppercase;
   color: #fff;
-  margin-top: 10px;
-
-  /* Garante que o texto ocupe a largura disponível para o alinhamento funcionar */
-  display: block;
-  width: 100%;
-
-  /* Faz com que, ao quebrar linha, o conteúdo fique no meio */
+  font-weight: 700;
+  font-size: 1.1rem;
   text-align: center;
-
-  /* Ajuste de linha para nomes compostos não ficarem colados */
-  line-height: 1.2;
 }
 
+/* Informações Centrais */
 .banner-info {
+  flex: 1.2;
   text-align: center;
-  flex: 1;
+  color: #fff;
 }
 
 .banner-datetime {
   font-size: 1.4rem;
-  font-weight: 900;
-  color: #fff;
+  font-weight: 800;
   margin-bottom: 5px;
 }
 
 .b-divider {
-  color: #ffcc00;
+  color: #e2b317;
   margin: 0 10px;
 }
 
 .banner-location {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
+  color: #ccc;
+  text-transform: uppercase;
 }
 
-/* Letreiro Rodapé */
-.banner-footer {
+/* Estilo Específico de Treino */
+.banner-treino-full {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+}
+
+.banner-logo-center {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+/* Cronômetro */
+.banner-countdown {
+  font-family: "Orbitron", sans-serif; /* Fonte digital */
+  background: #000; /* Fundo preto para contrastar como um visor */
+  color: #e2b317; /* Dourado ADR (ou #00ff00 para verde digital) */
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 2px solid #333;
+  font-weight: 700;
+  font-size: 2rem; /* Aumentado para parecer um relógio */
+  letter-spacing: 4px;
+  display: inline-block;
   margin-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 10px;
-  white-space: nowrap;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 15px rgba(226, 179, 23, 0.3);
+  text-shadow: 0 0 5px rgba(226, 179, 23, 0.7); /* Efeito de brilho (glow) */
+}
+
+/* Rodapé com Letreiro Animado */
+.banner-footer {
+  background: #e2b317;
+  color: #000;
+  padding: 5px 0;
   overflow: hidden;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 0.85rem;
 }
 
 .scrolling-text {
   display: inline-block;
-  font-size: 0.7rem;
-  color: #ffcc00;
-  font-weight: 600;
-  animation: scrollText 15s linear infinite;
+  padding-left: 100%;
+  animation: scroll-text 15s linear infinite;
+  text-transform: uppercase;
 }
 
-.upload-wrapper {
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.upload-wrapper:hover {
-  transform: scale(1.05);
-}
-
-.file-input-hidden {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0; /* Esconde o botão feio do sistema */
-  cursor: pointer;
-}
-
-.banners-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto 30px auto;
-}
-
-/* Área de upload sobre a logo */
-.logo-upload-area {
-  position: relative;
-  width: 75px;
-  height: 75px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.logo-upload-area:hover {
-  transform: scale(1.1);
-}
-
-.banner-file-input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0; /* Invisível, mas clicável */
-  cursor: pointer;
-}
-
-@keyframes scrollText {
-  from {
-    transform: translateX(100%);
+@keyframes scroll-text {
+  0% {
+    transform: translateX(0);
   }
-  to {
+  100% {
     transform: translateX(-100%);
   }
 }
 
-/* ==========================================================================
-   AJUSTES PARA CELULAR (MOBILE)
-   ========================================================================== */
-@media (max-width: 480px) {
-  .match-banner-container {
-    padding: 15px 10px;
-    margin: 10px auto;
-    border-radius: 12px;
-  }
-
-  .banner-badge {
-    font-size: 0.6rem;
-    padding: 3px 10px;
-  }
-
-  /* Ajusta a grade para os itens não brigarem por espaço */
-  .banner-content {
-    display: grid;
-    grid-template-columns: 1fr 0.5fr 1fr; /* Time | VS | Time */
-    gap: 5px;
-    align-items: center;
-    margin-top: 15px;
-  }
-
-  /* Reduz as logos para caberem lado a lado */
-  .banner-logo,
-  .logo-upload-area {
-    width: 50px;
-    height: 50px;
-  }
-
-  /* Diminui a fonte dos nomes para não quebrarem tantas linhas */
-  .banner-team-name {
-    font-size: 0.65rem;
-    margin-top: 5px;
-    min-height: 25px; /* Garante alinhamento mesmo com nomes curtos */
-    line-height: 1.1;
-  }
-
-  .banner-team {
-    padding: 5px;
-    min-width: 0; /* Remove a restrição de largura mínima no mobile */
-  }
-
-  /* Ajusta a parte central (Data/Hora) */
-  .banner-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .banner-datetime {
-    font-size: 0.9rem; /* Diminui o placar/hora */
-    display: flex;
-    flex-direction: column; /* Empilha data e hora no mobile */
-    gap: 2px;
-  }
-
-  .b-divider {
-    display: none; /* Esconde a barra horizontal no mobile */
-  }
-
-  .banner-location {
-    font-size: 0.6rem;
-    margin-top: 4px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limita a 2 linhas para não quebrar o layout */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .scrolling-text {
-    font-size: 0.6rem;
-  }
-}
-
-.admin-toggle-btn {
-  background: #ffcc00;
-  color: #000;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 900;
-  cursor: pointer;
-  margin-bottom: 10px;
-  margin-top: 20px;
-}
-
+/* Painel de Admin */
 .admin-internal-panel {
-  background: rgba(0, 0, 0, 0.9);
-  border: 2px solid #ffcc00;
-  border-radius: 15px;
+  background: #222;
   padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  width: 100%;
+  max-width: 800px;
   margin-bottom: 20px;
 }
 
@@ -270,44 +174,233 @@
   gap: 10px;
 }
 
-.admin-grid input {
-  background: #1a1a1a;
-  border: 1px solid #333;
-  color: white;
-  padding: 8px;
-  border-radius: 5px;
-}
-
-.upload-group {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px;
-  border-radius: 8px;
-}
-
 .full-width {
   grid-column: span 2;
 }
 
+.admin-grid input,
+.admin-grid select {
+  padding: 10px;
+  background: #333;
+  border: 1px solid #555;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.upload-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #2a2a2a;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.upload-group label {
+  color: #e2b317;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
 .confirm-btn {
   grid-column: span 2;
-  background: #28a745;
-  color: white;
+  background: #e2b317;
+  color: #000;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 900;
+  padding: 15px;
+  font-weight: bold;
   cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Botões Extras */
+.admin-toggle-btn {
+  background: #333;
+  color: #fff;
+  border: 1px solid #e2b317;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
 }
 
 .del-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: red;
+  background: #ff4444;
   color: white;
   border: none;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  width: 25px;
-  height: 25px;
   cursor: pointer;
+  font-weight: bold;
+  z-index: 3;
+}
+
+.del-btn:hover {
+  background: #cc0000;
+}
+
+/* --- RESPONSIVIDADE MOBILE --- */
+
+@media (max-width: 600px) {
+  .match-banner-container {
+    max-width: 95%; /* Ocupa quase toda a largura da tela */
+  }
+
+  /* No Amistoso, empilhamos os times e a info */
+  .banner-content {
+    flex-direction: column;
+    padding: 30px 10px;
+    gap: 20px;
+  }
+
+  .banner-team {
+    order: 2; /* Times ficam abaixo ou em volta */
+  }
+
+  /* No mobile, o Time A e Time B ficam lado a lado se couber, 
+     ou mantemos a estrutura de coluna para maior clareza */
+  .banner-content:has(.banner-team) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "info info"
+      "teamA teamB";
+  }
+
+  .banner-info {
+    grid-area: info;
+    margin-bottom: 10px;
+  }
+
+  .banner-team:nth-child(1) {
+    grid-area: teamA;
+  }
+  .banner-team:nth-child(3) {
+    grid-area: teamB;
+  }
+
+  /* Reduzindo tamanhos para mobile */
+  .banner-logo {
+    width: 65px;
+    height: 65px;
+  }
+
+  .banner-logo-center {
+    width: 80px;
+    height: 80px;
+  }
+
+  .banner-team-name {
+    font-size: 0.9rem;
+  }
+
+  .banner-datetime {
+    font-size: 1.1rem;
+  }
+
+  .banner-countdown {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  /* Ajuste do Painel Admin no Mobile */
+  .admin-grid {
+    grid-template-columns: 1fr; /* Coluna única no mobile */
+  }
+
+  .full-width,
+  .admin-grid input,
+  .admin-grid select,
+  .confirm-btn {
+    grid-column: span 1;
+  }
+
+  .upload-group.full-width {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* Acelerar um pouco o letreiro no mobile porque a tela é menor */
+  .scrolling-text {
+    animation-duration: 10s;
+  }
+
+  /* --- RESPONSIVIDADE MOBILE --- */
+
+  @media (max-width: 600px) {
+    .match-banner-container {
+      max-width: 95%;
+      margin: 0 auto;
+    }
+
+    /* Faz o conteúdo principal virar uma coluna vertical */
+    .banner-content {
+      flex-direction: column !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center;
+      gap: 30px; /* Espaçamento entre Time A, Info e Time B */
+      padding: 50px 20px;
+    }
+
+    /* Garante a ordem: Time A (1), Info (2), Time B (3) */
+    .banner-team:first-child {
+      order: 1;
+    }
+
+    .banner-info {
+      order: 2;
+      width: 100%;
+      padding: 15px 0;
+      border-top: 1px solid rgba(226, 179, 23, 0.2);
+      border-bottom: 1px solid rgba(226, 179, 23, 0.2);
+    }
+
+    .banner-team:last-child {
+      order: 3;
+    }
+
+    /* Ajuste das informações dentro do bloco central */
+    .banner-datetime {
+      font-size: 1.5rem;
+      display: flex;
+      flex-direction: column; /* Data em cima do Horário no mobile */
+      gap: 5px;
+    }
+
+    .b-divider {
+      display: none; /* Remove a barra vertical | no mobile */
+    }
+
+    .banner-location {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    /* Logos maiores para preencher a coluna */
+    .banner-logo {
+      width: 100px;
+      height: 100px;
+    }
+
+    .banner-team-name {
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Painel de Admin em coluna única */
+    .admin-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .full-width {
+      grid-column: span 1;
+    }
+  }
 }
