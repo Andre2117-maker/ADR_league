@@ -89,10 +89,16 @@ function MatchesCarousel({ matches, players }) {
             <h2 className="mtc-team-name-large">{match.teamA.name}</h2>
             <div className="mtc-scorers-list left-align">
               {match.events
-                ?.filter((e) => e.team === "A" && e.type === "GOAL")
+                ?.filter(
+                  (e) =>
+                    (e.team === "A" && e.type === "GOAL") ||
+                    (e.team === "B" && e.type === "OWN_GOAL"),
+                )
                 .map((e, i) => (
                   <span key={i} className="mtc-scorer">
-                    {getName(e.playerId)} ⚽
+                    {e.type === "OWN_GOAL"
+                      ? `${e.externalName || getName(e.playerId)} (GC) 🔴`
+                      : `${getName(e.playerId)} ⚽`}
                   </span>
                 ))}
             </div>
@@ -138,10 +144,16 @@ function MatchesCarousel({ matches, players }) {
             <h2 className="mtc-team-name-large">{match.teamB.name}</h2>
             <div className="mtc-scorers-list right-align">
               {match.events
-                ?.filter((e) => e.team === "B" && e.type === "GOAL")
+                ?.filter(
+                  (e) =>
+                    (e.team === "B" && e.type === "GOAL") ||
+                    (e.team === "A" && e.type === "OWN_GOAL"),
+                )
                 .map((e, i) => (
                   <span key={i} className="mtc-scorer">
-                    ⚽ {e.externalName || getName(e.playerId)}
+                    {e.type === "OWN_GOAL"
+                      ? `🔴 ${getName(e.playerId)} (GC)`
+                      : `⚽ ${e.externalName || getName(e.playerId)}`}
                   </span>
                 ))}
             </div>
