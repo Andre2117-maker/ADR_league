@@ -1,39 +1,63 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, updateDoc } from "firebase/firestore";
-import "../styles/matchpage.css";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import "../styles/matchpage/matchpage.css";
+import "../styles/matchpage/friendlytabs.css";
 import { calculateMatchStats } from "../components/matchpages/matchUtils";
-import { exportMatchImage } from "../components/matchpages/screenshotHelper";
 import MatchStats from "../components/matchpages/MatchStats";
 import MatchTimeline from "../components/matchpages/MatchTimeline";
 import { FORMATIONS_DATA } from "../data/formationsConfig";
+import FriendlyGamesTabs from "../components/matchpages/FriendlyGamesTabs";
+import FriendlyGameField from "../components/matchpages/FriendlyGameField";
+import { createEmptyFriendlyGame } from "../components/matchpages/friendlyGamesUtils";
 
 function MatchPage({ matches, players, isAdmin }) {
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const match = matches.find((m) => String(m.id) === String(id));
 
   const [formA, setFormA] = useState(match?.formationA || "5_JOG_2-1-1");
+
   const [formB, setFormB] = useState(match?.formationB || "5_JOG_2-1-1");
+
   const [prevId, setPrevId] = useState(id);
+
+  const [selectedGameIndex, setSelectedGameIndex] = useState(0);
 
   if (id !== prevId) {
     setPrevId(id);
+
     setFormA(match?.formationA || "5_JOG_2-1-1");
+
     setFormB(match?.formationB || "5_JOG_2-1-1");
   }
 
-  if (!match) return <div className="loading">Partida não encontrada...</div>;
+  if (!match) {
+    return <div className="loading">Partida não encontrada...</div>;
+  }
 
-  // Cálculo de Placar Real (Gols Pro + Gols Contra do adversário)
+  const isFriendly = match.type === "AMISTOSO";
+
+  const currentFriendlyGame = match.friendlyGames?.[selectedGameIndex] || {
+    name: "JOGO 1",
+    formation: "5_JOG_2-1-1",
+    tactical: {},
+  };
+
+  // =========================
+  // SCORE
+  // =========================
+
   const scoreA =
     match.events?.filter(
       (e) =>
         (e.type === "GOAL" && e.team === "A") ||
         (e.type === "OWN_GOAL" && e.team === "B"),
     ).length || 0;
+
   const scoreB =
     match.events?.filter(
       (e) =>
@@ -43,90 +67,203 @@ function MatchPage({ matches, players, isAdmin }) {
 
   const { stats, mvp } = calculateMatchStats(match, players);
 
-  const handleEscalar = async (teamKey, slotId, pId) => {
-    const field =
-      teamKey === "A" ? `tacticalA.${slotId}` : `tacticalB.${slotId}`;
+  // =========================
+  // ADD GAME
+  // =========================
+
+  const handleAddFriendlyGame = async () => {
     try {
-      await updateDoc(doc(db, "matches", match.id), { [field]: pId });
+      const newGame = createEmptyFriendlyGame(
+        (match.friendlyGames?.length || 0) + 1,
+      );
+
+      await updateDoc(doc(db, "matches", match.id), {
+        friendlyGames: arrayUnion(newGame),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // =========================
+  // REMOVE GAME
+  // =========================
+
+  const handleRemoveFriendlyGame = async (index) => {
+    try {
+      const updated = match.friendlyGames.filter((_, i) => i !== index);
+
+      await updateDoc(doc(db, "matches", match.id), {
+        friendlyGames: updated,
+      });
+
+      setSelectedGameIndex(0);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // =========================
+  // FORMATION
+  // =========================
+
+  const handleFriendlyFormationChange = async (formation) => {
+    try {
+      const updated = [...(match.friendlyGames || [])];
+
+      // se não existir jogo ainda
+      if (!updated[selectedGameIndex]) {
+        updated[selectedGameIndex] = {
+          name: `JOGO ${selectedGameIndex + 1}`,
+          formation: "5_JOG_2-1-1",
+          tactical: {},
+        };
+      }
+
+      updated[selectedGameIndex].formation = formation;
+
+      await updateDoc(doc(db, "matches", match.id), {
+        friendlyGames: updated,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // =========================
+  // ESCALAR
+  // =========================
+
+  const handleEscalar = async (teamKey, slotId, pId) => {
+    try {
+      // =====================
+      // AMISTOSO
+      // =====================
+
+      if (isFriendly) {
+        const updated = [...match.friendlyGames];
+
+        updated[selectedGameIndex].tactical[slotId] = pId;
+
+        await updateDoc(doc(db, "matches", match.id), {
+          friendlyGames: updated,
+        });
+
+        return;
+      }
+
+      // =====================
+      // NORMAL
+      // =====================
+
+      const field =
+        teamKey === "A" ? `tacticalA.${slotId}` : `tacticalB.${slotId}`;
+
+      await updateDoc(doc(db, "matches", match.id), {
+        [field]: pId,
+      });
     } catch (err) {
       console.error("Erro ao escalar:", err);
     }
   };
 
-  const handleSetFormation = async (teamKey, formationKey) => {
-    try {
-      const field = teamKey === "A" ? "formationA" : "formationB";
-      if (teamKey === "A") setFormA(formationKey);
-      else setFormB(formationKey);
-      await updateDoc(doc(db, "matches", match.id), { [field]: formationKey });
-    } catch (err) {
-      console.error("Erro ao salvar formação:", err);
-    }
-  };
+  // =========================
+  // FORMATION NORMAL
+  // =========================
+
+  // =========================
+  // SLOTS
+  // =========================
 
   const getActiveSlots = (formKey) =>
     (FORMATIONS_DATA.FUT5[formKey] || FORMATIONS_DATA.FUT6[formKey])?.slots ||
     [];
 
+  // =========================
+  // RENDER SLOT
+  // =========================
+
   const renderSlot = (slot, teamKey, teamPlayersIds) => {
-    const occupantId =
-      teamKey === "A" ? match.tacticalA?.[slot.id] : match.tacticalB?.[slot.id];
+    const occupantId = isFriendly
+      ? currentFriendlyGame?.tactical?.[slot.id]
+      : teamKey === "A"
+        ? match.tacticalA?.[slot.id]
+        : match.tacticalB?.[slot.id];
+
     const p = players.find(
       (player) => String(player.id) === String(occupantId),
     );
+
     const isMVP = mvp && p && String(p.id) === String(mvp.id);
 
-    // Eventos do Jogador Específico
     const pEvents =
       match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
       [];
 
     const goals = pEvents.filter((e) => e.type === "GOAL").length;
-    const ownGoals = pEvents.filter((e) => e.type === "OWN_GOAL").length; // Gols Contra
-    const yellows = pEvents.filter(
-      (e) => e.type === "YELLOW_CARD" || e.type === "YELLOW",
-    ).length;
-    const reds = pEvents.filter(
-      (e) => e.type === "RED_CARD" || e.type === "RED",
-    ).length;
 
     const assists =
       match.events?.filter(
         (e) => e.type === "GOAL" && String(e.assistId) === String(occupantId),
       ).length || 0;
-    const isCaptain =
-      (teamKey === "A" ? match.teamA.captainId : match.teamB.captainId) ===
-      String(occupantId);
+
+    const ownGoals = pEvents.filter((e) => e.type === "OWN_GOAL").length;
+
+    const yellows = pEvents.filter(
+      (e) => e.type === "YELLOW_CARD" || e.type === "YELLOW",
+    ).length;
+
+    const reds = pEvents.filter(
+      (e) => e.type === "RED_CARD" || e.type === "RED",
+    ).length;
+
     return (
       <div
         key={slot.id}
         className="tactical-slot"
-        style={{ left: slot.x, top: slot.y }}
+        style={{
+          left: slot.x,
+          top: slot.y,
+        }}
       >
         {p ? (
           <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
             <div className="player-badges">
-              {isCaptain && <span className="badge-item captain-pill">©</span>}
-              {slot.role === "GK" && <span className="badge-item">🧤</span>}
               {goals > 0 && (
-                <span className="badge-item">⚽{goals > 1 ? goals : ""}</span>
-              )}
-              {/* Marcação de Gol Contra em Vermelho */}
-              {ownGoals > 0 && (
-                <span
-                  className="badge-item"
-                  style={{ color: "#ff4444", fontWeight: "bold" }}
-                >
-                  🔴{ownGoals > 1 ? ownGoals : ""} <small>GC</small>
+                <span className="badge-item">
+                  ⚽{goals > 1 && <small>{goals}</small>}
                 </span>
               )}
+
               {assists > 0 && (
                 <span className="badge-item">
-                  👟{assists > 1 ? assists : ""}
+                  👟
+                  {assists > 1 && <small>{assists}</small>}
                 </span>
               )}
-              {yellows > 0 && <span className="badge-item">🟨</span>}
-              {reds > 0 && <span className="badge-item">🟥</span>}
+
+              {yellows > 0 && (
+                <span className="badge-item">
+                  🟨
+                  {yellows > 1 && <small>{yellows}</small>}
+                </span>
+              )}
+
+              {reds > 0 && (
+                <span className="badge-item">
+                  🟥
+                  {reds > 1 && <small>{reds}</small>}
+                </span>
+              )}
+
+              {slot.role === "GK" && <span className="badge-item">🧤</span>}
+
+              {ownGoals > 0 && (
+                <span className="badge-item">
+                  GC
+                  {ownGoals > 1 && <small>{ownGoals}</small>}
+                </span>
+              )}
             </div>
 
             <img
@@ -137,6 +274,7 @@ function MatchPage({ matches, players, isAdmin }) {
 
             <div className="player-card-label">
               <span className="p-card-num">{p.number || "0"}</span>
+
               <span className="p-card-name">{p.name.split(" ")[0]}</span>
             </div>
           </div>
@@ -151,10 +289,12 @@ function MatchPage({ matches, players, isAdmin }) {
             onChange={(e) => handleEscalar(teamKey, slot.id, e.target.value)}
           >
             <option value="">Escalar...</option>
+
             {teamPlayersIds?.map((pId) => {
               const playerInfo = players.find(
                 (pl) => String(pl.id) === String(pId),
               );
+
               return (
                 <option key={pId} value={pId}>
                   {playerInfo ? playerInfo.name : "Carregando..."}
@@ -167,166 +307,102 @@ function MatchPage({ matches, players, isAdmin }) {
     );
   };
 
+  // =========================
+  // TIMES NORMAIS
+  // =========================
+
+  const teamsToRender = [
+    {
+      k: "A",
+      f: formA,
+      n: match.teamA.name,
+      p: match.teamA.players,
+    },
+    {
+      k: "B",
+      f: formB,
+      n: match.teamB.name,
+      p: match.teamB.players,
+    },
+  ];
+
   return (
     <div className="match-view-wrapper" id="capture-area">
       <div className="match-top-bar">
         <button className="back-btn" onClick={() => navigate(-1)}>
           ❮ VOLTAR
         </button>
-        <button
-          className="screenshot-btn"
-          onClick={() =>
-            exportMatchImage(
-              "capture-area",
-              `${match.teamA.name}-vs-${match.teamB.name}`,
-            )
-          }
-        >
-          📸 SALVAR RESUMO
-        </button>
       </div>
 
       <div className="scoreboard-container">
         <div className="sb-main">
           <div className="sb-team-name team-left">{match.teamA.name}</div>
+
           <div className="sb-score-box">
-            {match.penaltiesScoreA !== null &&
-              match.penaltiesScoreA !== undefined && (
-                <span className="penalties-mini-score">
-                  ({match.penaltiesScoreA})
-                </span>
-              )}
             <span className="score">{scoreA}</span>
+
             <span className="vs-badge">VS</span>
+
             <span className="score">{scoreB}</span>
-            {match.penaltiesScoreB !== null &&
-              match.penaltiesScoreB !== undefined && (
-                <span className="penalties-mini-score">
-                  ({match.penaltiesScoreB})
-                </span>
-              )}
           </div>
+
           <div className="sb-team-name team-right">{match.teamB.name}</div>
         </div>
       </div>
 
       <MatchTimeline events={match.events} players={players} />
 
-      <div className="dual-fields-layout">
-        {[
-          {
-            k: "A",
-            f: formA,
-            n: match.teamA.name,
-            p: match.teamA.players,
-            gk: match.teamA.goalkeeperId,
-            tact: match.tacticalA,
-          },
-          {
-            k: "B",
-            f: formB,
-            n: match.teamB.name,
-            p: match.teamB.players,
-            gk: match.teamB.goalkeeperId,
-            tact: match.tacticalB,
-          },
-        ].map((t) => (
-          <div key={t.k} className="field-section">
-            <h3 className="field-team-title">{t.n}</h3>
+      {/* ===================== */}
+      {/* TABS */}
+      {/* ===================== */}
 
-            {isAdmin && (
-              <div className="formation-select-wrapper">
-                <select
-                  className="formation-dropdown"
-                  value={t.f}
-                  onChange={(e) => handleSetFormation(t.k, e.target.value)}
-                >
-                  <optgroup label="FUT 5">
-                    {Object.keys(FORMATIONS_DATA.FUT5).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT5[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="FUT 6">
-                    {Object.keys(FORMATIONS_DATA.FUT6).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT6[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                </select>
-              </div>
-            )}
+      {isFriendly && (
+        <FriendlyGamesTabs
+          games={match.friendlyGames || []}
+          selectedGameIndex={selectedGameIndex}
+          setSelectedGameIndex={setSelectedGameIndex}
+          isAdmin={isAdmin}
+          onAddGame={handleAddFriendlyGame}
+          onRemoveGame={handleRemoveFriendlyGame}
+        />
+      )}
 
-            <div className="pitch-canvas">
-              <div className="field-lines">
-                <div className="c-circle"></div>
-                <div className="c-line"></div>
-                <div className="b-top"></div>
-                <div className="b-bottom"></div>
-              </div>
-              {getActiveSlots(t.f).map((s) => renderSlot(s, t.k, t.p))}
-            </div>
+      {/* ===================== */}
+      {/* AMISTOSO */}
+      {/* ===================== */}
 
-            <div className="squad-list-container">
-              <h4 className="squad-title">Elenco:</h4>
-              <div className="squad-grid">
-                {t.p?.map((pId) => {
-                  const pInfo = players.find(
-                    (pl) => String(pl.id) === String(pId),
-                  );
-                  // Verifica se este ID é o ID do Goleiro definido para o time
-                  const isGK = String(pId) === String(t.gk);
+      {isFriendly ? (
+        <FriendlyGameField
+          game={currentFriendlyGame}
+          players={players}
+          match={match}
+          renderSlot={renderSlot}
+          isAdmin={isAdmin}
+          onFormationChange={handleFriendlyFormationChange}
+        />
+      ) : (
+        <div className="dual-fields-layout">
+          {teamsToRender.map((t) => (
+            <div key={t.k} className="field-section">
+              <h3 className="field-team-title">{t.n}</h3>
 
-                  const isCaptain =
-                    String(pId) ===
-                    String(
-                      t.k === "A"
-                        ? match.teamA.captainId
-                        : match.teamB.captainId,
-                    );
+              <div className="pitch-canvas">
+                <div className="field-lines">
+                  <div className="c-circle"></div>
 
-                  const isOnField = Object.values(
-                    t.k === "A" ? match.tacticalA || {} : match.tacticalB || {},
-                  ).includes(pId);
+                  <div className="c-line"></div>
 
-                  return (
-                    <div
-                      key={pId}
-                      className={`squad-player-item ${isOnField ? "on-field" : ""}`}
-                    >
-                      <span className="squad-num">{pInfo?.number || "0"}</span>
-                      <span className="squad-name">
-                        {pInfo?.name.split(" ")[0]}
-                        {isCaptain && (
-                          <small
-                            style={{
-                              marginLeft: "3px",
-                              fontSize: "0.7em",
+                  <div className="b-top"></div>
 
-                              fontWeight: "bold",
-                            }}
-                          >
-                            (C)
-                          </small>
-                        )}
-                        {isGK && (
-                          <small
-                            style={{ marginLeft: "3px", fontSize: "0.7em" }}
-                          >
-                            (GK)
-                          </small>
-                        )}
-                      </span>
-                    </div>
-                  );
-                })}
+                  <div className="b-bottom"></div>
+                </div>
+
+                {getActiveSlots(t.f).map((s) => renderSlot(s, t.k, t.p))}
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <MatchStats
         teamStats={stats}

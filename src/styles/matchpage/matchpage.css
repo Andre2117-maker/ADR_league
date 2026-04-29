@@ -384,45 +384,134 @@
 
 .player-badges {
   position: absolute;
-  top: -12px;
+  top: 4px;
+  right: -8px;
   display: flex;
-  gap: 3px;
-  justify-content: center;
-  z-index: 25;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 40;
 }
 
 .badge-item {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(15, 15, 15, 0.95);
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 5px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 900;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  position: relative;
 }
 
-.player-tactical.is-mvp .player-img {
-  border: 2px solid #d4af37 !important;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+.badge-item small {
+  position: absolute;
+  bottom: -6px;
+  right: -4px;
+  background: #fff;
+  color: #000;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  border: 1px solid #000;
+}
+
+.player-tactical.is-mvp {
+  position: relative;
+}
+
+/* brilho atrás */
+
+.player-tactical.is-mvp::before {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 100px;
+  height: 100px;
+
+  border-radius: 50%;
+
   background: radial-gradient(
     circle,
-    rgba(212, 175, 55, 0.2) 0%,
-    transparent 70%
+    rgba(255, 215, 0, 0.45) 0%,
+    rgba(255, 215, 0, 0.18) 45%,
+    transparent 75%
   );
+
+  filter: blur(10px);
+
+  z-index: 0;
 }
 
-@keyframes shine {
-  0%,
-  100% {
-    transform: translateX(-50%) scale(1);
-    filter: drop-shadow(0 0 5px #d4af37);
-  }
-  50% {
-    transform: translateX(-50%) scale(1.2);
-    filter: drop-shadow(0 0 15px #fff);
-  }
+/* texto MVP */
+
+.player-tactical.is-mvp::after {
+  content: "MVP";
+
+  position: absolute;
+
+  top: -18px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background: #ffd700;
+
+  color: #000;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  padding: 3px 8px;
+
+  border-radius: 20px;
+
+  border: 2px solid white;
+
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+
+  z-index: 50;
+}
+
+/* destaque da foto */
+
+.player-tactical.is-mvp .player-img {
+  border-radius: 12px;
+
+  border: 3px solid #ffd700;
+
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.6);
+
+  position: relative;
+  z-index: 2;
+}
+
+/* label */
+
+.player-tactical.is-mvp .player-card-label {
+  border: 2px solid #ffd700;
+
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+
+  position: relative;
+  z-index: 3;
 }
 
 /* ==========================================================================
