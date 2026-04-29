@@ -12,8 +12,10 @@ import {
 } from "firebase/firestore";
 import "../styles/Home/hallHistorico.css";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const HallHistorico = ({ isAdmin }) => {
+  const navigate = useNavigate();
   const [listaHistorica, setListaHistorica] = useState([]);
   const [jogadoresDB, setJogadoresDB] = useState([]); // Lista de jogadores reais para o Select
   const [loading, setLoading] = useState(true);
@@ -116,6 +118,12 @@ const HallHistorico = ({ isAdmin }) => {
 
   if (loading) return <div className="hall-loader">Carregando Memorial...</div>;
 
+  const handlePlayerClick = (id) => {
+    if (id) {
+      navigate(`/player/${id}`); // Ajuste a rota conforme o seu App.js
+    }
+  };
+
   return (
     <div>
       <div className="hall-vertical-container">
@@ -196,7 +204,13 @@ const HallHistorico = ({ isAdmin }) => {
                     >
                       <div className="hall-item-info">
                         <div className="name-wrapper">
-                          <span className="player-name">
+                          <span
+                            className={`player-name ${p.playerId ? "clickable-link" : ""}`}
+                            onClick={() => handlePlayerClick(p.playerId)}
+                            style={{
+                              cursor: p.playerId ? "pointer" : "default",
+                            }}
+                          >
                             {p.nome}{" "}
                             {p.playerId && (
                               <small className="linked-badge">🔗</small>
