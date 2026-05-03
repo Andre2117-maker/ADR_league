@@ -9,6 +9,7 @@ import {
   query,
   orderBy,
   getDocs,
+  limit,
 } from "firebase/firestore";
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import "../styles/adminmatches.css";
@@ -113,6 +114,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [loading, setLoading] = useState(false);
   const [matchType, setMatchType] = useState(matchToEdit?.type || "TREINO");
   const [showAssistModal, setShowAssistModal] = useState(null);
+  const [loadingLastTeams, setLoadingLastTeams] = useState(false);
   const [extScorerName, setExtScorerName] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -149,6 +151,66 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       penaltiesScoreB: "",
     };
   });
+
+  const loadLastTrainingTeams = async () => {
+    try {
+      setLoadingLastTeams(true);
+
+      const matchesRef = collection(db, "matches");
+
+      // pega as últimas partidas pela ordem
+      const q = query(matchesRef, orderBy("order", "desc"), limit(10));
+
+      const snap = await getDocs(q);
+
+      const matches = snap.docs.map((d) => ({
+        id: d.id,
+        ...d.data(),
+      }));
+
+      // acha o último treino interno
+      const lastTraining = matches.find((m) => m.type === "TREINO");
+
+      if (!lastTraining) {
+        alert("Nenhum treino encontrado.");
+        return;
+      }
+
+      setDraft((prev) => ({
+        ...prev,
+
+        venue: lastTraining.venue || "",
+
+        teamA: {
+          ...prev.teamA,
+          players: lastTraining.teamA?.players || [],
+          goalkeeperId: lastTraining.teamA?.goalkeeperId || null,
+          captainId: lastTraining.teamA?.captainId || null,
+          logo: lastTraining.teamA?.logo || "",
+          name: lastTraining.teamA?.name || "ADR",
+        },
+
+        teamB: {
+          ...prev.teamB,
+          players: lastTraining.teamB?.players || [],
+          goalkeeperId: lastTraining.teamB?.goalkeeperId || null,
+          captainId: lastTraining.teamB?.captainId || null,
+          logo: lastTraining.teamB?.logo || "",
+          name: lastTraining.teamB?.name || "ADR",
+        },
+
+        // limpa eventos antigos
+        events: [],
+      }));
+
+      alert("Últimos times carregados!");
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao carregar últimos times.");
+    } finally {
+      setLoadingLastTeams(false);
+    }
+  };
 
   React.useEffect(() => {
     if (!matchToEdit && location.state?.initialDate) {
@@ -223,10 +285,38 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       const snap = await getDocs(q);
       let allMatches = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
+      const finalGoalsA = goalsA;
+      const finalGoalsB = goalsB;
+
+      let winner = null;
+
+      if (goalsA > goalsB) {
+        winner = "A";
+      } else if (goalsB > goalsA) {
+        winner = "B";
+      } else {
+        // empate -> decide nos pênaltis
+
+        const pensA = Number(draft.penaltiesScoreA || 0);
+        const pensB = Number(draft.penaltiesScoreB || 0);
+
+        if (pensA > pensB) {
+          winner = "A";
+        } else if (pensB > pensA) {
+          winner = "B";
+        } else {
+          return alert("Defina um vencedor nos pênaltis.");
+        }
+      }
+
       const currentMatchData = {
         ...draft,
-        goalsA,
-        goalsB,
+
+        goalsA: finalGoalsA,
+        goalsB: finalGoalsB,
+
+        winner,
+
         type: matchType,
         updatedAt: serverTimestamp(),
       };
@@ -292,6 +382,13 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   return (
     <div className="page-container2">
       <header className="admin-header-flex">
+        <button
+          className="load-last-teams-btn"
+          onClick={loadLastTrainingTeams}
+          disabled={loadingLastTeams}
+        >
+          {loadingLastTeams ? "CARREGANDO..." : "📋 USAR ÚLTIMOS TIMES"}
+        </button>
         <select
           value={matchType}
           onChange={(e) => {

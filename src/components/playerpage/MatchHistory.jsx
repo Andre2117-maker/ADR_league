@@ -63,15 +63,28 @@ const MatchHistory = ({ matches, player }) => {
               ).length || 0;
 
             let result = "draw";
-            if (sA > sB) result = isTeamA ? "win" : "loss";
-            else if (sB > sA) result = !isTeamA ? "win" : "loss";
 
-            if (sA === sB && m.penaltiesWinner) {
-              const wonPenalties =
-                (m.penaltiesWinner === "A" && isTeamA) ||
-                (m.penaltiesWinner === "B" && !isTeamA);
-              result = wonPenalties ? "win" : "loss";
-            }
+// vitória no tempo normal
+if (sA > sB) {
+  result = isTeamA ? "win" : "loss";
+} else if (sB > sA) {
+  result = !isTeamA ? "win" : "loss";
+}
+
+// empate -> decide nos pênaltis
+else {
+  const pensA = Number(m.penaltiesScoreA || 0);
+  const pensB = Number(m.penaltiesScoreB || 0);
+
+  if (pensA !== pensB) {
+    const teamAWonPens = pensA > pensB;
+
+    result =
+      (teamAWonPens && isTeamA) || (!teamAWonPens && !isTeamA)
+        ? "win"
+        : "loss";
+  }
+}
 
             const pG =
               m.events?.filter(

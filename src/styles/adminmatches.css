@@ -598,3 +598,18 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin: 15px 0;
 }
+
+.load-last-teams-btn {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.load-last-teams-btn:hover {
+  opacity: 0.9;
+}
