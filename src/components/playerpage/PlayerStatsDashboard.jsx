@@ -87,8 +87,9 @@ const PlayerStatsDashboard = ({ player, matches }) => {
             dailyGroup[displayDate].a++;
           }
           if (isAuthor) {
-            if (e.type === "YELLOW_CARD") filtered.yellow++;
-            if (e.type === "RED_CARD") filtered.red++;
+            if (e.type === "YELLOW" || e.type === "YELLOW_CARD")
+              filtered.yellow++;
+            if (e.type === "RED" || e.type === "RED_CARD") filtered.red++;
           }
         });
       }

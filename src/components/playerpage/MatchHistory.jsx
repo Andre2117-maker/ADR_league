@@ -64,27 +64,27 @@ const MatchHistory = ({ matches, player }) => {
 
             let result = "draw";
 
-// vitória no tempo normal
-if (sA > sB) {
-  result = isTeamA ? "win" : "loss";
-} else if (sB > sA) {
-  result = !isTeamA ? "win" : "loss";
-}
+            // vitória no tempo normal
+            if (sA > sB) {
+              result = isTeamA ? "win" : "loss";
+            } else if (sB > sA) {
+              result = !isTeamA ? "win" : "loss";
+            }
 
-// empate -> decide nos pênaltis
-else {
-  const pensA = Number(m.penaltiesScoreA || 0);
-  const pensB = Number(m.penaltiesScoreB || 0);
+            // empate -> decide nos pênaltis
+            else {
+              const pensA = Number(m.penaltiesScoreA || 0);
+              const pensB = Number(m.penaltiesScoreB || 0);
 
-  if (pensA !== pensB) {
-    const teamAWonPens = pensA > pensB;
+              if (pensA !== pensB) {
+                const teamAWonPens = pensA > pensB;
 
-    result =
-      (teamAWonPens && isTeamA) || (!teamAWonPens && !isTeamA)
-        ? "win"
-        : "loss";
-  }
-}
+                result =
+                  (teamAWonPens && isTeamA) || (!teamAWonPens && !isTeamA)
+                    ? "win"
+                    : "loss";
+              }
+            }
 
             const pG =
               m.events?.filter(
@@ -95,6 +95,19 @@ else {
               m.events?.filter(
                 (e) =>
                   e.type === "GOAL" && String(e.assistId) === String(player.id),
+              ).length || 0;
+            const pY =
+              m.events?.filter(
+                (e) =>
+                  String(e.playerId) === String(player.id) &&
+                  (e.type === "YELLOW" || e.type === "YELLOW_CARD"),
+              ).length || 0;
+
+            const pR =
+              m.events?.filter(
+                (e) =>
+                  String(e.playerId) === String(player.id) &&
+                  (e.type === "RED" || e.type === "RED_CARD"),
               ).length || 0;
 
             return (
@@ -151,6 +164,9 @@ else {
                   <div className="stats-badges">
                     {pG > 0 && <span className="badge-goal">+{pG} G</span>}
                     {pA > 0 && <span className="badge-assist">+{pA} A</span>}
+                    {pY > 0 && <span className="badge-yellow">🟨 {pY}</span>}
+
+                    {pR > 0 && <span className="badge-red">🟥 {pR}</span>}
                   </div>
                   <span className="adr-match-chevron">›</span>
                 </div>

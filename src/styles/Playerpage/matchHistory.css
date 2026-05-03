@@ -233,27 +233,38 @@
   gap: 12px;
 }
 
-.stats-badges {
-  display: flex;
-  gap: 6px;
-}
-
 .badge-goal,
-.badge-assist {
+.badge-assist,
+.badge-yellow,
+.badge-red {
   font-size: 9px;
   font-weight: 900;
   padding: 3px 8px;
   border-radius: 5px;
 }
+
 .badge-goal {
   background: rgba(255, 215, 0, 0.1);
   color: #ffd700;
   border: 1px solid rgba(255, 215, 0, 0.3);
 }
+
 .badge-assist {
   background: rgba(0, 188, 212, 0.1);
   color: #00bcd4;
   border: 1px solid rgba(0, 188, 212, 0.3);
+}
+
+.badge-yellow {
+  background: rgba(241, 196, 15, 0.1);
+  color: #f1c40f;
+  border: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.badge-red {
+  background: rgba(229, 57, 53, 0.1);
+  color: #e53935;
+  border: 1px solid rgba(229, 57, 53, 0.3);
 }
 
 .adr-match-chevron {

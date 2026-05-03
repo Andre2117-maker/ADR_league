@@ -384,16 +384,61 @@ function MatchPage({ matches, players, isAdmin }) {
         <div className="dual-fields-layout">
           {teamsToRender.map((t) => (
             <div key={t.k} className="field-section">
-              <h3 className="field-team-title">{t.n}</h3>
+              <div className="field-header">
+                <h3 className="field-team-title">{t.n}</h3>
+
+                {isAdmin && (
+                  <div className="formation-select-wrapper">
+                    <select
+                      className="formation-dropdown"
+                      value={t.k === "A" ? formA : formB}
+                      onChange={async (e) => {
+                        const newFormation = e.target.value;
+
+                        try {
+                          if (t.k === "A") {
+                            setFormA(newFormation);
+
+                            await updateDoc(doc(db, "matches", match.id), {
+                              formationA: newFormation,
+                            });
+                          } else {
+                            setFormB(newFormation);
+
+                            await updateDoc(doc(db, "matches", match.id), {
+                              formationB: newFormation,
+                            });
+                          }
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
+                    >
+                      <optgroup label="FUT 5">
+                        {Object.keys(FORMATIONS_DATA.FUT5).map((k) => (
+                          <option key={k} value={k}>
+                            {FORMATIONS_DATA.FUT5[k].label}
+                          </option>
+                        ))}
+                      </optgroup>
+
+                      <optgroup label="FUT 6">
+                        {Object.keys(FORMATIONS_DATA.FUT6).map((k) => (
+                          <option key={k} value={k}>
+                            {FORMATIONS_DATA.FUT6[k].label}
+                          </option>
+                        ))}
+                      </optgroup>
+                    </select>
+                  </div>
+                )}
+              </div>
 
               <div className="pitch-canvas">
                 <div className="field-lines">
                   <div className="c-circle"></div>
-
                   <div className="c-line"></div>
-
                   <div className="b-top"></div>
-
                   <div className="b-bottom"></div>
                 </div>
 
