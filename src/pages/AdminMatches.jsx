@@ -149,8 +149,36 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       penaltiesWinner: null,
       penaltiesScoreA: "",
       penaltiesScoreB: "",
+      penalties: {
+        A: [],
+        B: [],
+      },
     };
   });
+
+  const addPenalty = (team, result) => {
+    setDraft((prev) => ({
+      ...prev,
+      penalties: {
+        ...prev.penalties,
+        [team]: [...(prev.penalties?.[team] || []), result],
+      },
+    }));
+  };
+  const removePenalty = (team, index) => {
+    setDraft((prev) => {
+      const newList = [...(prev.penalties?.[team] || [])];
+      newList.splice(index, 1);
+
+      return {
+        ...prev,
+        penalties: {
+          ...prev.penalties,
+          [team]: newList,
+        },
+      };
+    });
+  };
 
   const loadLastTrainingTeams = async () => {
     try {
@@ -297,8 +325,15 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       } else {
         // empate -> decide nos pênaltis
 
-        const pensA = Number(draft.penaltiesScoreA || 0);
-        const pensB = Number(draft.penaltiesScoreB || 0);
+        const pensA =
+          draft.penalties?.A?.length > 0
+            ? draft.penalties.A.filter((p) => p === "goal").length
+            : Number(draft.penaltiesScoreA || 0);
+
+        const pensB =
+          draft.penalties?.B?.length > 0
+            ? draft.penalties.B.filter((p) => p === "goal").length
+            : Number(draft.penaltiesScoreB || 0);
 
         if (pensA > pensB) {
           winner = "A";
@@ -686,34 +721,52 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     ========================================================================== */}
       {isDraw && (
         <div className="penalties-admin-section">
-          <h3 className="section-title">🏆 DECISÃO POR PÊNALTIS</h3>
+          <h3 className="section-title">🏆 PÊNALTIS</h3>
 
-          <div className="penalties-input-group">
-            <div className="penalty-field">
-              <label>{draft.teamA.name}</label>
-              <input
-                type="number"
-                placeholder="0"
-                value={draft.penaltiesScoreA}
-                onChange={(e) =>
-                  setDraft({ ...draft, penaltiesScoreA: e.target.value })
-                }
-              />
+          {["A", "B"].map((team) => (
+            <div key={team} className="penalty-team-block">
+              <h4>{team === "A" ? draft.teamA.name : draft.teamB.name}</h4>
+
+              <div className="penalty-buttons">
+                <button onClick={() => addPenalty(team, "goal")}>✅</button>
+                <button onClick={() => addPenalty(team, "miss")}>❌</button>
+                <button onClick={() => addPenalty(team, "pending")}>⚪</button>
+              </div>
+
+              <div className="penalty-seq">
+                {(draft.penalties?.[team] || []).map((p, i) => (
+                  <span
+                    key={i}
+                    className={`penalty ${p}`}
+                    onClick={() => removePenalty(team, i)}
+                    title="Clique para remover"
+                  >
+                    {p === "goal" ? "⚽" : p === "miss" ? "✖" : "•"}
+                  </span>
+                ))}
+              </div>
             </div>
+          ))}
 
-            <div className="penalty-vs">X</div>
+          {/* 👇 AQUI ENTRA O LEGADO */}
+          <div className="penalties-legacy">
+            <input
+              type="number"
+              placeholder="0"
+              value={draft.penaltiesScoreA}
+              onChange={(e) =>
+                setDraft({ ...draft, penaltiesScoreA: e.target.value })
+              }
+            />
 
-            <div className="penalty-field">
-              <label>{draft.teamB.name}</label>
-              <input
-                type="number"
-                placeholder="0"
-                value={draft.penaltiesScoreB}
-                onChange={(e) =>
-                  setDraft({ ...draft, penaltiesScoreB: e.target.value })
-                }
-              />
-            </div>
+            <input
+              type="number"
+              placeholder="0"
+              value={draft.penaltiesScoreB}
+              onChange={(e) =>
+                setDraft({ ...draft, penaltiesScoreB: e.target.value })
+              }
+            />
           </div>
         </div>
       )}

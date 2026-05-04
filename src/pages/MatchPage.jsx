@@ -326,6 +326,15 @@ function MatchPage({ matches, players, isAdmin }) {
     },
   ];
 
+  const renderPenalties = (sequence = []) => {
+    return sequence.map((p, i) => (
+      <span key={i} className={`penalty-box ${p}`}></span>
+    ));
+  };
+
+  const hasPenalties =
+    match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0;
+
   return (
     <div className="match-view-wrapper" id="capture-area">
       <div className="match-top-bar">
@@ -348,6 +357,19 @@ function MatchPage({ matches, players, isAdmin }) {
 
           <div className="sb-team-name team-right">{match.teamB.name}</div>
         </div>
+        {hasPenalties && (
+          <div className="penalties-row">
+            <div className="penalties-team">
+              {renderPenalties(match.penalties?.A)}
+            </div>
+
+            <span className="penalties-label">(PÊNALTIS)</span>
+
+            <div className="penalties-team">
+              {renderPenalties(match.penalties?.B)}
+            </div>
+          </div>
+        )}
       </div>
 
       <MatchTimeline events={match.events} players={players} />

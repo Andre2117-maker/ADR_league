@@ -700,6 +700,51 @@
 .squad-player-item.on-field .squad-num {
   color: #ffd700; /* Destaque para quem está em campo */
 }
+.penalties-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #aaa;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.penalties-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.penalties-team {
+  display: flex;
+  gap: 4px;
+}
+
+.penalty-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+/* gol */
+.penalty-box.goal {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.6);
+}
+
+/* erro */
+.penalty-box.miss {
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.5);
+}
+
+/* não batido */
+.penalty-box.pending {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
 /* ==========================================================================
    RESPONSIVIDADE MOBILE
