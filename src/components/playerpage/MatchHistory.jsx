@@ -110,6 +110,10 @@ const MatchHistory = ({ matches, player }) => {
                   (e.type === "RED" || e.type === "RED_CARD"),
               ).length || 0;
 
+            const isGoalkeeper =
+              String(m.teamA?.goalkeeperId) === String(player.id) ||
+              String(m.teamB?.goalkeeperId) === String(player.id);
+
             return (
               <div
                 key={m.id}
@@ -167,6 +171,8 @@ const MatchHistory = ({ matches, player }) => {
                     {pY > 0 && <span className="badge-yellow">🟨 {pY}</span>}
 
                     {pR > 0 && <span className="badge-red">🟥 {pR}</span>}
+
+                    {isGoalkeeper && <span className="badge-gk">GK</span>}
                   </div>
                   <span className="adr-match-chevron">›</span>
                 </div>

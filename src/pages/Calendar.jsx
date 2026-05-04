@@ -112,12 +112,14 @@ function Calendar({
 
   const getBirthdayOnDate = (day) => {
     if (!day) return null;
+
     const month = currentMonth.getMonth() + 1;
     const dayStr = String(day).padStart(2, "0");
     const monthStr = String(month).padStart(2, "0");
 
     return players.find((p) => {
-      if (!p.birthDate) return false;
+      if (!p.birthDate || p.isAnonymous) return false;
+
       const bday = p.birthDate.split("/");
       return bday[1] === monthStr && bday[0] === dayStr;
     });

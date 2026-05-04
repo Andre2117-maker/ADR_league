@@ -7,7 +7,7 @@ const BirthdaySchedule = ({ players }) => {
 
   // 1. Processamento de datas (mantendo sua lógica correta)
   const sortedBirthdays = players
-    .filter((p) => p.birthDate)
+    .filter((p) => p.birthDate && !p.isAnonymous)
     .map((p) => {
       const [day, month, year] = p.birthDate.split("/");
       const bDate = new Date(year, parseInt(month) - 1, parseInt(day));

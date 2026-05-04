@@ -92,19 +92,20 @@ export default function Statics({ players = [], matches = [] }) {
 
   // 3. Processamento Final (AQUI É ONDE OS DADOS FICAM CORRETOS)
   const playersWithFullStats = useMemo(() => {
-    return players.map((p) => {
-      const stats = getPlayerStats(p.id);
-      const manual26 = p.statsBySeason?.["2026"] || {};
+    return players
+      .filter((p) => p.isAnonymous !== true) // 👈 AQUI
+      .map((p) => {
+        const stats = getPlayerStats(p.id);
+        const manual26 = p.statsBySeason?.["2026"] || {};
 
-      return {
-        ...p,
-        points: stats.points,
-        // Importante: Soma os gols calculados + os manuais do banco
-        goals: stats.goals + Number(manual26.goals || 0),
-        assists: stats.assists + Number(manual26.assists || 0),
-        games: stats.games + Number(manual26.matches || manual26.games || 0),
-      };
-    });
+        return {
+          ...p,
+          points: stats.points,
+          goals: stats.goals + Number(manual26.goals || 0),
+          assists: stats.assists + Number(manual26.assists || 0),
+          games: stats.games + Number(manual26.matches || manual26.games || 0),
+        };
+      });
   }, [players, getPlayerStats]);
 
   // 4. Listas Ordenadas para os Cards
