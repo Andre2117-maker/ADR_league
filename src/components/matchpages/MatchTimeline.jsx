@@ -40,32 +40,76 @@ const MatchTimeline = ({ events, players }) => {
 
     const stableKey = e.id || `${e.type}-${index}-${side}`;
 
-    const icon = isOwnGoal ? (
-      <span className="event-icon" style={{ color: "#ff4444" }}>
-        ⚽
-      </span>
-    ) : (
-      <span className="event-icon">⚽</span>
-    );
+    let icon = null;
+    let extraLabel = null;
 
-    const gcLabel = isOwnGoal ? (
-      <small
-        style={{ color: "#ff4444", fontWeight: "bold", marginLeft: "4px" }}
-      >
-        (GC)
-      </small>
-    ) : null;
+    switch (e.type) {
+      case "GOAL":
+        icon = <span className="event-icon">⚽</span>;
+        break;
+
+      case "OWN_GOAL":
+        icon = (
+          <span className="event-icon" style={{ color: "#ff4444" }}>
+            ⚽
+          </span>
+        );
+
+        extraLabel = (
+          <small
+            style={{
+              color: "#ff4444",
+              fontWeight: "bold",
+              marginLeft: "4px",
+            }}
+          >
+            (GC)
+          </small>
+        );
+        break;
+
+      case "YELLOW":
+        icon = (
+          <span
+            className="event-icon"
+            style={{
+              color: "#FFD700",
+              fontWeight: "bold",
+            }}
+          >
+            🟨
+          </span>
+        );
+        break;
+
+      case "RED":
+        icon = (
+          <span
+            className="event-icon"
+            style={{
+              color: "#ff2222",
+              fontWeight: "bold",
+            }}
+          >
+            🟥
+          </span>
+        );
+        break;
+
+      default:
+        icon = <span className="event-icon">•</span>;
+    }
 
     return (
       <div key={stableKey} className="timeline-event-item">
         {side === "A" ? (
           <>
-            {assist} <span className="player-name">{name}</span> {gcLabel}{" "}
+            {assist} <span className="player-name">{name}</span> {extraLabel}{" "}
             {icon}
           </>
         ) : (
           <>
-            {icon} <span className="player-name">{name}</span> {gcLabel}{" "}
+            {icon} <span className="player-name">{name}</span> {extraLabel}{" "}
             {assist}
           </>
         )}

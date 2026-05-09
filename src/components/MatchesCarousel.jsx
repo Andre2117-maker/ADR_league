@@ -97,7 +97,7 @@ function MatchesCarousel({ matches, players }) {
                 .map((e, i) => (
                   <span key={i} className="mtc-scorer">
                     {e.type === "OWN_GOAL"
-                      ? `${e.externalName || getName(e.playerId)} (GC) 🔴`
+                      ? `${e.externalName || getName(e.playerId)} (GC) `
                       : `${getName(e.playerId)} ⚽`}
                   </span>
                 ))}
