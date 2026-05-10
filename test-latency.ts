@@ -34,9 +34,7 @@ async function executarTodos() {
   // Relatório 2: n > 30 (ex: 40 amostras)
   await realizarColeta(40, "Relatório Amostra Grande");
 
-  console.log(
-    "\nColetas finalizadas! Agora copie os dados para o seu documento.",
-  );
+  console.log("\nColetas finalizadas!");
 }
 
 executarTodos();
