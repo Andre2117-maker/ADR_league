@@ -3,15 +3,11 @@ import { useNavigate } from "react-router-dom"; // Importe o navigate
 import "../styles/admin.css";
 
 function AdminLogin({ setIsAdmin }) {
-  // Removido setPage
   const [senha, setSenha] = useState("");
-  const navigate = useNavigate(); // Inicializa o hook
+  const navigate = useNavigate();
 
   const login = () => {
-    // Pega a senha das variáveis de ambiente
-    // Se estiver usando Vite, use: import.meta.env.VITE_ADMIN_PASSWORD;
-
-    if (senha === "s3r3n4") {
+    if (senha === import.meta.env.VITE_ADMIN_PASSWORD) {
       setIsAdmin(true);
       navigate("/admin-panel", { replace: true });
     } else {
