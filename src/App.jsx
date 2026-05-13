@@ -68,8 +68,12 @@ function App() {
   );
   const playersWithTrainingStats = calculateStandings(players, trainingMatches);
 
-  const playersSortedByPoints = [...playersWithStats].sort(
-    (a, b) => b.points - a.points,
+  const playersSortedByTrainingPoints = [...playersWithTrainingStats].sort(
+    (a, b) =>
+      b.points - a.points ||
+      b.goals - a.goals ||
+      b.assists - a.assists ||
+      a.name.localeCompare(b.name, "pt-BR"),
   );
 
   // --- HANDLERS (AÇÕES) ---
@@ -179,8 +183,9 @@ function App() {
             element={
               <PlayerPage
                 playersWithStats={playersWithStats}
+                playersWithTrainingStats={playersWithTrainingStats}
                 matches={matches}
-                sortedPlayers={playersSortedByPoints}
+                sortedPlayers={playersSortedByTrainingPoints}
                 isAdmin={isAdmin}
                 getBestPartner={(id) => getBestPartner(id, matches, players)}
                 onUpdatePlayer={handleUpdatePlayer}
@@ -188,6 +193,7 @@ function App() {
                   const found = playersWithTrainingStats.find(
                     (p) => String(p.id) === String(playerId),
                   );
+
                   return found || {};
                 }}
               />

@@ -27,6 +27,7 @@ function PlayerPage({
   onUpdatePlayer,
   sortedPlayers,
   getPlayerStats,
+  playersWithTrainingStats,
 }) {
   const { id } = useParams(); // Pega o ID da URL (ex: /player/21)
   const navigate = useNavigate();
@@ -36,8 +37,8 @@ function PlayerPage({
 
   // 1. Encontra o jogador baseado no ID da URL
   const player = useMemo(() => {
-    return playersWithStats?.find((p) => String(p.id) === String(id));
-  }, [id, playersWithStats]);
+    return playersWithTrainingStats?.find((p) => String(p.id) === String(id));
+  }, [id, playersWithTrainingStats]);
 
   // 2. Scroll para o topo ao carregar ou mudar de jogador
   useEffect(() => {

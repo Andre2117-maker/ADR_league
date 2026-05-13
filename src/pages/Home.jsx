@@ -196,7 +196,10 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
   // Agora as listas ordenadas usam os dados de 2026:
   const sorted = [...playersWith2026Stats].sort(
     (a, b) =>
-      b.points - a.points || b.goals - a.goals || a.name.localeCompare(b.name),
+      b.points - a.points ||
+      b.goals - a.goals ||
+      b.assists - a.assists ||
+      a.name.localeCompare(b.name, "pt-BR"),
   );
 
   const sortedByGoals = [...playersWith2026Stats].sort(

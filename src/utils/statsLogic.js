@@ -70,42 +70,79 @@ export const calculateStandings = (players, matches) => {
     };
 
     matches.forEach((m) => {
-      const isTeamA = m.teamA.players.includes(player.id);
-      const isTeamB = m.teamB.players.includes(player.id);
+      const isTeamA = m.teamA.players.some(
+        (id) => String(id) === String(player.id),
+      );
+
+      const isTeamB = m.teamB.players.some(
+        (id) => String(id) === String(player.id),
+      );
+
       if (!isTeamA && !isTeamB) return;
 
       stats.games++;
+
       const goalsA = m.events.filter(
         (e) =>
           (e.type === "GOAL" && e.team === "A") ||
           (e.type === "OWN_GOAL" && e.team === "B"),
       ).length;
+
       const goalsB = m.events.filter(
         (e) =>
           (e.type === "GOAL" && e.team === "B") ||
           (e.type === "OWN_GOAL" && e.team === "A"),
       ).length;
 
+      // GOLS E ASSISTÊNCIAS
       m.events.forEach((e) => {
-        if (e.playerId === player.id) {
-          if (e.type === "GOAL") stats.goals++;
-          if (e.type === "ASSIST") stats.assists++;
+        // Gol
+        if (e.type === "GOAL" && String(e.playerId) === String(player.id)) {
+          stats.goals++;
+        }
+
+        // Assistência
+        if (e.type === "GOAL" && String(e.assistId) === String(player.id)) {
+          stats.assists++;
         }
       });
 
+      const playerTeam = isTeamA ? "A" : "B";
+
+      // EMPATE NO TEMPO NORMAL
       if (goalsA === goalsB) {
-        if (m.penaltiesWinner) {
-          const won = m.penaltiesWinner === (isTeamA ? "A" : "B");
-          won ? ((stats.points += 3), stats.wins++) : stats.losses++;
+        const finalWinner = String(m.penaltiesWinner || m.winner || "")
+          .trim()
+          .toUpperCase();
+
+        // Se houve vencedor final (pênaltis)
+        if (finalWinner === "A" || finalWinner === "B") {
+          const won = finalWinner === playerTeam;
+
+          if (won) {
+            stats.points += 3;
+            stats.wins++;
+          } else {
+            stats.losses++;
+          }
         } else {
+          // Empate REAL
           stats.points += 1;
           stats.draws++;
         }
       } else {
+        // Vitória normal
         const won = isTeamA ? goalsA > goalsB : goalsB > goalsA;
-        won ? ((stats.points += 3), stats.wins++) : stats.losses++;
+
+        if (won) {
+          stats.points += 3;
+          stats.wins++;
+        } else {
+          stats.losses++;
+        }
       }
     });
+
     return stats;
   });
 };
