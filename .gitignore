@@ -26,3 +26,12 @@ dist-ssr
 
 .env
 .env.local
+
+# Easter Egg components
+src/components/Easter Egg/
+
+# Easter Egg assets
+src/assets/easteregg/
+
+# Players public
+public/players/
