@@ -1,0 +1,135 @@
+.external-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ===================================================
+   GOLEIRO
+   =================================================== */
+
+.external-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.external-field-group label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.external-field-group input {
+  background: #111;
+
+  border: 1px solid #333;
+
+  border-radius: 10px;
+
+  padding: 12px;
+
+  color: white;
+}
+
+/* ===================================================
+   GOLS
+   =================================================== */
+
+.external-goal-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.external-goal-group input {
+  background: #111;
+
+  border: 1px solid #333;
+
+  border-radius: 10px;
+
+  padding: 12px;
+
+  color: white;
+}
+
+.external-btns-row {
+  display: flex;
+  gap: 10px;
+}
+
+.external-btns-row button {
+  flex: 1;
+
+  min-height: 45px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.external-btns-row button:hover {
+  transform: scale(1.03);
+}
+
+/* ===================================================
+   EVENTOS
+   =================================================== */
+
+.external-events-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.event-tag {
+  background: #2a2a2a;
+
+  border: 1px solid #444;
+
+  border-radius: 999px;
+
+  padding: 8px 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 13px;
+
+  animation: fadeIn 0.25s ease;
+}
+
+.event-tag.og {
+  border-left: 4px solid #ff4d4d;
+}
+
+.remove-event {
+  color: #ff6666;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.admin-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

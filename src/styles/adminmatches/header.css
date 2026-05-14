@@ -1,0 +1,45 @@
+.admin-header-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.admin-header-flex select {
+  width: 100%;
+  background: #e2b900;
+  color: black;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.load-last-teams-btn {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.load-last-teams-btn:hover {
+  opacity: 0.9;
+}
+
+@media (min-width: 768px) {
+  .admin-header-flex {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .admin-header-flex select {
+    width: auto;
+    min-width: 300px;
+  }
+}

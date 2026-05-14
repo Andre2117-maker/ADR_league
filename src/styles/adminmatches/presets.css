@@ -1,0 +1,41 @@
+.preset-tools {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.preset-tools select {
+  flex: 1;
+
+  background: #111;
+
+  border: 1px solid #333;
+
+  color: white;
+
+  padding: 10px;
+
+  border-radius: 10px;
+}
+
+.preset-tools button {
+  background: var(--gold);
+
+  color: black;
+
+  border: none;
+
+  border-radius: 10px;
+
+  padding: 0 16px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.preset-tools button:hover {
+  transform: scale(1.05);
+}

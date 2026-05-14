@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --gold: #d4af37;
+  --bg: #0d0d0d;
+  --card: #1a1a1a;
+  --border: rgba(212, 175, 55, 0.3);
+  --text: #ffffff;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.page-container2 {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 100px 14px 40px;
+
+  overflow-x: hidden;
+}
+
+.admin-box-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: var(--card);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.field input {
+  background: #000;
+  border: 1px solid #333;
+  padding: 12px;
+  color: white;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.match-teams-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .admin-box-grid {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .field {
+    flex: 1;
+  }
+
+  .match-teams-grid {
+    flex-direction: row;
+  }
+}

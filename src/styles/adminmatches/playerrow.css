@@ -1,0 +1,117 @@
+.players-scroll {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.player-row {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.player-row.active {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.25);
+}
+
+.p-clickable-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.p-clickable-area input {
+  width: 18px;
+  height: 18px;
+}
+
+.p-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+/* ===================================================
+   AÇÕES
+   =================================================== */
+
+.actions {
+  margin-top: 14px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 10px;
+}
+
+.actions button {
+  width: 100%;
+  min-height: 44px;
+
+  border-radius: 10px;
+
+  border: none;
+
+  cursor: pointer;
+
+  font-weight: 800;
+
+  transition: 0.2s ease;
+}
+
+.actions button:hover {
+  transform: scale(1.04);
+}
+
+/* Capitão */
+
+.btn-captain {
+  background: #ffca28;
+  color: black;
+}
+
+/* Goleiro */
+
+.btn-gk {
+  background: #2196f3;
+  color: white;
+}
+
+/* Gol */
+
+.btn-goal {
+  background: #28a745;
+  color: white;
+}
+
+/* Gol contra */
+
+.btn-og {
+  background: #dc3545;
+  color: white;
+}
+
+/* Cartões */
+
+.btn-card.yellow {
+  background: #ffeb3b;
+  color: black;
+}
+
+.btn-card.red {
+  background: #f44336;
+  color: white;
+}
+
+/* Desktop */
+
+@media (min-width: 768px) {
+  .actions {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
