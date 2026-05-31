@@ -34,7 +34,7 @@ function ExternalTeamTools({
 
       <hr className="admin-divider" />
 
-      {/* ARTILHEIRO */}
+      {/* AÇÕES ADVERSÁRIAS (GOLS E CARTÕES) */}
       <div className="external-goal-group">
         <input
           placeholder="Nome do Jogador"
@@ -43,12 +43,13 @@ function ExternalTeamTools({
         />
 
         <input
-          placeholder="Assistência (Opcional)"
+          placeholder="Assistência (Opcional - Apenas p/ Gol)"
           value={extAssistName}
           onChange={(e) => setExtAssistName(e.target.value)}
         />
 
-        <div className="external-btns-row">
+        {/* LINHA DE GOLS */}
+        <div className="external-btns-row" style={{ marginBottom: "8px" }}>
           <button
             className="btn-goal"
             onClick={() => {
@@ -89,6 +90,59 @@ function ExternalTeamTools({
             ❌ + GC
           </button>
         </div>
+
+        {/* LINHA DE CARTÕES CORRIGIDA PARA BATER COM O PREVIEW */}
+        <div className="external-btns-row">
+          <button
+            className="btn-yellow-card"
+            style={{
+              backgroundColor: "#ffeb3b",
+              color: "#000",
+              fontWeight: "bold",
+              border: "none",
+              padding: "6px 12px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              flex: 1,
+            }}
+            onClick={() => {
+              if (!extScorerName) return;
+
+              // CORREÇÃO: Enviando "YELLOW" para bater com o switch case do Preview/MatchPage
+              addEvent(t, "EXTERNO", "YELLOW", null, extScorerName);
+
+              setExtScorerName("");
+              setExtAssistName("");
+            }}
+          >
+            🟨 + Amarelo
+          </button>
+
+          <button
+            className="btn-red-card"
+            style={{
+              backgroundColor: "#f44336",
+              color: "#fff",
+              fontWeight: "bold",
+              border: "none",
+              padding: "6px 12px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              flex: 1,
+            }}
+            onClick={() => {
+              if (!extScorerName) return;
+
+              // CORREÇÃO: Enviando "RED" para bater com o switch case do Preview/MatchPage
+              addEvent(t, "EXTERNO", "RED", null, extScorerName);
+
+              setExtScorerName("");
+              setExtAssistName("");
+            }}
+          >
+            🟥 + Vermelho
+          </button>
+        </div>
       </div>
 
       {/* EVENTOS */}
@@ -98,9 +152,14 @@ function ExternalTeamTools({
           .map((e) => (
             <div
               key={e.id}
-              className={`event-tag ${e.type === "OWN_GOAL" ? "og" : ""}`}
+              className={`event-tag ${e.type === "OWN_GOAL" ? "og" : ""} ${
+                e.type === "YELLOW" ? "yellow" : ""
+              } ${e.type === "RED" ? "red" : ""}`}
             >
-              {e.externalName} {e.type === "GOAL" ? "⚽" : "❌ (GC)"}
+              {e.externalName} {e.type === "GOAL" && "⚽"}
+              {e.type === "OWN_GOAL" && "❌ (GC)"}
+              {e.type === "YELLOW" && "🟨"}
+              {e.type === "RED" && "🟥"}
               {e.assistId && ` • 🎯 ${e.assistId}`}
               <span
                 className="remove-event"
