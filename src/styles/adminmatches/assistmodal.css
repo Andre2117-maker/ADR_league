@@ -1,23 +1,167 @@
 .assist-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  padding: 20px;
+  animation: fadeOverlay 0.25s ease;
 }
 
 .assist-modal {
-  background: #1a1a1a;
   width: 100%;
-  max-width: 400px;
-  border-radius: 20px;
-  padding: 25px;
-  border: 1px solid var(--gold);
+  max-width: 430px;
+  max-height: 85vh;
+  overflow-y: auto;
+
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 0.98) 0%,
+    rgba(15, 15, 15, 0.98) 100%
+  );
+
+  border: 1px solid rgba(226, 185, 0, 0.35);
+  border-top: 3px solid #e2b900;
+
+  border-radius: 24px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(226, 185, 0, 0.08);
+
+  animation: modalPop 0.28s ease;
+}
+
+.assist-modal h3 {
+  color: #e2b900;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 22px;
 }
 
 .assist-grid {
   display: grid;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.assist-grid button {
+  width: 100%;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  padding: 14px 16px;
+
+  border-radius: 14px;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.assist-grid button:hover {
+  background: rgba(226, 185, 0, 0.12);
+  border-color: rgba(226, 185, 0, 0.45);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 18px rgba(226, 185, 0, 0.12);
+}
+
+.assist-grid button:active {
+  transform: scale(0.98);
+}
+
+.btn-no-assist {
+  background: rgba(255, 80, 80, 0.08) !important;
+  border-color: rgba(255, 80, 80, 0.3) !important;
+  color: #ff7b7b !important;
+}
+
+.btn-no-assist:hover {
+  background: rgba(255, 80, 80, 0.15) !important;
+  border-color: rgba(255, 80, 80, 0.5) !important;
+}
+
+.btn-cancel {
+  width: 100%;
+
+  margin-top: 18px;
+
+  background: transparent;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  color: rgba(255, 255, 255, 0.7);
+
+  padding: 13px;
+
+  border-radius: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.assist-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.assist-modal::-webkit-scrollbar-thumb {
+  background: rgba(226, 185, 0, 0.35);
+  border-radius: 20px;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .assist-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }

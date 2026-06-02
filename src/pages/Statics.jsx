@@ -1,11 +1,15 @@
 import React, { useMemo, useCallback } from "react";
 import "../styles/Statics/statics.css";
 
-// Componentes
+// Componentes originais
 import TopAssistsCard from "../components/TopAssistsCard";
 import TopGoalkeepersCard from "../components/TopGoalkeepersCard";
 import TopScorersCard from "../components/TopScorersCard";
 import Footer from "../components/Footer";
+
+// NOVOS IMPORTES (Amistosos)
+import FriendlySummary from "../components/Statics/FriendlySummary";
+import { useFriendlyStats } from "../data/useFriendlyStats"; // Ajuste o caminho da pasta se necessário
 
 export default function Statics({ players = [], matches = [] }) {
   // 1. Ordenação das partidas (Igual à Home)
@@ -16,7 +20,10 @@ export default function Statics({ players = [], matches = [] }) {
     );
   }, [matches]);
 
-  // 2. Função de cálculo (Copiada da sua Home para garantir paridade)
+  // CHAMADA DO HOOK DE AMISTOSOS (Adicionado)
+  const friendlyStats = useFriendlyStats(sortedMatchesByDate);
+
+  // 2. Função de cálculo original (Mantida sem alterações)
   const getPlayerStats = useCallback(
     (playerId) => {
       const defaultReturn = { goals: 0, assists: 0, points: 0, games: 0 };
@@ -24,7 +31,7 @@ export default function Statics({ players = [], matches = [] }) {
 
       const playerMatches = sortedMatchesByDate.filter(
         (m) =>
-          m.type === "TREINO" && // <--- ADICIONE ESTA LINHA
+          m.type === "TREINO" &&
           (m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
             m.teamB?.players?.some((id) => String(id) === String(playerId))),
       );
@@ -90,10 +97,10 @@ export default function Statics({ players = [], matches = [] }) {
     [sortedMatchesByDate],
   );
 
-  // 3. Processamento Final (AQUI É ONDE OS DADOS FICAM CORRETOS)
+  // 3. Processamento Final original (Mantido sem alterações)
   const playersWithFullStats = useMemo(() => {
     return players
-      .filter((p) => p.isAnonymous !== true) // 👈 AQUI
+      .filter((p) => p.isAnonymous !== true)
       .map((p) => {
         const stats = getPlayerStats(p.id);
         const manual26 = p.statsBySeason?.["2026"] || {};
@@ -108,7 +115,7 @@ export default function Statics({ players = [], matches = [] }) {
       });
   }, [players, getPlayerStats]);
 
-  // 4. Listas Ordenadas para os Cards
+  // 4. Listas Ordenadas para os Cards originais (Mantido sem alterações)
   const sortedByGoals = useMemo(
     () =>
       [...playersWithFullStats].sort(
@@ -131,10 +138,13 @@ export default function Statics({ players = [], matches = [] }) {
   return (
     <div>
       <div className="statics-container">
-        <h1 className="page-title">Estatísticas da Temporada</h1>
+        <h1 className="page-title">AMISTOSOS</h1>
 
+        {/* COMPONENTE DO HISTÓRICO DE AMISTOSOS (Adicionado) */}
+        <FriendlySummary stats={friendlyStats} />
+
+        <h1 className="page-title">Estatísticas da Temporada 2026</h1>
         <div className="statics-grid">
-          {/* Agora passamos as listas JÁ ORDENADAS e com os gols somados */}
           <TopScorersCard players={sortedByGoals} limit={10} />
           <TopAssistsCard players={sortedByAssists} limit={10} />
           <TopGoalkeepersCard players={players} matches={matches} limit={10} />

@@ -24,6 +24,9 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
       let gamesAsGK = 0;
 
       matches?.forEach((match) => {
+        // CORREÇÃO: Filtra para calcular apenas partidas do tipo TREINO
+        if (match.type !== "TREINO") return;
+
         const isA = match.teamA?.goalkeeperId === player.id;
         const isB = match.teamB?.goalkeeperId === player.id;
 
@@ -92,7 +95,7 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
           ))
         ) : (
           <p style={{ color: "#666", textAlign: "center", fontSize: "0.8rem" }}>
-            Nenhum goleiro atingiu o mínimo de {MIN_GAMES} jogos.
+            Nenhum goleiro atingiu o mínimo de {MIN_GAMES} jogos em Treinos.
           </p>
         )}
       </div>
