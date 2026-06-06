@@ -474,4 +474,10 @@
   .stat-col-right span {
     width: 16px;
   }
+  .size-selector {
+    padding-right: 25px;
+  }
+  .page-title {
+    padding-right: 30px;
+  }
 }
