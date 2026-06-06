@@ -1,0 +1,477 @@
+:root {
+  --gold-light: #f4d77c;
+  --gold-main: #e7c874;
+  --gold-dark: #a47e30;
+  --gold-border: #ffea00;
+
+  --dark-1: #111;
+  --dark-2: #1a1a1a;
+  --dark-3: #252525;
+
+  --shadow: rgba(0, 0, 0, 0.5);
+}
+
+.dream-team-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #fff;
+}
+
+/* CAMPO DE FUTEBOL E LAYERS */
+.tactical-pitch-wrapper {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  background: #2b2b2b;
+  padding: 10px;
+
+  /* Habilita o scroll horizontal se necessário */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+}
+
+.pitch-grass {
+  position: relative;
+  width: 700px;
+  min-width: 600px;
+  height: 750px;
+
+  background: repeating-linear-gradient(
+    0deg,
+    #2f7a32 0px,
+    #2f7a32 50px,
+    #286a2b 50px,
+    #286a2b 100px
+  );
+
+  border-radius: 8px;
+  overflow: hidden;
+
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.pitch-grass::before {
+  content: "";
+  position: absolute;
+  inset: 20px;
+
+  border: 2px solid rgba(255, 255, 255, 0.35);
+
+  pointer-events: none;
+}
+
+.pitch-grass::after {
+  content: "";
+  position: absolute;
+
+  top: 50%;
+  left: 20px;
+  right: 20px;
+
+  height: 2px;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  transform: translateY(-50%);
+}
+
+/* SVG LAYER - LINHAS CONECTADAS */
+.chemistry-lines-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Fica atrás dos cards */
+  pointer-events: none; /* Para não bloquear o clique nos cards */
+}
+
+.chem-line {
+  transition: all 0.3s ease;
+
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.7));
+}
+
+.chem-line.green {
+  animation: chemPulseGreen 2s infinite;
+}
+
+@keyframes chemPulseGreen {
+  0% {
+    filter: drop-shadow(0 0 2px #00e676);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px #00e676);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 2px #00e676);
+  }
+}
+
+/* PLAYERS LAYER - CARDS */
+.players-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none; /* Apenas os cards são clicáveis */
+}
+
+.fut-card-wrapper {
+  position: absolute;
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Centraliza o card exatamento no % definido */
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s ease;
+}
+
+.fut-card-wrapper:hover {
+  transform: translate(-50%, -55%) scale(1.05);
+}
+
+.fut-card-wrapper:hover .gold-card {
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.6),
+    0 0 18px rgba(255, 234, 0, 0.5);
+}
+
+/* DESIGN DA CARTA DOURADA FUT */
+.fut-card {
+  width: 120px;
+  height: 170px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-size: cover;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+
+  transition: 0.3s ease;
+
+  clip-path: polygon(
+    10% 0,
+    90% 0,
+    100% 10%,
+    100% 90%,
+    90% 100%,
+    10% 100%,
+    0 90%,
+    0 10%
+  );
+}
+
+.gold-card {
+  background: linear-gradient(
+    135deg,
+    var(--gold-light) 0%,
+    var(--gold-main) 35%,
+    var(--gold-dark) 100%
+  );
+
+  border: 2px solid var(--gold-border);
+
+  color: #3b2800;
+}
+
+.gold-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: -50%;
+  left: -50%;
+
+  width: 200%;
+  height: 200%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+
+  transform: rotate(25deg);
+
+  pointer-events: none;
+}
+
+.empty-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.card-top-info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.card-rating {
+  font-size: 1.2rem;
+}
+.card-position {
+  font-size: 0.7rem;
+  border-top: 1px solid #3b2800;
+  padding-top: 2px;
+}
+
+.card-player-img {
+  width: 90px;
+  height: 90px;
+
+  object-fit: cover;
+
+  margin-top: 14px;
+
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+.card-name {
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-top: -10px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(59, 40, 0, 0.3);
+  width: 80%;
+  text-align: center;
+}
+
+.card-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 10px;
+  font-size: 0.6rem;
+  margin-top: -4px;
+  font-weight: bold;
+}
+
+.card-stats-grid span {
+  font-weight: normal;
+  margin-right: 3px;
+}
+
+/* SELETOR DE FORMAÇÕES - DESIGN PREMIUM */
+.size-selector {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Permite quebrar linha no celular */
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.size-btn {
+  padding: 12px 24px;
+  background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.size-btn:hover {
+  background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+  color: #fff;
+  border-color: #666;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.6);
+}
+
+.size-btn.active {
+  background: linear-gradient(135deg, #e7c874 0%, #a47e30 100%);
+  color: #3b2800;
+  border: 1px solid #ffea00;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(226, 179, 23, 0.4); /* Brilho dourado */
+}
+
+.fut-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.fut-modal-content {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.modal-players-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-player-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: transparent;
+  color: white;
+  border: 1px solid #333;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+.modal-player-row img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.modal-player-row:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.card-stats-grid {
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+  margin-top: 2px;
+}
+
+.stat-col-left,
+.stat-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stat-col-left div,
+.stat-col-right div {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #3b2800;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.stat-col-left span,
+.stat-col-right span {
+  font-weight: 500;
+  width: 20px; /* Alinha as letras perfeitamente */
+  display: inline-block;
+}
+
+/* RESPONSIVIDADE PARA DISPOSITIVOS MÓVEIS */
+@media (max-width: 768px) {
+  .dream-team-container {
+    padding-top: 150px;
+  }
+  .tactical-pitch-wrapper {
+    width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pitch-grass {
+    width: 700px;
+    min-width: 700px;
+  }
+
+  .fut-card {
+    width: 85px;
+    height: 120px;
+  }
+
+  .card-top-info {
+    top: 4px;
+    left: 4px;
+  }
+
+  .card-rating {
+    font-size: 0.8rem;
+    line-height: 1;
+  }
+
+  .card-position {
+    font-size: 0.5rem;
+  }
+
+  .card-player-img {
+    width: 50px;
+    height: 50px;
+    margin-top: 12px;
+  }
+
+  .card-name {
+    font-size: 0.55rem;
+    margin-top: -3px;
+    width: 90%;
+    padding-bottom: 1px;
+  }
+
+  .card-stats-grid {
+    width: 95%;
+    margin-top: 2px;
+  }
+
+  .stat-col-left div,
+  .stat-col-right div {
+    font-size: 0.42rem;
+    gap: 2px;
+    line-height: 1.1;
+  }
+
+  .stat-col-left span,
+  .stat-col-right span {
+    width: 16px;
+  }
+}

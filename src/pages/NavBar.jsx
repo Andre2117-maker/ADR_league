@@ -44,6 +44,13 @@ function Navbar({ isAdmin, logout }) {
           <Link to="/regras" className="nvb-link">
             Regras
           </Link>
+          <Link
+            to="/dream-team"
+            className="nvb-link"
+            style={{ fontWeight: "600" }}
+          >
+            Dream Team
+          </Link>
           <Link to="/about" className="nvb-link">
             Sobre nós
           </Link>

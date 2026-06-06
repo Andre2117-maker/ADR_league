@@ -176,3 +176,13 @@
   font-size: 0.7rem;
   margin-top: 10px;
 }
+
+.adm-pos-checkbox-label:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.adm-pos-checkbox-label.active:hover {
+  background: rgba(226, 179, 23, 0.25) !important;
+  border-color: #e2b317 !important;
+}

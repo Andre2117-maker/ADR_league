@@ -11,17 +11,18 @@ import {
 } from "firebase/firestore";
 import "./matchbanner.css";
 
-const ADR_LOGO_DEFAULT = "/logo.png"; // Ajustado para a raiz da pasta public
+const ADR_LOGO_DEFAULT = "/logo.png";
 
 const MatchBanner = ({ isAdmin }) => {
   const [banners, setBanners] = useState([]);
   const [showAdmin, setShowAdmin] = useState(false);
   const [bannerType, setBannerType] = useState("AMISTOSO");
+  const [isConverting, setIsConverting] = useState(false); // Feedback visual para o admin
 
   const [formData, setFormData] = useState({
     title: "AMISTOSO",
     teamA: { name: "ADR", logo: ADR_LOGO_DEFAULT },
-    teamB: { name: "", logo: "" },
+    teamB: { name: "", logo: "" }, // Aqui vai ficar a imagem salva como texto Base64
     date: "",
     time: "",
     location: "",
@@ -54,23 +55,60 @@ const MatchBanner = ({ isAdmin }) => {
     return () => unsubscribe();
   }, []);
 
+  // CORREÇÃO: Converte o arquivo para Base64 (Texto permanente)
   const handleFile = (e, target) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      if (target === "B") {
-        setFormData({ ...formData, teamB: { ...formData.teamB, logo: url } });
+      // Se a imagem for muito grande, o Firestore pode recusar. Limitamos o tamanho ideal.
+      if (file.size > 1024 * 1024) {
+        alert("A imagem é muito pesada! Escolha uma imagem de até 1MB.");
+        return;
       }
+
+      setIsConverting(true);
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const base64String = reader.result; // Esse é o texto que representa a imagem
+        if (target === "B") {
+          setFormData((prev) => ({
+            ...prev,
+            teamB: {
+              ...prev.teamB,
+              logo: base64String,
+            },
+          }));
+        }
+        setIsConverting(false);
+      };
+
+      reader.readAsDataURL(file); // Inicia a conversão
     }
   };
 
   const addBanner = async () => {
+    if (isConverting) {
+      alert("Aguarde o processamento da imagem...");
+      return;
+    }
+
     try {
       await addDoc(collection(db, "banners"), {
         ...formData,
         type: bannerType,
         title: bannerType,
         createdAt: new Date(),
+      });
+
+      // Reseta o formulário
+      setFormData({
+        title: "AMISTOSO",
+        teamA: { name: "ADR", logo: ADR_LOGO_DEFAULT },
+        teamB: { name: "", logo: "" },
+        date: "",
+        time: "",
+        location: "",
+        footerText: "ADR LEAGUE • O SHOW VAI COMEÇAR • PREPARE SUA TORCIDA •",
       });
       setShowAdmin(false);
     } catch (err) {
@@ -107,7 +145,8 @@ const MatchBanner = ({ isAdmin }) => {
         const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-        setTimeLeft(`${d}d ${h}h ${m}m ${s}s`);
+        const format = (num) => String(num).padStart(2, "0");
+        setTimeLeft(`${format(d)}d ${format(h)}h ${format(m)}m ${format(s)}s`);
       }, 1000);
       return () => clearInterval(timer);
     }, [targetDate, targetTime]);
@@ -140,12 +179,14 @@ const MatchBanner = ({ isAdmin }) => {
 
             <input
               type="date"
+              value={formData.date}
               onChange={(e) =>
                 setFormData({ ...formData, date: e.target.value })
               }
             />
             <input
               type="time"
+              value={formData.time}
               onChange={(e) =>
                 setFormData({ ...formData, time: e.target.value })
               }
@@ -153,6 +194,7 @@ const MatchBanner = ({ isAdmin }) => {
             <input
               type="text"
               placeholder="Local"
+              value={formData.location}
               onChange={(e) =>
                 setFormData({ ...formData, location: e.target.value })
               }
@@ -169,19 +211,26 @@ const MatchBanner = ({ isAdmin }) => {
                 }}
               >
                 <div style={{ flex: 1 }}>
-                  <label>Logo Adversário</label>
-                  <input type="file" onChange={(e) => handleFile(e, "B")} />
+                  <label>
+                    {isConverting ? "Carregando foto..." : "Logo Adversário"}
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFile(e, "B")}
+                  />
                 </div>
                 <div style={{ flex: 1 }}>
                   <label>Nome Adversário</label>
                   <input
                     type="text"
                     placeholder="Ex: Rato de Campo"
+                    value={formData.teamB.name}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        teamB: { ...formData.teamB, name: e.target.value },
-                      })
+                      setFormData((prev) => ({
+                        ...prev,
+                        teamB: { ...prev.teamB, name: e.target.value },
+                      }))
                     }
                   />
                 </div>
@@ -198,7 +247,7 @@ const MatchBanner = ({ isAdmin }) => {
               }
             />
             <button className="confirm-btn" onClick={addBanner}>
-              PUBLICAR NO SITE
+              {isConverting ? "PROCESSANDO IMAGEM..." : "PUBLICAR NO SITE"}
             </button>
           </div>
         </div>
@@ -231,12 +280,12 @@ const MatchBanner = ({ isAdmin }) => {
                 </div>
                 <div className="banner-team">
                   <img
-                    src={match.teamB.logo || ADR_LOGO_DEFAULT}
+                    src={match.teamB?.logo || ADR_LOGO_DEFAULT}
                     className="banner-logo"
                     alt="logo"
                   />
                   <span className="banner-team-name">
-                    {match.teamB.name || "ADVERSÁRIO"}
+                    {match.teamB?.name || "ADVERSÁRIO"}
                   </span>
                 </div>
               </>

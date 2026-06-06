@@ -31,6 +31,7 @@ import Statics from "./pages/Statics.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Legends from "./pages/Legends.jsx";
+import DreamTeam from "./pages/DreamTeam.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -238,6 +239,11 @@ function App() {
           <Route
             path="/hall-historico"
             element={<HallHistorico isAdmin={isAdmin} />}
+          />
+
+          <Route
+            path="/dream-team"
+            element={<DreamTeam players={players} matches={matches} />}
           />
 
           <Route

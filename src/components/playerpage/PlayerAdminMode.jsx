@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 import "../../styles/playeradmin.css";
 
+const ALL_POSITIONS = [
+  "GOL",
+  "FIX",
+  "ALE",
+  "ALD",
+  "PIV",
+  "ZAG",
+  "LE",
+  "LD",
+  "VOL",
+  "MEI",
+  "PE",
+  "PD",
+  "ATA",
+];
+
 const PlayerAdminMode = ({ player, onSave, onCancel, SKILLS_ORDER }) => {
   // Inicializamos o formulário com os dados atuais do jogador
   const [formData, setFormData] = useState({ ...player });
@@ -24,6 +40,19 @@ const PlayerAdminMode = ({ player, onSave, onCancel, SKILLS_ORDER }) => {
       },
     };
     setFormData({ ...formData, statsBySeason: updatedStatsBySeason });
+  };
+
+  const handlePositionToggle = (pos) => {
+    const currentPositions = formData.positions || [];
+    let updatedPositions;
+
+    if (currentPositions.includes(pos)) {
+      updatedPositions = currentPositions.filter((p) => p !== pos);
+    } else {
+      updatedPositions = [...currentPositions, pos];
+    }
+
+    setFormData({ ...formData, positions: updatedPositions });
   };
 
   const handleSave = () => {
@@ -115,6 +144,71 @@ const PlayerAdminMode = ({ player, onSave, onCancel, SKILLS_ORDER }) => {
                 <option value="Canhoto">Canhoto</option>
                 <option value="Ambidestro">Ambidestro</option>
               </select>
+            </div>
+          </div>
+          {/* NOVO SUB-BLOQUEIO: SELEÇÃO DE MULTIPLAS POSIÇÕES */}
+          <div className="adm-positions-block" style={{ marginTop: "20px" }}>
+            <label
+              className="adm-positions-label"
+              style={{
+                fontWeight: "bold",
+                display: "block",
+                marginBottom: "10px",
+              }}
+            >
+              Posições do Jogador (Selecione uma ou mais)
+            </label>
+            <div
+              className="adm-positions-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))",
+                gap: "10px",
+                background: "rgba(255,255,255,0.03)",
+                padding: "15px",
+                borderRadius: "8px",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              {ALL_POSITIONS.map((pos) => {
+                const isChecked = (formData?.positions || []).includes(pos);
+                return (
+                  <label
+                    key={pos}
+                    className={`adm-pos-checkbox-label ${isChecked ? "active" : ""}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      cursor: "pointer",
+                      padding: "6px 10px",
+                      borderRadius: "6px",
+                      background: isChecked
+                        ? "rgba(226, 179, 23, 0.15)"
+                        : "transparent",
+                      border: isChecked
+                        ? "1px solid #e2b317"
+                        : "1px solid transparent",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handlePositionToggle(pos)}
+                      style={{ accentColor: "#e2b317", cursor: "pointer" }}
+                    />
+                    <span
+                      style={{
+                        fontSize: "0.85rem",
+                        color: isChecked ? "#e2b317" : "#fff",
+                      }}
+                    >
+                      {pos}
+                    </span>
+                  </label>
+                );
+              })}
             </div>
           </div>
         </div>

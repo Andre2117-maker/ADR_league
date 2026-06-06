@@ -45,6 +45,11 @@ const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
   const firstName = nameParts[0];
   const lastName = nameParts.slice(1).join(" ");
 
+  const formattedPositions =
+    player.positions && player.positions.length > 0
+      ? player.positions.join(" / ")
+      : "—";
+
   return (
     <section className="ppg-player-banner">
       <div className="ppg-banner-content">
@@ -80,6 +85,13 @@ const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
               <span className="ppg-detail-label">Parceiro</span>
               <span className="ppg-detail-value">
                 {getBestPartner ? getBestPartner(player.id) : "—"}
+              </span>
+            </div>
+
+            <div className="ppg-detail-item">
+              <span className="ppg-detail-label">Posição</span>
+              <span className="ppg-detail-value">
+                {formattedPositions.toUpperCase()}
               </span>
             </div>
           </div>
