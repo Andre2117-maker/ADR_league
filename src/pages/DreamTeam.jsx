@@ -249,10 +249,10 @@ export default function DreamTeam({ players = [], matches = [] }) {
                       <div className="card-stats-grid">
                         <div className="stat-col-left">
                           <div>
-                            <span>PAC</span> {getStat(player, "velocidade")}
+                            <span>VEL</span> {getStat(player, "velocidade")}
                           </div>
                           <div>
-                            <span>SHO</span> {getStat(player, "chute")}
+                            <span>CHU</span> {getStat(player, "chute")}
                           </div>
                           <div>
                             <span>PAS</span> {getStat(player, "passe")}
@@ -260,7 +260,7 @@ export default function DreamTeam({ players = [], matches = [] }) {
                         </div>
                         <div className="stat-col-right">
                           <div>
-                            <span>DRI</span> {getStat(player, "mira")}
+                            <span>MIR</span> {getStat(player, "mira")}
                           </div>
                           <div>
                             <span>DEF</span> {getStat(player, "defesa")}
