@@ -9,9 +9,14 @@ function FriendlyGameField({
   isAdmin,
   onFormationChange,
 }) {
+  // ATUALIZADO: Agora ele busca no FUT4, FUT5 e FUT6
   const getActiveSlots = (formKey) =>
-    (FORMATIONS_DATA.FUT5[formKey] || FORMATIONS_DATA.FUT6[formKey])?.slots ||
-    [];
+    (
+      FORMATIONS_DATA.FUT4?.[formKey] ||
+      FORMATIONS_DATA.FUT5?.[formKey] ||
+      FORMATIONS_DATA.FUT6?.[formKey]
+    )?.slots || [];
+
   const tacticalPlayers = Object.values(game?.tactical || {});
 
   return (
@@ -25,8 +30,17 @@ function FriendlyGameField({
             value={game?.formation || "5_JOG_2-1-1"}
             onChange={(e) => onFormationChange(e.target.value)}
           >
+            {/* NOVO: Grupo do FUT 4 */}
+            <optgroup label="FUT 4">
+              {Object.keys(FORMATIONS_DATA.FUT4 || {}).map((k) => (
+                <option key={k} value={k}>
+                  {FORMATIONS_DATA.FUT4[k].label}
+                </option>
+              ))}
+            </optgroup>
+
             <optgroup label="FUT 5">
-              {Object.keys(FORMATIONS_DATA.FUT5).map((k) => (
+              {Object.keys(FORMATIONS_DATA.FUT5 || {}).map((k) => (
                 <option key={k} value={k}>
                   {FORMATIONS_DATA.FUT5[k].label}
                 </option>
@@ -34,7 +48,7 @@ function FriendlyGameField({
             </optgroup>
 
             <optgroup label="FUT 6">
-              {Object.keys(FORMATIONS_DATA.FUT6).map((k) => (
+              {Object.keys(FORMATIONS_DATA.FUT6 || {}).map((k) => (
                 <option key={k} value={k}>
                   {FORMATIONS_DATA.FUT6[k].label}
                 </option>
@@ -64,7 +78,6 @@ function FriendlyGameField({
         <div className="squad-grid">
           {match.teamA.players?.map((pId) => {
             const pInfo = players.find((pl) => String(pl.id) === String(pId));
-
             const isOnField = tacticalPlayers.includes(pId);
 
             return (

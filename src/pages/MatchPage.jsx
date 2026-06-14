@@ -175,9 +175,13 @@ function MatchPage({ matches, players, isAdmin }) {
   // SLOTS
   // =========================
 
-  const getActiveSlots = (formKey) =>
-    (FORMATIONS_DATA.FUT5[formKey] || FORMATIONS_DATA.FUT6[formKey])?.slots ||
-    [];
+  const getActiveSlots = (formKey) => {
+    const formFut4 = FORMATIONS_DATA.FUT4?.[formKey];
+    const formFut5 = FORMATIONS_DATA.FUT5?.[formKey];
+    const formFut6 = FORMATIONS_DATA.FUT6?.[formKey];
+
+    return (formFut4 || formFut5 || formFut6)?.slots || [];
+  };
 
   // =========================
   // RENDER SLOT
@@ -335,6 +339,8 @@ function MatchPage({ matches, players, isAdmin }) {
   const hasPenalties =
     match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0;
 
+  console.log("CHAVES ENCONTRADAS NO ARQUIVO:", Object.keys(FORMATIONS_DATA));
+
   return (
     <div className="match-view-wrapper" id="capture-area">
       <div className="match-top-bar">
@@ -436,6 +442,15 @@ function MatchPage({ matches, players, isAdmin }) {
                         }
                       }}
                     >
+                      {/* NOVO: Grupo do FUT 4 */}
+                      <optgroup label="FUT 4">
+                        {Object.keys(FORMATIONS_DATA.FUT4 || {}).map((k) => (
+                          <option key={k} value={k}>
+                            {FORMATIONS_DATA.FUT4[k].label}
+                          </option>
+                        ))}
+                      </optgroup>
+
                       <optgroup label="FUT 5">
                         {Object.keys(FORMATIONS_DATA.FUT5).map((k) => (
                           <option key={k} value={k}>
