@@ -1,4 +1,42 @@
 export const FORMATIONS_DATA = {
+  FUT4: {
+    "4_JOG_1-1-1": {
+      label: "1-1-1 (Diamante/Linha)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "50%", y: "65%", role: "FIXO" },
+        { id: "s3", x: "50%", y: "40%", role: "ALA" },
+        { id: "s4", x: "50%", y: "15%", role: "PIVO" },
+      ],
+    },
+    "4_JOG_1-2": {
+      label: "1-2 (Pirâmide)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "50%", y: "68%", role: "FIXO" },
+        { id: "s3", x: "25%", y: "30%", role: "ALA" },
+        { id: "s4", x: "75%", y: "30%", role: "ALA" },
+      ],
+    },
+    "4_JOG_2-1": {
+      label: "2-1 (Ofensiva/Y Invertido)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "30%", y: "65%", role: "FIXO" },
+        { id: "s3", x: "70%", y: "65%", role: "FIXO" },
+        { id: "s4", x: "50%", y: "25%", role: "PIVO" },
+      ],
+    },
+    "4_JOG_3-0": {
+      label: "3-0 (Defensiva/Reta)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "GK" },
+        { id: "s2", x: "20%", y: "65%", role: "FIXO" },
+        { id: "s3", x: "50%", y: "65%", role: "FIXO" },
+        { id: "s4", x: "80%", y: "65%", role: "FIXO" },
+      ],
+    },
+  },
   FUT5: {
     "5_JOG_2-1-1": {
       label: "2-1-1",
