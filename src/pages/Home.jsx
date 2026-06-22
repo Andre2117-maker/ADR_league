@@ -292,6 +292,8 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
               setHoveredPlayer={
                 window.innerWidth > 1024 ? setHoveredPlayer : () => {}
               }
+              isAdmin={isAdmin}
+              matches={matches}
             />
           </div>
           <div className="awards-section">

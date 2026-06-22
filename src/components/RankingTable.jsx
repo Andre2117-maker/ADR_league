@@ -9,9 +9,46 @@ export default function RankingTable({
   getPlayerStats,
   onSelectPlayer,
   setHoveredPlayer,
+  isAdmin, // <-- ADICIONADO AQUI
+  matches, // <-- ADICIONADO AQUI
 }) {
   // Filtra apenas jogadores ativos (não anônimos)
   const activePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
+
+  // --- FUNÇÃO PARA CHECAR FALTAS ---
+  const checkConsecutiveAbsences = (player, allMatches) => {
+    if (!allMatches || allMatches.length === 0) return { isOut: false };
+
+    const onlyTrainings = allMatches.filter((m) => m.type === "TREINO");
+    if (onlyTrainings.length === 0) return { isOut: false };
+
+    const rawDates = [...new Set(onlyTrainings.map((m) => m.date))];
+    const trainingDays = rawDates.sort((a, b) => {
+      const [y1, m1, d1] = a.split("-").map(Number);
+      const [y2, m2, d2] = b.split("-").map(Number);
+      return new Date(y2, m2 - 1, d2, 12) - new Date(y1, m1 - 1, d1, 12);
+    });
+
+    let missedCount = 0;
+    for (const day of trainingDays) {
+      const playedOnThisDay = onlyTrainings.some((match) => {
+        return (
+          match.date === day &&
+          (match.teamA.players.some(
+            (pId) => String(pId) === String(player.id),
+          ) ||
+            match.teamB.players.some(
+              (pId) => String(pId) === String(player.id),
+            ))
+        );
+      });
+
+      if (playedOnThisDay) break;
+      else missedCount++;
+    }
+
+    return { isOut: missedCount >= 3 };
+  };
 
   return (
     <main className="central-column" id="tabela-content">
@@ -90,7 +127,41 @@ export default function RankingTable({
                     className="player-td-name fw-bold sticky-col pin-name"
                     onClick={() => onSelectPlayer(p)}
                   >
-                    {p.name}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between", // Nome de um lado, ícone do outro
+                        width: "100%",
+                        paddingRight: "5px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {p.name}
+                      </span>
+
+                      {/* Ícone de Alerta */}
+                      {isAdmin &&
+                        checkConsecutiveAbsences(p, matches).isOut && (
+                          <span
+                            title="Alerta: Faltou aos últimos 3 treinos!"
+                            style={{
+                              cursor: "help",
+                              fontSize: "14px",
+                              marginLeft: "auto", // Empurra o ícone para o canto direito
+                              flexShrink: 0,
+                            }}
+                          >
+                            ⚠️
+                          </span>
+                        )}
+                    </div>
                   </td>
 
                   <td className="fw-bold">{points}</td>
