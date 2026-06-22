@@ -221,6 +221,10 @@
   z-index: 10;
 }
 
+.tactical-slot:hover {
+  z-index: 999999 !important;
+}
+
 .player-img {
   width: 90px;
   height: 100px;
