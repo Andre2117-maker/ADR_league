@@ -746,6 +746,59 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* =========================
+   TOOLTIPS DOS CARTÕES
+   ========================= */
+
+.tooltip-container {
+  position: relative;
+  cursor: help; /* Muda o cursor para uma interrogação/ajuda */
+}
+
+.custom-tooltip {
+  visibility: hidden;
+  background-color: rgba(20, 20, 20, 0.95);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 10px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 140%; /* Posiciona acima do cartão */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s ease;
+  border: 1px solid #444;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
+  pointer-events: none; /* Impede que o próprio tooltip bloqueie o rato */
+}
+
+/* Cria a setinha a apontar para baixo */
+.custom-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(20, 20, 20, 0.95) transparent transparent transparent;
+}
+
+/* Quando passar o rato na badge, mostra o tooltip */
+.tooltip-container:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px); /* Efeito de deslizar um pouco para cima */
+}
+
 /* ==========================================================================
    RESPONSIVIDADE MOBILE
    ========================================================================== */

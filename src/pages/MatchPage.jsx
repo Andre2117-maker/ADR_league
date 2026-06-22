@@ -213,13 +213,21 @@ function MatchPage({ matches, players, isAdmin }) {
 
     const ownGoals = pEvents.filter((e) => e.type === "OWN_GOAL").length;
 
-    const yellows = pEvents.filter(
+    const yellowEvents = pEvents.filter(
       (e) => e.type === "YELLOW_CARD" || e.type === "YELLOW",
-    ).length;
+    );
+    const yellowReasons = yellowEvents
+      .map((e) => e.reason)
+      .filter((r) => r) // Remove motivos vazios
+      .join(" | "); // Junta se o jogador tiver mais de 1 amarelo
 
-    const reds = pEvents.filter(
+    const redEvents = pEvents.filter(
       (e) => e.type === "RED_CARD" || e.type === "RED",
-    ).length;
+    );
+    const redReasons = redEvents
+      .map((e) => e.reason)
+      .filter((r) => r)
+      .join(" | ");
 
     return (
       <div
@@ -246,17 +254,25 @@ function MatchPage({ matches, players, isAdmin }) {
                 </span>
               )}
 
-              {yellows > 0 && (
-                <span className="badge-item">
+              {yellowEvents.length > 0 && (
+                <span className="badge-item tooltip-container">
                   🟨
-                  {yellows > 1 && <small>{yellows}</small>}
+                  {yellowEvents.length > 1 && (
+                    <small>{yellowEvents.length}</small>
+                  )}
+                  <span className="custom-tooltip">
+                    {yellowReasons || "Cartão Amarelo"}
+                  </span>
                 </span>
               )}
 
-              {reds > 0 && (
-                <span className="badge-item">
+              {redEvents.length > 0 && (
+                <span className="badge-item tooltip-container">
                   🟥
-                  {reds > 1 && <small>{reds}</small>}
+                  {redEvents.length > 1 && <small>{redEvents.length}</small>}
+                  <span className="custom-tooltip">
+                    {redReasons || "Cartão Vermelho"}
+                  </span>
                 </span>
               )}
 

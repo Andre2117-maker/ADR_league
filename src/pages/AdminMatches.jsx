@@ -159,6 +159,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     type,
     assistId = null,
     externalName = null,
+    reason = "",
   ) => {
     setDraft((prev) => ({
       ...prev,
@@ -173,6 +174,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
           type,
           assistId,
           externalName,
+          reason,
           matchType,
         },
       ],
@@ -600,7 +602,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                         })
                       }
                       onOwnGoal={() => addEvent(t, p.id, "OWN_GOAL")}
-                      onCard={(type) => addEvent(t, p.id, type)}
+                      onCard={(type, reason) =>
+                        addEvent(t, p.id, type, null, null, reason)
+                      }
                     />
                   ))}
                 </div>
