@@ -226,6 +226,7 @@ const MatchTimeline = ({ events, players }) => {
           width: "100%",
           position: "relative",
           paddingBottom: "10px",
+          paddingTop: "50px",
         }}
       >
         {/* Linha vertical central */}
@@ -235,7 +236,7 @@ const MatchTimeline = ({ events, players }) => {
             top: 0,
             bottom: 0,
             left: "50%",
-            width: "2px",
+            width: "3px",
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             transform: "translateX(-50%)",
             zIndex: 1,
