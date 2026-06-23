@@ -760,28 +760,35 @@
 }
 
 .custom-tooltip {
-  visibility: hidden;
-  background-color: rgba(20, 20, 20, 0.95);
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 6px 10px;
+  /* Alinhamento */
   position: absolute;
-  z-index: 1000;
-  bottom: 140%; /* Posiciona acima do cartão */
+  bottom: 130%; /* Subi um pouco mais para dar espaço a textos maiores */
   left: 50%;
   transform: translateX(-50%);
-  white-space: nowrap;
-  font-size: 0.75rem;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+
+  /* ESTRATÉGIA DE SOBREPOSIÇÃO */
+  z-index: 9999999 !important;
+  isolation: isolate;
+
+  /* Visual */
+  visibility: hidden;
   opacity: 0;
-  transition:
-    opacity 0.2s ease-in-out,
-    transform 0.2s ease;
-  border: 1px solid #444;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
-  pointer-events: none; /* Impede que o próprio tooltip bloqueie o rato */
+  background-color: rgba(20, 20, 20, 0.98);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d4af37;
+  font-size: 0.7rem; /* Diminuí levemente a fonte para encaixar melhor */
+
+  /* A MÁGICA PARA CABER NO CELULAR: */
+  white-space: normal; /* Permite que o texto quebre em várias linhas */
+  max-width: 160px; /* Impede que o balão fique mais largo que isso */
+  width: max-content; /* Se o texto for curto, fica pequeno. Se for longo, usa o max-width */
+  text-align: center; /* Centraliza o texto em várias linhas */
+  word-wrap: break-word; /* Força a quebra se alguém digitar uma palavra gigante sem espaço */
+
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
 /* Cria a setinha a apontar para baixo */
