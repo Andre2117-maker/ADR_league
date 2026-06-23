@@ -29,14 +29,18 @@
 
 .team-upload-header {
   display: flex;
+  flex-direction: column; /* Altera de linha para coluna */
+  gap: 15px;
+  margin-bottom: 18px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header-top-row {
+  display: flex; /* Mantém a logo e o input lado a lado */
   align-items: center;
   gap: 15px;
-
-  margin-bottom: 18px;
-
-  padding-bottom: 15px;
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
 }
 
 .logo-box {

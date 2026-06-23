@@ -1,39 +1,24 @@
 .preset-tools {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  width: 100%; /* Faz o seletor ocupar a linha de baixo inteira */
 }
 
 .preset-tools select {
-  flex: 1;
-
-  background: #111;
-
-  border: 1px solid #333;
-
+  flex: 1; /* Faz o seletor crescer para ocupar o espaço */
+  background: #222;
   color: white;
-
-  padding: 10px;
-
-  border-radius: 10px;
+  border: 1px solid #333;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .preset-tools button {
-  background: var(--gold);
-
-  color: black;
-
+  padding: 0 15px;
+  background: #333;
   border: none;
-
-  border-radius: 10px;
-
-  padding: 0 16px;
-
-  font-weight: 800;
-
+  border-radius: 8px;
   cursor: pointer;
-
-  transition: 0.2s ease;
 }
 
 .preset-tools button:hover {

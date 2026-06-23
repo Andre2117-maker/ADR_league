@@ -21,40 +21,38 @@ function TeamCard({
       {/* HEADER */}
 
       <div className="team-upload-header">
-        <div
-          className="logo-box"
-          onClick={() => document.getElementById(`file-${t}`).click()}
-        >
-          {draft[teamKey].logo ? (
-            <img src={draft[teamKey].logo} alt="logo" />
-          ) : (
-            <span>+ LOGO</span>
-          )}
+        <div className="header-top-row">
+          <div
+            className="logo-box"
+            onClick={() => document.getElementById(`file-${t}`).click()}
+          >
+            {draft[teamKey].logo ? (
+              <img src={draft[teamKey].logo} alt="logo" />
+            ) : (
+              <span>+ LOGO</span>
+            )}
+            <input
+              id={`file-${t}`}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={(e) => handleImageUpload(e, teamKey)}
+            />
+          </div>
 
           <input
-            id={`file-${t}`}
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(e) => handleImageUpload(e, teamKey)}
+            className="team-name-input"
+            placeholder="Nome do Time"
+            value={draft[teamKey].name}
+            disabled={!isExternal && matchType === "AMISTOSO"}
+            onChange={(e) =>
+              setDraft({
+                ...draft,
+                [teamKey]: { ...draft[teamKey], name: e.target.value },
+              })
+            }
           />
         </div>
-
-        <input
-          className="team-name-input"
-          placeholder="Nome do Time"
-          value={draft[teamKey].name}
-          disabled={!isExternal && matchType === "AMISTOSO"}
-          onChange={(e) =>
-            setDraft({
-              ...draft,
-              [teamKey]: {
-                ...draft[teamKey],
-                name: e.target.value,
-              },
-            })
-          }
-        />
 
         <div className="preset-tools">
           <select
@@ -62,14 +60,12 @@ function TeamCard({
             onChange={(e) => applyPreset(teamKey, e.target.value)}
           >
             <option value="">📋 Carregar Preset</option>
-
             {teamPresets.map((preset) => (
               <option key={preset.id} value={preset.id}>
                 {preset.name}
               </option>
             ))}
           </select>
-
           <button onClick={() => handleSavePreset(teamKey)}>💾</button>
         </div>
       </div>
