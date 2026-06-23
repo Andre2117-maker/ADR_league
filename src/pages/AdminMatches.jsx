@@ -18,6 +18,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import PlayerRow from "../components/adminmatches/PlayerRow";
 import AssistModal from "../components/adminmatches/AssistModal";
+import SubModal from "../components/adminmatches/SubModal";
 import PenaltiesSection from "../components/adminmatches/PenaltiesSection";
 import AdminHeader from "../components/adminmatches/AdminHeader";
 import PresetTools from "../components/adminmatches/PresetTools";
@@ -34,6 +35,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [loadingLastTeams, setLoadingLastTeams] = useState(false);
   const [matchType, setMatchType] = useState(matchToEdit?.type || "TREINO");
   const [showAssistModal, setShowAssistModal] = useState(null);
+  const [showSubModal, setShowSubModal] = useState(null);
   const [teamPresets, setTeamPresets] = useState([]);
   const [extScorerName, setExtScorerName] = useState("");
   const [extAssistName, setExtAssistName] = useState("");
@@ -181,6 +183,25 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     }));
 
     setShowAssistModal(null);
+  };
+
+  const addSubEvent = (team, playerOutId, playerInId, reason) => {
+    setDraft((prev) => ({
+      ...prev,
+      events: [
+        ...prev.events,
+        {
+          id: crypto.randomUUID(),
+          team,
+          type: "SUB",
+          playerOutId,
+          playerInId,
+          reason,
+          matchType,
+        },
+      ],
+    }));
+    setShowSubModal(null); // Fecha o modal após adicionar
   };
 
   const handleImageUpload = (e, teamKey) => {
@@ -365,14 +386,11 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
       const currentMatchData = {
         ...draft,
-
+        events: draft.events, // Isso garante que a ordem atualizada (pelo drag & drop) seja enviada
         goalsA,
         goalsB,
-
         winner,
-
         type: matchType,
-
         updatedAt: serverTimestamp(),
       };
 
@@ -609,6 +627,36 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                   ))}
                 </div>
               )}
+              {isExternal ? (
+                <ExternalTeamTools
+                // ... suas props
+                />
+              ) : (
+                <>
+                  <div className="players-scroll">
+                    {/* ... seu map do PlayerRow ... */}
+                  </div>
+
+                  {/* --- NOVO BOTÃO DE SUBSTITUIÇÃO AQUI --- */}
+                  <div style={{ marginTop: "10px", padding: "0 10px" }}>
+                    <button
+                      onClick={() => setShowSubModal(t)}
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        backgroundColor: "#333",
+                        color: "#fff",
+                        border: "1px solid #d4af37",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      🔄 Nova Substituição
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}
@@ -624,19 +672,59 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         />
       )}
 
+      {showSubModal && (
+        <SubModal
+          team={showSubModal}
+          sortedPlayers={sortedPlayers}
+          // PASSA A LISTA DE JOGADORES DO TIME SELECIONADO:
+          teamPlayers={draft[showSubModal === "A" ? "teamA" : "teamB"].players}
+          addSubEvent={addSubEvent}
+          close={() => setShowSubModal(null)}
+        />
+      )}
+
       <MatchPreview
         draft={draft}
         players={players}
         goalsA={goalsA}
         goalsB={goalsB}
+        penaltiesScoreA={draft.penaltiesScoreA}
+        penaltiesScoreB={draft.penaltiesScoreB}
         penaltiesWinner={isDraw ? draft.penaltiesWinner : null}
+        // Mantém a sua função de remover:
         removeEvent={(id) =>
           setDraft((prev) => ({
             ...prev,
-
             events: prev.events.filter((e) => e.id !== id),
           }))
         }
+        // NOVA FUNÇÃO: Atualiza a lista quando você arrasta os itens
+        onReorder={(newEvents) => {
+          setDraft((prev) => ({
+            ...prev,
+            events: newEvents,
+          }));
+        }}
+        // NOVA FUNÇÃO: O que fazer quando clica em editar
+        onEdit={(eventToEdit) => {
+          if (eventToEdit.type === "SUB") {
+            // Exemplo de edição simples para substituição
+            const novoMotivo = prompt(
+              "Novo motivo da substituição:",
+              eventToEdit.reason,
+            );
+            if (novoMotivo !== null) {
+              setDraft((prev) => ({
+                ...prev,
+                events: prev.events.map((e) =>
+                  e.id === eventToEdit.id ? { ...e, reason: novoMotivo } : e,
+                ),
+              }));
+            }
+          } else {
+            alert("Edite o evento: " + eventToEdit.type);
+          }
+        }}
       />
 
       {isDraw && (

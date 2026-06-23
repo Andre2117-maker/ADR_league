@@ -118,20 +118,27 @@
 }
 
 .events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 15px;
+  width: 100%;
 }
 
 .event-card-mini {
+  position: relative;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  padding: 12px 15px;
+  border-radius: 10px;
+  padding: 10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  transition: 0.3s;
+  justify-content: center; /* Mantém o conteúdo centralizado na linha */
+}
+
+.event-card-mini:active {
+  cursor: grabbing;
+  opacity: 0.7;
+  border-color: #d4af37;
 }
 
 .event-card-mini:hover {
@@ -142,7 +149,7 @@
 .event-main-info {
   display: flex;
   align-items: center;
-  gap: 15px;
+  width: 100%;
 }
 
 .e-icon {
@@ -186,12 +193,12 @@
 }
 
 .e-delete {
+  position: absolute;
+  right: 15px;
   background: none;
   border: none;
-  color: rgba(255, 77, 77, 0.4);
+  color: #555;
   cursor: pointer;
-  padding: 5px;
-  transition: 0.2s;
 }
 
 .e-delete:hover {
