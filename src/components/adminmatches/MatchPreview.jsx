@@ -16,7 +16,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import "../../styles/matchpage/matchpreview.css";
 
-// 1. Componente Sortable para cada linha da Timeline
+// 1. Componente Sortable
 const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: e.id });
@@ -28,107 +28,107 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    cursor: "grab",
     touchAction: "none",
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="event-card-mini"
-      {...attributes}
-      {...listeners}
-    >
-      {/* Lado A */}
-      <div style={{ flex: 1, textAlign: "right", paddingRight: "30px" }}>
-        {e.team === "A" && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-            }}
-          >
-            {e.type === "SUB" ? (
-              <>
-                <span style={{ fontWeight: "bold", color: "#44ff44" }}>
-                  {getPlayerName(e.playerInId)} ⬆️
-                </span>
-                <span style={{ fontSize: "10px", color: "#aaa" }}>
-                  {getPlayerName(e.playerOutId)} ⬇️
-                </span>
-              </>
-            ) : (
-              <>
-                <span style={{ fontWeight: "bold" }}>
-                  {getPlayerName(e.playerId, e.externalName)}
-                </span>
-                {e.assistId && (
-                  <span style={{ fontSize: "10px", color: "#aaa" }}>
-                    [{getPlayerName(e.assistId)}]
-                  </span>
-                )}
-              </>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Ícone Central */}
+    <div ref={setNodeRef} style={style} className="event-card-mini">
+      {/* Container de Arraste (somente o conteúdo) */}
       <div
-        className="e-icon"
         style={{
-          zIndex: 2,
-          background: "#000",
-          padding: "5px",
-          borderRadius: "50%",
-          border: "2px solid #333",
+          display: "flex",
+          flex: 1,
+          alignItems: "center",
+          cursor: "grab",
         }}
+        {...attributes}
+        {...listeners}
       >
-        {renderEventIcon(e.type)}
-      </div>
-
-      {/* Lado B */}
-      <div style={{ flex: 1, textAlign: "left", paddingLeft: "30px" }}>
-        {e.team === "B" && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
-          >
-            {e.type === "SUB" ? (
-              <>
-                <span style={{ fontWeight: "bold", color: "#44ff44" }}>
-                  ⬆️ {getPlayerName(e.playerInId)}
-                </span>
-                <span style={{ fontSize: "10px", color: "#aaa" }}>
-                  ⬇️ {getPlayerName(e.playerOutId)}
-                </span>
-              </>
-            ) : (
-              <>
-                <span style={{ fontWeight: "bold" }}>
-                  {getPlayerName(e.playerId, e.externalName)}
-                </span>
-                {e.assistId && (
-                  <span style={{ fontSize: "10px", color: "#aaa" }}>
-                    [{getPlayerName(e.assistId)}]
+        <div style={{ flex: 1, textAlign: "right", paddingRight: "30px" }}>
+          {e.team === "A" && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              {e.type === "SUB" ? (
+                <>
+                  <span style={{ fontWeight: "bold", color: "#44ff44" }}>
+                    {getPlayerName(e.playerInId)} ⬆️
                   </span>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                  <span style={{ fontSize: "10px", color: "#aaa" }}>
+                    {getPlayerName(e.playerOutId)} ⬇️
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span style={{ fontWeight: "bold" }}>
+                    {getPlayerName(e.playerId, e.externalName)}
+                  </span>
+                  {e.assistId && (
+                    <span style={{ fontSize: "10px", color: "#aaa" }}>
+                      [{getPlayerName(e.assistId)}]
+                    </span>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div
+          className="e-icon"
+          style={{
+            zIndex: 2,
+            background: "#000",
+            padding: "5px",
+            borderRadius: "50%",
+            border: "2px solid #333",
+          }}
+        >
+          {renderEventIcon(e.type)}
+        </div>
+
+        <div style={{ flex: 1, textAlign: "left", paddingLeft: "30px" }}>
+          {e.team === "B" && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
+              {e.type === "SUB" ? (
+                <>
+                  <span style={{ fontWeight: "bold", color: "#44ff44" }}>
+                    ⬆️ {getPlayerName(e.playerInId)}
+                  </span>
+                  <span style={{ fontSize: "10px", color: "#aaa" }}>
+                    ⬇️ {getPlayerName(e.playerOutId)}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span style={{ fontWeight: "bold" }}>
+                    {getPlayerName(e.playerId, e.externalName)}
+                  </span>
+                  {e.assistId && (
+                    <span style={{ fontSize: "10px", color: "#aaa" }}>
+                      [{getPlayerName(e.assistId)}]
+                    </span>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* Botão de Remover (Fora dos listeners de arraste) */}
       <button
-        onClick={(event) => {
-          event.stopPropagation();
-          removeEvent(e.id);
-        }}
+        onClick={() => removeEvent(e.id)}
         style={{
           position: "absolute",
           right: "5px",
@@ -136,6 +136,8 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
           border: "none",
           color: "#666",
           cursor: "pointer",
+          zIndex: 10,
+          padding: "10px",
         }}
       >
         ✕
@@ -162,7 +164,6 @@ const MatchPreview = ({
     }),
   );
 
-  // Lógica do autoWinner reinserida
   const isDraw = goalsA === goalsB && goalsA !== undefined;
   const autoWinner =
     penaltiesScoreA > penaltiesScoreB
@@ -200,7 +201,6 @@ const MatchPreview = ({
   return (
     <div className="match-preview-container">
       <div className="preview-card-glass">
-        {/* Scoreboard */}
         <div className="tv-scoreboard">
           <div className="score-center" style={{ width: "100%" }}>
             <div className="score-numbers">
@@ -233,7 +233,6 @@ const MatchPreview = ({
           </div>
         </div>
 
-        {/* Timeline Ordenável */}
         <div
           className="timeline-section"
           style={{ position: "relative", padding: "20px" }}
