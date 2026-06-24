@@ -1,0 +1,64 @@
+/* Overlay com desfoque */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Conteúdo do Modal */
+.modal-content {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 25px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--gold, #d4af37);
+}
+
+/* Estilização dos selects */
+select {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px; /* Evita zoom automático no iOS */
+  outline: none;
+  transition: 0.3s;
+}
+
+select:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+/* Ajuste nos botões */
+.modal-content button {
+  transition: transform 0.2s, background 0.2s;
+  font-size: 15px;
+}
+
+.modal-content button:active {
+  transform: scale(0.98);
+}
+
+.modal-content button:hover {
+  filter: brightness(1.2);
+}
