@@ -9,7 +9,7 @@ function AdminLogin({ setIsAdmin }) {
   const login = () => {
     if (senha === import.meta.env.VITE_ADMIN_PASSWORD) {
       setIsAdmin(true);
-      navigate("/admin-panel", { replace: true });
+      navigate("/", { replace: true });
     } else {
       alert("Senha incorreta!");
     }
