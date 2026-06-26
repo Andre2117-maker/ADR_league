@@ -384,8 +384,20 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         }
       }
 
+      const participantsA = new Set(draft.teamA.players);
+      const participantsB = new Set(draft.teamB.players);
+
+      draft.events.forEach((e) => {
+        if (e.type === "SUB" && e.playerInId) {
+          if (e.team === "A") participantsA.add(e.playerInId);
+          if (e.team === "B") participantsB.add(e.playerInId);
+        }
+      });
+
       const currentMatchData = {
         ...draft,
+        actualParticipantsA: Array.from(participantsA),
+        actualParticipantsB: Array.from(participantsB),
         events: draft.events, // Isso garante que a ordem atualizada (pelo drag & drop) seja enviada
         goalsA,
         goalsB,

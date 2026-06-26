@@ -809,6 +809,61 @@
   opacity: 1;
   transform: translateX(-50%) translateY(-2px); /* Efeito de deslizar um pouco para cima */
 }
+/* ===================== */
+/* ANIMAÇÃO SUBSTITUIÇÃO */
+/* ===================== */
+
+.sub-flip-container {
+  perspective: 1000px;
+  cursor: pointer;
+  outline: none;
+  /* Garante que o container se comporte como o jogador normal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sub-flip-inner {
+  position: relative;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+/* Gira o card no Hover (PC) e no Focus/Active (Mobile) */
+.sub-flip-container:hover .sub-flip-inner,
+.sub-flip-container:focus .sub-flip-inner,
+.sub-flip-container:active .sub-flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Face da Frente - RELATIVE para ditar o tamanho do espaço e não quebrar o layout */
+.sub-flip-front {
+  position: relative;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  z-index: 2;
+}
+
+/* Face de Trás - ABSOLUTE para ficar perfeitamente atrás da frente */
+.sub-flip-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  /* Centraliza o conteúdo de trás caso haja diferença milimétrica */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo adicional para destacar que é substituição */
+.player-tactical.is-sub-out {
+  opacity: 0.85;
+}
 
 /* ==========================================================================
    RESPONSIVIDADE MOBILE

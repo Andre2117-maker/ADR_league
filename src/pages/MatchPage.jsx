@@ -187,30 +187,19 @@ function MatchPage({ matches, players, isAdmin }) {
   // RENDER SLOT
   // =========================
 
-  const renderSlot = (slot, teamKey, teamPlayersIds) => {
-    const occupantId = isFriendly
-      ? currentFriendlyGame?.tactical?.[slot.id]
-      : teamKey === "A"
-        ? match.tacticalA?.[slot.id]
-        : match.tacticalB?.[slot.id];
+  const getPlayerStats = (pId, role) => {
+    if (!pId) return null;
+    const pObj = players.find((player) => String(player.id) === String(pId));
+    if (!pObj) return null;
 
-    const p = players.find(
-      (player) => String(player.id) === String(occupantId),
-    );
-
-    const isMVP = mvp && p && String(p.id) === String(mvp.id);
-
+    const isMVP = mvp && String(pObj.id) === String(mvp.id);
     const pEvents =
-      match.events?.filter((e) => String(e.playerId) === String(occupantId)) ||
-      [];
-
+      match.events?.filter((e) => String(e.playerId) === String(pId)) || [];
     const goals = pEvents.filter((e) => e.type === "GOAL").length;
-
     const assists =
       match.events?.filter(
-        (e) => e.type === "GOAL" && String(e.assistId) === String(occupantId),
+        (e) => e.type === "GOAL" && String(e.assistId) === String(pId),
       ).length || 0;
-
     const ownGoals = pEvents.filter((e) => e.type === "OWN_GOAL").length;
 
     const yellowEvents = pEvents.filter(
@@ -218,86 +207,202 @@ function MatchPage({ matches, players, isAdmin }) {
     );
     const yellowReasons = yellowEvents
       .map((e) => e.reason)
-      .filter((r) => r) // Remove motivos vazios
-      .join(" | "); // Junta se o jogador tiver mais de 1 amarelo
+      .filter(Boolean)
+      .join(" | ");
 
     const redEvents = pEvents.filter(
       (e) => e.type === "RED_CARD" || e.type === "RED",
     );
     const redReasons = redEvents
       .map((e) => e.reason)
-      .filter((r) => r)
+      .filter(Boolean)
       .join(" | ");
+
+    return {
+      pObj,
+      isMVP,
+      goals,
+      assists,
+      ownGoals,
+      yellowEvents,
+      yellowReasons,
+      redEvents,
+      redReasons,
+      role,
+    };
+  };
+
+  // Função para desenhar a interface do card do jogador
+  const renderPlayerUI = (stats, subType, subReason) => {
+    if (!stats) return null;
+    const {
+      pObj,
+      isMVP,
+      goals,
+      assists,
+      ownGoals,
+      yellowEvents,
+      yellowReasons,
+      redEvents,
+      redReasons,
+      role,
+    } = stats;
+
+    // Verifica se é o jogador que saiu e se o motivo da substituição contém "lesão" (ignorando maiúsculas/minúsculas)
+    const isInjured =
+      subType === "out" &&
+      subReason &&
+      subReason.toLowerCase().includes("lesão");
+
+    return (
+      <div
+        className={`player-tactical ${isMVP ? "is-mvp" : ""} ${subType === "out" ? "is-sub-out" : ""}`}
+      >
+        <div className="player-badges">
+          {/* NOVO: Ícone de Lesão (Usando a imagem que você enviou) */}
+          {isInjured && (
+            <span
+              style={{
+                background: "transparent",
+                padding: 0,
+                boxShadow: "none",
+              }}
+            >
+              <img
+                src="/public/lesao.png"
+                alt="Lesão"
+                style={{ width: "22px", height: "22px", objectFit: "contain" }}
+              />
+              <span className="custom-tooltip">Saiu por Lesão</span>
+            </span>
+          )}
+
+          {/* Indicadores visuais de substituição */}
+          {subType === "out" && (
+            <span>
+              <img
+                src="/public/setaVerm.png"
+                alt="Lesão"
+                style={{ width: "22px", height: "22px", objectFit: "contain" }}
+              />
+            </span>
+          )}
+
+          {goals > 0 && (
+            <span className="badge-item">
+              ⚽{goals > 1 && <small>{goals}</small>}
+            </span>
+          )}
+          {assists > 0 && (
+            <span className="badge-item">
+              👟{assists > 1 && <small>{assists}</small>}
+            </span>
+          )}
+
+          {yellowEvents.length > 0 && (
+            <span className="badge-item tooltip-container">
+              🟨
+              {yellowEvents.length > 1 && <small>{yellowEvents.length}</small>}
+              <span className="custom-tooltip">
+                {yellowReasons || "Cartão Amarelo"}
+              </span>
+            </span>
+          )}
+
+          {redEvents.length > 0 && (
+            <span className="badge-item tooltip-container">
+              🟥{redEvents.length > 1 && <small>{redEvents.length}</small>}
+              <span className="custom-tooltip">
+                {redReasons || "Cartão Vermelho"}
+              </span>
+            </span>
+          )}
+
+          {subType === "in" && (
+            <span>
+              <img
+                src="/public/setaVerd.png"
+                alt="Lesão"
+                style={{ width: "22px", height: "22px", objectFit: "contain" }}
+              />
+            </span>
+          )}
+
+          {role === "GK" && <span className="badge-item">🧤</span>}
+          {ownGoals > 0 && (
+            <span className="badge-item">
+              GC{ownGoals > 1 && <small>{ownGoals}</small>}
+            </span>
+          )}
+        </div>
+
+        <img
+          src={pObj.photo || "/players/default.png"}
+          className="player-img"
+          alt={pObj.name}
+          style={
+            subType === "out" ? { filter: "grayscale(40%) opacity(0.8)" } : {}
+          }
+        />
+
+        <div className="player-card-label">
+          <span className="p-card-num">{pObj.number || "0"}</span>
+          <span className="p-card-name">{pObj.name.split(" ")[0]}</span>
+        </div>
+      </div>
+    );
+  };
+
+  const renderSlot = (slot, teamKey, teamPlayersIds) => {
+    const occupantId = isFriendly
+      ? currentFriendlyGame?.tactical?.[slot.id]
+      : teamKey === "A"
+        ? match.tacticalA?.[slot.id]
+        : match.tacticalB?.[slot.id];
+
+    // MUDANÇA AQUI: Procura o evento de SUB verificando se o occupantId foi quem ENTROU ou quem SAIU no time correspondente
+    const subEvent = match.events
+      ?.slice()
+      .reverse()
+      .find(
+        (e) =>
+          e.type === "SUB" &&
+          e.team === teamKey &&
+          (String(e.playerInId) === String(occupantId) ||
+            String(e.playerOutId) === String(occupantId)),
+      );
+
+    // Se houver evento, extrai as informações corretas de quem sai e quem entra
+    const outStats = subEvent
+      ? getPlayerStats(subEvent.playerOutId, slot.role)
+      : null;
+    const inStats = subEvent
+      ? getPlayerStats(subEvent.playerInId, slot.role)
+      : getPlayerStats(occupantId, slot.role);
 
     return (
       <div
         key={slot.id}
         className="tactical-slot"
-        style={{
-          left: slot.x,
-          top: slot.y,
-        }}
+        style={{ left: slot.x, top: slot.y }}
       >
-        {p ? (
-          <div className={`player-tactical ${isMVP ? "is-mvp" : ""}`}>
-            <div className="player-badges">
-              {goals > 0 && (
-                <span className="badge-item">
-                  ⚽{goals > 1 && <small>{goals}</small>}
-                </span>
-              )}
-
-              {assists > 0 && (
-                <span className="badge-item">
-                  👟
-                  {assists > 1 && <small>{assists}</small>}
-                </span>
-              )}
-
-              {yellowEvents.length > 0 && (
-                <span className="badge-item tooltip-container">
-                  🟨
-                  {yellowEvents.length > 1 && (
-                    <small>{yellowEvents.length}</small>
-                  )}
-                  <span className="custom-tooltip">
-                    {yellowReasons || "Cartão Amarelo"}
-                  </span>
-                </span>
-              )}
-
-              {redEvents.length > 0 && (
-                <span className="badge-item tooltip-container">
-                  🟥
-                  {redEvents.length > 1 && <small>{redEvents.length}</small>}
-                  <span className="custom-tooltip">
-                    {redReasons || "Cartão Vermelho"}
-                  </span>
-                </span>
-              )}
-
-              {slot.role === "GK" && <span className="badge-item">🧤</span>}
-
-              {ownGoals > 0 && (
-                <span className="badge-item">
-                  GC
-                  {ownGoals > 1 && <small>{ownGoals}</small>}
-                </span>
-              )}
-            </div>
-
-            <img
-              src={p.photo || "/players/default.png"}
-              className="player-img"
-              alt={p.name}
-            />
-
-            <div className="player-card-label">
-              <span className="p-card-num">{p.number || "0"}</span>
-
-              <span className="p-card-name">{p.name.split(" ")[0]}</span>
+        {/* Se houver dados de substituição válidos, ativa o Flip Card */}
+        {outStats && inStats ? (
+          <div className="sub-flip-container" tabIndex="0">
+            <div className="sub-flip-inner">
+              <div className="sub-flip-front">
+                {/* Passando o motivo (reason) do evento de substituição */}
+                {renderPlayerUI(outStats, "out", subEvent.reason)}
+              </div>
+              <div className="sub-flip-back">
+                {/* Aqui não precisamos exibir a lesão, pois o jogador que entrou está 100% */}
+                {renderPlayerUI(inStats, "in", null)}
+              </div>
             </div>
           </div>
+        ) : inStats ? (
+          /* Jogador normal sem alteração */
+          renderPlayerUI(inStats, null, null)
         ) : (
           <div className="empty-slot-marker">?</div>
         )}
@@ -309,12 +414,10 @@ function MatchPage({ matches, players, isAdmin }) {
             onChange={(e) => handleEscalar(teamKey, slot.id, e.target.value)}
           >
             <option value="">Escalar...</option>
-
             {teamPlayersIds?.map((pId) => {
               const playerInfo = players.find(
                 (pl) => String(pl.id) === String(pId),
               );
-
               return (
                 <option key={pId} value={pId}>
                   {playerInfo ? playerInfo.name : "Carregando..."}
