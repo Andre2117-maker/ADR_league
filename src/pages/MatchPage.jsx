@@ -14,27 +14,31 @@ import { createEmptyFriendlyGame } from "../components/matchpages/friendlyGamesU
 
 function MatchPage({ matches, players, isAdmin }) {
   const { id } = useParams();
-
   const navigate = useNavigate();
 
   const match = matches.find((m) => String(m.id) === String(id));
 
+  // Estados locais da prancheta
   const [formA, setFormA] = useState(match?.formationA || "5_JOG_2-1-1");
-
   const [formB, setFormB] = useState(match?.formationB || "5_JOG_2-1-1");
-
-  const [prevId, setPrevId] = useState(id);
-
   const [selectedGameIndex, setSelectedGameIndex] = useState(0);
 
-  if (id !== prevId) {
-    setPrevId(id);
+  // 1. Estados para "vigiar" a última versão do banco de dados (Substituindo o antigo prevId)
+  const [prevDbFormA, setPrevDbFormA] = useState(match?.formationA);
+  const [prevDbFormB, setPrevDbFormB] = useState(match?.formationB);
 
-    setFormA(match?.formationA || "5_JOG_2-1-1");
-
-    setFormB(match?.formationB || "5_JOG_2-1-1");
+  // 2. Jeito Oficial do React: Atualizar estado durante a renderização se o banco mudar
+  if (match && match.formationA !== prevDbFormA) {
+    setPrevDbFormA(match.formationA);
+    setFormA(match.formationA || "5_JOG_2-1-1");
   }
 
+  if (match && match.formationB !== prevDbFormB) {
+    setPrevDbFormB(match.formationB);
+    setFormB(match.formationB || "5_JOG_2-1-1");
+  }
+
+  // Se o Firebase ainda não entregou a partida, exibe o carregamento
   if (!match) {
     return <div className="loading">Partida não encontrada...</div>;
   }
@@ -269,7 +273,7 @@ function MatchPage({ matches, players, isAdmin }) {
               }}
             >
               <img
-                src="/public/lesao.png"
+                src="/lesao.png"
                 alt="Lesão"
                 style={{ width: "22px", height: "22px", objectFit: "contain" }}
               />
@@ -281,7 +285,7 @@ function MatchPage({ matches, players, isAdmin }) {
           {subType === "out" && (
             <span>
               <img
-                src="/public/setaVerm.png"
+                src="/setaVerm.png"
                 alt="Lesão"
                 style={{ width: "22px", height: "22px", objectFit: "contain" }}
               />
@@ -321,7 +325,7 @@ function MatchPage({ matches, players, isAdmin }) {
           {subType === "in" && (
             <span>
               <img
-                src="/public/setaVerd.png"
+                src="/setaVerd.png"
                 alt="Lesão"
                 style={{ width: "22px", height: "22px", objectFit: "contain" }}
               />
