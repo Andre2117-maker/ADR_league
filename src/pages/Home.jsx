@@ -54,9 +54,13 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
 
       // --- CORREÇÃO AQUI: FILTRAR APENAS TREINOS ---
       // A Tabela Geral e os cards laterais devem ignorar AMISTOSOS
-      const onlyTrainings = sortedMatchesByDate.filter(
-        (m) => m.type === "TREINO",
-      );
+      const params = new URLSearchParams(window.location.search);
+
+      const limite = Number(params.get("limit")) || 9999;
+
+      const onlyTrainings = sortedMatchesByDate
+        .filter((m) => m.type === "TREINO")
+        .slice(-limite);
 
       // Agora filtramos apenas onde o jogador participou DENTRO DOS TREINOS
       const playerMatches = onlyTrainings.filter(
