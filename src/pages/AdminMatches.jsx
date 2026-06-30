@@ -574,79 +574,62 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                   setDraft={setDraft}
                 />
               ) : (
-                <div className="players-scroll">
-                  {sortedPlayers.map((p) => (
-                    <PlayerRow
-                      key={p.id}
-                      player={p}
-                      isSelected={draft[teamKey].players.includes(p.id)}
-                      isGK={draft[teamKey].goalkeeperId === p.id}
-                      isCaptain={draft[teamKey].captainId === p.id}
-                      onToggle={() => {
-                        const list = draft[teamKey].players;
-
-                        const newList = list.includes(p.id)
-                          ? list.filter((id) => id !== p.id)
-                          : [...list, p.id];
-
-                        setDraft({
-                          ...draft,
-
-                          [teamKey]: {
-                            ...draft[teamKey],
-
-                            players: newList,
-                          },
-                        });
-                      }}
-                      onSetGK={() =>
-                        setDraft({
-                          ...draft,
-
-                          [teamKey]: {
-                            ...draft[teamKey],
-
-                            goalkeeperId:
-                              draft[teamKey].goalkeeperId === p.id
-                                ? null
-                                : p.id,
-                          },
-                        })
-                      }
-                      onSetCaptain={() =>
-                        setDraft({
-                          ...draft,
-
-                          [teamKey]: {
-                            ...draft[teamKey],
-
-                            captainId:
-                              draft[teamKey].captainId === p.id ? null : p.id,
-                          },
-                        })
-                      }
-                      onGoal={() =>
-                        setShowAssistModal({
-                          team: t,
-                          playerId: p.id,
-                        })
-                      }
-                      onOwnGoal={() => addEvent(t, p.id, "OWN_GOAL")}
-                      onCard={(type, reason) =>
-                        addEvent(t, p.id, type, null, null, reason)
-                      }
-                    />
-                  ))}
-                </div>
-              )}
-              {isExternal ? (
-                <ExternalTeamTools
-                // ... suas props
-                />
-              ) : (
                 <>
                   <div className="players-scroll">
-                    {/* ... seu map do PlayerRow ... */}
+                    {sortedPlayers.map((p) => (
+                      <PlayerRow
+                        key={p.id}
+                        player={p}
+                        isSelected={draft[teamKey].players.includes(p.id)}
+                        isGK={draft[teamKey].goalkeeperId === p.id}
+                        isCaptain={draft[teamKey].captainId === p.id}
+                        onToggle={() => {
+                          const list = draft[teamKey].players;
+                          const newList = list.includes(p.id)
+                            ? list.filter((id) => id !== p.id)
+                            : [...list, p.id];
+                          setDraft({
+                            ...draft,
+                            [teamKey]: {
+                              ...draft[teamKey],
+                              players: newList,
+                            },
+                          });
+                        }}
+                        onSetGK={() =>
+                          setDraft({
+                            ...draft,
+                            [teamKey]: {
+                              ...draft[teamKey],
+                              goalkeeperId:
+                                draft[teamKey].goalkeeperId === p.id
+                                  ? null
+                                  : p.id,
+                            },
+                          })
+                        }
+                        onSetCaptain={() =>
+                          setDraft({
+                            ...draft,
+                            [teamKey]: {
+                              ...draft[teamKey],
+                              captainId:
+                                draft[teamKey].captainId === p.id ? null : p.id,
+                            },
+                          })
+                        }
+                        onGoal={() =>
+                          setShowAssistModal({
+                            team: t,
+                            playerId: p.id,
+                          })
+                        }
+                        onOwnGoal={() => addEvent(t, p.id, "OWN_GOAL")}
+                        onCard={(type, reason) =>
+                          addEvent(t, p.id, type, null, null, reason)
+                        }
+                      />
+                    ))}
                   </div>
 
                   {/* --- NOVO BOTÃO DE SUBSTITUIÇÃO AQUI --- */}

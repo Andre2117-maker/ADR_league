@@ -10,10 +10,7 @@ const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
     teamPlayers.includes(p.id),
   );
 
-  // Filtra quem NÃO ESTÁ no time (para poder entrar)
-  const playersOffField = sortedPlayers.filter(
-    (p) => !teamPlayers.includes(p.id),
-  );
+  const playersOffField = sortedPlayers;
 
   const handleConfirm = () => {
     if (!playerOutId || !playerInId) {
