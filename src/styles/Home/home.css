@@ -14,6 +14,10 @@
   background-color: #000;
   margin-top: -75px !important; /* Puxa o conteúdo para trás da Nav */
   padding-top: 75px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='%23222'%3E+%3C/text%3E%3C/svg%3E");
+  background-size: 60px 60px; /* Isso controla o espaçamento entre os grupos de '+' */
+  background-attachment: fixed;
+  background-position: center;
 }
 
 .home-layout {
