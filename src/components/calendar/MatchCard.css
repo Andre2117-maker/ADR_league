@@ -1,211 +1,28 @@
-/* =====================================================
-   1. CONTAINER DO FEED (Onde os cards ficam)
-===================================================== */
-.matches-feed {
-  display: grid;
-  /* Desktop: 2 colunas se houver espaço (mínimo 450px cada) */
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  gap: 20px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-/* =====================================================
-   2. ESTRUTURA DO CARD
-===================================================== */
-.match-card-display {
-  background: #0a0a0a;
-  border: 1px solid #1a1a1a;
-  border-radius: 16px;
+.psg-card-top {
   padding: 20px;
-  transition: 0.3s;
-  display: flex;
-  flex-direction: column;
+  position: relative; /* Necessário para posicionar a marca d'água */
+  overflow: hidden;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+.psg-watermark-image {
+  position: absolute;
+  right: -10px;
+  top: -80px;
+  z-index: 1;
+  opacity: 0.1; /* Deixa bem suave igual à imagem image_a76a52.png */
+}
+
+.psg-watermark-image img {
+  width: 190px; /* Ajuste o tamanho conforme necessário */
   height: auto;
-  cursor: pointer;
+  pointer-events: none; /* Evita que o usuário clique na imagem de fundo */
 }
 
-.match-card-display:hover {
-  border-color: #333;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.match-location {
-  text-align: center;
+.psg-comp-text {
+  position: relative;
+  z-index: 2; /* Garante que o texto "TREINO" fique acima da imagem */
   font-size: 11px;
-  color: #d4af37;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-}
-
-/* ÁREA DO PLACAR */
-.match-main-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  width: 100%;
-}
-
-.team-side {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.team-name-display {
-  font-weight: 900;
-  color: #fff;
-  text-transform: uppercase;
-  word-break: break-word;
-  max-width: 120px;
-  font-size: clamp(14px, 1.8vw, 20px);
-}
-
-.score-board {
-  background: #000;
-  border: 1px solid #222;
-  padding: 8px 18px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.score-number {
-  font-size: 26px;
-  font-weight: 900;
-  color: #d4af37;
-}
-
-.versus {
-  color: #555;
   font-weight: bold;
-  font-size: 14px;
-}
-
-/* =====================================================
-   3. ESCALAÇÃO E EVENTOS
-===================================================== */
-.match-details-expanded {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 30px;
-  margin-top: 15px;
-  border-top: 1px solid #1a1a1a;
-  padding-top: 15px;
-}
-
-.events-column {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.event-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #ccc;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-right .event-item {
-  justify-content: flex-end;
-}
-
-/* =====================================================
-   4. ADMIN & ESTADO VAZIO
-===================================================== */
-.admin-actions-bar {
-  display: flex;
-  gap: 15px;
-  justify-content: flex-end;
-  width: 100%;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 8px;
-}
-
-.no-matches {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 60px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(212, 175, 55, 0.2);
-  border-radius: 20px;
-  text-align: center;
-}
-
-/* =====================================================
-   5. UPGRADE PREMIUM MOBILE (Até 768px)
-===================================================== */
-@media (max-width: 768px) {
-  .matches-feed {
-    grid-template-columns: 1fr !important; /* Força lista vertical */
-  }
-
-  .match-card-display {
-    padding: 20px 10px;
-    margin: 0 auto;
-    width: 100%;
-    align-items: center;
-  }
-
-  .match-main-info {
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  .team-name-display {
-    font-size: 12px !important;
-    max-width: 80px;
-  }
-
-  .score-board {
-    min-width: 70px;
-    padding: 5px 10px;
-    gap: 8px;
-  }
-
-  .score-number {
-    font-size: 18px;
-  }
-
-  /* Escalação no Mobile */
-  .match-details-expanded {
-    gap: 10px;
-    grid-template-columns: 1fr 1fr !important;
-  }
-
-  .event-player {
-    font-size: 10px;
-    max-width: 65px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* Emojis menores no Celular */
-  .event-icons-group span {
-    font-size: 9px !important;
-    margin-left: 2px;
-  }
-
-  .event-item {
-    gap: 4px;
-    line-height: 1.2;
-  }
+  color: #666;
 }

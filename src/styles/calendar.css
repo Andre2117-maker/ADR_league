@@ -1,296 +1,306 @@
-/* =====================================================
-   1. FUNDO E ESTRUTURA GLOBAL (LÓGICA BANNER)
-===================================================== */
-.page-container {
-  width: 100%;
+/* --- ESTILO NOVO: CALENDÁRIO TIPO PSG (MODO ESCURO) --- */
+
+.psg-page-container {
+  padding-top: 70px;
+  background-color: #000000; /* Fundo totalmente preto */
   min-height: 100vh;
-  background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-
-  padding-top: 135px !important; /* Devolve o conteúdo para baixo da Navbar */
-
-  overflow-x: hidden;
+  color: #ffffff; /* Texto geral em branco para dar contraste */
+  font-family: "Arial", sans-serif;
 }
 
-.glass-card {
-  width: 100%;
-  max-width: 1400px; /* Aproveita o espaço desktop como o banner */
-  background: rgba(20, 20, 20, 0.4); /* Mais transparente para elegância */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 40px;
-  margin-top: 40px; /* Distância entre a Navbar e o início do conteúdo */
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+.psg-calendar-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-.page-title2 {
-  text-align: left; /* Alinhamento moderno à esquerda */
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  font-weight: 900;
-  margin-bottom: 40px;
-  margin-top: 0;
-  background: linear-gradient(180deg, #fff 0%, #888 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
-}
-
-/* =====================================================
-   2. LAYOUT LADO A LADO (DESKTOP PREMIUM)
-===================================================== */
-.calendar-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 40px;
-  width: 100%;
-}
-
-/* Widget do Calendário inspirado nos PPG-CARDS */
-.calendar-widget {
-  background: rgba(15, 15, 15, 0.85);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 25px;
-  width: 100%;
-  max-width: 380px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-  flex-shrink: 0;
-}
-
-/* =====================================================
-   3. COMPONENTES INTERNOS DO CALENDÁRIO
-===================================================== */
-.calendar-header {
+.psg-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
+}
+
+.psg-season-title {
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+}
+
+.psg-add-btn {
+  background-color: #d4af37; /* Mantive o dourado pois destaca bem no escuro */
+  color: #000000; /* Texto preto dentro do botão dourado */
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.psg-add-btn:hover {
+  background-color: #bfa030;
+}
+
+/* Navegação Meses */
+.psg-month-nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #333333; /* Linha sutil em cinza escuro */
   margin-bottom: 20px;
 }
 
-.calendar-header h2 {
+.psg-month-nav span {
+  padding-bottom: 10px;
   font-size: 14px;
+  font-weight: bold;
+  color: #888888; /* Cinza médio para os inativos */
+  cursor: pointer;
   text-transform: uppercase;
-  color: #d4af37;
-  letter-spacing: 2px;
-  margin: 0;
-  font-weight: 800;
+  transition: color 0.2s;
 }
 
-.nav-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.psg-month-nav span:hover {
+  color: #cccccc;
+}
+
+.psg-month-nav span.active {
+  color: #ffffff; /* Branco para o mês ativo */
+  border-bottom: 3px solid #ffffff; /* Linha branca debaixo */
+}
+
+/* Navegação Competições */
+.psg-comp-nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.psg-comp-nav span {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #aaaaaa; /* Cinza claro */
+  background-color: #1a1a1a; /* Fundo quase preto para inativos */
   cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid #333333;
+}
+
+.psg-comp-nav span.active {
+  background-color: #ffffff; /* Fundo branco para ativo */
+  color: #000000; /* Texto preto para o botão ativo */
+  border: 1px solid #ffffff;
+}
+
+/* Título do Mês */
+.psg-month-title {
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 900;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* Grid de Partidas */
+.psg-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Card Individual */
+.psg-match-card {
+  background: #0f0f0f; /* Cinza suuuuper escuro, quase preto, para o card se destacar do fundo 100% preto */
+  border: 1px solid #2a2a2a; /* Borda visível mas discreta */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.psg-match-card:hover {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05); /* Sombra clara muito sutil */
+  transform: translateY(-2px);
+  border-color: #444444; /* Clareia a borda levemente no hover */
+}
+
+.psg-card-top {
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #222222;
+}
+
+.psg-comp-text {
+  font-size: 11px;
+  font-weight: bold;
+  color: #aaaaaa;
+  position: relative;
+  z-index: 2;
+}
+
+.psg-watermark {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  font-size: 80px;
+  font-style: italic;
+  font-weight: 900;
+  color: #1c1c1c; /* Marca d'água bem escura, só um leve detalhe de fundo */
+  z-index: 1;
+}
+
+.psg-card-teams {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+.psg-team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.psg-team-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: 0.2s;
+  gap: 12px;
 }
 
-.nav-btn:hover {
-  background: #d4af37;
-  color: #000;
-}
-
-.calendar-grid-header {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  color: #555;
-  font-size: 11px;
+.psg-team-score {
+  font-size: 22px;
   font-weight: 800;
-  margin-bottom: 15px;
+  color: #ffffff; /* Número do placar em branco forte */
+  background-color: rgba(255, 255, 255, 0.15); /* Fundo sutil atrás do número */
+  padding: 4px 12px;
+  border-radius: 6px;
+  min-width: 40px;
   text-align: center;
 }
 
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+.psg-penalty-score {
+  font-size: 14px;
+  color: #d4af37; /* Dourado para destacar que foi nos pênaltis */
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
-.calendar-day {
-  aspect-ratio: 1;
+.psg-team-logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  background-color: transparent;
+}
+
+.psg-team-logo.opp-logo {
+  width: 45px;
+  height: 45px;
+}
+
+.psg-logo-placeholder {
+  width: 35px;
+  height: 35px;
+  background: #2a2a2a;
+  color: #ffffff;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 13px;
-  color: #ccc;
-  transition: 0.2s;
-  position: relative;
+  font-weight: bold;
+  font-size: 14px;
 }
 
-.calendar-day:hover:not(.empty) {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+.psg-logo-placeholder.opp {
+  background: #d42029;
 }
-.calendar-day.selected {
-  background: #d4af37;
-  color: #000;
+
+.psg-team-name {
+  font-size: 20px;
   font-weight: 900;
-}
-
-.calendar-day.selected .match-dot.purple {
-  background-color: #fff; /* Opcional: fica branco quando selecionado para contrastar */
-}
-
-.match-dot {
-  width: 5px;
-  height: 5px;
-  background: #d4af37;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 5px;
-}
-
-.match-dot.purple {
-  background-color: #a855f7; /* Roxo vibrante */
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
-}
-
-.birthday-dot {
-  width: 5px;
-  height: 5px;
-  background: #2196f3;
-  border-radius: 50%;
-  position: absolute;
-  top: 5px;
-}
-
-/* =====================================================
-   4. LISTA DE JOGOS E FEED
-===================================================== */
-.matches-list-container {
-  flex: 1;
-  width: 100%;
-}
-
-.matches-feed {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 25px;
-}
-
-/* =====================================================
-   5. RESPONSIVIDADE (MOBILE ESTILO PLAYER PAGE)
-===================================================== */
-@media (max-width: 1024px) {
-  .calendar-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-  .calendar-widget {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .glass-card {
-    padding: 20px 15px;
-    margin-top: 10px;
-  }
-  .page-container {
-    padding: 0;
-  }
-  .matches-feed {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.dot-sample {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-/* Cores combinando com os pontos do calendário */
-.dot-sample.training {
-  background-color: #d4af37;
-  box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
-}
-
-.dot-sample.amistoso {
-  background-color: #a855f7;
-  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
-}
-
-.dot-sample.bday {
-  background-color: #2196f3;
-  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
-}
-
-.legend-text {
-  font-size: 11px;
-  color: #aaa;
+  font-style: italic;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
-@media (max-width: 768px) {
-  .calendar-legend {
-    gap: 12px;
-  }
-  .legend-text {
-    font-size: 9px;
-  }
+.psg-card-info {
+  padding: 0 20px 20px;
 }
 
-.btn-add-match {
-  background: linear-gradient(
-    135deg,
-    #ffd700 0%,
-    #ffb900 100%
-  ); /* Gradiente Dourado */
-  color: #000;
-  border: none;
-  padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-radius: 8px;
+.psg-date {
+  font-size: 12px;
+  font-weight: bold;
+  color: #dddddd; /* Branco um pouco mais suave */
+  margin: 0 0 5px 0;
+}
+
+.psg-venue {
+  font-size: 12px;
+  color: #888888; /* Cinza para não roubar a atenção */
+  margin: 0;
+}
+
+.psg-match-center-btn {
+  background-color: #141414; /* Fundo do botão no rodapé do card */
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  padding: 15px;
   cursor: pointer;
+  border-top: 1px solid #2a2a2a;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.psg-match-center-btn:hover {
+  background-color: #ffffff;
+  color: #000000; /* Inverte a cor no hover para ficar bonito */
+}
+
+/* Ações do Admin Overlay */
+.psg-admin-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   display: flex;
-  align-items: center;
   gap: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  z-index: 10;
 }
 
-/* Efeito de Hover (Passar o mouse) */
-.btn-add-match:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-  filter: brightness(1.1);
+.psg-admin-actions button {
+  background: rgba(0, 0, 0, 0.8); /* Fundo preto transparente */
+  border: 1px solid #444444;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-/* Efeito de Clique */
-.btn-add-match:active {
-  transform: translateY(0);
+.psg-admin-actions button:hover {
+  background: #333333;
 }
 
-/* Responsividade para celulares */
-@media (max-width: 480px) {
-  .btn-add-match {
-    padding: 8px 12px;
-    font-size: 11px;
-  }
+.psg-no-matches {
+  text-align: center;
+  padding: 50px;
+  color: #777777;
+  font-size: 16px;
 }

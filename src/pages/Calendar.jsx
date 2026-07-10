@@ -1,60 +1,53 @@
-import { useState, useRef, useEffect } from "react"; // Adicionado useEffect
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
-import "../styles/calendar.css";
-import Footer from "../components/Footer";
 import MatchCard from "../components/calendar/MatchCard";
+import Footer from "../components/Footer";
+import "../styles/calendar.css";
 
-function Calendar({
-  matches,
-  players,
-  isAdmin,
-  setMatchToEdit,
-  onDeleteMatch,
-}) {
-  const localDate = new Date();
-  const year = localDate.getFullYear();
-  const month = String(localDate.getMonth() + 1).padStart(2, "0");
-  const day = String(localDate.getDate()).padStart(2, "0");
-  const todayStr = `${year}-${month}-${day}`;
-
-  // 1. Tenta recuperar a data salva ou usa hoje
-  const savedDate =
-    localStorage.getItem("adr_calendar_selected_date") || todayStr;
-
-  const [selectedDate, setSelectedDate] = useState(savedDate);
-
-  const handleAddMatch = () => {
-    // Limpa qualquer edição anterior para entrar em modo de criação
-    setMatchToEdit(null);
-    // Navega para o admin passando a data selecionada no calendário
-    navigate("/admin", { state: { initialDate: selectedDate } });
-  };
-
-  // 2. Define o mês inicial baseado na data salva (para não abrir em março se você estava vendo abril)
-  const [currentMonth, setCurrentMonth] = useState(() => {
-    const [sYear, sMonth] = savedDate.split("-");
-    return new Date(parseInt(sYear), parseInt(sMonth) - 1, 1);
-  });
-
-  const printRef = useRef(null);
+function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
   const navigate = useNavigate();
+  const localDate = new Date();
+  const currentMonthIndex = localDate.getMonth();
 
-  // 3. Efeito para salvar a data e o mês sempre que mudarem
-  useEffect(() => {
-    localStorage.setItem("adr_calendar_selected_date", selectedDate);
-  }, [selectedDate]);
+  // Estados de Filtro
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex); // 0 a 11, ou 'ALL'
+  const [selectedComp, setSelectedComp] = useState("TODAS AS COMPETIÇÕES");
 
-  // --- FUNÇÕES DE ADMIN ---
-  const handleDeleteMatch = (id) => {
-    if (
-      window.confirm(
-        "Deseja realmente eliminar esta partida? Os pontos serão recalculados.",
-      )
-    ) {
-      onDeleteMatch(id);
-    }
+  const mesesNav = [
+    "JUL",
+    "AGO",
+    "SET",
+    "OUT",
+    "NOV",
+    "DEZ",
+    "JAN",
+    "FEV",
+    "MAR",
+    "ABR",
+    "MAI",
+    "JUN",
+  ];
+  const mesesFull = [
+    "JANEIRO",
+    "FEVEREIRO",
+    "MARÇO",
+    "ABRIL",
+    "MAIO",
+    "JUNHO",
+    "JULHO",
+    "AGOSTO",
+    "SETEMBRO",
+    "OUTUBRO",
+    "NOVEMBRO",
+    "DEZEMBRO",
+  ];
+
+  // Funções de Admin
+  const handleAddMatch = () => {
+    setMatchToEdit(null);
+    navigate("/admin");
   };
 
   const handleEditMatch = (match) => {
@@ -62,259 +55,122 @@ function Calendar({
     navigate("/admin", { state: { matchData: match } });
   };
 
-  // --- LÓGICA DO CALENDÁRIO ---
-  const nextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1),
-    );
-  };
-
-  const prevMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1),
-    );
-  };
-
-  const getDaysInMonth = () => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const days = new Date(year, month + 1, 0).getDate();
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysArray = [];
-    for (let i = 0; i < firstDay; i++) daysArray.push(null);
-    for (let i = 1; i <= days; i++) daysArray.push(i);
-    return daysArray;
-  };
-
-  const handleDayClick = (day) => {
-    if (!day) return;
-    const year = currentMonth.getFullYear();
-    const month = String(currentMonth.getMonth() + 1).padStart(2, "0");
-    const dayStr = String(day).padStart(2, "0");
-    setSelectedDate(`${year}-${month}-${dayStr}`);
-  };
-
-  const filteredMatches = matches.filter((m) => m.date === selectedDate);
-  const monthNames = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
-  ];
-
-  const getBirthdayOnDate = (day) => {
-    if (!day) return null;
-
-    const month = currentMonth.getMonth() + 1;
-    const dayStr = String(day).padStart(2, "0");
-    const monthStr = String(month).padStart(2, "0");
-
-    return players.find((p) => {
-      if (!p.birthDate || p.isAnonymous) return false;
-
-      const bday = p.birthDate.split("/");
-      return bday[1] === monthStr && bday[0] === dayStr;
-    });
-  };
-
-  const handleSwapOrder = async (currentMatch, direction) => {
-    // Encontra o vizinho na lista ordenada
-    const sorted = [...matches].sort((a, b) => b.order - a.order);
-    const currentIndex = sorted.findIndex((m) => m.id === currentMatch.id);
-    const targetIndex =
-      direction === "UP" ? currentIndex - 1 : currentIndex + 1;
-
-    if (targetIndex >= 0 && targetIndex < sorted.length) {
-      const targetMatch = sorted[targetIndex];
-
-      // Inverte as ordens no Firebase
-      await updateDoc(doc(db, "matches", currentMatch.id), {
-        order: targetMatch.order,
-      });
-      await updateDoc(doc(db, "matches", targetMatch.id), {
-        order: currentMatch.order,
-      });
-
-      // Opcional: recarregar os dados
+  const handleDeleteMatch = (id) => {
+    if (window.confirm("Deseja realmente eliminar esta partida?")) {
+      onDeleteMatch(id);
     }
   };
 
+  // Lógica de Filtro
+  const filteredMatches = matches.filter((m) => {
+    if (!m.date) return false;
+    const matchMonth = parseInt(m.date.split("-")[1], 10) - 1;
+
+    const passMonth = selectedMonth === "ALL" || matchMonth === selectedMonth;
+    const passComp =
+      selectedComp === "TODAS AS COMPETIÇÕES" || m.type === selectedComp;
+
+    return passMonth && passComp;
+  });
+
+  // Identifica o índice do mês real a partir da sigla
+  const getMonthIndexFromSigla = (sigla) => {
+    const map = {
+      JAN: 0,
+      FEV: 1,
+      MAR: 2,
+      ABR: 3,
+      MAI: 4,
+      JUN: 5,
+      JUL: 6,
+      AGO: 7,
+      SET: 8,
+      OUT: 9,
+      NOV: 10,
+      DEZ: 11,
+    };
+    return map[sigla];
+  };
+
   return (
-    <div className="page-container">
-      <div className="glass-card">
-        <h1 className="page-title2">Calendário da Temporada</h1>
+    <div className={`psg-page-container`}>
+      <div className="psg-calendar-wrapper">
+        {/* Cabeçalho */}
+        <div className="psg-header">
+          <h1 className="psg-season-title">
+            2026 <span style={{ fontSize: "14px" }}>v</span>
+          </h1>
 
-        <div className="calendar-wrapper">
-          <div className="calendar-widget">
-            <div className="calendar-header">
-              <button onClick={prevMonth} className="nav-btn">
-                ‹
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            {isAdmin && (
+              <button onClick={handleAddMatch} className="psg-add-btn">
+                + ADD PARTIDA
               </button>
-              <h2>
-                {monthNames[currentMonth.getMonth()]}{" "}
-                {currentMonth.getFullYear()}
-              </h2>
-              <button onClick={nextMonth} className="nav-btn">
-                ›
-              </button>
-            </div>
-
-            <div className="calendar-grid-header">
-              <span>D</span>
-              <span>S</span>
-              <span>T</span>
-              <span>Q</span>
-              <span>Q</span>
-              <span>S</span>
-              <span>S</span>
-            </div>
-
-            <div className="calendar-grid">
-              {getDaysInMonth().map((day, index) => {
-                const dateKey = day
-                  ? `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-                  : null;
-
-                // Encontra se existe partida nesse dia e qual o tipo dela
-                const dayMatches = day
-                  ? matches.filter((m) => m.date === dateKey)
-                  : [];
-                const hasAmistoso = dayMatches.some(
-                  (m) => m.type === "AMISTOSO",
-                );
-                const hasTreino = dayMatches.length > 0;
-                const isSelected = day && selectedDate === dateKey;
-
-                return (
-                  <div
-                    key={index}
-                    className={`calendar-day ${day ? "" : "empty"} ${isSelected ? "selected" : ""}`}
-                    onClick={() => handleDayClick(day)}
-                  >
-                    {day}
-
-                    {/* Se tem jogo, mostra a bolinha. A classe 'purple' só entra se houver amistoso */}
-                    {hasTreino && (
-                      <div
-                        className={`match-dot ${hasAmistoso ? "purple" : ""}`}
-                      ></div>
-                    )}
-
-                    {getBirthdayOnDate(day) && (
-                      <div className="birthday-dot"></div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-            <div className="calendar-legend">
-              <div className="legend-item">
-                <span className="dot-sample training"></span>
-                <span className="legend-text">Treino</span>
-              </div>
-              <div className="legend-item">
-                <span className="dot-sample amistoso"></span>
-                <span className="legend-text">Amistoso</span>
-              </div>
-              <div className="legend-item">
-                <span className="dot-sample bday"></span>
-                <span className="legend-text">Aniversário</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="matches-list-container">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "20px",
-              }}
-            >
-              <h3 className="date-title" style={{ margin: 0 }}>
-                {selectedDate.split("-").reverse().join("/")}
-              </h3>
-
-              {/* Botão visível apenas para Admin */}
-
-              {isAdmin && (
-                <button
-                  onClick={handleAddMatch}
-                  className="btn-add-match"
-                  style={{
-                    fontSize: "12px",
-                    padding: "8px 15px",
-                    background: "var(--gold)", // Usando sua variável de cor
-                    color: "#000",
-                    fontWeight: "bold",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
-                >
-                  + ADD PARTIDA
-                </button>
-              )}
-            </div>
-
-            {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])) && (
-              <div
-                className="birthday-card"
-                style={{
-                  background: "#122a3d",
-                  padding: "15px",
-                  borderRadius: "10px",
-                  marginBottom: "15px",
-                  border: "1px solid #2196f3",
-                  color: "#fff",
-                  textAlign: "center",
-                }}
-              >
-                <span>🎂</span>
-                <h4>
-                  Aniversário de{" "}
-                  {getBirthdayOnDate(parseInt(selectedDate.split("-")[2])).name}
-                  !
-                </h4>
-                <p style={{ fontSize: "12px", color: "#b3e5fc" }}>
-                  Hoje o dia é todo dele(a)!
-                </p>
-              </div>
             )}
-
-            <div ref={printRef}>
-              {filteredMatches.length > 0 ? (
-                <div className="matches-feed">
-                  {filteredMatches.map((match) => (
-                    <MatchCard
-                      key={match.id}
-                      match={match}
-                      players={players}
-                      isAdmin={isAdmin}
-                      onEdit={handleEditMatch}
-                      onDelete={handleDeleteMatch}
-                      onNavigate={(id) => navigate(`/match/${id}`)}
-                      onSwapOrder={handleSwapOrder}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="no-matches">
-                  <span style={{ fontSize: "30px" }}>💤</span>
-                  <p>Nenhum jogo agendado para este dia.</p>
-                </div>
-              )}
-            </div>
           </div>
         </div>
+
+        {/* Navegação de Meses */}
+        <div className="psg-month-nav">
+          <span
+            className={selectedMonth === "ALL" ? "active" : ""}
+            onClick={() => setSelectedMonth("ALL")}
+          >
+            TODA A TEMPORADA
+          </span>
+          {mesesNav.map((sigla) => {
+            const mIndex = getMonthIndexFromSigla(sigla);
+            return (
+              <span
+                key={sigla}
+                className={selectedMonth === mIndex ? "active" : ""}
+                onClick={() => setSelectedMonth(mIndex)}
+              >
+                {sigla}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Navegação de Competições */}
+        <div className="psg-comp-nav">
+          {["TODAS AS COMPETIÇÕES", "TREINO", "AMISTOSO"].map((comp) => (
+            <span
+              key={comp}
+              className={selectedComp === comp ? "active" : ""}
+              onClick={() => setSelectedComp(comp)}
+            >
+              {comp}
+            </span>
+          ))}
+        </div>
+
+        {/* Título do Mês Atual */}
+        <h2 className="psg-month-title">
+          {selectedMonth === "ALL"
+            ? "TODA A TEMPORADA"
+            : mesesFull[selectedMonth]}
+        </h2>
+
+        {/* Grid de Cards */}
+        {filteredMatches.length > 0 ? (
+          <div className="psg-cards-grid">
+            {filteredMatches.map((match) => (
+              <MatchCard
+                key={match.id}
+                match={match}
+                isAdmin={isAdmin}
+                onEdit={handleEditMatch}
+                onDelete={handleDeleteMatch}
+                onNavigate={(id) => navigate(`/match/${id}`)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="psg-no-matches">
+            <p>Nenhum jogo agendado para este período.</p>
+          </div>
+        )}
       </div>
       <Footer />
     </div>
