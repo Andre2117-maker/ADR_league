@@ -109,7 +109,7 @@ const MatchCard = ({
         <div className="psg-watermark-image">
           {match.type === "AMISTOSO" ? (
             // Ícone de troféu para amistoso
-            <img src="../src/assets/trofeu.png" alt="Troféu" />
+            <img src="/trofeu.png" alt="Troféu" />
           ) : (
             // Logo do ADR para treino ou outros
             <img src="/logo.png" alt="ADR" />
