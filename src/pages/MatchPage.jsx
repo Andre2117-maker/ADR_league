@@ -475,15 +475,47 @@ function MatchPage({ matches, players, isAdmin }) {
           <div className="sb-team-name team-left">{match.teamA.name}</div>
 
           <div className="sb-score-box">
-            <span className="score">{scoreA}</span>
+            {/* SCORE TIME A + PÊNALTIS */}
+            <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span className="score">{scoreA}</span>
+              {hasPenalties && (
+                <span
+                  className="penalty-number-inline"
+                  style={{
+                    fontSize: "1em",
+                    color: "#FFD700",
+                    fontWeight: "bold",
+                  }}
+                >
+                  ({match.penaltiesScoreA})
+                </span>
+              )}
+            </span>
 
             <span className="vs-badge">VS</span>
 
-            <span className="score">{scoreB}</span>
+            {/* SCORE TIME B + PÊNALTIS (Invertido para manter simetria) */}
+            <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              {hasPenalties && (
+                <span
+                  className="penalty-number-inline"
+                  style={{
+                    fontSize: "1em",
+                    color: "#FFD700",
+                    fontWeight: "bold",
+                  }}
+                >
+                  ({match.penaltiesScoreB})
+                </span>
+              )}
+              <span className="score">{scoreB}</span>
+            </span>
           </div>
 
           <div className="sb-team-name team-right">{match.teamB.name}</div>
         </div>
+
+        {/* LINHA DAS BOLINHAS (Agora apenas com as bolinhas) */}
         {hasPenalties && (
           <div className="penalties-row">
             <div className="penalties-team">
