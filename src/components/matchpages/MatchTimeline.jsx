@@ -1,5 +1,69 @@
 import React from "react";
 
+const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      width: "100%",
+      margin: "15px 0",
+      zIndex: 2, // Fica acima da linha vertical central
+      position: "relative",
+    }}
+  >
+    {/* Linha horizontal esquerda */}
+    <div
+      style={{
+        flex: 1,
+        height: "1px",
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+      }}
+    ></div>
+
+    {/* Centro (Fundo preto esconde a linha vertical que passa por trás) */}
+    <div
+      style={{
+        padding: "0 15px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 1)", // Garanta que é a mesma cor de fundo do contêiner
+      }}
+    >
+      <span style={{ color: "#888", fontSize: "16px", marginBottom: "4px" }}>
+        {icon}
+      </span>
+      <span
+        style={{
+          color: "#8FAEC2",
+          fontSize: "11px",
+          fontWeight: "bold",
+          letterSpacing: "1px",
+        }}
+      >
+        {title}
+      </span>
+      {subtitle && (
+        <span
+          className={`match-end-time ${customClass}`}
+          style={{ color: "#888", fontSize: "11px", marginTop: "4px" }}
+        >
+          {subtitle}
+        </span>
+      )}
+    </div>
+
+    {/* Linha horizontal direita */}
+    <div
+      style={{
+        flex: 1,
+        height: "1px",
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+      }}
+    ></div>
+  </div>
+);
+
 const MatchTimeline = ({ events, players }) => {
   const getPlayerName = (id, externalName) => {
     if (id === "EXTERNO" || id === "OPONENTE_EXTERNO") {
@@ -209,12 +273,11 @@ const MatchTimeline = ({ events, players }) => {
         width: "100%",
         maxWidth: "600px",
         margin: "20px auto",
-        /* === MÁGICA DO SCROLL === */
-        maxHeight: "350px" /* Ajuste esta altura conforme quiser */,
-        overflowY: "auto" /* Ativa a rolagem vertical se passar de 350px */,
+        maxHeight: "350px",
+        overflowY: "auto",
         overflowX: "hidden",
         padding: "10px",
-        backgroundColor: "rgba(0, 0, 0, 0.2)" /* Fundo sutil opcional */,
+        backgroundColor: "rgba(0, 0, 0)", // Fundo deve ser sólido para as quebras de linha funcionarem
         borderRadius: "8px",
       }}
     >
@@ -226,24 +289,36 @@ const MatchTimeline = ({ events, players }) => {
           width: "100%",
           position: "relative",
           paddingBottom: "10px",
-          paddingTop: "50px",
+          paddingTop: "10px", // Reduzi o padding superior para encaixar melhor o marcador inicial
         }}
       >
         {/* Linha vertical central */}
         <div
           style={{
             position: "absolute",
-            top: 0,
-            bottom: 0,
+            top: "25px",
+            bottom: "25px",
             left: "50%",
-            width: "3px",
+            width: "2px", // Deixei um pouco mais fina pra parecer com a imagem
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             transform: "translateX(-50%)",
             zIndex: 1,
           }}
         ></div>
 
+        {/* --- MARCADOR: PONTAPÉ INICIAL --- */}
+        <TimelineMarker icon="⏱️" title="PONTAPÉ INICIAL" />
+
+        {/* Mapeamento dos Eventos (Gols, Cartões, Subs) */}
         {events?.map((e, i) => renderEvent(e, i))}
+
+        {/* --- MARCADOR: FIM DA PARTIDA --- */}
+        {/* Aqui está a classe match-end-time. Você pode passar o tempo pelo 'subtitle' ou preencher via CSS/props depois */}
+        <TimelineMarker
+          icon="⏱️"
+          title="FIM DA PARTIDA"
+          customClass="tempo-fim-partida"
+        />
       </div>
     </div>
   );

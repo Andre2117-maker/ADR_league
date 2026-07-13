@@ -462,8 +462,6 @@ function MatchPage({ matches, players, isAdmin }) {
   const hasPenalties =
     match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0;
 
-  console.log("CHAVES ENCONTRADAS NO ARQUIVO:", Object.keys(FORMATIONS_DATA));
-
   return (
     <div className="match-view-wrapper" id="capture-area">
       <div className="match-top-bar">
