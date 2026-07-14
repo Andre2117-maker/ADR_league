@@ -88,6 +88,13 @@ const MatchTimeline = ({ events, players }) => {
     let playerOut = "";
     let playerIn = "";
 
+    // Elemento da Minutagem
+    const minuteElement = e.minute ? (
+      <span style={{ color: "#d4af37", fontWeight: "bold", fontSize: "13px" }}>
+        {e.minute}
+      </span>
+    ) : null;
+
     if (isSub) {
       isInjured = e.reason === "Lesão" || e.reason === "Machucado";
       playerOut = getPlayerName(e.playerOutId);
@@ -172,6 +179,9 @@ const MatchTimeline = ({ events, players }) => {
           {isTeamA && !isSub && (
             <>
               {assist} {extraLabel} <span className="player-name">{name}</span>
+              {minuteElement && (
+                <span style={{ marginLeft: "6px" }}>{minuteElement}</span>
+              )}
             </>
           )}
 
@@ -233,6 +243,9 @@ const MatchTimeline = ({ events, players }) => {
         >
           {!isTeamA && !isSub && (
             <>
+              {minuteElement && (
+                <span style={{ marginRight: "6px" }}>{minuteElement}</span>
+              )}
               <span className="player-name">{name}</span> {extraLabel} {assist}
             </>
           )}

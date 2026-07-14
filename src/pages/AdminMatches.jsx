@@ -39,6 +39,8 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [teamPresets, setTeamPresets] = useState([]);
   const [extScorerName, setExtScorerName] = useState("");
   const [extAssistName, setExtAssistName] = useState("");
+  const [pendingEvent, setPendingEvent] = useState(null);
+  const [minuteInput, setMinuteInput] = useState("");
 
   const initialDate = useMemo(() => {
     if (matchToEdit?.date) return matchToEdit.date;
@@ -163,45 +165,71 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     externalName = null,
     reason = "",
   ) => {
-    setDraft((prev) => ({
-      ...prev,
-
-      events: [
-        ...prev.events,
-
-        {
-          id: crypto.randomUUID(),
-          team,
-          playerId,
-          type,
-          assistId,
-          externalName,
-          reason,
-          matchType,
-        },
-      ],
-    }));
-
+    // Ao invés de salvar direto, abre o modal de minutagem
+    setMinuteInput("");
+    setPendingEvent({
+      isSub: false,
+      data: { team, playerId, type, assistId, externalName, reason },
+    });
     setShowAssistModal(null);
   };
 
   const addSubEvent = (team, playerOutId, playerInId, reason) => {
-    setDraft((prev) => ({
-      ...prev,
-      events: [
-        ...prev.events,
-        {
-          id: crypto.randomUUID(),
-          team,
-          type: "SUB",
-          playerOutId,
-          playerInId,
-          reason,
-          matchType,
-        },
-      ],
-    }));
-    setShowSubModal(null); // Fecha o modal após adicionar
+    // Ao invés de salvar direto, abre o modal de minutagem
+    setMinuteInput("");
+    setPendingEvent({
+      isSub: true,
+      data: { team, playerOutId, playerInId, reason },
+    });
+    setShowSubModal(null);
+  };
+
+  // Esta função é chamada quando você clica em "Confirmar" no modal
+  const finalizeEvent = () => {
+    if (!pendingEvent) return;
+
+    if (pendingEvent.isSub) {
+      const { team, playerOutId, playerInId, reason } = pendingEvent.data;
+      setDraft((prev) => ({
+        ...prev,
+        events: [
+          ...prev.events,
+          {
+            id: crypto.randomUUID(),
+            team,
+            type: "SUB",
+            playerOutId,
+            playerInId,
+            reason,
+            minute: minuteInput, // <- Salva a minutagem aqui
+            matchType,
+          },
+        ],
+      }));
+    } else {
+      const { team, playerId, type, assistId, externalName, reason } =
+        pendingEvent.data;
+      setDraft((prev) => ({
+        ...prev,
+        events: [
+          ...prev.events,
+          {
+            id: crypto.randomUUID(),
+            team,
+            playerId,
+            type,
+            assistId,
+            externalName,
+            reason,
+            minute: minuteInput, // <- Salva a minutagem aqui
+            matchType,
+          },
+        ],
+      }));
+    }
+
+    // Fecha o modal limpando o estado
+    setPendingEvent(null);
   };
 
   const handleImageUpload = (e, teamKey) => {
@@ -678,6 +706,101 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         />
       )}
 
+      {pendingEvent && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.85)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#111",
+              padding: "20px",
+              borderRadius: "8px",
+              border: "1px solid #d4af37",
+              width: "90%",
+              maxWidth: "300px",
+              textAlign: "center",
+            }}
+          >
+            <h3
+              style={{
+                color: "#d4af37",
+                marginBottom: "15px",
+                fontSize: "16px",
+              }}
+            >
+              ⏱️ Inserir Minutagem
+            </h3>
+
+            <input
+              type="text"
+              autoFocus
+              placeholder="Ex: 15', 45+2'"
+              value={minuteInput}
+              onChange={(e) => setMinuteInput(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                marginBottom: "20px",
+                backgroundColor: "#222",
+                color: "#fff",
+                border: "1px solid #444",
+                borderRadius: "4px",
+                textAlign: "center",
+                fontSize: "18px",
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") finalizeEvent();
+              }}
+            />
+
+            <div
+              style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+            >
+              <button
+                onClick={() => setPendingEvent(null)}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  backgroundColor: "#444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={finalizeEvent}
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  backgroundColor: "#d4af37",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <MatchPreview
         draft={draft}
         players={players}
@@ -700,14 +823,31 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             events: newEvents,
           }));
         }}
-        // NOVA FUNÇÃO: O que fazer quando clica em editar
+        // --- FUNÇÃO DE EDIÇÃO ATUALIZADA ---
         onEdit={(eventToEdit) => {
+          // 1. Sempre pergunta a minutagem primeiro para QUALQUER evento
+          const novaMinutagem = prompt(
+            "Inserir minutagem (ex: 15', 45+2'):",
+            eventToEdit.minute || "",
+          );
+
+          // Salva a minutagem se o usuário não cancelar (clicar em OK)
+          if (novaMinutagem !== null) {
+            setDraft((prev) => ({
+              ...prev,
+              events: prev.events.map((e) =>
+                e.id === eventToEdit.id ? { ...e, minute: novaMinutagem } : e,
+              ),
+            }));
+          }
+
+          // 2. Se o evento for de substituição, aproveita e pergunta o motivo logo em seguida
           if (eventToEdit.type === "SUB") {
-            // Exemplo de edição simples para substituição
             const novoMotivo = prompt(
               "Novo motivo da substituição:",
-              eventToEdit.reason,
+              eventToEdit.reason || "",
             );
+
             if (novoMotivo !== null) {
               setDraft((prev) => ({
                 ...prev,
@@ -716,8 +856,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                 ),
               }));
             }
-          } else {
-            alert("Edite o evento: " + eventToEdit.type);
           }
         }}
       />

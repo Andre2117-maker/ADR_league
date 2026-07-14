@@ -44,6 +44,7 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
         {...attributes}
         {...listeners}
       >
+        {/* TIME A (Alinhado à direita) */}
         <div style={{ flex: 1, textAlign: "right", paddingRight: "30px" }}>
           {e.team === "A" && (
             <div
@@ -56,6 +57,11 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
               {e.type === "SUB" ? (
                 <>
                   <span style={{ fontWeight: "bold", color: "#44ff44" }}>
+                    {e.minute && (
+                      <span style={{ color: "#d4af37", marginRight: "5px" }}>
+                        {e.minute}
+                      </span>
+                    )}
                     {getPlayerName(e.playerInId)} ⬆️
                   </span>
                   <span style={{ fontSize: "10px", color: "#aaa" }}>
@@ -65,6 +71,11 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
               ) : (
                 <>
                   <span style={{ fontWeight: "bold" }}>
+                    {e.minute && (
+                      <span style={{ color: "#d4af37", marginRight: "5px" }}>
+                        {e.minute}
+                      </span>
+                    )}
                     {getPlayerName(e.playerId, e.externalName)}
                   </span>
                   {e.assistId && (
@@ -91,6 +102,7 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
           {renderEventIcon(e.type)}
         </div>
 
+        {/* TIME B (Alinhado à esquerda) */}
         <div style={{ flex: 1, textAlign: "left", paddingLeft: "30px" }}>
           {e.team === "B" && (
             <div
@@ -104,6 +116,11 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
                 <>
                   <span style={{ fontWeight: "bold", color: "#44ff44" }}>
                     ⬆️ {getPlayerName(e.playerInId)}
+                    {e.minute && (
+                      <span style={{ color: "#d4af37", marginLeft: "5px" }}>
+                        {e.minute}
+                      </span>
+                    )}
                   </span>
                   <span style={{ fontSize: "10px", color: "#aaa" }}>
                     ⬇️ {getPlayerName(e.playerOutId)}
@@ -113,6 +130,11 @@ const SortableEvent = ({ e, renderEventIcon, getPlayerName, removeEvent }) => {
                 <>
                   <span style={{ fontWeight: "bold" }}>
                     {getPlayerName(e.playerId, e.externalName)}
+                    {e.minute && (
+                      <span style={{ color: "#d4af37", marginLeft: "5px" }}>
+                        {e.minute}
+                      </span>
+                    )}
                   </span>
                   {e.assistId && (
                     <span style={{ fontSize: "10px", color: "#aaa" }}>
