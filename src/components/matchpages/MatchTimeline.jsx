@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { PenaltiesResult } from "./PenaltyResult";
 
 const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
@@ -280,6 +280,56 @@ const MatchTimeline = ({ events, players, match }) => {
     );
   };
 
+  // ==========================================
+  // LÓGICA: SEPARAR A LINHA A CADA 5 MINUTOS
+  // ==========================================
+  const unifiedTimeline = useMemo(() => {
+    const validEvents = events || [];
+    
+    // Função para transformar minutos como "45+2" em "45.2" para ordenação matemática correta
+    const parseMinute = (minStr) => {
+      if (!minStr) return 0;
+      const str = String(minStr).replace("+", ".");
+      return parseFloat(str) || 0;
+    };
+
+    let maxMin = 0;
+    
+    // 1. Mapeamos os eventos reais para pegar o número de ordenação e achar o tempo máximo de jogo
+    const parsedEvents = validEvents.map((e, index) => {
+      const m = parseMinute(e.minute);
+      if (m > maxMin) maxMin = m;
+      return { ...e, isEvent: true, sortValue: m, originalIndex: index };
+    });
+
+    // 2. Criamos marcadores artificiais a cada 5 minutos até chegar no tempo máximo da partida
+    const markers = [];
+    if (maxMin > 0) {
+      // Arredonda para cima no próximo múltiplo de 5 (ex: se o último gol foi aos 38', criamos até os 40')
+      const lastMarker = Math.ceil(maxMin / 5) * 5;
+      for (let i = 5; i <= lastMarker; i += 5) {
+        markers.push({ isMarker: true, minute: String(i), sortValue: i });
+      }
+    }
+
+    // 3. Juntamos os eventos e os marcadores de tempo
+    const unified = [...parsedEvents, ...markers];
+    
+    // 4. Ordenamos tudo cronologicamente
+    unified.sort((a, b) => {
+      if (a.sortValue === b.sortValue) {
+        // Se um evento aconteceu exatamente no mesmo minuto do marcador (ex: gol aos 15'), 
+        // o marcador visual de 15' aparece primeiro, depois o evento
+        if (a.isMarker && !b.isMarker) return -1;
+        if (!a.isMarker && b.isMarker) return 1;
+        return a.originalIndex - b.originalIndex;
+      }
+      return a.sortValue - b.sortValue;
+    });
+
+    return unified;
+  }, [events]);
+
   return (
     <div
       className="timeline-scroll-wrapper"
@@ -303,7 +353,7 @@ const MatchTimeline = ({ events, players, match }) => {
           width: "100%",
           position: "relative",
           paddingBottom: "10px",
-          paddingTop: "10px", // Reduzi o padding superior para encaixar melhor o marcador inicial
+          paddingTop: "10px", 
         }}
       >
         {/* Linha vertical central */}
@@ -313,7 +363,7 @@ const MatchTimeline = ({ events, players, match }) => {
             top: "25px",
             bottom: "25px",
             left: "50%",
-            width: "2px", // Deixei um pouco mais fina pra parecer com a imagem
+            width: "2px", 
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             transform: "translateX(-50%)",
             zIndex: 1,
@@ -323,16 +373,50 @@ const MatchTimeline = ({ events, players, match }) => {
         {/* --- MARCADOR: PONTAPÉ INICIAL --- */}
         <TimelineMarker icon="⏱️" title="PONTAPÉ INICIAL" />
 
-        {/* Mapeamento dos Eventos (Gols, Cartões, Subs) */}
-        {events?.map((e, i) => renderEvent(e, i))}
+        {/* --- LISTA UNIFICADA: Eventos + Marcadores de Tempo --- */}
+        {unifiedTimeline.map((item, index) => {
+          // Se o item for um marcador de 5 em 5 minutos, desenha a quebra visual
+          if (item.isMarker) {
+            return (
+              <div
+                key={`marker-${item.minute}-${index}`}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  margin: "6px 0",
+                  zIndex: 2, // Fica acima da linha vertical
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 1)", // Fundo preto quebra/corta a linha vertical
+                    color: "rgba(255, 255, 255, 0.3)", // Um cinza transparente e bem sofisticado
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    padding: "2px 0",
+                    width: "36px",
+                    textAlign: "center",
+                    borderTop: "1px dashed rgba(255, 255, 255, 0.1)", // Um charmoso corte horizontal
+                    borderBottom: "1px dashed rgba(255, 255, 255, 0.1)",
+                  }}
+                >
+                  {item.minute}'
+                </div>
+              </div>
+            );
+          }
 
-        {/* BLOCO DE PÊNALTIS (Usando o 'match' que recebemos) */}
+          // Se for um evento real do jogo, renderiza normalmente usando a sua função
+          return renderEvent(item, index);
+        })}
+
+        {/* BLOCO DE PÊNALTIS */}
         {(match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0) && (
           <PenaltiesResult draft={match} players={players} />
         )}
 
         {/* --- MARCADOR: FIM DA PARTIDA --- */}
-        {/* Aqui está a classe match-end-time. Você pode passar o tempo pelo 'subtitle' ou preencher via CSS/props depois */}
         <TimelineMarker
           icon="⏱️"
           title="FIM DA PARTIDA"
