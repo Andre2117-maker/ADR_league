@@ -49,11 +49,32 @@ const MatchCard = ({
     ).length;
   };
   const hasStarted =
-    match.status === "FINISHED" || (match.events && match.events.length > 0);
+    match.status === "FINISHED" ||
+    match.winner || // Se existe um vencedor definido, a partida já ocorreu
+    (match.events && match.events.length > 0) ||
+    (match.penalties && (match.penalties.A || match.penalties.B)) || // Se teve disputa de pênaltis cadastrada
+    (match.penaltiesScoreA != null && match.penaltiesScoreA !== "");
 
   const scoreA = getTeamScore("A");
   const scoreB = getTeamScore("B");
   const isTie = scoreA === scoreB;
+
+  const getPenaltyScore = (teamLetter) => {
+    const penalties = match.penalties?.[teamLetter];
+    if (!penalties || !Array.isArray(penalties)) return 0;
+
+    // Se o primeiro item for string (Lógica Antiga)
+    if (typeof penalties[0] === "string") {
+      return penalties.filter((p) => p === "goal").length;
+    }
+
+    // Se o primeiro item for objeto (Lógica Nova)
+    if (typeof penalties[0] === "object") {
+      return penalties.filter((p) => p?.result === "goal").length;
+    }
+
+    return 0;
+  };
 
   return (
     <div className="psg-match-card">
@@ -129,18 +150,22 @@ const MatchCard = ({
             />
             <span className="psg-team-name">{match.teamA?.name || "ADR"}</span>
           </div>
-          {/* Placar do Time A ao lado */}
           <div className="psg-team-score">
             {hasStarted ? (
-              <>
+              <span>
                 {scoreA}
-                {/* Pênaltis SÓ aparecem se empatou E se o valor existir */}
-                {isTie && match.penaltiesScoreA != null && (
-                  <span className="psg-penalty-score">
-                    ({match.penaltiesScoreA})
-                  </span>
+                {isTie && (
+                  <small style={{ marginLeft: "5px", color: "#d4af37" }}>
+                    {/* Se o campo for nulo, indefinido ou string vazia, calcula o novo */}
+                    (
+                    {match.penaltiesScoreA != null &&
+                    match.penaltiesScoreA !== ""
+                      ? match.penaltiesScoreA
+                      : getPenaltyScore("A")}
+                    )
+                  </small>
                 )}
-              </>
+              </span>
             ) : (
               "-"
             )}
@@ -162,15 +187,20 @@ const MatchCard = ({
           {/* Placar do Time B ao lado */}
           <div className="psg-team-score">
             {hasStarted ? (
-              <>
+              <span>
                 {scoreB}
-                {/* Pênaltis SÓ aparecem se empatou E se o valor existir */}
-                {isTie && match.penaltiesScoreB != null && (
-                  <span className="psg-penalty-score">
-                    ({match.penaltiesScoreB})
-                  </span>
+                {isTie && (
+                  <small style={{ marginLeft: "5px", color: "#d4af37" }}>
+                    {/* Se o campo for nulo, indefinido ou string vazia, calcula o novo */}
+                    (
+                    {match.penaltiesScoreB != null &&
+                    match.penaltiesScoreB !== ""
+                      ? match.penaltiesScoreB
+                      : getPenaltyScore("B")}
+                    )
+                  </small>
                 )}
-              </>
+              </span>
             ) : (
               "-"
             )}

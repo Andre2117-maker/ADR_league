@@ -127,14 +127,16 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
   const isDraw = goalsA === goalsB;
 
-  const addPenalty = (team, result) => {
+  const addPenalty = (team, result, playerId, externalName) => {
     setDraft((prev) => ({
       ...prev,
-
       penalties: {
         ...prev.penalties,
-
-        [team]: [...(prev.penalties?.[team] || []), result],
+        // Agora salvamos o objeto completo com os dados do cobrador
+        [team]: [
+          ...(prev.penalties?.[team] || []),
+          { result, playerId, externalName },
+        ],
       },
     }));
   };
@@ -394,14 +396,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         winner = "B";
       } else {
         const pensA =
-          draft.penalties?.A?.length > 0
-            ? draft.penalties.A.filter((p) => p === "goal").length
-            : Number(draft.penaltiesScoreA || 0);
-
+          draft.penalties?.A?.filter((p) => p.result === "goal").length || 0;
         const pensB =
-          draft.penalties?.B?.length > 0
-            ? draft.penalties.B.filter((p) => p === "goal").length
-            : Number(draft.penaltiesScoreB || 0);
+          draft.penalties?.B?.filter((p) => p.result === "goal").length || 0;
 
         if (pensA > pensB) {
           winner = "A";
@@ -866,6 +863,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
           addPenalty={addPenalty}
           removePenalty={removePenalty}
           setDraft={setDraft}
+          players={players}
         />
       )}
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { PenaltiesResult } from "./PenaltyResult";
 
 const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
   <div
@@ -64,7 +65,7 @@ const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
   </div>
 );
 
-const MatchTimeline = ({ events, players }) => {
+const MatchTimeline = ({ events, players, match }) => {
   const getPlayerName = (id, externalName) => {
     if (id === "EXTERNO" || id === "OPONENTE_EXTERNO") {
       return externalName || "Jogador Externo";
@@ -324,6 +325,11 @@ const MatchTimeline = ({ events, players }) => {
 
         {/* Mapeamento dos Eventos (Gols, Cartões, Subs) */}
         {events?.map((e, i) => renderEvent(e, i))}
+
+        {/* BLOCO DE PÊNALTIS (Usando o 'match' que recebemos) */}
+        {(match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0) && (
+          <PenaltiesResult draft={match} players={players} />
+        )}
 
         {/* --- MARCADOR: FIM DA PARTIDA --- */}
         {/* Aqui está a classe match-end-time. Você pode passar o tempo pelo 'subtitle' ou preencher via CSS/props depois */}

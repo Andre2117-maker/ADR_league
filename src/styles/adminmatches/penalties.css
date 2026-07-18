@@ -20,6 +20,42 @@
   letter-spacing: 1px;
 }
 
+/* PLACAR AUTOMÁTICO (Substituto do legacy) */
+.penalties-score-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.penalties-score-box {
+  width: 75px;
+  height: 58px;
+  background: #000;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 900;
+  transition: all 0.3s ease;
+}
+
+/* Destaque para quem está ganhando */
+.penalties-score-box.winner {
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(255, 224, 102, 0.2);
+}
+
+.penalties-score-divider {
+  color: #666;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .penalty-team-block {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -101,30 +137,4 @@
   background: rgba(255, 255, 255, 0.06);
   color: #bbb;
   border-color: rgba(255, 255, 255, 0.08);
-}
-
-/* LEGADO */
-.penalties-legacy {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.penalties-legacy input {
-  width: 75px;
-  height: 58px;
-  background: #000;
-  border: 2px solid var(--gold);
-  border-radius: 12px;
-  color: white;
-  text-align: center;
-  font-size: 1.4rem;
-  font-weight: 900;
-  outline: none;
-}
-
-.penalties-legacy input:focus {
-  border-color: #ffe066;
-  box-shadow: 0 0 12px rgba(255, 224, 102, 0.3);
 }

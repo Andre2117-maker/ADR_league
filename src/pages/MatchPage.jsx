@@ -12,7 +12,7 @@ import FriendlyGamesTabs from "../components/matchpages/FriendlyGamesTabs";
 import FriendlyGameField from "../components/matchpages/FriendlyGameField";
 import { createEmptyFriendlyGame } from "../components/matchpages/friendlyGamesUtils";
 
-function MatchPage({ matches, players, isAdmin }) {
+function MatchPage({ matches, players, isAdmin  }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -453,11 +453,36 @@ function MatchPage({ matches, players, isAdmin }) {
     },
   ];
 
-  const renderPenalties = (sequence = []) => {
-    return sequence.map((p, i) => (
-      <span key={i} className={`penalty-box ${p}`}></span>
-    ));
-  };
+  const renderPenalties = (teamPenalties) => {
+  if (!teamPenalties || !Array.isArray(teamPenalties)) return null;
+
+  return teamPenalties.map((p, index) => {
+    // 1. O PULO DO GATO: Extraímos o status garantindo suporte ao banco antigo e novo
+    const status = p?.result || p; 
+
+    // 2. Agora verificamos se é gol usando a nossa nova variável 'status'
+    const isGoal = status === "goal" || status === "scored" || status === "green";
+    
+    // 3. Verificamos se é erro
+    const isMiss = status === "miss" || status === "red" || status === "lost";
+
+    // 4. Renderizamos a bolinha dependendo do status
+    return (
+      <span
+        key={index}
+        className={`penalty-dot ${isGoal ? "bg-green-500" : isMiss ? "bg-red-500" : "bg-gray-300"}`}
+        style={{
+          display: "inline-block",
+          width: "10px",
+          height: "10px",
+          borderRadius: "50%",
+          margin: "0 2px",
+          backgroundColor: isGoal ? "#28a745" : isMiss ? "#dc3545" : "#ccc" // Ajuste as cores conforme o seu CSS
+        }}
+      ></span>
+    );
+  });
+};
 
   const hasPenalties =
     match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0;
@@ -487,14 +512,24 @@ function MatchPage({ matches, players, isAdmin }) {
                     fontWeight: "bold",
                   }}
                 >
-                  ({match.penaltiesScoreA})
+                  (
+                  {match.penaltiesScoreA != null && match.penaltiesScoreA !== ""
+                    ? match.penaltiesScoreA
+                    : match.penalties?.A?.filter(
+                        (p) =>
+                          p?.result === "goal" || // Formato NOVO (Objeto)
+                          p === "goal" ||         // Formato ANTIGO (String)
+                          p === "scored" ||       // Formato ANTIGO alternativo
+                          p === "green"           // Formato ANTIGO alternativo
+                      ).length || 0}
+                  )
                 </span>
               )}
             </span>
 
             <span className="vs-badge">VS</span>
 
-            {/* SCORE TIME B + PÊNALTIS (Invertido para manter simetria) */}
+            {/* SCORE TIME B + PÊNALTIS */}
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               {hasPenalties && (
                 <span
@@ -505,7 +540,17 @@ function MatchPage({ matches, players, isAdmin }) {
                     fontWeight: "bold",
                   }}
                 >
-                  ({match.penaltiesScoreB})
+                  (
+                  {match.penaltiesScoreB != null && match.penaltiesScoreB !== ""
+                    ? match.penaltiesScoreB
+                    : match.penalties?.B?.filter(
+                        (p) =>
+                          p?.result === "goal" || // Formato NOVO (Objeto)
+                          p === "goal" ||         // Formato ANTIGO (String)
+                          p === "scored" ||       // Formato ANTIGO alternativo
+                          p === "green"           // Formato ANTIGO alternativo
+                      ).length || 0}
+                  )
                 </span>
               )}
               <span className="score">{scoreB}</span>
@@ -531,7 +576,11 @@ function MatchPage({ matches, players, isAdmin }) {
         )}
       </div>
 
-      <MatchTimeline events={match.events} players={players} />
+      <MatchTimeline
+        players={players}
+        events={match.events || []}
+        match={match}
+      />
 
       {/* ===================== */}
       {/* TABS */}
