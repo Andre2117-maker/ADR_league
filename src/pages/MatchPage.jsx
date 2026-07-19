@@ -496,6 +496,32 @@ function MatchPage({ matches, players, isAdmin  }) {
       </div>
 
       <div className="scoreboard-container">
+        {(match.date || match.venue) && (
+          <div 
+            className="match-info-header" 
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "20px",
+              paddingBottom: "10px",
+              color: "#aaa", /* Um cinza claro para não roubar a atenção do placar */
+              fontSize: "0.9rem",
+              fontWeight: "500",
+              textTransform: "uppercase"
+            }}
+          >
+            {match.date && (
+              <span className="match-date">
+                📅 {match.date} 
+              </span>
+            )}
+            {match.venue && (
+              <span className="match-location">
+                📍 {match.venue}
+              </span>
+            )}
+          </div>
+        )}
         <div className="sb-main">
           <div className="sb-team-name team-left">{match.teamA.name}</div>
 
