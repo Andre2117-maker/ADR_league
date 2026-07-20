@@ -18,6 +18,7 @@ import Footer from "../components/Footer";
 import PlayerAdminMode from "../components/playerpage/PlayerAdminMode";
 import PlayerBanner from "../components/playerpage/PlayerBanner";
 import PartnerAnalyzer from "../components/playerpage/PartnerAnalyzer";
+import FavoritePositionField from "../components/playerpage/FavoritePositionField";
 
 function PlayerPage({
   playersWithStats, // Recebe a lista completa para encontrar o player pelo ID
@@ -29,7 +30,7 @@ function PlayerPage({
   getPlayerStats,
   playersWithTrainingStats,
 }) {
-  const { id } = useParams(); // Pega o ID da URL (ex: /player/21)
+  const { id } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [careerDates, setCareerDates] = useState(null);
@@ -397,6 +398,8 @@ function PlayerPage({
                 allPlayers={playersWithStats}
                 matches={matches}
               />
+
+              <FavoritePositionField playerId={id} matches={matches} />
             </aside>
 
             <main>
