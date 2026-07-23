@@ -187,28 +187,33 @@ const MatchTimeline = ({ events, players, match }) => {
           )}
 
           {isTeamA && isSub && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-                gap: "2px",
-              }}
-            >
+            <>
               <div
-                style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: "2px",
+                }}
               >
-                {isInjured && (
-                  <span style={{ color: "#ff4444", fontSize: "12px" }}>➕</span>
-                )}
-                <span style={{ color: "#ff4444", fontSize: "11px" }}>
-                  ⬇️ {playerOut}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  {isInjured && (
+                    <span style={{ color: "#ff4444", fontSize: "12px" }}>➕</span>
+                  )}
+                  <span style={{ color: "#ff4444", fontSize: "11px" }}>
+                    ⬇️ {playerOut}
+                  </span>
+                </div>
+                <span style={{ color: "#44ff44", fontSize: "11px" }}>
+                  ⬆️ {playerIn}
                 </span>
               </div>
-              <span style={{ color: "#44ff44", fontSize: "11px" }}>
-                ⬆️ {playerIn}
-              </span>
-            </div>
+              {minuteElement && (
+                <span style={{ marginLeft: "6px" }}>{minuteElement}</span>
+              )}
+            </>
           )}
         </div>
 
@@ -252,28 +257,33 @@ const MatchTimeline = ({ events, players, match }) => {
           )}
 
           {!isTeamA && isSub && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: "2px",
-              }}
-            >
+            <>
+              {minuteElement && (
+                <span style={{ marginRight: "6px" }}>{minuteElement}</span>
+              )}
               <div
-                style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "2px",
+                }}
               >
-                <span style={{ color: "#ff4444", fontSize: "11px" }}>
-                  ⬇️ {playerOut}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <span style={{ color: "#ff4444", fontSize: "11px" }}>
+                    ⬇️ {playerOut}
+                  </span>
+                  {isInjured && (
+                    <span style={{ color: "#ff4444", fontSize: "12px" }}>➕</span>
+                  )}
+                </div>
+                <span style={{ color: "#44ff44", fontSize: "11px" }}>
+                  ⬆️ {playerIn}
                 </span>
-                {isInjured && (
-                  <span style={{ color: "#ff4444", fontSize: "12px" }}>➕</span>
-                )}
               </div>
-              <span style={{ color: "#44ff44", fontSize: "11px" }}>
-                ⬆️ {playerIn}
-              </span>
-            </div>
+            </>
           )}
         </div>
       </div>

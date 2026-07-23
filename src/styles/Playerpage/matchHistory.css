@@ -104,7 +104,7 @@
 
 .adr-match-card {
   display: grid;
-  grid-template-columns: 80px 1fr 100px; /* Três colunas fixas no desktop */
+  grid-template-columns: 80px 1fr 130px; /* Aumentado espaço da direita para caber mais badges no PC */
   align-items: center;
   background: var(--card-bg);
   padding: 15px 20px;
@@ -114,7 +114,7 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  min-height: 70px; /* Evita o bug de achatar */
+  min-height: 70px;
 }
 
 .adr-match-card:hover {
@@ -145,15 +145,9 @@
   color: #000;
   margin-bottom: 5px;
 }
-.adr-status-indicator.win {
-  background: #00ff7f;
-}
-.adr-status-indicator.loss {
-  background: #ff4d4d;
-}
-.adr-status-indicator.draw {
-  background: #aaa;
-}
+.adr-status-indicator.win { background: #00ff7f; }
+.adr-status-indicator.loss { background: #ff4d4d; }
+.adr-status-indicator.draw { background: #aaa; }
 
 .adr-match-date {
   font-size: 10px;
@@ -161,58 +155,42 @@
   font-weight: 700;
 }
 
+/* Container do Miolo */
 .adr-match-main {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
+  flex: 1;
   padding: 0 15px;
 }
 
-.adr-team-mini {
+/* O "abraço": Logo - Placar - Logo */
+.adr-score-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
-}
-
-.adr-team-mini.team-right {
-  justify-content: flex-end;
+  gap: 8px;
 }
 
 .adr-history-logo {
   width: 28px;
   height: 28px;
-  min-width: 28px; /* Impede a logo de diminuir */
+  min-width: 28px;
   object-fit: contain;
-}
-
-.adr-team-name {
-  font-size: 0.8rem;
-  color: #666;
-  font-weight: 600;
-  text-transform: uppercase;
-  max-width: 100px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.adr-team-name.highlight {
-  color: #fff;
-  font-weight: 800;
+  flex-shrink: 0;
 }
 
 /* PLACAR CENTRAL */
 .adr-match-score {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  background: #000 !important; /* Força o fundo preto do placar */
+  background: #000 !important;
   padding: 6px 14px;
   border-radius: 10px;
   border: 1px solid rgba(212, 175, 55, 0.3);
+  min-width: 50px;
 }
 
 .score-num {
@@ -225,198 +203,7 @@
   font-weight: 900;
 }
 
-/* STATS DO JOGADOR */
-.adr-match-player-stats {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.badge-goal,
-.badge-assist,
-.badge-yellow,
-.badge-red {
-  font-size: 9px;
-  font-weight: 900;
-  padding: 3px 8px;
-  border-radius: 5px;
-}
-
-.badge-goal {
-  background: rgba(255, 215, 0, 0.1);
-  color: #ffd700;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-}
-
-.badge-assist {
-  background: rgba(0, 188, 212, 0.1);
-  color: #00bcd4;
-  border: 1px solid rgba(0, 188, 212, 0.3);
-}
-
-.badge-yellow {
-  background: rgba(241, 196, 15, 0.1);
-  color: #f1c40f;
-  border: 1px solid rgba(241, 196, 15, 0.3);
-}
-
-.badge-red {
-  background: rgba(229, 57, 53, 0.1);
-  color: #e53935;
-  border: 1px solid rgba(229, 57, 53, 0.3);
-}
-
-.badge-gk {
-  background: rgba(33, 150, 243, 0.15);
-  color: #d021f3;
-  border: 1px solid rgba(166, 33, 243, 0.5);
-  padding: 2px 6px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.adr-match-chevron {
-  color: #222;
-  font-size: 1.2rem;
-}
-
-/* ============================================================
-   6. RESPONSIVIDADE (MOBILE) - VERSÃO ESTÁVEL
-   ============================================================ */
-@media (max-width: 600px) {
-  .adr-history-container {
-    padding: 12px;
-    /* Força o container a nunca ser maior que a tela, descontando as margens */
-    width: calc(100vw - 20px);
-    max-width: calc(100vw - 20px);
-    margin: 20px auto;
-    box-sizing: border-box;
-    overflow: hidden; /* Corta qualquer tentativa de vazar */
-  }
-
-  .adr-match-card {
-    /* Grid ultra compacto para telas pequenas */
-    display: grid !important;
-    grid-template-columns: 45px 1fr 50px !important;
-    padding: 10px 8px !important;
-    gap: 4px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Removemos paddings laterais extras que empurram o conteúdo */
-  .adr-match-main {
-    padding: 0 !important;
-    gap: 6px !important;
-    justify-content: center !important;
-    min-width: 0;
-  }
-
-  /* Esconde nomes e ícones de navegação */
-  .adr-team-name,
-  .adr-match-chevron,
-  .full-name,
-  .short-name {
-    display: none !important;
-  }
-
-  .adr-history-logo {
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    flex-shrink: 0;
-  }
-
-  /* Placar Centralizado e Menor */
-  .adr-match-score {
-    padding: 4px 6px !important;
-    min-width: 42px !important;
-    gap: 3px !important;
-    background: #000 !important;
-  }
-
-  .score-num {
-    font-size: 0.9rem !important;
-  }
-
-  /* Ajuste das informações de Status (V/D/E) */
-  .adr-match-info {
-    width: 100% !important;
-    border-right: none !important;
-  }
-
-  .adr-status-indicator {
-    width: 18px !important;
-    height: 18px !important;
-    font-size: 8px !important;
-  }
-
-  .adr-match-date {
-    font-size: 8px !important;
-  }
-
-  /* Stats do Jogador */
-  .adr-match-player-stats {
-    width: 100% !important;
-    justify-content: flex-end !important;
-  }
-
-  .stats-badges {
-    flex-direction: column !important;
-    gap: 2px !important;
-  }
-
-  .badge-goal,
-  .badge-assist,
-  .badge-gk,
-  .badge-yellow,
-  .badge-red {
-    font-size: 7.5px !important;
-    padding: 1px 2px !important;
-    min-width: 30px !important;
-    text-align: center;
-  }
-}
-
-/* Container do Miolo */
-.adr-match-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  flex: 1;
-}
-
-/* O "abraço": Logo - Placar - Logo */
-.adr-score-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Espaço entre a logo e o placar */
-}
-
-.adr-match-score {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #000;
-  padding: 4px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  min-width: 50px;
-  justify-content: center;
-}
-
-.adr-history-logo {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-/* Nomes dos times nas pontas do miolo */
+/* Nomes dos times */
 .adr-team-name {
   font-size: 0.8rem;
   color: #666;
@@ -427,22 +214,62 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.adr-team-name.team-a { text-align: right; }
+.adr-team-name.team-b { text-align: left; }
+.adr-team-name.highlight { color: #fff; font-weight: 800; }
 
-.adr-team-name.team-a {
-  text-align: right;
+/* STATS DO JOGADOR */
+.adr-match-player-stats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
 }
-.adr-team-name.team-b {
-  text-align: left;
+
+/* ===== CORREÇÃO DAS BADGES (DESKTOP) ===== */
+.stats-badges {
+  display: flex;
+  flex-wrap: wrap; /* Permite quebrar linha se houver muitas badges */
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-goal,
+.badge-assist,
+.badge-yellow,
+.badge-red,
+.badge-gk {
+  font-size: 9px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 5px;
+  white-space: nowrap; /* Impede o texto de quebrar no meio da badge */
+}
+
+.badge-goal { background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.3); }
+.badge-assist { background: rgba(0, 188, 212, 0.1); color: #00bcd4; border: 1px solid rgba(0, 188, 212, 0.3); }
+.badge-yellow { background: rgba(241, 196, 15, 0.1); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.3); }
+.badge-red { background: rgba(229, 57, 53, 0.1); color: #e53935; border: 1px solid rgba(229, 57, 53, 0.3); }
+.badge-gk {
+  background: rgba(33, 150, 243, 0.15);
+  color: #d021f3;
+  border: 1px solid rgba(166, 33, 243, 0.5);
+}
+
+.adr-match-chevron {
+  color: #222;
+  font-size: 1.2rem;
 }
 
 /* ============================================================
-   MOBILE - FIX DEFINITIVO (PARA NÃO VAZAR)
+   5. RESPONSIVIDADE (MOBILE) - FIX DEFINITIVO (UNIFICADO)
    ============================================================ */
 @media (max-width: 600px) {
   .adr-history-container {
-    width: calc(100vw - 30px); /* Garante respiro nas bordas do celular */
-    margin-left: auto;
-    margin-right: auto;
+    width: calc(100vw - 30px);
+    max-width: calc(100vw - 30px);
+    margin: 20px auto;
     padding: 12px;
     box-sizing: border-box;
     overflow: hidden;
@@ -450,33 +277,65 @@
 
   .adr-match-card {
     display: grid !important;
-    grid-template-columns: 45px 1fr 55px !important; /* Status | Miolo | Stats */
+    /* Aumentei a coluna da direita de 55px para 75px para caber as badges */
+    grid-template-columns: 45px 1fr 75px !important; 
     padding: 10px 5px !important;
     gap: 5px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
+  /* Esconde nomes e setinha no mobile para dar espaço */
   .adr-team-name,
   .adr-match-chevron {
-    display: none !important; /* Esconde nomes no mobile para focar na logo/placar */
+    display: none !important;
   }
 
-  .adr-score-wrapper {
-    gap: 5px; /* Logos mais coladas no placar no mobile */
+  /* Ajuste do miolo (Logos e Placar) */
+  .adr-match-main {
+    padding: 0 !important;
+    gap: 4px !important;
+    justify-content: center !important;
+    min-width: 0;
   }
-
-  .adr-history-logo {
-    width: 22px;
-    height: 22px;
-  }
-
+  .adr-score-wrapper { gap: 4px; }
+  .adr-history-logo { width: 22px !important; height: 22px !important; min-width: 22px !important; }
+  
   .adr-match-score {
-    padding: 3px 8px;
-    min-width: 40px;
+    padding: 3px 6px !important;
+    min-width: 40px !important;
+    gap: 3px !important;
+  }
+  .score-num { font-size: 0.95rem !important; }
+
+  /* Ajuste do Status (Esquerda) */
+  .adr-match-info { border-right: none !important; width: 100% !important; }
+  .adr-status-indicator { width: 18px !important; height: 18px !important; font-size: 8px !important; }
+  .adr-match-date { font-size: 8px !important; }
+
+  /* ===== CORREÇÃO DAS BADGES NO MOBILE ===== */
+  .adr-match-player-stats {
+    width: 100% !important;
+    justify-content: flex-end !important;
   }
 
-  .score-num {
-    font-size: 0.95rem;
+  .stats-badges {
+    flex-direction: row !important; /* Muda de coluna (empilhada) para linha */
+    flex-wrap: wrap !important; /* Permite quebrar para baixo se não couber */
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 3px !important;
+  }
+
+  /* Deixa as badges um pouco menores para caberem em harmonia */
+  .badge-goal,
+  .badge-assist,
+  .badge-gk,
+  .badge-yellow,
+  .badge-red {
+    font-size: 7.5px !important;
+    padding: 2px 4px !important;
+    min-width: auto !important; /* Remove largura fixa */
+    text-align: center;
   }
 }

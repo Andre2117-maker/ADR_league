@@ -27,6 +27,8 @@ function MatchPage({ matches, players, isAdmin  }) {
   const [prevDbFormA, setPrevDbFormA] = useState(match?.formationA);
   const [prevDbFormB, setPrevDbFormB] = useState(match?.formationB);
 
+  const [showGoldenGoalInfo, setShowGoldenGoalInfo] = useState(false);
+
   // 2. Jeito Oficial do React: Atualizar estado durante a renderização se o banco mudar
   if (match && match.formationA !== prevDbFormA) {
     setPrevDbFormA(match.formationA);
@@ -600,6 +602,57 @@ function MatchPage({ matches, players, isAdmin  }) {
             </div>
           </div>
         )}
+
+        {match.goldenGoalWinner && (
+          <div style={{ textAlign: "center", marginTop: "12px", paddingBottom: "10px" }}>
+            <div 
+              onClick={() => setShowGoldenGoalInfo(!showGoldenGoalInfo)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 15px",
+                backgroundColor: "rgba(212, 175, 55, 0.15)",
+                border: "1px solid #d4af37",
+                borderRadius: "20px",
+                color: "#ffd700",
+                fontSize: "0.85rem",
+                fontWeight: "bold",
+                cursor: "pointer",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+                userSelect: "none",
+                transition: "all 0.2s ease"
+              }}
+            >
+              ⚽ Decidido no Gol de Ouro {showGoldenGoalInfo ? "▲" : "▼"}
+            </div>
+
+            {/* CAIXINHA DA EXPLICAÇÃO QUE APARECE AO CLICAR */}
+            {showGoldenGoalInfo && (
+              <div style={{
+                marginTop: "10px",
+                padding: "10px 15px",
+                backgroundColor: "rgba(25, 25, 25, 0.9)",
+                border: "1px solid rgba(212, 175, 55, 0.5)",
+                borderRadius: "8px",
+                color: "#eee",
+                fontSize: "0.85rem",
+                lineHeight: "1.4",
+                maxWidth: "320px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                textAlign: "center",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+              }}>
+                <strong>Regra do Gol de Ouro:</strong><br />
+                Devido ao cansaço, ambos os times decidiram definir a partida no gol de ouro! O time <strong style={{ color: "#ffd700" }}>
+                  {match.goldenGoalWinner === "A" ? match.teamA.name : match.teamB.name}
+                </strong> marcou primeiro nesse desempate especial e venceu a partida.
+              </div>
+            )}
+          </div>
+        )}
+
       </div>
 
       <MatchTimeline

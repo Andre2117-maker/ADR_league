@@ -64,21 +64,24 @@ const MatchHistory = ({ matches, player }) => {
 
             let result = "draw";
 
-            // vitória no tempo normal
-            if (sA > sB) {
+            // 1. VERIFICA PRIMEIRO SE HOUVE GOL DE OURO
+            if (m.goldenGoalWinner) {
+              const teamAWonGG = m.goldenGoalWinner === "A";
+              result = (teamAWonGG && isTeamA) || (!teamAWonGG && !isTeamA) ? "win" : "loss";
+            } 
+            // 2. VITÓRIA NO TEMPO NORMAL (se não teve gol de ouro)
+            else if (sA > sB) {
               result = isTeamA ? "win" : "loss";
             } else if (sB > sA) {
               result = !isTeamA ? "win" : "loss";
             }
-
-            // empate -> decide nos pênaltis
+            // 3. EMPATE -> DECIDE NOS PÊNALTIS
             else {
               const pensA = Number(m.penaltiesScoreA || 0);
               const pensB = Number(m.penaltiesScoreB || 0);
 
               if (pensA !== pensB) {
                 const teamAWonPens = pensA > pensB;
-
                 result =
                   (teamAWonPens && isTeamA) || (!teamAWonPens && !isTeamA)
                     ? "win"
@@ -166,6 +169,25 @@ const MatchHistory = ({ matches, player }) => {
 
                 <div className="adr-match-player-stats">
                   <div className="stats-badges">
+                    {m.goldenGoalWinner && (
+                      <span 
+                        title="Decidido no Gol de Ouro"
+                        style={{
+                          background: "linear-gradient(135deg, #d4af37, #ffd700)",
+                          color: "#000",
+                          padding: "2px 6px",
+                          borderRadius: "4px",
+                          fontSize: "0.7rem",
+                          fontWeight: "bold",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "3px",
+                          boxShadow: "0 1px 3px rgba(0,0,0,0.3)"
+                        }}
+                      >
+                        ⚽ Ouro
+                      </span>
+                    )}
                     {pG > 0 && <span className="badge-goal">+{pG} G</span>}
                     {pA > 0 && <span className="badge-assist">+{pA} A</span>}
                     {pY > 0 && <span className="badge-yellow">🟨 {pY}</span>}
