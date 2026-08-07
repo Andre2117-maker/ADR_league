@@ -15,19 +15,15 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
   const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex); // 0 a 11, ou 'ALL'
   const [selectedComp, setSelectedComp] = useState("TODAS AS COMPETIÇÕES");
 
+  const baseMesesNav = [
+    "JAN", "FEV", "MAR", "ABR", "MAI", "JUN", 
+    "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"
+  ];
+
+  // Rotaciona o array para que o mês atual seja sempre o índice 0 na tela
   const mesesNav = [
-    "JUL",
-    "AGO",
-    "SET",
-    "OUT",
-    "NOV",
-    "DEZ",
-    "JAN",
-    "FEV",
-    "MAR",
-    "ABR",
-    "MAI",
-    "JUN",
+    ...baseMesesNav.slice(currentMonthIndex),
+    ...baseMesesNav.slice(0, currentMonthIndex)
   ];
   const mesesFull = [
     "JANEIRO",
