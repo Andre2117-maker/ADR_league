@@ -14,7 +14,8 @@ function FriendlyGameField({
     (
       FORMATIONS_DATA.FUT4?.[formKey] ||
       FORMATIONS_DATA.FUT5?.[formKey] ||
-      FORMATIONS_DATA.FUT6?.[formKey]
+      FORMATIONS_DATA.FUT6?.[formKey] ||
+      FORMATIONS_DATA.FUT7?.[formKey]
     )?.slots || [];
 
   const tacticalPlayers = Object.values(game?.tactical || {});
@@ -51,6 +52,14 @@ function FriendlyGameField({
               {Object.keys(FORMATIONS_DATA.FUT6 || {}).map((k) => (
                 <option key={k} value={k}>
                   {FORMATIONS_DATA.FUT6[k].label}
+                </option>
+              ))}
+            </optgroup>
+
+            <optgroup label="FUT 7">
+              {Object.keys(FORMATIONS_DATA.FUT7 || {}).map((k) => (
+                <option key={k} value={k}>
+                  {FORMATIONS_DATA.FUT7[k].label}
                 </option>
               ))}
             </optgroup>

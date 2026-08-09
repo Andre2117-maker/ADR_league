@@ -199,4 +199,67 @@ export const FORMATIONS_DATA = {
       ],
     },
   },
+
+  FUT7: {
+    "7_JOG_3-2-1": {
+      label: "3-2-1 (Equilibrada)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "20%", y: "70%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "50%", y: "73%", role: "Zagueiro Central" },
+        { id: "s4", x: "80%", y: "70%", role: "Zagueiro Direito" },
+        { id: "s5", x: "35%", y: "45%", role: "Meio-Campo" },
+        { id: "s6", x: "65%", y: "45%", role: "Meio-Campo" },
+        { id: "s7", x: "50%", y: "18%", role: "Atacante" },
+      ],
+    },
+    "7_JOG_2-3-1": {
+      label: "2-3-1 (Ofensiva/W)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "30%", y: "72%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "70%", y: "72%", role: "Zagueiro Direito" },
+        { id: "s4", x: "20%", y: "45%", role: "Meio-Campo Esquerdo" },
+        { id: "s5", x: "50%", y: "48%", role: "Volante/Meio" },
+        { id: "s6", x: "80%", y: "45%", role: "Meio-Campo Direito" },
+        { id: "s7", x: "50%", y: "18%", role: "Atacante" },
+      ],
+    },
+    "7_JOG_3-1-2": {
+      label: "3-1-2 (Dupla de Ataque)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "18%", y: "70%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "50%", y: "73%", role: "Zagueiro Central" },
+        { id: "s4", x: "82%", y: "70%", role: "Zagueiro Direito" },
+        { id: "s5", x: "50%", y: "45%", role: "Meio-Campo" },
+        { id: "s6", x: "30%", y: "20%", role: "Ponta Esquerda (PE)" },
+        { id: "s7", x: "70%", y: "20%", role: "Ponta Direita (PD)" },
+      ],
+    },
+    "7_JOG_2-2-2": {
+      label: "2-2-2 (Quadrado no Meio)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "30%", y: "72%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "70%", y: "72%", role: "Zagueiro Direito" },
+        { id: "s4", x: "30%", y: "45%", role: "Meio-Campo" },
+        { id: "s5", x: "70%", y: "45%", role: "Meio-Campo" },
+        { id: "s6", x: "30%", y: "20%", role: "Atacante" },
+        { id: "s7", x: "70%", y: "20%", role: "Atacante" },
+      ],
+    },
+    "7_JOG_4-1-1": {
+      label: "4-1-1 (Tranca-Rua)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "15%", y: "68%", role: "Lateral Esquerdo" },
+        { id: "s3", x: "38%", y: "72%", role: "Zagueiro" },
+        { id: "s4", x: "62%", y: "72%", role: "Zagueiro" },
+        { id: "s5", x: "85%", y: "68%", role: "Lateral Direito" },
+        { id: "s6", x: "50%", y: "42%", role: "Meio-Campo" },
+        { id: "s7", x: "50%", y: "18%", role: "Atacante" },
+      ],
+    },
+  },
 };
