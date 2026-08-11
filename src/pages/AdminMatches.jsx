@@ -392,27 +392,26 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
       let winner = null;
 
-      
       if (draft.goldenGoalWinner) {
         winner = draft.goldenGoalWinner;
-      } 
-      
-      else if (goalsA > goalsB) {
+      } else if (goalsA > goalsB) {
         winner = "A";
       } else if (goalsB > goalsA) {
         winner = "B";
-      } 
-      
-      else {
-        const pensA = draft.penalties?.A?.filter((p) => p.result === "goal").length || 0;
-        const pensB = draft.penalties?.B?.filter((p) => p.result === "goal").length || 0;
+      } else {
+        const pensA =
+          draft.penalties?.A?.filter((p) => p.result === "goal").length || 0;
+        const pensB =
+          draft.penalties?.B?.filter((p) => p.result === "goal").length || 0;
 
         if (pensA > pensB) {
           winner = "A";
         } else if (pensB > pensA) {
           winner = "B";
         } else {
-          return alert("Defina um vencedor nos pênaltis ou marque o Gol de Ouro.");
+          return alert(
+            "Defina um vencedor nos pênaltis ou marque o Gol de Ouro.",
+          );
         }
       }
 
@@ -540,6 +539,8 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         {["A", "B"].map((t) => {
           const teamKey = t === "A" ? "teamA" : "teamB";
 
+          const selectedCount = draft[teamKey].players.length;
+
           const isExternal = matchType === "AMISTOSO" && t === "B";
 
           return (
@@ -607,61 +608,78 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                 />
               ) : (
                 <>
-                  <div className="players-scroll">
-                    {sortedPlayers.map((p) => (
-                      <PlayerRow
-                        key={p.id}
-                        player={p}
-                        isSelected={draft[teamKey].players.includes(p.id)}
-                        isGK={draft[teamKey].goalkeeperId === p.id}
-                        isCaptain={draft[teamKey].captainId === p.id}
-                        onToggle={() => {
-                          const list = draft[teamKey].players;
-                          const newList = list.includes(p.id)
-                            ? list.filter((id) => id !== p.id)
-                            : [...list, p.id];
-                          setDraft({
-                            ...draft,
-                            [teamKey]: {
-                              ...draft[teamKey],
-                              players: newList,
-                            },
-                          });
+                  <div key={t} className="team-section">
+                    <h3>
+                      Time {t}
+                      <span
+                        style={{
+                          fontSize: "0.8rem",
+                          marginLeft: "10px",
+                          color: "gray",
+                          fontWeight: "normal",
                         }}
-                        onSetGK={() =>
-                          setDraft({
-                            ...draft,
-                            [teamKey]: {
-                              ...draft[teamKey],
-                              goalkeeperId:
-                                draft[teamKey].goalkeeperId === p.id
-                                  ? null
-                                  : p.id,
-                            },
-                          })
-                        }
-                        onSetCaptain={() =>
-                          setDraft({
-                            ...draft,
-                            [teamKey]: {
-                              ...draft[teamKey],
-                              captainId:
-                                draft[teamKey].captainId === p.id ? null : p.id,
-                            },
-                          })
-                        }
-                        onGoal={() =>
-                          setShowAssistModal({
-                            team: t,
-                            playerId: p.id,
-                          })
-                        }
-                        onOwnGoal={() => addEvent(t, p.id, "OWN_GOAL")}
-                        onCard={(type, reason) =>
-                          addEvent(t, p.id, type, null, null, reason)
-                        }
-                      />
-                    ))}
+                      >
+                        ({selectedCount} selecionados)
+                      </span>
+                    </h3>
+                    <div className="players-scroll">
+                      {sortedPlayers.map((p) => (
+                        <PlayerRow
+                          key={p.id}
+                          player={p}
+                          isSelected={draft[teamKey].players.includes(p.id)}
+                          isGK={draft[teamKey].goalkeeperId === p.id}
+                          isCaptain={draft[teamKey].captainId === p.id}
+                          onToggle={() => {
+                            const list = draft[teamKey].players;
+                            const newList = list.includes(p.id)
+                              ? list.filter((id) => id !== p.id)
+                              : [...list, p.id];
+                            setDraft({
+                              ...draft,
+                              [teamKey]: {
+                                ...draft[teamKey],
+                                players: newList,
+                              },
+                            });
+                          }}
+                          onSetGK={() =>
+                            setDraft({
+                              ...draft,
+                              [teamKey]: {
+                                ...draft[teamKey],
+                                goalkeeperId:
+                                  draft[teamKey].goalkeeperId === p.id
+                                    ? null
+                                    : p.id,
+                              },
+                            })
+                          }
+                          onSetCaptain={() =>
+                            setDraft({
+                              ...draft,
+                              [teamKey]: {
+                                ...draft[teamKey],
+                                captainId:
+                                  draft[teamKey].captainId === p.id
+                                    ? null
+                                    : p.id,
+                              },
+                            })
+                          }
+                          onGoal={() =>
+                            setShowAssistModal({
+                              team: t,
+                              playerId: p.id,
+                            })
+                          }
+                          onOwnGoal={() => addEvent(t, p.id, "OWN_GOAL")}
+                          onCard={(type, reason) =>
+                            addEvent(t, p.id, type, null, null, reason)
+                          }
+                        />
+                      ))}
+                    </div>
                   </div>
 
                   {/* --- NOVO BOTÃO DE SUBSTITUIÇÃO AQUI --- */}
@@ -874,40 +892,65 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         />
       )}
 
-      <div className="field" style={{ margin: "20px 0", textAlign: "center", backgroundColor: "#111", padding: "15px", borderRadius: "8px", border: "1px solid #d4af37" }}>
-        <h3 style={{ color: "#d4af37", marginBottom: "10px", fontSize: "16px" }}>
+      <div
+        className="field"
+        style={{
+          margin: "20px 0",
+          textAlign: "center",
+          backgroundColor: "#111",
+          padding: "15px",
+          borderRadius: "8px",
+          border: "1px solid #d4af37",
+        }}
+      >
+        <h3
+          style={{ color: "#d4af37", marginBottom: "10px", fontSize: "16px" }}
+        >
           ⚽ Gol de Ouro (Regra Especial)
         </h3>
         <p style={{ color: "#ccc", fontSize: "13px", marginBottom: "15px" }}>
-          Ative isso caso a partida tenha sido decidida no Gol de Ouro (o time escolhido será o vencedor, independente do placar final).
+          Ative isso caso a partida tenha sido decidida no Gol de Ouro (o time
+          escolhido será o vencedor, independente do placar final).
         </p>
-        
+
         <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
           <button
-            onClick={() => setDraft(prev => ({ ...prev, goldenGoalWinner: prev.goldenGoalWinner === "A" ? null : "A" }))}
+            onClick={() =>
+              setDraft((prev) => ({
+                ...prev,
+                goldenGoalWinner: prev.goldenGoalWinner === "A" ? null : "A",
+              }))
+            }
             style={{
               padding: "10px 20px",
-              backgroundColor: draft.goldenGoalWinner === "A" ? "#d4af37" : "#333",
+              backgroundColor:
+                draft.goldenGoalWinner === "A" ? "#d4af37" : "#333",
               color: draft.goldenGoalWinner === "A" ? "#000" : "#fff",
               border: "1px solid #d4af37",
               borderRadius: "4px",
               cursor: "pointer",
-              fontWeight: "bold"
+              fontWeight: "bold",
             }}
           >
             Vitória {draft.teamA.name}
           </button>
-          
+
           <button
-            onClick={() => setDraft(prev => ({ ...prev, goldenGoalWinner: prev.goldenGoalWinner === "B" ? null : "B" }))}
+            onClick={() =>
+              setDraft((prev) => ({
+                ...prev,
+                goldenGoalWinner: prev.goldenGoalWinner === "B" ? null : "B",
+              }))
+            }
             style={{
               padding: "10px 20px",
-              backgroundColor: draft.goldenGoalWinner === "B" ? "#d4af37" : "#333",
+              backgroundColor:
+                draft.goldenGoalWinner === "B" ? "#d4af37" : "#333",
               color: draft.goldenGoalWinner === "B" ? "#000" : "#fff",
               border: "1px solid #d4af37",
               borderRadius: "4px",
               cursor: "pointer",
-              fontWeight: "bold"
+              fontWeight: "bold",
             }}
           >
             Vitória {draft.teamB.name}
