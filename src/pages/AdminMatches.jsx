@@ -23,6 +23,7 @@ import PenaltiesSection from "../components/adminmatches/PenaltiesSection";
 import AdminHeader from "../components/adminmatches/AdminHeader";
 import PresetTools from "../components/adminmatches/PresetTools";
 import ExternalTeamTools from "../components/adminmatches/ExternalTeamTools";
+import AdminExtras from "../components/adminmatches/AdminExtras";
 
 import { saveTeamPreset, loadTeamPresets } from "../data/teamPresets";
 
@@ -41,6 +42,24 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [extAssistName, setExtAssistName] = useState("");
   const [pendingEvent, setPendingEvent] = useState(null);
   const [minuteInput, setMinuteInput] = useState("");
+  const [savedVenues, setSavedVenues] = useState([]);
+  const [showVenueModal, setShowVenueModal] = useState(false);
+  const [newVenueInput, setNewVenueInput] = useState("");
+
+  useEffect(() => {
+    const fetchVenues = async () => {
+      try {
+        const snap = await getDocs(collection(db, "locais"));
+        // Mapeia os documentos para extrair apenas o nome salvo
+        const venuesList = snap.docs.map((doc) => doc.data().name);
+        setSavedVenues(venuesList);
+      } catch (err) {
+        console.error("Erro ao carregar locais do banco:", err);
+      }
+    };
+
+    fetchVenues();
+  }, []);
 
   const initialDate = useMemo(() => {
     if (matchToEdit?.date) return matchToEdit.date;
@@ -277,6 +296,24 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     }));
   };
 
+  const handleSaveNewVenue = async () => {
+    if (!newVenueInput.trim()) return alert("Digite o nome do local.");
+    const formatted = newVenueInput.trim();
+
+    if (!savedVenues.includes(formatted)) {
+      setSavedVenues((prev) => [...prev, formatted]);
+      try {
+        await addDoc(collection(db, "locais"), { name: formatted });
+      } catch (err) {
+        console.error("Erro ao salvar local:", err);
+        alert("Erro ao salvar no banco.");
+      }
+    }
+
+    setDraft({ ...draft, venue: formatted });
+    setShowVenueModal(false);
+  };
+
   const handleSavePreset = async (teamKey) => {
     try {
       const team = draft[teamKey];
@@ -285,20 +322,22 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         return alert("Selecione jogadores primeiro.");
       }
 
-      const presetName = prompt("Nome do preset:");
+      // Pega o nome que já está digitado no input do time (ex: "ADR" ou o nome customizado)
+      const presetName = team.name;
 
-      if (!presetName) return;
+      if (!presetName) {
+        return alert("O time precisa ter um nome para ser salvo.");
+      }
 
+      // Salva direto no banco com o nome atual do time
       await saveTeamPreset(team, draft.date, presetName);
 
       const updatedPresets = await loadTeamPresets(draft.date);
-
       setTeamPresets(updatedPresets);
 
-      alert("Preset salvo!");
+      alert(`Preset "${presetName}" salvo com sucesso!`);
     } catch (err) {
       console.error(err);
-
       alert("Erro ao salvar preset.");
     }
   };
@@ -520,18 +559,36 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
         <div className="field">
           <label>LOCALIZAÇÃO</label>
-
-          <input
-            type="text"
-            placeholder="Ex: Arena ADR"
+          <select
+            className="venue-select"
             value={draft.venue}
-            onChange={(e) =>
-              setDraft({
-                ...draft,
-                venue: e.target.value,
-              })
-            }
-          />
+            onChange={(e) => {
+              if (e.target.value === "ADD_NEW") {
+                setNewVenueInput(""); // Limpa o input
+                setShowVenueModal(true); // Abre o nosso pop-up estilizado
+              } else {
+                setDraft({ ...draft, venue: e.target.value });
+              }
+            }}
+          >
+            <option value="" disabled>
+              Selecione um local...
+            </option>
+
+            {savedVenues.map((venue, idx) => (
+              <option key={idx} value={venue}>
+                {venue}
+              </option>
+            ))}
+
+            {draft.venue && !savedVenues.includes(draft.venue) && (
+              <option value={draft.venue}>{draft.venue}</option>
+            )}
+
+            <option value="ADD_NEW" className="add-new-venue">
+              + Adicionar novo local...
+            </option>
+          </select>
         </div>
       </div>
 
@@ -892,71 +949,15 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         />
       )}
 
-      <div
-        className="field"
-        style={{
-          margin: "20px 0",
-          textAlign: "center",
-          backgroundColor: "#111",
-          padding: "15px",
-          borderRadius: "8px",
-          border: "1px solid #d4af37",
-        }}
-      >
-        <h3
-          style={{ color: "#d4af37", marginBottom: "10px", fontSize: "16px" }}
-        >
-          ⚽ Gol de Ouro (Regra Especial)
-        </h3>
-        <p style={{ color: "#ccc", fontSize: "13px", marginBottom: "15px" }}>
-          Ative isso caso a partida tenha sido decidida no Gol de Ouro (o time
-          escolhido será o vencedor, independente do placar final).
-        </p>
-
-        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-          <button
-            onClick={() =>
-              setDraft((prev) => ({
-                ...prev,
-                goldenGoalWinner: prev.goldenGoalWinner === "A" ? null : "A",
-              }))
-            }
-            style={{
-              padding: "10px 20px",
-              backgroundColor:
-                draft.goldenGoalWinner === "A" ? "#d4af37" : "#333",
-              color: draft.goldenGoalWinner === "A" ? "#000" : "#fff",
-              border: "1px solid #d4af37",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            Vitória {draft.teamA.name}
-          </button>
-
-          <button
-            onClick={() =>
-              setDraft((prev) => ({
-                ...prev,
-                goldenGoalWinner: prev.goldenGoalWinner === "B" ? null : "B",
-              }))
-            }
-            style={{
-              padding: "10px 20px",
-              backgroundColor:
-                draft.goldenGoalWinner === "B" ? "#d4af37" : "#333",
-              color: draft.goldenGoalWinner === "B" ? "#000" : "#fff",
-              border: "1px solid #d4af37",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            Vitória {draft.teamB.name}
-          </button>
-        </div>
-      </div>
+      <AdminExtras
+        draft={draft}
+        setDraft={setDraft}
+        showVenueModal={showVenueModal}
+        setShowVenueModal={setShowVenueModal}
+        newVenueInput={newVenueInput}
+        setNewVenueInput={setNewVenueInput}
+        handleSaveNewVenue={handleSaveNewVenue}
+      />
 
       <button
         onClick={saveMatch}
