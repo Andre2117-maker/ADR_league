@@ -1,150 +1,220 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap");
 
-/* Container Principal */
+/* =========================================
+   CONTAINER PRINCIPAL
+========================================= */
 .banners-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
   padding: 20px;
   align-items: center;
 }
 
-/* Banner Principal */
+/* =========================================
+   BANNER (O CARD)
+========================================= */
 .match-banner-container {
   width: 100%;
-  max-width: 800px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-  border: 2px solid #e2b317; /* Dourado ADR */
-  border-radius: 12px;
+  max-width: 850px;
+  /* Gradiente mais suave e profundo */
+  background: linear-gradient(145deg, #1c1c1c 0%, #0a0a0a 100%);
+  /* Borda sutil com transparência para dar efeito premium */
+  border: 1px solid rgba(226, 179, 23, 0.4);
+  border-radius: 16px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* Sombra dupla: uma escura para profundidade, uma dourada para o "Glow" */
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(226, 179, 23, 0.05);
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* Badge de Título (AMISTOSO / TREINO) */
+.match-banner-container:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.9),
+    0 0 30px rgba(226, 179, 23, 0.15);
+}
+
+/* =========================================
+   BADGE (AMISTOSO / TREINO)
+========================================= */
 .banner-badge {
-  background: #e2b317;
+  /* Gradiente metálico */
+  background: linear-gradient(90deg, #c49911, #f3d052, #c49911);
   color: #000;
   font-weight: 900;
-  padding: 5px 25px;
+  padding: 6px 35px;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
   z-index: 2;
+  box-shadow: 0 4px 15px rgba(226, 179, 23, 0.3);
 }
 
-/* Conteúdo do Banner */
+/* =========================================
+   CONTEÚDO E TIMES
+========================================= */
 .banner-content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 40px 20px;
-  min-height: 180px;
+  padding: 50px 30px 40px 30px;
+  min-height: 200px;
+  position: relative;
 }
 
-/* Times */
+/* Efeito de luz no centro do banner */
+.banner-content::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(226, 179, 23, 0.05) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
 .banner-team {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  z-index: 1;
 }
 
 .banner-logo {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(226, 179, 23, 0.3));
+  /* Drop shadow mais refinado */
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5))
+    drop-shadow(0 0 20px rgba(226, 179, 23, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.banner-team:hover .banner-logo {
+  transform: scale(1.05);
 }
 
 .banner-team-name {
   color: #fff;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.1rem;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Informações Centrais */
+/* =========================================
+   INFORMAÇÕES CENTRAIS E CRONÔMETRO
+========================================= */
 .banner-info {
   flex: 1.2;
   text-align: center;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .banner-datetime {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  color: #f2f2f2;
 }
 
 .b-divider {
   color: #e2b317;
-  margin: 0 10px;
+  margin: 0 15px;
+  opacity: 0.5;
 }
 
 .banner-location {
-  font-size: 0.9rem;
-  color: #ccc;
+  font-size: 0.85rem;
+  color: #aaa;
   text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 5px;
 }
 
-/* Estilo Específico de Treino */
+/* Cronômetro Premium */
+.banner-countdown {
+  font-family: "Orbitron", sans-serif;
+  background: rgba(0, 0, 0, 0.6);
+  color: #e2b317;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(226, 179, 23, 0.2);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  display: inline-block;
+  margin-top: 15px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+/* =========================================
+   LAYOUT ESPECÍFICO (TREINO)
+========================================= */
 .banner-treino-full {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 15px;
+  gap: 20px;
+  z-index: 1;
 }
 
 .banner-logo-center {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
-  margin-top: 10px;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
 }
 
-/* Cronômetro */
-.banner-countdown {
-  font-family: "Orbitron", sans-serif; /* Fonte digital */
-  background: #000; /* Fundo preto para contrastar como um visor */
-  color: #e2b317; /* Dourado ADR (ou #00ff00 para verde digital) */
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: 2px solid #333;
-  font-weight: 700;
-  font-size: 2rem; /* Aumentado para parecer um relógio */
-  letter-spacing: 4px;
-  display: inline-block;
-  margin-top: 15px;
-  box-shadow:
-    inset 0 0 10px rgba(0, 0, 0, 0.8),
-    0 0 15px rgba(226, 179, 23, 0.3);
-  text-shadow: 0 0 5px rgba(226, 179, 23, 0.7); /* Efeito de brilho (glow) */
-}
-
-/* Rodapé com Letreiro Animado */
+/* =========================================
+   RODAPÉ ANIMADO
+========================================= */
 .banner-footer {
   background: #e2b317;
   color: #000;
-  padding: 5px 0;
+  padding: 6px 0;
   overflow: hidden;
   white-space: nowrap;
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .scrolling-text {
   display: inline-block;
   padding-left: 100%;
-  animation: scroll-text 15s linear infinite;
+  animation: scroll-text 20s linear infinite;
   text-transform: uppercase;
 }
 
@@ -157,21 +227,67 @@
   }
 }
 
-/* Painel de Admin */
+/* =========================================
+   BOTÕES DE ADMINISTRAÇÃO NO BANNER
+========================================= */
+.del-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 68, 68, 0.1);
+  color: #ff4444;
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.del-btn:hover {
+  background: #ff4444;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* =========================================
+   PAINEL DE CONFIGURAÇÃO (ADMIN)
+========================================= */
+.admin-toggle-btn {
+  background: transparent;
+  color: #e2b317;
+  border: 1px solid #e2b317;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.admin-toggle-btn:hover {
+  background: #e2b317;
+  color: #000;
+}
+
 .admin-internal-panel {
-  background: #222;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #444;
+  background: #151515;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #333;
   width: 100%;
-  max-width: 800px;
-  margin-bottom: 20px;
+  max-width: 850px;
 }
 
 .admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 15px;
 }
 
 .full-width {
@@ -180,26 +296,36 @@
 
 .admin-grid input,
 .admin-grid select {
-  padding: 10px;
-  background: #333;
-  border: 1px solid #555;
+  padding: 12px;
+  background: #222;
+  border: 1px solid #444;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-grid input:focus,
+.admin-grid select:focus {
+  border-color: #e2b317;
 }
 
 .upload-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  background: #2a2a2a;
-  padding: 10px;
-  border-radius: 5px;
+  gap: 8px;
+  background: #1f1f1f;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px dashed #333;
 }
 
 .upload-group label {
-  color: #e2b317;
+  color: #aaa;
   font-size: 0.8rem;
-  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .confirm-btn {
@@ -208,109 +334,88 @@
   color: #000;
   border: none;
   padding: 15px;
-  font-weight: bold;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 1px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-top: 10px;
+  transition: background 0.2s;
 }
 
-/* Botões Extras */
-.admin-toggle-btn {
-  background: #333;
-  color: #fff;
-  border: 1px solid #e2b317;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 15px;
+.confirm-btn:hover {
+  background: #f3d052;
 }
 
-.del-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ff4444;
-  color: white;
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
-  z-index: 3;
-}
-
-.del-btn:hover {
-  background: #cc0000;
-}
-
-/* --- RESPONSIVIDADE MOBILE --- */
-
-@media (max-width: 600px) {
+/* =========================================
+   RESPONSIVIDADE (MOBILE)
+========================================= */
+@media (max-width: 768px) {
   .match-banner-container {
-    max-width: 95%; /* Ocupa quase toda a largura da tela */
+    max-width: 100%;
+    border-radius: 12px;
   }
 
-  /* No Amistoso, empilhamos os times e a info */
   .banner-content {
     flex-direction: column;
-    padding: 30px 10px;
-    gap: 20px;
+    padding: 50px 15px 30px 15px;
+    gap: 30px;
   }
 
-  .banner-team {
-    order: 2; /* Times ficam abaixo ou em volta */
-  }
-
-  /* No mobile, o Time A e Time B ficam lado a lado se couber, 
-     ou mantemos a estrutura de coluna para maior clareza */
-  .banner-content:has(.banner-team) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "info info"
-      "teamA teamB";
-  }
-
-  .banner-info {
-    grid-area: info;
-    margin-bottom: 10px;
-  }
-
+  /* Ordem de exibição no mobile: Escudo A -> Info -> Escudo B */
   .banner-team:nth-child(1) {
-    grid-area: teamA;
+    order: 1;
+  }
+  .banner-info {
+    order: 2;
+    width: 100%;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
   .banner-team:nth-child(3) {
-    grid-area: teamB;
+    order: 3;
   }
 
-  /* Reduzindo tamanhos para mobile */
+  /* Ajustes de tipografia e tamanho para telas menores */
   .banner-logo {
-    width: 65px;
-    height: 65px;
-  }
-
-  .banner-logo-center {
     width: 80px;
     height: 80px;
   }
 
+  .banner-logo-center {
+    width: 90px;
+    height: 90px;
+  }
+
   .banner-team-name {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 
   .banner-datetime {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .b-divider {
+    display: none; /* Esconde a barra | no celular */
+  }
+
+  .banner-location {
+    font-size: 0.8rem;
+    margin-top: 10px;
   }
 
   .banner-countdown {
     font-size: 1rem;
-    padding: 6px 12px;
+    padding: 8px 15px;
   }
 
-  /* Ajuste do Painel Admin no Mobile */
+  /* Ajuste Admin Panel para Mobile */
   .admin-grid {
-    grid-template-columns: 1fr; /* Coluna única no mobile */
+    grid-template-columns: 1fr;
   }
 
   .full-width,
@@ -322,85 +427,10 @@
 
   .upload-group.full-width {
     flex-direction: column !important;
-    align-items: flex-start !important;
+    align-items: stretch !important;
   }
 
-  /* Acelerar um pouco o letreiro no mobile porque a tela é menor */
   .scrolling-text {
-    animation-duration: 10s;
-  }
-
-  /* --- RESPONSIVIDADE MOBILE --- */
-
-  @media (max-width: 600px) {
-    .match-banner-container {
-      max-width: 95%;
-      margin: 0 auto;
-    }
-
-    /* Faz o conteúdo principal virar uma coluna vertical */
-    .banner-content {
-      flex-direction: column !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center;
-      gap: 30px; /* Espaçamento entre Time A, Info e Time B */
-      padding: 50px 20px;
-    }
-
-    /* Garante a ordem: Time A (1), Info (2), Time B (3) */
-    .banner-team:first-child {
-      order: 1;
-    }
-
-    .banner-info {
-      order: 2;
-      width: 100%;
-      padding: 15px 0;
-      border-top: 1px solid rgba(226, 179, 23, 0.2);
-      border-bottom: 1px solid rgba(226, 179, 23, 0.2);
-    }
-
-    .banner-team:last-child {
-      order: 3;
-    }
-
-    /* Ajuste das informações dentro do bloco central */
-    .banner-datetime {
-      font-size: 1.5rem;
-      display: flex;
-      flex-direction: column; /* Data em cima do Horário no mobile */
-      gap: 5px;
-    }
-
-    .b-divider {
-      display: none; /* Remove a barra vertical | no mobile */
-    }
-
-    .banner-location {
-      font-size: 1rem;
-      margin-top: 10px;
-    }
-
-    /* Logos maiores para preencher a coluna */
-    .banner-logo {
-      width: 100px;
-      height: 100px;
-    }
-
-    .banner-team-name {
-      font-size: 1.3rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Painel de Admin em coluna única */
-    .admin-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .full-width {
-      grid-column: span 1;
-    }
+    animation-duration: 12s; /* Mais rápido no mobile */
   }
 }

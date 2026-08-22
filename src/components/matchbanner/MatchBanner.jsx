@@ -8,28 +8,93 @@ import {
   deleteDoc,
   query,
   orderBy,
+  getDocs, // <-- Adicionado para buscar os locais
 } from "firebase/firestore";
 import "./matchbanner.css";
 
 const ADR_LOGO_DEFAULT = "/logo.png";
 
+// ⚙️ MELHORIA 4: O cronômetro agora fica FORA do componente principal para não travar a memória
+const Countdown = ({ targetDate, targetTime }) => {
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+    if (!targetDate || !targetTime) return;
+
+    const timer = setInterval(() => {
+      const target = new Date(`${targetDate}T${targetTime}:00`).getTime();
+      const now = new Date().getTime();
+      const distance = target - now;
+
+      // 🕒 MELHORIA 2: Lógica de status da partida
+      if (distance < 0) {
+        // Se passou menos de 2 horas do horário, mostra EM ANDAMENTO
+        if (distance > -(2 * 60 * 60 * 1000)) {
+          setTimeLeft("⚽ EM ANDAMENTO");
+        } else {
+          setTimeLeft("🛑 ENCERRADO");
+        }
+        return;
+      }
+
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const format = (num) => String(num).padStart(2, "0");
+      setTimeLeft(
+        `FALTAM: ${format(d)}d ${format(h)}h ${format(m)}m ${format(s)}s`,
+      );
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [targetDate, targetTime]);
+
+  return (
+    <div
+      className="banner-countdown"
+      style={{ margin: "8px 0", color: "#d4af37", fontWeight: "bold" }}
+    >
+      {timeLeft}
+    </div>
+  );
+};
+
 const MatchBanner = ({ isAdmin }) => {
   const [banners, setBanners] = useState([]);
   const [showAdmin, setShowAdmin] = useState(false);
   const [bannerType, setBannerType] = useState("AMISTOSO");
-  const [isConverting, setIsConverting] = useState(false); // Feedback visual para o admin
+  const [isConverting, setIsConverting] = useState(false);
+
+  // 📍 MELHORIA 5: Estado para guardar os locais do banco
+  const [savedVenues, setSavedVenues] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "AMISTOSO",
     teamA: { name: "ADR", logo: ADR_LOGO_DEFAULT },
-    teamB: { name: "", logo: "" }, // Aqui vai ficar a imagem salva como texto Base64
+    teamB: { name: "", logo: "" },
     date: "",
     time: "",
     location: "",
     footerText: "ADR LEAGUE • O SHOW VAI COMEÇAR • PREPARE SUA TORCIDA •",
   });
 
-  // Alterna a mensagem padrão baseada no tipo
+  // Busca os locais salvos ao abrir o painel
+  useEffect(() => {
+    const fetchVenues = async () => {
+      try {
+        const snap = await getDocs(collection(db, "locais"));
+        const venuesList = snap.docs.map((doc) => doc.data().name);
+        setSavedVenues(venuesList);
+      } catch (err) {
+        console.error("Erro ao carregar locais:", err);
+      }
+    };
+    fetchVenues();
+  }, []);
+
   useEffect(() => {
     if (bannerType === "TREINO") {
       setFormData((prev) => ({
@@ -49,27 +114,34 @@ const MatchBanner = ({ isAdmin }) => {
   useEffect(() => {
     const q = query(collection(db, "banners"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
+      const now = new Date().getTime();
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setBanners(data);
+
+      // 🕒 MELHORIA 2: Ocultar banners de jogos velhos
+      const filteredBanners = data.filter((b) => {
+        if (!b.date || !b.time) return true;
+        const matchTime = new Date(`${b.date}T${b.time}:00`).getTime();
+        // Permite exibir se a partida for no futuro ou se aconteceu há menos de 12 horas
+        return now - matchTime < 12 * 60 * 60 * 1000;
+      });
+
+      setBanners(filteredBanners);
     });
     return () => unsubscribe();
   }, []);
 
-  // CORREÇÃO: Converte o arquivo para Base64 (Texto permanente)
   const handleFile = (e, target) => {
     const file = e.target.files[0];
     if (file) {
-      // Se a imagem for muito grande, o Firestore pode recusar. Limitamos o tamanho ideal.
       if (file.size > 1024 * 1024) {
         alert("A imagem é muito pesada! Escolha uma imagem de até 1MB.");
         return;
       }
-
       setIsConverting(true);
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        const base64String = reader.result; // Esse é o texto que representa a imagem
+        const base64String = reader.result;
         if (target === "B") {
           setFormData((prev) => ({
             ...prev,
@@ -82,7 +154,7 @@ const MatchBanner = ({ isAdmin }) => {
         setIsConverting(false);
       };
 
-      reader.readAsDataURL(file); // Inicia a conversão
+      reader.readAsDataURL(file);
     }
   };
 
@@ -100,7 +172,6 @@ const MatchBanner = ({ isAdmin }) => {
         createdAt: new Date(),
       });
 
-      // Reseta o formulário
       setFormData({
         title: "AMISTOSO",
         teamA: { name: "ADR", logo: ADR_LOGO_DEFAULT },
@@ -122,36 +193,6 @@ const MatchBanner = ({ isAdmin }) => {
     } catch (err) {
       console.error("Erro ao deletar:", err);
     }
-  };
-
-  const Countdown = ({ targetDate, targetTime }) => {
-    const [timeLeft, setTimeLeft] = useState("");
-
-    useEffect(() => {
-      const timer = setInterval(() => {
-        const target = new Date(`${targetDate}T${targetTime}:00`).getTime();
-        const now = new Date().getTime();
-        const distance = target - now;
-
-        if (distance < 0) {
-          setTimeLeft("EM ANDAMENTO");
-          return;
-        }
-
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-        );
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-        const format = (num) => String(num).padStart(2, "0");
-        setTimeLeft(`${format(d)}d ${format(h)}h ${format(m)}m ${format(s)}s`);
-      }, 1000);
-      return () => clearInterval(timer);
-    }, [targetDate, targetTime]);
-
-    return <div className="banner-countdown">{timeLeft}</div>;
   };
 
   return (
@@ -191,14 +232,47 @@ const MatchBanner = ({ isAdmin }) => {
                 setFormData({ ...formData, time: e.target.value })
               }
             />
-            <input
-              type="text"
-              placeholder="Local"
+
+            {/* 📍 MELHORIA 5: Select integrado com Firebase no Banner */}
+            <select
               value={formData.location}
-              onChange={(e) =>
-                setFormData({ ...formData, location: e.target.value })
-              }
-            />
+              onChange={async (e) => {
+                if (e.target.value === "ADD_NEW") {
+                  const newVenue = prompt("Digite o nome do novo local:");
+                  if (newVenue && newVenue.trim() !== "") {
+                    const formattedVenue = newVenue.trim();
+                    if (!savedVenues.includes(formattedVenue)) {
+                      setSavedVenues((prev) => [...prev, formattedVenue]);
+                      try {
+                        await addDoc(collection(db, "locais"), {
+                          name: formattedVenue,
+                        });
+                      } catch (err) {
+                        console.error("Erro ao salvar local:", err);
+                      }
+                    }
+                    setFormData({ ...formData, location: formattedVenue });
+                  }
+                } else {
+                  setFormData({ ...formData, location: e.target.value });
+                }
+              }}
+            >
+              <option value="" disabled>
+                Selecione o local...
+              </option>
+              {savedVenues.map((venue, idx) => (
+                <option key={idx} value={venue}>
+                  {venue}
+                </option>
+              ))}
+              <option
+                value="ADD_NEW"
+                style={{ fontWeight: "bold", color: "#d4af37" }}
+              >
+                + Adicionar novo local...
+              </option>
+            </select>
 
             {bannerType === "AMISTOSO" && (
               <div
@@ -276,6 +350,8 @@ const MatchBanner = ({ isAdmin }) => {
                     <span className="b-divider">|</span>
                     <span>{match.time}</span>
                   </div>
+                  {/* ⏱️ MELHORIA 3: Cronômetro aparecendo no Amistoso também */}
+                  <Countdown targetDate={match.date} targetTime={match.time} />
                   <div className="banner-location">📍 {match.location}</div>
                 </div>
                 <div className="banner-team">
