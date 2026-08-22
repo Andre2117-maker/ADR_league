@@ -19,6 +19,7 @@ import PlayerAdminMode from "../components/playerpage/PlayerAdminMode";
 import PlayerBanner from "../components/playerpage/PlayerBanner";
 import PartnerAnalyzer from "../components/playerpage/PartnerAnalyzer";
 import FavoritePositionField from "../components/playerpage/FavoritePositionField";
+import { calculateLiveRanking } from "../data/rankingCalculator";
 
 function PlayerPage({
   playersWithStats, // Recebe a lista completa para encontrar o player pelo ID
@@ -35,6 +36,10 @@ function PlayerPage({
   const [isEditing, setIsEditing] = useState(false);
   const [careerDates, setCareerDates] = useState(null);
   const topRef = useRef(null);
+  const sortedCalculatedPlayers = calculateLiveRanking(
+    playersWithStats,
+    matches,
+  );
 
   // 1. Encontra o jogador baseado no ID da URL
   const player = useMemo(() => {
@@ -388,7 +393,7 @@ function PlayerPage({
               </div>
               <RankingSlice
                 player={player}
-                sortedPlayers={sortedPlayers}
+                sortedPlayers={sortedCalculatedPlayers}
                 matches={matches}
                 getPlayerStats={getPlayerStats}
               />

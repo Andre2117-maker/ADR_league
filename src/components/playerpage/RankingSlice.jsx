@@ -27,21 +27,6 @@ export default function RankingSlice({ player, sortedPlayers = [] }) {
 
       <div className="rs-list">
         {tableSlice.map((p, localIndex) => {
-          console.log(
-            p.name,
-            "PTS:",
-            p.points,
-            "W:",
-            p.wins,
-            "D:",
-            p.draws,
-            "L:",
-            p.losses,
-            "G:",
-            p.goals,
-            "A:",
-            p.assists,
-          );
           const realPosition = start + localIndex + 1;
 
           const isActive = String(p.id) === String(player.id);
