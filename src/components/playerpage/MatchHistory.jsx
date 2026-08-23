@@ -67,8 +67,11 @@ const MatchHistory = ({ matches, player }) => {
             // 1. VERIFICA PRIMEIRO SE HOUVE GOL DE OURO
             if (m.goldenGoalWinner) {
               const teamAWonGG = m.goldenGoalWinner === "A";
-              result = (teamAWonGG && isTeamA) || (!teamAWonGG && !isTeamA) ? "win" : "loss";
-            } 
+              result =
+                (teamAWonGG && isTeamA) || (!teamAWonGG && !isTeamA)
+                  ? "win"
+                  : "loss";
+            }
             // 2. VITÓRIA NO TEMPO NORMAL (se não teve gol de ouro)
             else if (sA > sB) {
               result = isTeamA ? "win" : "loss";
@@ -77,13 +80,43 @@ const MatchHistory = ({ matches, player }) => {
             }
             // 3. EMPATE -> DECIDE NOS PÊNALTIS
             else {
-              const pensA = Number(m.penaltiesScoreA || 0);
-              const pensB = Number(m.penaltiesScoreB || 0);
+              // Verifica o sistema de pênaltis novo
+              const newPensA =
+                m.penalties?.A?.length > 0
+                  ? m.penalties.A.filter((p) => p.result === "goal").length
+                  : null;
+              const newPensB =
+                m.penalties?.B?.length > 0
+                  ? m.penalties.B.filter((p) => p.result === "goal").length
+                  : null;
 
+              // Verifica o sistema de pênaltis antigo
+              const oldPensA =
+                m.penaltiesScoreA !== undefined && m.penaltiesScoreA !== ""
+                  ? Number(m.penaltiesScoreA)
+                  : null;
+              const oldPensB =
+                m.penaltiesScoreB !== undefined && m.penaltiesScoreB !== ""
+                  ? Number(m.penaltiesScoreB)
+                  : null;
+
+              const pensA = newPensA !== null ? newPensA : oldPensA || 0;
+              const pensB = newPensB !== null ? newPensB : oldPensB || 0;
+
+              // 3.1 Desempate pelo número de gols nos pênaltis
               if (pensA !== pensB) {
                 const teamAWonPens = pensA > pensB;
                 result =
                   (teamAWonPens && isTeamA) || (!teamAWonPens && !isTeamA)
+                    ? "win"
+                    : "loss";
+              }
+              // 3.2 Se por acaso os gols de pênalti empatarem ou estiverem vazios, lê direto de quem o banco diz que foi o "winner"
+              else if (m.penaltiesWinner || m.winner) {
+                const winnerTeam = m.penaltiesWinner || m.winner;
+                result =
+                  (winnerTeam === "A" && isTeamA) ||
+                  (winnerTeam === "B" && !isTeamA)
                     ? "win"
                     : "loss";
               }
@@ -170,10 +203,11 @@ const MatchHistory = ({ matches, player }) => {
                 <div className="adr-match-player-stats">
                   <div className="stats-badges">
                     {m.goldenGoalWinner && (
-                      <span 
+                      <span
                         title="Decidido no Gol de Ouro"
                         style={{
-                          background: "linear-gradient(135deg, #d4af37, #ffd700)",
+                          background:
+                            "linear-gradient(135deg, #d4af37, #ffd700)",
                           color: "#000",
                           padding: "2px 6px",
                           borderRadius: "4px",
@@ -182,7 +216,7 @@ const MatchHistory = ({ matches, player }) => {
                           display: "inline-flex",
                           alignItems: "center",
                           gap: "3px",
-                          boxShadow: "0 1px 3px rgba(0,0,0,0.3)"
+                          boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
                         }}
                       >
                         ⚽ Ouro
