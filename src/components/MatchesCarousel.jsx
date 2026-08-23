@@ -56,10 +56,34 @@ function MatchesCarousel({ matches, players }) {
         (e.type === "OWN_GOAL" && e.team === "A"),
     ).length || 0;
 
-  const hasPenalties =
-    match.penaltiesScoreA !== null &&
-    match.penaltiesScoreA !== undefined &&
-    match.penaltiesScoreA !== "";
+  // --- LÓGICA DE PÊNALTIS (SUPORTE AO SISTEMA NOVO E ANTIGO) ---
+
+  // Calcula pênaltis do sistema novo (array de objetos)
+  const newPenaltiesA =
+    match.penalties?.A?.length > 0
+      ? match.penalties.A.filter((p) => p.result === "goal").length
+      : null;
+
+  const newPenaltiesB =
+    match.penalties?.B?.length > 0
+      ? match.penalties.B.filter((p) => p.result === "goal").length
+      : null;
+
+  // Pega o placar antigo caso exista
+  const oldPenaltiesA =
+    match.penaltiesScoreA !== undefined && match.penaltiesScoreA !== ""
+      ? match.penaltiesScoreA
+      : null;
+  const oldPenaltiesB =
+    match.penaltiesScoreB !== undefined && match.penaltiesScoreB !== ""
+      ? match.penaltiesScoreB
+      : null;
+
+  // Define qual placar mostrar (prioriza o novo, se não tiver, usa o antigo)
+  const displayPenA = newPenaltiesA !== null ? newPenaltiesA : oldPenaltiesA;
+  const displayPenB = newPenaltiesB !== null ? newPenaltiesB : oldPenaltiesB;
+
+  const hasPenalties = displayPenA !== null && displayPenB !== null;
 
   return (
     <section className={`mtc-banner-container mtc-type-${matchType}`}>
@@ -110,17 +134,13 @@ function MatchesCarousel({ matches, players }) {
               <div className="mtc-score-unit">
                 <span className="mtc-big-num">{goalsA}</span>
                 {hasPenalties && (
-                  <span className="mtc-penalty-small">
-                    ({match.penaltiesScoreA})
-                  </span>
+                  <span className="mtc-penalty-small">({displayPenA})</span>
                 )}
               </div>
               <span className="mtc-vs-text">X</span>
               <div className="mtc-score-unit">
                 {hasPenalties && (
-                  <span className="mtc-penalty-small">
-                    ({match.penaltiesScoreB})
-                  </span>
+                  <span className="mtc-penalty-small">({displayPenB})</span>
                 )}
                 <span className="mtc-big-num">{goalsB}</span>
               </div>
