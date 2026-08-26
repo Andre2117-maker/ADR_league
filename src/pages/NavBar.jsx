@@ -29,6 +29,9 @@ function Navbar({ isAdmin, logout }) {
           <Link to="/estatisticas" className="nvb-link">
             Estatísticas
           </Link>
+          <Link to="/campeonato" className="nvb-link">
+            Campeonato
+          </Link>
         </nav>
 
         {/* Centro (Logo) */}

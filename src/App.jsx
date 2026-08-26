@@ -32,6 +32,7 @@ import AboutPage from "./pages/AboutPage.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Legends from "./pages/Legends.jsx";
 import DreamTeam from "./pages/DreamTeam.jsx";
+import Campeonato from "./pages/Campeonato.jsx";
 
 // Estilos
 import "./styles/global.css";
@@ -244,6 +245,11 @@ function App() {
           <Route
             path="/dream-team"
             element={<DreamTeam players={players} matches={matches} />}
+          />
+
+          <Route
+            path="/campeonato"
+            element={<Campeonato matches="{matches}" players="{players}" />}
           />
 
           <Route
