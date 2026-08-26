@@ -264,6 +264,60 @@
   border-bottom: 3px solid #d4af37;
 }
 
+/* --- ESTILO Campeonato --- */
+.mtc-type-campeonato {
+  border-bottom: 3px solid #8a2be2; /* Roxo neon para dar destaque na borda */
+  background: linear-gradient(
+    180deg,
+    #08040a 0%,
+    #12081a 100%
+  ); /* Fundo muito escuro com um leve toque arroxeado */
+}
+
+/* Placar Roxo */
+.mtc-type-campeonato .mtc-score-wrapper {
+  background: #5d0174; /* O Roxo Escuro raiz que você escolheu */
+  box-shadow: 0 10px 20px rgba(93, 1, 116, 0.5);
+}
+
+.mtc-type-campeonato .mtc-big-num {
+  color: #fff; /* Texto branco para dar contraste */
+}
+
+.mtc-type-campeonato .mtc-vs-text {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.mtc-type-campeonato .mtc-penalty-small {
+  color: #e4b8ff; /* Roxo bem clarinho para os pênaltis */
+}
+
+/* Botão de Detalhes Roxo */
+.mtc-type-campeonato .mtc-details-btn {
+  border-color: #8a2be2;
+  color: #8a2be2;
+}
+
+.mtc-type-campeonato .mtc-details-btn:hover {
+  background: #8a2be2;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+}
+
+/* Setas e Indicadores Roxos */
+.mtc-type-campeonato .mtc-arrow:hover {
+  color: #8a2be2;
+}
+
+.mtc-type-campeonato .mtc-dot.active {
+  background: #8a2be2;
+  box-shadow: 0 0 8px rgba(138, 43, 226, 0.8);
+}
+
+.mtc-type-campeonato .mtc-venue-top {
+  color: #8a2be2;
+}
+
 /* ===========================================
    RESPONSIVO (CELULAR)
    =========================================== */
