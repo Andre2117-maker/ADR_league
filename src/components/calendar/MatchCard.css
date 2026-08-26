@@ -8,7 +8,7 @@
 .psg-watermark-image {
   position: absolute;
   right: -10px;
-  top: -80px;
+  top: -70px;
   z-index: 1;
   opacity: 0.1; /* Deixa bem suave igual à imagem image_a76a52.png */
 }

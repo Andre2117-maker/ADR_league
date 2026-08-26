@@ -128,9 +128,12 @@ const MatchCard = ({
         <span className="psg-comp-text">{match.type || "RODADA"}</span>
         {/* Área da Marca d'água Dinâmica */}
         <div className="psg-watermark-image">
-          {match.type === "AMISTOSO" ? (
+          {match.type === "CAMPEONATO" ? (
+            // Ícone específico para o campeonato
+            <img src="/trofeu.png" alt="Troféu Campeonato" />
+          ) : match.type === "AMISTOSO" ? (
             // Ícone de troféu para amistoso
-            <img src="/trofeu.png" alt="Troféu" />
+            <img src="/Amistoso.png" alt="Troféu Amistoso" />
           ) : (
             // Logo do ADR para treino ou outros
             <img src="/logo.png" alt="ADR" />
