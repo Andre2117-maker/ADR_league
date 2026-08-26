@@ -36,6 +36,8 @@ function AdminHeader({
         <option value="TREINO">🏟️ TREINO INTERNO</option>
 
         <option value="AMISTOSO">🤝 AMISTOSO EXTERNO</option>
+
+        <option value="CAMPEONATO">🏆 CAMPEONATO</option>
       </select>
     </header>
   );

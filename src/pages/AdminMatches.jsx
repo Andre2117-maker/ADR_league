@@ -598,7 +598,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
           const selectedCount = draft[teamKey].players.length;
 
-          const isExternal = matchType === "AMISTOSO" && t === "B";
+          const isExternal =
+            (matchType === "AMISTOSO" || matchType === "CAMPEONATO") &&
+            t === "B";
 
           return (
             <div
@@ -629,7 +631,10 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                   className="team-name-input"
                   placeholder="Nome do Time"
                   value={draft[teamKey].name}
-                  disabled={!isExternal && matchType === "AMISTOSO"}
+                  disabled={
+                    !isExternal &&
+                    (matchType === "AMISTOSO" || matchType === "CAMPEONATO")
+                  }
                   onChange={(e) =>
                     setDraft({
                       ...draft,
