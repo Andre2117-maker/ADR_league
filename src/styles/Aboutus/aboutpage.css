@@ -295,6 +295,165 @@
   font-weight: 600;
 }
 
+/* =========================================
+   MEMBROS PRIMORDIAIS
+========================================= */
+.primordiais-section {
+  margin: 50px 0;
+  text-align: center;
+}
+
+.primordiais-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.primordial-card {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  width: 140px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.primordial-card:hover {
+  border-color: #d4af37;
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+.primordial-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 15px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.primordial-name {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* LINK DOURADO INLINE */
+.gold-link {
+  color: #d4af37;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.gold-link:hover {
+  color: #b8860b;
+  text-decoration: underline;
+}
+
+/* =========================================
+   SEÇÃO EXCLUSIVA DE MASCOTES
+========================================= */
+.mascotes-section {
+  margin: 50px 0;
+  text-align: center;
+}
+
+.mascotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+  justify-items: center;
+}
+
+.mascote-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.mascote-card:hover {
+  transform: translateY(-8px);
+  border-color: #d4af37;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+}
+
+/* CAIXA DA IMAGEM DO MASCOTE */
+.mascote-image-wrapper {
+  width: 100%;
+  height: 220px; /* Reduzi um pouco a altura para dar mais respiro ao card */
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* IMPORTANTE: Esconde tudo o que passar da caixa */
+  position: relative;
+}
+
+/* IMAGEM DO MASCOTE - O SEGREDO DO ALINHAMENTO */
+.mascote-image-wrapper img {
+  max-width: 100%;
+  max-height: 112%;
+
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Não deixa a foto do mascote esticar ou achatar */
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.6));
+  transition: transform 0.3s ease;
+}
+
+.mascote-card:hover .mascote-image-wrapper img {
+  transform: scale(1.05); /* Efeito de zoom no mascote */
+}
+
+/* TEXTOS DO MASCOTE */
+.mascote-details {
+  padding: 15px;
+  background: #141414;
+  border-top: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mascote-name {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.mascote-desc {
+  color: #d4af37;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .about-wrapper {
     padding-top: 140px;
