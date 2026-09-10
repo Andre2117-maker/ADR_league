@@ -5,17 +5,11 @@ const PlayerStatsDashboard = ({ player, matches }) => {
   const [selectedSeason, setSelectedSeason] = useState("ALL");
   const [matchFilter, setMatchFilter] = useState("ALL_TYPES");
 
+  // Controle de expansão da lista de faltas (única)
+  const [showAbsences, setShowAbsences] = useState(false);
+
   const stats = useMemo(() => {
     if (!player || !matches) return null;
-
-    // 1. Filtrar partidas em que o jogador participou
-    const pMatches = matches
-      .filter(
-        (m) =>
-          m.teamA.players.some((id) => String(id) === String(player.id)) ||
-          m.teamB.players.some((id) => String(id) === String(player.id)),
-      )
-      .sort((a, b) => (b.order || 0) - (a.order || 0));
 
     let filtered = {
       goals: 0,
@@ -29,6 +23,67 @@ const PlayerStatsDashboard = ({ player, matches }) => {
     };
 
     let dailyGroup = {};
+
+    // --- LÓGICA INTELIGENTE DE DIAS DE EVENTO ---
+    // Agrupa por dia, não por partida.
+    let activeDays = {};
+
+    matches.forEach((m) => {
+      const matchYear = new Date(m.date).getFullYear();
+      const isSelectedSeason =
+        selectedSeason === "ALL" || matchYear === Number(selectedSeason);
+      const isSelectedType =
+        matchFilter === "ALL_TYPES" || m.type === matchFilter;
+
+      // Se a partida se encaixa nos filtros (Temporada + Tipo de Jogo)
+      if (isSelectedSeason && isSelectedType) {
+        const rawDate = m.date?.split("T")[0] || "S/D";
+
+        if (rawDate !== "S/D") {
+          // Cria o registro do dia caso seja a primeira partida analisada daquela data
+          if (!activeDays[rawDate]) {
+            activeDays[rawDate] = { played: false };
+          }
+
+          // Verifica se ele participou DESTA partida específica
+          const participated =
+            m.teamA?.players?.some((id) => String(id) === String(player.id)) ||
+            m.teamB?.players?.some((id) => String(id) === String(player.id));
+
+          // Se ele participou de pelo menos 1 partida no dia, ele esteve presente no dia!
+          if (participated) {
+            activeDays[rawDate].played = true;
+          }
+        }
+      }
+    });
+
+    // Contabiliza total de dias de evento x faltas naquele período
+    let totalActiveDays = 0;
+    let missedDaysList = [];
+
+    // Organiza as datas da mais recente para a mais antiga
+    const sortedDates = Object.keys(activeDays).sort(
+      (a, b) => new Date(b) - new Date(a),
+    );
+
+    sortedDates.forEach((dateString) => {
+      totalActiveDays++;
+      // Se depois de ler todas as partidas do dia, o played continuou false = Falta confirmada.
+      if (!activeDays[dateString].played) {
+        const displayDate = dateString.split("-").reverse().join("/");
+        missedDaysList.push(displayDate);
+      }
+    });
+
+    // 1. Filtrar partidas em que o jogador participou para calcular o resto das stats
+    const pMatches = matches
+      .filter(
+        (m) =>
+          m.teamA?.players?.some((id) => String(id) === String(player.id)) ||
+          m.teamB?.players?.some((id) => String(id) === String(player.id)),
+      )
+      .sort((a, b) => (b.order || 0) - (a.order || 0));
 
     pMatches.forEach((m) => {
       const matchYear = new Date(m.date).getFullYear();
@@ -97,7 +152,6 @@ const PlayerStatsDashboard = ({ player, matches }) => {
 
     // --- LÓGICA DE DADOS MANUAIS (APENAS PARA TREINOS) ---
     const isAllSeason = selectedSeason === "ALL";
-    // Regra: Se o filtro for "AMISTOSO", os manuais (que são de treinos) viram 0.
     const showManual = matchFilter === "ALL_TYPES" || matchFilter === "TREINO";
 
     let mGoals = 0;
@@ -143,6 +197,10 @@ const PlayerStatsDashboard = ({ player, matches }) => {
             val.a >= max.value ? { value: val.a, date } : max,
           { value: 0, date: "" },
         ),
+      },
+      absences: {
+        totalDays: totalActiveDays,
+        missedList: missedDaysList,
       },
     };
   }, [player, matches, selectedSeason, matchFilter]);
@@ -244,6 +302,48 @@ const PlayerStatsDashboard = ({ player, matches }) => {
           <span className="psd-record-date">
             {stats.records.assists.date || "--/--/----"}
           </span>
+        </div>
+      </div>
+
+      {/* --- CAIXA DE FALTAS ÚNICA E DINÂMICA --- */}
+      <div className="psd-absences-wrapper">
+        <div className="psd-absence-panel">
+          <div
+            className="psd-absence-header"
+            onClick={() => setShowAbsences(!showAbsences)}
+          >
+            <span>
+              Dias de Falta (
+              {matchFilter === "ALL_TYPES" ? "Geral" : matchFilter}):
+              <strong
+                style={{
+                  color:
+                    stats.absences.missedList.length > 0
+                      ? "#ff4d4d"
+                      : "#00ff7f",
+                  marginLeft: "6px",
+                }}
+              >
+                {stats.absences.missedList.length}
+              </strong>{" "}
+              / {stats.absences.totalDays} dias
+            </span>
+            <span style={{ color: "#d4af37" }}>{showAbsences ? "▲" : "▼"}</span>
+          </div>
+
+          {showAbsences && (
+            <div className="psd-absence-content">
+              {stats.absences.missedList.length > 0 ? (
+                stats.absences.missedList.map((date, idx) => (
+                  <div key={idx} className="psd-absence-item">
+                    📅 {date}
+                  </div>
+                ))
+              ) : (
+                <div className="psd-absence-perfect">Presença 100%! 🏆</div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

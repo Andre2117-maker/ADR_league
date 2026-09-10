@@ -304,6 +304,59 @@
   display: block;
 }
 
+/* --- ESTILO DAS CAIXAS DE FALTAS --- */
+.psd-absences-wrapper {
+  margin-top: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.psd-absence-panel {
+  background: #11141a;
+  border: 1px solid #2a3241;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.psd-absence-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  background: #1a1e24;
+  color: #ccc;
+  user-select: none;
+}
+
+.psd-absence-header:hover {
+  background: #252a33;
+}
+
+.psd-absence-content {
+  padding: 12px 15px;
+  background: #08090a;
+  border-top: 1px solid #2a3241;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.psd-absence-item {
+  color: #ff4d4d;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.psd-absence-perfect {
+  color: #00ff7f;
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: bold;
+}
+
 /* ============================================================
    3. AJUSTE DE FILTROS NO MOBILE
    ============================================================ */
