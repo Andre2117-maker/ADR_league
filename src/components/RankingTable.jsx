@@ -3,11 +3,11 @@ import primeiro from "../assets/primeiro.png";
 import segundo from "../assets/segundo.png";
 import terceiro from "../assets/terceiro.png";
 
-// IMPORTANDO SEUS PNGS DE FOGO (Ajuste os nomes dos arquivos conforme salvou na pasta)
-import fogoLaranja from "../assets/streak/fogoLar.png"; // Seu fogo base (5 a 9)
-import fogoAzul from "../assets/streak/fogoAzul.png"; // (10 a 14)
-import fogoRoxo from "../assets/streak/fogoVer.png"; // (15 a 19)
-import fogoVermelho from "../assets/streak/fogoRox.png"; // (20+)
+// IMPORTANDO APENAS OS PNGS DE FOGO
+import fogoLaranja from "../assets/medalhas/streak/fogoLar.png";
+import fogoAzul from "../assets/medalhas/streak/fogoAzul.png";
+import fogoRoxo from "../assets/medalhas/streak/fogoVer.png";
+import fogoVermelho from "../assets/medalhas/streak/fogoRox.png";
 
 import "../styles/Tabelas/rankingtable.css";
 
@@ -189,7 +189,7 @@ export default function RankingTable({
                   </td>
                   <td
                     className="player-td-name fw-bold sticky-col pin-name"
-                    onClick={() => onSelectPlayer(p)}
+                    style={{ cursor: "default" }}
                   >
                     <div
                       style={{
@@ -212,29 +212,48 @@ export default function RankingTable({
                       >
                         {p.name}
 
+                        {/* --- MEDALHA DE ARTILHEIRO (EMOJI) --- */}
                         {totalGoals26 > 0 && totalGoals26 === maxGoals && (
                           <span
                             title="Artilheiro do Campeonato"
-                            style={{ fontSize: "14px" }}
+                            onClick={() =>
+                              alert("⚽ Artilheiro do Campeonato!")
+                            }
+                            style={{
+                              fontSize: "14px",
+                              cursor: "pointer",
+                              marginLeft: "2px",
+                            }}
                           >
                             ⚽
                           </span>
                         )}
 
+                        {/* --- MEDALHA DE ASSISTÊNCIA (EMOJI) --- */}
                         {totalAssists26 > 0 &&
                           totalAssists26 === maxAssists && (
                             <span
                               title="Líder de Assistências"
-                              style={{ fontSize: "14px" }}
+                              onClick={() => alert("🎯 Líder de Assistências!")}
+                              style={{
+                                fontSize: "14px",
+                                cursor: "pointer",
+                                marginLeft: "2px",
+                              }}
                             >
                               🎯
                             </span>
                           )}
 
-                        {/* CAIXINHA DO FOGO COM CONTADOR */}
+                        {/* CAIXINHA DO FOGO COM CONTADOR (PNG Mantido) */}
                         {fireSrc && (
                           <div
                             title={`${streak} treinos sem faltar!`}
+                            onClick={() =>
+                              alert(
+                                `🔥 ${streak} treinos consecutivos sem faltar!`,
+                              )
+                            }
                             style={{
                               position: "relative",
                               display: "inline-flex",
@@ -243,6 +262,7 @@ export default function RankingTable({
                               width: "24px",
                               height: "24px",
                               marginTop: "-2px",
+                              cursor: "pointer",
                             }}
                           >
                             <img
@@ -257,11 +277,10 @@ export default function RankingTable({
                             <span
                               style={{
                                 position: "absolute",
-                                bottom: "3px", // Ajuste esse valor para o número subir ou descer na chama
+                                bottom: "3px",
                                 fontSize: "11px",
                                 fontWeight: "900",
                                 color: "#fff",
-                                // Essa sombra preta garante que o número branco dê leitura até em fogo claro
                                 textShadow:
                                   "1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000",
                               }}
@@ -272,6 +291,7 @@ export default function RankingTable({
                         )}
                       </span>
 
+                      {/* ALERTA DE FALTAS */}
                       {isAdmin &&
                         checkConsecutiveAbsences(p, matches).isOut && (
                           <span
