@@ -186,8 +186,11 @@ function MatchPage({ matches, players, isAdmin }) {
     const formFut5 = FORMATIONS_DATA.FUT5?.[formKey];
     const formFut6 = FORMATIONS_DATA.FUT6?.[formKey];
     const formFut7 = FORMATIONS_DATA.FUT7?.[formKey];
+    const formFut8 = FORMATIONS_DATA.FUT8?.[formKey];
 
-    return (formFut4 || formFut5 || formFut6 || formFut7)?.slots || [];
+    return (
+      (formFut4 || formFut5 || formFut6 || formFut7 || formFut8)?.slots || []
+    );
   };
 
   // =========================
@@ -762,6 +765,14 @@ function MatchPage({ matches, players, isAdmin }) {
                         {Object.keys(FORMATIONS_DATA.FUT7).map((k) => (
                           <option key={k} value={k}>
                             {FORMATIONS_DATA.FUT7[k].label}
+                          </option>
+                        ))}
+                      </optgroup>
+
+                      <optgroup label="FUT 8">
+                        {Object.keys(FORMATIONS_DATA.FUT8).map((k) => (
+                          <option key={k} value={k}>
+                            {FORMATIONS_DATA.FUT8[k].label}
                           </option>
                         ))}
                       </optgroup>

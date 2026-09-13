@@ -199,7 +199,6 @@ export const FORMATIONS_DATA = {
       ],
     },
   },
-
   FUT7: {
     "7_JOG_3-2-1": {
       label: "3-2-1 (Equilibrada)",
@@ -259,6 +258,77 @@ export const FORMATIONS_DATA = {
         { id: "s5", x: "85%", y: "68%", role: "Lateral Direito" },
         { id: "s6", x: "50%", y: "42%", role: "Meio-Campo" },
         { id: "s7", x: "50%", y: "18%", role: "Atacante" },
+      ],
+    },
+  },
+
+  /* =======================================
+     NOVO: FORMAÇÕES FUT 8 (8 JOGADORES)
+  ======================================= */
+  FUT8: {
+    "8_JOG_3-3-1": {
+      label: "3-3-1 (Equilibrada)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "20%", y: "72%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "50%", y: "74%", role: "Zagueiro Central" },
+        { id: "s4", x: "80%", y: "72%", role: "Zagueiro Direito" },
+        { id: "s5", x: "20%", y: "45%", role: "Meio-Campo Esquerdo" },
+        { id: "s6", x: "50%", y: "48%", role: "Volante/Meio" },
+        { id: "s7", x: "80%", y: "45%", role: "Meio-Campo Direito" },
+        { id: "s8", x: "50%", y: "18%", role: "Atacante" },
+      ],
+    },
+    "8_JOG_3-2-2": {
+      label: "3-2-2 (Ataque Forte)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "20%", y: "72%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "50%", y: "74%", role: "Zagueiro Central" },
+        { id: "s4", x: "80%", y: "72%", role: "Zagueiro Direito" },
+        { id: "s5", x: "35%", y: "48%", role: "Meio-Campo" },
+        { id: "s6", x: "65%", y: "48%", role: "Meio-Campo" },
+        { id: "s7", x: "30%", y: "20%", role: "Atacante Esquerdo" },
+        { id: "s8", x: "70%", y: "20%", role: "Atacante Direito" },
+      ],
+    },
+    "8_JOG_2-4-1": {
+      label: "2-4-1 (Pressão no Meio)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "30%", y: "72%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "70%", y: "72%", role: "Zagueiro Direito" },
+        { id: "s4", x: "15%", y: "45%", role: "Ala Esquerdo" },
+        { id: "s5", x: "38%", y: "48%", role: "Meio-Campo Central" },
+        { id: "s6", x: "62%", y: "48%", role: "Meio-Campo Central" },
+        { id: "s7", x: "85%", y: "45%", role: "Ala Direito" },
+        { id: "s8", x: "50%", y: "18%", role: "Atacante" },
+      ],
+    },
+    "8_JOG_2-3-2": {
+      label: "2-3-2 (W-M Moderno)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "30%", y: "72%", role: "Zagueiro Esquerdo" },
+        { id: "s3", x: "70%", y: "72%", role: "Zagueiro Direito" },
+        { id: "s4", x: "20%", y: "48%", role: "Meio-Campo Esquerdo" },
+        { id: "s5", x: "50%", y: "50%", role: "Meio-Campo Central" },
+        { id: "s6", x: "80%", y: "48%", role: "Meio-Campo Direito" },
+        { id: "s7", x: "35%", y: "20%", role: "Atacante Esquerdo" },
+        { id: "s8", x: "65%", y: "20%", role: "Atacante Direito" },
+      ],
+    },
+    "8_JOG_4-2-1": {
+      label: "4-2-1 (Muralha)",
+      slots: [
+        { id: "s1", x: "50%", y: "88%", role: "Goleiro" },
+        { id: "s2", x: "15%", y: "70%", role: "Lateral Esquerdo" },
+        { id: "s3", x: "38%", y: "73%", role: "Zagueiro" },
+        { id: "s4", x: "62%", y: "73%", role: "Zagueiro" },
+        { id: "s5", x: "85%", y: "70%", role: "Lateral Direito" },
+        { id: "s6", x: "35%", y: "45%", role: "Volante" },
+        { id: "s7", x: "65%", y: "45%", role: "Volante" },
+        { id: "s8", x: "50%", y: "18%", role: "Atacante" },
       ],
     },
   },
