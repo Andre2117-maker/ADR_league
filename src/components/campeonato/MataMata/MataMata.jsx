@@ -9,8 +9,21 @@ export default function MataMata({
   tabelaGrupos,
   loadData,
   isAdmin,
+  configAtual, // <-- RECEBENDO A CONFIGURAÇÃO
 }) {
   const [loadingJogo, setLoadingJogo] = useState(null);
+
+  // Lê onde o mata-mata deve começar. Se não tiver configuração, assume "oitavas"
+  const faseInicial = configAtual?.faseInicialMataMata || "oitavas";
+
+  // Lógica de visualização das colunas baseada na fase inicial
+  const showOitavas = faseInicial === "oitavas";
+  const showQuartas = faseInicial === "oitavas" || faseInicial === "quartas";
+  const showSemis =
+    faseInicial === "oitavas" ||
+    faseInicial === "quartas" ||
+    faseInicial === "semifinal";
+  const showFinal = true; // A final sempre aparece
 
   // 1. Extrai os classificados no formato curto: "1º A", "2º B", etc.
   const classificadosDinamicos = useMemo(() => {
@@ -29,20 +42,7 @@ export default function MataMata({
     return lista;
   }, [tabelaGrupos]);
 
-  // Função para salvar o confronto no Firebase vinculado estritamente ao ano selecionado
-  // Função de salvamento direta e blindada
   const salvarConfronto = async (fase, jogoId, tA, tB, sA, sB) => {
-    console.log("➡️ O botão Salvar foi clicado!", {
-      fase,
-      jogoId,
-      tA,
-      tB,
-      sA,
-      sB,
-      isAdmin,
-      selectedYear,
-    });
-
     if (!isAdmin) {
       alert("Acesso negado. Apenas administradores podem alterar o mata-mata.");
       return;
@@ -53,8 +53,6 @@ export default function MataMata({
     const docId = `${selectedYear}_${fase}_${jogoId}`
       .replace(/\s+/g, "")
       .toUpperCase();
-
-    console.log("📝 ID gerado para o documento no Firestore:", docId);
 
     try {
       await setDoc(doc(db, "partidas_campeonato", docId), {
@@ -68,7 +66,6 @@ export default function MataMata({
         finalizado: true,
       });
 
-      console.log("✅ Salvo com sucesso no Firebase!");
       await loadData();
     } catch (error) {
       console.error("❌ ERRO AO SALVAR NO FIREBASE:", error);
@@ -85,7 +82,6 @@ export default function MataMata({
     return encontrada || { timeA: "", timeB: "", placarA: "", placarB: "" };
   };
 
-  // Função inteligente que lê gols e pênaltis exatos (ex: "1(3)" ou "2") e retorna o vencedor
   const descobrirVencedor = (faseAnterior, jogoIdAnterior) => {
     const p = partidasMataMata.find(
       (item) =>
@@ -99,7 +95,6 @@ export default function MataMata({
     if (!timeA || !timeB || timeA === "A definir" || timeB === "A definir")
       return "";
 
-    // Se for W/O explícito
     if (placarA === "W" || placarB === "L") return timeA;
     if (placarB === "W" || placarA === "L") return timeB;
 
@@ -109,7 +104,6 @@ export default function MataMata({
     if (golsA > golsB) return timeA;
     if (golsB > golsA) return timeB;
 
-    // Desempate por pênaltis nos parênteses (ex: "1(3)" vs "1(2)")
     const penA =
       placarA && placarA.includes("(") ? parseInt(placarA.split("(")[1]) : 0;
     const penB =
@@ -121,23 +115,21 @@ export default function MataMata({
     return "";
   };
 
-  // Componente individual de cada partida
   const MatchCardItem = ({
     fase,
     jogoId,
     defaultA,
     defaultB,
-    isOitavas = false,
+    isFirstRound = false, // <-- Agora define se é a primeira fase a aparecer na tela
     jogoAnteriorA = null,
     jogoAnteriorB = null,
   }) => {
     const dadosSalvos = getPartidaData(fase, jogoId);
 
-    // Descobre os times automáticos se não forem oitavas
     let timeSugeridoA = defaultA;
     let timeSugeridoB = defaultB;
 
-    if (!isOitavas) {
+    if (!isFirstRound) {
       if (jogoAnteriorA) {
         const vA = descobrirVencedor(jogoAnteriorA.fase, jogoAnteriorA.jogoId);
         if (vA) timeSugeridoA = vA;
@@ -149,16 +141,15 @@ export default function MataMata({
     }
 
     const finalTimeA =
-      dadosSalvos.timeA || (isOitavas ? defaultA : timeSugeridoA);
+      dadosSalvos.timeA || (isFirstRound ? defaultA : timeSugeridoA);
     const finalTimeB =
-      dadosSalvos.timeB || (isOitavas ? defaultB : timeSugeridoB);
+      dadosSalvos.timeB || (isFirstRound ? defaultB : timeSugeridoB);
 
     const [timeA, setTimeA] = useState(finalTimeA);
     const [timeB, setTimeB] = useState(finalTimeB);
     const [scoreA, setScoreA] = useState(dadosSalvos.placarA || "");
     const [scoreB, setScoreB] = useState(dadosSalvos.placarB || "");
 
-    // --- LÓGICA PARA DESTACAR O VENCEDOR ---
     let isWinnerA = false;
     let isWinnerB = false;
 
@@ -171,7 +162,6 @@ export default function MataMata({
         if (golsA > golsB) isWinnerA = true;
         else if (golsB > golsA) isWinnerB = true;
         else {
-          // Desempate por pênaltis
           const penA = scoreA.includes("(")
             ? parseInt(scoreA.split("(")[1])
             : 0;
@@ -184,7 +174,6 @@ export default function MataMata({
       }
     }
 
-    // Garante que a caixinha atualize sozinha se o banco de dados mudar
     React.useEffect(() => {
       setTimeA(finalTimeA);
       setTimeB(finalTimeB);
@@ -196,9 +185,8 @@ export default function MataMata({
       <div className="bracket-match">
         <div className="bracket-date">Confronto {jogoId.toUpperCase()}</div>
 
-        {/* TIME A + PLACAR */}
         <div className="bracket-team">
-          {isAdmin && isOitavas ? (
+          {isAdmin && isFirstRound ? (
             <select
               className="bracket-team-select"
               value={timeA}
@@ -230,9 +218,8 @@ export default function MataMata({
           />
         </div>
 
-        {/* TIME B + PLACAR */}
         <div className="bracket-team">
-          {isAdmin && isOitavas ? (
+          {isAdmin && isFirstRound ? (
             <select
               className="bracket-team-select"
               value={timeB}
@@ -268,14 +255,7 @@ export default function MataMata({
           <button
             className="bracket-save-btn"
             onClick={() =>
-              salvarConfronto(
-                fase,
-                jogoId,
-                timeA, // <-- AGORA ELE PEGA A SUA ESCOLHA CORRETA
-                timeB, // <-- AGORA ELE PEGA A SUA ESCOLHA CORRETA
-                scoreA,
-                scoreB,
-              )
+              salvarConfronto(fase, jogoId, timeA, timeB, scoreA, scoreB)
             }
             disabled={loadingJogo === jogoId}
           >
@@ -288,157 +268,172 @@ export default function MataMata({
 
   return (
     <div className="camp-bracket-container">
-      {/* OITAVAS */}
-      <div className="bracket-column">
-        <h3 className="bracket-round-title">Oitavas de Final</h3>
-        <div className="bracket-matches-wrapper">
-          <div
-            style={{
-              color: "#aaa",
-              fontSize: "0.8rem",
-              textAlign: "center",
-              marginBottom: "5px",
-            }}
-          >
-            {classificadosDinamicos.length} times apurados
+      {/* OITAVAS DE FINAL */}
+      {showOitavas && (
+        <div className="bracket-column">
+          <h3 className="bracket-round-title">Oitavas de Final</h3>
+          <div className="bracket-matches-wrapper">
+            <div
+              style={{
+                color: "#aaa",
+                fontSize: "0.8rem",
+                textAlign: "center",
+                marginBottom: "5px",
+              }}
+            >
+              {classificadosDinamicos.length} times apurados
+            </div>
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o1"
+              defaultA="1º A"
+              defaultB="3º B"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o2"
+              defaultA="1º B"
+              defaultB="3º C"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o3"
+              defaultA="1º C"
+              defaultB="3º D"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o4"
+              defaultA="1º D"
+              defaultB="3º E"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o5"
+              defaultA="1º E"
+              defaultB="3º F"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o6"
+              defaultA="1º F"
+              defaultB="3º A"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o7"
+              defaultA="2º A"
+              defaultB="2º B"
+              isFirstRound={faseInicial === "oitavas"}
+            />
+            <MatchCardItem
+              fase="OITAVAS"
+              jogoId="o8"
+              defaultA="2º C"
+              defaultB="2º D"
+              isFirstRound={faseInicial === "oitavas"}
+            />
           </div>
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o1"
-            defaultA="1º A"
-            defaultB="3º B"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o2"
-            defaultA="1º B"
-            defaultB="3º C"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o3"
-            defaultA="1º C"
-            defaultB="3º D"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o4"
-            defaultA="1º D"
-            defaultB="3º E"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o5"
-            defaultA="1º E"
-            defaultB="3º F"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o6"
-            defaultA="1º F"
-            defaultB="3º A"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o7"
-            defaultA="2º A"
-            defaultB="2º B"
-            isOitavas={true}
-          />
-          <MatchCardItem
-            fase="OITAVAS"
-            jogoId="o8"
-            defaultA="2º C"
-            defaultB="2º D"
-            isOitavas={true}
-          />
         </div>
-      </div>
+      )}
 
       {/* QUARTAS DE FINAL */}
-      <div className="bracket-column">
-        <h3 className="bracket-round-title">Quartas de Final</h3>
-        <div className="bracket-matches-wrapper">
-          <MatchCardItem
-            fase="QUARTAS"
-            jogoId="q1"
-            defaultA="Vencedor O1"
-            defaultB="Vencedor O2"
-            jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o1" }}
-            jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o2" }}
-          />
-          <MatchCardItem
-            fase="QUARTAS"
-            jogoId="q2"
-            defaultA="Vencedor O3"
-            defaultB="Vencedor O4"
-            jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o3" }}
-            jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o4" }}
-          />
-          <MatchCardItem
-            fase="QUARTAS"
-            jogoId="q3"
-            defaultA="Vencedor O5"
-            defaultB="Vencedor O6"
-            jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o5" }}
-            jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o6" }}
-          />
-          <MatchCardItem
-            fase="QUARTAS"
-            jogoId="q4"
-            defaultA="Vencedor O7"
-            defaultB="Vencedor O8"
-            jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o7" }}
-            jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o8" }}
-          />
+      {showQuartas && (
+        <div className="bracket-column">
+          <h3 className="bracket-round-title">Quartas de Final</h3>
+          <div className="bracket-matches-wrapper">
+            <MatchCardItem
+              fase="QUARTAS"
+              jogoId="q1"
+              defaultA="Vencedor O1"
+              defaultB="Vencedor O2"
+              jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o1" }}
+              jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o2" }}
+              isFirstRound={faseInicial === "quartas"}
+            />
+            <MatchCardItem
+              fase="QUARTAS"
+              jogoId="q2"
+              defaultA="Vencedor O3"
+              defaultB="Vencedor O4"
+              jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o3" }}
+              jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o4" }}
+              isFirstRound={faseInicial === "quartas"}
+            />
+            <MatchCardItem
+              fase="QUARTAS"
+              jogoId="q3"
+              defaultA="Vencedor O5"
+              defaultB="Vencedor O6"
+              jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o5" }}
+              jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o6" }}
+              isFirstRound={faseInicial === "quartas"}
+            />
+            <MatchCardItem
+              fase="QUARTAS"
+              jogoId="q4"
+              defaultA="Vencedor O7"
+              defaultB="Vencedor O8"
+              jogoAnteriorA={{ fase: "OITAVAS", jogoId: "o7" }}
+              jogoAnteriorB={{ fase: "OITAVAS", jogoId: "o8" }}
+              isFirstRound={faseInicial === "quartas"}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* SEMIFINAIS */}
-      <div className="bracket-column">
-        <h3 className="bracket-round-title">Semifinais</h3>
-        <div className="bracket-matches-wrapper">
-          <MatchCardItem
-            fase="SEMIS"
-            jogoId="s1"
-            defaultA="Vencedor Q1"
-            defaultB="Vencedor Q2"
-            jogoAnteriorA={{ fase: "QUARTAS", jogoId: "q1" }}
-            jogoAnteriorB={{ fase: "QUARTAS", jogoId: "q2" }}
-          />
-          <MatchCardItem
-            fase="SEMIS"
-            jogoId="s2"
-            defaultA="Vencedor Q3"
-            defaultB="Vencedor Q4"
-            jogoAnteriorA={{ fase: "QUARTAS", jogoId: "q3" }}
-            jogoAnteriorB={{ fase: "QUARTAS", jogoId: "q4" }}
-          />
+      {showSemis && (
+        <div className="bracket-column">
+          <h3 className="bracket-round-title">Semifinais</h3>
+          <div className="bracket-matches-wrapper">
+            <MatchCardItem
+              fase="SEMIS"
+              jogoId="s1"
+              defaultA="Vencedor Q1"
+              defaultB="Vencedor Q2"
+              jogoAnteriorA={{ fase: "QUARTAS", jogoId: "q1" }}
+              jogoAnteriorB={{ fase: "QUARTAS", jogoId: "q2" }}
+              isFirstRound={faseInicial === "semifinal"}
+            />
+            <MatchCardItem
+              fase="SEMIS"
+              jogoId="s2"
+              defaultA="Vencedor Q3"
+              defaultB="Vencedor Q4"
+              jogoAnteriorA={{ fase: "QUARTAS", jogoId: "q3" }}
+              jogoAnteriorB={{ fase: "QUARTAS", jogoId: "q4" }}
+              isFirstRound={faseInicial === "semifinal"}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* GRANDE FINAL */}
-      <div className="bracket-column">
-        <h3 className="bracket-round-title" style={{ color: "#d4af37" }}>
-          Grande Final
-        </h3>
-        <div className="bracket-matches-wrapper">
-          <MatchCardItem
-            fase="FINAL"
-            jogoId="final"
-            defaultA="Vencedor S1"
-            defaultB="Vencedor S2"
-            jogoAnteriorA={{ fase: "SEMIS", jogoId: "s1" }}
-            jogoAnteriorB={{ fase: "SEMIS", jogoId: "s2" }}
-          />
+      {showFinal && (
+        <div className="bracket-column">
+          <h3 className="bracket-round-title" style={{ color: "#d4af37" }}>
+            Grande Final
+          </h3>
+          <div className="bracket-matches-wrapper">
+            <MatchCardItem
+              fase="FINAL"
+              jogoId="final"
+              defaultA="Vencedor S1"
+              defaultB="Vencedor S2"
+              jogoAnteriorA={{ fase: "SEMIS", jogoId: "s1" }}
+              jogoAnteriorB={{ fase: "SEMIS", jogoId: "s2" }}
+              isFirstRound={faseInicial === "final"}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

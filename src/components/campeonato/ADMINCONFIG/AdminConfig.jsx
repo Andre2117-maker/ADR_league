@@ -1,14 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import "./AdminConfig.css";
 
-export default function AdminConfig({ loadData }) {
+export default function AdminConfig({ loadData, anoEdit, configEdit }) {
   const [adminAno, setAdminAno] = useState("2026");
   const [adminVagas, setAdminVagas] = useState(2);
+  const [faseMataMata, setFaseMataMata] = useState("semifinal");
   const [adminGrupos, setAdminGrupos] = useState({ A: [] });
   const [novoTime, setNovoTime] = useState("");
   const [grupoSelecionado, setGrupoSelecionado] = useState("A");
+
+  useEffect(() => {
+    if (configEdit) {
+      setAdminAno(anoEdit || "2026");
+      setAdminVagas(configEdit.vagasClassificacao || 2);
+      setFaseMataMata(configEdit.faseInicialMataMata || "semifinal");
+      setAdminGrupos(configEdit.grupos || { A: [] });
+
+      // Ajusta o select do grupo para o primeiro grupo disponível, se houver
+      if (configEdit.grupos && Object.keys(configEdit.grupos).length > 0) {
+        setGrupoSelecionado(Object.keys(configEdit.grupos)[0]);
+      }
+    } else {
+      // Se não tiver config (ex: ano novo), limpa tudo
+      setAdminAno(anoEdit || "2026");
+      setAdminVagas(2);
+      setFaseMataMata("semifinal");
+      setAdminGrupos({ A: [] });
+      setGrupoSelecionado("A");
+    }
+  }, [anoEdit, configEdit]);
 
   const addGrupo = () => {
     const novoNome = prompt("Nome do Grupo (ex: B, C, D):");
@@ -57,6 +79,7 @@ export default function AdminConfig({ loadData }) {
     try {
       await setDoc(doc(db, "campeonatos_config", adminAno), {
         vagasClassificacao: parseInt(adminVagas),
+        faseInicialMataMata: faseMataMata, // <-- SALVANDO A NOVA CONFIGURAÇÃO AQUI
         grupos: adminGrupos,
       });
       alert("Configuração salva com sucesso! Atualize a página.");
@@ -71,6 +94,7 @@ export default function AdminConfig({ loadData }) {
     <div className="camp-admin-container">
       <h2 className="camp-admin-title">⚙️ Montar Estrutura do Torneio</h2>
 
+      {/* --- MUDANÇA AQUI: Adicionado o campo do Mata-Mata na linha de cima --- */}
       <div className="camp-admin-row">
         <div className="camp-admin-field">
           <label>Ano do Torneio:</label>
@@ -81,7 +105,7 @@ export default function AdminConfig({ loadData }) {
           />
         </div>
         <div className="camp-admin-field">
-          <label>Classificados por Grupo (Vagas):</label>
+          <label>Vagas por Grupo:</label>
           <input
             type="number"
             value={adminVagas}
@@ -89,6 +113,18 @@ export default function AdminConfig({ loadData }) {
             min="1"
             max="10"
           />
+        </div>
+        <div className="camp-admin-field">
+          <label>Início do Mata-Mata:</label>
+          <select
+            value={faseMataMata}
+            onChange={(e) => setFaseMataMata(e.target.value)}
+          >
+            <option value="oitavas">Oitavas de Final</option>
+            <option value="quartas">Quartas de Final</option>
+            <option value="semifinal">Semifinal</option>
+            <option value="final">Final Direta</option>
+          </select>
         </div>
       </div>
 

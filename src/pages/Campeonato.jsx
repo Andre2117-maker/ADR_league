@@ -250,11 +250,16 @@ export default function Campeonato({ isAdmin }) {
             tabelaGrupos={tabelaGrupos}
             loadData={loadData}
             isAdmin={isAdmin}
+            configAtual={configs[selectedYear]} /* <-- ADICIONE ESTA LINHA */
           />
         )}
 
         {activeTab === "CONFIG" && isAdmin && (
-          <AdminConfig loadData={loadData} />
+          <AdminConfig
+            loadData={loadData}
+            anoEdit={selectedYear}
+            configEdit={configs[selectedYear]}
+          />
         )}
       </div>
     </div>
