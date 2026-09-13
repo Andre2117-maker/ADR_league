@@ -45,7 +45,7 @@ function MatchPage({ matches, players, isAdmin }) {
     return <div className="loading">Partida não encontrada...</div>;
   }
 
-  const isFriendly = match.type === "AMISTOSO";
+  const isFriendly = match.type === "AMISTOSO" || match.type === "CAMPEONATO";
 
   const currentFriendlyGame = match.friendlyGames?.[selectedGameIndex] || {
     name: "JOGO 1",
