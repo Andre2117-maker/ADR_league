@@ -237,6 +237,8 @@ const PlayerStatsDashboard = ({ player, matches }) => {
             <option value="ALL_TYPES">GERAL</option>
             <option value="TREINO">APENAS TREINOS</option>
             <option value="AMISTOSO">APENAS AMISTOSOS</option>
+            {/* NOVA OPÇÃO ADICIONADA AQUI */}
+            <option value="CAMPEONATO">APENAS CAMPEONATOS</option>
           </select>
         </div>
 

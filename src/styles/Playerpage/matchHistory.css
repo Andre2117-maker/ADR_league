@@ -81,6 +81,13 @@
   box-shadow: 0 0 15px rgba(0, 188, 212, 0.3);
 }
 
+.adr-history-tabs .adr-tab-btn:nth-child(3).active {
+  background-color: #8a2be2; /* Roxo */
+  color: #000000;
+  border-color: #8a2be2;
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5); /* Brilho roxo suave */
+}
+
 /* ============================================================
    3. LISTA E CARDS - ESTRUTURA BASE (DESKTOP)
    ============================================================ */
@@ -145,9 +152,15 @@
   color: #000;
   margin-bottom: 5px;
 }
-.adr-status-indicator.win { background: #00ff7f; }
-.adr-status-indicator.loss { background: #ff4d4d; }
-.adr-status-indicator.draw { background: #aaa; }
+.adr-status-indicator.win {
+  background: #00ff7f;
+}
+.adr-status-indicator.loss {
+  background: #ff4d4d;
+}
+.adr-status-indicator.draw {
+  background: #aaa;
+}
 
 .adr-match-date {
   font-size: 10px;
@@ -214,9 +227,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.adr-team-name.team-a { text-align: right; }
-.adr-team-name.team-b { text-align: left; }
-.adr-team-name.highlight { color: #fff; font-weight: 800; }
+.adr-team-name.team-a {
+  text-align: right;
+}
+.adr-team-name.team-b {
+  text-align: left;
+}
+.adr-team-name.highlight {
+  color: #fff;
+  font-weight: 800;
+}
 
 /* STATS DO JOGADOR */
 .adr-match-player-stats {
@@ -247,10 +267,26 @@
   white-space: nowrap; /* Impede o texto de quebrar no meio da badge */
 }
 
-.badge-goal { background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.3); }
-.badge-assist { background: rgba(0, 188, 212, 0.1); color: #00bcd4; border: 1px solid rgba(0, 188, 212, 0.3); }
-.badge-yellow { background: rgba(241, 196, 15, 0.1); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.3); }
-.badge-red { background: rgba(229, 57, 53, 0.1); color: #e53935; border: 1px solid rgba(229, 57, 53, 0.3); }
+.badge-goal {
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+.badge-assist {
+  background: rgba(0, 188, 212, 0.1);
+  color: #00bcd4;
+  border: 1px solid rgba(0, 188, 212, 0.3);
+}
+.badge-yellow {
+  background: rgba(241, 196, 15, 0.1);
+  color: #f1c40f;
+  border: 1px solid rgba(241, 196, 15, 0.3);
+}
+.badge-red {
+  background: rgba(229, 57, 53, 0.1);
+  color: #e53935;
+  border: 1px solid rgba(229, 57, 53, 0.3);
+}
 .badge-gk {
   background: rgba(33, 150, 243, 0.15);
   color: #d021f3;
@@ -278,7 +314,7 @@
   .adr-match-card {
     display: grid !important;
     /* Aumentei a coluna da direita de 55px para 75px para caber as badges */
-    grid-template-columns: 45px 1fr 75px !important; 
+    grid-template-columns: 45px 1fr 75px !important;
     padding: 10px 5px !important;
     gap: 5px !important;
     width: 100% !important;
@@ -298,20 +334,37 @@
     justify-content: center !important;
     min-width: 0;
   }
-  .adr-score-wrapper { gap: 4px; }
-  .adr-history-logo { width: 22px !important; height: 22px !important; min-width: 22px !important; }
-  
+  .adr-score-wrapper {
+    gap: 4px;
+  }
+  .adr-history-logo {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+  }
+
   .adr-match-score {
     padding: 3px 6px !important;
     min-width: 40px !important;
     gap: 3px !important;
   }
-  .score-num { font-size: 0.95rem !important; }
+  .score-num {
+    font-size: 0.95rem !important;
+  }
 
   /* Ajuste do Status (Esquerda) */
-  .adr-match-info { border-right: none !important; width: 100% !important; }
-  .adr-status-indicator { width: 18px !important; height: 18px !important; font-size: 8px !important; }
-  .adr-match-date { font-size: 8px !important; }
+  .adr-match-info {
+    border-right: none !important;
+    width: 100% !important;
+  }
+  .adr-status-indicator {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 8px !important;
+  }
+  .adr-match-date {
+    font-size: 8px !important;
+  }
 
   /* ===== CORREÇÃO DAS BADGES NO MOBILE ===== */
   .adr-match-player-stats {

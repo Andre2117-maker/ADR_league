@@ -38,6 +38,13 @@ const MatchHistory = ({ matches, player }) => {
           >
             Amistosos
           </button>
+          {/* --- NOVA ABA DE CAMPEONATO AQUI --- */}
+          <button
+            className={`adr-tab-btn ${activeTab === "CAMPEONATO" ? "active" : ""}`}
+            onClick={() => setActiveTab("CAMPEONATO")}
+          >
+            Campeonatos
+          </button>
         </div>
       </div>
 
@@ -164,7 +171,7 @@ const MatchHistory = ({ matches, player }) => {
                 </div>
 
                 <div className="adr-match-main">
-                  {/* Nome Time A (Sempre visível no Desktop, some no Mobile via CSS) */}
+                  {/* Nome Time A */}
                   <span
                     className={`adr-team-name team-a ${isTeamA ? "highlight" : ""}`}
                   >
