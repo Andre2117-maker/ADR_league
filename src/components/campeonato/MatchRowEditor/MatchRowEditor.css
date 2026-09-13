@@ -82,13 +82,36 @@
   cursor: not-allowed;
 }
 
-/* Ajuste específico para Celulares */
-@media (max-width: 500px) {
-  .match-edit-row {
-    gap: 10px;
+/* =========================================
+   RESPONSIVIDADE: CELULARES (Até 768px) - TABELA COM SCROLL
+========================================= */
+@media (max-width: 768px) {
+  .camp-groups-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
-  .match-save-btn {
-    width: 100%; /* No celular, o botão cai pra linha de baixo ocupando tudo */
-    margin-top: 5px;
+
+  /* 1. A MÁGICA ACONTECE NO WRAPPER (CAIXA DE FORA)! */
+  .camp-group-table-wrapper {
+    overflow-x: auto !important; /* Libera o scroll horizontal na caixa */
+    -webkit-overflow-scrolling: touch; /* Deixa o deslizar do dedo suave nos celulares */
+  }
+
+  /* 2. A tabela continua sendo tabela, mas a gente obriga ela a ser larga */
+  .camp-table {
+    display: table; /* Volta ao comportamento normal */
+    width: 100%;
+    min-width: 520px; /* Força a tabela a ser mais larga que a tela do celular */
+  }
+
+  /* 3. Ajuste fino de fonte para leitura */
+  .camp-table th,
+  .camp-table td {
+    font-size: 0.85rem;
+    padding: 12px 6px;
+  }
+
+  .camp-table td.team-name {
+    padding-left: 10px;
   }
 }
