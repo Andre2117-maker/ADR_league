@@ -252,7 +252,13 @@ function App() {
 
           <Route
             path="/campeonato"
-            element={<Campeonato matches="{matches}" players="{players}" />}
+            element={
+              <Campeonato
+                matches="{matches}"
+                players="{players}"
+                isAdmin={isAdmin}
+              />
+            }
           />
 
           <Route

@@ -1,0 +1,132 @@
+/* =========================================
+   FASE DE GRUPOS (GRID) - CORRIGIDO
+========================================= */
+.camp-content-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.camp-groups-layout {
+  display: grid;
+  /* Aumentei o tamanho mínimo para a tabela inteira respirar e caber todas as colunas */
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.camp-group-table-wrapper {
+  background: linear-gradient(180deg, #15181e 0%, #0d0f12 100%);
+  border: 1px solid #2a3241;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  overflow-x: hidden; /* Remove aquela barra de rolagem horizontal indesejada */
+}
+
+.camp-group-title {
+  color: #d4af37;
+  text-align: center;
+  margin: 0;
+  padding: 18px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid #2a3241;
+}
+
+.camp-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Força as colunas a dividirem o espaço perfeitamente */
+}
+
+/* Larguras inteligentes para as colunas */
+.camp-table th:nth-child(1),
+.camp-table td:nth-child(1) {
+  width: 45%;
+} /* Nome do time ganha mais espaço */
+.camp-table th:nth-child(2),
+.camp-table td:nth-child(2) {
+  width: 11%;
+} /* Pts */
+.camp-table th:nth-child(3),
+.camp-table td:nth-child(3) {
+  width: 11%;
+} /* J */
+.camp-table th:nth-child(4),
+.camp-table td:nth-child(4) {
+  width: 11%;
+} /* V */
+.camp-table th:nth-child(5),
+.camp-table td:nth-child(5) {
+  width: 11%;
+} /* E */
+.camp-table th:nth-child(6),
+.camp-table td:nth-child(6) {
+  width: 11%;
+} /* D */
+.camp-table th:nth-child(7),
+.camp-table td:nth-child(7) {
+  width: 11%;
+} /* SG */
+
+.camp-table th {
+  color: #888;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  padding: 12px 2px;
+  border-bottom: 1px solid #2a3241;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: center;
+}
+
+.camp-table td {
+  padding: 14px 2px;
+  text-align: center;
+  border-bottom: 1px solid #1a1e24;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.camp-table td.team-name {
+  text-align: left;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Coloca reticências caso o nome estoure */
+  padding-left: 12px;
+}
+
+.camp-table td .pos {
+  color: #666;
+  margin-right: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.camp-table tr.qualified td {
+  background: rgba(0, 255, 127, 0.03);
+}
+.camp-table tr.qualified td.team-name {
+  color: #00ff7f;
+  text-shadow: 0 0 10px rgba(0, 255, 127, 0.2);
+}
+.camp-table tr.qualified td .pos {
+  color: #00ff7f;
+}
+.camp-table .bold.highlight {
+  color: #d4af37;
+  font-weight: 900;
+  font-size: 1.05rem;
+}
+.matches-dropdown {
+  padding: 20px 15px;
+  box-shadow: inset 0 10px 15px rgba(0, 0, 0, 0.5);
+  border-left: 4px solid #d4af37;
+  width: 100%;
+  box-sizing: border-box; /* ISSO IMPEDE O VAZAMENTO PARA A DIREITA */
+}

@@ -1,53 +1,190 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "../styles/Campeonato/campeonato.css";
 import LogoADR from "../assets/logo.png";
-import {
-  faseGrupos2023,
-  bracket2023,
-  bracketMockGenerico,
-} from "../data/ed2023";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
-export default function Campeonato({ matches = [], players = [] }) {
-  // 1. EXTRAIR OS ANOS DISPONÍVEIS
+// Importando os componentes modulares
+import FaseGrupos from "../components/campeonato/FaseGrupos/FaseGrupos";
+import AdminConfig from "../components/campeonato/ADMINCONFIG/AdminConfig";
+import MataMata from "../components/campeonato/MataMata/MataMata";
+
+export default function Campeonato({ isAdmin }) {
+  const [partidas, setPartidas] = useState([]);
+  const [configs, setConfigs] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [selectedYear, setSelectedYear] = useState("2026");
+  const [activeTab, setActiveTab] = useState("GRUPOS");
+
+  const loadData = async () => {
+    try {
+      const partidasSnap = await getDocs(collection(db, "partidas_campeonato"));
+      const dadosPartidas = partidasSnap.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      const configsSnap = await getDocs(collection(db, "campeonatos_config"));
+      const dadosConfigs = {};
+      configsSnap.forEach((doc) => {
+        dadosConfigs[doc.id] = doc.data();
+      });
+
+      setPartidas(dadosPartidas);
+      setConfigs(dadosConfigs);
+    } catch (error) {
+      console.error("Erro ao buscar dados do Firebase:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   const anosDisponiveis = useMemo(() => {
-    const years = new Set(["2023"]);
+    const years = new Set([
+      ...partidas.map((p) => p.ano).filter(Boolean),
+      ...Object.keys(configs),
+    ]);
+    if (years.size === 0) return ["2026"];
+    return Array.from(years).sort((a, b) => b - a);
+  }, [partidas, configs]);
 
-    if (matches && Array.isArray(matches)) {
-      matches.forEach((m) => {
-        if ((m.type || "").toUpperCase() === "CAMPEONATO" && m.date) {
-          const year = m.date.substring(0, 4);
-          years.add(year);
-        }
+  useEffect(() => {
+    if (anosDisponiveis.length > 0 && !anosDisponiveis.includes(selectedYear)) {
+      setSelectedYear(anosDisponiveis[0]);
+    }
+  }, [anosDisponiveis, selectedYear]);
+
+  // CÉREBRO: Monta a tabela matematicamente
+  const tabelaGrupos = useMemo(() => {
+    const tabela = {};
+    const configAtual = configs[selectedYear];
+
+    if (configAtual && configAtual.grupos) {
+      Object.keys(configAtual.grupos).forEach((nomeGrupo) => {
+        tabela[nomeGrupo] = {};
+        configAtual.grupos[nomeGrupo].forEach((time) => {
+          tabela[nomeGrupo][time] = {
+            nome: time,
+            pts: 0,
+            j: 0,
+            v: 0,
+            e: 0,
+            d: 0,
+            gp: 0,
+            gc: 0,
+            sg: 0,
+          };
+        });
       });
     }
 
-    return Array.from(years).sort((a, b) => b - a);
-  }, [matches]);
+    const jogosDoAno = partidas.filter(
+      (p) => p.ano === selectedYear && p.fase === "GRUPOS",
+    );
 
-  const [selectedYear, setSelectedYear] = useState(
-    anosDisponiveis[0] || "2026",
-  );
-  const [activeTab, setActiveTab] = useState("GRUPOS");
+    jogosDoAno.forEach((jogo) => {
+      const { grupo, timeA, timeB, placarA, placarB, finalizado } = jogo;
+      if (!grupo) return;
 
-  const handleYearChange = (ano) => {
-    setSelectedYear(ano);
-  };
+      if (!tabela[grupo]) tabela[grupo] = {};
+      if (!tabela[grupo][timeA])
+        tabela[grupo][timeA] = {
+          nome: timeA,
+          pts: 0,
+          j: 0,
+          v: 0,
+          e: 0,
+          d: 0,
+          gp: 0,
+          gc: 0,
+          sg: 0,
+        };
+      if (!tabela[grupo][timeB])
+        tabela[grupo][timeB] = {
+          nome: timeB,
+          pts: 0,
+          j: 0,
+          v: 0,
+          e: 0,
+          d: 0,
+          gp: 0,
+          gc: 0,
+          sg: 0,
+        };
 
-  // Função inteligente para descobrir o vencedor (Aceita "W", Placar e Pênaltis "1(3)")
-  const checkWinner = (scoreA, scoreB) => {
-    if (scoreA === "W") return true;
-    if (scoreA === "-" || !scoreA) return false;
+      if (finalizado) {
+        tabela[grupo][timeA].j += 1;
+        tabela[grupo][timeB].j += 1;
 
-    // Lógica para pênaltis ex: "1(3)" vs "1(2)"
-    if (String(scoreA).includes("(") && String(scoreB).includes("(")) {
-      const penA = parseInt(String(scoreA).split("(")[1]);
-      const penB = parseInt(String(scoreB).split("(")[1]);
-      return penA > penB;
-    }
+        const vitA = placarA === "W" || placarB === "L";
+        const vitB = placarB === "W" || placarA === "L";
+        const golsA = parseInt(placarA) || 0;
+        const golsB = parseInt(placarB) || 0;
 
-    // Placar normal
-    return parseInt(scoreA) > parseInt(scoreB);
-  };
+        if (vitA || (!vitB && golsA > golsB)) {
+          tabela[grupo][timeA].pts += 3;
+          tabela[grupo][timeA].v += 1;
+          tabela[grupo][timeB].d += 1;
+        } else if (vitB || (!vitA && golsB > golsA)) {
+          tabela[grupo][timeB].pts += 3;
+          tabela[grupo][timeB].v += 1;
+          tabela[grupo][timeA].d += 1;
+        } else if (
+          golsA === golsB &&
+          !vitA &&
+          !vitB &&
+          placarA !== "-" &&
+          placarB !== "-"
+        ) {
+          tabela[grupo][timeA].pts += 1;
+          tabela[grupo][timeA].e += 1;
+          tabela[grupo][timeB].pts += 1;
+          tabela[grupo][timeB].e += 1;
+        }
+
+        if (
+          !vitA &&
+          !vitB &&
+          placarA !== "W" &&
+          placarB !== "W" &&
+          placarA !== "L" &&
+          placarB !== "L" &&
+          placarA !== "-" &&
+          placarB !== "-"
+        ) {
+          tabela[grupo][timeA].gp += golsA;
+          tabela[grupo][timeA].gc += golsB;
+          tabela[grupo][timeB].gp += golsB;
+          tabela[grupo][timeB].gc += golsA;
+        }
+        tabela[grupo][timeA].sg =
+          tabela[grupo][timeA].gp - tabela[grupo][timeA].gc;
+        tabela[grupo][timeB].sg =
+          tabela[grupo][timeB].gp - tabela[grupo][timeB].gc;
+      }
+    });
+
+    const tabelaOrdenada = {};
+    Object.keys(tabela).forEach((g) => {
+      tabelaOrdenada[g] = Object.values(tabela[g]).sort(
+        (a, b) => b.pts - a.pts || b.sg - a.sg || b.gp - a.gp,
+      );
+    });
+    return tabelaOrdenada;
+  }, [partidas, configs, selectedYear]);
+
+  if (loading)
+    return (
+      <div style={{ color: "#fff", textAlign: "center", marginTop: "50px" }}>
+        Carregando banco de dados... ⏳
+      </div>
+    );
+
+  const qtdClassificados = configs[selectedYear]?.vagasClassificacao || 2;
 
   return (
     <div className="camp-page-wrapper">
@@ -56,20 +193,18 @@ export default function Campeonato({ matches = [], players = [] }) {
         <h1 className="camp-title">CAMPEONATOS DO ADR</h1>
       </div>
 
-      {/* SELETOR DE ANO DINÂMICO */}
       <div className="camp-years-container">
         {anosDisponiveis.map((ano) => (
           <button
             key={ano}
             className={`camp-year-btn ${selectedYear === ano ? "active" : ""}`}
-            onClick={() => handleYearChange(ano)}
+            onClick={() => setSelectedYear(ano)}
           >
             Edição {ano}
           </button>
         ))}
       </div>
 
-      {/* ABAS */}
       <div className="camp-tabs">
         <button
           className={`camp-tab-btn ${activeTab === "GRUPOS" ? "active" : ""}`}
@@ -83,315 +218,43 @@ export default function Campeonato({ matches = [], players = [] }) {
         >
           Mata-Mata (Bracket)
         </button>
+
+        {/* O BOTÃO DE CONFIGURAR SÓ APARECE PARA O ADMIN */}
+        {isAdmin && (
+          <button
+            className={`camp-tab-btn ${activeTab === "CONFIG" ? "active" : ""}`}
+            style={{ color: "#ff47a3" }}
+            onClick={() => setActiveTab("CONFIG")}
+          >
+            ⚙️ Configurar (Admin)
+          </button>
+        )}
       </div>
 
       <div className="camp-content-area">
-        {/* ================= FASE DE GRUPOS ================= */}
         {activeTab === "GRUPOS" && (
-          <div className="camp-groups-layout">
-            {selectedYear === "2023" ? (
-              Object.keys(faseGrupos2023).map((grupo) => (
-                <div key={grupo} className="camp-group-table-wrapper">
-                  <h2 className="camp-group-title">
-                    Grupo {grupo} (Histórico 2023)
-                  </h2>
-                  <table className="camp-table">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Pts</th>
-                        <th>J</th>
-                        <th>V</th>
-                        <th>E</th>
-                        <th>D</th>
-                        <th>SG</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {faseGrupos2023[grupo].map((time, idx) => (
-                        <tr key={idx} className={idx < 3 ? "qualified" : ""}>
-                          <td className="team-name">
-                            <span className="pos">{idx + 1}</span> {time.nome}
-                          </td>
-                          <td className="bold highlight">{time.pts}</td>
-                          <td>{time.j}</td>
-                          <td>{time.v}</td>
-                          <td>{time.e}</td>
-                          <td>{time.d}</td>
-                          <td>{time.sg}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <p
-                    style={{
-                      textAlign: "center",
-                      fontSize: "0.8rem",
-                      color: "#888",
-                      marginTop: "15px",
-                    }}
-                  >
-                    *Detalhes exatos perdidos nos registros antigos.
-                  </p>
-                </div>
-              ))
-            ) : (
-              <div
-                style={{ textAlign: "center", color: "#888", padding: "40px" }}
-              >
-                <h2>Grupos de {selectedYear} em construção...</h2>
-                <p>
-                  Assim que tivermos os dados do banco, eles aparecerão aqui.
-                </p>
-              </div>
-            )}
-          </div>
+          <FaseGrupos
+            tabelaGrupos={tabelaGrupos}
+            qtdClassificados={qtdClassificados}
+            selectedYear={selectedYear}
+            partidas={partidas}
+            loadData={loadData}
+            isAdmin={isAdmin}
+          />
         )}
 
-        {/* ================= MATA-MATA (BRACKET DINÂMICO) ================= */}
         {activeTab === "MATAMATA" && (
-          <div className="camp-bracket-container">
-            {(() => {
-              const currentBracket =
-                selectedYear === "2023" ? bracket2023 : bracketMockGenerico;
+          <MataMata
+            selectedYear={selectedYear}
+            partidasMataMata={partidas}
+            tabelaGrupos={tabelaGrupos}
+            loadData={loadData}
+            isAdmin={isAdmin}
+          />
+        )}
 
-              if (!currentBracket) return null;
-
-              return (
-                <>
-                  {/* === OITAVAS DE FINAL === */}
-                  {currentBracket.oitavas &&
-                    currentBracket.oitavas.length > 0 && (
-                      <>
-                        <div className="bracket-column oitavas">
-                          <h3 className="bracket-round-title">
-                            Oitavas de Final
-                          </h3>
-                          <div className="bracket-matches-wrapper">
-                            {currentBracket.oitavas.map((match) => (
-                              <div key={match.id} className="bracket-match">
-                                <div className="bracket-date">{match.date}</div>
-                                <div
-                                  className={`bracket-team ${checkWinner(match.score1, match.score2) ? "winner" : ""}`}
-                                >
-                                  <span>{match.team1}</span>
-                                  <span className="bracket-score">
-                                    {match.score1}
-                                  </span>
-                                </div>
-                                <div
-                                  className={`bracket-team ${checkWinner(match.score2, match.score1) ? "winner" : ""}`}
-                                >
-                                  <span>{match.team2}</span>
-                                  <span className="bracket-score">
-                                    {match.score2}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Conectores Oitavas -> Quartas (4 pares) */}
-                        <div className="bracket-column-connectors">
-                          <h3
-                            className="bracket-round-title"
-                            style={{ opacity: 0 }}
-                          >
-                            -
-                          </h3>
-                          <div className="bracket-matches-wrapper">
-                            {[...Array(4)].map((_, i) => (
-                              <div
-                                key={i}
-                                className="bracket-connector oitavas-to-quartas"
-                              >
-                                <div className="line top-line"></div>
-                                <div className="line bottom-line"></div>
-                                <div className="line center-line"></div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                  {/* === QUARTAS DE FINAL === */}
-                  {currentBracket.quartas &&
-                    currentBracket.quartas.length > 0 && (
-                      <>
-                        <div className="bracket-column quartas">
-                          <h3 className="bracket-round-title">Quartas</h3>
-                          <div className="bracket-matches-wrapper">
-                            {currentBracket.quartas.map((match) => (
-                              <div key={match.id} className="bracket-match">
-                                <div className="bracket-date">{match.date}</div>
-                                <div
-                                  className={`bracket-team ${checkWinner(match.score1, match.score2) ? "winner" : ""}`}
-                                >
-                                  <span>{match.team1}</span>
-                                  <span className="bracket-score">
-                                    {match.score1}
-                                  </span>
-                                </div>
-                                <div
-                                  className={`bracket-team ${checkWinner(match.score2, match.score1) ? "winner" : ""}`}
-                                >
-                                  <span>{match.team2}</span>
-                                  <span className="bracket-score">
-                                    {match.score2}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Conectores Quartas -> Semis (2 pares) */}
-                        <div className="bracket-column-connectors">
-                          <h3
-                            className="bracket-round-title"
-                            style={{ opacity: 0 }}
-                          >
-                            -
-                          </h3>
-                          <div className="bracket-matches-wrapper">
-                            {[...Array(2)].map((_, i) => (
-                              <div
-                                key={i}
-                                className="bracket-connector quartas-to-semis"
-                              >
-                                <div className="line top-line"></div>
-                                <div className="line bottom-line"></div>
-                                <div className="line center-line"></div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                  {/* === SEMIFINAIS === */}
-                  {currentBracket.semis && currentBracket.semis.length > 0 && (
-                    <>
-                      <div className="bracket-column semis">
-                        <h3 className="bracket-round-title">Semifinais</h3>
-                        <div className="bracket-matches-wrapper">
-                          {currentBracket.semis.map((match) => (
-                            <div key={match.id} className="bracket-match">
-                              <div className="bracket-date">{match.date}</div>
-                              <div
-                                className={`bracket-team ${checkWinner(match.score1, match.score2) ? "winner" : ""}`}
-                              >
-                                <span>{match.team1}</span>
-                                <span className="bracket-score">
-                                  {match.score1}
-                                </span>
-                              </div>
-                              <div
-                                className={`bracket-team ${checkWinner(match.score2, match.score1) ? "winner" : ""}`}
-                              >
-                                <span>{match.team2}</span>
-                                <span className="bracket-score">
-                                  {match.score2}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Conector Semis -> Final (1 par) */}
-                      <div className="bracket-column-connectors">
-                        <h3
-                          className="bracket-round-title"
-                          style={{ opacity: 0 }}
-                        >
-                          -
-                        </h3>
-                        <div className="bracket-matches-wrapper">
-                          <div className="bracket-connector semis-to-final">
-                            <div className="line top-line"></div>
-                            <div className="line bottom-line"></div>
-                            <div className="line center-line"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {/* === GRANDE FINAL === */}
-                  {currentBracket.final && (
-                    <>
-                      <div className="bracket-column final">
-                        <h3
-                          className="bracket-round-title"
-                          style={{ color: "#d4af37" }}
-                        >
-                          Grande Final
-                        </h3>
-                        <div className="bracket-matches-wrapper">
-                          <div className="bracket-match gold-border">
-                            <div className="bracket-date">
-                              {currentBracket.final.date}
-                            </div>
-                            <div
-                              className={`bracket-team ${checkWinner(currentBracket.final.score1, currentBracket.final.score2) ? "winner" : ""}`}
-                            >
-                              <span>{currentBracket.final.team1}</span>
-                              <span className="bracket-score">
-                                {currentBracket.final.score1}
-                              </span>
-                            </div>
-                            <div
-                              className={`bracket-team ${checkWinner(currentBracket.final.score2, currentBracket.final.score1) ? "winner" : ""}`}
-                            >
-                              <span>{currentBracket.final.team2}</span>
-                              <span className="bracket-score">
-                                {currentBracket.final.score2}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Conector Campeão */}
-                      <div className="bracket-column-connectors">
-                        <h3
-                          className="bracket-round-title"
-                          style={{ opacity: 0 }}
-                        >
-                          -
-                        </h3>
-                        <div className="bracket-matches-wrapper">
-                          <div className="bracket-connector final-to-champ">
-                            <div className="line center-line"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {/* === CAMPEÃO === */}
-                  {currentBracket.campeao && (
-                    <div className="bracket-column champion">
-                      <h3
-                        className="bracket-round-title"
-                        style={{ color: "#d4af37" }}
-                      >
-                        Campeão
-                      </h3>
-                      <div className="bracket-matches-wrapper">
-                        <div className="champion-box">
-                          👑 {currentBracket.campeao}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </>
-              );
-            })()}
-          </div>
+        {activeTab === "CONFIG" && isAdmin && (
+          <AdminConfig loadData={loadData} />
         )}
       </div>
     </div>

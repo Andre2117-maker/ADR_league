@@ -1,0 +1,212 @@
+/* =========================================
+   PAINEL DE CONFIGURAÇÃO (ADMIN)
+========================================= */
+.camp-admin-container {
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #222;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.camp-admin-title {
+  color: #d4af37;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.camp-admin-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.camp-admin-row.align-end {
+  align-items: flex-end;
+}
+
+.camp-admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.camp-admin-field label {
+  color: #888;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.camp-admin-container input,
+.camp-admin-container select {
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.camp-admin-container input:focus,
+.camp-admin-container select:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.camp-admin-input-flex {
+  flex: 1;
+  min-width: 200px;
+}
+
+.camp-admin-divider {
+  border: 0;
+  height: 1px;
+  background: #222;
+  margin: 30px 0;
+}
+
+/* ================= BOTOES ADMIN ================= */
+.camp-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camp-btn-dark {
+  background: #222;
+  color: #ddd;
+  border: 1px solid #333;
+}
+.camp-btn-dark:hover {
+  background: #333;
+  color: #fff;
+  border-color: #d4af37;
+}
+.camp-btn-pink {
+  background: #ff47a3;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(255, 71, 163, 0.3);
+}
+.camp-btn-pink:hover {
+  background: #ff2a90;
+  box-shadow: 0 4px 15px rgba(255, 71, 163, 0.5);
+  transform: translateY(-2px);
+}
+.camp-btn-save {
+  width: 100%;
+  background: #00ff7f;
+  color: #000;
+  font-size: 1.1rem;
+  font-weight: 900;
+  padding: 18px;
+  margin-top: 10px;
+  box-shadow: 0 5px 15px rgba(0, 255, 127, 0.2);
+}
+.camp-btn-save:hover {
+  background: #00e673;
+  box-shadow: 0 5px 20px rgba(0, 255, 127, 0.4);
+  transform: translateY(-3px);
+}
+
+/* ================= GRID DE GRUPOS CRIADOS ================= */
+.camp-admin-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.camp-admin-group-card {
+  background: #151515;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.camp-admin-group-card h4 {
+  color: #d4af37;
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid #222;
+  padding-bottom: 10px;
+}
+
+.camp-admin-group-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #bbb;
+}
+.camp-admin-group-card li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+.empty-msg {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+.camp-admin-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #222;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.camp-admin-group-header h4 {
+  margin: 0 !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+.btn-delete-group {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+  padding: 0;
+}
+.btn-delete-group:hover {
+  transform: scale(1.2);
+}
+.camp-admin-team-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.btn-delete-team {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  transition: color 0.2s;
+  padding: 0 5px;
+}
+.btn-delete-team:hover {
+  color: #ff4d4d;
+}

@@ -1,0 +1,94 @@
+/* =========================================
+   MINI-FORMULÁRIO DE RESULTADOS (TUDO À ESQUERDA)
+========================================= */
+.match-edit-row {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* O SEGREDO: Joga tudo pro canto esquerdo! */
+  gap: 15px; /* Espaço uniforme entre cada elemento */
+  background: #11141a;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #2a3241;
+  width: 90%;
+  box-sizing: border-box;
+  flex-wrap: wrap; /* Proteção extra para telas minúsculas */
+}
+
+.match-team-name {
+  font-weight: bold;
+  color: #aaa;
+  font-size: 0.95rem;
+  width: 45px; /* Tamanho exato e fixo para as 3 letras da sigla */
+  white-space: nowrap;
+}
+
+.align-right {
+  text-align: right;
+}
+.align-left {
+  text-align: left;
+}
+
+.match-score-input {
+  width: 45px;
+  height: 38px;
+  text-align: center;
+  background: #08090a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 1rem;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.match-score-input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  outline: none;
+}
+
+.match-vs {
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.match-save-btn {
+  background: #1a1e24;
+  color: #00ff7f;
+  border: 1px solid #2a3241;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.match-save-btn:hover {
+  background: #00ff7f;
+  color: #000;
+  border-color: #00ff7f;
+}
+
+.match-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ajuste específico para Celulares */
+@media (max-width: 500px) {
+  .match-edit-row {
+    gap: 10px;
+  }
+  .match-save-btn {
+    width: 100%; /* No celular, o botão cai pra linha de baixo ocupando tudo */
+    margin-top: 5px;
+  }
+}

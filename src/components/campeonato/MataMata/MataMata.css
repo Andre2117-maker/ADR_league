@@ -1,0 +1,165 @@
+.camp-bracket-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 15px;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.bracket-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px; /* Reduzido levemente para encolher a coluna */
+  flex: 1;
+}
+
+.bracket-round-title {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.bracket-matches-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Reduzido o espaço entre os cards */
+}
+
+.bracket-match {
+  background: #11141a;
+  border: 1px solid #2a3241;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  padding: 8px; /* Card mais compacto */
+}
+
+.bracket-date {
+  background: #08090a;
+  color: #d4af37;
+  font-size: 0.65rem;
+  text-align: center;
+  padding: 4px;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bracket-team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px; /* Mais compacto */
+}
+
+.bracket-team-select {
+  flex: 1;
+  background: #1a1e24;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 6px 8px; /* Reduzido a altura interna */
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.8rem; /* Fonte um pouco menor */
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bracket-team-select:focus {
+  border-color: #d4af37;
+}
+
+.bracket-team-label {
+  flex: 1;
+  background: #15181e;
+  color: #ccc;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bracket-score-input {
+  width: 40px; /* Reduzido de 45px para 40px */
+  height: 30px; /* Reduzido de 35px para 30px */
+  text-align: center;
+  background: #08090a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.bracket-score-input:focus {
+  border-color: #d4af37;
+  outline: none;
+}
+
+.bracket-save-btn {
+  width: 100%;
+  background: #1a1e24;
+  color: #00ff7f;
+  border: 1px solid #2a3241;
+  padding: 6px; /* Botão mais fino */
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.75rem;
+  transition: 0.2s;
+  margin-top: 4px;
+}
+
+.bracket-save-btn:hover {
+  background: #00ff7f;
+  color: #000;
+}
+
+.bracket-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* --- DESTAQUE DOS VENCEDORES --- */
+
+.bracket-team-label.winner {
+  color: #ffd700; /* Dourado forte */
+  font-weight: 900;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.bracket-score-input.winner {
+  color: #00ff7f; /* Verde neon para o placar vitorioso */
+  border-color: #00ff7f;
+  background: rgba(0, 255, 127, 0.1);
+  box-shadow: 0 0 8px rgba(0, 255, 127, 0.2);
+}
+
+/* Deixa o time perdedor um pouco mais apagado para dar contraste */
+.bracket-team-label.loser {
+  color: #666;
+  opacity: 0.7;
+}
+.bracket-score-input.loser {
+  color: #666;
+  border-color: #333;
+  opacity: 0.7;
+}

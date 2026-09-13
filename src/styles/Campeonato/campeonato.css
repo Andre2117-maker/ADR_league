@@ -2,16 +2,16 @@
    WRAPPER PRINCIPAL
 ========================================= */
 .camp-page-wrapper {
-  padding: 110px 20px 60px; /* Padding extra no topo por causa da Nav */
+  padding: 110px 20px 60px;
   min-height: 100vh;
-  background-color: #000; /* Fundo padrão do site */
+  background-color: #000;
   color: #fff;
   font-family: "Segoe UI", Roboto, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E");
-  background-size: 60px 60px; /* Isso controla o espaçamento entre os grupos de '+' */
+  background-size: 60px 60px;
   background-attachment: fixed;
   background-position: center;
 }
@@ -100,99 +100,18 @@
 }
 
 /* =========================================
-   FASE DE GRUPOS (GRID)
-========================================= */
-.camp-content-area {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.camp-groups-layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 25px;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.camp-group-table-wrapper {
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-  overflow-x: auto;
-}
-
-.camp-group-title {
-  color: #d4af37;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.camp-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 320px;
-}
-
-.camp-table th {
-  color: #777;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  padding: 10px 5px;
-  border-bottom: 2px solid #222;
-}
-
-.camp-table td {
-  padding: 14px 5px;
-  text-align: center;
-  border-bottom: 1px solid #1a1a1a;
-  font-size: 0.95rem;
-}
-
-.camp-table td.team-name {
-  text-align: left;
-  font-weight: 700;
-  color: #ddd;
-  white-space: nowrap;
-}
-
-.camp-table td .pos {
-  color: #555;
-  margin-right: 10px;
-  font-size: 0.85rem;
-  font-weight: bold;
-}
-
-.camp-table tr.qualified td.team-name {
-  color: #00ff7f;
-}
-
-.camp-table .bold.highlight {
-  color: #d4af37;
-  font-weight: 900;
-  font-size: 1.1rem;
-}
-
-/* =========================================
    BRACKET (MATA-MATA)
 ========================================= */
 .camp-bracket-container {
   display: flex;
-  align-items: stretch; /* Isso estica todas as colunas para terem a mesma altura */
+  align-items: stretch;
   justify-content: flex-start;
   gap: 10px;
   overflow-x: auto;
   padding: 20px;
   width: 100%;
   max-width: 1400px;
-  min-height: 800px; /* Garante espaço para a altura de 8 jogos (Oitavas) */
+  min-height: 800px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -202,15 +121,13 @@
   min-width: 250px;
   z-index: 2;
 }
-
 .bracket-matches-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-around; /* A mágica do alinhamento matemático */
-  flex: 1; /* Preenche a coluna inteira */
+  justify-content: space-around;
+  flex: 1;
   position: relative;
 }
-
 .bracket-round-title {
   text-align: center;
   color: #888;
@@ -220,7 +137,6 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
-
 .bracket-match {
   background: #151515;
   border: 1px solid #333;
@@ -229,12 +145,10 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-
 .bracket-match.gold-border {
   border-color: #d4af37;
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
-
 .bracket-date {
   background: #0d0d0d;
   color: #666;
@@ -244,7 +158,6 @@
   font-weight: bold;
   border-bottom: 1px solid #222;
 }
-
 .bracket-team {
   display: flex;
   justify-content: space-between;
@@ -254,22 +167,18 @@
   color: #888;
   align-items: center;
 }
-
 .bracket-team:last-child {
   border-bottom: none;
 }
-
 .bracket-team.winner {
   color: #fff;
   background: rgba(255, 255, 255, 0.02);
 }
-
 .bracket-team.winner .bracket-score {
   color: #d4af37;
   font-weight: 900;
   font-size: 1.1rem;
 }
-
 .bracket-score {
   background: #000;
   padding: 4px 10px;
@@ -278,7 +187,6 @@
   font-size: 1rem;
   border: 1px solid #333;
 }
-
 .champion-box {
   background: linear-gradient(135deg, #d4af37, #b8860b);
   color: #000;
@@ -291,9 +199,7 @@
   border: 2px solid #fff;
 }
 
-/* =========================================
-   CONECTORES VISUAIS DO BRACKET
-========================================= */
+/* CONECTORES VISUAIS DO BRACKET */
 .bracket-column-connectors {
   display: flex;
   flex-direction: column;
@@ -301,18 +207,10 @@
   flex-shrink: 0;
   z-index: 1;
 }
-
 .bracket-connector {
   position: relative;
   width: 100%;
 }
-
-/* 
-  As alturas matemáticas exatas para alinhar os centros! 
-  - Oitavas (8 times) para Quartas (4 times) = 12.5%
-  - Quartas (4 times) para Semis (2 times) = 25%
-  - Semis (2 times) para Final (1 time) = 50%
-*/
 .oitavas-to-quartas {
   height: 12.5%;
 }
@@ -325,7 +223,6 @@
 .final-to-champ {
   height: 100%;
 }
-
 .bracket-connector .top-line {
   position: absolute;
   top: 0;
@@ -336,7 +233,6 @@
   border-right: 2px solid #555;
   border-top-right-radius: 6px;
 }
-
 .bracket-connector .bottom-line {
   position: absolute;
   bottom: 0;
@@ -347,7 +243,6 @@
   border-right: 2px solid #555;
   border-bottom-right-radius: 6px;
 }
-
 .bracket-connector .center-line {
   position: absolute;
   top: 50%;
@@ -355,10 +250,8 @@
   width: 50%;
   height: 2px;
   background: #555;
-  transform: translateY(-50%); /* Centraliza 1px exato */
+  transform: translateY(-50%);
 }
-
-/* Linha reta pro campeão */
 .final-to-champ .center-line {
   left: 0;
   width: 100%;
@@ -366,12 +259,10 @@
   box-shadow: 0 0 5px #d4af37;
 }
 
-/* =========================================
-   RESPONSIVIDADE (MOBILE & TABLET)
-========================================= */
+/* RESPONSIVIDADE GERAL */
 @media (max-width: 768px) {
   .camp-page-wrapper {
-    padding: 90px 10px 40px;
+    padding: 130px 10px 40px;
   }
   .camp-title {
     font-size: 1.5rem;
@@ -379,12 +270,6 @@
   .camp-tabs {
     flex-wrap: wrap;
     justify-content: center;
-  }
-  .camp-groups-layout {
-    grid-template-columns: 1fr;
-  }
-  .camp-group-table-wrapper {
-    padding: 15px 10px;
   }
   .camp-bracket-container {
     padding: 10px 0;
