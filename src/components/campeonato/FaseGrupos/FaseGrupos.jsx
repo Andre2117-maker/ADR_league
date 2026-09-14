@@ -8,7 +8,7 @@ export default function FaseGrupos({
   selectedYear,
   partidas,
   loadData,
-  isAdmin, // <-- Já recebemos aqui
+  isAdmin,
 }) {
   const [expandedRow, setExpandedRow] = useState(null);
 
@@ -18,7 +18,7 @@ export default function FaseGrupos({
 
   if (Object.keys(tabelaGrupos).length === 0) {
     return (
-      <div style={{ textAlign: "center", color: "#888", padding: "40px" }}>
+      <div className="camp-empty-state">
         <h2>Nenhuma configuração para {selectedYear}.</h2>
       </div>
     );
@@ -26,7 +26,6 @@ export default function FaseGrupos({
 
   return (
     <div className="camp-groups-layout">
-      {/* ADICIONAMOS O .sort() AQUI PARA ORDENAR ALFABETICAMENTE */}
       {Object.keys(tabelaGrupos)
         .sort()
         .map((grupo) => (
@@ -68,34 +67,31 @@ export default function FaseGrupos({
                         <td>{time.sg}</td>
                       </tr>
 
-                      {/* CAIXA SUSPENSA COM OS JOGOS */}
                       {isExpanded && (
                         <tr className="expanded-matches-row">
                           <td colSpan="7">
                             <div className="matches-dropdown">
-                              <h4
-                                style={{
-                                  color: "#d4af37",
-                                  marginTop: 0,
-                                  marginBottom: "15px",
-                                  textAlign: "center",
-                                }}
-                              >
+                              <h4 className="camp-match-title">
                                 Lançar Resultados: {time.nome}
                               </h4>
+
                               {tabelaGrupos[grupo]
                                 .filter((t) => t.nome !== time.nome)
                                 .map((oponente) => (
-                                  <MatchRowEditor
+                                  <div
                                     key={oponente.nome}
-                                    ano={selectedYear}
-                                    grupo={grupo}
-                                    timeA={time.nome}
-                                    timeB={oponente.nome}
-                                    partidas={partidas}
-                                    reloadData={loadData}
-                                    isAdmin={isAdmin}
-                                  />
+                                    className="camp-match-item"
+                                  >
+                                    <MatchRowEditor
+                                      ano={selectedYear}
+                                      grupo={grupo}
+                                      timeA={time.nome}
+                                      timeB={oponente.nome}
+                                      partidas={partidas}
+                                      reloadData={loadData}
+                                      isAdmin={isAdmin}
+                                    />
+                                  </div>
                                 ))}
                             </div>
                           </td>

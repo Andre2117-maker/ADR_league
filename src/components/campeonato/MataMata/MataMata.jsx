@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import { db } from "../../../firebase";
 import "./MataMata.css";
 
@@ -9,23 +10,21 @@ export default function MataMata({
   tabelaGrupos,
   loadData,
   isAdmin,
-  configAtual, // <-- RECEBENDO A CONFIGURAÇÃO
+  configAtual,
 }) {
   const [loadingJogo, setLoadingJogo] = useState(null);
+  const navigate = useNavigate();
 
-  // Lê onde o mata-mata deve começar. Se não tiver configuração, assume "oitavas"
   const faseInicial = configAtual?.faseInicialMataMata || "oitavas";
 
-  // Lógica de visualização das colunas baseada na fase inicial
   const showOitavas = faseInicial === "oitavas";
   const showQuartas = faseInicial === "oitavas" || faseInicial === "quartas";
   const showSemis =
     faseInicial === "oitavas" ||
     faseInicial === "quartas" ||
     faseInicial === "semifinal";
-  const showFinal = true; // A final sempre aparece
+  const showFinal = true;
 
-  // 1. Extrai os classificados no formato curto: "1º A", "2º B", etc.
   const classificadosDinamicos = useMemo(() => {
     const lista = [];
     Object.keys(tabelaGrupos).forEach((grupoKey) => {
@@ -55,21 +54,25 @@ export default function MataMata({
       .toUpperCase();
 
     try {
-      await setDoc(doc(db, "partidas_campeonato", docId), {
-        ano: String(selectedYear),
-        fase: fase.toUpperCase(),
-        jogoId: String(jogoId),
-        timeA: String(tA || "A definir"),
-        timeB: String(tB || "A definir"),
-        placarA: String(sA || "").toUpperCase(),
-        placarB: String(sB || "").toUpperCase(),
-        finalizado: true,
-      });
+      await setDoc(
+        doc(db, "partidas_campeonato", docId),
+        {
+          ano: String(selectedYear),
+          fase: fase.toUpperCase(),
+          jogoId: String(jogoId),
+          timeA: String(tA || "A definir"),
+          timeB: String(tB || "A definir"),
+          placarA: String(sA || "").toUpperCase(),
+          placarB: String(sB || "").toUpperCase(),
+          finalizado: true,
+        },
+        { merge: true },
+      );
 
       await loadData();
     } catch (error) {
-      console.error("❌ ERRO AO SALVAR NO FIREBASE:", error);
-      alert("Erro ao salvar. Veja o console (F12).");
+      console.error("ERRO AO SALVAR NO FIREBASE:", error);
+      alert("Erro ao salvar.");
     } finally {
       setLoadingJogo(null);
     }
@@ -120,7 +123,7 @@ export default function MataMata({
     jogoId,
     defaultA,
     defaultB,
-    isFirstRound = false, // <-- Agora define se é a primeira fase a aparecer na tela
+    isFirstRound = false,
     jogoAnteriorA = null,
     jogoAnteriorB = null,
   }) => {
@@ -180,6 +183,45 @@ export default function MataMata({
       setScoreA(dadosSalvos.placarA || "");
       setScoreB(dadosSalvos.placarB || "");
     }, [finalTimeA, finalTimeB, dadosSalvos.placarA, dadosSalvos.placarB]);
+
+    const handleLinkMatch = async () => {
+      let rawId = prompt(
+        "Cole o ID da partida ou o link completo do calendário aqui:",
+      );
+
+      if (!rawId) return;
+
+      let extractedId = rawId.trim();
+      if (extractedId.includes("/") || extractedId.includes("http")) {
+        const parts = extractedId.split("/").filter(Boolean);
+        extractedId = parts[parts.length - 1];
+      }
+
+      const docId = `${selectedYear}_${fase}_${jogoId}`
+        .replace(/\s+/g, "")
+        .toUpperCase();
+
+      try {
+        await setDoc(
+          doc(db, "partidas_campeonato", docId),
+          {
+            ano: String(selectedYear),
+            fase: fase.toUpperCase(),
+            jogoId: String(jogoId),
+            timeA: String(timeA || "A definir"),
+            timeB: String(timeB || "A definir"),
+            linkedMatchId: extractedId,
+          },
+          { merge: true },
+        );
+
+        alert("🔗 Partida linkada com sucesso!");
+        await loadData();
+      } catch (error) {
+        console.error("Erro ao linkar:", error);
+        alert("Erro ao linkar a partida no banco de dados.");
+      }
+    };
 
     return (
       <div className="bracket-match">
@@ -262,13 +304,42 @@ export default function MataMata({
             {loadingJogo === jogoId ? "⏳" : "💾 Salvar"}
           </button>
         )}
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "5px",
+            marginTop: "10px",
+          }}
+        >
+          {dadosSalvos.linkedMatchId && (
+            <button
+              className="btn-match-center"
+              onClick={() => navigate(`/match/${dadosSalvos.linkedMatchId}`)}
+              style={{ fontSize: "0.7rem", padding: "4px 8px" }}
+            >
+              Ver mais
+            </button>
+          )}
+
+          {isAdmin && (
+            <button
+              className="btn-link-match"
+              onClick={handleLinkMatch}
+              title="Linkar com a partida oficial do calendário"
+              style={{ fontSize: "0.7rem", padding: "4px 8px" }}
+            >
+              🔗 Linkar Partida
+            </button>
+          )}
+        </div>
       </div>
     );
   };
 
   return (
     <div className="camp-bracket-container">
-      {/* OITAVAS DE FINAL */}
       {showOitavas && (
         <div className="bracket-column">
           <h3 className="bracket-round-title">Oitavas de Final</h3>
@@ -343,7 +414,6 @@ export default function MataMata({
         </div>
       )}
 
-      {/* QUARTAS DE FINAL */}
       {showQuartas && (
         <div className="bracket-column">
           <h3 className="bracket-round-title">Quartas de Final</h3>
@@ -388,7 +458,6 @@ export default function MataMata({
         </div>
       )}
 
-      {/* SEMIFINAIS */}
       {showSemis && (
         <div className="bracket-column">
           <h3 className="bracket-round-title">Semifinais</h3>
@@ -415,7 +484,6 @@ export default function MataMata({
         </div>
       )}
 
-      {/* GRANDE FINAL */}
       {showFinal && (
         <div className="bracket-column">
           <h3 className="bracket-round-title" style={{ color: "#d4af37" }}>

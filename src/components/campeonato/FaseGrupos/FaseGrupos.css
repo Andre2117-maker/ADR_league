@@ -182,3 +182,21 @@
     padding: 14px;
   }
 }
+.camp-empty-state {
+  text-align: center;
+  color: #888;
+  padding: 40px;
+}
+
+.camp-match-title {
+  color: #d4af37;
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.camp-match-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #333;
+}
