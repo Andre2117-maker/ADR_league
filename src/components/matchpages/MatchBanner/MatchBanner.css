@@ -1,0 +1,254 @@
+.psg-match-banner {
+  background: linear-gradient(135deg, #130924 0%, #050505 100%);
+  border-bottom: 2px solid #d4af37;
+  color: #fff;
+  padding: 90px 20px 20px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.psg-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 30px;
+}
+
+.psg-status {
+  background: #d4af37;
+  color: #000;
+  padding: 6px 12px;
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.psg-meta {
+  display: flex;
+  flex-direction: column;
+}
+.psg-date {
+  font-weight: 900;
+  font-size: 1rem;
+  color: #fff;
+}
+.psg-comp {
+  color: #8a2be2;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.psg-scoreboard {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.psg-team-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.psg-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+
+.psg-team-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.psg-name-score {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.psg-name-score h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.psg-score-num {
+  font-size: 2.6rem;
+  color: #d4af37;
+  font-weight: 900;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+}
+
+.psg-scorers {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #bbb;
+}
+.scorer-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.psg-timeline-toggle {
+  margin-top: 30px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #d4af37;
+  cursor: pointer;
+  padding: 8px 20px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.psg-timeline-toggle:hover {
+  background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.psg-timeline-dropdown {
+  background: #080808;
+  border-bottom: 1px solid #222;
+  padding: 20px 0;
+  width: 100%;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   PÊNALTIS (ESTILO TEXTO PSG)
+   ========================================================================== */
+.psg-penalties-text-box {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Alinhado à esquerda como na foto */
+  gap: 10px;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.pen-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pen-team.pen-winner {
+  font-weight: 900;
+  color: #ffffff; /* Vencedor com texto branco brilhante e negrito */
+}
+
+.pen-team.pen-loser {
+  font-weight: 500;
+  color: #8892a0; /* Perdedor com texto mais cinza e fino (apagado) */
+}
+
+.pen-divider {
+  color: #8892a0;
+  font-weight: 500;
+  margin: 0 2px;
+}
+
+/* No celular, dá uma leve reduzida na fonte para não quebrar a linha */
+@media (max-width: 768px) {
+  .psg-match-banner {
+    padding-top: 190px;
+  }
+  .psg-penalties-text-box {
+    font-size: 1rem;
+    justify-content: center; /* Centraliza no celular pra ficar mais harmônico */
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE MOBILE (CORRIGIDA)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .psg-scoreboard {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .psg-team-row {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center; /* Mantém a logo centralizada com o texto */
+  }
+}
+
+@media (max-width: 768px) {
+  .psg-match-banner {
+    padding-top: 190px;
+  }
+
+  /* O SEGREDO: Tirar o Flex e deixar o texto correr solto */
+  .psg-name-score {
+    display: block;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+
+  .psg-name-score h2 {
+    display: inline; /* O texto agora quebra naturalmente palavra por palavra */
+    font-size: 1.5rem;
+    margin-right: 8px;
+    vertical-align: baseline;
+  }
+
+  .psg-score-num {
+    display: inline-block; /* O número agora vai grudar no final do nome! */
+    font-size: 1.8rem;
+    vertical-align: baseline;
+  }
+
+  .psg-logo {
+    width: 50px;
+    height: 50px;
+    min-width: 50px; /* Impede a logo de ser "esmagada" ao lado de textos gigantes */
+  }
+
+  .psg-penalties-text-box {
+    font-size: 1rem;
+    justify-content: center;
+    flex-wrap: wrap; /* Garante que os pênaltis não quebrem o layout no celular */
+  }
+}

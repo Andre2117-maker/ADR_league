@@ -1,4 +1,5 @@
 import React from "react";
+import "./MatchStats.css";
 
 function MatchStats({ teamStats, teamAName, teamBName }) {
   if (!teamStats) return null;

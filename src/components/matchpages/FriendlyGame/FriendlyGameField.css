@@ -1,0 +1,260 @@
+/* ==========================================================================
+   1. LAYOUT GERAL DO AMISTOSO (CENTRALIZAÇÃO FORÇADA)
+   ========================================================================== */
+.friendly-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Força a ocupar a tela toda para centralizar */
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+/* Caixa de proteção para o campo poder girar sem quebrar a tela */
+.friendly-pitch-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Configuração do Campo base (Mobile = Vertical) */
+.friendly-pitch {
+  width: 100% !important;
+  max-width: 700px !important;
+  height: 140vw !important;
+  max-height: 1500px !important;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   A MÁGICA: CAMPO HORIZONTAL NO COMPUTADOR
+   ========================================================================== */
+@media (min-width: 900px) {
+  .friendly-pitch-container {
+    /* Essa é a "caixa" invisível. Tem que ter o mesmo tamanho que o campo terá depois de deitado */
+    width: 1000px;
+    height: 650px;
+    margin: 0px auto 0px auto; /* Mais respiro em volta do campo */
+  }
+
+  .friendly-pitch {
+    /* Invertemos as medidas! A largura do CSS vira a altura na tela. */
+    width: 650px !important; /* Altura visual do campo na tela */
+    height: 1000px !important; /* Comprimento visual do campo na tela */
+    transform: rotate(90deg); /* Deita o campo (Goleiro na esquerda) */
+    box-shadow: 10px -10px 30px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  /* DESGIRA OS JOGADORES para eles não ficarem deitados junto com a grama! */
+  .friendly-pitch .tactical-slot {
+    transform: translate(-50%, -50%) rotate(-90deg) !important;
+  }
+}
+
+/* ==========================================================================
+   2. LISTA DE ESCALAÇÃO VERTICAL ESPELHADA (FOTOS NO CENTRO)
+   ========================================================================== */
+.psg-vertical-lineup-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto;
+  background: transparent;
+  padding: 10px;
+}
+
+.psg-vertical-title {
+  text-align: center;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  letter-spacing: -1px;
+}
+
+/* Cabeçalho dos Times (Escudos) */
+.psg-vertical-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.team-header-side {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 45%;
+}
+
+.team-header-side.left {
+  justify-content: flex-end;
+  text-align: right;
+}
+.team-header-side.right {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.team-header-side img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.team-header-text {
+  display: flex;
+  flex-direction: column;
+}
+.th-name {
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+.th-form {
+  font-size: 0.9rem;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+/* Linhas Verticais */
+.psg-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* O SEGREDO ESTÁ AQUI: Este é o container das duas metades */
+.psg-v-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px; /* É esse gap que diz quão coladinhas as duas fotos ficam no meio */
+}
+
+.psg-v-side {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 45%;
+}
+
+/* O lado esquerdo empurra todo o conteúdo para encostar na direita (no meio da tela) */
+.psg-v-side.left {
+  justify-content: flex-end;
+}
+
+/* O lado direito começa do canto esquerdo dele (no meio da tela) - SEM ROW REVERSE! */
+.psg-v-side.right {
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.psg-v-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: #111;
+  object-fit: cover;
+}
+
+.psg-v-num {
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #fff;
+  width: 30px;
+  text-align: center;
+}
+
+.psg-v-pos {
+  font-size: 1rem;
+  color: #d4af37;
+  width: 40px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.psg-v-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #eee;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.psg-v-side.left .psg-v-name {
+  text-align: right;
+}
+.psg-v-side.right .psg-v-name {
+  text-align: left;
+}
+
+/* Silhuetas Oponentes */
+.shadow-opponent {
+  opacity: 0.15;
+  border: none;
+}
+.shadow-text {
+  opacity: 0.2;
+  color: #888;
+}
+
+.psg-vertical-subtitle {
+  text-align: center;
+  font-weight: 800;
+  color: #666;
+  margin: 50px 0 30px 0;
+  font-size: 1.2rem;
+  border-top: 1px solid #222;
+  padding-top: 20px;
+  letter-spacing: 1px;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .psg-v-row {
+    gap: 8px;
+  }
+  .psg-v-side {
+    gap: 6px;
+    width: 48%;
+  }
+
+  .psg-v-photo {
+    width: 35px;
+    height: 35px;
+  }
+  .psg-v-num {
+    font-size: 1rem;
+    width: 20px;
+  }
+  .psg-v-pos {
+    font-size: 0.75rem;
+    width: 30px;
+  }
+  .psg-v-name {
+    font-size: 0.85rem;
+  }
+
+  .psg-vertical-header {
+    gap: 15px;
+  }
+  .team-header-side img {
+    width: 45px;
+    height: 45px;
+  }
+  .th-name {
+    font-size: 1rem;
+  }
+}

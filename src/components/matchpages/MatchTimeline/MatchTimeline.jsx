@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
-import { PenaltiesResult } from "./PenaltyResult";
+import { PenaltiesResult } from "../PenaltyResult/PenaltyResult";
+import "./MatchTimeline.css";
 
 const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
   <div
@@ -200,7 +201,9 @@ const MatchTimeline = ({ events, players, match }) => {
                   style={{ display: "flex", alignItems: "center", gap: "4px" }}
                 >
                   {isInjured && (
-                    <span style={{ color: "#ff4444", fontSize: "12px" }}>➕</span>
+                    <span style={{ color: "#ff4444", fontSize: "12px" }}>
+                      ➕
+                    </span>
                   )}
                   <span style={{ color: "#ff4444", fontSize: "11px" }}>
                     ⬇️ {playerOut}
@@ -276,7 +279,9 @@ const MatchTimeline = ({ events, players, match }) => {
                     ⬇️ {playerOut}
                   </span>
                   {isInjured && (
-                    <span style={{ color: "#ff4444", fontSize: "12px" }}>➕</span>
+                    <span style={{ color: "#ff4444", fontSize: "12px" }}>
+                      ➕
+                    </span>
                   )}
                 </div>
                 <span style={{ color: "#44ff44", fontSize: "11px" }}>
@@ -295,7 +300,7 @@ const MatchTimeline = ({ events, players, match }) => {
   // ==========================================
   const unifiedTimeline = useMemo(() => {
     const validEvents = events || [];
-    
+
     // Função para transformar minutos como "45+2" em "45.2" para ordenação matemática correta
     const parseMinute = (minStr) => {
       if (!minStr) return 0;
@@ -304,7 +309,7 @@ const MatchTimeline = ({ events, players, match }) => {
     };
 
     let maxMin = 0;
-    
+
     // 1. Mapeamos os eventos reais para pegar o número de ordenação e achar o tempo máximo de jogo
     const parsedEvents = validEvents.map((e, index) => {
       const m = parseMinute(e.minute);
@@ -324,11 +329,11 @@ const MatchTimeline = ({ events, players, match }) => {
 
     // 3. Juntamos os eventos e os marcadores de tempo
     const unified = [...parsedEvents, ...markers];
-    
+
     // 4. Ordenamos tudo cronologicamente
     unified.sort((a, b) => {
       if (a.sortValue === b.sortValue) {
-        // Se um evento aconteceu exatamente no mesmo minuto do marcador (ex: gol aos 15'), 
+        // Se um evento aconteceu exatamente no mesmo minuto do marcador (ex: gol aos 15'),
         // o marcador visual de 15' aparece primeiro, depois o evento
         if (a.isMarker && !b.isMarker) return -1;
         if (!a.isMarker && b.isMarker) return 1;
@@ -363,7 +368,7 @@ const MatchTimeline = ({ events, players, match }) => {
           width: "100%",
           position: "relative",
           paddingBottom: "10px",
-          paddingTop: "10px", 
+          paddingTop: "10px",
         }}
       >
         {/* Linha vertical central */}
@@ -373,7 +378,7 @@ const MatchTimeline = ({ events, players, match }) => {
             top: "25px",
             bottom: "25px",
             left: "50%",
-            width: "2px", 
+            width: "2px",
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             transform: "translateX(-50%)",
             zIndex: 1,

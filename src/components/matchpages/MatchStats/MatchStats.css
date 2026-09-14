@@ -1,0 +1,90 @@
+.team-stats-card {
+  background: rgba(15, 15, 15, 0.95);
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 25px 30px;
+  margin: 0 auto 40px auto;
+  width: 95%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.stats-header-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 15px;
+}
+.team-name-a,
+.team-name-b {
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  width: 30%;
+}
+.team-name-a {
+  text-align: left;
+}
+.team-name-b {
+  text-align: right;
+}
+.stats-title-center {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  width: 40%;
+}
+
+.stats-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.text-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.stat-col.left {
+  justify-content: flex-start;
+}
+.stat-col.center {
+  justify-content: center;
+}
+.stat-col.right {
+  justify-content: flex-end;
+}
+
+.stat-label-text {
+  color: #bbb;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.stat-val {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+.stat-val.highlight-winner {
+  background: #d4af37;
+  color: #000;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  border-color: #f1c40f;
+}

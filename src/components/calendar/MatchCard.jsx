@@ -39,6 +39,7 @@ const MatchCard = ({
     ];
     return `${diasSemana[dateObj.getDay()]} ${d} ${mesesFull[dateObj.getMonth()]} ${y}`;
   };
+
   const getTeamScore = (teamLetter) => {
     if (!match.events) return 0;
     const opponentLetter = teamLetter === "A" ? "B" : "A";
@@ -48,6 +49,7 @@ const MatchCard = ({
         (e.type === "OWN_GOAL" && e.team === opponentLetter),
     ).length;
   };
+
   const hasStarted =
     match.status === "FINISHED" ||
     match.winner || // Se existe um vencedor definido, a partida já ocorreu
@@ -75,6 +77,13 @@ const MatchCard = ({
 
     return 0;
   };
+
+  // ==========================================
+  // TRATAMENTO DOS NOMES DOS TIMES (Fallback)
+  // ==========================================
+  const teamAName = match.teamA?.externalName || match.teamA?.name || "ADR";
+  const teamBName =
+    match.teamB?.externalName || match.teamB?.name || "Adversário";
 
   return (
     <div className="psg-match-card">
@@ -125,17 +134,18 @@ const MatchCard = ({
 
       {/* Cabeçalho do Card */}
       <div className="psg-card-top">
-        <span className="psg-comp-text">{match.type || "RODADA"}</span>
+        <span className="psg-comp-text">
+          {match.type || "RODADA"}
+          {/* AQUI ENTRA A FASE DO CAMPEONATO SE EXISTIR */}
+          {match.championshipPhase ? ` - ${match.championshipPhase}` : ""}
+        </span>
         {/* Área da Marca d'água Dinâmica */}
         <div className="psg-watermark-image">
           {match.type === "CAMPEONATO" ? (
-            // Ícone específico para o campeonato
             <img src="/trofeu.png" alt="Troféu Campeonato" />
           ) : match.type === "AMISTOSO" ? (
-            // Ícone de troféu para amistoso
             <img src="/Amistoso.png" alt="Troféu Amistoso" />
           ) : (
-            // Logo do ADR para treino ou outros
             <img src="/logo.png" alt="ADR" />
           )}
         </div>
@@ -148,10 +158,10 @@ const MatchCard = ({
           <div className="psg-team-info">
             <img
               src={match.teamA?.logo || "/logo.png"}
-              alt={match.teamA?.name || "ADR"}
+              alt={teamAName}
               className="psg-team-logo"
             />
-            <span className="psg-team-name">{match.teamA?.name || "ADR"}</span>
+            <span className="psg-team-name">{teamAName}</span>
           </div>
           <div className="psg-team-score">
             {hasStarted ? (
@@ -159,7 +169,6 @@ const MatchCard = ({
                 {scoreA}
                 {isTie && (
                   <small style={{ marginLeft: "5px", color: "#d4af37" }}>
-                    {/* Se o campo for nulo, indefinido ou string vazia, calcula o novo */}
                     (
                     {match.penaltiesScoreA != null &&
                     match.penaltiesScoreA !== ""
@@ -180,12 +189,10 @@ const MatchCard = ({
           <div className="psg-team-info">
             <img
               src={match.teamB?.logo || "/logo.png"}
-              alt={match.teamB?.name || "Adversário"}
+              alt={teamBName}
               className="psg-team-logo opp-logo"
             />
-            <span className="psg-team-name">
-              {match.teamB?.name || "Adversário"}
-            </span>
+            <span className="psg-team-name">{teamBName}</span>
           </div>
           {/* Placar do Time B ao lado */}
           <div className="psg-team-score">
@@ -194,7 +201,6 @@ const MatchCard = ({
                 {scoreB}
                 {isTie && (
                   <small style={{ marginLeft: "5px", color: "#d4af37" }}>
-                    {/* Se o campo for nulo, indefinido ou string vazia, calcula o novo */}
                     (
                     {match.penaltiesScoreB != null &&
                     match.penaltiesScoreB !== ""

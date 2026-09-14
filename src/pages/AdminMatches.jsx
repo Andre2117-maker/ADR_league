@@ -50,7 +50,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     const fetchVenues = async () => {
       try {
         const snap = await getDocs(collection(db, "locais"));
-        // Mapeia os documentos para extrair apenas o nome salvo
         const venuesList = snap.docs.map((doc) => doc.data().name);
         setSavedVenues(venuesList);
       } catch (err) {
@@ -63,11 +62,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
   const initialDate = useMemo(() => {
     if (matchToEdit?.date) return matchToEdit.date;
-
-    if (location.state?.initialDate) {
-      return location.state.initialDate;
-    }
-
+    if (location.state?.initialDate) return location.state.initialDate;
     return new Date().toISOString().split("T")[0];
   }, [matchToEdit, location.state]);
 
@@ -77,6 +72,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     return {
       date: initialDate,
       venue: "",
+      championshipPhase: "", // <-- NOVO ESTADO PARA A FASE
 
       teamA: {
         name: "ADR",
@@ -96,11 +92,8 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       },
 
       events: [],
-
       goldenGoalWinner: null,
-
       penaltiesWinner: null,
-
       penaltiesScoreA: "",
       penaltiesScoreB: "",
 
@@ -123,7 +116,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   useEffect(() => {
     const fetchPresets = async () => {
       const presets = await loadTeamPresets(draft.date);
-
       setTeamPresets(presets);
     };
 
@@ -153,7 +145,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       ...prev,
       penalties: {
         ...prev.penalties,
-        // Agora salvamos o objeto completo com os dados do cobrador
         [team]: [
           ...(prev.penalties?.[team] || []),
           { result, playerId, externalName },
@@ -165,15 +156,11 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const removePenalty = (team, index) => {
     setDraft((prev) => {
       const newList = [...(prev.penalties?.[team] || [])];
-
       newList.splice(index, 1);
-
       return {
         ...prev,
-
         penalties: {
           ...prev.penalties,
-
           [team]: newList,
         },
       };
@@ -188,7 +175,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     externalName = null,
     reason = "",
   ) => {
-    // Ao invés de salvar direto, abre o modal de minutagem
     setMinuteInput("");
     setPendingEvent({
       isSub: false,
@@ -198,7 +184,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   };
 
   const addSubEvent = (team, playerOutId, playerInId, reason) => {
-    // Ao invés de salvar direto, abre o modal de minutagem
     setMinuteInput("");
     setPendingEvent({
       isSub: true,
@@ -207,7 +192,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     setShowSubModal(null);
   };
 
-  // Esta função é chamada quando você clica em "Confirmar" no modal
   const finalizeEvent = () => {
     if (!pendingEvent) return;
 
@@ -224,7 +208,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             playerOutId,
             playerInId,
             reason,
-            minute: minuteInput, // <- Salva a minutagem aqui
+            minute: minuteInput,
             matchType,
           },
         ],
@@ -244,49 +228,40 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             assistId,
             externalName,
             reason,
-            minute: minuteInput, // <- Salva a minutagem aqui
+            minute: minuteInput,
             matchType,
           },
         ],
       }));
     }
-
-    // Fecha o modal limpando o estado
     setPendingEvent(null);
   };
 
   const handleImageUpload = (e, teamKey) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.onloadend = () => {
       setDraft((prev) => ({
         ...prev,
-
         [teamKey]: {
           ...prev[teamKey],
           logo: reader.result,
         },
       }));
     };
-
     reader.readAsDataURL(file);
   };
 
   const applyPreset = (teamKey, presetId) => {
     const preset = teamPresets.find((p) => p.id === presetId);
-
     if (!preset) return;
 
     setDraft((prev) => ({
       ...prev,
-
       [teamKey]: {
         ...prev[teamKey],
-
         name: preset.name,
         players: preset.players || [],
         goalkeeperId: preset.goalkeeperId || null,
@@ -317,21 +292,13 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const handleSavePreset = async (teamKey) => {
     try {
       const team = draft[teamKey];
+      if (!team.players.length) return alert("Selecione jogadores primeiro.");
 
-      if (!team.players.length) {
-        return alert("Selecione jogadores primeiro.");
-      }
-
-      // Pega o nome que já está digitado no input do time (ex: "ADR" ou o nome customizado)
       const presetName = team.name;
-
-      if (!presetName) {
+      if (!presetName)
         return alert("O time precisa ter um nome para ser salvo.");
-      }
 
-      // Salva direto no banco com o nome atual do time
       await saveTeamPreset(team, draft.date, presetName);
-
       const updatedPresets = await loadTeamPresets(draft.date);
       setTeamPresets(updatedPresets);
 
@@ -345,18 +312,11 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const loadLastTrainingTeams = async () => {
     try {
       setLoadingLastTeams(true);
-
       const matchesRef = collection(db, "matches");
-
       const q = query(matchesRef, orderBy("order", "desc"), limit(10));
-
       const snap = await getDocs(q);
 
-      const matches = snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      }));
-
+      const matches = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
       const lastTraining = matches.find((m) => m.type === "TREINO");
 
       if (!lastTraining) {
@@ -366,44 +326,29 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
       setDraft((prev) => ({
         ...prev,
-
         venue: lastTraining.venue || "",
-
         teamA: {
           ...prev.teamA,
-
           players: lastTraining.teamA?.players || [],
-
           goalkeeperId: lastTraining.teamA?.goalkeeperId || null,
-
           captainId: lastTraining.teamA?.captainId || null,
-
           logo: lastTraining.teamA?.logo || "",
-
           name: lastTraining.teamA?.name || "ADR",
         },
-
         teamB: {
           ...prev.teamB,
-
           players: lastTraining.teamB?.players || [],
-
           goalkeeperId: lastTraining.teamB?.goalkeeperId || null,
-
           captainId: lastTraining.teamB?.captainId || null,
-
           logo: lastTraining.teamB?.logo || "",
-
           name: lastTraining.teamB?.name || "ADR",
         },
-
         events: [],
       }));
 
       alert("Últimos times carregados!");
     } catch (err) {
       console.error(err);
-
       alert("Erro ao carregar últimos times.");
     } finally {
       setLoadingLastTeams(false);
@@ -419,9 +364,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
 
     try {
       const matchesRef = collection(db, "matches");
-
       const q = query(matchesRef, orderBy("order", "asc"));
-
       const snap = await getDocs(q);
 
       let allMatches = snap.docs.map((doc) => ({
@@ -443,11 +386,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         const pensB =
           draft.penalties?.B?.filter((p) => p.result === "goal").length || 0;
 
-        if (pensA > pensB) {
-          winner = "A";
-        } else if (pensB > pensA) {
-          winner = "B";
-        } else {
+        if (pensA > pensB) winner = "A";
+        else if (pensB > pensA) winner = "B";
+        else {
           return alert(
             "Defina um vencedor nos pênaltis ou marque o Gol de Ouro.",
           );
@@ -468,11 +409,13 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         ...draft,
         actualParticipantsA: Array.from(participantsA),
         actualParticipantsB: Array.from(participantsB),
-        events: draft.events, // Isso garante que a ordem atualizada (pelo drag & drop) seja enviada
+        events: draft.events,
         goalsA,
         goalsB,
         winner,
         type: matchType,
+        championshipPhase:
+          matchType === "CAMPEONATO" ? draft.championshipPhase || "" : null, // Salva a fase se for campeonato
         updatedAt: serverTimestamp(),
       };
 
@@ -485,7 +428,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
           if (a.date !== b.date) {
             return new Date(a.date) - new Date(b.date);
           }
-
           return (a.order || 999) - (b.order || 999);
         });
 
@@ -495,7 +437,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         });
 
         const index = allMatches.findIndex((m) => m === currentMatchData);
-
         allMatches[index].id = newDoc.id;
 
         const updatePromises = allMatches.map((match, i) => {
@@ -512,11 +453,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       }
 
       alert("Partida salva!");
-
       navigate("/");
     } catch (e) {
       console.error(e);
-
       alert("Erro ao salvar: " + e.message);
     } finally {
       setLoading(false);
@@ -544,7 +483,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       <div className="admin-box-grid">
         <div className="field">
           <label>DATA</label>
-
           <input
             type="date"
             value={draft.date}
@@ -564,8 +502,8 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             value={draft.venue}
             onChange={(e) => {
               if (e.target.value === "ADD_NEW") {
-                setNewVenueInput(""); // Limpa o input
-                setShowVenueModal(true); // Abre o nosso pop-up estilizado
+                setNewVenueInput("");
+                setShowVenueModal(true);
               } else {
                 setDraft({ ...draft, venue: e.target.value });
               }
@@ -574,30 +512,48 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             <option value="" disabled>
               Selecione um local...
             </option>
-
             {savedVenues.map((venue, idx) => (
               <option key={idx} value={venue}>
                 {venue}
               </option>
             ))}
-
             {draft.venue && !savedVenues.includes(draft.venue) && (
               <option value={draft.venue}>{draft.venue}</option>
             )}
-
             <option value="ADD_NEW" className="add-new-venue">
               + Adicionar novo local...
             </option>
           </select>
         </div>
+
+        {/* --- NOVO SELETOR DE FASE DO CAMPEONATO --- */}
+        {matchType === "CAMPEONATO" && (
+          <div className="field">
+            <label>FASE DO CAMPEONATO</label>
+            <select
+              className="venue-select"
+              value={draft.championshipPhase || ""}
+              onChange={(e) =>
+                setDraft({ ...draft, championshipPhase: e.target.value })
+              }
+            >
+              <option value="" disabled>
+                Selecione a fase...
+              </option>
+              <option value="Fase de Grupos">Fase de Grupos</option>
+              <option value="Oitavas de Final">Oitavas de Final</option>
+              <option value="Quartas de Final">Quartas de Final</option>
+              <option value="Semifinal">Semifinal</option>
+              <option value="Final">Final</option>
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="match-teams-grid">
         {["A", "B"].map((t) => {
           const teamKey = t === "A" ? "teamA" : "teamB";
-
           const selectedCount = draft[teamKey].players.length;
-
           const isExternal =
             (matchType === "AMISTOSO" || matchType === "CAMPEONATO") &&
             t === "B";
@@ -617,7 +573,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                   ) : (
                     <span>+ LOGO</span>
                   )}
-
                   <input
                     id={`file-${t}`}
                     type="file"
@@ -638,10 +593,8 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                   onChange={(e) =>
                     setDraft({
                       ...draft,
-
                       [teamKey]: {
                         ...draft[teamKey],
-
                         name: e.target.value,
                       },
                     })
@@ -744,7 +697,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                     </div>
                   </div>
 
-                  {/* --- NOVO BOTÃO DE SUBSTITUIÇÃO AQUI --- */}
                   <div style={{ marginTop: "10px", padding: "0 10px" }}>
                     <button
                       onClick={() => setShowSubModal(t)}
@@ -783,7 +735,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         <SubModal
           team={showSubModal}
           sortedPlayers={sortedPlayers}
-          // PASSA A LISTA DE JOGADORES DO TIME SELECIONADO:
           teamPlayers={draft[showSubModal === "A" ? "teamA" : "teamB"].players}
           addSubEvent={addSubEvent}
           close={() => setShowSubModal(null)}
@@ -893,29 +844,24 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         penaltiesScoreA={draft.penaltiesScoreA}
         penaltiesScoreB={draft.penaltiesScoreB}
         penaltiesWinner={isDraw ? draft.penaltiesWinner : null}
-        // Mantém a sua função de remover:
         removeEvent={(id) =>
           setDraft((prev) => ({
             ...prev,
             events: prev.events.filter((e) => e.id !== id),
           }))
         }
-        // NOVA FUNÇÃO: Atualiza a lista quando você arrasta os itens
         onReorder={(newEvents) => {
           setDraft((prev) => ({
             ...prev,
             events: newEvents,
           }));
         }}
-        // --- FUNÇÃO DE EDIÇÃO ATUALIZADA ---
         onEdit={(eventToEdit) => {
-          // 1. Sempre pergunta a minutagem primeiro para QUALQUER evento
           const novaMinutagem = prompt(
             "Inserir minutagem (ex: 15', 45+2'):",
             eventToEdit.minute || "",
           );
 
-          // Salva a minutagem se o usuário não cancelar (clicar em OK)
           if (novaMinutagem !== null) {
             setDraft((prev) => ({
               ...prev,
@@ -925,7 +871,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             }));
           }
 
-          // 2. Se o evento for de substituição, aproveita e pergunta o motivo logo em seguida
           if (eventToEdit.type === "SUB") {
             const novoMotivo = prompt(
               "Novo motivo da substituição:",
