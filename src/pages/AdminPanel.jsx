@@ -12,7 +12,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import dadosIniciais from "../dados_iniciais.json";
-import PlayerButtons from "../components/adminpanel/PlayerButtons";
+import PlayerButtons from "../components/adminpanel/PlayerButtons/PlayerButtons";
 
 /* ==========================================================
    PAINEL PRINCIPAL
@@ -42,7 +42,7 @@ function AdminPanel({ players, matches }) {
         isAllStar: false,
         isAnonymous: false,
         strongFoot: "Destro",
-        currentRank: 0,   
+        currentRank: 0,
         previousRank: 0,
         skills: {
           velocidade: 50,
