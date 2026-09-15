@@ -13,7 +13,6 @@ body {
   padding: 0;
   /* Isso força o fundo escuro em toda a área de renderização */
   background-color: #101010;
-  overflow-x: hidden;
   /* Bloqueia o pulo/bounce do navegador */
   overscroll-behavior: none;
 }
