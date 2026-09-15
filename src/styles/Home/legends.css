@@ -1,28 +1,40 @@
+/* =====================================================
+   PÁGINA DE LENDAS - ESTILO PREMIUM ELITE
+   ===================================================== */
+
 .legends-wrapper {
-  background-color: #000;
+  background: radial-gradient(circle at top center, #111114 0%, #050505 100%);
   min-height: 100vh;
-  padding-top: 80px;
+  padding-top: 135px !important; /* Respiro da Navbar corrigido */
   color: #fff;
+  padding-bottom: 80px;
 }
 
 .legends-header {
   text-align: center;
   margin-bottom: 60px;
+  animation: fadeInDown 0.8s ease-out;
 }
 
 .legends-main-title {
-  font-size: 3.5rem;
+  font-size: 3.8rem;
   font-weight: 900;
-  letter-spacing: 5px;
-  background: linear-gradient(to bottom, #fff, #d4af37);
+  letter-spacing: 6px;
+  background: linear-gradient(180deg, #ffffff 10%, #d4af37 80%, #aa8a2e 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  filter: drop-shadow(0 10px 15px rgba(212, 175, 55, 0.2));
+  margin-bottom: 10px;
 }
 
 .legends-subtitle {
-  color: #777;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
+  color: #8892a0;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .legends-container {
@@ -31,64 +43,128 @@
   padding: 0 20px;
 }
 
-/* Milestone Section */
+/* =====================================================
+   FAIXAS DE MARCAS (MILESTONES)
+   ===================================================== */
 .milestone-section {
-  margin-bottom: 80px;
+  margin-bottom: 90px;
+  animation: fadeIn 1s ease-out;
 }
 
 .milestone-banner {
   display: flex;
   align-items: center;
   gap: 20px;
-  border-left: 4px solid;
-  padding: 15px 25px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.05), transparent);
-  margin-bottom: 30px;
+  border-left: 5px solid #d4af37;
+  padding: 18px 30px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.15) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  margin-bottom: 40px;
+  border-radius: 0 12px 12px 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .milestone-icon {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
 }
 
 .milestone-text h2 {
   font-size: 1.8rem;
-  margin-bottom: 2px;
+  font-weight: 900;
+  margin-bottom: 4px;
+  color: #fff;
+  letter-spacing: 1px;
 }
 
 .milestone-text span {
-  font-size: 0.8rem;
-  color: #888;
-  font-weight: bold;
+  font-size: 0.85rem;
+  color: #d4af37;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Grid & Cards */
+/* =====================================================
+   GRID & CARDS (EFEITO PLACA METÁLICA)
+   ===================================================== */
 .legends-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 30px;
 }
 
 .legend-card {
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 15px;
-  padding: 20px;
+  position: relative;
+  background: linear-gradient(145deg, #1a1a1c, #0d0d0f);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px 20px;
   text-align: center;
   cursor: pointer;
-  transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+/* Efeito de Reflexo (Sweep) no hover */
+.legend-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.1),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.5s;
+  z-index: 0;
 }
 
 .legend-card:hover {
-  transform: translateY(-10px);
-  border-color: #d4af37;
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+  background: linear-gradient(145deg, #222226, #111114);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(212, 175, 55, 0.2);
 }
 
+.legend-card:hover::before {
+  left: 200%;
+}
+
+.legend-card > * {
+  position: relative;
+  z-index: 1; /* Garante que o conteúdo fique acima do reflexo */
+}
+
+/* =====================================================
+   FOTO E MEDALHA
+   ===================================================== */
 .legend-photo-wrapper {
   position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 15px;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #d4af37, #8a7020);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.legend-card:hover .legend-photo-wrapper {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
 }
 
 .legend-img {
@@ -96,43 +172,113 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #333;
+  border: 3px solid #111;
 }
 
 .legend-goal-badge {
   position: absolute;
   bottom: -5px;
-  right: -10px;
+  right: -5px;
+  background: linear-gradient(135deg, #f1c40f 0%, #d4af37 100%);
   color: #000;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  border: 2px solid #111;
+  letter-spacing: 0.5px;
 }
 
+/* =====================================================
+   INFORMAÇÕES DE TEXTO
+   ===================================================== */
 .legend-name {
-  font-size: 0.9rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 900;
   margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
 }
 
 .legend-status {
-  display: block;
+  display: inline-block;
   font-size: 10px;
   color: #ff4d4d;
-  margin-top: 5px;
-  font-weight: bold;
+  margin-top: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: rgba(255, 77, 77, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 77, 77, 0.2);
 }
 
-@media (max-width: 600px) {
+/* =====================================================
+   ANIMAÇÕES E RESPONSIVIDADE
+   ===================================================== */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
   .legends-wrapper {
-    padding-top: 110px;
+    padding-top: 110px !important;
   }
+
   .legends-main-title {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
+
+  .milestone-banner {
+    flex-direction: column;
+    text-align: center;
+    border-left: none;
+    border-top: 4px solid #d4af37;
+    border-radius: 0 0 12px 12px;
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.1) 0%,
+      transparent 100%
+    );
+    padding: 20px;
+  }
+
   .legends-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .legend-card {
+    padding: 20px 10px;
+    border-radius: 16px;
+  }
+
+  .legend-photo-wrapper {
+    width: 85px;
+    height: 85px;
+  }
+
+  .legend-name {
+    font-size: 0.9rem;
   }
 }
