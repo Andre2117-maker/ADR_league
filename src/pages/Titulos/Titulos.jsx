@@ -7,13 +7,20 @@ export default function Titulos() {
   const trofeus = [
     {
       id: 1,
+      quantidade: 17,
+      nome: "COPA RENZO",
+      anos: "",
+      imagem: "/titulos/camp0.png",
+    },
+    {
+      id: 2,
       quantidade: 0,
       nome: "CAMPEONATO LATO SENSU",
       anos: "",
       imagem: "/titulos/camp1.png",
     },
     {
-      id: 2,
+      id: 3,
       quantidade: 0,
       nome: "PBA CUP",
       anos: "",
