@@ -1,16 +1,17 @@
-/* src/styles/navbar.css */
-
+/* ==========================================================================
+   NAVBAR TOPO
+   ========================================================================== */
 .nvb-wrapper {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100% !important;
-  z-index: 10000;
+  right: 0; /* Prende a navbar respeitando o scroll */
+  z-index: 9997; /* Z-index menor que a sidebar */
   transition: all 0.4s ease;
   padding: 12.5px 0;
-  background: #000; /* Fundo sólido evita transparência bugada no mobile */
+  background: #000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  height: 75px; /* Altura fixa para o PC */
+  height: 75px;
   display: flex;
   align-items: center;
 }
@@ -25,6 +26,7 @@
 }
 
 .nvb-container {
+  position: relative; /* Importante para a logo ficar exata no meio */
   width: 95%;
   max-width: 1400px;
   margin: 0 auto;
@@ -33,24 +35,40 @@
   justify-content: space-between;
 }
 
-/* Estrutura de Terços */
 .nvb-section {
   display: flex;
   align-items: center;
-  width: 35%;
 }
 
-.nvb-left {
-  justify-content: flex-start;
-  gap: 30px;
-}
-.nvb-right {
-  justify-content: flex-end;
-  gap: 30px;
+/* ==========================================================================
+   MENU HAMBÚRGUER E LOGO
+   ========================================================================== */
+.nvb-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 10px;
+  transition: 0.3s;
 }
 
+.nvb-hamburger:hover .line {
+  background-color: #fff;
+}
+
+.nvb-hamburger .line {
+  width: 25px;
+  height: 2px;
+  background-color: #d4af37;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Centralização absoluta da Logo para ficar no meio da tela sempre */
 .nvb-brand {
-  width: 30%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,29 +86,13 @@
   letter-spacing: 3px;
   margin-top: 2px;
 }
-
 .nvb-highlight {
   color: #d4af37;
 }
 
-/* Links e Botões */
-.nvb-link {
-  color: #fff;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: 0.3s;
-}
-
-.nvb-link:hover {
-  opacity: 1;
-  color: #d4af37;
-}
-
+/* ==========================================================================
+   BOTÕES DIREITA (ADMIN)
+   ========================================================================== */
 .nvb-admin-group {
   display: flex;
   align-items: center;
@@ -106,6 +108,7 @@
   font-weight: 800;
   border: 1px solid rgba(212, 175, 55, 0.3);
   cursor: pointer;
+  text-decoration: none;
 }
 
 .nvb-logout-btn {
@@ -115,62 +118,6 @@
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-}
-
-/* --- AJUSTE MOBILE PARA MOSTRAR TUDO --- */
-@media (max-width: 900px) {
-  .nvb-wrapper {
-    height: auto; /* Deixa a altura se adaptar ao conteúdo se necessário */
-    padding: 8px 0;
-  }
-
-  .nvb-container {
-    flex-direction: row !important; /* Mantém tudo na mesma linha */
-    flex-wrap: wrap; /* Se não couber, ele joga pra baixo sem esticar pro lado */
-    justify-content: center; /* Centraliza o bloco todo */
-    gap: 10px;
-  }
-
-  /* Faz as seções esquerda e direita aparecerem */
-  .nvb-left,
-  .nvb-right {
-    display: flex !important;
-    width: auto;
-    gap: 12px; /* Espaço reduzido entre os links */
-    justify-content: center;
-  }
-
-  /* Ajuste do Logo no Meio */
-  .nvb-brand {
-    width: 100%; /* No mobile, o logo fica no topo sozinho */
-    order: -1; /* Força o logo a ficar em cima */
-    margin-bottom: 5px;
-  }
-
-  .nvb-logo-img {
-    width: 32px;
-  }
-
-  .nvb-brand-text {
-    font-size: 11px;
-    letter-spacing: 2px;
-  }
-
-  /* Diminui os links para caberem todos */
-  .nvb-link {
-    font-size: 10px;
-    letter-spacing: 0.5px;
-  }
-
-  .nvb-admin-badge,
-  .nvb-login-btn {
-    padding: 4px 8px;
-    font-size: 9px;
-  }
-
-  .nvb-logout-btn {
-    font-size: 9px;
-  }
 }
 
 .nvb-login-btn {
@@ -184,10 +131,216 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: 0.3s;
+  text-decoration: none;
 }
 
 .nvb-login-btn:hover {
   background: #d4af37;
   color: #000;
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+/* ==========================================================================
+   SIDEBAR (MENU LATERAL)
+   ========================================================================== */
+.nvb-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.nvb-sidebar-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nvb-sidebar {
+  position: fixed;
+  top: 0;
+  left: -320px; /* Esconde fora da tela */
+  width: 280px;
+  height: 100vh;
+  background: #080808;
+  border-right: 1px solid rgba(212, 175, 55, 0.15);
+  z-index: 9999;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9);
+  transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.nvb-sidebar.open {
+  left: 0; /* Desliza para dentro da tela */
+}
+
+.nvb-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: #111;
+}
+
+.nvb-sidebar-title {
+  color: #d4af37;
+  font-weight: 900;
+  letter-spacing: 4px;
+  font-size: 1.1rem;
+}
+
+.nvb-sidebar-close {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 2.2rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: 0.2s;
+}
+
+.nvb-sidebar-close:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.nvb-sidebar-links {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.nvb-side-link {
+  color: #aaa;
+  text-decoration: none;
+  padding: 15px 30px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.nvb-side-link:hover {
+  background: rgba(212, 175, 55, 0.05);
+  border-left-color: #d4af37;
+  color: #d4af37;
+  padding-left: 40px; /* Animação de avanço ao passar o mouse */
+}
+
+.nvb-side-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 15px 30px;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE CELULAR
+   ========================================================================== */
+@media (max-width: 600px) {
+  .nvb-login-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  .nvb-admin-badge {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .nvb-logout-btn {
+    font-size: 10px;
+  }
+
+  .nvb-brand-text {
+    font-size: 11px;
+  }
+}
+
+/* ==========================================================================
+   SUBDIVISÕES DA SIDEBAR (ACCORDION)
+   ========================================================================== */
+.nvb-side-item-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.nvb-side-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px; /* Dá um respiro para a setinha */
+}
+
+/* O link principal não precisa de padding lateral pois já tem na classe original, 
+   mas garantimos que ele ocupe o espaço */
+.nvb-side-item-main .nvb-side-link {
+  flex: 1;
+}
+
+/* Botão da setinha (dropdown) */
+.nvb-sub-toggle {
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 0.8rem;
+  padding: 10px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+}
+
+.nvb-sub-toggle:hover {
+  color: #d4af37;
+}
+
+.nvb-sub-toggle.active {
+  transform: rotate(-180deg);
+  color: #d4af37;
+}
+
+/* Caixa dos submenus (Inicia fechada) */
+.nvb-side-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.2); /* Fundo sutilmente mais escuro */
+}
+
+.nvb-side-submenu.open {
+  max-height: 200px; /* Altura suficiente para exibir as abas */
+}
+
+/* Links das subdivisões */
+.nvb-sub-link {
+  color: #888;
+  text-decoration: none;
+  padding: 10px 30px 10px 50px; /* Indentação maior para parecer um sub-item */
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  border-left: 2px solid transparent;
+}
+
+.nvb-sub-link:hover {
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+  border-left-color: #d4af37;
+  padding-left: 55px; /* Efeito de deslize ao passar o mouse */
 }

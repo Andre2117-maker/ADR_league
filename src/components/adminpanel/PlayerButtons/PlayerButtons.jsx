@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./PlayerButtons.css";
 
 /* ==========================================================
    COMPONENTE DE LINHA INDIVIDUAL
@@ -63,7 +64,6 @@ function PlayerButtons({
         <td className="adm-name-cell">
           <div className="adm-name-container">
             <div className="adm-avatar-wrapper">
-              {/* SE NÃO TIVER FOTO NO BANCO, PUXA O ANONIMO.PNG POR PADRÃO */}
               <img
                 src={p.photo || "/players/Anonimo.png"}
                 alt="Avatar"
@@ -185,6 +185,26 @@ function PlayerButtons({
                   }
                 />
               </div>
+
+              {/* SELETOR DE GÊNERO PARA ATUALIZAR JOGADORES (ANTIGOS E NOVOS) */}
+              <select
+                className="adm-input-role"
+                value={
+                  p.gender || "Male"
+                } /* Se não existir no Firebase, mostra Male visualmente */
+                onChange={(e) =>
+                  onUpdateProfile(p.id, "gender", e.target.value)
+                }
+                style={{
+                  width: "90px",
+                  cursor: "pointer",
+                  textAlign: "center",
+                }}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
 
               <input
                 type="text"

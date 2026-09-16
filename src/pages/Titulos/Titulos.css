@@ -1,0 +1,208 @@
+/* ==========================================================================
+   PÁGINA DE TÍTULOS (ESTILO PSG / DARK PREMIUM)
+   ========================================================================== */
+
+.titulos-psg-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 75px;
+  color: #fff;
+}
+
+.titulos-main-content {
+  flex: 1;
+  padding-bottom: 80px;
+}
+/* ==========================================================================
+   BANNER TOPO (HERO)
+   ========================================================================== */
+.titulos-hero {
+  position: relative;
+  width: 100%;
+  height: 350px; /* Altura do bannerzão */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* COLOQUE A FOTO DO TIME COMEMORANDO AQUI */
+  background-image: url("/titulos/fotosgeral.png");
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+}
+
+/* O degradê que fica por cima da foto (no PSG era azul/vermelho, aqui é preto/dourado escuro) */
+.titulos-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 5, 0.9) 0%,
+    rgba(212, 175, 55, 0.3) 50%,
+    rgba(5, 5, 5, 0.9) 100%
+  );
+  z-index: 1;
+}
+
+.titulos-hero-text {
+  position: relative;
+  z-index: 2;
+  font-size: 5rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+/* ==========================================================================
+   INTRODUÇÃO (NÚMERO DE TÍTULOS)
+   ========================================================================== */
+.titulos-intro {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 20px 40px;
+  text-align: center;
+}
+
+.titulos-total {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.titulos-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #aaa;
+  font-weight: 400;
+}
+
+.titulos-desc strong {
+  color: #d4af37;
+}
+
+/* ==========================================================================
+   LISTA DE TROFÉUS
+   ========================================================================== */
+.titulos-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* Espaço grande entre cada título igual no site oficial */
+}
+
+.trofeu-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 60px;
+}
+
+/* Tira a borda do último item */
+.trofeu-row:last-child {
+  border-bottom: none;
+}
+
+/* CAIXA DA IMAGEM */
+.trofeu-img-box {
+  position: relative;
+  width: 50%;
+  max-width: 550px;
+  aspect-ratio: 16/9; /* Mantém a proporção de foto paisagem */
+  background-color: #111;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.trofeu-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+}
+
+/* Texto que aparece caso a imagem ainda não exista (para te guiar) */
+.trofeu-img-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  z-index: 1;
+}
+
+/* TEXTOS LATERAIS */
+.trofeu-info {
+  flex: 1;
+}
+
+.trofeu-info h3 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+.trofeu-anos {
+  font-size: 1.1rem;
+  color: #d4af37;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE (CELULAR)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .titulos-hero {
+    height: 250px;
+  }
+
+  .titulos-hero-text {
+    font-size: 3.5rem;
+  }
+
+  .titulos-total {
+    font-size: 2rem;
+  }
+
+  /* Empilha a foto em cima e o texto embaixo no celular */
+  .trofeu-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 40px;
+  }
+
+  .trofeu-img-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .trofeu-info h3 {
+    font-size: 1.8rem;
+  }
+}

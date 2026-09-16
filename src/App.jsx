@@ -33,8 +33,10 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import Legends from "./pages/Legends.jsx";
 import DreamTeam from "./pages/DreamTeam.jsx";
 import Campeonato from "./pages/Campeonato.jsx";
+import Titulos from "./pages/Titulos/Titulos.jsx";
+import LocalTreinos from "./pages/LocalTreinos/LocalTreinos.jsx";
+import Elenco from "./pages/Elenco/Elenco.jsx";
 
-// Estilos
 import "./styles/global.css";
 
 function App() {
@@ -244,6 +246,17 @@ function App() {
             path="/hall-historico"
             element={<HallHistorico isAdmin={isAdmin} />}
           />
+
+          <Route
+            path="/dream-team"
+            element={<DreamTeam players={players} matches={matches} />}
+          />
+
+          <Route path="/titulos" element={<Titulos />} />
+
+          <Route path="/local" element={<LocalTreinos isAdmin={isAdmin} />} />
+
+          <Route path="/elenco" element={<Elenco />} />
 
           <Route
             path="/dream-team"

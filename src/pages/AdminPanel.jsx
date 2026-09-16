@@ -1,6 +1,6 @@
 import "../styles/panel.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 1. Importe o useNavigate
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import {
   collection,
@@ -18,9 +18,9 @@ import PlayerButtons from "../components/adminpanel/PlayerButtons/PlayerButtons"
    PAINEL PRINCIPAL
    ========================================================== */
 function AdminPanel({ players, matches }) {
-  // 2. Removido setPage
   const [newName, setNewName] = useState("");
-  const navigate = useNavigate(); // 3. Inicializa o navigate
+  const [newGender, setNewGender] = useState("Male"); // Estado para o Gênero
+  const navigate = useNavigate();
 
   const sortedPlayers = [...players].sort((a, b) =>
     a.name.localeCompare(b.name, "pt-BR"),
@@ -33,6 +33,7 @@ function AdminPanel({ players, matches }) {
     try {
       await addDoc(collection(db, "players"), {
         name: newName.trim(),
+        gender: newGender, // <--- Salva o Gênero no Firebase
         manualGoals: 0,
         manualAssists: 0,
         titlesADR: 0,
@@ -54,6 +55,7 @@ function AdminPanel({ players, matches }) {
         },
       });
       setNewName("");
+      setNewGender("Male"); // Reseta para o padrão após adicionar
     } catch (err) {
       console.error(err);
     }
@@ -161,7 +163,6 @@ function AdminPanel({ players, matches }) {
     <div className="adm-main-layout">
       <header className="adm-header-nav">
         <div className="adm-nav-left">
-          {/* 4. Trocado setPage por navigate("/") */}
           <button onClick={() => navigate("/")} className="adm-btn-exit">
             ← Sair
           </button>
@@ -174,7 +175,6 @@ function AdminPanel({ players, matches }) {
           >
             📥 Abrir
           </button>
-          {/* 5. Trocado setPage por navigate("/admin-matches") */}
           <button
             onClick={() => navigate("/admin-matches")}
             className="adm-btn-matches"
@@ -203,6 +203,28 @@ function AdminPanel({ players, matches }) {
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
           />
+
+          {/* NOVO SELECT DE GÊNERO */}
+          <select
+            className="adm-select-gender"
+            value={newGender}
+            onChange={(e) => setNewGender(e.target.value)}
+            style={{
+              background: "#111",
+              border: "1px solid #222",
+              color: "#fff",
+              padding: "0 20px",
+              borderRadius: "12px",
+              outline: "none",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+          >
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+
           <button type="submit" className="adm-btn-add-confirm">
             Adicionar +
           </button>

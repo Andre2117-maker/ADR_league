@@ -1,0 +1,311 @@
+/* ==========================================================================
+   PÁGINA DE LOCAL (ESTILO PSG / DARK PREMIUM COM ABAS)
+   ========================================================================== */
+.local-psg-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  padding-top: 90px; /* Respiro extra abaixo da navbar */
+  color: #fff;
+  padding-bottom: 80px;
+}
+
+/* ==========================================================================
+   MINI ABAS (TABS NO TOPO)
+   ========================================================================== */
+.local-tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.local-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #888;
+  padding: 10px 5px;
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.local-tab-btn:hover {
+  color: #fff;
+}
+
+.local-tab-btn.active {
+  color: #d4af37;
+  border-bottom-color: #d4af37;
+}
+
+/* ==========================================================================
+   BANNER DO LOCAL (HERO)
+   ========================================================================== */
+.local-hero {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+}
+
+.local-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 5, 0.9) 0%,
+    rgba(212, 175, 55, 0.2) 50%,
+    rgba(5, 5, 5, 0.9) 100%
+  );
+  z-index: 1;
+}
+
+.local-hero-text {
+  position: relative;
+  z-index: 2;
+  font-size: 6rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: #fff;
+  text-shadow: 0 5px 25px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* ==========================================================================
+   INTRODUÇÃO CENTRAL
+   ========================================================================== */
+.local-intro {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.local-intro-desc {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #eee;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   ZIGUE-ZAGUE (APRESENTAÇÃO)
+   ========================================================================== */
+.local-zigzag-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.zigzag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+.zigzag-text-box {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.zigzag-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.zigzag-desc {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.btn-saiba-mais {
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  transition: 0.3s;
+}
+
+.btn-saiba-mais:hover {
+  color: #d4af37;
+}
+
+.zigzag-img-box {
+  width: 55%;
+  aspect-ratio: 16/10;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.zigzag-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.zigzag-img-box:hover .zigzag-img {
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   PAINEL DE ADMINISTRAÇÃO INLINE
+   ========================================================================== */
+.admin-edit-bar {
+  text-align: right;
+  padding: 10px 30px;
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.btn-admin-edit {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  padding: 8px 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-admin-edit:hover {
+  background: #f1c40f;
+}
+
+.admin-edit-panel {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.admin-form-grid input,
+.admin-form-grid textarea {
+  width: 100%;
+  padding: 12px;
+  background: #222;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 6px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.admin-form-grid textarea {
+  grid-column: 1 / -1;
+  resize: vertical;
+}
+
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-cancel {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-save {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   LOADING E RESPONSIVIDADE
+   ========================================================================== */
+.local-loading-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #d4af37;
+  font-weight: 900;
+}
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(212, 175, 55, 0.2);
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .local-hero {
+    height: 250px;
+  }
+  .local-hero-text {
+    font-size: 3rem;
+  }
+  .zigzag-row {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .zigzag-text-box,
+  .zigzag-img-box {
+    width: 100%;
+  }
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

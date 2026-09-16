@@ -1,0 +1,284 @@
+/* ==========================================================================
+   PÁGINA DE ELENCO (ESTILO PSG REPLICA)
+   ========================================================================== */
+.elenco-psg-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 120px;
+  color: #fff;
+}
+
+.elenco-main-content {
+  flex: 1;
+  padding-bottom: 80px;
+}
+
+.elenco-content-limit {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ==========================================================================
+   CABEÇALHO E FILTROS (SETINHA)
+   ========================================================================== */
+.elenco-page-header {
+  margin-bottom: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.elenco-page-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 2px;
+  margin: 0 0 15px 0;
+}
+
+.elenco-selectors-group {
+  display: flex;
+  gap: 30px;
+}
+
+.elenco-dropdown select {
+  background: transparent;
+  border: none;
+  color: #d4af37;
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  letter-spacing: 1px;
+}
+
+.elenco-dropdown select option {
+  background: #111;
+  color: #fff;
+}
+
+/* ==========================================================================
+   GRID DE CARTAS
+   ========================================================================== */
+.elenco-grid-psg {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  column-gap: 30px;
+  row-gap: 80px;
+  margin-top: 40px;
+}
+
+.elenco-empty-msg {
+  color: #888;
+  font-size: 1.2rem;
+  grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   A CARTA DO JOGADOR (ESTRUTURA PSG)
+   ========================================================================== */
+.psg-card {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.psg-card:hover {
+  transform: translateY(-10px);
+}
+
+.psg-card-bg {
+  position: absolute;
+  bottom: 50px;
+  left: 5%;
+  width: 90%;
+  height: 220px;
+  background: linear-gradient(to top right, #111, #1a1a1a);
+  transform: skewX(-8deg);
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s;
+}
+
+.psg-card:hover .psg-card-bg {
+  background: linear-gradient(to top right, #151515, #222);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* FOTO AJUSTADA PARA NÃO SOBREPOR A BOX */
+.psg-player-img {
+  position: absolute;
+  bottom: 50px; /* Levemente acima do rodapé para não encostar nos textos */
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 270px; /* Reduzido para não vazar desproporcionalmente */
+  width: 100%; /* Trava a largura máxima no tamanho da carta */
+  object-fit: contain; /* Garante que a imagem não distorça */
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.psg-card:hover .psg-player-img {
+  transform: translateX(-50%) scale(1.03);
+}
+
+/* ==========================================================================
+   RODAPÉ (NÚMERO, NOME E PERÍODO)
+   ========================================================================== */
+.psg-card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  position: relative;
+  z-index: 3;
+}
+
+.psg-number {
+  font-size: 3rem;
+  font-weight: 900;
+  font-style: italic;
+  color: #333;
+  line-height: 0.8;
+  margin-right: 10px;
+  transition: color 0.3s;
+}
+
+.psg-card:hover .psg-number {
+  color: #d4af37;
+}
+
+.psg-name-block {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+  padding-bottom: 2px;
+  overflow: hidden;
+}
+
+.psg-firstname {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 1px;
+}
+
+.psg-lastname {
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap; /* Impede que sobrenomes longos quebrem a linha */
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.psg-role {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #666;
+  text-transform: uppercase;
+  text-align: right;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   BADGES (TÍTULOS)
+   ========================================================================== */
+.psg-badges-area {
+  position: absolute;
+  top: 10px;
+  right: 5%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.badge-title {
+  background: rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: #d4af37;
+  font-size: 0.8rem;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   LOADING E RESPONSIVIDADE
+   ========================================================================== */
+.elenco-loading-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #d4af37;
+  font-weight: 900;
+  background: #050505;
+}
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(212, 175, 55, 0.2);
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .elenco-page-title {
+    font-size: 3rem;
+  }
+  .elenco-selectors-group {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .elenco-grid-psg {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 15px;
+    row-gap: 50px;
+  }
+  .psg-card {
+    height: 280px;
+  }
+  .psg-card-bg {
+    height: 160px;
+  }
+  .psg-player-img {
+    max-height: 200px;
+  }
+  .psg-number {
+    font-size: 2rem;
+  }
+  .psg-lastname {
+    font-size: 1rem;
+  }
+  .psg-role {
+    font-size: 0.65rem;
+  }
+}
