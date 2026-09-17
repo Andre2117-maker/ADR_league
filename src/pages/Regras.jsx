@@ -5,42 +5,60 @@ import "../styles/rules.css";
 import Footer from "../components/Footer";
 
 function Regras({ isAdmin }) {
-  const [textoRegras, setTextoRegras] = useState("Carregando regulamento...");
+  const [textoRemoto, setTextoRemoto] = useState("Carregando regulamento...");
+  const [textoLocal, setTextoLocal] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const regrasDocRef = useMemo(() => doc(db, "settings", "regulamento"), []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(regrasDocRef, (docSnap) => {
       if (docSnap.exists()) {
-        setTextoRegras(docSnap.data().content);
+        const content = docSnap.data().content;
+        setTextoRemoto(content);
+        if (!isLoaded) {
+          setTextoLocal(content);
+          setIsLoaded(true);
+        }
       } else {
-        setTextoRegras("⚽ Pontuação...");
+        setTextoRemoto("⚽ Regras em branco...");
+        if (!isLoaded) {
+          setTextoLocal("⚽ Regras em branco...");
+          setIsLoaded(true);
+        }
       }
     });
 
     return () => unsubscribe();
-  }, [regrasDocRef]);
+  }, [regrasDocRef, isLoaded]);
 
-  const handleSaveToFirebase = async (novoTexto) => {
+  useEffect(() => {
+    if (textoLocal === textoRemoto || !isLoaded) return;
+
     setIsSaving(true);
-    try {
-      await setDoc(regrasDocRef, {
-        content: novoTexto,
-        lastUpdated: new Date(),
-      });
-      setTimeout(() => setIsSaving(false), 500);
-    } catch (error) {
-      console.error("Erro ao salvar regras:", error);
-      setIsSaving(false);
-    }
-  };
+
+    const temporizadorDeSalvamento = setTimeout(async () => {
+      try {
+        await setDoc(regrasDocRef, {
+          content: textoLocal,
+          lastUpdated: new Date(),
+        });
+        setIsSaving(false);
+      } catch (error) {
+        console.error("Erro ao salvar regras:", error);
+        setIsSaving(false);
+      }
+    }, 1500);
+
+    return () => clearTimeout(temporizadorDeSalvamento);
+  }, [textoLocal, textoRemoto, regrasDocRef, isLoaded]);
 
   const handleChange = (e) => {
-    const valor = e.target.value;
-    setTextoRegras(valor);
-    handleSaveToFirebase(valor);
+    setTextoLocal(e.target.value);
   };
+
+  const textoParaExibir = isAdmin ? textoLocal : textoRemoto;
 
   return (
     <div>
@@ -68,25 +86,30 @@ function Regras({ isAdmin }) {
             {isAdmin ? (
               <textarea
                 className="rules-textarea"
-                value={textoRegras}
+                value={textoLocal}
                 onChange={handleChange}
                 spellCheck={false}
                 placeholder="Digite as regras aqui..."
               />
             ) : (
               <div className="rules-content">
-                {textoRegras.split("\n").map((line, index) => (
-                  <div
-                    key={index}
-                    className={
-                      line.trim().startsWith("-") || line.trim().match(/^\d\./)
-                        ? "rule-item"
-                        : "rule-section"
-                    }
-                  >
-                    {line}
-                  </div>
-                ))}
+                {textoParaExibir.split("\n").map((line, index) => {
+                  const textoLinha = line.trim();
+                  if (!textoLinha) return <br key={index} />;
+
+                  return (
+                    <div
+                      key={index}
+                      className={
+                        textoLinha.startsWith("-") || textoLinha.match(/^\d\./)
+                          ? "rule-item"
+                          : "rule-section"
+                      }
+                    >
+                      {line}
+                    </div>
+                  );
+                })}
               </div>
             )}
 
