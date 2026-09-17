@@ -56,9 +56,6 @@ function MatchesCarousel({ matches, players }) {
         (e.type === "OWN_GOAL" && e.team === "A"),
     ).length || 0;
 
-  // --- LÓGICA DE PÊNALTIS (SUPORTE AO SISTEMA NOVO E ANTIGO) ---
-
-  // Calcula pênaltis do sistema novo (array de objetos)
   const newPenaltiesA =
     match.penalties?.A?.length > 0
       ? match.penalties.A.filter((p) => p.result === "goal").length
@@ -69,7 +66,6 @@ function MatchesCarousel({ matches, players }) {
       ? match.penalties.B.filter((p) => p.result === "goal").length
       : null;
 
-  // Pega o placar antigo caso exista
   const oldPenaltiesA =
     match.penaltiesScoreA !== undefined && match.penaltiesScoreA !== ""
       ? match.penaltiesScoreA
@@ -79,7 +75,6 @@ function MatchesCarousel({ matches, players }) {
       ? match.penaltiesScoreB
       : null;
 
-  // Define qual placar mostrar (prioriza o novo, se não tiver, usa o antigo)
   const displayPenA = newPenaltiesA !== null ? newPenaltiesA : oldPenaltiesA;
   const displayPenB = newPenaltiesB !== null ? newPenaltiesB : oldPenaltiesB;
 
@@ -96,14 +91,17 @@ function MatchesCarousel({ matches, players }) {
 
       <div className="mtc-banner-content">
         <header className="mtc-banner-header">
-          <span className="mtc-venue-top">📍 {match.venue || "ARENA ADR"}</span>
+          <span className="mtc-venue-top">
+            📍 {match.venue || "ARENA ADR"}
+            {match.championshipPhase && ` - ${match.championshipPhase}`}
+          </span>
+
           <span className="mtc-match-date">
             {match.date?.split("-").reverse().join("/")}
           </span>
         </header>
 
         <div className="mtc-main-display">
-          {/* TIME A */}
           <div className="mtc-team-box">
             <img
               src={match.teamA.logo || LogoADR}
@@ -128,7 +126,6 @@ function MatchesCarousel({ matches, players }) {
             </div>
           </div>
 
-          {/* PLACAR CENTRAL */}
           <div className="mtc-central-column">
             <div className="mtc-score-wrapper">
               <div className="mtc-score-unit">
@@ -154,7 +151,6 @@ function MatchesCarousel({ matches, players }) {
             </button>
           </div>
 
-          {/* TIME B */}
           <div className="mtc-team-box">
             <img
               src={match.teamB.logo || LogoADR}
