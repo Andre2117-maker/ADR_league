@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/adminmatches/submodal.css"; // Isso é o que puxa o seu CSS!
 
 const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
   const [playerOutId, setPlayerOutId] = useState("");
@@ -21,33 +22,17 @@ const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content" style={{ maxWidth: "400px" }}>
+    <div className="sub-modal-overlay">
+      <div className="sub-modal-content">
         <h3>🔄 Substituição - Time {team}</h3>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "15px",
-            margin: "20px 0",
-          }}
-        >
+        <div className="sub-modal-form">
           <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                color: "#ff4444",
-                fontWeight: "bold",
-              }}
-            >
-              ⬇️ Quem Sai:
-            </label>
+            <label className="sub-label-out">⬇️ Quem Sai:</label>
             <select
+              className="sub-select"
               value={playerOutId}
               onChange={(e) => setPlayerOutId(e.target.value)}
-              style={{ width: "100%", padding: "8px" }}
             >
               <option value="">Selecione quem sai...</option>
               {playersOnField.map((p) => (
@@ -59,20 +44,11 @@ const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
           </div>
 
           <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                color: "#44ff44",
-                fontWeight: "bold",
-              }}
-            >
-              ⬆️ Quem Entra:
-            </label>
+            <label className="sub-label-in">⬆️ Quem Entra:</label>
             <select
+              className="sub-select"
               value={playerInId}
               onChange={(e) => setPlayerInId(e.target.value)}
-              style={{ width: "100%", padding: "8px" }}
             >
               <option value="">Selecione quem entra...</option>
               {playersOffField.map((p) => (
@@ -84,19 +60,11 @@ const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
           </div>
 
           <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontWeight: "bold",
-              }}
-            >
-              Motivo:
-            </label>
+            <label className="sub-label-reason">Motivo:</label>
             <select
+              className="sub-select"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              style={{ width: "100%", padding: "8px" }}
             >
               <option value="Tática">Opção Tática</option>
               <option value="Lesão">Lesão / Machucado</option>
@@ -104,40 +72,11 @@ const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
           </div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "10px",
-          }}
-        >
-          <button
-            onClick={close}
-            style={{
-              flex: 1,
-              padding: "10px",
-              background: "#555",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
+        <div className="sub-modal-buttons">
+          <button className="sub-btn-cancel" onClick={close}>
             Cancelar
           </button>
-          <button
-            onClick={handleConfirm}
-            style={{
-              flex: 1,
-              padding: "10px",
-              background: "#d4af37",
-              color: "#000",
-              fontWeight: "bold",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
+          <button className="sub-btn-confirm" onClick={handleConfirm}>
             Confirmar
           </button>
         </div>

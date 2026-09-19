@@ -32,3 +32,28 @@
   border: none;
   margin-top: 30px;
 }
+
+/* Espaçamento em volta do botão */
+.new-sub-wrapper {
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+/* O botão de Nova Substituição */
+.new-sub-btn {
+  width: 100%;
+  padding: 8px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+.new-sub-btn:hover {
+  background-color: #d4af37;
+  color: #000;
+}

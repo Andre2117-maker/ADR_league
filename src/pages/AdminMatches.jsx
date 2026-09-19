@@ -20,10 +20,11 @@ import PlayerRow from "../components/adminmatches/PlayerRow";
 import AssistModal from "../components/adminmatches/AssistModal";
 import SubModal from "../components/adminmatches/SubModal";
 import PenaltiesSection from "../components/adminmatches/PenaltiesSection";
-import AdminHeader from "../components/adminmatches/AdminHeader";
+import AdminHeader from "../components/adminmatches/AdminHeader/AdminHeader";
 import PresetTools from "../components/adminmatches/PresetTools";
 import ExternalTeamTools from "../components/adminmatches/ExternalTeamTools";
 import AdminExtras from "../components/adminmatches/AdminExtras";
+import MinuteModal from "../components/adminmatches/MinuteModal/MinuteModal";
 
 import { saveTeamPreset, loadTeamPresets } from "../data/teamPresets";
 
@@ -63,7 +64,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const initialDate = useMemo(() => {
     if (matchToEdit?.date) return matchToEdit.date;
     if (location.state?.initialDate) return location.state.initialDate;
-    return new Date().toISOString().split("T")[0];
+    const hoje = new Date();
+    const offset = hoje.getTimezoneOffset() * 60000;
+    return new Date(hoje.getTime() - offset).toISOString().split("T")[0];
   }, [matchToEdit, location.state]);
 
   const [draft, setDraft] = useState(() => {
@@ -72,7 +75,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     return {
       date: initialDate,
       venue: "",
-      championshipPhase: "", // <-- NOVO ESTADO PARA A FASE
+      championshipPhase: "",
 
       teamA: {
         name: "ADR",
@@ -415,7 +418,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         winner,
         type: matchType,
         championshipPhase:
-          matchType === "CAMPEONATO" ? draft.championshipPhase || "" : null, // Salva a fase se for campeonato
+          matchType === "CAMPEONATO" ? draft.championshipPhase || "" : null,
         updatedAt: serverTimestamp(),
       };
 
@@ -478,77 +481,11 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         setDraft={setDraft}
         loadLastTrainingTeams={loadLastTrainingTeams}
         loadingLastTeams={loadingLastTeams}
+        draft={draft}
+        savedVenues={savedVenues}
+        setNewVenueInput={setNewVenueInput}
+        setShowVenueModal={setShowVenueModal}
       />
-
-      <div className="admin-box-grid">
-        <div className="field">
-          <label>DATA</label>
-          <input
-            type="date"
-            value={draft.date}
-            onChange={(e) =>
-              setDraft({
-                ...draft,
-                date: e.target.value,
-              })
-            }
-          />
-        </div>
-
-        <div className="field">
-          <label>LOCALIZAÇÃO</label>
-          <select
-            className="venue-select"
-            value={draft.venue}
-            onChange={(e) => {
-              if (e.target.value === "ADD_NEW") {
-                setNewVenueInput("");
-                setShowVenueModal(true);
-              } else {
-                setDraft({ ...draft, venue: e.target.value });
-              }
-            }}
-          >
-            <option value="" disabled>
-              Selecione um local...
-            </option>
-            {savedVenues.map((venue, idx) => (
-              <option key={idx} value={venue}>
-                {venue}
-              </option>
-            ))}
-            {draft.venue && !savedVenues.includes(draft.venue) && (
-              <option value={draft.venue}>{draft.venue}</option>
-            )}
-            <option value="ADD_NEW" className="add-new-venue">
-              + Adicionar novo local...
-            </option>
-          </select>
-        </div>
-
-        {/* --- NOVO SELETOR DE FASE DO CAMPEONATO --- */}
-        {matchType === "CAMPEONATO" && (
-          <div className="field">
-            <label>FASE DO CAMPEONATO</label>
-            <select
-              className="venue-select"
-              value={draft.championshipPhase || ""}
-              onChange={(e) =>
-                setDraft({ ...draft, championshipPhase: e.target.value })
-              }
-            >
-              <option value="" disabled>
-                Selecione a fase...
-              </option>
-              <option value="Fase de Grupos">Fase de Grupos</option>
-              <option value="Oitavas de Final">Oitavas de Final</option>
-              <option value="Quartas de Final">Quartas de Final</option>
-              <option value="Semifinal">Semifinal</option>
-              <option value="Final">Final</option>
-            </select>
-          </div>
-        )}
-      </div>
 
       <div className="match-teams-grid">
         {["A", "B"].map((t) => {
@@ -626,14 +563,7 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                   <div key={t} className="team-section">
                     <h3>
                       Time {t}
-                      <span
-                        style={{
-                          fontSize: "0.8rem",
-                          marginLeft: "10px",
-                          color: "gray",
-                          fontWeight: "normal",
-                        }}
-                      >
+                      <span className="team-selected-count">
                         ({selectedCount} selecionados)
                       </span>
                     </h3>
@@ -697,19 +627,10 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
                     </div>
                   </div>
 
-                  <div style={{ marginTop: "10px", padding: "0 10px" }}>
+                  <div className="new-sub-wrapper">
                     <button
+                      className="new-sub-btn"
                       onClick={() => setShowSubModal(t)}
-                      style={{
-                        width: "100%",
-                        padding: "8px",
-                        backgroundColor: "#333",
-                        color: "#fff",
-                        border: "1px solid #d4af37",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                      }}
                     >
                       🔄 Nova Substituição
                     </button>
@@ -742,98 +663,12 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
       )}
 
       {pendingEvent && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.85)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 9999,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#111",
-              padding: "20px",
-              borderRadius: "8px",
-              border: "1px solid #d4af37",
-              width: "90%",
-              maxWidth: "300px",
-              textAlign: "center",
-            }}
-          >
-            <h3
-              style={{
-                color: "#d4af37",
-                marginBottom: "15px",
-                fontSize: "16px",
-              }}
-            >
-              ⏱️ Inserir Minutagem
-            </h3>
-
-            <input
-              type="text"
-              autoFocus
-              placeholder="Ex: 15', 45+2'"
-              value={minuteInput}
-              onChange={(e) => setMinuteInput(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "20px",
-                backgroundColor: "#222",
-                color: "#fff",
-                border: "1px solid #444",
-                borderRadius: "4px",
-                textAlign: "center",
-                fontSize: "18px",
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") finalizeEvent();
-              }}
-            />
-
-            <div
-              style={{ display: "flex", gap: "10px", justifyContent: "center" }}
-            >
-              <button
-                onClick={() => setPendingEvent(null)}
-                style={{
-                  flex: 1,
-                  padding: "10px",
-                  backgroundColor: "#444",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={finalizeEvent}
-                style={{
-                  flex: 1,
-                  padding: "10px",
-                  backgroundColor: "#d4af37",
-                  color: "#000",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                }}
-              >
-                Salvar
-              </button>
-            </div>
-          </div>
-        </div>
+        <MinuteModal
+          minuteInput={minuteInput}
+          setMinuteInput={setMinuteInput}
+          finalizeEvent={finalizeEvent}
+          setPendingEvent={setPendingEvent}
+        />
       )}
 
       <MatchPreview

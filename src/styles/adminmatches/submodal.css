@@ -1,64 +1,194 @@
-/* Overlay com desfoque */
-.modal-overlay {
+/* ==========================================================================
+   MODAL DE SUBSTITUIÇÃO (EFEITO PREMIUM)
+   ========================================================================== */
+
+/* Animações de entrada (Mesmas do MinuteModal para manter o padrão) */
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUpModal {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.sub-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(5px);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1000;
+  align-items: center;
+  z-index: 9999;
   padding: 20px;
+  animation: fadeInOverlay 0.3s ease-out forwards;
 }
 
-/* Conteúdo do Modal */
-.modal-content {
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 20px;
-  padding: 25px;
+.sub-modal-content {
+  background: linear-gradient(145deg, #181818, #111111);
+  padding: 30px 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  color: #fff;
-}
-
-.modal-content h3 {
-  margin-top: 0;
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(212, 175, 55, 0.05);
   text-align: center;
-  font-size: 1.4rem;
-  color: var(--gold, #d4af37);
+  animation: scaleUpModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* Estilização dos selects */
-select {
-  background: #2a2a2a;
-  border: 1px solid #444;
-  color: white;
+.sub-modal-content h3 {
+  color: #d4af37;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.sub-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+/* ==========================================================================
+   LABELS (Cores e Destaques)
+   ========================================================================== */
+.sub-label-out {
+  display: block;
+  margin-bottom: 6px;
+  color: #ff4d4d; /* Vermelho vibrante */
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.sub-label-in {
+  display: block;
+  margin-bottom: 6px;
+  color: #00e676; /* Verde neon premium */
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.sub-label-reason {
+  display: block;
+  margin-bottom: 6px;
+  color: #d4af37; /* Dourado */
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   SELECTS
+   ========================================================================== */
+.sub-select {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: #050505;
+  color: #fff;
+  border: 1px solid #333;
   border-radius: 8px;
-  font-size: 16px; /* Evita zoom automático no iOS */
-  outline: none;
-  transition: 0.3s;
-}
-
-select:focus {
-  border-color: #d4af37;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
-}
-
-/* Ajuste nos botões */
-.modal-content button {
-  transition: transform 0.2s, background 0.2s;
   font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23d4af37%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+  background-size: 12px auto;
+  padding-right: 40px;
 }
 
-.modal-content button:active {
-  transform: scale(0.98);
+.sub-select:hover {
+  border-color: #555;
 }
 
-.modal-content button:hover {
-  filter: brightness(1.2);
+.sub-select:focus {
+  outline: none;
+  border-color: #d4af37;
+  background-color: #000;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+}
+
+.sub-select option {
+  background-color: #111;
+  color: #fff;
+  padding: 10px;
+}
+
+/* ==========================================================================
+   BOTÕES DE AÇÃO
+   ========================================================================== */
+.sub-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sub-btn-cancel {
+  flex: 1;
+  padding: 12px;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.sub-btn-cancel:hover {
+  background-color: #444;
+  border-color: #666;
+}
+
+.sub-btn-confirm {
+  flex: 1;
+  padding: 12px;
+  background-color: #d4af37;
+  color: #000;
+  font-weight: 900;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
+
+.sub-btn-confirm:hover {
+  background-color: #e2b900;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+}
+
+.sub-btn-confirm:active {
+  transform: translateY(0);
 }
