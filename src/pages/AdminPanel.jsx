@@ -55,7 +55,7 @@ function AdminPanel({ players, matches }) {
         },
       });
       setNewName("");
-      setNewGender("Male"); // Reseta para o padrão após adicionar
+      setNewGender("Male");
     } catch (err) {
       console.error(err);
     }
