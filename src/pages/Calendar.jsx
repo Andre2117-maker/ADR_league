@@ -16,14 +16,24 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
   const [selectedComp, setSelectedComp] = useState("TODAS AS COMPETIÇÕES");
 
   const baseMesesNav = [
-    "JAN", "FEV", "MAR", "ABR", "MAI", "JUN", 
-    "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"
+    "JAN",
+    "FEV",
+    "MAR",
+    "ABR",
+    "MAI",
+    "JUN",
+    "JUL",
+    "AGO",
+    "SET",
+    "OUT",
+    "NOV",
+    "DEZ",
   ];
 
   // Rotaciona o array para que o mês atual seja sempre o índice 0 na tela
   const mesesNav = [
     ...baseMesesNav.slice(currentMonthIndex),
-    ...baseMesesNav.slice(0, currentMonthIndex)
+    ...baseMesesNav.slice(0, currentMonthIndex),
   ];
   const mesesFull = [
     "JANEIRO",
@@ -130,15 +140,17 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
 
         {/* Navegação de Competições */}
         <div className="psg-comp-nav">
-          {["TODAS AS COMPETIÇÕES", "TREINO", "AMISTOSO"].map((comp) => (
-            <span
-              key={comp}
-              className={selectedComp === comp ? "active" : ""}
-              onClick={() => setSelectedComp(comp)}
-            >
-              {comp}
-            </span>
-          ))}
+          {["TODAS AS COMPETIÇÕES", "TREINO", "AMISTOSO", "CAMPEONATO"].map(
+            (comp) => (
+              <span
+                key={comp}
+                className={selectedComp === comp ? "active" : ""}
+                onClick={() => setSelectedComp(comp)}
+              >
+                {comp}
+              </span>
+            ),
+          )}
         </div>
 
         {/* Título do Mês Atual */}
