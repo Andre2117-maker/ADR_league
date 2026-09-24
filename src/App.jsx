@@ -35,7 +35,7 @@ import Campeonato from "./pages/Campeonato.jsx";
 import Titulos from "./pages/Titulos/Titulos.jsx";
 import LocalTreinos from "./pages/LocalTreinos/LocalTreinos.jsx";
 import Elenco from "./pages/Elenco/Elenco.jsx";
-import Configuracao from "./pages/Configuração/Configuração.jsx";
+import Configuracao from "./pages/Configuracao/Configuracao.jsx";
 
 import "./styles/global.css";
 
