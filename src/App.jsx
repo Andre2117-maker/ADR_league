@@ -13,22 +13,21 @@ import {
 
 import { getBestPartner, calculateStandings } from "./utils/statsLogic";
 
-// Componentes e Páginas
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
 import AdminMatches from "./pages/AdminMatches.jsx";
-import Regras from "./pages/Regras.jsx";
+import Regras from "./pages/Rules/Regras.jsx";
 import Calendar from "./pages/Calendar.jsx";
-import Navbar from "./pages/NavBar.jsx";
+import Navbar from "./pages/NavBar/NavBar.jsx";
 import PlayerPage from "./pages/PlayerPage.jsx";
-import MatchPage from "./pages/MatchPage.jsx";
+import MatchPage from "./pages/MatchPage/MatchPage.jsx";
 import AdminTransparency from "./pages/AdminTransparency.jsx";
 import HallHistorico from "./pages/HallHistorico.jsx";
 import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
 import Altar from "./components/Easter Egg/Altar.jsx";
 import Statics from "./pages/Statics.jsx";
-import AboutPage from "./pages/AboutPage.jsx";
+import AboutPage from "./pages/AboutUs/AboutPage.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Legends from "./pages/Legends.jsx";
 import DreamTeam from "./pages/DreamTeam.jsx";
@@ -36,6 +35,7 @@ import Campeonato from "./pages/Campeonato.jsx";
 import Titulos from "./pages/Titulos/Titulos.jsx";
 import LocalTreinos from "./pages/LocalTreinos/LocalTreinos.jsx";
 import Elenco from "./pages/Elenco/Elenco.jsx";
+import Configuracao from "./pages/Configuração/Configuração.jsx";
 
 import "./styles/global.css";
 
@@ -45,7 +45,15 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [matches, setMatches] = useState([]);
 
-  // Carregar Jogadores e Partidas (Mantenha os seus useEffects do Firebase aqui)
+  useEffect(() => {
+    const temaSalvo = localStorage.getItem("app-theme");
+    if (temaSalvo === "IDR") {
+      document.body.classList.add("theme-idr");
+    } else {
+      document.body.classList.remove("theme-idr");
+    }
+  }, []);
+
   useEffect(() => {
     const q = query(collection(db, "players"), orderBy("name", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -64,7 +72,6 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  // --- USANDO AS FUNÇÕES IMPORTADAS ---
   const playersWithStats = calculateStandings(players, matches);
 
   const trainingMatches = matches.filter(
@@ -80,7 +87,6 @@ function App() {
       a.name.localeCompare(b.name, "pt-BR"),
   );
 
-  // --- HANDLERS (AÇÕES) ---
   const handleUpdatePlayer = async (playerId, updatedData) => {
     try {
       const playerRef = doc(db, "players", playerId);
@@ -284,6 +290,8 @@ function App() {
               />
             }
           />
+
+          <Route path="/configuracoes" element={<Configuracao />} />
         </Routes>
       </div>
     </BrowserRouter>
