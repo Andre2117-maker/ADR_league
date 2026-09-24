@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/adminmatches/submodal.css"; // Isso é o que puxa o seu CSS!
+import "./submodal.css";
 
 const SubModal = ({ team, sortedPlayers, teamPlayers, addSubEvent, close }) => {
   const [playerOutId, setPlayerOutId] = useState("");

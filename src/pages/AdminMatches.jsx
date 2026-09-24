@@ -18,7 +18,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import PlayerRow from "../components/adminmatches/PlayerRow";
 import AssistModal from "../components/adminmatches/AssistModal";
-import SubModal from "../components/adminmatches/SubModal";
+import SubModal from "../components/adminmatches/SubModal/SubModal";
 import PenaltiesSection from "../components/adminmatches/PenaltiesSection";
 import AdminHeader from "../components/adminmatches/AdminHeader/AdminHeader";
 import PresetTools from "../components/adminmatches/PresetTools";

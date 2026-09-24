@@ -46,10 +46,6 @@ export default function MatchBanner({
 
   return (
     <div className="psg-match-banner">
-      <button className="psg-back-btn" onClick={() => navigate(-1)}>
-        ❮ Voltar
-      </button>
-
       <div className="psg-banner-header">
         <span className="psg-status">FIM DE JOGO</span>
         <div className="psg-meta">

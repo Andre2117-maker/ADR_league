@@ -142,3 +142,41 @@
 .minute-btn-save:active {
   transform: translateY(0); /* Afunda ao clicar */
 }
+
+/* ==========================================================================
+   TEMA IDR - MODAL DE MINUTAGEM
+   ========================================================================== */
+.theme-idr .minute-modal-box {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+}
+.theme-idr .minute-modal-title {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+.theme-idr .minute-input {
+  background-color: #f5f5f5 !important;
+  color: #000 !important;
+  border-color: #aaa !important;
+}
+.theme-idr .minute-input:focus {
+  border-color: #000 !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15) !important;
+  background-color: #fff !important;
+}
+.theme-idr .minute-btn-cancel {
+  background-color: #eee !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+}
+.theme-idr .minute-btn-cancel:hover {
+  background-color: #ddd !important;
+}
+.theme-idr .minute-btn-save {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .minute-btn-save:hover {
+  background-color: #333 !important;
+}

@@ -376,3 +376,110 @@
     transform: translateY(0);
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - ESTRUTURA PRINCIPAL, HALL DA FAMA E RODAPÉ
+   ========================================================================== */
+
+/* Fundo Geral e Estampa de Cruzes (agora com cruzes escuras) */
+.theme-idr .main-wrapper {
+  background-color: #f5f5f5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(0,0,0,0.06)'%3E+%3C/text%3E%3C/svg%3E") !important;
+}
+
+/* Botões de Navegação (Ex: Visão Geral, Hall da Fama) */
+.theme-idr .btn-transparency-nav {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+}
+
+.theme-idr .btn-transparency-nav:hover {
+  background: #f0f0f0 !important;
+  color: #000 !important;
+}
+
+.theme-idr .btn-transparency-nav.active-tab {
+  background: #000 !important; /* Fundo preto liso */
+  color: #fff !important;
+  border: 1px solid #000 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Hall da Fama e Formulários Admin */
+.theme-idr .hall-vertical-container {
+  color: #111 !important;
+}
+
+.theme-idr .hall-admin-form {
+  background: #ffffff !important;
+  border: 1px dashed #999 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .hall-admin-form input {
+  background: #f5f5f5 !important;
+  border: 1px solid #ccc !important;
+  color: #000 !important;
+}
+
+.theme-idr .hall-admin-form input:focus {
+  border-color: #000 !important;
+  outline: none;
+  background: #fff !important;
+}
+
+/* Lista do Hall da Fama */
+.theme-idr .hall-group {
+  border-left: 2px solid #000 !important;
+}
+
+.theme-idr .year-label {
+  color: #000 !important;
+}
+
+.theme-idr .hall-item {
+  border-bottom: 1px solid #ddd !important;
+}
+
+.theme-idr .hall-item.active {
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+
+.theme-idr .hall-item.retired {
+  color: #888 !important;
+}
+
+/* Botão Exportar Tabela */
+.theme-idr .export-btn {
+  background: #ffffff !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+}
+
+.theme-idr .export-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Rodapé e Patrocinadores */
+.theme-idr .sponsors-footer {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-top: 1px solid #ddd !important;
+}
+
+.theme-idr .sponsor-master img,
+.theme-idr .sponsors-secondary img {
+  filter: grayscale(1) contrast(1.2) !important; /* Mantém P&B mas com contraste mais forte no fundo claro */
+  opacity: 0.85 !important;
+}
+
+.theme-idr .sponsor-divider {
+  background: linear-gradient(
+    to right,
+    transparent,
+    #000,
+    transparent
+  ) !important;
+}

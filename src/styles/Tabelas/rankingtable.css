@@ -351,3 +351,42 @@ thead th {
   height: 12px;
   border-radius: 2px; /* Quadrado levemente arredondado */
 }
+
+/* ==========================================================================
+   TEMA IDR - TABELA DE RANKING
+   ========================================================================== */
+.theme-idr table {
+  background: #ffffff !important;
+}
+.theme-idr thead th {
+  background: #f0f0f0 !important;
+  color: #000 !important;
+  border-bottom: 2px solid #ccc !important;
+}
+.theme-idr tbody tr {
+  border-bottom: 1px solid #eee !important;
+}
+.theme-idr tbody tr:hover {
+  background: #f9f9f9 !important;
+}
+.theme-idr tbody td {
+  border-bottom: 1px solid #eee !important;
+  color: #111 !important;
+}
+.theme-idr .sticky-col {
+  background-color: #ffffff !important;
+}
+.theme-idr thead th.sticky-col {
+  background-color: #f0f0f0 !important;
+}
+.theme-idr .separator-cell {
+  background: #f5f5f5 !important;
+  color: #555 !important;
+}
+.theme-idr .legend-container {
+  background: #f9f9f9 !important;
+  border-color: #ccc !important;
+}
+.theme-idr .legend-item {
+  color: #333 !important;
+}

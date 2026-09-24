@@ -57,3 +57,24 @@
   background-color: #d4af37;
   color: #000;
 }
+
+/* ==========================================================================
+   TEMA IDR - BOTÕES EXTRAS
+   ========================================================================== */
+.theme-idr .new-sub-btn {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+}
+.theme-idr .new-sub-btn:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .confirm-btn-final {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+}
+.theme-idr .confirm-btn-final:hover {
+  background-color: #333 !important;
+}

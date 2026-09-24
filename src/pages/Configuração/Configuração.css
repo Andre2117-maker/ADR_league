@@ -1,0 +1,161 @@
+/* ==========================================================================
+   TELA DE CONFIGURAÇÃO (BOTÕES DE ESCOLHA)
+   ========================================================================== */
+.config-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.config-wrapper {
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 40px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.config-subtitle {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.theme-cards-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.theme-card-option {
+  flex: 1;
+  background: #111;
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-card-option h2 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.theme-card-option p {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 15px;
+}
+
+.color-preview {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.color-preview span {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.theme-card-option:hover {
+  transform: translateY(-5px);
+}
+
+/* Quando o ADR está selecionado */
+.active-adr {
+  border-color: #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+.active-adr h2 {
+  color: #d4af37;
+}
+
+/* Quando o IDR está selecionado */
+.active-idr {
+  background: #fff;
+  border-color: #000;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+.active-idr h2 {
+  color: #000;
+}
+.active-idr p {
+  color: #555;
+}
+
+/* ==========================================================================
+   TEMA IDR - APENAS PARA A TELA DE CONFIGURAÇÕES E RESETS GLOBAIS
+   (O restante já foi modularizado nos próprios componentes)
+   ========================================================================== */
+
+/* Caixa principal da aba Configurações */
+.theme-idr .config-wrapper {
+  background: #ffffff !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+  color: #111 !important;
+}
+
+.theme-idr .config-subtitle {
+  color: #555 !important;
+}
+
+/* Força os fundos genéricos das páginas a ficarem claros */
+.theme-idr .page-container,
+.theme-idr .page-container1,
+.theme-idr .page-container2 {
+  background-color: #f5f5f5 !important;
+}
+
+/* Transforma Títulos Dourados Globais em Pretos */
+.theme-idr .page-title,
+.theme-idr .page-title1,
+.theme-idr h1,
+.theme-idr h2,
+.theme-idr h3 {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Textos gerais que eram brancos e precisam ser escuros para leitura */
+.theme-idr p,
+.theme-idr span,
+.theme-idr .player-name-text {
+  color: #222; /* Sem !important para não sobrescrever classes muito específicas */
+}
+
+/* 
+   Mantivemos estes três itens aqui apenas porque ainda 
+   não levamos o CSS deles para os seus arquivos definitivos. 
+*/
+.theme-idr .central-column,
+.theme-idr .team-card {
+  background: #ffffff !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+  color: #111 !important;
+}
+
+/* ==========================================================================
+   ESCUDO DO CARTÃO ADR 
+   (Impede que o texto fique preto no fundo preto quando o IDR está ativo)
+   ========================================================================== */
+.theme-idr .theme-card-option:not(.active-idr) h2 {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+.theme-idr .theme-card-option:not(.active-idr) p {
+  color: #888888 !important;
+}
