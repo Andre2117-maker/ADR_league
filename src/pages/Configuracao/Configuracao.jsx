@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../../components/Footer";
-import "./configuracao.css";
+import "./Configuracao.css";
 
 function Configuracao() {
   const [temaAtual, setTemaAtual] = useState("ADR");
