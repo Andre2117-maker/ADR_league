@@ -1,0 +1,297 @@
+/* =====================================================
+    RULES - ESTILO PREMIUM ELITE (REGULAMENTO)
+   ===================================================== */
+
+/* Container Principal */
+.page-container1 {
+  padding-top: 135px !important;
+  padding-bottom: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Helper para centralização */
+.content-center-helper {
+  width: 100%;
+  max-width: 950px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título da Página */
+.page-title1 {
+  width: 100%;
+  background: linear-gradient(180deg, #ffffff 30%, #d4af37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+  font-weight: 900;
+  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+  text-align: center;
+}
+
+/* Wrapper das Regras */
+.rules-wrapper {
+  width: 100%;
+  max-width: 950px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Seção do Botão PDF */
+.pdf-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.pdf-download-btn {
+  background: rgba(20, 20, 20, 0.6);
+  color: #d4af37;
+  padding: 14px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
+  text-align: center;
+}
+
+.pdf-download-btn:hover {
+  background: #d4af37;
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+/* O "Papel" das Regras (Glassmorphism) */
+.rules-paper {
+  background: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  color: #e0e0e0;
+  padding: 60px;
+  border-radius: 24px;
+  position: relative;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Cabeçalho do Documento Interno */
+.rules-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 25px;
+  margin-bottom: 40px;
+}
+
+.doc-stamp {
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: #d4af37;
+  border: 2px solid #d4af37;
+  padding: 5px 12px;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.doc-date {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* --- ESTILIZAÇÃO DO CONTEÚDO (TEXTO) --- */
+.rules-content {
+  line-height: 1.9;
+  text-align: left;
+}
+
+/* Títulos das Seções (Ex: 1. PONTUAÇÃO) */
+.rule-section {
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  color: #d4af37; /* Dourado ADR */
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Linha dourada que segue o título da seção */
+.rule-section::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.3), transparent);
+}
+
+/* Itens das Regras (Texto comum ou listas) */
+.rule-item {
+  margin-left: 5px;
+  color: #bbb;
+  padding: 8px 0 8px 20px;
+  font-size: 1.05rem;
+  border-left: 2px solid rgba(212, 175, 55, 0.1); /* Bordas sutis laterais */
+  transition: all 0.3s ease;
+}
+
+.rule-item:hover {
+  color: #fff;
+  border-left-color: rgba(212, 175, 55, 0.5);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Área de Edição (Admin) */
+.rules-textarea {
+  width: 100%;
+  min-height: 500px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  resize: vertical;
+}
+
+/* Rodapé do Papel */
+.rules-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  color: #555;
+  text-align: center;
+}
+
+.saving-status.blink {
+  color: #d4af37;
+  animation: blink 1s infinite;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+  .page-container1 {
+    padding-top: 120px !important;
+  }
+
+  .page-title1 {
+    font-size: 1.6rem;
+  }
+
+  .rules-paper {
+    padding: 40px 20px;
+  }
+
+  .rules-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .rule-section {
+    font-size: 1.1rem;
+  }
+
+  .rule-item {
+    font-size: 0.95rem;
+    padding-left: 15px;
+  }
+}
+
+/* ==========================================================================
+   TEMA IDR - REGULAMENTO
+   ========================================================================== */
+.theme-idr .rules-paper {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  color: #111 !important;
+}
+.theme-idr .rule-section {
+  color: #000 !important;
+  border-bottom-color: #ccc !important;
+}
+.theme-idr .rule-section::after {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.3),
+    transparent
+  ) !important;
+}
+.theme-idr .rule-item {
+  color: #333 !important;
+  border-left-color: #ccc !important;
+}
+.theme-idr .rule-item:hover {
+  background: #f9f9f9 !important;
+  border-left-color: #000 !important;
+  color: #000 !important;
+}
+.theme-idr .rules-header {
+  border-bottom-color: #ccc !important;
+}
+.theme-idr .doc-stamp {
+  color: #000 !important;
+  border-color: #000 !important;
+}
+.theme-idr .pdf-download-btn {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #000 !important;
+}
+.theme-idr .pdf-download-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .rules-textarea {
+  background: #f9f9f9 !important;
+  color: #000 !important;
+  border: 1px dashed #999 !important;
+}
