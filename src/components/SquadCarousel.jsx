@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import ALL from "../assets/ALL.png";
 import "../styles/matches.css";
-import "../styles/home/sqdcarroussel.css";
+import "../styles/Home/sqdcarroussel.css";
 
 function SquadCarousel({ players, onSelectPlayer }) {
   const carouselRef = useRef(null);
