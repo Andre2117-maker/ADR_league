@@ -171,3 +171,60 @@
     flex: 0 0 280px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - CALENDÁRIO DE ANIVERSÁRIOS
+   ========================================================================== */
+
+/* Título da Seção */
+.theme-idr .schedule-title {
+  color: #000 !important;
+}
+
+/* Cartões de Aniversário */
+.theme-idr .schedule-card {
+  background: #ffffff !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .schedule-card:hover {
+  background: #f9f9f9 !important;
+  border-color: #000 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Textos do Cartão */
+.theme-idr .bday-date {
+  color: #000 !important; /* Data que era dourada fica preta e forte */
+}
+
+.theme-idr .bday-text {
+  color: #333 !important; /* Texto principal escuro */
+}
+
+.theme-idr .bday-tag {
+  color: #888 !important; /* Tag sutil em cinza */
+}
+
+/* Controles de Paginação (Setas) */
+.theme-idr .nav-arrow {
+  border-color: #ccc !important;
+  color: #000 !important;
+  background: #fff !important;
+}
+
+.theme-idr .nav-arrow:hover {
+  border-color: #000 !important;
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Barrinhas de Status (Dots) */
+.theme-idr .dot {
+  background: #ddd !important; /* Barrinhas inativas em cinza claro */
+}
+
+.theme-idr .dot.active {
+  background: #000 !important; /* Barra ativa preta em vez de dourada */
+}

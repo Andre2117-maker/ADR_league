@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import ALL from "../assets/ALL.png";
 import "../styles/matches.css";
+import "../styles/home/sqdcarroussel.css";
 
 function SquadCarousel({ players, onSelectPlayer }) {
   const carouselRef = useRef(null);
@@ -49,7 +50,12 @@ function SquadCarousel({ players, onSelectPlayer }) {
     <section className="sqd-container-full">
       <div className="sqd-header">
         <h2 className="sqd-title">
-          ELENCO <span className="sqd-highlight">ADR</span>
+          ELENCO{" "}
+          <span className="sqd-highlight">
+            {/* Truque do texto duplo controlado pelo CSS */}
+            <span className="text-adr">ADR</span>
+            <span className="text-idr">IDR</span>
+          </span>
         </h2>
         <div className="sqd-underline"></div>
       </div>

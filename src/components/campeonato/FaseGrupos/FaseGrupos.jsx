@@ -54,7 +54,10 @@ export default function FaseGrupos({
                         title="Clique para lançar partidas!"
                       >
                         <td className="team-name">
-                          <span className="expand-arrow">
+                          <span
+                            className="expand-arrow"
+                            style={{ cursor: "pointer" }}
+                          >
                             {isExpanded ? "▼" : "▶"}
                           </span>
                           <span className="pos">{idx + 1}</span> {time.nome}

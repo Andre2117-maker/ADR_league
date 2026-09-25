@@ -182,3 +182,72 @@ body {
     font-size: 16px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - PAINEL ADMINISTRATIVO GERAL (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Fundo Principal da Página */
+.theme-idr .adm-main-layout {
+  background: radial-gradient(
+    circle at top right,
+    #ffffff 0%,
+    #e5e5e5 100%
+  ) !important;
+  color: #111 !important;
+}
+
+/* Header & Navegação */
+.theme-idr .adm-header-nav {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .adm-title-highlight {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Botões do Menu de Navegação */
+.theme-idr .adm-nav-left button {
+  background: #f0f0f0 !important;
+  color: #555 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .adm-nav-left button:hover {
+  border-color: #000 !important;
+  color: #000 !important;
+}
+
+.theme-idr .adm-btn-matches {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Seção de Adicionar Jogador */
+.theme-idr .adm-input-new-player {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  color: #000 !important;
+}
+
+.theme-idr .adm-input-new-player:focus {
+  border-color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .adm-btn-add-confirm {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.theme-idr .adm-btn-add-confirm:hover {
+  background: #333 !important;
+}
+
+/* Cabeçalho Fake da Tabela */
+.theme-idr .adm-thead-fake-pc {
+  color: #666 !important;
+}

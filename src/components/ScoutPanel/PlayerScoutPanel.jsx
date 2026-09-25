@@ -1,4 +1,3 @@
-// src/components/PlayerScoutPanel.jsx
 import {
   Radar,
   RadarChart,
@@ -8,8 +7,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import "./scoutpanel.css";
+
 export default function PlayerScoutPanel({ player, stats, bestPartner }) {
-  // Se não houver jogador selecionado/hover, exibe o estado vazio
   if (!player) {
     return (
       <div className="empty-state-card">
@@ -91,10 +91,10 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
                 { subject: "Def", A: player.skills?.defesa || 50 },
               ]}
             >
-              <PolarGrid stroke="#444" />
+              <PolarGrid stroke="var(--radar-grid, #444)" />
               <PolarAngleAxis
                 dataKey="subject"
-                tick={{ fill: "#aaa", fontSize: 9 }}
+                tick={{ fill: "var(--radar-text, #aaa)", fontSize: 9 }}
               />
               <PolarRadiusAxis
                 angle={30}
@@ -105,8 +105,8 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
               <Radar
                 name="Skills"
                 dataKey="A"
-                stroke="#d4af37"
-                fill="#d4af37"
+                stroke="var(--radar-cor, #d4af37)"
+                fill="var(--radar-cor, #d4af37)"
                 fillOpacity={0.5}
               />
             </RadarChart>
@@ -115,8 +115,13 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
       </div>
 
       <div className="profile-footer">
-        <p>Temporada 2026</p>
-        <div className="badge-adr">ATLETA ADR</div>
+        {/* Ano Automático */}
+        <p>Temporada {new Date().getFullYear()}</p>
+        <div className="badge-adr">
+          {/* Textos que serão ligados/desligados pelo CSS */}
+          <span className="text-adr">ATLETA ADR</span>
+          <span className="text-idr">ATLETA IDR</span>
+        </div>
       </div>
     </div>
   );

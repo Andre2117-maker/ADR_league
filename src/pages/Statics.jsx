@@ -2,9 +2,9 @@ import React, { useMemo, useCallback } from "react";
 import "../styles/Statics/statics.css";
 
 // Componentes originais
-import TopAssistsCard from "../components/TopAssistsCard";
-import TopGoalkeepersCard from "../components/TopGoalkeepersCard";
-import TopScorersCard from "../components/TopScorersCard";
+import TopAssistsCard from "../components/TopAssists/TopAssistsCard";
+import TopGoalkeepersCard from "../components/TopGoalkeepers/TopGoalkeepersCard";
+import TopScorersCard from "../components/TopScorers/TopScorersCard";
 import Footer from "../components/Footer";
 
 // NOVOS IMPORTES (Amistosos)

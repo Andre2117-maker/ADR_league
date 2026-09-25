@@ -585,3 +585,214 @@
     font-size: 32px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - GERENCIAMENTO DE JOGADORES / ADMIN TABLE (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Linha do Jogador (Card / TR) */
+.theme-idr .adm-tr {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .adm-tr:hover {
+  border-color: #000 !important;
+  background: #fcfcfc !important;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Avatar e Nome do Jogador */
+.theme-idr .adm-avatar-wrapper {
+  border-color: #000 !important;
+  background: #eee !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .adm-tr:hover .adm-avatar-wrapper {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-idr .adm-player-name {
+  color: #000 !important;
+}
+
+.theme-idr .adm-edit-name-btn:hover {
+  filter: drop-shadow(0 0 5px #000) !important;
+}
+
+.theme-idr .adm-mini-stats {
+  color: #666 !important;
+}
+
+.theme-idr .anon-tag {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #555 !important;
+  border-color: #ccc !important;
+}
+
+/* Badge de Estatísticas Totais */
+.theme-idr .adm-total-badge {
+  background: linear-gradient(to bottom right, #f9f9f9, #f0f0f0) !important;
+  border-color: #ddd !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .adm-label {
+  color: #777 !important;
+}
+
+.theme-idr .adm-value {
+  color: #000 !important;
+}
+
+.theme-idr .adm-stat-divider {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Botões de mais e menos (Cálculos) */
+.theme-idr .adm-btn-minus {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #333 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .adm-btn-minus:hover {
+  background: #333 !important;
+  color: #fff !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-idr .adm-btn-plus {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .adm-btn-plus:hover {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-idr .adm-input-number {
+  background: #f9f9f9 !important;
+  border-color: #ccc !important;
+  color: #000 !important;
+}
+
+.theme-idr .adm-input-number:focus {
+  border-color: #000 !important;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Inputs de Perfil (Títulos, Cargo, Foto, Número, All-Star) */
+.theme-idr .adm-input-titles,
+.theme-idr .adm-input-role {
+  background: #f9f9f9 !important;
+  border-color: #ccc !important;
+  color: #000 !important;
+}
+
+.theme-idr .adm-input-titles:focus,
+.theme-idr .adm-input-role:focus {
+  border-color: #000 !important;
+  background: #ffffff !important;
+}
+
+.theme-idr .adm-input-titles {
+  color: #000 !important;
+}
+
+.theme-idr .adm-photo-url-input {
+  border-bottom-color: #ccc !important;
+  color: #666 !important;
+}
+
+.theme-idr .adm-photo-url-input:focus {
+  border-bottom-color: #000 !important;
+  color: #000 !important;
+}
+
+.theme-idr .adm-number-wrapper {
+  background: #f9f9f9 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .adm-number-label {
+  color: #000 !important;
+}
+
+.theme-idr .adm-number-input {
+  color: #000 !important;
+}
+
+.theme-idr .adm-label-allstar {
+  color: #555 !important;
+}
+
+.theme-idr .adm-label-allstar input {
+  accent-color: #000 !important;
+}
+
+/* Botões de Ação (Anônimo e Lixo) */
+.theme-idr .adm-btn-anon {
+  color: #888 !important;
+}
+
+.theme-idr .adm-btn-anon.active {
+  color: #000 !important;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
+}
+
+.theme-idr .adm-btn-delete:hover {
+  filter: drop-shadow(0 0 8px rgba(200, 0, 0, 0.8)) !important;
+}
+
+/* Modal de Prompt Personalizado */
+.theme-idr .custom-prompt-overlay {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+.theme-idr .custom-prompt-box {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .custom-prompt-box h3 {
+  color: #000 !important;
+}
+
+.theme-idr .custom-prompt-box input {
+  background: #f9f9f9 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .custom-prompt-box input:focus {
+  border-color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .custom-prompt-actions .btn-cancel {
+  background: #f0f0f0 !important;
+  color: #555 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .custom-prompt-actions .btn-cancel:hover {
+  background: #e0e0e0 !important;
+  color: #000 !important;
+}
+
+.theme-idr .custom-prompt-actions .btn-save {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .custom-prompt-actions .btn-save:hover {
+  background: #333 !important;
+}

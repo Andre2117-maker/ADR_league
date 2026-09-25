@@ -2,17 +2,16 @@ import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import html2canvas from "html2canvas";
 import "../styles/Home/home.css";
-import "../style.css";
 
 // Componentes
 import MatchesCarousel from "../components/MatchesCarousel";
 import SquadCarousel from "../components/SquadCarousel";
 import RankingTable from "../components/RankingTable";
-import PlayerScoutPanel from "../components/PlayerScoutPanel";
-import TopGoalkeepersCard from "../components/TopGoalkeepersCard";
-import TopScorersCard from "../components/TopScorersCard";
-import TopAssistsCard from "../components/TopAssistsCard";
-import AwardsCard from "../components/AwardsCard";
+import PlayerScoutPanel from "../components/ScoutPanel/PlayerScoutPanel";
+import TopGoalkeepersCard from "../components/TopGoalkeepers/TopGoalkeepersCard";
+import TopScorersCard from "../components/TopScorers/TopScorersCard";
+import TopAssistsCard from "../components/TopAssists/TopAssistsCard";
+import AwardsCard from "../components/Awards/AwardsCard";
 import BirthdaySchedule from "../components/BirthdaySchedule";
 import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";

@@ -277,3 +277,131 @@
     width: calc(100% + 20px);
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - CAMPEONATOS & MATA-MATA (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Wrapper Principal (Fundo Claro com SVG) */
+.theme-idr .camp-page-wrapper {
+  background-color: #f5f5f5 !important;
+  color: #111 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(0,0,0,0.05)'%3E+%3C/text%3E%3C/svg%3E") !important;
+}
+
+/* Logo e Título */
+.theme-idr .camp-logo {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2)) !important;
+}
+
+.theme-idr .camp-title {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Seletor de Ano */
+.theme-idr .camp-year-btn {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  color: #666 !important;
+}
+
+.theme-idr .camp-year-btn:hover {
+  border-color: #000 !important;
+  color: #000 !important;
+}
+
+.theme-idr .camp-year-btn.active {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Abas */
+.theme-idr .camp-tabs {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .camp-tab-btn {
+  color: #666 !important;
+}
+
+.theme-idr .camp-tab-btn.active {
+  background: #f0f0f0 !important;
+  color: #000 !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Títulos das Rodadas do Bracket */
+.theme-idr .bracket-round-title {
+  color: #666 !important;
+}
+
+/* Cartões de Partida do Mata-Mata */
+.theme-idr .bracket-match {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .bracket-match.gold-border {
+  border-color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .bracket-date {
+  background: #f9f9f9 !important;
+  color: #888 !important;
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .bracket-team {
+  border-bottom-color: #eee !important;
+  color: #777 !important;
+}
+
+.theme-idr .bracket-team.winner {
+  color: #000 !important;
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .bracket-team.winner .bracket-score {
+  color: #000 !important;
+  font-weight: 900 !important;
+}
+
+.theme-idr .bracket-score {
+  background: #f0f0f0 !important;
+  border-color: #ddd !important;
+  color: #333 !important;
+}
+
+/* Caixa do Campeão */
+.theme-idr .champion-box {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Conectores Visuais do Bracket (Linhas pretas em vez de cinza/dourado) */
+.theme-idr .bracket-connector .top-line {
+  border-top-color: #aaa !important;
+  border-right-color: #aaa !important;
+}
+
+.theme-idr .bracket-connector .bottom-line {
+  border-bottom-color: #aaa !important;
+  border-right-color: #aaa !important;
+}
+
+.theme-idr .bracket-connector .center-line {
+  background: #aaa !important;
+}
+
+.theme-idr .final-to-champ .center-line {
+  background: #000 !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+}

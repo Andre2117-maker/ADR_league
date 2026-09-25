@@ -151,3 +151,81 @@
   object-fit: cover;
   background: #000000;
 }
+
+/* ==========================================================================
+   TEMA IDR - TOP GOALKEEPERS CARD (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Cartão Principal */
+.theme-idr .gk-card {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Título e Cabeçalho */
+.theme-idr .gk-title {
+  color: #000 !important;
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .gk-header {
+  color: #555 !important;
+  opacity: 0.8 !important;
+}
+
+/* Linhas da Lista */
+.theme-idr .gk-row {
+  background: #f9f9f9 !important;
+}
+
+.theme-idr .gk-row:hover {
+  background: #f0f0f0 !important;
+}
+
+/* Ranking e Avatar */
+.theme-idr .gk-rank {
+  color: #888 !important;
+}
+
+.theme-idr .gk-rank.is-first {
+  color: #000 !important;
+}
+
+.theme-idr .gk-avatar-img {
+  background: #eee !important;
+  border: 1px solid #ddd !important;
+}
+
+.theme-idr .gk-name {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+/* Estatísticas (Cores escurecidas para dar contraste no fundo branco) */
+.theme-idr .gk-val {
+  color: #000 !important;
+}
+
+.theme-idr .mgs {
+  color: #cc0000 !important; /* Vermelho escuro */
+}
+
+.theme-idr .cs {
+  color: #008a00 !important; /* Verde escuro */
+}
+
+.theme-idr .j {
+  color: #555 !important; /* Cinza escuro */
+}
+
+/* Rodapé */
+.theme-idr .gk-footer {
+  color: #666 !important;
+  border-top-color: #eee !important;
+  opacity: 0.8 !important;
+}
+
+.theme-idr .gk-footer strong {
+  color: #000 !important;
+}

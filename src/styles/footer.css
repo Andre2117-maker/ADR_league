@@ -180,3 +180,61 @@
     margin-top: 40px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR E TROCA DE PATROCINADORES (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* 1. Esconde os elementos do IDR por padrão */
+.img-idr,
+.text-idr {
+  display: none;
+}
+
+/* 2. Regras quando o TEMA IDR estiver ativo */
+/* Fundo do Footer */
+.theme-idr .sponsors-footer {
+  background: #ffffff !important;
+  border-top: 1px solid #ccc !important;
+  color: #111 !important;
+}
+
+/* Textos e Divisórias */
+.theme-idr .footer-label,
+.theme-idr .footer-bottom p,
+.theme-idr .footer-motto {
+  color: #555 !important;
+}
+
+.theme-idr .footer-divider {
+  background: #ddd !important;
+}
+
+/* Ícone do Instagram */
+.theme-idr .social-link {
+  color: #000 !important;
+  background: #f5f5f5 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .social-link:hover {
+  background: #000000 !important;
+  color: #fff !important;
+}
+
+/* 3. O Truque Mágico: Inverte as Imagens e Textos (ADR sai, IDR entra) */
+.theme-idr .img-adr,
+.theme-idr .text-adr {
+  display: none !important;
+}
+
+.theme-idr .img-idr {
+  display: block !important;
+}
+
+.theme-idr .egg-trigger:hover,
+.theme-idr .egg-trigger:hover .text-idr {
+  color: #000 !important;
+  text-shadow: 0 0 10px rgb(0, 0, 0) !important;
+  transition: all 0.3s ease !important;
+}

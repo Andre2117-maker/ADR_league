@@ -395,137 +395,93 @@
 }
 
 /* ==========================================================================
-   TEMA IDR - MATCH BANNER (PRETO E BRANCO MAJORITÁRIO)
+   TEMA IDR - MATCH BANNER (APENAS TREINO FICA CLARO)
    ========================================================================== */
 
-/* Fundo Geral e Header */
-.theme-idr .mtc-banner-container {
+/* 1. Transforma APENAS o TREINO em Branco e Preto */
+.theme-idr .mtc-type-treino {
   background: #ffffff !important;
-  border-bottom-color: #000 !important; /* Força a borda inferior a ser preta */
+  border-bottom-color: #000 !important;
 }
 
-.theme-idr .mtc-banner-header {
+.theme-idr .mtc-type-treino .mtc-banner-header {
   border-bottom-color: #eee !important;
 }
-
-.theme-idr .mtc-venue-top {
+.theme-idr .mtc-type-treino .mtc-venue-top {
   color: #000 !important;
 }
-
-.theme-idr .mtc-match-date {
+.theme-idr .mtc-type-treino .mtc-match-date {
   color: #666 !important;
 }
 
-/* Nomes dos Times e Goleadores */
-.theme-idr .mtc-team-name-large {
+.theme-idr .mtc-type-treino .mtc-team-name-large {
   color: #000 !important;
   text-shadow: none !important;
 }
-
-.theme-idr .mtc-scorer {
+.theme-idr .mtc-type-treino .mtc-scorer {
   color: #555 !important;
 }
 
-/* Placar Central (Cinza claro com texto preto) */
-.theme-idr .mtc-score-wrapper {
+.theme-idr .mtc-type-treino .mtc-score-wrapper {
   background: #f5f5f5 !important;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
 }
 
-.theme-idr .mtc-big-num {
+.theme-idr .mtc-type-treino .mtc-big-num {
   color: #000 !important;
 }
-
-.theme-idr .mtc-penalty-small {
+.theme-idr .mtc-type-treino .mtc-penalty-small {
   color: #555 !important;
 }
-
-.theme-idr .mtc-vs-text {
+.theme-idr .mtc-type-treino .mtc-vs-text {
   color: #ccc !important;
 }
 
-/* Botão de Detalhes */
-.theme-idr .mtc-details-btn {
+.theme-idr .mtc-type-treino .mtc-details-btn {
   border-color: #000 !important;
   color: #000 !important;
 }
-
-.theme-idr .mtc-details-btn:hover {
+.theme-idr .mtc-type-treino .mtc-details-btn:hover {
   background: #000 !important;
   color: #fff !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Setas do Carrossel e Bolinhas (Dots) */
-.theme-idr .mtc-arrow {
+.theme-idr .mtc-type-treino .mtc-arrow {
   color: #aaa !important;
 }
-
-.theme-idr .mtc-arrow:hover {
+.theme-idr .mtc-type-treino .mtc-arrow:hover {
   color: #000 !important;
 }
-
-.theme-idr .mtc-dot {
+.theme-idr .mtc-type-treino .mtc-dot {
   background: #ddd !important;
 }
-
-.theme-idr .mtc-dot.active {
+.theme-idr .mtc-type-treino .mtc-dot.active {
   background: #000 !important;
   box-shadow: none !important;
 }
 
 /* ==========================================================================
-   ANULANDO AS CORES ESPECÍFICAS (AMISTOSO E CAMPEONATO)
-   Isso força o Azul e o Roxo a virarem P&B quando o IDR estiver ativo
+   2. ESCUDO DE PROTEÇÃO PARA AMISTOSO E CAMPEONATO 
+   (Impede que as regras globais do IDR deixem os textos deles pretos)
    ========================================================================== */
-
-.theme-idr .mtc-type-amistoso,
-.theme-idr .mtc-type-campeonato {
-  background: #ffffff !important;
-  border-bottom-color: #000 !important;
-}
-
-.theme-idr .mtc-type-amistoso .mtc-score-wrapper,
-.theme-idr .mtc-type-campeonato .mtc-score-wrapper {
-  background: #f5f5f5 !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
-}
-
+.theme-idr .mtc-type-amistoso .mtc-team-name-large,
+.theme-idr .mtc-type-campeonato .mtc-team-name-large,
 .theme-idr .mtc-type-amistoso .mtc-big-num,
 .theme-idr .mtc-type-campeonato .mtc-big-num {
-  color: #000 !important;
+  color: #fff !important; /* Mantém o texto branco brilhante e original */
 }
 
-.theme-idr .mtc-type-amistoso .mtc-penalty-small,
-.theme-idr .mtc-type-campeonato .mtc-penalty-small {
-  color: #555 !important;
+.theme-idr .mtc-type-amistoso .mtc-scorer,
+.theme-idr .mtc-type-campeonato .mtc-scorer {
+  color: #aaa !important; /* Mantém o cinza claro original */
 }
 
-.theme-idr .mtc-type-amistoso .mtc-details-btn,
-.theme-idr .mtc-type-campeonato .mtc-details-btn {
-  border-color: #000 !important;
-  color: #000 !important;
+.theme-idr .mtc-type-amistoso .mtc-vs-text,
+.theme-idr .mtc-type-campeonato .mtc-vs-text {
+  color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.theme-idr .mtc-type-amistoso .mtc-details-btn:hover,
-.theme-idr .mtc-type-campeonato .mtc-details-btn:hover {
-  background: #000 !important;
-  color: #fff !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
-}
-
-.theme-idr .mtc-type-amistoso .mtc-arrow:hover,
-.theme-idr .mtc-type-campeonato .mtc-arrow:hover {
-  color: #000 !important;
-}
-
-.theme-idr .mtc-type-amistoso .mtc-dot.active,
-.theme-idr .mtc-type-campeonato .mtc-dot.active {
-  background: #000 !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .mtc-type-amistoso .mtc-venue-top,
-.theme-idr .mtc-type-campeonato .mtc-venue-top {
-  color: #000 !important;
+.theme-idr .mtc-type-amistoso .mtc-match-date,
+.theme-idr .mtc-type-campeonato .mtc-match-date {
+  color: #888 !important;
 }

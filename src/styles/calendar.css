@@ -308,3 +308,139 @@
   color: #777777;
   font-size: 16px;
 }
+
+/* ==========================================================================
+   TEMA IDR - CALENDÁRIO DE PARTIDAS (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Fundo da Página (Branco com SVG Claro) */
+.theme-idr .psg-page-container {
+  background-color: #f5f5f5 !important;
+  color: #111 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(0,0,0,0.05)'%3E+%3C/text%3E%3C/svg%3E") !important;
+}
+
+/* Textos e Títulos */
+.theme-idr .psg-season-title,
+.theme-idr .psg-month-title,
+.theme-idr .psg-team-name {
+  color: #000 !important;
+}
+
+/* Botão de Adicionar Partida */
+.theme-idr .psg-add-btn {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.theme-idr .psg-add-btn:hover {
+  background-color: #333 !important;
+}
+
+/* Navegação Meses */
+.theme-idr .psg-month-nav {
+  border-bottom-color: #ddd !important;
+}
+
+.theme-idr .psg-month-nav span {
+  color: #888 !important;
+}
+
+.theme-idr .psg-month-nav span:hover {
+  color: #444 !important;
+}
+
+.theme-idr .psg-month-nav span.active {
+  color: #000 !important;
+  border-bottom-color: #000 !important;
+}
+
+/* Navegação Competições */
+.theme-idr .psg-comp-nav span {
+  background-color: #fff !important;
+  color: #555 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .psg-comp-nav span.active {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+/* Cards das Partidas (Vidro Claro) */
+.theme-idr .psg-match-card {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .psg-match-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  border-color: #000 !important;
+}
+
+.theme-idr .psg-card-top {
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .psg-comp-text {
+  color: #555 !important;
+}
+
+/* Marca d'água no fundo do Card */
+.theme-idr .psg-watermark {
+  color: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Placar (Fundo escuro com número branco para melhor leitura no IDR) */
+.theme-idr .psg-team-score {
+  background-color: #f0f0f0 !important;
+  color: #000 !important;
+  border: 1px solid #ddd !important;
+}
+
+/* Pênaltis */
+.theme-idr .psg-penalty-score {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+/* Info do Card */
+.theme-idr .psg-date {
+  color: #333 !important;
+}
+
+.theme-idr .psg-venue {
+  color: #666 !important;
+}
+
+/* Botão Match Center (Rodapé do Card) */
+.theme-idr .psg-match-center-btn {
+  background-color: #f9f9f9 !important;
+  color: #333 !important;
+  border-top-color: #eee !important;
+}
+
+.theme-idr .psg-match-center-btn:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Botões do Admin (Editar/Apagar) */
+.theme-idr .psg-admin-actions button {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .psg-admin-actions button:hover {
+  background: #f0f0f0 !important;
+  border-color: #000 !important;
+}
+
+/* Estado sem partidas */
+.theme-idr .psg-no-matches {
+  color: #666 !important;
+}

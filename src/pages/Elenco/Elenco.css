@@ -282,3 +282,88 @@
     font-size: 0.65rem;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - ELENCO (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Fundo da Página */
+.theme-idr.elenco-psg-wrapper,
+.theme-idr .elenco-psg-wrapper {
+  background-color: #f5f5f5 !important;
+  color: #111 !important;
+}
+
+/* Cabeçalho e Título */
+.theme-idr .elenco-page-header {
+  border-bottom-color: #ccc !important;
+}
+
+.theme-idr .elenco-page-title {
+  color: #000 !important;
+}
+
+/* Filtros (Selects) */
+.theme-idr .elenco-dropdown select {
+  color: #000 !important;
+}
+
+.theme-idr .elenco-dropdown select option {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.theme-idr .elenco-empty-msg {
+  color: #555 !important;
+}
+
+/* Cartão do Jogador (A caixa inclinada ao fundo) */
+.theme-idr .psg-card-bg {
+  background: linear-gradient(to top right, #ffffff, #e6e6e6) !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .psg-card:hover .psg-card-bg {
+  background: linear-gradient(to top right, #f9f9f9, #cccccc) !important;
+  border-color: #000 !important; /* Borda fica preta no hover em vez de dourada */
+}
+
+/* Textos do Rodapé da Carta */
+.theme-idr .psg-number {
+  color: #ddd !important; /* Cinza bem claro para manter o efeito de fundo */
+}
+
+.theme-idr .psg-card:hover .psg-number {
+  color: #000 !important; /* Fica preto forte ao passar o mouse */
+}
+
+.theme-idr .psg-firstname {
+  color: #666 !important;
+}
+
+.theme-idr .psg-lastname {
+  color: #000 !important;
+}
+
+.theme-idr .psg-role {
+  color: #555 !important;
+}
+
+/* Badges (Títulos do jogador) */
+.theme-idr .badge-title {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: #000 !important;
+  color: #000 !important;
+}
+
+/* Tela de Carregamento (Spinner) */
+.theme-idr .elenco-loading-screen {
+  background: #f5f5f5 !important;
+  color: #000 !important;
+}
+
+.theme-idr .spinner {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  border-top-color: #000 !important;
+}

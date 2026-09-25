@@ -163,3 +163,90 @@
   border-color: #333;
   opacity: 0.7;
 }
+
+/* ==========================================================================
+   TEMA IDR - MATA-MATA EDITÁVEL / BRACKET (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Cartão da Partida */
+.theme-idr .bracket-match {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Data da Partida */
+.theme-idr .bracket-date {
+  background: #f0f0f0 !important;
+  color: #333 !important;
+  border-color: #ddd !important;
+}
+
+/* Seletor de Time */
+.theme-idr .bracket-team-select {
+  background: #f9f9f9 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .bracket-team-select:focus {
+  border-color: #000 !important;
+}
+
+/* Label do Time */
+.theme-idr .bracket-team-label {
+  background: #f9f9f9 !important;
+  color: #444 !important;
+  border-color: #eee !important;
+}
+
+/* Input de Placar */
+.theme-idr .bracket-score-input {
+  background: #f9f9f9 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .bracket-score-input:focus {
+  border-color: #000 !important;
+}
+
+/* Botão Salvar Partida */
+.theme-idr .bracket-save-btn {
+  background: #f0f0f0 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .bracket-save-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+/* --- DESTAQUES DE VENCEDORES NO TEMA IDR --- */
+
+.theme-idr .bracket-team-label.winner {
+  color: #000 !important;
+  font-weight: 900 !important;
+  border: 1px solid #000 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .bracket-score-input.winner {
+  color: #000 !important;
+  border-color: #000 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .bracket-team-label.loser {
+  color: #888 !important;
+  opacity: 0.6 !important;
+}
+
+.theme-idr .bracket-score-input.loser {
+  color: #888 !important;
+  border-color: #ddd !important;
+  opacity: 0.6 !important;
+}

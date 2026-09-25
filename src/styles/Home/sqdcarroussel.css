@@ -297,3 +297,25 @@
     filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
   }
 }
+
+/* ==========================================================================
+   TROCA DE TEXTO ELENCO (ADR vs IDR)
+   ========================================================================== */
+
+.text-idr {
+  display: none;
+}
+
+.theme-idr .text-adr {
+  display: none !important;
+}
+
+.theme-idr .text-idr {
+  display: inline-block !important;
+  color: #000 !important; /* Deixa o IDR preto no modo claro */
+}
+
+/* Opcional: Para escurecer o traço embaixo do título no modo IDR */
+.theme-idr .sqd-underline {
+  background: #000 !important;
+}

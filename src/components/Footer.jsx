@@ -1,10 +1,16 @@
-import React, { useState } from "react"; // Adicionamos o useState
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/footer.css";
 
+// Patrocinadores ADR
 import master from "../assets/master.png";
 import patro1 from "../assets/patro1.png";
 import patro2 from "../assets/patro2.png";
+
+// Patrocinadores IDR (Adicione essas imagens na sua pasta assets)
+import masterIdr from "../assets/IDR/Terere.png";
+import patro1Idr from "../assets/IDR/FabianTV.png";
+import patro2Idr from "../assets/IDR/bobbet.png";
 
 const InstagramIcon = () => (
   <svg
@@ -27,41 +33,69 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
 
-  // ESTADO DO EASTER EGG
-  // false = nada clicado | true = clicou em ADR, esperando Piscina
   const [adrClicked, setAdrClicked] = useState(false);
 
   const handleAdrClick = () => {
     setAdrClicked(true);
-    // Opcional: define um tempo para resetar se ele não clicar em piscina logo
-    setTimeout(() => setAdrClicked(false), 5000); // 5 segundos para completar a sequência
+    setTimeout(() => setAdrClicked(false), 5000);
     console.log("Sequência iniciada...");
   };
 
   const handlePiscinaClick = () => {
     if (adrClicked) {
       console.log("Easter Egg Ativado!");
-      navigate("/quiz-secret"); // Abre a página
+      navigate("/quiz-secret");
     }
   };
 
   return (
     <footer className="sponsors-footer">
       <div className="footer-container">
-        {/* Seção de Patrocinadores (Mantenha seu código original aqui) */}
         <div className="sponsors-wrapper">
           <p className="footer-label">PATROCINADORES OFICIAIS</p>
           <div className="sponsors-display">
             <div className="sponsor-item master">
-              <img src={master} alt="Patrocinador Master" />
+              {/* Troca do Master */}
+              <img
+                src={master}
+                alt="Patrocinador Master ADR"
+                className="img-adr"
+              />
+              <img
+                src={masterIdr}
+                alt="Patrocinador Master IDR"
+                className="img-idr"
+              />
             </div>
+
             <div className="footer-divider"></div>
+
             <div className="sponsors-secondary">
               <div className="sponsor-item">
-                <img src={patro1} alt="Patrocinador 1" />
+                {/* Troca do Patrocinador 1 */}
+                <img
+                  src={patro1}
+                  alt="Patrocinador 1 ADR"
+                  className="img-adr"
+                />
+                <img
+                  src={patro1Idr}
+                  alt="Patrocinador 1 IDR"
+                  className="img-idr"
+                />
               </div>
               <div className="sponsor-item">
-                <img src={patro2} alt="Patrocinador 2" />
+                {/* Troca do Patrocinador 2 */}
+                <img
+                  src={patro2}
+                  alt="Patrocinador 2 ADR"
+                  className="img-adr"
+                />
+                <img
+                  src={patro2Idr}
+                  alt="Patrocinador 2 IDR"
+                  className="img-idr"
+                />
               </div>
             </div>
           </div>
@@ -80,13 +114,14 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Rodapé Final com a Sequência */}
         <div className="footer-bottom">
           <p>
             © {currentYear}
             <span className="egg-trigger" onClick={handleAdrClick}>
               {" "}
-              ADR
+              {/* Troca do texto ADR/IDR */}
+              <span className="text-adr">ADR</span>
+              <span className="text-idr">IDR</span>
             </span>{" "}
             LEAGUE — Todos os direitos reservados.
           </p>

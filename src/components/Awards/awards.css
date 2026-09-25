@@ -1,0 +1,99 @@
+/* ==========================================================
+   COMPONENT: AWARDS CARD (PREFIX: aw-)
+   ========================================================== */
+
+.aw-card {
+  background: linear-gradient(
+    145deg,
+    rgba(40, 40, 40, 0.9),
+    rgba(20, 20, 20, 0.95)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.aw-title {
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.aw-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.aw-item {
+  position: relative;
+  padding: 15px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-left: 3px solid var(--award-color); /* Consome a cor dinâmica do React */
+  overflow: hidden;
+}
+
+.aw-icon-bg {
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  font-size: 40px;
+  opacity: 0.1;
+  transform: rotate(-15deg);
+}
+
+.aw-content {
+  position: relative;
+  z-index: 1;
+}
+
+.aw-award-title {
+  font-size: 9px;
+  color: var(--award-color); /* Consome a cor dinâmica do React */
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.aw-winner-name {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   TEMA IDR - AWARDS CARD (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+.theme-idr .aw-card {
+  background: #ffffff;
+  border-color: #ccc;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.theme-idr .aw-title {
+  color: #000;
+}
+
+.theme-idr .aw-item {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.03) 0%, transparent 100%);
+  /* Força a borda a ser preta, ignorando as cores originais (verde, laranja, dourado) */
+  border-left-color: #000 !important;
+}
+
+.theme-idr .aw-award-title {
+  /* Força o nome do prêmio a ser cinza escuro */
+  color: #555 !important;
+}
+
+.theme-idr .aw-winner-name {
+  color: #000;
+}

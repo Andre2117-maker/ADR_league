@@ -232,3 +232,143 @@
   border-radius: 20px;
   padding: 40px;
 }
+
+/* ==========================================================================
+   TEMA IDR - LAYOUT HOME (COLUNA ESQUERDA, CENTRAL E DIREITA)
+   ========================================================================== */
+
+/* --- COLUNA ESQUERDA (RANKINGS) --- */
+.theme-idr .info-card {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .info-card h3 {
+  color: #000 !important;
+}
+
+.theme-idr .card-row {
+  border-bottom-color: #eee !important;
+  color: #333 !important;
+}
+
+/* Transformando as medalhas de ranking para o padrão Preto e Branco IDR */
+.theme-idr .r1 {
+  background: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .r2 {
+  background: #666 !important;
+  color: #fff !important;
+}
+.theme-idr .r3 {
+  background: #999 !important;
+  color: #fff !important;
+}
+
+/* --- COLUNA CENTRAL (TABELA HOME) --- */
+.theme-idr .central-column {
+  background: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid #ccc !important; /* Adiciona uma borda fina para destacar no fundo claro */
+}
+
+/* --- COLUNA DIREITA (PERFIL DO JOGADOR / SCOUT) --- */
+.theme-idr .player-profile-card {
+  background: linear-gradient(145deg, #ffffff, #f5f5f5) !important;
+  border-color: #ccc !important;
+  color: #111 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .ppg-glow-gold {
+  border-color: #000 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .profile-avatar {
+  background: #fff !important;
+  border-color: #000 !important;
+  color: #000 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .profile-header h2 {
+  color: #000 !important;
+}
+
+.theme-idr .profile-foot {
+  background: #eee !important;
+  color: #333 !important;
+}
+
+.theme-idr .stat-box {
+  background: #f9f9f9 !important;
+  border-color: #ddd !important;
+}
+
+.theme-idr .stat-val {
+  color: #000 !important;
+}
+
+.theme-idr .stat-lab {
+  color: #666 !important;
+}
+
+.theme-idr .info-item span {
+  color: #555 !important;
+}
+
+.theme-idr .info-item strong {
+  color: #000 !important;
+}
+
+.theme-idr .profile-radar-section {
+  background: #f5f5f5 !important;
+  border: 1px solid #eee !important;
+}
+
+.theme-idr .profile-footer {
+  border-top-color: #ddd !important;
+}
+
+.theme-idr .profile-footer p {
+  color: #888 !important;
+}
+
+.theme-idr .badge-adr {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+/* Estado Vazio */
+.theme-idr .empty-state-card {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  color: #555 !important;
+}
+
+.theme-idr {
+  --radar-cor: #000000 !important; /* O preenchimento principal vira preto */
+  --radar-grid: #cccccc !important; /* A "teia de aranha" fica cinza clara para aparecer no fundo branco */
+  --radar-text: #333333 !important; /* Os textos (Vel, Cor, Chu) ficam cinza escuros */
+}
+
+/* Garante que a borda de cima do gráfico não fique preta demais no fundo claro */
+.theme-idr .profile-radar-section {
+  border-top-color: #eee !important;
+}
+
+.text-idr {
+  display: none;
+}
+
+/* Quando o modo claro estiver ativo, esconde o ADR e mostra o IDR */
+.theme-idr .text-adr {
+  display: none !important;
+}
+
+.theme-idr .text-idr {
+  display: inline-block !important;
+}

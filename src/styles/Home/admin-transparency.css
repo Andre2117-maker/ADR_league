@@ -231,3 +231,118 @@
     transform: translateY(0);
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - ADMIN TRANSPARENCY (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Container Principal */
+.theme-idr .admin-box {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: #ccc !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .admin-box h3 {
+  background: none !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000 !important;
+}
+
+/* Formulário */
+.theme-idr .admin-form-transparency {
+  background: #f5f5f5 !important;
+  border-color: #e0e0e0 !important;
+}
+
+.theme-idr .admin-form-transparency input,
+.theme-idr .admin-form-transparency select {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  color: #000 !important;
+}
+
+.theme-idr .admin-form-transparency input:focus,
+.theme-idr .admin-form-transparency select:focus {
+  border-color: #000 !important;
+  background: #fff !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Botões do Formulário */
+.theme-idr .save-btn {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-idr .save-btn:hover {
+  background: #333 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.theme-idr .cancel-btn {
+  background: #e0e0e0 !important;
+  color: #333 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .cancel-btn:hover {
+  background: #ccc !important;
+  color: #000 !important;
+}
+
+/* Listagem de Transações */
+.theme-idr .transparency-list {
+  border-top-color: #e0e0e0 !important;
+}
+
+.theme-idr .t-item {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .t-item:hover {
+  background: #fafafa !important;
+  border-color: #000 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .t-desc {
+  color: #000 !important;
+}
+
+.theme-idr .t-date {
+  color: #666 !important;
+}
+
+/* Cores Financeiras (Escurecidas para leitura no fundo branco) */
+.theme-idr .text-green {
+  color: #008a00 !important;
+  text-shadow: none !important;
+}
+
+.theme-idr .text-red {
+  color: #cc0000 !important;
+  text-shadow: none !important;
+}
+
+/* Botões de Ação na Lista */
+.theme-idr .edit-btn,
+.theme-idr .delete-btn {
+  background: #f5f5f5 !important;
+  border-color: #ccc !important;
+  color: #333 !important;
+}
+
+.theme-idr .edit-btn:hover {
+  background: #e6f2ff !important;
+  border-color: #0066cc !important;
+  color: #0066cc !important;
+}
+
+.theme-idr .delete-btn:hover {
+  background: #ffe6e6 !important;
+  border-color: #cc0000 !important;
+  color: #cc0000 !important;
+}

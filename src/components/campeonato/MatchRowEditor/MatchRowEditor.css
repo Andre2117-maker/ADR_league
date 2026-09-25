@@ -150,3 +150,69 @@
 .btn-link-match:hover {
   background-color: rgba(212, 175, 55, 0.1);
 }
+
+/* ==========================================================================
+   TEMA IDR - MINI FORMULÁRIO DE RESULTADOS & BOTÕES MATCH CENTER (P&B PREMIUM)
+   ========================================================================== */
+
+/* Linha de Edição da Partida */
+.theme-idr .match-edit-row {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .match-team-name {
+  color: #333 !important;
+}
+
+/* Input de Placar do Mini-Formulário */
+.theme-idr .match-score-input {
+  background: #f9f9f9 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .match-score-input:focus {
+  border-color: #000 !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .match-vs {
+  color: #888 !important;
+}
+
+/* Botão Salvar do Mini-Formulário */
+.theme-idr .match-save-btn {
+  background: #f0f0f0 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .match-save-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+/* Botão Match Center (Sólido) */
+.theme-idr .btn-match-center {
+  background-color: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .btn-match-center:hover {
+  background-color: #333 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Botão Link Match (Outline) */
+.theme-idr .btn-link-match {
+  color: #000 !important;
+  border-color: #000 !important;
+}
+
+.theme-idr .btn-link-match:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}

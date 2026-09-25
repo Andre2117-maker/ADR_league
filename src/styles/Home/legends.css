@@ -282,3 +282,121 @@
     font-size: 0.9rem;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - LENDAS (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Fundo Geral */
+.theme-idr .legends-wrapper {
+  background: radial-gradient(
+    circle at top center,
+    #ffffff 0%,
+    #f0f0f0 100%
+  ) !important;
+  color: #111 !important;
+}
+
+/* Títulos */
+.theme-idr .legends-main-title {
+  background: none !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000 !important;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1)) !important;
+}
+
+.theme-idr .legends-subtitle {
+  color: #555 !important;
+}
+
+/* Faixas de Marcas (Milestones) */
+.theme-idr .milestone-banner {
+  border-left-color: #000 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    transparent 100%
+  ) !important;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .milestone-icon {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2)) !important;
+}
+
+.theme-idr .milestone-text h2 {
+  color: #000 !important;
+}
+
+.theme-idr .milestone-text span {
+  color: #333 !important;
+}
+
+/* Cards das Lendas */
+.theme-idr .legend-card {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .legend-card:hover {
+  background: #fafafa !important;
+  border-color: #000 !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Efeito de Reflexo no Hover (Sweep prateado/cinza) */
+.theme-idr .legend-card::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.03),
+    transparent
+  ) !important;
+}
+
+/* Foto do Jogador */
+.theme-idr .legend-photo-wrapper {
+  background: #000 !important; /* Borda preta elegante ao invés de dourada */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .legend-card:hover .legend-photo-wrapper {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-idr .legend-img {
+  border-color: #fff !important;
+}
+
+/* Badge de Gols (Medalha de contagem) */
+.theme-idr .legend-goal-badge {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Textos do Card */
+.theme-idr .legend-name {
+  color: #000 !important;
+}
+
+/* Tag de Inativo/Aposentado */
+.theme-idr .legend-status {
+  color: #cc0000 !important;
+  background: rgba(204, 0, 0, 0.1) !important;
+  border-color: rgba(204, 0, 0, 0.2) !important;
+}
+
+/* Ajuste Responsivo Mobile para a Faixa de Milestones */
+@media (max-width: 768px) {
+  .theme-idr .milestone-banner {
+    border-top-color: #000 !important;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.05) 0%,
+      transparent 100%
+    ) !important;
+  }
+}

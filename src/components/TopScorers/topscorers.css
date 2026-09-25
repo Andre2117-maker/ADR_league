@@ -1,0 +1,158 @@
+/* ==========================================================
+   COMPONENT: TOP SCORERS CARD (PREFIX: ts-)
+   ========================================================== */
+
+.ts-card {
+  background: linear-gradient(
+    145deg,
+    rgba(30, 30, 30, 0.9),
+    rgba(15, 15, 15, 0.95)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.ts-title {
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 10px;
+  color: #d4af37;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.ts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ts-row {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 10px 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.ts-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ts-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ts-rank {
+  color: #555;
+  font-weight: 900;
+  font-size: 12px;
+  min-width: 20px;
+}
+
+.ts-rank.is-first {
+  color: #d4af37;
+}
+
+.ts-avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.ts-avatar-img.is-first {
+  border-color: #d4af37;
+}
+
+.ts-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #eee;
+  /* Garante que nomes muito longos fiquem com "..." no final */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ts-stats {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ts-goals-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.ts-goals-label {
+  font-size: 9px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   TEMA IDR - TOP SCORERS CARD (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+.theme-idr .ts-card {
+  background: #ffffff;
+  border-color: #ccc;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.theme-idr .ts-title {
+  color: #000;
+  border-bottom-color: #eee;
+}
+
+.theme-idr .ts-row {
+  background: #f9f9f9;
+}
+
+.theme-idr .ts-row:hover {
+  background: #f0f0f0;
+}
+
+.theme-idr .ts-rank {
+  color: #888;
+}
+
+/* O primeiro colocado fica com número preto em vez de dourado */
+.theme-idr .ts-rank.is-first {
+  color: #000;
+}
+
+.theme-idr .ts-avatar-img {
+  background: #eee;
+  border-color: #ddd;
+}
+
+/* A foto do artilheiro (1º) fica com borda preta */
+.theme-idr .ts-avatar-img.is-first {
+  border-color: #000;
+}
+
+.theme-idr .ts-name {
+  color: #000;
+  font-weight: 800;
+}
+
+.theme-idr .ts-goals-val {
+  color: #000;
+}

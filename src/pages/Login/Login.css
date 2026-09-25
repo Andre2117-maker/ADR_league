@@ -127,3 +127,77 @@
   color: #d4af37;
   text-decoration: underline;
 }
+
+/* ==========================================================================
+   TEMA IDR - ADMIN LOGIN (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Fundo Total da Página */
+.theme-idr .adm-login-page {
+  background: radial-gradient(
+    circle at center,
+    #ffffff 0%,
+    #e5e5e5 100%
+  ) !important;
+}
+
+/* Card Central (Efeito Vidro Fosco Claro) */
+.theme-idr .adm-login-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: #ccc !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Ícone */
+.theme-idr .adm-login-icon {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2)) !important;
+}
+
+/* Textos */
+.theme-idr .adm-login-title {
+  color: #000 !important;
+}
+
+.theme-idr .adm-login-subtitle {
+  color: #666 !important;
+}
+
+/* Input de Senha */
+.theme-idr .adm-login-input {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  color: #000 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .adm-login-input:focus {
+  border-color: #000 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .adm-login-input::placeholder {
+  color: #888 !important;
+}
+
+/* Botão Principal */
+.theme-idr .adm-login-btn-primary {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .adm-login-btn-primary:hover {
+  background: #333 !important; /* Fica um cinza bem escuro ao passar o mouse */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Botão Voltar */
+.theme-idr .adm-login-btn-back {
+  color: #555 !important;
+}
+
+.theme-idr .adm-login-btn-back:hover {
+  color: #000 !important;
+  text-decoration: underline !important;
+}

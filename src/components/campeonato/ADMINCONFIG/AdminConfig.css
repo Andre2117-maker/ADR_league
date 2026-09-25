@@ -210,3 +210,113 @@
 .btn-delete-team:hover {
   color: #ff4d4d;
 }
+
+/* ==========================================================================
+   TEMA IDR - PAINEL DE CONFIGURAÇÃO / ADMIN (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Container Principal do Admin */
+.theme-idr .camp-admin-container {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  color: #111 !important;
+}
+
+.theme-idr .camp-admin-title {
+  color: #000 !important;
+}
+
+.theme-idr .camp-admin-field label {
+  color: #666 !important;
+}
+
+/* Inputs e Selects */
+.theme-idr .camp-admin-container input,
+.theme-idr .camp-admin-container select {
+  background: #f9f9f9 !important;
+  color: #000 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .camp-admin-container input:focus,
+.theme-idr .camp-admin-container select:focus {
+  border-color: #000 !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .camp-admin-divider {
+  background: #eee !important;
+}
+
+/* Botões do Admin */
+.theme-idr .camp-btn-dark {
+  background: #f0f0f0 !important;
+  color: #333 !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .camp-btn-dark:hover {
+  background: #e0e0e0 !important;
+  color: #000 !important;
+  border-color: #000 !important;
+}
+
+.theme-idr .camp-btn-pink {
+  background: #333 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .camp-btn-pink:hover {
+  background: #000 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+}
+
+.theme-idr .camp-btn-save {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .camp-btn-save:hover {
+  background: #333 !important;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Grid de Grupos Criados no Admin */
+.theme-idr .camp-admin-group-card {
+  background: #f9f9f9 !important;
+  border-color: #ddd !important;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .camp-admin-group-card h4,
+.theme-idr .camp-admin-group-header h4 {
+  color: #000 !important;
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .camp-admin-group-card ul {
+  color: #444 !important;
+}
+
+.theme-idr .empty-msg {
+  color: #888 !important;
+}
+
+.theme-idr .camp-admin-group-header {
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .btn-delete-group {
+  color: #cc0000 !important;
+}
+
+.theme-idr .btn-delete-team {
+  color: #888 !important;
+}
+
+.theme-idr .btn-delete-team:hover {
+  color: #cc0000 !important;
+}

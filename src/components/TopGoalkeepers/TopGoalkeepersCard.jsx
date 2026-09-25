@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Tabelas/goalkeepers.css";
+import "./goalkeepers.css";
 
 // Adicionamos a prop 'limit' com valor padrão 5
 function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {

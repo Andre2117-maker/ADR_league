@@ -216,7 +216,7 @@ export default function Campeonato({ isAdmin }) {
           className={`camp-tab-btn ${activeTab === "MATAMATA" ? "active" : ""}`}
           onClick={() => setActiveTab("MATAMATA")}
         >
-          Mata-Mata (Bracket)
+          Mata-Mata
         </button>
 
         {/* O BOTÃO DE CONFIGURAR SÓ APARECE PARA O ADMIN */}

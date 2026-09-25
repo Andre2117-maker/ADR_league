@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Boldonse&family=Stalinist+One&display=swap");
 
 /* Container Principal */
 
@@ -278,5 +279,102 @@
     font-size: 50px; /* Diminuir um pouco no celular evita que ele "fuja" do card */
     top: 10px;
     right: 10px;
+  }
+}
+
+/* ==========================================================================
+   TEMA IDR V2 - ELENCO (ESTILO CARTÃO PREMIUM / VIDRO FOSCO)
+   ========================================================================== */
+
+/* 1. Fundo da Página (Degradê radial claro e elegante, não apenas um cinza morto) */
+.theme-idr .sqd-container-full {
+  background: radial-gradient(
+    circle at center,
+    #ffffff 0%,
+    #f0f0f0 60%,
+    #e0e0e0 100%
+  ) !important;
+}
+
+/* 2. Borda do Cartão bem nítida */
+.theme-idr .sqd-photo-area {
+  border: 2px solid #111 !important;
+  background-color: #fff !important;
+  background-image: url("../assets/Fundo2.jpg");
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 3. O SEGREDO: Em vez de "fumaça branca", vira uma faixa de vidro fosco na base */
+.theme-idr .sqd-card-overlay {
+  height: 70px !important; /* Altura fixa apenas para o nome */
+  background: rgba(255, 255, 255, 0.85) !important; /* Branco translúcido */
+  backdrop-filter: blur(
+    8px
+  ) !important; /* Borra o fundo da foto que ficar atrás */
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+  padding-bottom: 0 !important;
+  align-items: center !important;
+}
+
+/* 4. Nome do Jogador nítido e escuro */
+.theme-idr .sqd-name {
+  font-family: "Stalinist One", sans-serif !important;
+  color: #000 !important;
+  font-weight: 900 !important;
+  letter-spacing: -1px !important;
+  text-shadow: none !important;
+}
+
+/* 5. Número do Jogador (Efeito Prata/Sólido para não estragar a Bungee Spice) */
+.theme-idr .player-number-badge {
+  font-family: "Stalinist One", sans-serif !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  text-shadow:
+    2px 2px 0px #ccc,
+    4px 4px 15px rgba(0, 0, 0, 0.2) !important;
+  font-size: 45px !important; /* Ligeiramente ajustado porque esta fonte costuma ser mais larga */
+}
+
+/* 6. Ícone (Selo) */
+.theme-idr .sqd-badge-icon {
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5)) !important;
+  animation: pulseBadgeIdr 2s infinite ease-in-out !important;
+}
+
+/* 7. Botões de Navegação do Carrossel */
+.theme-idr .sqd-nav-btn {
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  background: #fff !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .sqd-nav-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.theme-idr .sqd-player-img {
+  height: 100% !important;
+  margin-top: 5px !important;
+  object-position: top !important;
+}
+
+/* ==========================================================================
+   ANIMAÇÃO EXCLUSIVA IDR (SELO)
+   ========================================================================== */
+@keyframes pulseBadgeIdr {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.6));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
   }
 }

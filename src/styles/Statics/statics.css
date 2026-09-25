@@ -183,3 +183,77 @@
     padding: 15px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - ESTATÍSTICAS GERAIS (PRETO E BRANCO PREMIUM)
+   ========================================================================== */
+
+/* Fundo da Página e Pattern SVG (Cruzes escuras para contraste no fundo claro) */
+.theme-idr .statics-container {
+  background-color: #f5f5f5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(0,0,0,0.05)'%3E+%3C/text%3E%3C/svg%3E") !important;
+}
+
+.theme-idr .page-title {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Colunas (Cartões de Estatísticas / Vidro Fosco Claro) */
+.theme-idr .stat-column {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .stat-header {
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .stat-header h2 {
+  color: #000 !important;
+}
+
+/* Linhas da Tabela e Efeitos Hover */
+.theme-idr .stat-row:hover {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Informações do Jogador */
+.theme-idr .stat-rank {
+  color: #888 !important;
+}
+
+.theme-idr .stat-avatar {
+  border-color: #ddd !important;
+  background: #eee !important;
+}
+
+.theme-idr .stat-name {
+  color: #333 !important;
+}
+
+.theme-idr .stat-team {
+  color: #888 !important;
+}
+
+/* O Número da Estatística */
+.theme-idr .stat-value {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+/* Top 1 (Destaque Especial sem Dourado) */
+.theme-idr .stat-row:nth-child(1) .stat-rank {
+  color: #000 !important;
+}
+
+.theme-idr .stat-row:nth-child(1) .stat-avatar {
+  border-color: #000 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .stat-row:nth-child(1) .stat-name {
+  color: #000 !important;
+  font-weight: 900 !important;
+}
