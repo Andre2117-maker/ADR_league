@@ -46,7 +46,7 @@ export default function Titulos() {
           <h2 className="titulos-total">{totalTitulos} TÍTULOS</h2>
           <p className="titulos-desc">
             Desde a sua fundação, passando pelos primeiros troféus conquistados
-            até os mais recentes sucessos da liga, a ADR soma um total de{" "}
+            até os mais recentes sucessos da liga, o ADR soma um total de{" "}
             <strong>{totalTitulos} conquistas</strong> oficiais em sua galeria.
           </p>
         </section>
