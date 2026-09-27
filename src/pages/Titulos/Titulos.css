@@ -9,6 +9,7 @@
   flex-direction: column;
   padding-top: 75px;
   color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E");
 }
 
 .titulos-main-content {
@@ -213,6 +214,7 @@
 .theme-idr .titulos-psg-wrapper {
   background-color: #f5f5f5 !important;
   color: #111 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='25' text-anchor='middle' dominant-baseline='middle' fill='rgba(0,0,0,0.05)'%3E%E2%99%A6%3C/text%3E%3C/svg%3E") !important;
 }
 
 /* Banner Topo (Clareia a camada por cima da foto) */
