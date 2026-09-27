@@ -392,3 +392,135 @@
     text-align: center;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - HISTÓRICO DE PARTIDAS (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+.theme-idr .adr-history-container {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .adr-history-header {
+  border-bottom-color: #eeeeee !important;
+}
+
+.theme-idr .adr-history-title {
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}
+
+.theme-idr .adr-history-tabs {
+  background: #f0f0f0 !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .adr-tab-btn {
+  color: #666666 !important;
+}
+
+/* Todas as abas ativas viram Pretas, removendo o colorido (Azul/Roxo/Dourado) */
+.theme-idr .adr-history-tabs .adr-tab-btn.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .adr-history-list::-webkit-scrollbar-thumb {
+  background: #cccccc !important;
+}
+
+.theme-idr .adr-match-card {
+  background: #fdfdfd !important;
+  border-color: #e0e0e0 !important;
+}
+
+.theme-idr .adr-match-card:hover {
+  background: #f9f9f9 !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .adr-match-info {
+  border-right-color: #eeeeee !important;
+}
+
+/* Indicadores de Vitória/Empate/Derrota Estilo Luxo */
+.theme-idr .adr-status-indicator.win {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .adr-status-indicator.loss {
+  background: #ffffff !important;
+  color: #cc0000 !important;
+  border: 1px solid #cc0000 !important;
+}
+
+.theme-idr .adr-status-indicator.draw {
+  background: #eeeeee !important;
+  color: #555555 !important;
+}
+
+.theme-idr .adr-match-date {
+  color: #666666 !important;
+}
+
+.theme-idr .adr-match-score {
+  background: #f9f9f9 !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .score-num {
+  color: #000000 !important;
+}
+
+.theme-idr .score-divider {
+  color: #555555 !important;
+}
+
+.theme-idr .adr-team-name {
+  color: #555555 !important;
+}
+
+.theme-idr .adr-team-name.highlight {
+  color: #000000 !important;
+}
+
+.theme-idr .adr-match-chevron {
+  color: #aaaaaa !important;
+}
+
+/* Badges Redesenhadas para o Modo Claro */
+.theme-idr .badge-goal {
+  background: #f0f0f0 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .badge-assist {
+  background: #f9f9f9 !important;
+  color: #444444 !important;
+  border-color: #aaaaaa !important;
+}
+
+.theme-idr .badge-yellow {
+  background: #fffde7 !important;
+  color: #b8860b !important;
+  border-color: #f1c40f !important;
+}
+
+.theme-idr .badge-red {
+  background: #ffebee !important;
+  color: #cc0000 !important;
+  border-color: #cc0000 !important;
+}
+
+.theme-idr .badge-gk {
+  background: #f0f0f0 !important;
+  color: #000000 !important;
+  border-color: #888888 !important;
+}

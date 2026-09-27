@@ -93,3 +93,54 @@
   transform: scale(1.1);
   box-shadow: 0 0 15px #d4af37;
 }
+
+/* ==========================================================================
+   TEMA IDR - ANIVERSÁRIO / BIRTHDAY POP-UP (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Fundo Desfocado (Overlay Claro) */
+.theme-idr .bday-overlay {
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Cartão Principal */
+.theme-idr .bday-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Foto do Jogador */
+.theme-idr .bday-player-img {
+  border-color: #000000 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Textos e Títulos */
+.theme-idr .bday-name {
+  color: #000000 !important;
+}
+
+.theme-idr .bday-card h2 {
+  color: #111111 !important;
+}
+
+.theme-idr .bday-card .highlight {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.theme-idr .bday-card p {
+  color: #666666 !important;
+}
+
+/* Botão de Fechar/Agradecimento */
+.theme-idr .bday-btn {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .bday-btn:hover {
+  background: #222222 !important;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+}

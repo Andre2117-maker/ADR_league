@@ -1,0 +1,114 @@
+/* ==========================================================================
+   ESTILO BASE (MODO ESCURO / DOURADO)
+   ========================================================================== */
+.penalties-result-container {
+  margin: 20px 0;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #333;
+}
+
+.penalties-title {
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.penalties-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #222;
+}
+
+.penalties-row:last-child {
+  border-bottom: none;
+}
+
+.pen-side {
+  flex: 1;
+}
+
+.pen-side.left {
+  text-align: right;
+}
+
+.pen-side.right {
+  text-align: left;
+}
+
+.pen-player-name {
+  font-size: 12px;
+  color: #fff;
+}
+
+.pen-score-detail {
+  font-size: 10px;
+  color: #888;
+}
+
+.pen-icons {
+  margin: 0 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.pen-icon {
+  font-weight: bold;
+}
+
+.icon-goal {
+  color: #44ff44;
+}
+
+.icon-miss {
+  color: #ff4444;
+}
+
+.icon-pending {
+  color: #555;
+}
+
+/* ==========================================================================
+   TEMA IDR - RESULTADO DOS PÊNALTIS (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+.theme-idr .penalties-result-container {
+  background-color: #f9f9f9 !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .penalties-title {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.theme-idr .penalties-row {
+  border-bottom-color: #eeeeee !important;
+}
+
+.theme-idr .pen-player-name {
+  color: #111111 !important;
+  font-weight: 700 !important;
+}
+
+.theme-idr .pen-score-detail {
+  color: #666666 !important;
+}
+
+/* Ajuste fino nas cores de Acerto/Erro para não ficarem "neon" no fundo branco */
+.theme-idr .icon-goal {
+  color: #008a00 !important; /* Verde mais escuro e sólido */
+}
+
+.theme-idr .icon-miss {
+  color: #cc0000 !important; /* Vermelho mais escuro e sólido */
+}
+
+.theme-idr .icon-pending {
+  color: #aaaaaa !important; /* Cinza suave */
+}

@@ -110,7 +110,7 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  zindex: 2;
+  z-index: 2;
 }
 
 .event-icon {

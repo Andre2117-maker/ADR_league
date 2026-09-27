@@ -307,3 +307,88 @@
     z-index: 1;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - BANNER DO JOGADOR / HERO SECTION (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Fundo do Banner Principal (Estúdio Claro) */
+.theme-idr .ppg-player-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #e6e6e6 100%) !important;
+  border-bottom-color: #000000 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Grade Decorativa de Fundo (Minimalista) */
+.theme-idr .ppg-banner-overlay-grid {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px) !important;
+}
+
+/* Tag de Posição / Cargo */
+.theme-idr .ppg-banner-role {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+/* Textos de Destaque (Tipografia Premium) */
+.theme-idr .ppg-banner-number {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+.theme-idr .ppg-firstname {
+  color: #555555 !important;
+}
+
+.theme-idr .ppg-lastname {
+  color: #000000 !important;
+}
+
+/* Informações / Status do Jogador */
+.theme-idr .ppg-detail-label {
+  color: #888888 !important;
+}
+
+.theme-idr .ppg-detail-value {
+  color: #000000 !important;
+}
+
+/* Linha do Tempo / Memorial de Carreira */
+.theme-idr .ppg-career-timeline {
+  border-top-color: #dddddd !important;
+}
+
+.theme-idr .career-label {
+  color: #777777 !important;
+}
+
+.theme-idr .career-value {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+/* Sombra da Foto do Jogador (Menos dramática no fundo claro) */
+.theme-idr .ppg-banner-photo {
+  filter: drop-shadow(20px 10px 40px rgba(0, 0, 0, 0.15)) !important;
+}
+
+/* ==========================================================================
+   MOBILE OVERRIDES - TEMA IDR
+   ========================================================================== */
+@media (max-width: 768px) {
+  .theme-idr .ppg-player-banner {
+    /* Fundo de luz centralizada "Ring Light" no celular */
+    background: radial-gradient(
+      circle at 50% 60%,
+      #ffffff 0%,
+      #dbdbdb 70%
+    ) !important;
+  }
+
+  .theme-idr .ppg-banner-photo {
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.15)) !important;
+  }
+}

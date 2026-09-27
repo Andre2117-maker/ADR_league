@@ -63,3 +63,49 @@
 .rs-row.active .rs-pos {
   color: #ffd700;
 }
+
+/* ==========================================================================
+   TEMA IDR - RANKING SLICE / WIDGET DE RANKING (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+.theme-idr .rs-container {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .rs-title {
+  color: #666666 !important;
+}
+
+.theme-idr .rs-row {
+  border-bottom-color: #eeeeee !important;
+}
+
+.theme-idr .rs-pos {
+  color: #888888 !important;
+}
+
+.theme-idr .rs-separator {
+  color: #dddddd !important;
+}
+
+.theme-idr .rs-name {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.theme-idr .rs-pts {
+  color: #000000 !important;
+}
+
+/* Destaque do Usuário Ativo */
+.theme-idr .rs-row.active {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-left-color: #000000 !important; /* Dourado vira Preto */
+}
+
+.theme-idr .rs-row.active .rs-pos {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}

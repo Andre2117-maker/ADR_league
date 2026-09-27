@@ -195,3 +195,79 @@
     padding: 10px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - PARTNER ANALYZER (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+.theme-idr .partner-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .partner-selector select {
+  background: #f9f9f9 !important;
+  border-color: #cccccc !important;
+  color: #000000 !important;
+}
+
+.theme-idr .partner-selector select:focus {
+  border-color: #000000 !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .partner-section {
+  background: #fdfdfd !important;
+  border-color: #eeeeee !important;
+}
+
+.theme-idr .partner-section-title {
+  color: #555555 !important;
+}
+
+.theme-idr .partner-stat-box {
+  background: #f9f9f9 !important;
+  border-color: #eeeeee !important;
+}
+
+.theme-idr .partner-stat-box.highlight {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .partner-stat-box.rivalry {
+  border-bottom-color: #cc0000 !important; /* Mantém um tom vermelho elegante para rivalidades */
+}
+
+.theme-idr .p-stat-val {
+  color: #000000 !important;
+}
+
+.theme-idr .partner-stat-box.rivalry .p-stat-val {
+  color: #cc0000 !important;
+}
+
+.theme-idr .p-stat-label {
+  color: #666666 !important;
+}
+
+.theme-idr .partner-divider::before,
+.theme-idr .partner-divider::after {
+  background: #dddddd !important;
+}
+
+.theme-idr .partner-divider span {
+  color: #888888 !important;
+}
+
+.theme-idr .partner-verdict {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-left-color: #000000 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .partner-empty {
+  color: #888888 !important;
+}

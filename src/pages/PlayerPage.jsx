@@ -378,8 +378,7 @@ function PlayerPage({
                       />
                       <Radar
                         dataKey="A"
-                        stroke="var(--gold)"
-                        fill="var(--gold)"
+                        className="custom-radar-shape"
                         fillOpacity={0.4}
                       />
                       <PolarRadiusAxis

@@ -7,7 +7,7 @@
   border: 2px solid #fff;
   border-radius: 8px;
   position: relative;
-  overflow: visible; 
+  overflow: visible;
   margin: 35px auto 25px auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
@@ -109,7 +109,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
   z-index: 99999 !important;
 }
 
@@ -122,7 +122,7 @@
   transform: translateX(-50%);
   border-width: 5px;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent; 
+  border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -146,7 +146,66 @@
 }
 
 @keyframes pulse-red {
-  0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 59, 48, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
 }
+
+/* ==========================================================================
+   TEMA IDR - CAMPO FAVORITO / WIDGET TÁTICO (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Nova animação de pulso preto para o modo IDR */
+@keyframes pulse-idr-black {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+/* Transforma a grama verde em prancheta branca */
+.theme-idr .mini-field-container {
+  background-color: #f9f9f9 !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Linhas do campo em cinza escuro/preto ao invés de branco */
+.theme-idr .field-line-center {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .field-circle-center,
+.theme-idr .penalty-area-top,
+.theme-idr .penalty-area-bottom {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Ponto Pulsante Principal (Vermelho -> Preto Sólido) */
+.theme-idr .blinking-dot {
+  border-color: #ffffff !important; /* Mantém a bordinha branca para destacar na prancheta */
+}
+
+.theme-idr .blinking-dot.main-dot {
+  background-color: #000000 !important;
+  animation: pulse-idr-black 1.2s infinite !important;
+}
+
+/* Pontos Secundários (Laranja -> Cinza) */
+.theme-idr .blinking-dot.secondary-dot {
+  background-color: #888888 !important;
+}
+
+/* O Tooltip (balão preto) não precisa ser sobrescrito, pois um balão preto 
+   escrevendo branco fica PERFEITO no modo claro. É o contraste ideal! */

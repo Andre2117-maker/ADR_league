@@ -380,3 +380,131 @@
     text-align: center;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - DASHBOARD DO JOGADOR / ESTATÍSTICAS (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Header e Filtros (Selects) */
+.theme-idr .psd-season-select,
+.theme-idr .psd-type-select {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .psd-season-select:hover,
+.theme-idr .psd-type-select:hover {
+  background: #f9f9f9 !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .psd-title {
+  color: #000000 !important;
+  border-left-color: #000000 !important;
+}
+
+/* Cards Principais de Estatísticas */
+.theme-idr .psd-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .psd-card:hover {
+  border-color: #000000 !important;
+  transform: translateY(-5px) !important;
+}
+
+.theme-idr .psd-label {
+  color: #666666 !important;
+}
+
+/* Força os números degradês brilhantes a virarem Preto Sólido Elegante */
+.theme-idr .psd-value,
+.theme-idr .season-main .psd-value,
+.theme-idr .gk-style .psd-value {
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}
+
+/* Caixas Específicas (Participação e Cartões) */
+.theme-idr .participation-box {
+  background: linear-gradient(135deg, #fdfdfd 0%, #f0f0f0 100%) !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .cards-box {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .card-item {
+  color: #000000 !important;
+}
+
+/* Caixa Goleiro (GK) */
+.theme-idr .gk-style {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%) !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .gk-style .psd-label {
+  color: #444444 !important;
+}
+
+/* Recordes Diários (Grid Inferior) */
+.theme-idr .psd-mini-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03) !important;
+}
+
+.theme-idr .psd-mini-card:first-child {
+  border-top-color: #000000 !important; /* Linha Dourada vira Preta */
+}
+
+.theme-idr .psd-mini-card:last-child {
+  border-top-color: #888888 !important; /* Linha Cinza Clara vira Cinza Escura */
+}
+
+.theme-idr .psd-mini-label {
+  color: #666666 !important;
+}
+
+.theme-idr .psd-mini-value {
+  color: #000000 !important;
+}
+
+.theme-idr .psd-record-date {
+  color: #555555 !important;
+}
+
+/* Painel de Faltas (Absences) */
+.theme-idr .psd-absence-panel {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .psd-absence-header {
+  background: #f9f9f9 !important;
+  color: #000000 !important;
+}
+
+.theme-idr .psd-absence-header:hover {
+  background: #f0f0f0 !important;
+}
+
+.theme-idr .psd-absence-content {
+  background: #ffffff !important;
+  border-top-color: #eeeeee !important;
+}
+
+.theme-idr .psd-absence-item {
+  color: #cc0000 !important; /* Vermelho adaptado para fundo branco */
+}
+
+.theme-idr .psd-absence-perfect {
+  color: #008a00 !important; /* Verde adaptado para fundo branco */
+}

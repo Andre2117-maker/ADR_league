@@ -1,3 +1,6 @@
+import React from "react";
+import "./penaltiesresult.css"; // Lembre-se de importar o CSS aqui!
+
 export const PenaltiesResult = ({ draft, players }) => {
   const penaltiesA = draft.penalties?.A || [];
   const penaltiesB = draft.penalties?.B || [];
@@ -19,20 +22,8 @@ export const PenaltiesResult = ({ draft, players }) => {
   let scoreB = 0;
 
   return (
-    <div
-      style={{
-        margin: "20px 0",
-        backgroundColor: "#1a1a1a",
-        borderRadius: "8px",
-        padding: "15px",
-        border: "1px solid #333",
-      }}
-    >
-      <h4
-        style={{ textAlign: "center", color: "#d4af37", marginBottom: "10px" }}
-      >
-        COBRANÇA DE PÊNALTIS
-      </h4>
+    <div className="penalties-result-container">
+      <h4 className="penalties-title">COBRANÇA DE PÊNALTIS</h4>
 
       {Array.from({ length: maxPenalties }).map((_, i) => {
         const pA = penaltiesA[i];
@@ -42,23 +33,25 @@ export const PenaltiesResult = ({ draft, players }) => {
         if (pA?.result === "goal") scoreA++;
         if (pB?.result === "goal") scoreB++;
 
+        // Define as classes de cores dos ícones
+        const getIconClass = (res) => {
+          if (res === "goal") return "icon-goal";
+          if (res === "miss") return "icon-miss";
+          return "icon-pending";
+        };
+
+        const getIconSymbol = (res) => {
+          if (res === "goal") return "✓";
+          if (res === "miss") return "✗";
+          return "○";
+        };
+
         return (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "8px 0",
-              borderBottom: "1px solid #222",
-            }}
-          >
+          <div key={i} className="penalties-row">
             {/* TIME A */}
-            <div style={{ flex: 1, textAlign: "right" }}>
-              <div style={{ fontSize: "12px", color: "#fff" }}>
-                {getPlayerName(pA)}
-              </div>
-              <div style={{ fontSize: "10px", color: "#888" }}>
+            <div className="pen-side left">
+              <div className="pen-player-name">{getPlayerName(pA)}</div>
+              <div className="pen-score-detail">
                 {pA?.result === "goal"
                   ? `Gol (${scoreA} - ${scoreB})`
                   : pA?.result === "miss"
@@ -68,47 +61,19 @@ export const PenaltiesResult = ({ draft, players }) => {
             </div>
 
             {/* ÍCONES DE RESULTADO */}
-            <div style={{ margin: "0 15px", display: "flex", gap: "10px" }}>
-              <span
-                style={{
-                  color:
-                    pA?.result === "goal"
-                      ? "#44ff44"
-                      : pA?.result === "miss"
-                        ? "#ff4444"
-                        : "#555",
-                }}
-              >
-                {pA?.result === "goal"
-                  ? "✓"
-                  : pA?.result === "miss"
-                    ? "✗"
-                    : "○"}
+            <div className="pen-icons">
+              <span className={`pen-icon ${getIconClass(pA?.result)}`}>
+                {getIconSymbol(pA?.result)}
               </span>
-              <span
-                style={{
-                  color:
-                    pB?.result === "goal"
-                      ? "#44ff44"
-                      : pB?.result === "miss"
-                        ? "#ff4444"
-                        : "#555",
-                }}
-              >
-                {pB?.result === "goal"
-                  ? "✓"
-                  : pB?.result === "miss"
-                    ? "✗"
-                    : "○"}
+              <span className={`pen-icon ${getIconClass(pB?.result)}`}>
+                {getIconSymbol(pB?.result)}
               </span>
             </div>
 
-            {/* TIME B (Corrigido para textAlign: left) */}
-            <div style={{ flex: 1, textAlign: "left" }}>
-              <div style={{ fontSize: "12px", color: "#fff" }}>
-                {getPlayerName(pB)}
-              </div>
-              <div style={{ fontSize: "10px", color: "#888" }}>
+            {/* TIME B */}
+            <div className="pen-side right">
+              <div className="pen-player-name">{getPlayerName(pB)}</div>
+              <div className="pen-score-detail">
                 {pB?.result === "goal"
                   ? `Gol (${scoreA} - ${scoreB})`
                   : pB?.result === "miss"

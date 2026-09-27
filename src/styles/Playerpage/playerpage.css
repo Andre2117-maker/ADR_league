@@ -320,3 +320,130 @@
     height: 260px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - PERFIL DO JOGADOR / PLAYER PAGE (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Fundo da Página Inteira */
+.theme-idr.ppg-screen-wrapper,
+.theme-idr .ppg-screen-wrapper {
+  background: #f5f5f5 !important;
+  color: #111111 !important;
+}
+
+/* Cards Premium (Fundo Branco Fosco) */
+.theme-idr .ppg-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .ppg-card-title {
+  color: #666666 !important;
+}
+
+/* Caixas de Estatísticas */
+.theme-idr .ppg-stat-box {
+  background: #fdfdfd !important;
+  border-color: #e0e0e0 !important;
+}
+
+.theme-idr .ppg-stat-gold {
+  border-bottom-color: #000000 !important; /* Dourado vira Preto */
+}
+
+.theme-idr .ppg-stat-blue {
+  border-bottom-color: #888888 !important; /* Azul vira Cinza Escuro */
+}
+
+.theme-idr .ppg-stat-value {
+  color: #000000 !important;
+}
+
+/* Botões */
+.theme-idr .ppg-btn-back {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .ppg-btn-back:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .ppg-btn-edit {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .ppg-btn-edit:hover {
+  background: #333333 !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Gráfico de Radar (Cores das teias e letras) */
+.theme-idr .recharts-polar-angle-axis-tick-value {
+  fill: #555555 !important;
+}
+
+.theme-idr .recharts-polar-grid-concentric-path,
+.theme-idr .recharts-polar-grid-angle-line {
+  stroke: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Conquistas / Achievements */
+.theme-idr .ppg-tag-goal {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: #cccccc !important;
+  color: #333333 !important;
+}
+
+.theme-idr .ppg-tag-goal:hover {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Ícones das conquistas perdem o neon dourado */
+.theme-idr .ppg-tag-goal span,
+.theme-idr .ppg-tag-goal i {
+  filter: none !important;
+  color: #000000 !important;
+}
+
+/* Conquistas Raras (Fundo Preto com Texto Branco) */
+.theme-idr .ppg-tag-goal.rare {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .ppg-tag-goal.rare span,
+.theme-idr .ppg-tag-goal.rare i {
+  color: #ffffff !important;
+}
+
+.custom-radar-shape,
+.custom-radar-shape path {
+  fill: #d4af37; /* Preenchimento dourado */
+  stroke: #d4af37; /* Linha de contorno dourada */
+}
+
+/* 2. Tema Claro IDR (Preto Premium) */
+.theme-idr .custom-radar-shape,
+.theme-idr .custom-radar-shape path {
+  fill: #000000 !important; /* Preenchimento preto */
+  stroke: #000000 !important; /* Linha de contorno preta */
+}
+
+.theme-idr .recharts-polar-grid line,
+.theme-idr .recharts-polar-grid path,
+.theme-idr .recharts-polar-grid polygon {
+  stroke: rgba(0, 0, 0, 0.15) !important;
+}
