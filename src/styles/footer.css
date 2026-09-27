@@ -210,6 +210,10 @@
   background: #ddd !important;
 }
 
+.theme-idr .sponsors-secondary img {
+  height: 50px !important;
+}
+
 /* Ícone do Instagram */
 .theme-idr .social-link {
   color: #000 !important;

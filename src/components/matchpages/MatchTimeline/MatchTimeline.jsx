@@ -3,66 +3,16 @@ import { PenaltiesResult } from "../PenaltyResult/PenaltyResult";
 import "./MatchTimeline.css";
 
 const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      width: "100%",
-      margin: "15px 0",
-      zIndex: 2, // Fica acima da linha vertical central
-      position: "relative",
-    }}
-  >
-    {/* Linha horizontal esquerda */}
-    <div
-      style={{
-        flex: 1,
-        height: "1px",
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-      }}
-    ></div>
-
-    {/* Centro (Fundo preto esconde a linha vertical que passa por trás) */}
-    <div
-      style={{
-        padding: "0 15px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 1)", // Garanta que é a mesma cor de fundo do contêiner
-      }}
-    >
-      <span style={{ color: "#888", fontSize: "16px", marginBottom: "4px" }}>
-        {icon}
-      </span>
-      <span
-        style={{
-          color: "#8FAEC2",
-          fontSize: "11px",
-          fontWeight: "bold",
-          letterSpacing: "1px",
-        }}
-      >
-        {title}
-      </span>
+  <div className="timeline-marker-wrapper">
+    <div className="timeline-horizontal-line"></div>
+    <div className="timeline-marker-center">
+      <span className="marker-icon">{icon}</span>
+      <span className="marker-title">{title}</span>
       {subtitle && (
-        <span
-          className={`match-end-time ${customClass}`}
-          style={{ color: "#888", fontSize: "11px", marginTop: "4px" }}
-        >
-          {subtitle}
-        </span>
+        <span className={`match-end-time ${customClass}`}>{subtitle}</span>
       )}
     </div>
-
-    {/* Linha horizontal direita */}
-    <div
-      style={{
-        flex: 1,
-        height: "1px",
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-      }}
-    ></div>
+    <div className="timeline-horizontal-line"></div>
   </div>
 );
 
@@ -79,22 +29,17 @@ const MatchTimeline = ({ events, players, match }) => {
     const stableKey = e.id || `${e.type}-${index}-${e.team}`;
     const isSub = e.type === "SUB";
 
-    // Variáveis comuns
     let icon = null;
     let extraLabel = null;
     let name = "";
     let assist = null;
 
-    // Variáveis de Substituição
     let isInjured = false;
     let playerOut = "";
     let playerIn = "";
 
-    // Elemento da Minutagem
     const minuteElement = e.minute ? (
-      <span style={{ color: "#d4af37", fontWeight: "bold", fontSize: "13px" }}>
-        {e.minute}
-      </span>
+      <span className="timeline-minute">{e.minute}</span>
     ) : null;
 
     if (isSub) {
@@ -107,10 +52,7 @@ const MatchTimeline = ({ events, players, match }) => {
       name = getPlayerName(e.playerId, e.externalName);
       assist =
         e.assistId && !isOwnGoal ? (
-          <span
-            className="timeline-assist"
-            style={{ fontSize: "0.85em", opacity: 0.8 }}
-          >
+          <span className="timeline-assist">
             [{getPlayerName(e.assistId, e.externalAssistName)}]
           </span>
         ) : null;
@@ -120,34 +62,14 @@ const MatchTimeline = ({ events, players, match }) => {
           icon = <span className="event-icon">⚽</span>;
           break;
         case "OWN_GOAL":
-          icon = (
-            <span className="event-icon" style={{ color: "#ff4444" }}>
-              ⚽
-            </span>
-          );
-          extraLabel = (
-            <small style={{ color: "#ff4444", fontWeight: "bold" }}>(GC)</small>
-          );
+          icon = <span className="event-icon own-goal">⚽</span>;
+          extraLabel = <small className="own-goal-label">(GC)</small>;
           break;
         case "YELLOW":
-          icon = (
-            <span
-              className="event-icon"
-              style={{ color: "#FFD700", fontWeight: "bold" }}
-            >
-              🟨
-            </span>
-          );
+          icon = <span className="event-icon yellow-card">🟨</span>;
           break;
         case "RED":
-          icon = (
-            <span
-              className="event-icon"
-              style={{ color: "#ff2222", fontWeight: "bold" }}
-            >
-              🟥
-            </span>
-          );
+          icon = <span className="event-icon red-card">🟥</span>;
           break;
         default:
           icon = <span className="event-icon">•</span>;
@@ -155,105 +77,43 @@ const MatchTimeline = ({ events, players, match }) => {
     }
 
     return (
-      <div
-        key={stableKey}
-        style={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          marginBottom: "12px",
-        }}
-      >
-        {/* ========================================== */}
+      <div key={stableKey} className="timeline-event-row">
         {/* LADO ESQUERDO (TIME A) */}
-        {/* ========================================== */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            paddingRight: "15px",
-            gap: "6px",
-            textAlign: "right",
-          }}
-        >
+        <div className="timeline-side left">
           {isTeamA && !isSub && (
             <>
               {assist} {extraLabel} <span className="player-name">{name}</span>
               {minuteElement && (
-                <span style={{ marginLeft: "6px" }}>{minuteElement}</span>
+                <span className="minute-spacing-left">{minuteElement}</span>
               )}
             </>
           )}
 
           {isTeamA && isSub && (
             <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                  gap: "2px",
-                }}
-              >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                >
-                  {isInjured && (
-                    <span style={{ color: "#ff4444", fontSize: "12px" }}>
-                      ➕
-                    </span>
-                  )}
-                  <span style={{ color: "#ff4444", fontSize: "11px" }}>
-                    ⬇️ {playerOut}
-                  </span>
+              <div className="sub-box left">
+                <div className="sub-item-row">
+                  {isInjured && <span className="sub-injury">➕</span>}
+                  <span className="sub-out">⬇️ {playerOut}</span>
                 </div>
-                <span style={{ color: "#44ff44", fontSize: "11px" }}>
-                  ⬆️ {playerIn}
-                </span>
+                <span className="sub-in">⬆️ {playerIn}</span>
               </div>
               {minuteElement && (
-                <span style={{ marginLeft: "6px" }}>{minuteElement}</span>
+                <span className="minute-spacing-left">{minuteElement}</span>
               )}
             </>
           )}
         </div>
 
-        {/* ========================================== */}
         {/* CENTRO (ÍCONES) */}
-        {/* ========================================== */}
-        <div
-          style={{
-            width: "30px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexShrink: 0,
-            zIndex: 2,
-          }}
-        >
-          {icon}
-        </div>
+        <div className="timeline-center-icon">{icon}</div>
 
-        {/* ========================================== */}
         {/* LADO DIREITO (TIME B) */}
-        {/* ========================================== */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            paddingLeft: "15px",
-            gap: "6px",
-            textAlign: "left",
-          }}
-        >
+        <div className="timeline-side right">
           {!isTeamA && !isSub && (
             <>
               {minuteElement && (
-                <span style={{ marginRight: "6px" }}>{minuteElement}</span>
+                <span className="minute-spacing-right">{minuteElement}</span>
               )}
               <span className="player-name">{name}</span> {extraLabel} {assist}
             </>
@@ -262,31 +122,14 @@ const MatchTimeline = ({ events, players, match }) => {
           {!isTeamA && isSub && (
             <>
               {minuteElement && (
-                <span style={{ marginRight: "6px" }}>{minuteElement}</span>
+                <span className="minute-spacing-right">{minuteElement}</span>
               )}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: "2px",
-                }}
-              >
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
-                >
-                  <span style={{ color: "#ff4444", fontSize: "11px" }}>
-                    ⬇️ {playerOut}
-                  </span>
-                  {isInjured && (
-                    <span style={{ color: "#ff4444", fontSize: "12px" }}>
-                      ➕
-                    </span>
-                  )}
+              <div className="sub-box right">
+                <div className="sub-item-row">
+                  <span className="sub-out">⬇️ {playerOut}</span>
+                  {isInjured && <span className="sub-injury">➕</span>}
                 </div>
-                <span style={{ color: "#44ff44", fontSize: "11px" }}>
-                  ⬆️ {playerIn}
-                </span>
+                <span className="sub-in">⬆️ {playerIn}</span>
               </div>
             </>
           )}
@@ -295,13 +138,9 @@ const MatchTimeline = ({ events, players, match }) => {
     );
   };
 
-  // ==========================================
-  // LÓGICA: SEPARAR A LINHA A CADA 5 MINUTOS
-  // ==========================================
   const unifiedTimeline = useMemo(() => {
     const validEvents = events || [];
 
-    // Função para transformar minutos como "45+2" em "45.2" para ordenação matemática correta
     const parseMinute = (minStr) => {
       if (!minStr) return 0;
       const str = String(minStr).replace("+", ".");
@@ -310,31 +149,24 @@ const MatchTimeline = ({ events, players, match }) => {
 
     let maxMin = 0;
 
-    // 1. Mapeamos os eventos reais para pegar o número de ordenação e achar o tempo máximo de jogo
     const parsedEvents = validEvents.map((e, index) => {
       const m = parseMinute(e.minute);
       if (m > maxMin) maxMin = m;
       return { ...e, isEvent: true, sortValue: m, originalIndex: index };
     });
 
-    // 2. Criamos marcadores artificiais a cada 5 minutos até chegar no tempo máximo da partida
     const markers = [];
     if (maxMin > 0) {
-      // Arredonda para cima no próximo múltiplo de 5 (ex: se o último gol foi aos 38', criamos até os 40')
       const lastMarker = Math.ceil(maxMin / 5) * 5;
       for (let i = 5; i <= lastMarker; i += 5) {
         markers.push({ isMarker: true, minute: String(i), sortValue: i });
       }
     }
 
-    // 3. Juntamos os eventos e os marcadores de tempo
     const unified = [...parsedEvents, ...markers];
 
-    // 4. Ordenamos tudo cronologicamente
     unified.sort((a, b) => {
       if (a.sortValue === b.sortValue) {
-        // Se um evento aconteceu exatamente no mesmo minuto do marcador (ex: gol aos 15'),
-        // o marcador visual de 15' aparece primeiro, depois o evento
         if (a.isMarker && !b.isMarker) return -1;
         if (!a.isMarker && b.isMarker) return 1;
         return a.originalIndex - b.originalIndex;
@@ -346,83 +178,26 @@ const MatchTimeline = ({ events, players, match }) => {
   }, [events]);
 
   return (
-    <div
-      className="timeline-scroll-wrapper"
-      style={{
-        width: "100%",
-        maxWidth: "600px",
-        margin: "20px auto",
-        maxHeight: "350px",
-        overflowY: "auto",
-        overflowX: "hidden",
-        padding: "10px",
-        backgroundColor: "rgba(0, 0, 0)", // Fundo deve ser sólido para as quebras de linha funcionarem
-        borderRadius: "8px",
-      }}
-    >
-      <div
-        className="match-timeline-container"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          position: "relative",
-          paddingBottom: "10px",
-          paddingTop: "10px",
-        }}
-      >
+    <div className="timeline-scroll-wrapper">
+      <div className="match-timeline-container">
         {/* Linha vertical central */}
-        <div
-          style={{
-            position: "absolute",
-            top: "25px",
-            bottom: "25px",
-            left: "50%",
-            width: "2px",
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
-            transform: "translateX(-50%)",
-            zIndex: 1,
-          }}
-        ></div>
+        <div className="timeline-vertical-line"></div>
 
         {/* --- MARCADOR: PONTAPÉ INICIAL --- */}
         <TimelineMarker icon="⏱️" title="PONTAPÉ INICIAL" />
 
-        {/* --- LISTA UNIFICADA: Eventos + Marcadores de Tempo --- */}
+        {/* --- LISTA UNIFICADA --- */}
         {unifiedTimeline.map((item, index) => {
-          // Se o item for um marcador de 5 em 5 minutos, desenha a quebra visual
           if (item.isMarker) {
             return (
               <div
                 key={`marker-${item.minute}-${index}`}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                  margin: "6px 0",
-                  zIndex: 2, // Fica acima da linha vertical
-                }}
+                className="timeline-time-marker"
               >
-                <div
-                  style={{
-                    backgroundColor: "rgba(0, 0, 0, 1)", // Fundo preto quebra/corta a linha vertical
-                    color: "rgba(255, 255, 255, 0.3)", // Um cinza transparente e bem sofisticado
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    padding: "2px 0",
-                    width: "36px",
-                    textAlign: "center",
-                    borderTop: "1px dashed rgba(255, 255, 255, 0.1)", // Um charmoso corte horizontal
-                    borderBottom: "1px dashed rgba(255, 255, 255, 0.1)",
-                  }}
-                >
-                  {item.minute}'
-                </div>
+                <div className="marker-badge">{item.minute}'</div>
               </div>
             );
           }
-
-          // Se for um evento real do jogo, renderiza normalmente usando a sua função
           return renderEvent(item, index);
         })}
 

@@ -88,3 +88,46 @@
   box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
   border-color: #f1c40f;
 }
+
+/* ==========================================================================
+   TEMA IDR - CARTÃO DE ESTATÍSTICAS DA PARTIDA (P&B PREMIUM)
+   ========================================================================== */
+
+/* Cartão Principal */
+.theme-idr .team-stats-card {
+  background: #ffffff !important;
+  border-color: #ccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Cabeçalho do Cartão */
+.theme-idr .stats-header-text {
+  border-bottom-color: #eee !important;
+}
+
+.theme-idr .team-name-a,
+.theme-idr .team-name-b {
+  color: #000 !important;
+}
+
+.theme-idr .stats-title-center {
+  color: #666 !important;
+}
+
+/* Corpo e Valores */
+.theme-idr .stat-label-text {
+  color: #555 !important;
+}
+
+.theme-idr .stat-val {
+  color: #000 !important;
+}
+
+/* Destaque de Vencedor / Estatística Vencedora no IDR */
+.theme-idr .stat-val.highlight-winner {
+  background: #000 !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2) !important;
+  border-color: #000 !important;
+}

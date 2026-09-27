@@ -428,3 +428,143 @@
     font-size: 9px;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - MATCH VIEW & CAMPO TÁTICO (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Fundo da Página (Branco Minimalista com Grade Transparente) */
+.theme-idr .match-view-wrapper {
+  background-color: #f5f5f5 !important;
+  color: #111111 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(0,0,0,0.04)'%3E+%3C/text%3E%3C/svg%3E") !important;
+}
+
+/* Abas de Navegação (Menu) */
+.theme-idr .psg-tabs-menu {
+  background: #ffffff !important;
+  border-bottom-color: #dddddd !important;
+}
+
+.theme-idr .psg-tabs-menu button {
+  color: #888888 !important;
+}
+
+.theme-idr .psg-tabs-menu button:hover {
+  color: #000000 !important;
+}
+
+.theme-idr .psg-tabs-menu button.active {
+  color: #000000 !important;
+}
+
+.theme-idr .psg-tabs-menu button.active::after {
+  background-color: #000000 !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Campo Tático (Prancheta Branca / Modo Tático) */
+.theme-idr .pitch-canvas {
+  background: repeating-linear-gradient(
+    -45deg,
+    #ffffff,
+    #ffffff 10px,
+    #f8f8f8 10px,
+    #f8f8f8 20px
+  ) !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Linhas do Campo */
+.theme-idr .field-lines {
+  opacity: 0.6 !important;
+}
+
+.theme-idr .c-line {
+  background: #000000 !important;
+}
+
+.theme-idr .c-circle,
+.theme-idr .b-top,
+.theme-idr .b-bottom {
+  border-color: #000000 !important;
+}
+
+/* Cartões de Jogadores na Prancheta */
+.theme-idr .player-card-label {
+  background: #ffffff !important;
+  border-color: #aaaaaa !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .p-card-num {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .p-card-name {
+  color: #000000 !important;
+}
+
+/* Slot Vazio para Admin */
+.theme-idr .empty-slot-marker {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+.theme-idr .slot-selector {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+}
+
+/* Badges e Ferramentas Dicas (Tooltips) */
+.theme-idr .badge-item {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .badge-item small {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.theme-idr .custom-tooltip {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .custom-tooltip::after {
+  border-color: #ffffff transparent transparent transparent !important;
+}
+
+/* MVP Badge no IDR (Sutil e Chique) */
+.theme-idr .player-tactical.is-mvp::after {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme-idr .player-tactical.is-mvp::before {
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.15) 0%,
+    transparent 70%
+  ) !important;
+}
+
+.theme-idr .player-tactical.is-mvp .player-img {
+  border-color: #000000 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .player-tactical.is-mvp .player-card-label {
+  border-color: #000000 !important;
+}

@@ -258,3 +258,68 @@
     font-size: 1rem;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - CAMPO AMISTOSO E ESCALAÇÃO VERTICAL (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Container Principal e Títulos */
+.theme-idr .psg-vertical-lineup-container {
+  background: transparent !important;
+}
+
+.theme-idr .psg-vertical-title {
+  color: #000000 !important;
+}
+
+/* Cabeçalho dos Times (Escudos e Textos) */
+.theme-idr .th-name {
+  color: #000000 !important;
+}
+
+.theme-idr .th-form {
+  color: #555555 !important;
+}
+
+.theme-idr .team-header-side img {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15)) !important;
+}
+
+/* Linha dos Jogadores */
+.theme-idr .psg-v-photo {
+  background: #f0f0f0 !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .psg-v-num {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.theme-idr .psg-v-pos {
+  color: #888888 !important; /* Posição (Ex: ATA, MEI) mais sutil */
+}
+
+.theme-idr .psg-v-name {
+  color: #111111 !important;
+  font-weight: 800 !important;
+}
+
+/* Jogadores Oponentes (Silhuetas Escuras / Modo Claro) */
+.theme-idr .shadow-opponent {
+  opacity: 0.1 !important;
+  background: #000000 !important;
+  border: none !important;
+}
+
+.theme-idr .shadow-text {
+  opacity: 0.4 !important;
+  color: #000000 !important;
+}
+
+/* Subtítulo (Ex: Banco de Reservas) */
+.theme-idr .psg-vertical-subtitle {
+  color: #444444 !important;
+  border-top-color: #cccccc !important;
+}

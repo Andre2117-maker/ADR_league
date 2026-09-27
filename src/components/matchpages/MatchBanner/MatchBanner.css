@@ -252,3 +252,110 @@
     flex-wrap: wrap; /* Garante que os pênaltis não quebrem o layout no celular */
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - BANNER DA PARTIDA / MATCH CENTER (BLACK & WHITE ULTRA-PREMIUM)
+   ========================================================================== */
+
+/* Banner Principal: Fundo preto sólido de altíssimo contraste ou branco minimalista de luxo */
+.theme-idr .psg-match-banner {
+  background: #ffffff !important;
+  border-bottom: 2px solid #000000 !important;
+  border-top: 1px solid #e5e5e5 !important;
+  color: #111111 !important;
+  padding: 90px 20px 25px 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Status (Ex: Fim de Jogo / Ao Vivo) - Padrão Pílula Preta Sólida */
+.theme-idr .psg-status {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  letter-spacing: 1px !important;
+}
+
+/* Metadados (Data e Competição) */
+.theme-idr .psg-date {
+  color: #111111 !important;
+  font-weight: 800 !important;
+}
+
+.theme-idr .psg-comp {
+  color: #666666 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Nomes dos Times e Placares (Tipografia de Estádio) */
+.theme-idr .psg-name-score h2 {
+  color: #000000 !important;
+  text-shadow: none !important;
+  letter-spacing: -0.5px !important;
+}
+
+.theme-idr .psg-score-num {
+  color: #000000 !important;
+  text-shadow: none !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  padding: 2px 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Logos dos Times com Sombra Profunda e Elegante */
+.theme-idr .psg-logo {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15)) !important;
+}
+
+/* Artilheiros */
+.theme-idr .psg-scorers {
+  color: #555555 !important;
+}
+
+.theme-idr .scorer-item {
+  background: rgba(0, 0, 0, 0.03) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Botão de Toggle da Timeline (Estilo Minimalista Chique) */
+.theme-idr .psg-timeline-toggle {
+  color: #000000 !important;
+  border-color: #000000 !important;
+  background: #f8f9fa !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .psg-timeline-toggle:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Dropdown da Timeline Integrado */
+.theme-idr .psg-timeline-dropdown {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Seção de Pênaltis */
+.theme-idr .pen-team.pen-winner {
+  color: #000000 !important;
+  font-weight: 900 !important;
+  border-bottom: 2px solid #000000 !important;
+  padding-bottom: 2px !important;
+}
+
+.theme-idr .pen-team.pen-loser {
+  color: #888888 !important;
+  font-weight: 600 !important;
+}
+
+.theme-idr .pen-divider {
+  color: #888888 !important;
+}

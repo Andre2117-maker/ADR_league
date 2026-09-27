@@ -1,38 +1,161 @@
-.match-timeline-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* ==========================================================================
+   ESTILOS GERAIS DA TIMELINE DA PARTIDA
+   ========================================================================== */
+
+.timeline-scroll-wrapper {
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 10px;
+  max-width: 600px;
+  margin: 20px auto;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+  background-color: #000;
+  border-radius: 8px;
 }
 
-.timeline-column {
+.match-timeline-container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  width: 100%;
+  position: relative;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.timeline-event-item {
+/* Linha vertical central */
+.timeline-vertical-line {
+  position: absolute;
+  top: 25px;
+  bottom: 25px;
+  left: 50%;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Marcador Inicial / Final */
+.timeline-marker-wrapper {
   display: flex;
   align-items: center;
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  width: 100%;
+  margin: 15px 0;
+  zindex: 2;
+  position: relative;
 }
-.timeline-column.left .timeline-event-item {
+
+.timeline-horizontal-line {
+  flex: 1;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.timeline-marker-center {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000;
+}
+
+.marker-icon {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.marker-title {
+  color: #8faec2;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.match-end-time {
+  color: #888;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+/* Linha do Evento Real */
+.timeline-event-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.timeline-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-side.left {
   justify-content: flex-end;
+  padding-right: 15px;
+  text-align: right;
 }
-.timeline-column.right .timeline-event-item {
+
+.timeline-side.right {
   justify-content: flex-start;
+  padding-left: 15px;
+  text-align: left;
+}
+
+.timeline-center-icon {
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  zindex: 2;
 }
 
 .event-icon {
   font-size: 1.1rem;
-  margin: 0 10px;
   filter: drop-shadow(0 0 2px #000);
+}
+
+.own-goal {
+  color: #ff4444;
+}
+
+.own-goal-label {
+  color: #ff4444;
+  font-weight: bold;
+}
+
+.yellow-card {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.red-card {
+  color: #ff2222;
+  font-weight: bold;
+}
+
+.timeline-minute {
+  color: #d4af37;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.minute-spacing-left {
+  margin-left: 6px;
+}
+
+.minute-spacing-right {
+  margin-right: 6px;
+}
+
+.player-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
 }
 
 .timeline-assist {
@@ -43,10 +166,64 @@
   text-transform: none;
 }
 
+/* Substituições */
+.sub-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sub-box.left {
+  align-items: flex-end;
+}
+
+.sub-box.right {
+  align-items: flex-start;
+}
+
+.sub-item-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sub-injury {
+  color: #ff4444;
+  font-size: 12px;
+}
+
+.sub-out {
+  color: #ff4444;
+  font-size: 11px;
+}
+
+.sub-in {
+  color: #44ff44;
+  font-size: 11px;
+}
+
+/* Marcadores de Minutagem (5 em 5 min) */
+.timeline-time-marker {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 6px 0;
+  zindex: 2;
+}
+
+.marker-badge {
+  background-color: #000;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 0;
+  width: 36px;
+  text-align: center;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
 @media (max-width: 768px) {
-  .match-timeline-container {
-    gap: 10px;
-  }
   .timeline-event-item {
     font-size: 0.75rem;
   }
@@ -54,4 +231,62 @@
     font-size: 0.6rem;
     margin-left: -10px;
   }
+}
+
+/* ==========================================================================
+   TEMA IDR - TIMELINE DE EVENTOS / GOLS DA PARTIDA (P&B PREMIUM)
+   ========================================================================== */
+
+.theme-idr .timeline-scroll-wrapper {
+  background-color: #ffffff !important;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .match-timeline-container {
+  color: #111 !important;
+}
+
+.theme-idr .timeline-vertical-line {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .timeline-horizontal-line {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.theme-idr .timeline-marker-center {
+  background-color: #ffffff !important;
+}
+
+.theme-idr .marker-title {
+  color: #444 !important;
+}
+
+.theme-idr .match-end-time {
+  color: #666 !important;
+}
+
+.theme-idr .timeline-event-item,
+.theme-idr .player-name {
+  color: #000 !important;
+}
+
+.theme-idr .event-icon {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2)) !important;
+}
+
+.theme-idr .timeline-assist {
+  color: #666 !important;
+}
+
+.theme-idr .timeline-minute {
+  color: #000 !important;
+}
+
+.theme-idr .marker-badge {
+  background-color: #ffffff !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  border-top-color: rgba(0, 0, 0, 0.15) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.15) !important;
 }

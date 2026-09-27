@@ -120,7 +120,7 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
         <div className="badge-adr">
           {/* Textos que serão ligados/desligados pelo CSS */}
           <span className="text-adr">ATLETA ADR</span>
-          <span className="text-idr">ATLETA IDR</span>
+          <span className="text-idr1">ATLETA IDR</span>
         </div>
       </div>
     </div>

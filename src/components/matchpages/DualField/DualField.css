@@ -61,3 +61,30 @@
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - ESCALAÇÃO / CAMPOS E FORMAÇÕES (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Título do Time Acima do Campo */
+.theme-idr .field-team-title {
+  color: #000000 !important;
+  text-shadow: none !important;
+  font-weight: 900 !important;
+}
+
+/* Dropdown de Formação Tática (Seletor Premium) */
+.theme-idr .formation-dropdown {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #d0d0d0 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .formation-dropdown:hover,
+.theme-idr .formation-dropdown:focus {
+  border-color: #000000 !important;
+  background: #fdfdfd !important;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1) !important;
+  outline: none !important;
+}

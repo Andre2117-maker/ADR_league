@@ -360,15 +360,16 @@
   border-top-color: #eee !important;
 }
 
-.text-idr {
+.text-idr1 {
   display: none;
 }
 
 /* Quando o modo claro estiver ativo, esconde o ADR e mostra o IDR */
-.theme-idr .text-adr {
+.theme-idr .text-idr1 {
   display: none !important;
 }
 
-.theme-idr .text-idr {
+.theme-idr .text-idr1 {
   display: inline-block !important;
+  color: white !important;
 }
