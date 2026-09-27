@@ -5,6 +5,7 @@ import "../styles/Statics/statics.css";
 import TopAssistsCard from "../components/TopAssists/TopAssistsCard";
 import TopGoalkeepersCard from "../components/TopGoalkeepers/TopGoalkeepersCard";
 import TopScorersCard from "../components/TopScorers/TopScorersCard";
+import AllTimeTable from "../components/AllTimeTable/ALLTimeTable";
 import Footer from "../components/Footer";
 
 // NOVOS IMPORTES (Amistosos)
@@ -149,6 +150,8 @@ export default function Statics({ players = [], matches = [] }) {
           <TopAssistsCard players={sortedByAssists} limit={10} />
           <TopGoalkeepersCard players={players} matches={matches} limit={10} />
         </div>
+        <h1 className="page-title">ALL TIME</h1>
+        <AllTimeTable matches={matches} players={players} />
       </div>
       <Footer />
     </div>

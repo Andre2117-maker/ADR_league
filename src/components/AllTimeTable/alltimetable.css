@@ -1,0 +1,195 @@
+/* ==========================================================================
+   ESTILO PADRÃO (DARK / PSG MODE)
+   ========================================================================== */
+.alltime-container {
+  background: #0a0a0a;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  font-family: "Inter", sans-serif;
+  color: #fff;
+}
+
+.alltime-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.alltime-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #d4af37;
+  letter-spacing: 1px;
+}
+
+.alltime-select {
+  background: #111;
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+}
+
+.alltime-select:focus {
+  border-color: #d4af37;
+}
+
+.alltime-table-wrapper {
+  overflow-x: auto; /* Permite scroll no celular */
+  border-radius: 8px;
+  border: 1px solid #222;
+}
+
+.alltime-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  min-width: 600px; /* Força scroll em telas muito pequenas */
+}
+
+.alltime-table th {
+  background: #111;
+  padding: 12px 8px;
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: 800;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  border-bottom: 2px solid #333;
+}
+
+.alltime-table td {
+  padding: 12px 8px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #1a1a1a;
+  color: #ccc;
+}
+
+.alltime-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.alltime-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Colunas Específicas */
+.col-pos {
+  width: 40px;
+  color: #666;
+  font-weight: 900;
+}
+
+.col-name {
+  text-align: left !important;
+  font-weight: 700;
+  color: #fff !important;
+}
+
+.highlight-col {
+  background: rgba(212, 175, 55, 0.05);
+  color: #d4af37 !important;
+}
+
+.bold {
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+/* Cores Táticas */
+.color-win {
+  color: #00ff7f;
+  font-weight: 700;
+}
+.color-draw {
+  color: #aaa;
+}
+.color-loss {
+  color: #ff4d4d;
+  font-weight: 700;
+}
+.color-mvp {
+  color: #f1c40f;
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   TEMA IDR - HALL DA FAMA / ALL-TIME (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+.theme-idr .alltime-container {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+  color: #111111 !important;
+}
+
+.theme-idr .alltime-title {
+  color: #000000 !important;
+}
+
+.theme-idr .alltime-select {
+  background: #f9f9f9 !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .alltime-select:focus {
+  border-color: #000000 !important;
+}
+
+.theme-idr .alltime-table-wrapper {
+  border-color: #dddddd !important;
+}
+
+.theme-idr .alltime-table th {
+  background: #f0f0f0 !important;
+  color: #555555 !important;
+  border-bottom-color: #cccccc !important;
+}
+
+.theme-idr .alltime-table td {
+  border-bottom-color: #eeeeee !important;
+  color: #444444 !important;
+}
+
+.theme-idr .alltime-table tr:hover {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .col-pos {
+  color: #888888 !important;
+}
+
+.theme-idr .col-name {
+  color: #000000 !important;
+}
+
+.theme-idr .highlight-col {
+  background: rgba(0, 0, 0, 0.03) !important;
+  color: #000000 !important;
+}
+
+/* Ajuste das cores de resultado para não estourar no fundo branco */
+.theme-idr .color-win {
+  color: #008a00 !important;
+}
+.theme-idr .color-loss {
+  color: #cc0000 !important;
+}
+.theme-idr .color-mvp {
+  color: #b8860b !important;
+}

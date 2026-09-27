@@ -33,7 +33,8 @@
   gap: 30px;
   width: 100%;
   max-width: 1200px;
-  padding: 0 20px;
+  padding: 0px 20px;
+  margin-bottom: 100px;
 }
 
 /* Cada Coluna / Card (Estilo Premier League + ADR Glassmorphism) */
