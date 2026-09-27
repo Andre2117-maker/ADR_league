@@ -138,3 +138,79 @@
   color: #bbb;
   border-color: rgba(255, 255, 255, 0.08);
 }
+
+/* ==========================================================================
+   TEMA IDR - PAINEL ADM DE PÊNALTIS (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Container Principal */
+.theme-idr .penalties-admin-section {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .section-title {
+  color: #000000 !important;
+}
+
+/* Placar Automático */
+.theme-idr .penalties-score-box {
+  background: #f9f9f9 !important;
+  border-color: #cccccc !important;
+  color: #000000 !important;
+}
+
+.theme-idr .penalties-score-box.winner {
+  border-color: #000000 !important;
+  color: #000000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .penalties-score-divider {
+  color: #888888 !important;
+}
+
+/* Blocos dos Times */
+.theme-idr .penalty-team-block {
+  background: #fdfdfd !important;
+  border-color: #eeeeee !important;
+}
+
+.theme-idr .penalty-team-block h4 {
+  color: #111111 !important;
+  font-weight: 800 !important;
+}
+
+/* Botões de Ação (Marcar Gol / Errar) */
+.theme-idr .penalty-buttons button {
+  background: #ffffff !important;
+  color: #333333 !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .penalty-buttons button:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Sequência de Bolinhas do Pênalti (Cores Sólidas e Claras) */
+.theme-idr .penalty.goal {
+  background: #e6fced !important;
+  color: #008a00 !important;
+  border-color: #008a00 !important;
+}
+
+.theme-idr .penalty.miss {
+  background: #fff5f5 !important;
+  color: #cc0000 !important;
+  border-color: #cc0000 !important;
+}
+
+.theme-idr .penalty.pending {
+  background: #f0f0f0 !important;
+  color: #888888 !important;
+  border-color: #cccccc !important;
+}

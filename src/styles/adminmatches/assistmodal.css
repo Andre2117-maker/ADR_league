@@ -165,3 +165,70 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - MODAL DE ASSISTÊNCIAS (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Fundo Desfocado (Overlay Claro) */
+.theme-idr .assist-modal-overlay {
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Container Principal do Modal */
+.theme-idr .assist-modal {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  border-top-color: #000000 !important; /* Linha superior preta */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Título */
+.theme-idr .assist-modal h3 {
+  color: #000000 !important;
+}
+
+/* Botões dos Jogadores */
+.theme-idr .assist-grid button {
+  background: #f9f9f9 !important;
+  border-color: #dddddd !important;
+  color: #333333 !important;
+}
+
+.theme-idr .assist-grid button:hover {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Botão "Sem Assistência" */
+.theme-idr .btn-no-assist {
+  background: #fff5f5 !important;
+  border-color: #ffcccc !important;
+  color: #cc0000 !important;
+}
+
+.theme-idr .btn-no-assist:hover {
+  background: #cc0000 !important;
+  border-color: #cc0000 !important;
+  color: #ffffff !important;
+}
+
+/* Botão Cancelar */
+.theme-idr .btn-cancel {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  color: #666666 !important;
+}
+
+.theme-idr .btn-cancel:hover {
+  background: #f0f0f0 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* Barra de Rolagem */
+.theme-idr .assist-modal::-webkit-scrollbar-thumb {
+  background: #cccccc !important;
+}

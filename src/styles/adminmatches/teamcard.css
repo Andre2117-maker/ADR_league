@@ -105,3 +105,49 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - CARDS DAS EQUIPES E UPLOAD (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Card Padrão da Equipe */
+.theme-idr .team-card {
+  background: #ffffff !important;
+  border-top-color: #000000 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Card da Equipe Oponente (Visitante / Convidado) */
+.theme-idr .team-card.opponent-card {
+  border-color: #cccccc !important;
+  background: #f9f9f9 !important;
+}
+
+/* Divisória do Cabeçalho */
+.theme-idr .team-upload-header {
+  border-bottom-color: #eeeeee !important;
+}
+
+/* Caixa de Upload de Escudo */
+.theme-idr .logo-box {
+  border-color: #cccccc !important;
+  background: #f0f0f0 !important;
+}
+
+.theme-idr .logo-box:hover {
+  border-color: #000000 !important;
+}
+
+/* Input do Nome do Time */
+.theme-idr .team-name-input {
+  color: #000000 !important;
+  border-bottom-color: #cccccc !important;
+}
+
+.theme-idr .team-name-input::placeholder {
+  color: #999999 !important;
+}
+
+.theme-idr .team-name-input:focus {
+  border-bottom-color: #000000 !important;
+}

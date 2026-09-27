@@ -24,3 +24,62 @@
 .preset-tools button:hover {
   transform: scale(1.05);
 }
+
+/* =========================================
+   PRESET TOOLS - TEMA PREMIUM (.theme-idr)
+   ========================================= */
+
+.theme-idr .preset-tools {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.theme-idr .preset-tools select {
+  flex: 1;
+  /* Fundo preto absoluto para o campo de entrada */
+  background: #0a0a0a;
+  color: #ffffff;
+
+  /* Borda sutil que acompanha o design limpo */
+  border: 1px solid #333;
+  padding: 10px 12px; /* Ligeiro aumento no padding para um visual mais refinado */
+  border-radius: 8px;
+  outline: none;
+
+  transition: all 0.3s ease;
+}
+
+/* Efeito de foco no select para guiar o usuário */
+.theme-idr .preset-tools select:focus {
+  border-color: #e5e5e5;
+  box-shadow: 0 0 0 1px rgba(229, 229, 229, 0.2); /* Leve brilho interno */
+}
+
+.theme-idr .preset-tools button {
+  padding: 0 18px;
+
+  /* Botão em cinza escuro para contrastar com o input */
+  background: #1a1a1a;
+  color: #e5e5e5; /* Texto ou ícone em prata/platina */
+  border: 1px solid #333;
+  border-radius: 8px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover premium: inverte as cores e eleva suavemente (mais elegante que scale) */
+.theme-idr .preset-tools button:hover {
+  background: #e5e5e5;
+  color: #0a0a0a;
+  border-color: #e5e5e5;
+
+  /* Substituição do scale(1.05) por uma elevação sutil no eixo Y */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1); /* Sutil rastro luminoso */
+}

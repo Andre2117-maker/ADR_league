@@ -296,3 +296,108 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - MATCH PREVIEW / SCOREBOARD (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+/* Fundo do Card (Vidro Fosco Claro) */
+.theme-idr .preview-card-glass {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Cabeçalho do Placar Estilo TV */
+.theme-idr .tv-scoreboard {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.04),
+    transparent
+  ) !important;
+  border-bottom-color: #eeeeee !important;
+}
+
+/* Nomes dos Times e Logo */
+.theme-idr .team-text {
+  color: #000000 !important;
+}
+
+.theme-idr .logo-wrapper {
+  background: #f9f9f9 !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .logo-placeholder {
+  color: #000000 !important;
+}
+
+/* Números do Placar */
+.theme-idr .score-numbers {
+  color: #000000 !important;
+  text-shadow: none !important; /* Remove o brilho dourado */
+}
+
+.theme-idr .score-numbers .divider {
+  color: #aaaaaa !important;
+}
+
+/* Etiqueta de Pênaltis */
+.theme-idr .penalties-tag {
+  background: #f0f0f0 !important;
+  color: #000000 !important;
+  border: 1px solid #cccccc !important;
+}
+
+/* Rótulo da Linha do Tempo (Eventos) */
+.theme-idr .section-label {
+  color: #555555 !important;
+}
+
+/* Cards da Linha do Tempo (Gols, Cartões) */
+.theme-idr .event-card-mini {
+  background: #ffffff !important;
+  border-color: #eeeeee !important;
+}
+
+.theme-idr .event-card-mini:hover {
+  background: #fafafa !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .e-player {
+  color: #000000 !important;
+}
+
+.theme-idr .og-label {
+  color: #cc0000 !important; /* Vermelho mais sólido contra o fundo branco */
+}
+
+.theme-idr .e-assist {
+  color: #666666 !important;
+}
+
+.theme-idr .e-team-tag {
+  background: #eeeeee !important;
+  color: #333333 !important;
+}
+
+/* Ícone de Excluir Evento */
+.theme-idr .e-delete {
+  color: #aaaaaa !important;
+}
+
+.theme-idr .e-delete:hover {
+  color: #cc0000 !important;
+}
+
+.theme-idr .empty-timeline {
+  color: #888888 !important;
+}
+
+/* Selo de Capitão */
+.theme-idr .captain-badge {
+  background: #f0f0f0 !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+}

@@ -118,3 +118,55 @@
     font-size: 0.9rem;
   }
 }
+
+/* ==========================================================================
+   TEMA IDR - CARROSSEL HISTÓRICO (BLACK & WHITE PREMIUM)
+   ========================================================================== */
+
+.theme-idr .history-main-title {
+  color: #000000 !important;
+}
+
+.theme-idr .history-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Fundo da imagem claro (para preencher as sobras do object-fit: contain) */
+.theme-idr .card-bg-img {
+  background-color: #f9f9f9 !important;
+}
+
+/* Degradê sobre a imagem (Trocado de preto para um branco fosco elegante) */
+.theme-idr .card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.5),
+    transparent
+  ) !important;
+}
+
+.theme-idr .card-year {
+  color: #000000 !important;
+}
+
+.theme-idr .card-title {
+  color: #444444 !important;
+  font-weight: 700 !important;
+}
+
+/* Botões de Navegação (Setas) */
+.theme-idr .arrow-btn {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .arrow-btn:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}

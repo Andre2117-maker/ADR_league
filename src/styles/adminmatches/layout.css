@@ -49,3 +49,58 @@ body {
     flex-direction: row;
   }
 }
+
+/* ===================================================
+   VARIÁVEIS GLOBAIS - TEMA PREMIUM (.theme-idr)
+   =================================================== */
+
+/* Quando a classe .theme-idr estiver no body ou container, essas cores substituem as do :root */
+.theme-idr {
+  --gold: #e5e5e5; /* Substitui o dourado pelo prata/platina */
+  --bg: #0a0a0a; /* Fundo preto absoluto/profundo */
+  --card: #141414; /* Cinza chumbo muito escuro para os cards */
+  --border: rgba(229, 229, 229, 0.2); /* Borda prata translúcida */
+  --text: #ffffff; /* Texto branco puro */
+}
+
+/* Garante que o fundo e texto mudem caso a classe seja aplicada no body */
+body.theme-idr {
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ===================================================
+   ESTRUTURA GERAL E LAYOUT (.theme-idr)
+   =================================================== */
+
+.theme-idr .page-container2 {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 100px 14px 40px;
+  overflow-x: hidden;
+}
+
+.theme-idr .match-teams-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .theme-idr .admin-box-grid {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .theme-idr .field {
+    flex: 1;
+  }
+
+  .theme-idr .match-teams-grid {
+    flex-direction: row;
+  }
+}

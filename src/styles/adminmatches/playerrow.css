@@ -115,3 +115,133 @@
     grid-template-columns: repeat(6, 1fr);
   }
 }
+
+/* ===================================================
+   LISTA DE JOGADORES - FUNDO PREMIUM (PRETO/CINZA)
+   =================================================== */
+
+.theme-idr .players-scroll {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Customização sutil da barra de rolagem (opcional) */
+.theme-idr .players-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.theme-idr .players-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+.theme-idr .players-scroll::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+.theme-idr .player-row {
+  /* Fundo da linha em cinza translúcido escuro */
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.theme-idr .player-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.theme-idr .player-row.active {
+  /* Linha selecionada ganha um toque prata/cinza claro */
+  background: rgba(229, 229, 229, 0.08);
+  border-color: rgba(229, 229, 229, 0.774);
+}
+
+.theme-idr .p-clickable-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.theme-idr .p-clickable-area input {
+  width: 18px;
+  height: 18px;
+  accent-color: #e5e5e5; /* Checkbox neutro/prata */
+}
+
+.theme-idr .p-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgb(10, 10, 10);
+}
+
+/* ===================================================
+   AÇÕES - CORES ORIGINAIS MANTIDAS
+   =================================================== */
+
+.theme-idr .actions {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.theme-idr .actions button {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+/* Efeito Hover Premium (eleva um pouco e dá um leve brilho) */
+.theme-idr .actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1); /* Deixa a cor levemente mais viva */
+}
+
+/* Capitão */
+.theme-idr .btn-captain {
+  background: #ffca28;
+  color: black;
+}
+
+/* Goleiro */
+.theme-idr .btn-gk {
+  background: #2196f3;
+  color: white;
+}
+
+/* Gol */
+.theme-idr .btn-goal {
+  background: #28a745;
+  color: white;
+}
+
+/* Gol contra */
+.theme-idr .btn-og {
+  background: #dc3545;
+  color: white;
+}
+
+/* Cartões */
+.theme-idr .btn-card.yellow {
+  background: #ffeb3b;
+  color: black;
+}
+
+.theme-idr .btn-card.red {
+  background: #f44336;
+  color: white;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .theme-idr .actions {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
