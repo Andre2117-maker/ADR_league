@@ -150,7 +150,9 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(
+    4px
+  ); /* Se ainda tiver lag em telemóveis antigos, remova esta linha */
   -webkit-backdrop-filter: blur(4px);
   z-index: 9998;
   opacity: 0;
@@ -166,20 +168,24 @@
 .nvb-sidebar {
   position: fixed;
   top: 0;
-  left: -320px; /* Esconde fora da tela */
+  left: 0; /* Mantém a âncora fixa */
+  transform: translateX(
+    -120%
+  ); /* Esconde fora do ecrã usando a GPU (Sem lag!) */
   width: 280px;
   height: 100vh;
   background: #080808;
   border-right: 1px solid rgba(212, 175, 55, 0.15);
   z-index: 9999;
   box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9);
-  transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /* A transição agora é no 'transform' e não no 'left' */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: flex;
   flex-direction: column;
 }
 
 .nvb-sidebar.open {
-  left: 0; /* Desliza para dentro da tela */
+  transform: translateX(0); /* Desliza para dentro do ecrã sem travar */
 }
 
 .nvb-sidebar-header {
