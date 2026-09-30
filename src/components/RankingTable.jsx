@@ -6,8 +6,8 @@ import terceiro from "../assets/terceiro.png";
 // IMPORTANDO APENAS OS PNGS DE FOGO
 import fogoLaranja from "../assets/medalhas/streak/fogoLar.png";
 import fogoAzul from "../assets/medalhas/streak/fogoAzul.png";
-import fogoRoxo from "../assets/medalhas/streak/fogoVer.png";
-import fogoVermelho from "../assets/medalhas/streak/fogoRox.png";
+import fogoRoxo from "../assets/medalhas/streak/fogoRox.png";
+import fogoVerde from "../assets/medalhas/streak/fogoVer.png";
 
 import "../styles/Tabelas/rankingtable.css";
 
@@ -109,8 +109,8 @@ export default function RankingTable({
 
   // Ajuda a escolher o fogo correto a cada 5 treinos
   const getFireIcon = (streak) => {
-    if (streak >= 15) return fogoVermelho;
-    if (streak >= 10) return fogoRoxo;
+    if (streak >= 15) return fogoRoxo;
+    if (streak >= 10) return fogoVerde;
     if (streak >= 5) return fogoAzul;
     if (streak >= 1) return fogoLaranja;
     return null;
