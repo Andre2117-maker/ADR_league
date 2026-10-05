@@ -193,3 +193,45 @@
 .theme-idr .color-mvp {
   color: #b8860b !important;
 }
+
+/* ==========================================================================
+   RESPONSIVIDADE CELULAR - TABELA ALL-TIME
+   ========================================================================== */
+@media (max-width: 768px) {
+  .alltime-container {
+    padding: 15px 10px; /* Reduz o espaço nas laterais do card principal */
+    margin-top: 15px;
+  }
+
+  .alltime-header {
+    flex-direction: column; /* Coloca o título e o select um em cima do outro */
+    align-items: flex-start;
+  }
+
+  .alltime-table-wrapper {
+    /* Mantém o scroll suave apenas se a tabela for realmente maior que o ecrã */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .alltime-table {
+    min-width: 100%; /* Remove a obrigatoriedade dos 600px */
+  }
+
+  .alltime-table th {
+    padding: 10px 4px; /* Menos espaço no cabeçalho */
+    font-size: 0.7rem; /* Letra mais pequena para caber mais informação */
+  }
+
+  .alltime-table td {
+    padding: 8px 4px; /* Menos espaço nas células */
+    font-size: 0.8rem; /* Reduz o texto dos dados */
+  }
+
+  .col-pos {
+    width: 25px; /* Estreita a coluna do ranking (#) */
+  }
+
+  .bold {
+    font-size: 0.85rem; /* Ajusta os números destacados */
+  }
+}
