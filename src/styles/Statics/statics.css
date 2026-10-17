@@ -1,260 +1,882 @@
-/* Container Principal */
+/* ==========================================================================
+   1. CONTAINER PRINCIPAL E TÍTULOS
+   ========================================================================== */
 .statics-container {
-  padding-top: 135px !important;
-  padding-bottom: 50px;
+  padding-top: 130px !important;
+  padding-bottom: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
   width: 100%;
   min-height: 100vh;
-  background-color: #000;
+  background-color: #050608;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E");
-  background-size: 60px 60px; /* Isso controla o espaçamento entre os grupos de '+' */
-  background-attachment: fixed;
-  background-position: center;
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(212, 175, 55, 0.1) 0%,
+      transparent 55%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 25v10M25 30h10' stroke='rgba(255,255,255,0.06)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size:
+    100% 100%,
+    60px 60px;
+  background-position:
+    top center,
+    center center;
 }
 
 .page-title {
   color: #d4af37;
-  text-shadow: 0px 0px 12px rgba(212, 175, 55, 0.6);
-  font-size: 28px;
+  text-shadow: 0px 4px 16px rgba(212, 175, 55, 0.35);
+  font-size: 1.85rem;
   font-weight: 900;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 40px;
+  letter-spacing: 2.5px;
+  margin: 50px 0 28px 0;
+  position: relative;
 }
 
-/* Grid das 3 Colunas */
+.page-title:first-of-type {
+  margin-top: 0;
+}
+
+.page-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   2. PAINEL DE RESUMO DE CAMPEONATOS (MELHOR CAMPANHA & FASES)
+   ========================================================================== */
+.camp-summary-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}
+
+.camp-summary-top-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 18px;
+}
+
+.camp-highlight-card {
+  background: linear-gradient(180deg, #11141c 0%, #0b0d12 100%);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.best-campaign-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, #0d0f14 70%);
+  border-color: rgba(212, 175, 55, 0.45);
+}
+
+.camp-card-kicker {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.best-campaign-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.best-stage-text {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.best-edition-badge {
+  background: #d4af37;
+  color: #000000;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.best-campaign-sub {
+  margin: 8px 0 0 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* KPIs da Direita */
+.kpi-stats-card {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.camp-kpi-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kpi-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #7c8594;
+  text-transform: uppercase;
+}
+
+.kpi-num {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.kpi-num.gold {
+  color: #d4af37;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+.camp-kpi-divider {
+  width: 1px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Tira de Números (Jogos, Vitórias, Empates, Derrotas, Gols) */
+.camp-record-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.record-pill {
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.record-pill span {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #6c7583;
+}
+
+.record-pill strong {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #f1f5f9;
+}
+
+.record-pill.win strong,
+.text-win {
+  color: #00e676 !important;
+}
+
+.record-pill.loss strong,
+.text-loss {
+  color: #ff5252 !important;
+}
+
+/* Lista de Edições e Fase Alcançada */
+.camp-editions-list {
+  background: #0b0d12;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.editions-list-title {
+  margin: 0 0 16px 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #94a3b8;
+}
+
+.editions-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.edition-history-card {
+  background: #11141c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.edition-history-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.edition-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.edition-year-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #d4af37;
+  letter-spacing: 1.2px;
+}
+
+.edition-name {
+  margin: 2px 0 0 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Badges de Fase Alcançada */
+.edition-stage-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.stage-champion {
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  color: #000000;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+.stage-runnerup {
+  background: rgba(226, 232, 240, 0.14);
+  border: 1px solid rgba(226, 232, 240, 0.4);
+  color: #f8fafc;
+}
+
+.stage-semi {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: #d4af37;
+}
+
+.stage-quarters,
+.stage-eighths,
+.stage-groups {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+.edition-mini-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.edition-mini-stats strong {
+  color: #ffffff;
+}
+
+.dot-sep {
+  color: #475569;
+}
+
+.edition-last-match {
+  font-size: 0.76rem;
+  color: #cbd5e1;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border-left: 3px solid #d4af37;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   3. GRID DAS 3 COLUNAS (ARTILHEIROS, ASSISTÊNCIAS E GOLEIROS)
+   ========================================================================== */
 .statics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 26px;
   width: 100%;
   max-width: 1200px;
-  padding: 0px 20px;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
+  box-sizing: border-box;
 }
 
-/* Cada Coluna / Card (Estilo Premier League + ADR Glassmorphism) */
+/* Card de Estatística (Visual Premier League / EA FC) */
 .stat-column {
-  background: rgba(15, 15, 15, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, #11141c 0%, #0a0c10 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 22px 18px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.stat-column::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.65),
+    transparent
+  );
+}
+
+.stat-column:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 175, 55, 0.3);
 }
 
 /* Cabeçalho da Coluna */
 .stat-header {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .stat-header h2 {
-  color: #fff;
-  font-size: 1.5rem;
-  font-weight: 800;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+}
+
+.stat-header h2::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: #d4af37;
 }
 
 .arrow-icon {
-  color: #666;
-  font-weight: 300;
+  color: #d4af37;
+  font-weight: 600;
+  margin-left: auto;
 }
 
-/* Linha do Jogador */
+/* Lista e Linhas de Jogadores */
 .stat-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .stat-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   transition:
     transform 0.2s ease,
-    background 0.2s ease;
-  border-radius: 8px;
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .stat-row:hover {
-  background: rgba(255, 255, 255, 0.03);
-  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
 }
 
 /* Lado Esquerdo (Posição, Foto e Nome) */
 .stat-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
 }
 
 .stat-rank {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: #888;
-  font-size: 1.1rem;
-  font-weight: 700;
-  width: 20px;
-  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .stat-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 8px; /* Quadrado arredondado tipo o da imagem */
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   object-fit: cover;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: #14171f;
+  flex-shrink: 0;
 }
 
 .stat-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .stat-name {
-  color: #fff;
+  color: #ffffff;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.94rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .stat-team {
-  color: #666;
-  font-size: 0.8rem;
+  color: #6c7583;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Lado Direito (O Número/Estatística) */
+/* Lado Direito (Pílula do Valor) */
 .stat-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  min-width: 40px;
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 
 .stat-value {
-  color: #d4af37; /* Dourado ADR */
+  min-width: 38px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: #d4af37;
   font-weight: 900;
-  font-size: 1.3rem;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Top 1 Destaque Especial */
+/* PÓDIO: TOP 1, TOP 2 E TOP 3 */
+.stat-row:nth-child(1) {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.16) 0%,
+    rgba(212, 175, 55, 0.03) 100%
+  );
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  padding: 11px 12px;
+}
+
 .stat-row:nth-child(1) .stat-rank {
-  color: #d4af37;
-  font-size: 1.3rem;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  color: #000000;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 900;
 }
 
 .stat-row:nth-child(1) .stat-avatar {
-  border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  width: 48px;
+  height: 48px;
+  border: 2px solid #d4af37;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
 }
 
 .stat-row:nth-child(1) .stat-name {
-  color: #d4af37;
+  color: #ffd700;
+  font-weight: 900;
+  font-size: 1rem;
 }
 
-/* --- RESPONSIVIDADE --- */
+.stat-row:nth-child(1) .stat-value {
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000000;
+  border-color: #ffd700;
+  font-size: 1.1rem;
+}
+
+.stat-row:nth-child(2) .stat-rank {
+  background: rgba(203, 213, 225, 0.15);
+  border-color: rgba(203, 213, 225, 0.45);
+  color: #e2e8f0;
+}
+
+.stat-row:nth-child(3) .stat-rank {
+  background: rgba(205, 127, 50, 0.15);
+  border-color: rgba(205, 127, 50, 0.45);
+  color: #eab308;
+}
+
+/* ==========================================================================
+   4. RESPONSIVIDADE COMPLETA (TABLET & CELULAR)
+   ========================================================================== */
 @media (max-width: 1024px) {
   .statics-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .camp-summary-top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .camp-record-strip {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .statics-container {
-    padding-top: 150px !important;
+    padding-top: 115px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 40px;
   }
 
+  .page-title {
+    font-size: 1.35rem;
+    letter-spacing: 1.5px;
+    margin: 36px 0 20px 0;
+  }
+
+  /* Resumo de Campeonatos no Celular */
+  .camp-highlight-card {
+    padding: 16px;
+  }
+
+  .best-stage-text {
+    font-size: 1.25rem;
+  }
+
+  .kpi-num {
+    font-size: 1.35rem;
+  }
+
+  .kpi-label {
+    font-size: 0.6rem;
+  }
+
+  .camp-record-strip {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .record-pill {
+    padding: 10px 6px;
+  }
+
+  .record-pill span {
+    font-size: 0.6rem;
+  }
+
+  .record-pill strong {
+    font-size: 1.05rem;
+  }
+
+  .camp-editions-list {
+    padding: 14px;
+  }
+
+  .editions-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .edition-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Grid de Artilheiro / Assistência / Goleiro no Celular */
   .statics-grid {
-    grid-template-columns: 1fr; /* Fica uma coluna embaixo da outra no celular */
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 0;
+    margin-bottom: 30px;
   }
 
   .stat-column {
-    padding: 15px;
+    padding: 16px 12px;
+    border-radius: 14px;
+  }
+
+  .stat-header h2 {
+    font-size: 1.05rem;
+  }
+
+  .stat-row {
+    padding: 7px 8px;
+  }
+
+  .stat-left {
+    gap: 10px;
+  }
+
+  .stat-rank {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+
+  .stat-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .stat-row:nth-child(1) .stat-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .stat-name {
+    font-size: 0.86rem;
+  }
+
+  .stat-row:nth-child(1) .stat-name {
+    font-size: 0.92rem;
+  }
+
+  .stat-team {
+    font-size: 0.7rem;
+  }
+
+  .stat-value {
+    min-width: 34px;
+    height: 28px;
+    font-size: 0.9rem;
+    padding: 0 7px;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - ESTATÍSTICAS GERAIS (PRETO E BRANCO PREMIUM)
+   5. TEMA IDR - ESTATÍSTICAS GERAIS (PRETO E BRANCO PREMIUM)
    ========================================================================== */
-
-/* Fundo da Página e Pattern SVG (Cruzes escuras para contraste no fundo claro) */
 .theme-idr .statics-container {
   background-color: #f5f5f5 !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E") !important;
 }
 
 .theme-idr .page-title {
-  color: #000 !important;
+  color: #000000 !important;
   text-shadow: none !important;
 }
 
-/* Colunas (Cartões de Estatísticas / Vidro Fosco Claro) */
+.theme-idr .page-title::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #000000,
+    transparent
+  ) !important;
+}
+
+/* Painel de Campeonatos no Tema IDR */
+.theme-idr .camp-highlight-card,
+.theme-idr .best-campaign-card,
+.theme-idr .record-pill,
+.theme-idr .camp-editions-list {
+  background: #ffffff !important;
+  border-color: #dcdcdc !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .camp-card-kicker,
+.theme-idr .edition-year-tag {
+  color: #555555 !important;
+}
+
+.theme-idr .best-stage-text,
+.theme-idr .kpi-num,
+.theme-idr .kpi-num.gold,
+.theme-idr .record-pill strong,
+.theme-idr .edition-name,
+.theme-idr .edition-mini-stats strong {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+.theme-idr .best-edition-badge,
+.theme-idr .stage-champion {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .edition-history-card {
+  background: #f8f9fa !important;
+  border-color: #e2e5ec !important;
+}
+
+.theme-idr .stage-runnerup,
+.theme-idr .stage-semi,
+.theme-idr .stage-quarters,
+.theme-idr .stage-eighths,
+.theme-idr .stage-groups {
+  background: #e9ecef !important;
+  border-color: #ced4da !important;
+  color: #111111 !important;
+}
+
+.theme-idr .edition-last-match {
+  background: #f1f3f5 !important;
+  color: #222222 !important;
+  border-left-color: #000000 !important;
+}
+
+/* Colunas de Artilheiro / Assistência / Goleiro no Tema IDR */
 .theme-idr .stat-column {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: #ccc !important;
+  background: #ffffff !important;
+  border-color: #dcdcdc !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
+.theme-idr .stat-column::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.35),
+    transparent
+  ) !important;
+}
+
 .theme-idr .stat-header {
-  border-bottom-color: #eee !important;
+  border-bottom-color: #eeeeee !important;
 }
 
 .theme-idr .stat-header h2 {
-  color: #000 !important;
+  color: #000000 !important;
 }
 
-/* Linhas da Tabela e Efeitos Hover */
+.theme-idr .stat-header h2::before {
+  background: #000000 !important;
+}
+
+.theme-idr .stat-row {
+  background: #f8f9fa !important;
+  border-color: #f1f3f5 !important;
+}
+
 .theme-idr .stat-row:hover {
-  background: rgba(0, 0, 0, 0.03) !important;
+  background: #f1f3f5 !important;
 }
 
-/* Informações do Jogador */
 .theme-idr .stat-rank {
-  color: #888 !important;
+  background: #ffffff !important;
+  border-color: #dee2e6 !important;
+  color: #666666 !important;
 }
 
 .theme-idr .stat-avatar {
-  border-color: #ddd !important;
-  background: #eee !important;
+  border-color: #dddddd !important;
+  background: #eeeeee !important;
 }
 
 .theme-idr .stat-name {
-  color: #333 !important;
+  color: #222222 !important;
 }
 
 .theme-idr .stat-team {
-  color: #888 !important;
+  color: #777777 !important;
 }
 
-/* O Número da Estatística */
 .theme-idr .stat-value {
-  color: #000 !important;
+  background: #f1f3f5 !important;
+  border-color: #dee2e6 !important;
+  color: #000000 !important;
   text-shadow: none !important;
 }
 
-/* Top 1 (Destaque Especial sem Dourado) */
-.theme-idr .stat-row:nth-child(1) .stat-rank {
-  color: #000 !important;
+/* Top 1 no Tema IDR */
+.theme-idr .stat-row:nth-child(1) {
+  background: #f1f3f5 !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .stat-row:nth-child(1) .stat-rank,
+.theme-idr .stat-row:nth-child(1) .stat-value {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
 }
 
 .theme-idr .stat-row:nth-child(1) .stat-avatar {
-  border-color: #000 !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 .theme-idr .stat-row:nth-child(1) .stat-name {
-  color: #000 !important;
+  color: #000000 !important;
   font-weight: 900 !important;
 }
