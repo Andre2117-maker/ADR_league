@@ -10,7 +10,7 @@ import {
   orderBy,
   getDocs, // <-- Adicionado para buscar os locais
 } from "firebase/firestore";
-import "./matchbanner.css";
+import "./matchalert.css";
 
 const ADR_LOGO_DEFAULT = "/logo.png";
 
