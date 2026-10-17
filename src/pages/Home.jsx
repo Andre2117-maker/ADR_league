@@ -16,7 +16,7 @@ import BirthdaySchedule from "../components/BirthdaySchedule";
 import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";
 import BirthdayAlert from "../components/BirthdayAlert";
-import MatchBanner from "../components/matchbanner/MatchBanner";
+import MatchAlert from "../components/matchalert/MatchAlert";
 
 function Home({ players, matches, getBestPartner, isAdmin }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
@@ -256,7 +256,7 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
     <div className="main-wrapper">
       <MatchesCarousel matches={matches} players={players} />
 
-      <MatchBanner matches={amistososAgendados} isAdmin={isAdmin} />
+      <MatchAlert matches={amistososAgendados} isAdmin={isAdmin} />
 
       <BirthdaySchedule players={players} />
 
