@@ -1,280 +1,604 @@
-/* =========================================
-   FASE DE GRUPOS (GRID) - CORRIGIDO
-========================================= */
-.camp-content-area {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
+/* ==========================================================================
+   1. GRID DE GRUPOS E CARTÃO PRINCIPAL (MODO ESCURO / O ADR)
+   ========================================================================== */
 .camp-groups-layout {
   display: grid;
-  /* Aumentei o tamanho mínimo para a tabela inteira respirar e caber todas as colunas */
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  gap: 28px;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1350px;
 }
 
-.camp-group-table-wrapper {
-  background: linear-gradient(180deg, #15181e 0%, #0d0f12 100%);
-  border: 1px solid #2a3241;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-  overflow-x: hidden; /* Remove aquela barra de rolagem horizontal indesejada */
+.camp-group-card {
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.camp-group-card:hover {
+  border-color: rgba(212, 175, 55, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75);
+}
+
+/* ==========================================================================
+   2. CABEÇALHO DO CARD DO GRUPO
+   ========================================================================== */
+.camp-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  background: linear-gradient(
+    180deg,
+    rgba(212, 175, 55, 0.07) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.group-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.group-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #888;
+  text-transform: uppercase;
 }
 
 .camp-group-title {
   color: #d4af37;
-  text-align: center;
   margin: 0;
-  padding: 18px;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   text-transform: uppercase;
   font-weight: 900;
-  letter-spacing: 2px;
-  background: rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid #2a3241;
+  letter-spacing: 1.5px;
+}
+
+.group-Click-hint {
+  font-size: 0.72rem;
+  color: #777;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   3. TABELA DE CLASSIFICAÇÃO
+   ========================================================================== */
+.camp-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .camp-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* Força as colunas a dividirem o espaço perfeitamente */
+  table-layout: fixed;
 }
 
-/* Larguras inteligentes para as colunas */
-.camp-table th:nth-child(1),
-.camp-table td:nth-child(1) {
-  width: 45%;
-} /* Nome do time ganha mais espaço */
-.camp-table th:nth-child(2),
-.camp-table td:nth-child(2) {
-  width: 11%;
-} /* Pts */
-.camp-table th:nth-child(3),
-.camp-table td:nth-child(3) {
-  width: 11%;
-} /* J */
-.camp-table th:nth-child(4),
-.camp-table td:nth-child(4) {
-  width: 11%;
-} /* V */
-.camp-table th:nth-child(5),
-.camp-table td:nth-child(5) {
-  width: 11%;
-} /* E */
-.camp-table th:nth-child(6),
-.camp-table td:nth-child(6) {
-  width: 11%;
-} /* D */
-.camp-table th:nth-child(7),
-.camp-table td:nth-child(7) {
-  width: 11%;
-} /* SG */
+/* Proporção exata das colunas no Desktop */
+.camp-table th.th-team,
+.camp-table td.td-team {
+  width: 46%;
+  text-align: left;
+  padding-left: 16px;
+}
 
-.camp-table th {
-  color: #888;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  padding: 12px 2px;
-  border-bottom: 1px solid #2a3241;
-  background: rgba(255, 255, 255, 0.02);
+.camp-table th:nth-child(n + 2),
+.camp-table td:nth-child(n + 2) {
+  width: 9%;
   text-align: center;
+}
+
+.camp-table thead th {
+  color: #6c727f;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 13px 4px;
+  background: #090a0e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-weight: 800;
+  user-select: none;
+}
+
+/* Linhas de Equipe */
+.camp-tr {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s ease;
+}
+
+.camp-tr:hover {
+  background-color: rgba(255, 255, 255, 0.035);
+}
+
+.camp-tr.is-expanded {
+  background-color: rgba(212, 175, 55, 0.08) !important;
 }
 
 .camp-table td {
-  padding: 14px 2px;
-  text-align: center;
-  border-bottom: 1px solid #1a1e24;
+  padding: 14px 4px;
   font-size: 0.9rem;
-  color: #ccc;
+  color: #b0b6c3;
+  font-weight: 600;
+  vertical-align: middle;
 }
 
-.camp-table td.team-name {
-  text-align: left;
+/* Interior da Célula do Nome do Time */
+.team-cell-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.expand-chevron {
+  font-size: 0.7rem;
+  color: #666;
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+.expand-chevron.open {
+  transform: rotate(90deg);
+  color: #d4af37;
+}
+
+/* Badge Quadrado da Posição (1, 2, 3...) */
+.pos-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #888;
+  font-size: 0.78rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.team-name-text {
+  color: #f1f3f5;
   font-weight: 700;
-  color: #fff;
+  font-size: 0.92rem;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Coloca reticências caso o nome estoure */
-  padding-left: 12px;
+  text-overflow: ellipsis;
 }
 
-.camp-table td .pos {
-  color: #666;
-  margin-right: 6px;
-  font-size: 0.85rem;
-  font-weight: bold;
+/* ==========================================================================
+   4. DESTAQUES: CLASSIFICADOS, PONTOS E SALDO DE GOLS
+   ========================================================================== */
+/* Zona de Classificação (Verde Esmeralda Esportivo) */
+.camp-tr.is-qualified td.td-team {
+  box-shadow: inset 3px 0 0 #00e676;
 }
 
-.camp-table tr.qualified td {
-  background: rgba(0, 255, 127, 0.03);
+.camp-tr.is-qualified .pos-badge {
+  background: rgba(0, 230, 118, 0.14);
+  border-color: rgba(0, 230, 118, 0.4);
+  color: #00e676;
 }
-.camp-table tr.qualified td.team-name {
-  color: #00ff7f;
-  text-shadow: 0 0 10px rgba(0, 255, 127, 0.2);
+
+.camp-tr.is-qualified .team-name-text {
+  color: #ffffff;
 }
-.camp-table tr.qualified td .pos {
-  color: #00ff7f;
-}
-.camp-table .bold.highlight {
+
+/* Coluna de Pontos Destacada */
+.pts-pill {
+  display: inline-block;
   color: #d4af37;
   font-weight: 900;
-  font-size: 1.05rem;
-}
-.matches-dropdown {
-  padding: 20px 15px;
-  box-shadow: inset 0 10px 15px rgba(0, 0, 0, 0.5);
-  border-left: 4px solid #d4af37;
-  width: 100%;
-  box-sizing: border-box; /* ISSO IMPEDE O VAZAMENTO PARA A DIREITA */
+  font-size: 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-/* =========================================
-   RESPONSIVIDADE: CELULARES (Até 768px) - COM SCROLL HORIZONTAL
-========================================= */
+.stat-win {
+  color: #e0e0e0 !important;
+}
+
+/* Badges de Saldo de Gols */
+.sg-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.sg-pos {
+  color: #00e676;
+  background: rgba(0, 230, 118, 0.08);
+}
+
+.sg-neg {
+  color: #ff5252;
+  background: rgba(255, 82, 82, 0.08);
+}
+
+.sg-zero {
+  color: #777;
+}
+
+/* ==========================================================================
+   5. GAVETA DE PARTIDAS (DROPDOWN EXPANDIDO)
+   ========================================================================== */
+.expanded-cell {
+  padding: 0 !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+.matches-dropdown {
+  padding: 18px 20px;
+  background: #08090c;
+  border-left: 3px solid #d4af37;
+  box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dropdown-title {
+  color: #ccc;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dropdown-title strong {
+  color: #d4af37;
+}
+
+.dropdown-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.matches-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.camp-match-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+/* ==========================================================================
+   6. RODAPÉ DO CARD (LEGENDA)
+   ========================================================================== */
+.camp-group-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #090a0e;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.72rem;
+  color: #6c727f;
+  margin-top: auto;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.qualified-dot {
+  background: #00e676;
+  box-shadow: 0 0 6px rgba(0, 230, 118, 0.5);
+}
+
+.legend-cols {
+  display: flex;
+  gap: 12px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   7. ESTADO VAZIO (EMPTY STATE)
+   ========================================================================== */
+.camp-empty-state {
+  text-align: center;
+  background: #0d0f14;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 50px 25px;
+  max-width: 500px;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.camp-empty-state .empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.camp-empty-state h2 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin: 0 0 8px 0;
+}
+
+.camp-empty-state p {
+  color: #888;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDADE CELULAR (MOBILE)
+   ========================================================================== */
 @media (max-width: 768px) {
   .camp-groups-layout {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  /* 1. Transforma a tabela em um bloco independente rolável */
-  .camp-table {
-    display: block;
-    overflow-x: auto; /* Cria o scroll horizontal apenas na tabela */
-    white-space: nowrap; /* Impede que o texto quebre de linha e fique feio */
-    width: 100%;
-
-    /* Esconde a barra de rolagem visual no celular, mantendo a função de arrastar */
-    scrollbar-width: thin;
-    scrollbar-color: #d4af37 transparent;
-  }
-
-  /* 2. Ajusta fonte e respiro */
-  .camp-table th,
-  .camp-table td {
-    font-size: 0.85rem;
-    padding: 12px 10px; /* Um pouco mais de espaço para facilitar a leitura */
-  }
-
-  .camp-table td.team-name {
-    padding-left: 10px;
-  }
-
-  /* 3. Definimos larguras MÍNIMAS. Se a tela for menor que a soma disso, o scroll ativa! */
-  .camp-table th:nth-child(1),
-  .camp-table td:nth-child(1) {
-    width: 160px;
-    min-width: 160px; /* O nome do time terá espaço de sobra */
-  }
-
-  /* Pega da 2ª coluna em diante (Pts, J, V, E, D, SG) e dá 55px de espaço para cada */
-  .camp-table th:nth-child(n + 2),
-  .camp-table td:nth-child(n + 2) {
-    width: 55px;
-    min-width: 55px;
+  .camp-group-header {
+    padding: 14px 16px;
   }
 
   .camp-group-title {
-    font-size: 1rem;
-    padding: 14px;
+    font-size: 1.1rem;
   }
-}
-.camp-empty-state {
-  text-align: center;
-  color: #888;
-  padding: 40px;
-}
 
-.camp-match-title {
-  color: #d4af37;
-  margin-top: 0;
-  margin-bottom: 15px;
-  text-align: center;
-}
+  .group-Click-hint {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+  }
 
-.camp-match-item {
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px dashed #333;
+  /* Define largura mínima na tabela para ativar scroll suave apenas se a tela for muito estreita */
+  .camp-table {
+    min-width: 440px;
+  }
+
+  /* Congela a coluna da equipe à esquerda durante o scroll no celular */
+  .camp-table th.th-team,
+  .camp-table td.td-team {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #0d0f14;
+    width: 175px;
+    min-width: 175px;
+    padding-left: 12px;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.45);
+  }
+
+  .camp-table thead th.th-team {
+    background: #090a0e;
+  }
+
+  .camp-tr.is-expanded td.td-team {
+    background: #181610;
+  }
+
+  .team-name-text {
+    font-size: 0.85rem;
+  }
+
+  .matches-dropdown {
+    padding: 14px 12px;
+  }
+
+  .camp-group-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px 16px;
+  }
 }
 
 /* ==========================================================================
-   TEMA IDR - FASE DE GRUPOS / TABELAS DE CLASSIFICAÇÃO (PRETO E BRANCO PREMIUM)
+   9. TEMA IDR - FASE DE GRUPOS (BLACK & WHITE PREMIUM)
    ========================================================================== */
-
-/* Wrapper da Tabela (Vidro Claro) */
-.theme-idr .camp-group-table-wrapper {
+.theme-idr .camp-group-card {
   background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid #e2e5ec !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Título do Grupo */
+.theme-idr .camp-group-card:hover {
+  border-color: #b0b5bf !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-idr .camp-group-header {
+  background: #f8f9fa !important;
+  border-bottom: 1px solid #eaedf2 !important;
+}
+
+.theme-idr .group-tag {
+  color: #777777 !important;
+}
+
 .theme-idr .camp-group-title {
-  background: #f9f9f9 !important;
-  color: #000 !important;
-  border-bottom-color: #eee !important;
+  color: #000000 !important;
 }
 
-/* Cabeçalho da Tabela */
-.theme-idr .camp-table th {
-  background: #f5f5f5 !important;
-  color: #555 !important;
-  border-bottom-color: #eee !important;
+.theme-idr .group-Click-hint {
+  background: #ffffff !important;
+  color: #555555 !important;
+  border-color: #dcdcdc !important;
 }
 
-/* Linhas e Células da Tabela */
+.theme-idr .camp-table thead th {
+  background: #f1f3f5 !important;
+  color: #555555 !important;
+  border-bottom: 1px solid #e2e5ec !important;
+}
+
+.theme-idr .camp-tr {
+  border-bottom: 1px solid #f1f3f5 !important;
+}
+
+.theme-idr .camp-tr:hover {
+  background-color: #f8f9fa !important;
+}
+
+.theme-idr .camp-tr.is-expanded {
+  background-color: #f1f3f5 !important;
+}
+
 .theme-idr .camp-table td {
-  border-bottom-color: #f0f0f0 !important;
-  color: #444 !important;
+  color: #495057 !important;
 }
 
-.theme-idr .camp-table td.team-name {
-  color: #000 !important;
+.theme-idr .team-name-text {
+  color: #111111 !important;
 }
 
-.theme-idr .camp-table td .pos {
-  color: #888 !important;
+.theme-idr .pos-badge {
+  background: #f1f3f5 !important;
+  border-color: #dee2e6 !important;
+  color: #666666 !important;
 }
 
-/* Time Classificado (Fundo verde suave no escuro vira verde escuro limpo ou cinza elegante) */
-.theme-idr .camp-table tr.qualified td {
-  background: rgba(0, 150, 0, 0.04) !important;
+/* Classificados no Modo IDR (Preto Forte e Verde Sóbrio) */
+.theme-idr .camp-tr.is-qualified td.td-team {
+  box-shadow: inset 3px 0 0 #000000 !important;
 }
 
-.theme-idr .camp-table tr.qualified td.team-name {
-  color: #008a00 !important;
-  text-shadow: none !important;
+.theme-idr .camp-tr.is-qualified .pos-badge {
+  background: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
 }
 
-.theme-idr .camp-table tr.qualified td .pos {
-  color: #008a00 !important;
+.theme-idr .pts-pill {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-color: #111111 !important;
 }
 
-/* Destaque de Pontuação / Dourado vira Preto Forte */
-.theme-idr .camp-table .bold.highlight {
-  color: #000 !important;
-  font-weight: 900 !important;
+.theme-idr .stat-win {
+  color: #000000 !important;
 }
 
-/* Dropdown de Partidas dentro dos grupos */
+.theme-idr .sg-pos {
+  color: #0b8a3e !important;
+  background: rgba(11, 138, 62, 0.1) !important;
+}
+
+.theme-idr .sg-neg {
+  color: #c92a2a !important;
+  background: rgba(201, 42, 42, 0.1) !important;
+}
+
+/* Gaveta e Rodapé IDR */
 .theme-idr .matches-dropdown {
-  background: #f9f9f9 !important;
-  border-left-color: #000 !important;
-  box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.03) !important;
+  background: #f8f9fa !important;
+  border-left-color: #000000 !important;
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.04) !important;
 }
 
-.theme-idr .camp-match-title {
-  color: #000 !important;
+.theme-idr .dropdown-header {
+  border-bottom-color: #e2e5ec !important;
+}
+
+.theme-idr .dropdown-title {
+  color: #444444 !important;
+}
+
+.theme-idr .dropdown-title strong {
+  color: #000000 !important;
+}
+
+.theme-idr .dropdown-badge {
+  background: #000000 !important;
+  color: #ffffff !important;
 }
 
 .theme-idr .camp-match-item {
-  border-bottom-color: #ddd !important;
+  background: #ffffff !important;
+  border-color: #e2e5ec !important;
+}
+
+.theme-idr .camp-group-footer {
+  background: #f8f9fa !important;
+  border-top-color: #eaedf2 !important;
+  color: #666666 !important;
+}
+
+.theme-idr .qualified-dot {
+  background: #000000 !important;
+  box-shadow: none !important;
 }
 
 .theme-idr .camp-empty-state {
-  color: #777 !important;
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+}
+
+.theme-idr .camp-empty-state h2 {
+  color: #000000 !important;
+}
+
+@media (max-width: 768px) {
+  .theme-idr .camp-table th.th-team,
+  .theme-idr .camp-table td.td-team {
+    background: #ffffff !important;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .theme-idr .camp-table thead th.th-team {
+    background: #f1f3f5 !important;
+  }
+
+  .theme-idr .camp-tr.is-expanded td.td-team {
+    background: #f1f3f5 !important;
+  }
 }

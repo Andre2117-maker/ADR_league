@@ -1,107 +1,261 @@
-/* =========================================
-   WRAPPER PRINCIPAL
-========================================= */
+/* ==========================================================================
+   1. ESTRUTURA GLOBAL E FUNDO (MODO ESCURO PADRÃO / O ADR)
+   ========================================================================== */
 .camp-page-wrapper {
-  padding: 110px 20px 60px;
+  padding: 110px 20px 80px;
   min-height: 100vh;
-  background-color: #000;
-  color: #fff;
-  font-family: "Segoe UI", Roboto, sans-serif;
+  background-color: #070709;
+  color: #ffffff;
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E");
-  background-size: 60px 60px;
-  background-attachment: fixed;
-  background-position: center;
+  /* Combina a luz dourada sutil no topo com a grade de cruzes vetoriais (sem bugar no mobile) */
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(212, 175, 55, 0.12) 0%,
+      transparent 60%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 25v10M25 30h10' stroke='rgba(255,255,255,0.05)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size:
+    100% 100%,
+    60px 60px;
+  background-position:
+    top center,
+    center center;
 }
 
+/* TELA DE LOADING */
+.camp-loading-screen {
+  justify-content: center;
+  gap: 20px;
+}
+
+.camp-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(212, 175, 55, 0.15);
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: campSpin 0.8s linear infinite;
+}
+
+.camp-loading-text {
+  color: #d4af37;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+@keyframes campSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   2. CABEÇALHO HERO (LOGO E TÍTULOS)
+   ========================================================================== */
 .camp-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
+  position: relative;
+}
+
+.camp-logo-glow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+/* Halo de luz atrás da logo */
+.camp-logo-glow::before {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.25) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 0;
 }
 
 .camp-logo {
-  width: 90px;
-  margin-bottom: 15px;
-  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+  width: 85px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+  transition: transform 0.3s ease;
+}
+
+.camp-logo:hover {
+  transform: scale(1.06);
+}
+
+.camp-subtitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  opacity: 0.9;
 }
 
 .camp-title {
-  color: #d4af37;
+  color: #ffffff;
   text-transform: uppercase;
   font-weight: 900;
   letter-spacing: 2px;
-  font-size: 2rem;
+  font-size: 2.3rem;
   margin: 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
 }
 
-/* =========================================
-   SELETOR DE ANO E ABAS
-========================================= */
+.camp-header-divider {
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  margin-top: 16px;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   3. BARRA DE CONTROLES (ANOS E ABAS)
+   ========================================================================== */
+.camp-controls-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  max-width: 1300px;
+  margin-bottom: 45px;
+}
+
+/* SELETOR DE ANOS (Estilo Badges Esportivos) */
 .camp-years-container {
   display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .camp-year-btn {
-  background: #151515;
-  border: 1px solid #333;
-  color: #aaa;
-  padding: 10px 25px;
-  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #111318;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #888;
+  padding: 9px 20px;
+  border-radius: 100px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
   letter-spacing: 1px;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+}
+
+.camp-year-btn .year-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #444;
+  transition: all 0.25s ease;
 }
 
 .camp-year-btn:hover {
-  border-color: #d4af37;
-  color: #fff;
+  border-color: rgba(212, 175, 55, 0.4);
+  color: #ddd;
+  transform: translateY(-1px);
 }
 
 .camp-year-btn.active {
-  background: linear-gradient(135deg, #d4af37, #b8860b);
-  color: #000;
-  border: none;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.12);
+  color: #d4af37;
+  border-color: #d4af37;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
 }
 
+.camp-year-btn.active .year-dot {
+  background: #d4af37;
+  box-shadow: 0 0 8px #d4af37;
+}
+
+/* NAVEGAÇÃO DE ABAS (Segmented Dock) */
 .camp-tabs {
-  display: flex;
-  gap: 10px;
-  background: #111;
+  display: inline-flex;
+  gap: 6px;
+  background: #0d0f12;
   padding: 6px;
-  border-radius: 8px;
-  margin-bottom: 40px;
-  border: 1px solid #222;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .camp-tab-btn {
   background: transparent;
   border: none;
   color: #777;
-  padding: 12px 30px;
-  font-weight: bold;
+  padding: 12px 28px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: 0.3s;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+}
+
+.camp-tab-btn:hover {
+  color: #ccc;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .camp-tab-btn.active {
-  background: #222;
-  color: #d4af37;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #000000;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
-/* =========================================
-   BRACKET (MATA-MATA)
-========================================= */
+/* Botão Admin Elegante (Substitui o rosa inline) */
+.camp-tab-admin {
+  color: #d4af37;
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+}
+
+.camp-tab-admin.active {
+  background: #ffffff;
+  color: #000000;
+  border-style: solid;
+  border-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+}
+
+/* ÁREA ONDE OS COMPONENTES FILHOS ENTRAM */
+.camp-content-area {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   4. ESTILOS BASE DO BRACKET (Mantidos até editarmos o componente MataMata)
+   ========================================================================== */
 .camp-bracket-container {
   display: flex;
   align-items: stretch;
@@ -111,7 +265,7 @@
   padding: 20px;
   width: 100%;
   max-width: 1400px;
-  min-height: 800px;
+  min-height: 600px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -121,6 +275,7 @@
   min-width: 250px;
   z-index: 2;
 }
+
 .bracket-matches-wrapper {
   display: flex;
   flex-direction: column;
@@ -128,6 +283,7 @@
   flex: 1;
   position: relative;
 }
+
 .bracket-round-title {
   text-align: center;
   color: #888;
@@ -137,6 +293,7 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
+
 .bracket-match {
   background: #151515;
   border: 1px solid #333;
@@ -145,10 +302,12 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   position: relative;
 }
+
 .bracket-match.gold-border {
   border-color: #d4af37;
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
+
 .bracket-date {
   background: #0d0d0d;
   color: #666;
@@ -158,6 +317,7 @@
   font-weight: bold;
   border-bottom: 1px solid #222;
 }
+
 .bracket-team {
   display: flex;
   justify-content: space-between;
@@ -167,18 +327,22 @@
   color: #888;
   align-items: center;
 }
+
 .bracket-team:last-child {
   border-bottom: none;
 }
+
 .bracket-team.winner {
   color: #fff;
   background: rgba(255, 255, 255, 0.02);
 }
+
 .bracket-team.winner .bracket-score {
   color: #d4af37;
   font-weight: 900;
   font-size: 1.1rem;
 }
+
 .bracket-score {
   background: #000;
   padding: 4px 10px;
@@ -187,6 +351,7 @@
   font-size: 1rem;
   border: 1px solid #333;
 }
+
 .champion-box {
   background: linear-gradient(135deg, #d4af37, #b8860b);
   color: #000;
@@ -199,7 +364,6 @@
   border: 2px solid #fff;
 }
 
-/* CONECTORES VISUAIS DO BRACKET */
 .bracket-column-connectors {
   display: flex;
   flex-direction: column;
@@ -207,10 +371,12 @@
   flex-shrink: 0;
   z-index: 1;
 }
+
 .bracket-connector {
   position: relative;
   width: 100%;
 }
+
 .oitavas-to-quartas {
   height: 12.5%;
 }
@@ -223,6 +389,7 @@
 .final-to-champ {
   height: 100%;
 }
+
 .bracket-connector .top-line {
   position: absolute;
   top: 0;
@@ -233,6 +400,7 @@
   border-right: 2px solid #555;
   border-top-right-radius: 6px;
 }
+
 .bracket-connector .bottom-line {
   position: absolute;
   bottom: 0;
@@ -243,6 +411,7 @@
   border-right: 2px solid #555;
   border-bottom-right-radius: 6px;
 }
+
 .bracket-connector .center-line {
   position: absolute;
   top: 50%;
@@ -252,6 +421,7 @@
   background: #555;
   transform: translateY(-50%);
 }
+
 .final-to-champ .center-line {
   left: 0;
   width: 100%;
@@ -259,149 +429,173 @@
   box-shadow: 0 0 5px #d4af37;
 }
 
-/* RESPONSIVIDADE GERAL */
+/* ==========================================================================
+   5. RESPONSIVIDADE CELULAR (MOBILE)
+   ========================================================================== */
 @media (max-width: 768px) {
   .camp-page-wrapper {
-    padding: 130px 10px 40px;
+    padding: 95px 12px 50px;
   }
+
+  .camp-logo {
+    width: 70px;
+  }
+
+  .camp-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 2.5px;
+  }
+
   .camp-title {
-    font-size: 1.5rem;
+    font-size: 1.55rem;
+    letter-spacing: 1px;
   }
+
+  .camp-controls-bar {
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  /* No celular, os anos deslizam horizontalmente sem quebrar em várias linhas */
+  .camp-years-container {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    width: 100%;
+    padding: 4px 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .camp-years-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .camp-year-btn {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    font-size: 0.75rem;
+  }
+
+  /* Abas dividem 100% da largura no mobile */
   .camp-tabs {
-    flex-wrap: wrap;
-    justify-content: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
-  .camp-bracket-container {
-    padding: 10px 0;
-    margin: 0 -10px;
-    width: calc(100% + 20px);
+
+  .camp-tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 0.75rem;
+    text-align: center;
+    white-space: nowrap;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - CAMPEONATOS & MATA-MATA (PRETO E BRANCO PREMIUM)
+   6. TEMA IDR - CAMPEONATOS (BLACK & WHITE PREMIUM)
    ========================================================================== */
-
-/* Wrapper Principal (Fundo Claro com SVG) */
 .theme-idr .camp-page-wrapper {
-  background-color: #f5f5f5 !important;
-  color: #111 !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E") !important;
+  background-color: #f4f5f7 !important;
+  color: #111111 !important;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.04) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpolygon points='30,22 38,30 30,38 22,30' fill='rgba(0,0,0,0.035)'/%3E%3C/svg%3E") !important;
 }
 
-/* Logo e Título */
+.theme-idr .camp-spinner {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  border-top-color: #000000 !important;
+}
+
+.theme-idr .camp-loading-text {
+  color: #000000 !important;
+}
+
+.theme-idr .camp-logo-glow::before {
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.08) 0%,
+    transparent 70%
+  ) !important;
+}
+
 .theme-idr .camp-logo {
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2)) !important;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15)) !important;
+}
+
+.theme-idr .camp-subtitle {
+  color: #555555 !important;
 }
 
 .theme-idr .camp-title {
-  color: #000 !important;
+  color: #000000 !important;
   text-shadow: none !important;
 }
 
-/* Seletor de Ano */
+.theme-idr .camp-header-divider {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #000000,
+    transparent
+  ) !important;
+}
+
+/* Seletor de Ano IDR */
 .theme-idr .camp-year-btn {
   background: #ffffff !important;
-  border-color: #ccc !important;
-  color: #666 !important;
+  border-color: #dcdcdc !important;
+  color: #666666 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
 }
 
 .theme-idr .camp-year-btn:hover {
-  border-color: #000 !important;
-  color: #000 !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
 }
 
 .theme-idr .camp-year-btn.active {
-  background: #000 !important;
-  color: #fff !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Abas */
-.theme-idr .camp-tabs {
+.theme-idr .camp-year-btn.active .year-dot {
   background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 0 6px #ffffff !important;
+}
+
+/* Abas IDR */
+.theme-idr .camp-tabs {
+  background: #e9ecef !important;
+  border-color: #dcdcdc !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04) !important;
 }
 
 .theme-idr .camp-tab-btn {
-  color: #666 !important;
+  color: #666666 !important;
+}
+
+.theme-idr .camp-tab-btn:hover {
+  color: #000000 !important;
 }
 
 .theme-idr .camp-tab-btn.active {
-  background: #f0f0f0 !important;
-  color: #000 !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Títulos das Rodadas do Bracket */
-.theme-idr .bracket-round-title {
-  color: #666 !important;
-}
-
-/* Cartões de Partida do Mata-Mata */
-.theme-idr .bracket-match {
   background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+  color: #000000 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
-.theme-idr .bracket-match.gold-border {
-  border-color: #000 !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+.theme-idr .camp-tab-admin {
+  color: #222222 !important;
+  border-color: #aaaaaa !important;
 }
 
-.theme-idr .bracket-date {
-  background: #f9f9f9 !important;
-  color: #888 !important;
-  border-bottom-color: #eee !important;
-}
-
-.theme-idr .bracket-team {
-  border-bottom-color: #eee !important;
-  color: #777 !important;
-}
-
-.theme-idr .bracket-team.winner {
-  color: #000 !important;
-  background: rgba(0, 0, 0, 0.02) !important;
-}
-
-.theme-idr .bracket-team.winner .bracket-score {
-  color: #000 !important;
-  font-weight: 900 !important;
-}
-
-.theme-idr .bracket-score {
-  background: #f0f0f0 !important;
-  border-color: #ddd !important;
-  color: #333 !important;
-}
-
-/* Caixa do Campeão */
-.theme-idr .champion-box {
-  background: #000 !important;
-  color: #fff !important;
-  border-color: #fff !important;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Conectores Visuais do Bracket (Linhas pretas em vez de cinza/dourado) */
-.theme-idr .bracket-connector .top-line {
-  border-top-color: #aaa !important;
-  border-right-color: #aaa !important;
-}
-
-.theme-idr .bracket-connector .bottom-line {
-  border-bottom-color: #aaa !important;
-  border-right-color: #aaa !important;
-}
-
-.theme-idr .bracket-connector .center-line {
-  background: #aaa !important;
-}
-
-.theme-idr .final-to-champ .center-line {
-  background: #000 !important;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+.theme-idr .camp-tab-admin.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
 }

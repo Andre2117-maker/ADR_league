@@ -1,252 +1,753 @@
-.camp-bracket-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  overflow-x: auto;
-  padding: 15px;
+/* ==========================================================================
+   1. ESTRUTURA GERAL E BARRA MOBILE
+   ========================================================================== */
+.bkt-outer-wrapper {
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-}
-
-.bracket-column {
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
-  min-width: 250px; /* Reduzido levemente para encolher a coluna */
-  flex: 1;
-}
-
-.bracket-round-title {
-  text-align: center;
-  color: #888;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  margin-bottom: 15px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.bracket-matches-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 12px; /* Reduzido o espaço entre os cards */
-}
-
-.bracket-match {
-  background: #11141a;
-  border: 1px solid #2a3241;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  padding: 8px; /* Card mais compacto */
-}
-
-.bracket-date {
-  background: #08090a;
-  color: #d4af37;
-  font-size: 0.65rem;
-  text-align: center;
-  padding: 4px;
-  font-weight: bold;
-  border-radius: 4px;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.bracket-team {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 6px; /* Mais compacto */
 }
 
-.bracket-team-select {
-  flex: 1;
-  background: #1a1e24;
-  color: #fff;
-  border: 1px solid #333;
-  padding: 6px 8px; /* Reduzido a altura interna */
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 0.8rem; /* Fonte um pouco menor */
-  outline: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.bracket-team-select:focus {
-  border-color: #d4af37;
-}
-
-.bracket-team-label {
-  flex: 1;
-  background: #15181e;
-  color: #ccc;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.bracket-score-input {
-  width: 40px; /* Reduzido de 45px para 40px */
-  height: 30px; /* Reduzido de 35px para 30px */
-  text-align: center;
-  background: #08090a;
-  color: #fff;
-  border: 1px solid #444;
-  border-radius: 6px;
-  font-weight: 900;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.bracket-score-input:focus {
-  border-color: #d4af37;
-  outline: none;
-}
-
-.bracket-save-btn {
+/* Barra de filtro rápido (Aparece apenas em telas menores/celulares) */
+.bkt-mobile-nav {
+  display: none;
+  gap: 8px;
   width: 100%;
-  background: #1a1e24;
-  color: #00ff7f;
-  border: 1px solid #2a3241;
-  padding: 6px; /* Botão mais fino */
-  border-radius: 6px;
+  overflow-x: auto;
+  padding: 4px 2px 14px;
+  margin-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.bkt-mobile-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.bkt-mob-pill {
+  flex-shrink: 0;
+  background: #111318;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #888;
+  padding: 7px 15px;
+  border-radius: 100px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.75rem;
-  transition: 0.2s;
-  margin-top: 4px;
+  transition: all 0.2s ease;
 }
 
-.bracket-save-btn:hover {
-  background: #00ff7f;
-  color: #000;
-}
-
-.bracket-save-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-/* --- DESTAQUE DOS VENCEDORES --- */
-
-.bracket-team-label.winner {
-  color: #ffd700; /* Dourado forte */
-  font-weight: 900;
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  background: rgba(255, 215, 0, 0.1);
-}
-
-.bracket-score-input.winner {
-  color: #00ff7f; /* Verde neon para o placar vitorioso */
-  border-color: #00ff7f;
-  background: rgba(0, 255, 127, 0.1);
-  box-shadow: 0 0 8px rgba(0, 255, 127, 0.2);
-}
-
-/* Deixa o time perdedor um pouco mais apagado para dar contraste */
-.bracket-team-label.loser {
-  color: #666;
-  opacity: 0.7;
-}
-.bracket-score-input.loser {
-  color: #666;
-  border-color: #333;
-  opacity: 0.7;
+.bkt-mob-pill.active {
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  border-color: #d4af37;
 }
 
 /* ==========================================================================
-   TEMA IDR - MATA-MATA EDITÁVEL / BRACKET (PRETO E BRANCO PREMIUM)
+   2. ÁRVORE DO CHAVEAMENTO E COLUNAS
    ========================================================================== */
+.bkt-tree-scroll {
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px 10px 40px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.4) transparent;
+}
 
-/* Cartão da Partida */
-.theme-idr .bracket-match {
+.bkt-tree-board {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 52px; /* Espaço onde as linhas conectoras são desenhadas */
+  min-width: max-content;
+  margin: 0 auto;
+}
+
+.bkt-round-col {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Cabeçalhos das Colunas (Alinhados estilo Champions League) */
+.bkt-col-header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 24px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.07);
+}
+
+.bkt-col-title {
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #e2e8f0;
+  text-transform: uppercase;
+}
+
+.bkt-col-sub {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.bkt-header-final {
+  border-bottom-color: rgba(212, 175, 55, 0.45);
+}
+
+.bkt-header-final .bkt-col-title {
+  color: #d4af37;
+}
+
+/* Corpo da Coluna (Alinha os pares verticalmente de forma simétrica) */
+.bkt-col-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 1;
+  gap: 28px;
+}
+
+/* ==========================================================================
+   3. GEOMETRIA DAS LINHAS CONECTORAS (ESTILO CHAMPIONS LEAGUE)
+   ========================================================================== */
+.bkt-pair {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 22px;
+  flex: 1;
+  position: relative;
+}
+
+/* Forqueta (Garfo) saindo da direita do Par em direção à próxima fase */
+.bkt-round-col.has-next-col .bkt-pair::after {
+  content: "";
+  position: absolute;
+  right: -26px;
+  top: 25%;
+  bottom: 25%;
+  width: 26px;
+  border-top: 2px solid #2d3545;
+  border-bottom: 2px solid #2d3545;
+  border-right: 2px solid #2d3545;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  pointer-events: none;
+  z-index: 1;
+  transition: border-color 0.3s ease;
+}
+
+/* Linha horizontal saindo do meio da Forqueta até o card da frente */
+.bkt-round-col.has-next-col .bkt-pair::before {
+  content: "";
+  position: absolute;
+  right: -52px;
+  top: 50%;
+  width: 26px;
+  height: 2px;
+  background: #2d3545;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+/* Quando o par já tem vencedor definido, as linhas brilham em Dourado */
+.bkt-round-col.has-next-col .bkt-pair.pair-active::after {
+  border-color: rgba(212, 175, 55, 0.65);
+}
+
+.bkt-round-col.has-next-col .bkt-pair.pair-active::before {
+  background: rgba(212, 175, 55, 0.65);
+}
+
+/* ==========================================================================
+   4. CARD DO CONFRONTO (DESIGN DE TRANSMISSÃO)
+   ========================================================================== */
+.bkt-card {
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bkt-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+}
+
+.bkt-card.bkt-card-final {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 12px 35px rgba(212, 175, 55, 0.12);
+}
+
+/* Topo do Card */
+.bkt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 12px;
+  background: #08090c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bkt-match-code {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #d4af37;
+  text-transform: uppercase;
+}
+
+.bkt-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00e676;
+  box-shadow: 0 0 6px #00e676;
+}
+
+/* Linhas de Equipe */
+.bkt-teams-body {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  gap: 5px;
+}
+
+.bkt-team-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.bkt-team-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.bkt-team-indicator {
+  width: 3px;
+  height: 16px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.bkt-team-name {
+  color: #e2e8f0;
+  font-size: 0.84rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bkt-team-name.is-tbd {
+  color: #64748b;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Select do Admin na 1ª Fase */
+.bkt-team-select {
+  width: 100%;
+  background: #14171f;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.bkt-team-select:focus {
+  border-color: #d4af37;
+}
+
+/* Placar (Input Admin e Pill Visitante) */
+.bkt-score-input {
+  width: 46px;
+  height: 28px;
+  text-align: center;
+  background: #07080b;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 0.82rem;
+  font-family: "Inter", monospace;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+.bkt-score-input:focus {
+  border-color: #d4af37;
+  outline: none;
+}
+
+.bkt-score-pill {
+  min-width: 34px;
+  height: 26px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #07080b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: #94a3b8;
+  font-weight: 800;
+  font-size: 0.82rem;
+  font-family: "Inter", monospace;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   5. ESTADOS DE VENCEDOR E PERDEDOR (IGUAL AO SEU ESTILO ADR)
+   ========================================================================== */
+.bkt-team-row.is-winner {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.bkt-team-row.is-winner .bkt-team-indicator {
+  background: #d4af37;
+  box-shadow: 0 0 6px #d4af37;
+}
+
+.bkt-team-row.is-winner .bkt-team-name {
+  color: #ffd700;
+  font-weight: 900;
+}
+
+.bkt-team-row.is-loser {
+  opacity: 0.55;
+}
+
+.bkt-score-input.score-win,
+.bkt-score-pill.score-win {
+  color: #00e676;
+  border-color: #00e676;
+  background: rgba(0, 230, 118, 0.12);
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.18);
+}
+
+/* ==========================================================================
+   6. GRANDE FINAL, TROFÉU E BANNER DO CAMPEÃO
+   ========================================================================== */
+.bkt-final-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.bkt-trophy-pedestal {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.bkt-trophy-pedestal::before {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.28) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.bkt-trophy-img {
+  width: 68px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+}
+
+.bkt-final-showcase .bkt-card {
+  width: 100%;
+}
+
+.bkt-champion-banner {
+  margin: 4px 8px 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.2) 0%,
+    rgba(184, 134, 11, 0.08) 100%
+  );
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.bkt-champ-label {
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #d4af37;
+}
+
+.bkt-champ-team {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   7. RODAPÉ DE AÇÕES DO CARD E GAVETA DE LINK
+   ========================================================================== */
+.bkt-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 8px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.bkt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bkt-btn-details {
+  width: 100%;
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #000000;
+  border: none;
+  border-radius: 100px;
+  font-weight: 900;
+}
+
+.bkt-btn-details:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.bkt-admin-controls {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.bkt-btn-link {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bkt-btn-link:hover,
+.bkt-btn-link.active,
+.bkt-btn-link.has-link {
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #d4af37;
+}
+
+.bkt-btn-save {
+  flex: 1;
+  background: rgba(0, 230, 118, 0.1);
+  color: #00e676;
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+.bkt-btn-save:hover:not(:disabled) {
+  background: #00e676;
+  color: #000000;
+}
+
+/* Gaveta Inline de Linkar */
+.bkt-link-drawer {
+  display: flex;
+  gap: 5px;
+  padding: 6px 8px 8px;
+  background: #060709;
+  border-top: 1px dashed rgba(212, 175, 55, 0.3);
+}
+
+.bkt-link-input {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 0 8px;
+}
+
+.bkt-link-drawer-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.bkt-drawer-ok {
+  background: #d4af37;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 0 8px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.bkt-drawer-cancel {
+  background: transparent;
+  color: #888;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  padding: 0 7px;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDADE CELULAR (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .bkt-mobile-nav {
+    display: flex;
+  }
+
+  .bkt-tree-board {
+    gap: 36px;
+    justify-content: flex-start;
+  }
+
+  .bkt-round-col {
+    width: 255px;
+  }
+
+  .bkt-round-col.has-next-col .bkt-pair::after {
+    right: -18px;
+    width: 18px;
+  }
+
+  .bkt-round-col.has-next-col .bkt-pair::before {
+    right: -36px;
+    width: 18px;
+  }
+
+  /* Quando o usuário filtra apenas 1 fase específica no celular */
+  .bkt-tree-scroll.is-filtered-mobile .bkt-tree-board {
+    min-width: 100%;
+    justify-content: center;
+  }
+
+  .bkt-tree-scroll.is-filtered-mobile .bkt-round-col {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .bkt-tree-scroll.is-filtered-mobile .bkt-pair::after,
+  .bkt-tree-scroll.is-filtered-mobile .bkt-pair::before {
+    display: none;
+  }
+
+  .mob-hidden {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   9. TEMA IDR - CHAVEAMENTO CLEAN (ESTILO CHAMPIONS LEAGUE CLARO)
+   ========================================================================== */
+.theme-idr .bkt-mob-pill {
   background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+  border-color: #dcdcdc !important;
+  color: #666666 !important;
 }
 
-/* Data da Partida */
-.theme-idr .bracket-date {
-  background: #f0f0f0 !important;
-  color: #333 !important;
-  border-color: #ddd !important;
+.theme-idr .bkt-mob-pill.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
 }
 
-/* Seletor de Time */
-.theme-idr .bracket-team-select {
-  background: #f9f9f9 !important;
-  color: #000 !important;
-  border-color: #ccc !important;
+.theme-idr .bkt-col-header {
+  border-bottom-color: #dde1e7 !important;
 }
 
-.theme-idr .bracket-team-select:focus {
-  border-color: #000 !important;
+.theme-idr .bkt-col-title {
+  color: #1e293b !important;
 }
 
-/* Label do Time */
-.theme-idr .bracket-team-label {
-  background: #f9f9f9 !important;
-  color: #444 !important;
-  border-color: #eee !important;
+.theme-idr .bkt-col-sub {
+  color: #64748b !important;
 }
 
-/* Input de Placar */
-.theme-idr .bracket-score-input {
-  background: #f9f9f9 !important;
-  color: #000 !important;
-  border-color: #ccc !important;
+/* Conectores Cinza Claro e Destaque Escuro no Tema IDR */
+.theme-idr .bkt-round-col.has-next-col .bkt-pair::after {
+  border-color: #cbd5e1 !important;
 }
 
-.theme-idr .bracket-score-input:focus {
-  border-color: #000 !important;
+.theme-idr .bkt-round-col.has-next-col .bkt-pair::before {
+  background: #cbd5e1 !important;
 }
 
-/* Botão Salvar Partida */
-.theme-idr .bracket-save-btn {
-  background: #f0f0f0 !important;
-  color: #000 !important;
-  border-color: #ccc !important;
+.theme-idr .bkt-round-col.has-next-col .bkt-pair.pair-active::after {
+  border-color: #0f172a !important;
 }
 
-.theme-idr .bracket-save-btn:hover {
-  background: #000 !important;
-  color: #fff !important;
-  border-color: #000 !important;
+.theme-idr .bkt-round-col.has-next-col .bkt-pair.pair-active::before {
+  background: #0f172a !important;
 }
 
-/* --- DESTAQUES DE VENCEDORES NO TEMA IDR --- */
-
-.theme-idr .bracket-team-label.winner {
-  color: #000 !important;
-  font-weight: 900 !important;
-  border: 1px solid #000 !important;
-  background: rgba(0, 0, 0, 0.05) !important;
+/* Cards Brancos Clean */
+.theme-idr .bkt-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
 }
 
-.theme-idr .bracket-score-input.winner {
-  color: #000 !important;
-  border-color: #000 !important;
-  background: rgba(0, 0, 0, 0.05) !important;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1) !important;
+.theme-idr .bkt-card.bkt-card-final {
+  border-color: #0f172a !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
 }
 
-.theme-idr .bracket-team-label.loser {
-  color: #888 !important;
-  opacity: 0.6 !important;
+.theme-idr .bkt-card-header {
+  background: #f8fafc !important;
+  border-bottom-color: #f1f5f9 !important;
 }
 
-.theme-idr .bracket-score-input.loser {
-  color: #888 !important;
-  border-color: #ddd !important;
-  opacity: 0.6 !important;
+.theme-idr .bkt-match-code {
+  color: #475569 !important;
+}
+
+.theme-idr .bkt-team-row {
+  background: #f8fafc !important;
+}
+
+.theme-idr .bkt-team-indicator {
+  background: #cbd5e1 !important;
+}
+
+.theme-idr .bkt-team-name {
+  color: #334155 !important;
+}
+
+.theme-idr .bkt-team-select {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.theme-idr .bkt-score-input,
+.theme-idr .bkt-score-pill {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+/* Vencedor no Tema IDR */
+.theme-idr .bkt-team-row.is-winner {
+  background: #f1f5f9 !important;
+  border-color: #0f172a !important;
+}
+
+.theme-idr .bkt-team-row.is-winner .bkt-team-indicator {
+  background: #000000 !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .bkt-team-row.is-winner .bkt-team-name {
+  color: #000000 !important;
+}
+
+.theme-idr .bkt-score-input.score-win,
+.theme-idr .bkt-score-pill.score-win {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Banner Campeão e Botões IDR */
+.theme-idr .bkt-champion-banner {
+  background: #0f172a !important;
+  border-color: #0f172a !important;
+}
+
+.theme-idr .bkt-champ-label {
+  color: #cbd5e1 !important;
+}
+
+.theme-idr .bkt-champ-team {
+  color: #ffffff !important;
+}
+
+.theme-idr .bkt-btn-details {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .bkt-btn-link {
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.theme-idr .bkt-btn-save {
+  background: #f1f5f9 !important;
+  color: #000000 !important;
+  border-color: #94a3b8 !important;
+}
+
+.theme-idr .bkt-btn-save:hover:not(:disabled) {
+  background: #000000 !important;
+  color: #ffffff !important;
 }

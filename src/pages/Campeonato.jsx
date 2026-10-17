@@ -177,61 +177,75 @@ export default function Campeonato({ isAdmin }) {
     return tabelaOrdenada;
   }, [partidas, configs, selectedYear]);
 
-  if (loading)
+  if (loading) {
     return (
-      <div style={{ color: "#fff", textAlign: "center", marginTop: "50px" }}>
-        Carregando banco de dados... ⏳
+      <div className="camp-page-wrapper camp-loading-screen">
+        <div className="camp-spinner"></div>
+        <p className="camp-loading-text">CARREGANDO TORNEIOS...</p>
       </div>
     );
+  }
 
   const qtdClassificados = configs[selectedYear]?.vagasClassificacao || 2;
 
   return (
     <div className="camp-page-wrapper">
-      <div className="camp-header">
-        <img src={LogoADR} alt="Logo ADR" className="camp-logo" />
+      {/* CABEÇALHO HERO */}
+      <header className="camp-header">
+        <div className="camp-logo-glow">
+          <img src={LogoADR} alt="Logo O ADR" className="camp-logo" />
+        </div>
+        <span className="camp-subtitle">HUB OFICIAL DE COMPETIÇÕES</span>
         <h1 className="camp-title">CAMPEONATOS DO ADR</h1>
-      </div>
+        <div className="camp-header-divider"></div>
+      </header>
 
-      <div className="camp-years-container">
-        {anosDisponiveis.map((ano) => (
+      {/* PAINEL DE CONTROLES (ANOS + ABAS) */}
+      <div className="camp-controls-bar">
+        {/* Seletor de Temporada/Ano */}
+        <div className="camp-years-container">
+          {anosDisponiveis.map((ano) => (
+            <button
+              key={ano}
+              className={`camp-year-btn ${selectedYear === ano ? "active" : ""}`}
+              onClick={() => setSelectedYear(ano)}
+            >
+              <span className="year-dot"></span>
+              Temporada {ano}
+            </button>
+          ))}
+        </div>
+
+        {/* Navegação de Fase */}
+        <div className="camp-tabs">
           <button
-            key={ano}
-            className={`camp-year-btn ${selectedYear === ano ? "active" : ""}`}
-            onClick={() => setSelectedYear(ano)}
+            className={`camp-tab-btn ${activeTab === "GRUPOS" ? "active" : ""}`}
+            onClick={() => setActiveTab("GRUPOS")}
           >
-            Edição {ano}
+            Fase de Grupos
           </button>
-        ))}
-      </div>
-
-      <div className="camp-tabs">
-        <button
-          className={`camp-tab-btn ${activeTab === "GRUPOS" ? "active" : ""}`}
-          onClick={() => setActiveTab("GRUPOS")}
-        >
-          Fase de Grupos
-        </button>
-        <button
-          className={`camp-tab-btn ${activeTab === "MATAMATA" ? "active" : ""}`}
-          onClick={() => setActiveTab("MATAMATA")}
-        >
-          Mata-Mata
-        </button>
-
-        {/* O BOTÃO DE CONFIGURAR SÓ APARECE PARA O ADMIN */}
-        {isAdmin && (
           <button
-            className={`camp-tab-btn ${activeTab === "CONFIG" ? "active" : ""}`}
-            style={{ color: "#ff47a3" }}
-            onClick={() => setActiveTab("CONFIG")}
+            className={`camp-tab-btn ${activeTab === "MATAMATA" ? "active" : ""}`}
+            onClick={() => setActiveTab("MATAMATA")}
           >
-            ⚙️ Configurar (Admin)
+            Mata-Mata
           </button>
-        )}
+
+          {isAdmin && (
+            <button
+              className={`camp-tab-btn camp-tab-admin ${
+                activeTab === "CONFIG" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("CONFIG")}
+            >
+              ⚙️ Configurar
+            </button>
+          )}
+        </div>
       </div>
 
-      <div className="camp-content-area">
+      {/* ÁREA DE CONTEÚDO DOS COMPONENTES */}
+      <main className="camp-content-area">
         {activeTab === "GRUPOS" && (
           <FaseGrupos
             tabelaGrupos={tabelaGrupos}
@@ -250,7 +264,7 @@ export default function Campeonato({ isAdmin }) {
             tabelaGrupos={tabelaGrupos}
             loadData={loadData}
             isAdmin={isAdmin}
-            configAtual={configs[selectedYear]} /* <-- ADICIONE ESTA LINHA */
+            configAtual={configs[selectedYear]}
           />
         )}
 
@@ -261,7 +275,7 @@ export default function Campeonato({ isAdmin }) {
             configEdit={configs[selectedYear]}
           />
         )}
-      </div>
+      </main>
     </div>
   );
 }

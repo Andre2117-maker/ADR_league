@@ -8,7 +8,7 @@
   border: 1px solid #222;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   width: 100%;
-  max-width: 900px;
+  max-width: 950px;
   margin: 0 auto;
 }
 
@@ -65,7 +65,7 @@
 
 .camp-admin-input-flex {
   flex: 1;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .camp-admin-divider {
@@ -214,8 +214,6 @@
 /* ==========================================================================
    TEMA IDR - PAINEL DE CONFIGURAÇÃO / ADMIN (PRETO E BRANCO PREMIUM)
    ========================================================================== */
-
-/* Container Principal do Admin */
 .theme-idr .camp-admin-container {
   background: #ffffff !important;
   border-color: #ccc !important;
@@ -231,7 +229,6 @@
   color: #666 !important;
 }
 
-/* Inputs e Selects */
 .theme-idr .camp-admin-container input,
 .theme-idr .camp-admin-container select {
   background: #f9f9f9 !important;
@@ -249,7 +246,6 @@
   background: #eee !important;
 }
 
-/* Botões do Admin */
 .theme-idr .camp-btn-dark {
   background: #f0f0f0 !important;
   color: #333 !important;
@@ -284,7 +280,6 @@
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Grid de Grupos Criados no Admin */
 .theme-idr .camp-admin-group-card {
   background: #f9f9f9 !important;
   border-color: #ddd !important;
