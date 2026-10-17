@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./goalkeepers.css";
 
-// Adicionamos a prop 'limit' com valor padrão 5
 function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
-  const MIN_GAMES = 2;
+  const [showInfo, setShowInfo] = useState(false);
   const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
   if (!players.length || !matches.length) {
     return (
       <div className="gk-card">
-        <h3 className="gk-title">Paredões da Temporada</h3>
+        <div className="gk-card-top">
+          <h3 className="gk-title">Paredões da Temporada</h3>
+        </div>
         <p style={{ color: "#666", textAlign: "center", padding: "20px" }}>
           Aguardando dados...
         </p>
@@ -17,18 +18,19 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
     );
   }
 
-  const goalkeeperStats = players
+  // 1. Números brutos de todos que atuaram no gol em TREINOS
+  const rawStats = players
+    .filter((p) => !p.isAnonymous)
     .map((player) => {
       let totalCleanSheets = 0;
       let totalGoalsAgainst = 0;
       let gamesAsGK = 0;
 
       matches?.forEach((match) => {
-        // CORREÇÃO: Filtra para calcular apenas partidas do tipo TREINO
         if (match.type !== "TREINO") return;
 
-        const isA = match.teamA?.goalkeeperId === player.id;
-        const isB = match.teamB?.goalkeeperId === player.id;
+        const isA = String(match.teamA?.goalkeeperId) === String(player.id);
+        const isB = String(match.teamB?.goalkeeperId) === String(player.id);
 
         if (isA || isB) {
           gamesAsGK++;
@@ -51,15 +53,123 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
       });
 
       const mgs = gamesAsGK > 0 ? totalGoalsAgainst / gamesAsGK : 999;
-      return { ...player, totalCleanSheets, totalGoalsAgainst, gamesAsGK, mgs };
+      return {
+        ...player,
+        totalCleanSheets,
+        totalGoalsAgainst,
+        gamesAsGK,
+        mgs,
+      };
     })
-    .filter((p) => p.gamesAsGK >= MIN_GAMES && !p.isAnonymous)
-    .sort((a, b) => a.mgs - b.mgs || b.totalCleanSheets - a.totalCleanSheets)
-    .slice(0, limit); // Agora usa a variável 'limit'
+    .filter((p) => p.gamesAsGK > 0);
+
+  // 2. CORTE DINÂMICO: Mínimo de 25% dos jogos do goleiro que mais atuou (mínimo de 2 jogos)
+  const maxGamesByAnyGK = rawStats.reduce(
+    (max, p) => Math.max(max, p.gamesAsGK),
+    0,
+  );
+  const MIN_RATIO = 0.25;
+  const dynamicMinGames = Math.max(2, Math.floor(maxGamesByAnyGK * MIN_RATIO));
+
+  // 3. MÉDIA GERAL DA LIGA (Para o peso de consistência)
+  const totalGKGamesLeague = rawStats.reduce((acc, p) => acc + p.gamesAsGK, 0);
+  const totalGKGoalsLeague = rawStats.reduce(
+    (acc, p) => acc + p.totalGoalsAgainst,
+    0,
+  );
+  const leagueAvgMGS =
+    totalGKGamesLeague > 0 ? totalGKGoalsLeague / totalGKGamesLeague : 1.5;
+
+  const CONFIDENCE_WEIGHT = 5;
+
+  // 4. Filtra pelos elegíveis e ordena (MGS Ponderado + Desempate Real por Clean Sheets e Jogos)
+  const goalkeeperStats = rawStats
+    .filter((p) => p.gamesAsGK >= dynamicMinGames)
+    .map((p) => {
+      const weightedMgs =
+        (p.totalGoalsAgainst + CONFIDENCE_WEIGHT * leagueAvgMGS) /
+        (p.gamesAsGK + CONFIDENCE_WEIGHT);
+
+      // Arredonda para 2 casas decimais no critério primário para permitir que o Clean Sheet desempate!
+      const roundedScore = Number(weightedMgs.toFixed(2));
+
+      return { ...p, weightedMgs, roundedScore };
+    })
+    .sort(
+      (a, b) =>
+        a.roundedScore - b.roundedScore || // 1º Critério: Menor Média Ponderada
+        b.totalCleanSheets - a.totalCleanSheets || // 2º Critério (Desempate): Mais Clean Sheets (CS)
+        b.gamesAsGK - a.gamesAsGK || // 3º Critério (Desempate): Mais Jogos disputados (J)
+        a.mgs - b.mgs, // 4º Critério: Menor MGS bruto
+    )
+    .slice(0, limit);
 
   return (
     <div className="gk-card">
-      <h3 className="gk-title">Paredões da Temporada</h3>
+      {/* TOPO DO CARD COM TÍTULO E BOTÃO "i" */}
+      <div className="gk-card-top">
+        <h3 className="gk-title">Paredões da Temporada</h3>
+        <button
+          type="button"
+          className={`gk-info-btn ${showInfo ? "active" : ""}`}
+          onClick={() => setShowInfo(!showInfo)}
+          title="Como funciona o ranking de goleiros?"
+          aria-label="Informações sobre o ranking de goleiros"
+        >
+          i
+        </button>
+      </div>
+
+      {/* PAINEL EXPLICATIVO (ABRE AO CLICAR NO "i") */}
+      {showInfo && (
+        <div className="gk-info-popover">
+          <div className="gk-info-popover-header">
+            <strong>📖 Entenda as Estatísticas</strong>
+            <button
+              type="button"
+              className="gk-info-close"
+              onClick={() => setShowInfo(false)}
+            >
+              ✕
+            </button>
+          </div>
+          <ul className="gk-info-list">
+            <li>
+              <span className="gk-badge-mini">MGS</span>
+              <div>
+                <strong>Média de Gols Sofridos:</strong> Total de gols sofridos
+                dividido pelo número de jogos no gol (quanto menor, melhor).
+              </div>
+            </li>
+            <li>
+              <span className="gk-badge-mini">CS</span>
+              <div>
+                <strong>Clean Sheets:</strong> Quantidade de partidas em que o
+                goleiro saiu de campo sem sofrer nenhum gol. É o{" "}
+                <strong>1º critério de desempate</strong>!
+              </div>
+            </li>
+            <li>
+              <span className="gk-badge-mini">J</span>
+              <div>
+                <strong>Jogos:</strong> Total de partidas atuando como goleiro.
+              </div>
+            </li>
+          </ul>
+          <div className="gk-info-rule-box">
+            <strong>
+              ⚖️ Regra de Justiça & Corte ({dynamicMinGames} Jogos):
+            </strong>
+            <p>
+              Para evitar que alguém jogue apenas 1 ou 2 partidas e lidere com
+              média baixa, o ranking exige no mínimo{" "}
+              <strong>25% dos jogos</strong> do goleiro mais ativo da temporada
+              (atualmente <strong>{dynamicMinGames} jogos</strong>) e aplica um
+              fator de consistência que valoriza quem joga mais.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="gk-header">
         <span>Goleiro</span>
@@ -78,7 +188,6 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
                 <span className={`gk-rank ${i === 0 ? "is-first" : ""}`}>
                   {i + 1}º
                 </span>
-                {/* Adicionada a foto do jogador */}
                 <img
                   src={p.photo || defaultAvatar}
                   alt={p.name}
@@ -95,7 +204,8 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
           ))
         ) : (
           <p style={{ color: "#666", textAlign: "center", fontSize: "0.8rem" }}>
-            Nenhum goleiro atingiu o mínimo de {MIN_GAMES} jogos em Treinos.
+            Nenhum goleiro atingiu o mínimo de {dynamicMinGames} jogos em
+            Treinos.
           </p>
         )}
       </div>
@@ -108,7 +218,7 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
           <strong>CS</strong> Clean Sheets
         </span>
         <span>
-          <strong>J</strong> Jogos
+          <strong>Mín</strong> {dynamicMinGames} J
         </span>
       </div>
     </div>
