@@ -29,8 +29,8 @@ function PlayerButtons({
   return (
     <>
       {/* ==========================================================
-          O NOSSO POP-UP PERSONALIZADO (Substitui o prompt do navegador)
-          ========================================================== */}
+         O NOSSO POP-UP PERSONALIZADO (Substitui o prompt do navegador)
+         ========================================================== */}
       {isEditingName && (
         <div className="custom-prompt-overlay">
           <div className="custom-prompt-box">
@@ -241,13 +241,43 @@ function PlayerButtons({
               </label>
             </div>
 
-            <input
-              type="text"
-              placeholder="URL da Foto (ex: /players/Nome.png)"
-              value={p.photo || ""}
-              onChange={(e) => onUpdateProfile(p.id, "photo", e.target.value)}
-              className="adm-photo-url-input"
-            />
+            {/* --- BLOCO DAS FOTOS MODIFICADO --- */}
+            <div
+              className="adm-profile-row-photos"
+              style={{ display: "flex", gap: "5px", marginTop: "5px" }}
+            >
+              <input
+                type="text"
+                placeholder="Foto 1 (ADR)"
+                value={p.photo || ""}
+                onChange={(e) => onUpdateProfile(p.id, "photo", e.target.value)}
+                className="adm-photo-url-input"
+                style={{ flex: 1 }}
+              />
+              <input
+                type="text"
+                placeholder="Foto 2 (IDR Padrão)"
+                value={p.photoIDR1 || ""}
+                onChange={(e) =>
+                  onUpdateProfile(p.id, "photoIDR1", e.target.value)
+                }
+                className="adm-photo-url-input"
+                style={{ flex: 1, borderLeft: "2px solid #d4af37" }}
+                title="Foto base do jogador no modo IDR"
+              />
+              <input
+                type="text"
+                placeholder="Foto 3 (IDR Hover)"
+                value={p.photoIDR2 || ""}
+                onChange={(e) =>
+                  onUpdateProfile(p.id, "photoIDR2", e.target.value)
+                }
+                className="adm-photo-url-input"
+                style={{ flex: 1, borderLeft: "2px solid #d4af37" }}
+                title="Foto que aparece ao passar o rato (hover) no modo IDR"
+              />
+            </div>
+            {/* ---------------------------------- */}
           </div>
         </td>
 

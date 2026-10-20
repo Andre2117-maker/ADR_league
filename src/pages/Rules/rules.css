@@ -1,213 +1,653 @@
-/* =====================================================
-    RULES - ESTILO PREMIUM ELITE (REGULAMENTO)
-   ===================================================== */
-
-/* Container Principal */
+/* ==========================================================================
+   1. FUNDO E ATMOSFERA (OBSIDIAN & LIQUID GOLD)
+   ========================================================================== */
 .page-container1 {
-  padding-top: 135px !important;
-  padding-bottom: 50px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 135px 20px 100px !important;
   width: 100%;
   min-height: 100vh;
-  background-color: #000;
+  background-color: #030304;
+  color: #f5f5f7;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E");
+  /* Luz de palco dourada no topo + textura geométrica ultra sutil */
+  background-image:
+    radial-gradient(
+      ellipse 80% 45% at 50% -10%,
+      rgba(212, 175, 55, 0.16) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(212, 175, 55, 0.05) 0%,
+      transparent 50%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 26v8M26 30h8' stroke='rgba(212,175,55,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:
+    100% 100%,
+    100% 100%,
+    60px 60px;
+  background-attachment: fixed;
 }
 
-/* Helper para centralização */
-.content-center-helper {
-  width: 100%;
-  max-width: 950px;
+/* ==========================================================================
+   2. HERO HEADER (TÍTULO METÁLICO DE GALA)
+   ========================================================================== */
+.rules-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  margin-bottom: 42px;
 }
 
-/* Título da Página */
+.rules-kicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+
 .page-title1 {
   width: 100%;
-  background: linear-gradient(180deg, #ffffff 30%, #d4af37 100%);
+  margin: 0 0 18px 0;
+  font-size: 2.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  text-align: center;
+  /* Degradê Ouro Imperial Espelhado */
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fdf6d6 38%,
+    #d4af37 78%,
+    #9a7418 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 2.5rem;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  margin-bottom: 40px;
-  font-weight: 900;
-  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
-  text-align: center;
+  filter: drop-shadow(0 10px 30px rgba(212, 175, 55, 0.22));
 }
 
-/* Wrapper das Regras */
+.rules-hero-line {
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  position: relative;
+}
+
+/* Diamante central na linha divisória do título */
+.rules-hero-line::after {
+  content: "◆";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #d4af37;
+  font-size: 0.65rem;
+  background: #030304;
+  padding: 0 10px;
+}
+
+/* ==========================================================================
+   3. BARRA SUPERIOR (BUSCA & BOTÃO PDF DE LUXO)
+   ========================================================================== */
 .rules-wrapper {
   width: 100%;
-  max-width: 950px;
+  max-width: 920px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: fadeIn 0.8s ease-out;
+  gap: 24px;
 }
 
-/* Seção do Botão PDF */
-.pdf-actions {
+.pdf-actions,
+.rules-toolbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   width: 100%;
-  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.pdf-actions {
+  justify-content: center;
+}
+
+/* Busca Minimalista Estilo Cristal */
+.rules-search-box {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  align-items: center;
+  background: rgba(15, 15, 18, 0.9) !important;
+  border: 1px solid rgba(212, 175, 55, 0.28) !important;
+  border-radius: 100px !important;
+  padding: 0 18px !important;
+  height: 46px !important;
+  box-sizing: border-box !important;
+  transition: all 0.25s ease;
+}
+
+.rules-search-box:focus-within {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15) !important;
+}
+
+.rules-search-box input.rules-search-input {
+  flex: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-size: 0.88rem !important;
+  outline: none !important;
+}
+
+.rules-search-box input.rules-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.search-icon {
+  font-size: 0.85rem;
+  margin-right: 12px;
+  opacity: 0.6;
+}
+
+.rules-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.88rem;
+  letter-spacing: 0.4px;
+  outline: none;
+}
+
+.rules-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.search-clear-btn {
+  background: transparent;
+  border: none;
+  color: #d4af37;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px;
+}
+
+/* Botões Admin e PDF */
+.rules-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.admin-mode-switch {
+  display: inline-flex;
+  background: #0a0a0c;
+  padding: 4px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mode-switch-btn {
+  background: transparent;
+  border: none;
+  color: #777;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mode-switch-btn.active {
+  background: linear-gradient(135deg, #e5c158 0%, #b8860b 100%);
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .pdf-download-btn {
-  background: rgba(20, 20, 20, 0.6);
-  color: #d4af37;
-  padding: 14px 30px;
-  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 28px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.15) 0%,
+    rgba(15, 15, 15, 0.9) 100%
+  );
+  color: #f3d478;
+  border-radius: 100px;
   text-decoration: none;
   font-weight: 800;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(5px);
-  text-align: center;
+  letter-spacing: 2px;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pdf-download-btn:hover {
-  background: #d4af37;
-  color: #000;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #f3d478 0%, #c59b27 100%);
+  color: #000000;
+  border-color: #fff3b0;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(212, 175, 55, 0.35);
 }
 
-/* O "Papel" das Regras (Glassmorphism) */
+/* Índice de Capítulos Minimalista */
+.rules-toc-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.toc-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+
+.toc-pills-scroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap; /* Faz os botões quebrarem de linha suavemente sem cortar no canto */
+  overflow: visible;
+}
+
+.toc-pills-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.toc-pill {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #bbb;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toc-pill:hover {
+  border-color: #d4af37;
+  color: #f3d478;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* ==========================================================================
+   4. O MONÓLITO DO REGULAMENTO (FOLHA DE ÔNIX E OURO)
+   ========================================================================== */
 .rules-paper {
-  background: rgba(15, 15, 15, 0.8);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  color: #e0e0e0;
-  padding: 60px;
-  border-radius: 24px;
-  position: relative;
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  background: linear-gradient(165deg, #0d0d10 0%, #060608 100%);
+  padding: 64px 72px;
+  border-radius: 24px;
+  /* Borda externa dourada sutil + moldura interna tipo certificado de luxo */
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(212, 175, 55, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
-/* Cabeçalho do Documento Interno */
+/* Moldura interna fina (efeito editorial de gala) */
+.rules-paper::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.08);
+  pointer-events: none;
+}
+
+/* Feixe de luz dourada no topo do documento */
+.rules-paper::before {
+  top: 0 !important;
+  left: 15% !important;
+  right: 15% !important;
+  height: 1px !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #d4af37,
+    transparent
+  ) !important;
+  box-shadow: none !important;
+}
+
+/* Cabeçalho do Documento (Selo Oficial) */
 .rules-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-  padding-bottom: 25px;
-  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  padding-bottom: 28px;
+  margin-bottom: 42px;
+  position: relative;
+  z-index: 1;
+}
+
+.rules-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .doc-stamp {
   font-weight: 900;
-  font-size: 0.8rem;
-  color: #d4af37;
-  border: 2px solid #d4af37;
-  padding: 5px 12px;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  color: #000000;
+  background: linear-gradient(135deg, #f5dc82 0%, #c59b27 100%);
+  padding: 6px 14px;
   text-transform: uppercase;
   border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+}
+
+.doc-sub {
+  font-size: 0.75rem;
+  color: #777;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.rules-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.saving-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #d4af37;
 }
 
 .doc-date {
-  font-size: 0.8rem;
-  color: #666;
+  font-size: 0.75rem;
+  color: #777;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
-/* --- ESTILIZAÇÃO DO CONTEÚDO (TEXTO) --- */
+/* ==========================================================================
+   5. CONTEÚDO EDITORIAL (CAPÍTULOS E ARTIGOS)
+   ========================================================================== */
 .rules-content {
-  line-height: 1.9;
+  position: relative;
+  z-index: 1;
+  line-height: 1.85;
   text-align: left;
 }
 
-/* Títulos das Seções (Ex: 1. PONTUAÇÃO) */
-.rule-section {
-  font-weight: 800;
-  font-size: 1.25rem;
-  margin-top: 35px;
-  margin-bottom: 15px;
-  color: #d4af37; /* Dourado ADR */
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.rule-spacer {
+  height: 14px;
 }
 
-/* Linha dourada que segue o título da seção */
+/* Títulos de Seção / Capítulos */
+.rule-section {
+  scroll-margin-top: 110px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 44px;
+  margin-bottom: 18px;
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: #f3d478;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+}
+
+.rule-section:first-child {
+  margin-top: 0;
+}
+
+/* Linha elegante que se estende à direita do título do capítulo */
 .rule-section::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.3), transparent);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), transparent);
 }
 
-/* Itens das Regras (Texto comum ou listas) */
+.sec-number-badge {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  background: rgba(212, 175, 55, 0.08);
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.sec-title-text {
+  color: #f3d478;
+}
+
+/* Artigos e Regras Individuais (Sem caixas cinzas pesadas!) */
 .rule-item {
-  margin-left: 5px;
-  color: #bbb;
-  padding: 8px 0 8px 20px;
-  font-size: 1.05rem;
-  border-left: 2px solid rgba(212, 175, 55, 0.1); /* Bordas sutis laterais */
-  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 16px 10px 22px;
+  margin: 2px 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.02rem;
+  font-weight: 400;
+  border-left: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 0 8px 8px 0;
+  transition: all 0.25s ease;
+  cursor: pointer;
 }
 
 .rule-item:hover {
-  color: #fff;
-  border-left-color: rgba(212, 175, 55, 0.5);
-  background: rgba(255, 255, 255, 0.02);
+  color: #ffffff;
+  border-left: 2px solid #d4af37;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.06) 0%,
+    transparent 100%
+  );
+  padding-left: 26px;
 }
 
-/* Área de Edição (Admin) */
+/* Transforma a bolinha comum em um Diamante Dourado de Luxo */
+.rule-bullet-dot {
+  width: 5px;
+  height: 5px;
+  background: #d4af37;
+  transform: rotate(45deg);
+  margin-top: 11px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.rule-item-text {
+  flex: 1;
+}
+
+.copy-rule-hint {
+  font-size: 0.7rem;
+  color: #d4af37;
+  opacity: 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.2s ease;
+  align-self: center;
+}
+
+.rule-item:hover .copy-rule-hint {
+  opacity: 0.75;
+}
+
+.copy-rule-hint.copied {
+  opacity: 1 !important;
+  color: #00e676;
+  font-weight: 800;
+}
+
+/* Caixa de Alerta / Penalidade (Carmim Escuro e Ouro) */
+.rule-alert-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0;
+  padding: 16px 22px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(180, 30, 30, 0.14) 0%,
+    rgba(180, 30, 30, 0.02) 100%
+  );
+  border: 1px solid rgba(255, 90, 90, 0.25);
+  border-left: 3px solid #ff4d4d;
+  color: #ffd6d6;
+  font-size: 0.96rem;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   6. EDITOR DO ADMIN & RODAPÉ DO DOCUMENTO
+   ========================================================================== */
+.rules-editor-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.editor-quick-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-bar-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.quick-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: #f3d478;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-chip:hover {
+  background: #d4af37;
+  color: #000;
+}
+
 .rules-textarea {
   width: 100%;
-  min-height: 500px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px dashed rgba(212, 175, 55, 0.3);
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
+  min-height: 520px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #f5f5f7;
+  padding: 24px;
+  border-radius: 14px;
   outline: none;
   font-family: inherit;
-  font-size: 1.1rem;
+  font-size: 1.02rem;
+  line-height: 1.8;
   resize: vertical;
+  box-sizing: border-box;
 }
 
-/* Rodapé do Papel */
+.rules-textarea:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.12);
+}
+
+/* Rodapé Interno */
 .rules-footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 0.8rem;
-  color: #555;
+  margin-top: 50px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #666;
   text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-seal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .saving-status.blink {
   color: #d4af37;
   animation: blink 1s infinite;
-}
-
-/* Animações */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @keyframes blink {
@@ -216,87 +656,317 @@
   }
 }
 
-/* --- RESPONSIVIDADE --- */
+/* ==========================================================================
+   7. RESPONSIVIDADE CELULAR (MOBILE LUXURY)
+   ========================================================================== */
 @media (max-width: 768px) {
   .page-container1 {
-    padding-top: 120px !important;
+    padding: 110px 14px 60px !important;
   }
 
   .page-title1 {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
+    letter-spacing: 3px;
+  }
+
+  .rules-kicker {
+    font-size: 0.58rem;
+    letter-spacing: 3.5px;
+  }
+
+  .rules-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rules-toolbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pdf-download-btn {
+    width: 100%;
+    font-size: 0.74rem;
+    letter-spacing: 1.5px;
   }
 
   .rules-paper {
-    padding: 40px 20px;
+    padding: 34px 20px;
+    border-radius: 18px;
+  }
+
+  .rules-paper::after {
+    inset: 6px;
+    border-radius: 13px;
   }
 
   .rules-header {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+
+  .rules-header-left,
+  .rules-header-right {
+    flex-direction: column;
+    gap: 6px;
   }
 
   .rule-section {
-    font-size: 1.1rem;
+    font-size: 0.98rem;
+    letter-spacing: 1.5px;
+    margin-top: 32px;
   }
 
   .rule-item {
-    font-size: 0.95rem;
-    padding-left: 15px;
+    font-size: 0.94rem;
+    padding: 8px 10px 8px 14px;
+  }
+
+  .copy-rule-hint {
+    display: none;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - REGULAMENTO
+   8. TEMA IDR - MARFIM & ÔNIX (MONOCROMÁTICO DE ALTA COSTURA - CORRIGIDO)
    ========================================================================== */
 .theme-idr .page-container1 {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E") !important;
+  background-color: #f6f6f4 !important;
+  color: #111111 !important;
+  /* CORRIGIDO: Adicionado o background-size de 40px para repetir o padrão de losangos corretamente */
+  background-image:
+    radial-gradient(
+      ellipse 80% 40% at 50% 0%,
+      rgba(0, 0, 0, 0.03) 0%,
+      transparent 70%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.06)'/%3E%3C/svg%3E") !important;
+  background-size:
+    100% 100%,
+    40px 40px !important;
+  background-repeat: no-repeat, repeat !important;
+  background-attachment: fixed !important;
 }
 
-.theme-idr .rules-paper {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-  color: #111 !important;
+.theme-idr .rules-kicker {
+  color: #444444 !important;
+  opacity: 1 !important;
 }
-.theme-idr .rule-section {
-  color: #000 !important;
-  border-bottom-color: #ccc !important;
+
+.theme-idr .page-title1 {
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+  filter: none !important;
+  text-shadow: none !important;
 }
-.theme-idr .rule-section::after {
+
+.theme-idr .rules-hero-line {
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.3),
+    transparent,
+    #000000,
     transparent
   ) !important;
 }
-.theme-idr .rule-item {
-  color: #333 !important;
-  border-left-color: #ccc !important;
+
+.theme-idr .rules-hero-line::after {
+  color: #000000 !important;
+  background: #f6f6f4 !important;
 }
-.theme-idr .rule-item:hover {
-  background: #f9f9f9 !important;
-  border-left-color: #000 !important;
-  color: #000 !important;
+
+/* Barra de Busca IDR (Garante leitura clara) */
+.theme-idr .rules-search-box {
+  background: #ffffff !important;
+  border-color: #b0b0a8 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
 }
-.theme-idr .rules-header {
-  border-bottom-color: #ccc !important;
+
+.theme-idr .search-icon {
+  color: #333333 !important;
+  opacity: 1 !important;
 }
-.theme-idr .doc-stamp {
-  color: #000 !important;
-  border-color: #000 !important;
+
+.theme-idr .rules-search-box input.rules-search-input {
+  background: transparent !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }
+
+.theme-idr .rules-search-box input.rules-search-input::placeholder {
+  color: #666666 !important;
+  -webkit-text-fill-color: #666666 !important;
+  opacity: 1 !important;
+}
+
+.theme-idr .search-clear-btn {
+  color: #000000 !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Modo Switch Admin IDR */
+.theme-idr .admin-mode-switch {
+  background: #e2e2dc !important;
+  border-color: #bcbcc4 !important;
+}
+
+.theme-idr .mode-switch-btn {
+  color: #444444 !important;
+}
+
+.theme-idr .mode-switch-btn.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Botão PDF IDR */
 .theme-idr .pdf-download-btn {
-  background: #fff !important;
-  color: #000 !important;
-  border-color: #000 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
 }
+
 .theme-idr .pdf-download-btn:hover {
-  background: #000 !important;
-  color: #fff !important;
+  background: #222222 !important;
+  color: #ffffff !important;
 }
+
+/* Índice de Capítulos IDR */
+.theme-idr .toc-label {
+  color: #444444 !important;
+}
+
+.theme-idr .toc-pill {
+  border-color: #cccccc !important;
+  color: #333333 !important;
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.theme-idr .toc-pill:hover {
+  border-color: #000000 !important;
+  color: #000000 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* O Documento Principal IDR (Papel Marfim) */
+.theme-idr .rules-paper {
+  background: #ffffff !important;
+  border: 1px solid #d0d0c8 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08) !important;
+  color: #111111 !important;
+}
+
+.theme-idr .rules-paper::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #000000,
+    transparent
+  ) !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .rules-paper::after {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-idr .rules-header {
+  border-bottom-color: #e0e0d8 !important;
+}
+
+.theme-idr .doc-stamp {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .doc-sub,
+.theme-idr .doc-date,
+.theme-idr .saving-badge {
+  color: #555555 !important;
+}
+
+/* Capítulos e Textos IDR */
+.theme-idr .rule-section {
+  border-bottom-color: #d0d0c8 !important;
+}
+
+.theme-idr .sec-number-badge {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .sec-title-text {
+  color: #000000 !important;
+}
+
+.theme-idr .rule-item {
+  color: #222222 !important;
+  border-left-color: #c0c0b8 !important;
+  background: rgba(0, 0, 0, 0.01) !important;
+}
+
+.theme-idr .rule-item:hover {
+  color: #000000 !important;
+  border-left-color: #000000 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.04) 0%,
+    transparent 100%
+  ) !important;
+}
+
+.theme-idr .rule-bullet-dot {
+  background: #000000 !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .copy-rule-hint {
+  color: #444444 !important;
+}
+
+/* Caixa de Alerta IDR */
+.theme-idr .rule-alert-box {
+  background: #fdf2f2 !important;
+  border-color: #fca5a5 !important;
+  border-left-color: #dc2626 !important;
+  color: #991b1b !important;
+}
+
+/* Editor Admin IDR */
+.theme-idr .editor-quick-bar {
+  background: #f0f0ea !important;
+  border-color: #d0d0c8 !important;
+}
+
+.theme-idr .quick-bar-label {
+  color: #555555 !important;
+}
+
+.theme-idr .quick-chip {
+  background: #ffffff !important;
+  border-color: #b8b8b0 !important;
+  color: #111111 !important;
+}
+
+.theme-idr .quick-chip:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
 .theme-idr .rules-textarea {
-  background: #f9f9f9 !important;
-  color: #000 !important;
-  border: 1px dashed #999 !important;
+  background: #fafaf8 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border-color: #b0b0a8 !important;
+}
+
+.theme-idr .rules-footer {
+  border-top-color: #e0e0d8 !important;
+  color: #666666 !important;
 }

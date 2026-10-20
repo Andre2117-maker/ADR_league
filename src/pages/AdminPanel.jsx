@@ -38,6 +38,7 @@ function AdminPanel({ players, matches }) {
         manualAssists: 0,
         titlesADR: 0,
         photo: "",
+        photoIDR1: "",
         clubRole: "",
         number: "",
         isAllStar: false,

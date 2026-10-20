@@ -306,3 +306,310 @@
     padding-top: 150px;
   }
 }
+
+/* ==========================================================================
+   ALTAR DO CARLOS - TEMA IDR (MONOCROMÁTICO DE ALTA COSTURA)
+   ========================================================================== */
+
+.theme-idr .altar-container {
+  min-height: 100vh;
+  background: radial-gradient(circle, #e2e2dc 0%, #f6f6f4 100%) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  color: #000000 !important;
+  font-family: "Bungee", cursive;
+  overflow-x: hidden;
+  padding-top: 100px;
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    rgba(0, 0, 0, 0.04) 0%,
+    transparent 60%
+  ) !important;
+  background-attachment: fixed !important;
+}
+
+.theme-idr .altar-content {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  animation: fadeIn 2s ease-in;
+}
+
+.theme-idr .dedication-text {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: #444444 !important;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.theme-idr .glow-text {
+  font-size: 3.5rem;
+  color: #000000 !important;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 40px;
+}
+
+/* --- EFEITO DA AURA (IDR Monocromático) --- */
+.theme-idr .aura-wrapper {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto 50px;
+}
+
+.theme-idr .aura-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: pulseAura 3s infinite alternate;
+  z-index: 1;
+}
+
+.theme-idr .altar-frame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border: 4px solid #000000 !important;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+  background: #ffffff !important;
+}
+
+.theme-idr .carlos-img-main,
+.theme-idr .carlos-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+.theme-idr .video-section {
+  margin: 30px 0;
+  width: 100%;
+  max-width: 900px;
+}
+
+.theme-idr .video-title {
+  font-size: 1.2rem;
+  color: #000000 !important;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.theme-idr .video-frame {
+  border: 3px solid #000000 !important;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: #ffffff !important;
+}
+
+.theme-idr .carlos-video-player {
+  width: 100%;
+  display: block;
+}
+
+/* --- CAIXAS DE STATUS (Estilo Cartão IDR) --- */
+.theme-idr .stats-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.theme-idr .stats-box {
+  background: #ffffff !important;
+  border: 1px solid #dcdcdc !important;
+  padding: 20px;
+  border-radius: 15px;
+  min-width: 280px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.theme-idr .stats-box h2 {
+  font-size: 1.1rem;
+  color: #000000 !important;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+.theme-idr .stats-box ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  font-family: sans-serif;
+  color: #333333 !important;
+}
+
+.theme-idr .stats-box li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.theme-idr .stats-box li::before {
+  content: "▪";
+  color: #000000 !important;
+  margin-right: 10px;
+}
+
+.theme-idr .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.theme-idr .stat-item {
+  font-size: 0.8rem;
+  color: #555555 !important;
+}
+
+.theme-idr .stat-item span {
+  display: block;
+  font-size: 1.5rem;
+  color: #000000 !important;
+}
+
+.theme-idr .motto {
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #222222 !important;
+  opacity: 0.9;
+}
+
+.theme-idr .btn-exit {
+  margin-top: 40px;
+  background: #000000 !important;
+  border: 1px solid #000000 !important;
+  color: #ffffff !important;
+  padding: 10px 30px;
+  cursor: pointer;
+  font-family: "Bungee";
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.theme-idr .btn-exit:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* --- ANIMAÇÕES --- */
+@keyframes pulseAura {
+  from {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.3;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.theme-idr .carlos-gallery {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.theme-idr .gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-idr .gallery-card span {
+  font-size: 0.7rem;
+  color: #000000 !important;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.theme-idr .gallery-item {
+  width: 140px;
+  height: 140px;
+  border: 2px solid #b0b5bf !important;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.theme-idr .gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transition: transform 0.5s ease;
+}
+
+.theme-idr .gallery-item:hover {
+  transform: translateY(-10px);
+  border-color: #000000 !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.theme-idr .img-atleta {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  transform: scale(1.2);
+  transform-origin: center 0%;
+}
+
+@media (max-width: 480px) {
+  .theme-idr .gallery-item {
+    width: 100px;
+    height: 100px;
+  }
+  .theme-idr .carlos-gallery {
+    gap: 15px;
+  }
+}
+
+/* Responsivo Mobile */
+@media (max-width: 600px) {
+  .theme-idr .glow-text {
+    font-size: 2rem;
+  }
+  .theme-idr .aura-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+  .theme-idr .stats-box {
+    width: 100%;
+  }
+  .theme-idr .altar-container {
+    padding-top: 150px;
+  }
+}
