@@ -1,38 +1,66 @@
-/* ============================================================
-   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
-   ============================================================ */
+/* ==========================================================================
+   1. VARIÁVEIS E CONTAINER PRINCIPAL (MODO ESCURO PADRÃO / O ADR)
+   ========================================================================== */
 :root {
   --premium-gold: #d4af37;
   --premium-gold-bright: #f9e29c;
-  --dark-carbon: #121212;
-  --card-bg: #1a1a1a;
-  --glass-bg: rgba(255, 255, 255, 0.03);
+  --dark-carbon: #0b0d12;
+  --card-bg: #11141c;
+  --glass-bg: rgba(255, 255, 255, 0.025);
   --border-color: rgba(255, 255, 255, 0.08);
-  --gk-cyan: #00bcd4;
-  --orange-streak: #e67e22;
+  --gk-cyan: #00d2eb;
 }
 
 .psd-dashboard {
   font-family:
     "Inter",
     -apple-system,
+    BlinkMacSystemFont,
     sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 10px;
-  color: #fff;
+  gap: 16px;
+  padding: 8px 4px;
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* ============================================================
-   2. HEADER E FILTROS (SELECTS)
-   ============================================================ */
+/* ==========================================================================
+   2. HEADER E FILTROS (SELECTS UNIFICADOS)
+   ========================================================================== */
 .psd-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  gap: 15px;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.psd-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.psd-kicker {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #7c8594;
+  text-transform: uppercase;
+}
+
+.psd-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--premium-gold);
+  border-left: 3px solid var(--premium-gold);
+  padding-left: 10px;
 }
 
 .psd-filters {
@@ -43,40 +71,181 @@
 
 .psd-season-select,
 .psd-type-select {
-  background: #111;
-  border: 1px solid var(--premium-gold);
+  background: #0d0f14;
+  border: 1px solid rgba(212, 175, 55, 0.4);
   color: var(--premium-gold);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 10px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-size: 0.72rem;
   font-weight: 800;
   cursor: pointer;
   outline: none;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.8px;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .psd-season-select:hover,
-.psd-type-select:hover {
-  background: var(--premium-gold);
-  color: #000;
+.psd-type-select:hover,
+.psd-season-select:focus,
+.psd-type-select:focus {
+  border-color: var(--premium-gold);
+  background: rgba(212, 175, 55, 0.12);
+  color: #ffffff;
 }
 
-.psd-title {
-  font-size: 11px;
+.psd-season-select option,
+.psd-type-select option {
+  background: #0d0f14;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   3. BANNER DE RETROSPECTO (V-E-D), APROVEITAMENTO E FORMA (ÚLT. 5)
+   ========================================================================== */
+.psd-summary-banner {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 14px;
+  background: linear-gradient(145deg, #12151e 0%, #0b0d12 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.psd-record-group,
+.psd-form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.psd-form-group {
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  padding-left: 18px;
+}
+
+.psd-banner-label {
+  font-size: 0.65rem;
   font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #8a93a2;
   text-transform: uppercase;
-  letter-spacing: 2.5px;
-  color: var(--premium-gold);
-  border-left: 3px solid var(--premium-gold);
-  padding-left: 10px;
 }
 
-/* ============================================================
-   3. CARDS E GRIDS (ESTRUTURA BASE)
-   ============================================================ */
+.psd-wdl-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wdl-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #cbd5e1;
+}
+
+.wdl-pill.win {
+  color: #00e676;
+  background: rgba(0, 230, 118, 0.08);
+  border-color: rgba(0, 230, 118, 0.25);
+}
+
+.wdl-pill.loss {
+  color: #ff5252;
+  background: rgba(255, 82, 82, 0.08);
+  border-color: rgba(255, 82, 82, 0.25);
+}
+
+.wdl-pill.pts {
+  color: var(--premium-gold);
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Barra de Progresso do Aproveitamento */
+.psd-winrate-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.psd-winrate-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.psd-winrate-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #00e676);
+  border-radius: 100px;
+  transition: width 0.4s ease;
+}
+
+.psd-winrate-text {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  min-width: 68px;
+  text-align: right;
+}
+
+/* Bolinhas de Forma (Últimos 5 Jogos) */
+.psd-form-bubbles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-bubble {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-bubble.is-win {
+  background: rgba(0, 230, 118, 0.16);
+  border: 1px solid rgba(0, 230, 118, 0.45);
+  color: #00e676;
+}
+
+.form-bubble.is-draw {
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #cbd5e1;
+}
+
+.form-bubble.is-loss {
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: #ff5252;
+}
+
+.psd-no-form {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   4. CARDS E GRIDS PRINCIPAIS (LINHA & MILESTONES)
+   ========================================================================== */
 .psd-grid-season {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -84,11 +253,18 @@
   width: 100%;
 }
 
+.psd-grid-secondary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
 .psd-card {
-  background: var(--card-bg);
+  background: linear-gradient(180deg, #131720 0%, #0d0f15 100%);
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  padding: 18px 10px;
+  padding: 16px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,308 +272,437 @@
   position: relative;
   overflow: hidden;
   transition:
-    transform 0.3s ease,
-    border-color 0.3s ease;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform 0.25s ease,
+    border-color 0.25s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .psd-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(212, 175, 55, 0.4);
+  transform: translateY(-3px);
+  border-color: rgba(212, 175, 55, 0.38);
 }
 
 .psd-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: #888;
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #7c8594;
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .psd-value {
-  font-size: 28px;
+  font-size: 1.85rem;
   font-weight: 900;
+  line-height: 1.1;
   font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #b0b6c3 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* ============================================================
-   4. ESTILIZAÇÃO ESPECÍFICA DE CARDS (LINHA)
-   ============================================================ */
-.season-main .psd-value {
-  background: linear-gradient(180deg, #fff 0%, var(--premium-gold) 100%);
+.psd-value-sm {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #f1f5f9;
+}
+
+.psd-sub-metric {
+  margin-top: 6px;
+  font-size: 0.68rem;
+  color: #64748b;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.psd-sub-metric strong {
+  color: #cbd5e1;
+}
+
+.psd-sub-metric.highlight strong {
+  color: var(--premium-gold);
+}
+
+.season-main .psd-value,
+.participation-box .psd-value {
+  background: linear-gradient(180deg, #ffffff 15%, var(--premium-gold) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .participation-box {
-  background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.1) 0%, #0d0f15 100%);
+  border-color: rgba(212, 175, 55, 0.28);
 }
 
-/* Cards de Cartões (Amarelo/Vermelho) */
-.cards-box {
-  background: var(--glass-bg);
-  flex-direction: row;
-  gap: 15px;
+/* Card de Disciplina (Amarelo / Vermelho) */
+.cards-counters-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 2px;
 }
 
 .card-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  font-size: 16px;
+  gap: 7px;
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: #ffffff;
 }
 
 .card-rect {
   width: 12px;
-  height: 18px;
+  height: 17px;
   border-radius: 3px;
 }
 
 .yellow .card-rect {
   background: #ffd700;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.35);
 }
 
 .red .card-rect {
   background: #ff4d4d;
-  box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.35);
 }
 
-/* ============================================================
-   5. ESTILIZAÇÃO ESPECÍFICA DE CARDS (GOLEIRO - GK)
-   ============================================================ */
+/* ==========================================================================
+   5. SEÇÃO DE GOLEIRO (GK - 4 COLUNAS)
+   ========================================================================== */
+.psd-gk-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.psd-section-mini-header {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--gk-cyan);
+  text-transform: uppercase;
+  padding-left: 4px;
+}
+
 .gk-style {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d1a1d 100%);
-  border: 1px solid rgba(0, 188, 212, 0.1);
+  background: linear-gradient(145deg, #101920 0%, #0b0f14 100%);
+  border: 1px solid rgba(0, 210, 235, 0.16);
+}
+
+.gk-style:hover {
+  border-color: rgba(0, 210, 235, 0.45);
 }
 
 .gk-style .psd-label {
-  color: var(--gk-cyan);
+  color: #7dd3fc;
 }
 
 .gk-style .psd-value {
-  background: linear-gradient(180deg, #fff 0%, var(--gk-cyan) 100%);
+  background: linear-gradient(180deg, #ffffff 0%, var(--gk-cyan) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
 }
 
-/* ============================================================
-   6. RECORDES DIÁRIOS (GRID INFERIOR)
-   ============================================================ */
+/* ==========================================================================
+   6. RECORDES PESSOAIS EM UM ÚNICO DIA
+   ========================================================================== */
 .psd-lower-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 12px;
 }
 
 .psd-mini-card {
-  background: var(--glass-bg);
+  background: linear-gradient(135deg, #131720 0%, #0b0d12 100%);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
-.psd-mini-card:hover {
-  background: rgba(212, 175, 55, 0.05);
+.psd-mini-card.record-goals {
+  border-left: 3px solid var(--premium-gold);
+}
+
+.psd-mini-card.record-assists {
+  border-left: 3px solid #38bdf8;
+}
+
+.psd-mini-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
 .psd-mini-label {
-  font-size: 8px;
-  font-weight: 700;
-  color: #666;
-  margin-bottom: 4px;
-}
-
-.psd-mini-value {
-  font-size: 18px;
+  font-size: 0.65rem;
   font-weight: 800;
-  color: var(--premium-gold-bright);
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
 }
 
 .psd-record-date {
-  font-size: 9px;
-  color: #555;
-  font-weight: 600;
-  margin-top: 2px;
+  font-size: 0.68rem;
+  color: var(--premium-gold-bright);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 700;
 }
 
-/* ============================================================
-   1. GRID PRINCIPAL (MOBILE - 2 COLUNAS)
-   ============================================================ */
-@media (max-width: 480px) {
-  .psd-grid-season {
-    grid-template-columns: repeat(2, 1fr); /* 2 colunas fixas */
-    gap: 10px;
-  }
-
-  .psd-card {
-    padding: 15px 10px;
-    min-height: 90px; /* Altura controlada para não ser gigante */
-    border-radius: 12px;
-  }
-
-  .psd-value {
-    font-size: 24px; /* Tamanho equilibrado para 2 colunas */
-  }
-
-  .psd-label {
-    font-size: 8px;
-    margin-bottom: 5px;
-  }
-}
-
-/* ============================================================
-   2. RECORDES DE GOLS E ASSISTS (ESTILO SLIM)
-   ============================================================ */
-.psd-lower-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Lado a lado */
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.psd-mini-card {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 12px 8px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Identificadores visuais para os recordes */
-.psd-mini-card:first-child {
-  border-top: 2px solid var(--premium-gold);
-} /* Gols */
-.psd-mini-card:last-child {
-  border-top: 2px solid #aaa;
-} /* Assists */
-
-.psd-mini-label {
-  font-size: 7px;
-  font-weight: 800;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+.psd-mini-bottom {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .psd-mini-value {
-  font-size: 20px;
+  font-size: 1.6rem;
   font-weight: 900;
-  color: #fff;
+  color: #ffffff;
   line-height: 1;
 }
 
-.psd-record-date {
-  font-size: 8px;
-  color: var(--premium-gold-bright);
+.psd-mini-unit {
+  font-size: 0.72rem;
+  color: #64748b;
   font-weight: 600;
-  margin-top: 5px;
-  display: block;
 }
 
-/* --- ESTILO DAS CAIXAS DE FALTAS --- */
+/* ==========================================================================
+   7. PAINEL DE ASSIDUIDADE E STATUS NA TABELA D'O ADR
+   ========================================================================== */
 .psd-absences-wrapper {
-  margin-top: 1px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  width: 100%;
 }
 
 .psd-absence-panel {
-  background: #11141a;
-  border: 1px solid #2a3241;
-  border-radius: 8px;
+  background: #0e1117;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   overflow: hidden;
 }
 
 .psd-absence-header {
   display: flex;
   justify-content: space-between;
-  padding: 10px 15px;
+  align-items: center;
+  padding: 12px 16px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: bold;
-  background: #1a1e24;
-  color: #ccc;
+  background: #131720;
   user-select: none;
+  gap: 12px;
+  transition: background 0.2s ease;
 }
 
 .psd-absence-header:hover {
-  background: #252a33;
+  background: #181d28;
+}
+
+.psd-absence-info-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.psd-absence-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.psd-absence-sub {
+  font-size: 0.74rem;
+  color: #94a3b8;
+}
+
+.txt-ok {
+  color: #00e676;
+}
+
+.txt-danger {
+  color: #ff5252;
+}
+
+.psd-absence-info-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.psd-rule-status-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.psd-rule-status-badge.status-ok {
+  background: rgba(0, 230, 118, 0.1);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  color: #00e676;
+}
+
+.psd-rule-status-badge.status-risk {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+.psd-rule-status-badge.status-out {
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: #ff5252;
+}
+
+.psd-expand-arrow {
+  font-size: 0.75rem;
+  color: var(--premium-gold);
+  transition: transform 0.25s ease;
+  display: inline-block;
+}
+
+.psd-expand-arrow.open {
+  transform: rotate(90deg);
 }
 
 .psd-absence-content {
-  padding: 12px 15px;
-  background: #08090a;
-  border-top: 1px solid #2a3241;
+  padding: 14px 16px;
+  background: #090b0f;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
-.psd-absence-item {
-  color: #ff4d4d;
-  font-size: 0.8rem;
-  font-weight: bold;
+.psd-missed-caption {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Grade de Chips para as datas de falta */
+.psd-missed-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.psd-absence-chip {
+  background: rgba(255, 82, 82, 0.08);
+  border: 1px solid rgba(255, 82, 82, 0.25);
+  color: #ff6b6b;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
 }
 
 .psd-absence-perfect {
-  color: #00ff7f;
-  font-size: 0.8rem;
+  color: #00e676;
+  font-size: 0.82rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 800;
+  padding: 6px 0;
 }
 
-/* ============================================================
-   3. AJUSTE DE FILTROS NO MOBILE
-   ============================================================ */
-@media (max-width: 600px) {
+/* ==========================================================================
+   8. RESPONSIVIDADE CELULAR (MOBILE)
+   ========================================================================== */
+@media (max-width: 640px) {
   .psd-header-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 10px;
   }
 
   .psd-filters {
     display: grid;
-    grid-template-columns: 1.2fr 1fr; /* Temporada um pouco maior que o Tipo */
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
 
   .psd-season-select,
   .psd-type-select {
-    font-size: 9px;
-    padding: 8px 5px;
+    font-size: 0.68rem;
+    padding: 8px 6px;
     text-align: center;
+    width: 100%;
+  }
+
+  .psd-summary-banner {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .psd-form-group {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding-left: 0;
+    padding-top: 10px;
+  }
+
+  .psd-grid-season {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .psd-grid-secondary {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .psd-card {
+    padding: 13px 8px;
+    border-radius: 12px;
+  }
+
+  .psd-value {
+    font-size: 1.5rem;
+  }
+
+  .psd-value-sm {
+    font-size: 1.2rem;
+  }
+
+  .psd-label {
+    font-size: 0.58rem;
+  }
+
+  .psd-lower-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .psd-absence-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .psd-absence-info-right {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - DASHBOARD DO JOGADOR / ESTATÍSTICAS (BLACK & WHITE PREMIUM)
+   9. TEMA IDR - DASHBOARD DO JOGADOR (BLACK & WHITE PREMIUM)
    ========================================================================== */
-
-/* Header e Filtros (Selects) */
-.theme-idr .psd-season-select,
-.theme-idr .psd-type-select {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
-}
-
-.theme-idr .psd-season-select:hover,
-.theme-idr .psd-type-select:hover {
-  background: #f9f9f9 !important;
-  border-color: #000000 !important;
+.theme-idr .psd-header-row {
+  border-bottom-color: #e2e5ec !important;
 }
 
 .theme-idr .psd-title {
@@ -405,72 +710,115 @@
   border-left-color: #000000 !important;
 }
 
-/* Cards Principais de Estatísticas */
-.theme-idr .psd-card {
+.theme-idr .psd-season-select,
+.theme-idr .psd-type-select {
   background: #ffffff !important;
+  color: #000000 !important;
   border-color: #cccccc !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .psd-season-select:hover,
+.theme-idr .psd-type-select:hover {
+  border-color: #000000 !important;
+  background: #f8f9fa !important;
+}
+
+.theme-idr .psd-season-select option,
+.theme-idr .psd-type-select option {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Banner de Retrospecto e Forma IDR */
+.theme-idr .psd-summary-banner {
+  background: #ffffff !important;
+  border-color: #dcdcdc !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .psd-form-group {
+  border-left-color: #e2e5ec !important;
+  border-top-color: #e2e5ec !important;
+}
+
+.theme-idr .wdl-pill {
+  background: #f1f3f5 !important;
+  border-color: #dee2e6 !important;
+  color: #333333 !important;
+}
+
+.theme-idr .wdl-pill.pts {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .psd-winrate-track {
+  background: #e9ecef !important;
+}
+
+.theme-idr .psd-winrate-fill {
+  background: #000000 !important;
+}
+
+.theme-idr .psd-winrate-text {
+  color: #000000 !important;
+}
+
+/* Cards Principais IDR */
+.theme-idr .psd-card,
+.theme-idr .participation-box,
+.theme-idr .gk-style {
+  background: #ffffff !important;
+  border-color: #dcdcdc !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04) !important;
 }
 
 .theme-idr .psd-card:hover {
   border-color: #000000 !important;
-  transform: translateY(-5px) !important;
 }
 
-.theme-idr .psd-label {
-  color: #666666 !important;
+.theme-idr .psd-label,
+.theme-idr .gk-style .psd-label,
+.theme-idr .psd-section-mini-header {
+  color: #555555 !important;
 }
 
-/* Força os números degradês brilhantes a virarem Preto Sólido Elegante */
 .theme-idr .psd-value,
 .theme-idr .season-main .psd-value,
-.theme-idr .gk-style .psd-value {
+.theme-idr .participation-box .psd-value,
+.theme-idr .gk-style .psd-value,
+.theme-idr .psd-value-sm,
+.theme-idr .card-item {
   background: none !important;
   -webkit-text-fill-color: #000000 !important;
   color: #000000 !important;
 }
 
-/* Caixas Específicas (Participação e Cartões) */
-.theme-idr .participation-box {
-  background: linear-gradient(135deg, #fdfdfd 0%, #f0f0f0 100%) !important;
-  border-color: #cccccc !important;
+.theme-idr .psd-sub-metric {
+  background: #f1f3f5 !important;
+  color: #666666 !important;
 }
 
-.theme-idr .cards-box {
-  background: rgba(0, 0, 0, 0.02) !important;
-}
-
-.theme-idr .card-item {
+.theme-idr .psd-sub-metric strong,
+.theme-idr .psd-sub-metric.highlight strong {
   color: #000000 !important;
 }
 
-/* Caixa Goleiro (GK) */
-.theme-idr .gk-style {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%) !important;
-  border-color: #cccccc !important;
-}
-
-.theme-idr .gk-style .psd-label {
-  color: #444444 !important;
-}
-
-/* Recordes Diários (Grid Inferior) */
+/* Recordes e Painel de Faltas IDR */
 .theme-idr .psd-mini-card {
   background: #ffffff !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03) !important;
+  border-color: #dcdcdc !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
 }
 
-.theme-idr .psd-mini-card:first-child {
-  border-top-color: #000000 !important; /* Linha Dourada vira Preta */
+.theme-idr .psd-mini-card.record-goals {
+  border-left-color: #000000 !important;
 }
 
-.theme-idr .psd-mini-card:last-child {
-  border-top-color: #888888 !important; /* Linha Cinza Clara vira Cinza Escura */
-}
-
-.theme-idr .psd-mini-label {
-  color: #666666 !important;
+.theme-idr .psd-mini-card.record-assists {
+  border-left-color: #666666 !important;
 }
 
 .theme-idr .psd-mini-value {
@@ -478,33 +826,36 @@
 }
 
 .theme-idr .psd-record-date {
-  color: #555555 !important;
+  background: #f1f3f5 !important;
+  color: #222222 !important;
 }
 
-/* Painel de Faltas (Absences) */
 .theme-idr .psd-absence-panel {
   background: #ffffff !important;
-  border-color: #cccccc !important;
+  border-color: #dcdcdc !important;
 }
 
 .theme-idr .psd-absence-header {
-  background: #f9f9f9 !important;
-  color: #000000 !important;
+  background: #f8f9fa !important;
 }
 
 .theme-idr .psd-absence-header:hover {
-  background: #f0f0f0 !important;
+  background: #f1f3f5 !important;
+}
+
+.theme-idr .psd-absence-title {
+  color: #000000 !important;
+}
+
+.theme-idr .psd-absence-sub {
+  color: #555555 !important;
+}
+
+.theme-idr .psd-expand-arrow {
+  color: #000000 !important;
 }
 
 .theme-idr .psd-absence-content {
   background: #ffffff !important;
-  border-top-color: #eeeeee !important;
-}
-
-.theme-idr .psd-absence-item {
-  color: #cc0000 !important; /* Vermelho adaptado para fundo branco */
-}
-
-.theme-idr .psd-absence-perfect {
-  color: #008a00 !important; /* Verde adaptado para fundo branco */
+  border-top-color: #eaedf2 !important;
 }
