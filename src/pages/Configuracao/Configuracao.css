@@ -129,11 +129,6 @@
 }
 
 /* Textos gerais que eram brancos e precisam ser escuros para leitura */
-.theme-idr p,
-.theme-idr span,
-.theme-idr .player-name-text {
-  color: #222; /* Sem !important para não sobrescrever classes muito específicas */
-}
 
 /* 
    Mantivemos estes três itens aqui apenas porque ainda 

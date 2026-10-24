@@ -1,487 +1,588 @@
-/* CONTAINER PRINCIPAL */
+/* ==========================================================================
+   1. VARIÁVEIS DE TEMA DO CARROSSEL (SISTEMA ADAPTATIVO ADR & IDR)
+   ========================================================================== */
 .mtc-banner-container {
+  /* Paleta Base Padrão: O ADR (Preto Ônix & Dourado) */
+  --mtc-bg-top: #070709;
+  --mtc-bg-bottom: #111216;
+  --mtc-text-main: #ffffff;
+  --mtc-text-muted: #94a3b8;
+  --mtc-surface: rgba(255, 255, 255, 0.03);
+  --mtc-border: rgba(255, 255, 255, 0.08);
+
+  /* Cores de Acento Padrão (Treino no ADR = Ouro) */
+  --mtc-accent: #d4af37;
+  --mtc-accent-bright: #f5dc82;
+  --mtc-accent-glow: rgba(212, 175, 55, 0.22);
+  --mtc-score-bg: linear-gradient(135deg, #e5c158 0%, #b8860b 100%);
+  --mtc-score-text: #000000;
+  --mtc-score-divider: rgba(0, 0, 0, 0.35);
+
   width: 100%;
-  min-height: 400px;
-  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+  min-height: 390px;
+  background: linear-gradient(
+    180deg,
+    var(--mtc-bg-top) 0%,
+    var(--mtc-bg-bottom) 100%
+  );
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-bottom: 3px solid #d4af37;
-  padding: 40px 0;
-  padding-top: 120px;
+  border-bottom: 3px solid var(--mtc-accent);
+  padding: 115px 0 48px;
+  box-sizing: border-box;
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease;
 }
 
+/* Luz radial de estádio no topo do banner */
+.mtc-ambient-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 260px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--mtc-accent-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   2. CORES POR CATEGORIA (FUNCIONA NO ADR E NO IDR!)
+   ========================================================================== */
+
+/* --- AMISTOSO: AZUL SAFIRA REAL --- */
+.mtc-banner-container.mtc-type-amistoso {
+  --mtc-bg-top: #040811;
+  --mtc-bg-bottom: #0a1426;
+  --mtc-accent: #2563eb;
+  --mtc-accent-bright: #60a5fa;
+  --mtc-accent-glow: rgba(37, 99, 235, 0.28);
+  --mtc-score-bg: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --mtc-score-text: #ffffff;
+  --mtc-score-divider: rgba(255, 255, 255, 0.35);
+}
+
+/* --- CAMPEONATO: ROXO IMPERIAL --- */
+.mtc-banner-container.mtc-type-campeonato {
+  --mtc-bg-top: #09040e;
+  --mtc-bg-bottom: #150922;
+  --mtc-accent: #9333ea;
+  --mtc-accent-bright: #c084fc;
+  --mtc-accent-glow: rgba(147, 51, 234, 0.3);
+  --mtc-score-bg: linear-gradient(135deg, #9333ea 0%, #6b21a8 100%);
+  --mtc-score-text: #ffffff;
+  --mtc-score-divider: rgba(255, 255, 255, 0.35);
+}
+
+/* ==========================================================================
+   3. ESTRUTURA INTERNA E HEADER
+   ========================================================================== */
 .mtc-banner-content {
   width: 90%;
-  max-width: 1100px;
+  max-width: 1080px;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
-/* HEADER (LOCAL E DATA) */
 .mtc-banner-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-  padding-bottom: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--mtc-border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mtc-header-left,
+.mtc-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mtc-type-pill {
+  background: var(--mtc-accent);
+  color: var(--mtc-score-text);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px var(--mtc-accent-glow);
 }
 
 .mtc-venue-top {
-  color: #d4af37;
+  color: var(--mtc-accent-bright);
+  font-size: 0.8rem;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
-.mtc-match-date {
-  color: #888;
-  font-family: monospace;
-  font-size: 1.1rem;
+.mtc-special-tag {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #ffd700;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.8px;
 }
 
-/* GRID PRINCIPAL */
+.mtc-match-date {
+  color: var(--mtc-text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   4. GRID DO CONFRONTO (TIMES, ESCUDOS E PLACAR CENTRAL)
+   ========================================================================== */
 .mtc-main-display {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 20px;
+  align-items: start;
+  gap: 28px;
 }
 
-/* TIMES */
 .mtc-team-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  min-width: 0;
+}
+
+.mtc-logo-halo {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: var(--mtc-surface);
+  border: 1px solid var(--mtc-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  padding: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.mtc-team-box:hover .mtc-logo-halo {
+  transform: translateY(-4px);
+  border-color: var(--mtc-accent);
 }
 
 .mtc-banner-logo {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
-  margin-bottom: 15px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
 .mtc-team-name-large {
-  color: #fff;
-  font-size: 2rem;
+  color: var(--mtc-text-main);
+  font-size: 1.65rem;
   text-transform: uppercase;
   font-weight: 900;
+  letter-spacing: 1px;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.15;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
-/* PLACAR CENTRAL */
+/* Lista de Goleadores em Pílulas Elegantes */
+.mtc-scorers-list {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 320px;
+}
+
+.mtc-scorer-chip {
+  background: var(--mtc-surface);
+  border: 1px solid var(--mtc-border);
+  color: var(--mtc-text-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  line-height: 1.2;
+}
+
+.mtc-scorer-chip strong {
+  color: var(--mtc-accent-bright);
+  font-weight: 800;
+}
+
+.mtc-scorer-chip.is-og {
+  border-color: rgba(255, 82, 82, 0.35);
+  color: #fca5a5;
+}
+
+/* ==========================================================================
+   5. COLUNA CENTRAL (PLACAR + PÊNALTIS + BOTÃO SÚMULA)
+   ========================================================================== */
 .mtc-central-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 8px;
 }
 
-.mtc-score-wrapper {
+.mtc-score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--mtc-score-bg);
+  padding: 12px 36px;
+  border-radius: 16px;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.45),
+    0 0 25px var(--mtc-accent-glow);
+  min-width: 170px;
+}
+
+.mtc-score-row {
   display: flex;
   align-items: center;
-  background: #d4af37;
-  padding: 10px 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-}
-
-.mtc-score-unit {
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
+  justify-content: center;
+  gap: 18px;
 }
 
 .mtc-big-num {
-  font-size: 4rem;
+  font-size: 3.6rem;
   font-weight: 900;
-  color: #000;
+  line-height: 1;
+  color: var(--mtc-score-text);
+  font-variant-numeric: tabular-nums;
 }
 
-.mtc-penalty-small {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #333;
-  opacity: 0.8;
-}
-
-.mtc-vs-text {
-  font-size: 1.5rem;
+.mtc-vs-divider {
+  font-size: 2rem;
   font-weight: 900;
-  margin: 0 20px;
-  color: rgba(0, 0, 0, 0.3);
+  color: var(--mtc-score-divider);
+  transform: translateY(-2px);
 }
 
-/* GOLEADORES */
-.mtc-scorers-list {
-  margin-top: 15px;
+.mtc-penalties-bar {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid var(--mtc-score-divider);
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--mtc-score-text);
+  opacity: 0.9;
 }
 
-.mtc-scorer {
-  color: #aaa;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.left-align {
-  align-items: flex-end;
-  text-align: right;
-}
-.right-align {
-  align-items: flex-start;
-  text-align: left;
-}
-
-/* BOTÕES E DOTS */
+/* Botão Ver Súmula */
 .mtc-details-btn {
   background: transparent;
-  border: 2px solid #d4af37;
-  color: #d4af37;
-  padding: 8px 25px;
+  border: 1.5px solid var(--mtc-accent);
+  color: var(--mtc-accent-bright);
+  padding: 9px 24px;
+  border-radius: 100px;
+  font-size: 0.74rem;
   font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: 0.3s;
-  letter-spacing: 1px;
+  transition: all 0.25s ease;
 }
 
 .mtc-details-btn:hover {
-  background: #d4af37;
-  color: #000;
+  background: var(--mtc-accent);
+  color: var(--mtc-score-text);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--mtc-accent-glow);
 }
 
+/* ==========================================================================
+   6. SETAS LATERAIS E DOTS DE NAVEGAÇÃO
+   ========================================================================== */
 .mtc-arrow {
   position: absolute;
-  background: none;
-  border: none;
-  color: rgba(212, 175, 55, 0.4);
-  font-size: 2.5rem;
+  top: 54%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--mtc-border);
+  color: var(--mtc-text-muted);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   z-index: 5;
-  transition: 0.3s;
+  transition: all 0.25s ease;
 }
 
 .mtc-arrow:hover {
-  color: #d4af37;
-  transform: scale(1.2);
+  background: var(--mtc-accent);
+  border-color: var(--mtc-accent);
+  color: var(--mtc-score-text);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 0 16px var(--mtc-accent-glow);
 }
+
 .mtc-arrow.left {
   left: 20px;
 }
+
 .mtc-arrow.right {
   right: 20px;
 }
 
 .mtc-dots {
   position: absolute;
-  bottom: 20px;
+  bottom: 16px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  z-index: 4;
 }
 
 .mtc-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 100px;
   background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 
 .mtc-dot.active {
-  background: #d4af37;
-  width: 25px;
-  border-radius: 10px;
+  background: var(--mtc-accent);
+  width: 26px;
+  box-shadow: 0 0 10px var(--mtc-accent-glow);
 }
 
-/* ===========================================
-   VARIAÇÕES POR TIPO DE PARTIDA
-   =========================================== */
+/* ==========================================================================
+   7. TEMA IDR (BRANCO MARFIM & PRETO + ROXO CAMPEONATO + AZUL AMISTOSO)
+   ========================================================================== */
+.theme-idr .mtc-banner-container {
+  /* No IDR, a base é sempre Marfim Claro & Preto Editorial */
+  --mtc-bg-top: #ffffff;
+  --mtc-bg-bottom: #f4f4f0;
+  --mtc-text-main: #0f172a;
+  --mtc-text-muted: #475569;
+  --mtc-surface: #ffffff;
+  --mtc-border: #e2e8f0;
 
-/* --- ESTILO AMISTOSO (AZUL ESCURO) --- */
-.mtc-type-amistoso {
-  border-bottom: 3px solid #0056b3; /* Azul mais sóbrio */
-  background: linear-gradient(
-    180deg,
-    #050a0f 0%,
-    #0a141d 100%
-  ); /* Fundo levemente azulado */
+  /* Padrão Treino no IDR: Preto Ônix Puro */
+  --mtc-accent: #111111;
+  --mtc-accent-bright: #111111;
+  --mtc-accent-glow: rgba(0, 0, 0, 0.08);
+  --mtc-score-bg: #111111;
+  --mtc-score-text: #ffffff;
+  --mtc-score-divider: rgba(255, 255, 255, 0.35);
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
-/* Placar Azul */
-.mtc-type-amistoso .mtc-score-wrapper {
-  background: #004085; /* Azul Escuro */
-  box-shadow: 0 10px 20px rgba(0, 64, 133, 0.3);
+/* Amistoso no IDR: Mantém o fundo Claro/Preto do IDR, mas aplica Azul Safira nos destaques! */
+.theme-idr .mtc-banner-container.mtc-type-amistoso {
+  --mtc-bg-top: #ffffff;
+  --mtc-bg-bottom: #f0f6ff;
+  --mtc-accent: #1d4ed8;
+  --mtc-accent-bright: #1e40af;
+  --mtc-accent-glow: rgba(29, 78, 216, 0.14);
+  --mtc-score-bg: linear-gradient(135deg, #1e40af 0%, #111827 100%);
+  --mtc-score-text: #ffffff;
 }
 
-.mtc-type-amistoso .mtc-big-num {
-  color: #fff; /* Texto branco para dar contraste no fundo azul */
+/* Campeonato no IDR: Mantém o fundo Claro/Preto do IDR, mas aplica Roxo Imperial nos destaques! */
+.theme-idr .mtc-banner-container.mtc-type-campeonato {
+  --mtc-bg-top: #ffffff;
+  --mtc-bg-bottom: #f8f2ff;
+  --mtc-accent: #7e22ce;
+  --mtc-accent-bright: #6b21a8;
+  --mtc-accent-glow: rgba(126, 34, 206, 0.14);
+  --mtc-score-bg: linear-gradient(135deg, #7e22ce 0%, #111111 100%);
+  --mtc-score-text: #ffffff;
 }
 
-.mtc-type-amistoso .mtc-vs-text {
-  color: rgba(255, 255, 255, 0.2);
+.theme-idr .mtc-logo-halo {
+  background: #ffffff;
+  border-color: #dcdcd6;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
 
-.mtc-type-amistoso .mtc-penalty-small {
-  color: #b8daff;
+.theme-idr .mtc-scorer-chip {
+  background: #ffffff;
+  border-color: #dcdcd6;
+  color: #334155;
 }
 
-/* Botão de Detalhes Azul */
-.mtc-type-amistoso .mtc-details-btn {
-  border-color: #007bff;
-  color: #007bff;
+.theme-idr .mtc-details-btn {
+  color: var(--mtc-accent);
 }
 
-.mtc-type-amistoso .mtc-details-btn:hover {
-  background: #007bff;
-  color: #fff;
+.theme-idr .mtc-details-btn:hover {
+  color: #ffffff;
 }
 
-/* Setas e Indicadores Azuis */
-.mtc-type-amistoso .mtc-arrow:hover {
-  color: #007bff;
+.theme-idr .mtc-arrow {
+  background: #ffffff;
+  border-color: #dcdcd6;
+  color: #111111;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.mtc-type-amistoso .mtc-dot.active {
-  background: #007bff;
+.theme-idr .mtc-arrow:hover {
+  background: var(--mtc-accent);
+  border-color: var(--mtc-accent);
+  color: #ffffff;
 }
 
-.mtc-type-amistoso .mtc-venue-top {
-  color: #007bff;
+.theme-idr .mtc-dot {
+  background: rgba(0, 0, 0, 0.18);
 }
 
-/* --- ESTILO TREINO (MANTER DOURADO) --- */
-/* (Opcional: Caso queira garantir que o padrão não mude) */
-.mtc-type-treino {
-  border-bottom: 3px solid #d4af37;
+.theme-idr .mtc-dot.active {
+  background: var(--mtc-accent);
 }
 
-/* --- ESTILO Campeonato --- */
-.mtc-type-campeonato {
-  border-bottom: 3px solid #8a2be2; /* Roxo neon para dar destaque na borda */
-  background: linear-gradient(
-    180deg,
-    #08040a 0%,
-    #12081a 100%
-  ); /* Fundo muito escuro com um leve toque arroxeado */
-}
-
-/* Placar Roxo */
-.mtc-type-campeonato .mtc-score-wrapper {
-  background: #5d0174; /* O Roxo Escuro raiz que você escolheu */
-  box-shadow: 0 10px 20px rgba(93, 1, 116, 0.5);
-}
-
-.mtc-type-campeonato .mtc-big-num {
-  color: #fff; /* Texto branco para dar contraste */
-}
-
-.mtc-type-campeonato .mtc-vs-text {
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.mtc-type-campeonato .mtc-penalty-small {
-  color: #e4b8ff; /* Roxo bem clarinho para os pênaltis */
-}
-
-/* Botão de Detalhes Roxo */
-.mtc-type-campeonato .mtc-details-btn {
-  border-color: #8a2be2;
-  color: #8a2be2;
-}
-
-.mtc-type-campeonato .mtc-details-btn:hover {
-  background: #8a2be2;
-  color: #fff;
-  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
-}
-
-/* Setas e Indicadores Roxos */
-.mtc-type-campeonato .mtc-arrow:hover {
-  color: #8a2be2;
-}
-
-.mtc-type-campeonato .mtc-dot.active {
-  background: #8a2be2;
-  box-shadow: 0 0 8px rgba(138, 43, 226, 0.8);
-}
-
-.mtc-type-campeonato .mtc-venue-top {
-  color: #8a2be2;
-}
-
-/* ===========================================
-   RESPONSIVO (CELULAR)
-   =========================================== */
+/* ==========================================================================
+   8. RESPONSIVIDADE CELULAR (MOBILE BROADCAST COMPACTO)
+   ========================================================================== */
 @media (max-width: 768px) {
   .mtc-banner-container {
-    min-height: 500px;
-    padding: 20px 10px;
-    padding-top: 40px;
-  }
-
-  .mtc-dots {
-    display: none;
-  } /* Esconde as bolinhas no celular */
-
-  .mtc-main-display {
-    grid-template-columns: 1fr; /* Vira coluna */
-    gap: 15px;
-  }
-
-  .mtc-banner-logo {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 5px;
-  }
-
-  .mtc-team-name-large {
-    font-size: 1.4rem;
-  }
-
-  .mtc-score-wrapper {
-    padding: 5px 25px;
-  }
-
-  .mtc-big-num {
-    font-size: 2.5rem;
-  }
-
-  .mtc-penalty-small {
-    font-size: 1.1rem;
-  }
-
-  .mtc-scorers-list {
     min-height: auto;
-    margin-top: 5px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
+    padding: 95px 12px 38px;
   }
 
-  .mtc-arrow {
-    font-size: 1.8rem;
+  .mtc-banner-content {
+    width: 100%;
+    gap: 18px;
   }
 
   .mtc-banner-header {
-    font-size: 0.8rem;
-  }
-
-  /* Ajusta a ordem no celular: Nome A -> Placar -> Nome B */
-  .mtc-team-box:nth-child(1) {
-    order: 1;
-  }
-  .mtc-central-column {
-    order: 2;
-  }
-  .mtc-team-box:nth-child(3) {
-    order: 3;
-  }
-
-  .left-align,
-  .right-align {
+    flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 6px;
+    padding-bottom: 10px;
   }
-}
 
-/* ==========================================================================
-   TEMA IDR - MATCH BANNER (APENAS TREINO FICA CLARO)
-   ========================================================================== */
+  .mtc-header-left,
+  .mtc-header-right {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 
-/* 1. Transforma APENAS o TREINO em Branco e Preto */
-.theme-idr .mtc-type-treino {
-  background: #ffffff !important;
-  border-bottom-color: #000 !important;
-}
+  .mtc-venue-top {
+    font-size: 0.7rem;
+  }
 
-.theme-idr .mtc-type-treino .mtc-banner-header {
-  border-bottom-color: #eee !important;
-}
-.theme-idr .mtc-type-treino .mtc-venue-top {
-  color: #000 !important;
-}
-.theme-idr .mtc-type-treino .mtc-match-date {
-  color: #666 !important;
-}
+  /* No mobile, mantém Time A x Time B lado a lado como placar de TV */
+  .mtc-main-display {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    align-items: start;
+  }
 
-.theme-idr .mtc-type-treino .mtc-team-name-large {
-  color: #000 !important;
-  text-shadow: none !important;
-}
-.theme-idr .mtc-type-treino .mtc-scorer {
-  color: #555 !important;
-}
+  .mtc-logo-halo {
+    width: 64px;
+    height: 64px;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
 
-.theme-idr .mtc-type-treino .mtc-score-wrapper {
-  background: #f5f5f5 !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
-}
+  .mtc-team-name-large {
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+  }
 
-.theme-idr .mtc-type-treino .mtc-big-num {
-  color: #000 !important;
-}
-.theme-idr .mtc-type-treino .mtc-penalty-small {
-  color: #555 !important;
-}
-.theme-idr .mtc-type-treino .mtc-vs-text {
-  color: #ccc !important;
-}
+  .mtc-score-card {
+    padding: 8px 14px;
+    min-width: 86px;
+    border-radius: 12px;
+  }
 
-.theme-idr .mtc-type-treino .mtc-details-btn {
-  border-color: #000 !important;
-  color: #000 !important;
-}
-.theme-idr .mtc-type-treino .mtc-details-btn:hover {
-  background: #000 !important;
-  color: #fff !important;
-}
+  .mtc-score-row {
+    gap: 8px;
+  }
 
-.theme-idr .mtc-type-treino .mtc-arrow {
-  color: #aaa !important;
-}
-.theme-idr .mtc-type-treino .mtc-arrow:hover {
-  color: #000 !important;
-}
-.theme-idr .mtc-type-treino .mtc-dot {
-  background: #ddd !important;
-}
-.theme-idr .mtc-type-treino .mtc-dot.active {
-  background: #000 !important;
-  box-shadow: none !important;
-}
+  .mtc-big-num {
+    font-size: 1.85rem;
+  }
 
-/* ==========================================================================
-   2. ESCUDO DE PROTEÇÃO PARA AMISTOSO E CAMPEONATO 
-   (Impede que as regras globais do IDR deixem os textos deles pretos)
-   ========================================================================== */
-.theme-idr .mtc-type-amistoso .mtc-team-name-large,
-.theme-idr .mtc-type-campeonato .mtc-team-name-large,
-.theme-idr .mtc-type-amistoso .mtc-big-num,
-.theme-idr .mtc-type-campeonato .mtc-big-num {
-  color: #fff !important; /* Mantém o texto branco brilhante e original */
-}
+  .mtc-vs-divider {
+    font-size: 1.15rem;
+  }
 
-.theme-idr .mtc-type-amistoso .mtc-scorer,
-.theme-idr .mtc-type-campeonato .mtc-scorer {
-  color: #aaa !important; /* Mantém o cinza claro original */
-}
+  .mtc-penalties-bar {
+    font-size: 0.58rem;
+    gap: 4px;
+  }
 
-.theme-idr .mtc-type-amistoso .mtc-vs-text,
-.theme-idr .mtc-type-campeonato .mtc-vs-text {
-  color: rgba(255, 255, 255, 0.2) !important;
-}
+  .mtc-details-btn {
+    padding: 6px 12px;
+    font-size: 0.62rem;
+    letter-spacing: 0.8px;
+  }
 
-.theme-idr .mtc-type-amistoso .mtc-match-date,
-.theme-idr .mtc-type-campeonato .mtc-match-date {
-  color: #888 !important;
+  .mtc-scorers-list {
+    margin-top: 8px;
+    gap: 4px;
+  }
+
+  .mtc-scorer-chip {
+    font-size: 0.62rem;
+    padding: 2px 6px;
+  }
+
+  .mtc-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    top: 48%;
+  }
+
+  .mtc-arrow.left {
+    left: 4px;
+  }
+
+  .mtc-arrow.right {
+    right: 4px;
+  }
+
+  .mtc-dots {
+    bottom: 10px;
+  }
 }
