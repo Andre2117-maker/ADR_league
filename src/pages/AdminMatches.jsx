@@ -15,6 +15,11 @@ import {
 
 import { useNavigate, useLocation } from "react-router-dom";
 
+import LogoADR from "../assets/logo.png";
+import LogoIDR from "../assets/IDR.png";
+// Caso a logo do IDR esteja na pasta src/assets, você pode descomentar a linha abaixo:
+// import LogoIDR from "../assets/logo-idr.png";
+
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import PlayerRow from "../components/adminmatches/PlayerRow";
 import AssistModal from "../components/adminmatches/AssistModal";
@@ -29,6 +34,51 @@ import MinuteModal from "../components/adminmatches/MinuteModal/MinuteModal";
 import { saveTeamPreset, loadTeamPresets } from "../data/teamPresets";
 
 import "../styles/adminmatches/adminmatches.css";
+
+// Caminho da logo do IDR na pasta public (ex: public/logo-idr.png)
+// Se você importar lá em cima, basta trocar "/logo-idr.png" por LogoIDR
+const IDR_LOGO_PATH = "/logo-idr.png";
+
+// Compressor de imagem via Canvas para nunca estourar o limite de 1MB do Firebase
+const compressLogoImage = (file, maxSize = 160) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxSize) {
+            height = Math.round((height * maxSize) / width);
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = Math.round((width * maxSize) / height);
+            height = maxSize;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Exporta em WebP (mantém transparência do escudo e reduz 95% do peso!)
+        const compressedDataUrl = canvas.toDataURL("image/webp", 0.8);
+        resolve(compressedDataUrl);
+      };
+      img.onerror = reject;
+      img.src = event.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
 
 function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const navigate = useNavigate();
@@ -226,8 +276,8 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
           {
             id: crypto.randomUUID(),
             team,
+            type: "SUB" === type ? "SUB" : type,
             playerId,
-            type,
             assistId,
             externalName,
             reason,
@@ -240,21 +290,67 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     setPendingEvent(null);
   };
 
-  const handleImageUpload = (e, teamKey) => {
-    const file = e.target.files[0];
+  // Upload com compressão automática (evita estourar limite do Firestore)
+  const handleImageUpload = async (e, teamKey) => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
+    try {
+      const compressedLogo = await compressLogoImage(file, 160);
       setDraft((prev) => ({
         ...prev,
         [teamKey]: {
           ...prev[teamKey],
-          logo: reader.result,
+          logo: compressedLogo,
         },
       }));
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.error("Erro ao comprimir logo:", err);
+      alert("Não foi possível carregar a imagem.");
+    } finally {
+      e.target.value = "";
+    }
+  };
+
+  // Identifica qual opção do select está ativa para o time
+  const getLogoSelectValue = (logoVal) => {
+    if (!logoVal || logoVal === LogoADR || logoVal === "/logo.png") {
+      return "ADR";
+    }
+    if (
+      logoVal === LogoIDR ||
+      logoVal === "/IDR.png" ||
+      logoVal === "/logo-idr.png"
+    ) {
+      return "IDR";
+    }
+    return "CUSTOM";
+  };
+
+  // Troca rápida pelo Select (ADR, IDR ou Abrir Arquivo)
+  const handleLogoSelectChange = (e, t, teamKey) => {
+    const choice = e.target.value;
+
+    if (choice === "ADR") {
+      setDraft((prev) => ({
+        ...prev,
+        [teamKey]: {
+          ...prev[teamKey],
+          logo: "", // Vazio usa automaticamente a LogoADR padrão sem pesar no banco!
+        },
+      }));
+    } else if (choice === "IDR") {
+      // Usa diretamente o LogoIDR que você importou de "../assets/IDR.png"!
+      setDraft((prev) => ({
+        ...prev,
+        [teamKey]: {
+          ...prev[teamKey],
+          logo: LogoIDR,
+        },
+      }));
+    } else if (choice === "UPLOAD") {
+      document.getElementById(`file-${t}`)?.click();
+    }
   };
 
   const applyPreset = (teamKey, presetId) => {
@@ -495,28 +591,46 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
             (matchType === "AMISTOSO" || matchType === "CAMPEONATO") &&
             t === "B";
 
+          const currentLogoVal = draft[teamKey].logo;
+          const selectStatus = getLogoSelectValue(currentLogoVal);
+          const previewLogoSrc =
+            currentLogoVal && currentLogoVal !== "" ? currentLogoVal : LogoADR;
+
           return (
             <div
               key={t}
               className={`team-card ${isExternal ? "opponent-card" : ""}`}
             >
               <div className="team-upload-header">
-                <div
-                  className="logo-box"
-                  onClick={() => document.getElementById(`file-${t}`).click()}
-                >
-                  {draft[teamKey].logo ? (
-                    <img src={draft[teamKey].logo} alt="logo" />
-                  ) : (
-                    <span>+ LOGO</span>
-                  )}
-                  <input
-                    id={`file-${t}`}
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    onChange={(e) => handleImageUpload(e, teamKey)}
-                  />
+                {/* BLOCO DE LOGO + SELECT (ADR / IDR / NOVA LOGO) */}
+                <div className="logo-selector-group">
+                  <div
+                    className="logo-box"
+                    onClick={() => document.getElementById(`file-${t}`).click()}
+                    title="Clique para enviar uma imagem do dispositivo"
+                  >
+                    <img src={previewLogoSrc} alt="logo" />
+                    <input
+                      id={`file-${t}`}
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(e) => handleImageUpload(e, teamKey)}
+                    />
+                  </div>
+
+                  <select
+                    className="logo-preset-select"
+                    value={selectStatus}
+                    onChange={(e) => handleLogoSelectChange(e, t, teamKey)}
+                  >
+                    <option value="ADR">🛡️ Logo ADR</option>
+                    <option value="IDR">🏳️ Logo IDR</option>
+                    {selectStatus === "CUSTOM" && (
+                      <option value="CUSTOM">✨ Personalizada</option>
+                    )}
+                    <option value="UPLOAD">📤 Upar Nova...</option>
+                  </select>
                 </div>
 
                 <input

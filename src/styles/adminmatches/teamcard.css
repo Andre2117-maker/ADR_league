@@ -107,6 +107,59 @@
 }
 
 /* ==========================================================================
+   SELETOR DE ESCUDO (ADR / IDR / UPLOAD PERSONALIZADO)
+   ========================================================================== */
+.logo-selector-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.logo-preset-select {
+  background: #111111;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #d4af37;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  width: auto;
+  min-width: 145px; /* Garante que "🛡️ Logo ADR" e "🏳️ Logo IDR" apareçam inteiros sem cortar */
+  text-align: center;
+}
+
+.logo-preset-select:hover,
+.logo-preset-select:focus {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  color: #ffffff;
+}
+
+.logo-preset-select option {
+  background: #111111;
+  color: #ffffff;
+}
+
+/* Suporte ao Tema IDR */
+.theme-idr .logo-preset-select {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  color: #000000 !important;
+}
+
+.theme-idr .logo-preset-select option {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* ==========================================================================
    TEMA IDR - CARDS DAS EQUIPES E UPLOAD (BLACK & WHITE PREMIUM)
    ========================================================================== */
 
