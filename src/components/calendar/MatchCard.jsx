@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./MatchCard.css";
+// Ajuste a quantidade de "../" caso o MatchCard esteja dentro de uma subpasta (ex: "../../assets/IDR.png")
+import LogoIDR from "../../assets/IDR.png";
 
 const MatchCard = ({
   match,
@@ -9,6 +11,31 @@ const MatchCard = ({
   onNavigate,
   onSwapOrder,
 }) => {
+  // Detecta automaticamente e em tempo real se o Tema IDR (.theme-idr) está ativo
+  const [isIdrTheme, setIsIdrTheme] = useState(false);
+
+  useEffect(() => {
+    const checkTheme = () => {
+      const hasIdr =
+        document.body.classList.contains("theme-idr") ||
+        document.documentElement.classList.contains("theme-idr") ||
+        Boolean(document.querySelector(".theme-idr"));
+      setIsIdrTheme(hasIdr);
+    };
+
+    checkTheme();
+
+    // Observa mudanças de tema em tempo real sem precisar recarregar a página
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   // Função para formatar a data no padrão da imagem ("SEXTA-FEIRA 9 OUTUBRO 2026")
   const formatCardDate = (dateString) => {
     if (!dateString) return "Data a definir";
@@ -139,14 +166,17 @@ const MatchCard = ({
           {/* AQUI ENTRA A FASE DO CAMPEONATO SE EXISTIR */}
           {match.championshipPhase ? ` - ${match.championshipPhase}` : ""}
         </span>
-        {/* Área da Marca d'água Dinâmica */}
+        {/* Área da Marca d'água Dinâmica (Troca ADR por IDR no modo IDR) */}
         <div className="psg-watermark-image">
           {match.type === "CAMPEONATO" ? (
             <img src="/trofeu.png" alt="Troféu Campeonato" />
           ) : match.type === "AMISTOSO" ? (
             <img src="/Amistoso.png" alt="Troféu Amistoso" />
           ) : (
-            <img src="/logo.png" alt="ADR" />
+            <img
+              src={isIdrTheme ? LogoIDR : "/logo.png"}
+              alt={isIdrTheme ? "IDR" : "ADR"}
+            />
           )}
         </div>
       </div>
