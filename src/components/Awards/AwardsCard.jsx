@@ -17,7 +17,7 @@ function AwardsCard() {
 
   return (
     <div className="aw-card">
-      <h3 className="aw-title">⭐ Hall da Fama {currentYear}</h3>
+      <h3 className="aw-title">⭐ Hall da Fama 2025</h3>
 
       <div className="aw-grid">
         {awards.map((award, idx) => (

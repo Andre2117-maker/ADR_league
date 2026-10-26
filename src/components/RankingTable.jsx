@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import primeiro from "../assets/primeiro.png";
 import segundo from "../assets/segundo.png";
 import terceiro from "../assets/terceiro.png";
 
-// IMPORTANDO APENAS OS PNGS DE FOGO
+// IMPORTANDO OS PNGS DE FOGO (STREAK DE PRESENÇA)
 import fogoLaranja from "../assets/medalhas/streak/fogoLar.png";
 import fogoAzul from "../assets/medalhas/streak/fogoAzul.png";
 import fogoRoxo from "../assets/medalhas/streak/fogoRox.png";
@@ -12,102 +12,148 @@ import fogoVerde from "../assets/medalhas/streak/fogoVer.png";
 import "../styles/Tabelas/rankingtable.css";
 
 export default function RankingTable({
-  sortedPlayers,
+  sortedPlayers = [],
   getPlayerStats,
-  onSelectPlayer,
   setHoveredPlayer,
   isAdmin,
-  matches,
+  matches = [],
 }) {
-  const activePlayers = sortedPlayers.filter((p) => !p.isAnonymous);
-
-  // --- 1. ENCONTRAR ARTILHEIRO E LÍDER DE ASSISTÊNCIAS ---
-  let maxGoals = 0;
-  let maxAssists = 0;
-
-  activePlayers.forEach((p) => {
-    const realStats = getPlayerStats(p.id);
-    const manualStats26 = p.statsBySeason?.["2026"] || {};
-    const tGoals = (realStats.goals || 0) + Number(manualStats26.goals || 0);
-    const tAssists =
-      (realStats.assists || 0) + Number(manualStats26.assists || 0);
-
-    if (tGoals > maxGoals) maxGoals = tGoals;
-    if (tAssists > maxAssists) maxAssists = tAssists;
+  const [sortConfig, setSortConfig] = useState({
+    key: "rank",
+    direction: "asc",
   });
 
-  // --- 2. FUNÇÃO PARA CHECAR FALTAS ---
-  const checkConsecutiveAbsences = (player, allMatches) => {
-    if (!allMatches || allMatches.length === 0) return { isOut: false };
+  // 1. PRÉ-PROCESSAMENTO DE DATAS DE TREINO
+  const trainingData = useMemo(() => {
+    const onlyTrainings = (matches || []).filter(
+      (m) => String(m.type || "TREINO").toUpperCase() === "TREINO" && m.date,
+    );
 
-    const onlyTrainings = allMatches.filter((m) => m.type === "TREINO");
-    if (onlyTrainings.length === 0) return { isOut: false };
+    const rawDates = [
+      ...new Set(onlyTrainings.map((m) => String(m.date).split("T")[0])),
+    ];
 
-    const rawDates = [...new Set(onlyTrainings.map((m) => m.date))];
-    const trainingDays = rawDates.sort((a, b) => {
+    const sortedTrainingDays = rawDates.sort((a, b) => {
       const [y1, m1, d1] = a.split("-").map(Number);
       const [y2, m2, d2] = b.split("-").map(Number);
       return new Date(y2, m2 - 1, d2, 12) - new Date(y1, m1 - 1, d1, 12);
     });
 
-    let missedCount = 0;
-    for (const day of trainingDays) {
-      const playedOnThisDay = onlyTrainings.some((match) => {
-        return (
-          match.date === day &&
-          (match.teamA.players.some(
-            (pId) => String(pId) === String(player.id),
-          ) ||
-            match.teamB.players.some(
-              (pId) => String(pId) === String(player.id),
-            ))
-        );
-      });
+    return { onlyTrainings, sortedTrainingDays };
+  }, [matches]);
 
-      if (playedOnThisDay) break;
-      else missedCount++;
-    }
+  // 2. DADOS DOS JOGADORES ATIVOS
+  const { enrichedPlayers, maxGoals, maxAssists } = useMemo(() => {
+    const active = sortedPlayers.filter((p) => !p.isAnonymous);
+    let highestGoals = 0;
+    let highestAssists = 0;
 
-    return { isOut: missedCount >= 3 };
-  };
+    const { onlyTrainings, sortedTrainingDays } = trainingData;
 
-  // --- 3. FUNÇÃO PARA CHECAR STREAK DE PRESENÇA (FOGO) ---
-  const checkAttendanceStreak = (player, allMatches) => {
-    if (!allMatches || allMatches.length === 0) return 0;
-    const onlyTrainings = allMatches.filter((m) => m.type === "TREINO");
-    if (onlyTrainings.length === 0) return 0;
+    const processed = active.map((p, originalIdx) => {
+      const pIdStr = String(p.id);
+      const realStats = getPlayerStats ? getPlayerStats(p.id) : {};
+      const manualStats26 = p.statsBySeason?.["2026"] || {};
 
-    const rawDates = [...new Set(onlyTrainings.map((m) => m.date))];
-    const trainingDays = rawDates.sort((a, b) => {
-      const [y1, m1, d1] = a.split("-").map(Number);
-      const [y2, m2, d2] = b.split("-").map(Number);
-      return new Date(y2, m2 - 1, d2, 12) - new Date(y1, m1 - 1, d1, 12);
-    });
+      const manualGoals = Number(manualStats26.goals || 0);
+      const manualAssists = Number(manualStats26.assists || 0);
+      const manualGames = Number(
+        manualStats26.matches || manualStats26.games || 0,
+      );
 
-    let streak = 0;
-    for (const day of trainingDays) {
-      const playedOnThisDay = onlyTrainings.some((match) => {
-        return (
-          match.date === day &&
-          (match.teamA.players.some(
-            (pId) => String(pId) === String(player.id),
-          ) ||
-            match.teamB.players.some(
-              (pId) => String(pId) === String(player.id),
-            ))
-        );
-      });
+      const totalGoals26 = (realStats.goals || 0) + manualGoals;
+      const totalAssists26 = (realStats.assists || 0) + manualAssists;
+      const totalGames26 =
+        (realStats.matches || realStats.games || 0) + manualGames;
 
-      if (playedOnThisDay) {
-        streak++;
-      } else {
-        break;
+      const points = realStats.points ?? p.points ?? 0;
+      const wins = realStats.wins ?? p.wins ?? 0;
+      const losses = realStats.losses ?? p.losses ?? 0;
+      const form = realStats.form || [];
+
+      if (totalGoals26 > highestGoals) highestGoals = totalGoals26;
+      if (totalAssists26 > highestAssists) highestAssists = totalAssists26;
+
+      // Calcula Streak de Presença e Faltas Consecutivas
+      let streak = 0;
+      let missedCount = 0;
+      let countingStreak = true;
+      let countingMissed = true;
+
+      for (const day of sortedTrainingDays) {
+        const playedOnThisDay = onlyTrainings.some((match) => {
+          const mDay = String(match.date).split("T")[0];
+          if (mDay !== day) return false;
+          const inA = match.teamA?.players?.some((id) => String(id) === pIdStr);
+          const inB = match.teamB?.players?.some((id) => String(id) === pIdStr);
+          return inA || inB;
+        });
+
+        if (countingStreak) {
+          if (playedOnThisDay) streak++;
+          else countingStreak = false;
+        }
+
+        if (countingMissed) {
+          if (!playedOnThisDay) missedCount++;
+          else countingMissed = false;
+        }
+
+        if (!countingStreak && !countingMissed) break;
       }
+
+      return {
+        player: p,
+        originalRank: originalIdx + 1,
+        points,
+        totalGoals26,
+        totalAssists26,
+        totalGames26,
+        wins,
+        losses,
+        form,
+        streak,
+        missedCount,
+      };
+    });
+
+    return {
+      enrichedPlayers: processed,
+      maxGoals: highestGoals,
+      maxAssists: highestAssists,
+    };
+  }, [sortedPlayers, getPlayerStats, trainingData]);
+
+  // 3. ORDENAÇÃO POR COLUNA (Atualiza as colocações dinamicamente)
+  const displayedPlayers = useMemo(() => {
+    let list = [...enrichedPlayers];
+
+    if (sortConfig.key !== "rank") {
+      list.sort((a, b) => {
+        const valA = a[sortConfig.key];
+        const valB = b[sortConfig.key];
+        if (valA !== valB) {
+          return sortConfig.direction === "desc" ? valB - valA : valA - valB;
+        }
+        return a.originalRank - b.originalRank;
+      });
     }
-    return streak;
+
+    return list;
+  }, [enrichedPlayers, sortConfig]);
+
+  const handleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        if (prev.direction === "desc") {
+          return { key: "rank", direction: "asc" };
+        }
+        return { key, direction: "desc" };
+      }
+      return { key, direction: "desc" };
+    });
   };
 
-  // Ajuda a escolher o fogo correto a cada 5 treinos
   const getFireIcon = (streak) => {
     if (streak >= 15) return fogoRoxo;
     if (streak >= 10) return fogoVerde;
@@ -118,203 +164,223 @@ export default function RankingTable({
 
   return (
     <main className="central-column" id="tabela-content">
-      <h1 className="page-title">Classificação Geral</h1>
+      {/* ==================== TOPO DA TABELA ==================== */}
+      <header className="rk-header-area">
+        <div className="rk-title-wrap">
+          <span className="rk-kicker">TEMPORADA 2026 • O ADR</span>
+          <h1 className="page-title">Classificação Geral</h1>
+        </div>
 
+        {sortConfig.key !== "rank" && (
+          <button
+            type="button"
+            className="rk-reset-sort-btn"
+            onClick={() => setSortConfig({ key: "rank", direction: "asc" })}
+          >
+            ↺ Voltar para Classificação Oficial
+          </button>
+        )}
+      </header>
+
+      {/* ==================== TABELA PRINCIPAL ==================== */}
       <div className="table-responsive">
-        <table>
+        <table className="rk-table">
           <thead>
-            <tr style={{ color: "#e2b900", fontSize: "12px" }}>
-              <th className="sticky-col pin-pos">#</th>
+            <tr>
               <th
-                className="sticky-col pin-name"
-                style={{ textAlign: "left", paddingLeft: "15px" }}
+                className="sticky-col pin-pos sortable-th"
+                onClick={() => setSortConfig({ key: "rank", direction: "asc" })}
+                title="Voltar à Ordem Oficial"
               >
-                Jogador
+                #
               </th>
-              <th>Pts</th>
-              <th>Gols</th>
-              <th>Assis</th>
-              <th>J</th>
-              <th>V</th>
-              <th>D</th>
+              <th className="sticky-col pin-name">Jogador</th>
+
+              <th
+                className={`sortable-th ${
+                  sortConfig.key === "points" ? "active-sort" : ""
+                }`}
+                onClick={() => handleSort("points")}
+                title="Ordenar por Pontos"
+              >
+                Pts {sortConfig.key === "points" && "▾"}
+              </th>
+
+              <th
+                className={`sortable-th ${
+                  sortConfig.key === "totalGoals26" ? "active-sort" : ""
+                }`}
+                onClick={() => handleSort("totalGoals26")}
+                title="Ordenar por Gols"
+              >
+                Gols {sortConfig.key === "totalGoals26" && "▾"}
+              </th>
+
+              <th
+                className={`sortable-th ${
+                  sortConfig.key === "totalAssists26" ? "active-sort" : ""
+                }`}
+                onClick={() => handleSort("totalAssists26")}
+                title="Ordenar por Assistências"
+              >
+                Assis {sortConfig.key === "totalAssists26" && "▾"}
+              </th>
+
+              <th
+                className={`sortable-th ${
+                  sortConfig.key === "totalGames26" ? "active-sort" : ""
+                }`}
+                onClick={() => handleSort("totalGames26")}
+                title="Ordenar por Jogos"
+              >
+                J {sortConfig.key === "totalGames26" && "▾"}
+              </th>
+
+              <th
+                className={`sortable-th ${
+                  sortConfig.key === "wins" ? "active-sort" : ""
+                }`}
+                onClick={() => handleSort("wins")}
+                title="Ordenar por Vitórias"
+              >
+                V {sortConfig.key === "wins" && "▾"}
+              </th>
+
+              <th
+                className={`sortable-th ${
+                  sortConfig.key === "losses" ? "active-sort" : ""
+                }`}
+                onClick={() => handleSort("losses")}
+                title="Ordenar por Derrotas"
+              >
+                D {sortConfig.key === "losses" && "▾"}
+              </th>
+
               <th>Últimas 5</th>
             </tr>
           </thead>
+
           <tbody>
-            {activePlayers.map((p, idx) => {
-              const realStats = getPlayerStats(p.id);
-              const manualStats26 = p.statsBySeason?.["2026"] || {};
-              const manualGoals = Number(manualStats26.goals || 0);
-              const manualAssists = Number(manualStats26.assists || 0);
-              const manualGames = Number(
-                manualStats26.matches || manualStats26.games || 0,
-              );
+            {displayedPlayers.map((item, idx) => {
+              const {
+                player: p,
+                points,
+                totalGoals26,
+                totalAssists26,
+                totalGames26,
+                wins,
+                losses,
+                form,
+                streak,
+                missedCount,
+              } = item;
 
-              const totalGoals26 = (realStats.goals || 0) + manualGoals;
-              const totalAssists26 = (realStats.assists || 0) + manualAssists;
-              const totalGames26 =
-                (realStats.matches || realStats.games || 0) + manualGames;
+              // Colocação atualizada conforme a ordenação atual
+              const currentPos = idx + 1;
+              const isLast =
+                idx === displayedPlayers.length - 1 &&
+                displayedPlayers.length > 3;
 
-              const points = realStats.points || p.points || 0;
-              const wins = realStats.wins || p.wins || 0;
-              const losses = realStats.losses || p.losses || 0;
-              const form = realStats.form || [];
-
-              const streak = checkAttendanceStreak(p, matches);
               const fireSrc = getFireIcon(streak);
 
-              let rowClass = "";
-              if (idx === 0) rowClass = "first-place destaque-top3";
-              else if (idx === 1) rowClass = "second-place destaque-top3";
-              else if (idx === 2) rowClass = "third-place destaque-top3";
-              else if (idx === activePlayers.length - 1)
-                rowClass = "last-place destaque-ultimo";
+              let rowClass = "rk-body-row";
+              if (currentPos === 1) rowClass += " first-place destaque-top3";
+              else if (currentPos === 2)
+                rowClass += " second-place destaque-top3";
+              else if (currentPos === 3)
+                rowClass += " third-place destaque-top3";
+              else if (isLast) rowClass += " last-place destaque-ultimo";
 
               return (
                 <tr
                   key={p.id}
-                  onMouseEnter={() => setHoveredPlayer(p)}
+                  onMouseEnter={() => setHoveredPlayer && setHoveredPlayer(p)}
                   className={rowClass}
                 >
+                  {/* POSIÇÃO DINÂMICA (1º, 2º, 3º...) */}
                   <td className="fw-bold sticky-col pin-pos">
-                    {idx < 3 ? (
+                    {currentPos <= 3 ? (
                       <img
-                        src={[primeiro, segundo, terceiro][idx]}
+                        src={[primeiro, segundo, terceiro][currentPos - 1]}
                         width="20"
-                        alt={idx + 1}
+                        height="20"
+                        className="rk-medal-img"
+                        alt={`${currentPos}º`}
                       />
                     ) : (
-                      idx + 1
+                      <span className="rk-pos-num">{currentPos}</span>
                     )}
                   </td>
-                  <td
-                    className="player-td-name fw-bold sticky-col pin-name"
-                    style={{ cursor: "default" }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        width: "100%",
-                        paddingRight: "5px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
-                        }}
-                      >
-                        {p.name}
 
-                        {/* --- MEDALHA DE ARTILHEIRO (EMOJI) --- */}
+                  {/* NOME DO JOGADOR (Sem interatividade de clique) */}
+                  <td className="player-td-name fw-bold sticky-col pin-name">
+                    <div className="rk-player-cell-inner">
+                      <span className="rk-player-name-wrap">
+                        <span className="rk-player-name-text">{p.name}</span>
+
+                        {/* MEDALHA DE ARTILHEIRO */}
                         {totalGoals26 > 0 && totalGoals26 === maxGoals && (
                           <span
-                            title="Artilheiro do Campeonato"
+                            className="rk-leader-badge"
+                            title={`Artilheiro do Campeonato (${totalGoals26} gols)`}
                             onClick={() =>
                               alert("⚽ Artilheiro do Campeonato!")
                             }
-                            style={{
-                              fontSize: "14px",
-                              cursor: "pointer",
-                              marginLeft: "2px",
-                            }}
                           >
                             ⚽
                           </span>
                         )}
 
-                        {/* --- MEDALHA DE ASSISTÊNCIA (EMOJI) --- */}
+                        {/* MEDALHA DE GARÇOM */}
                         {totalAssists26 > 0 &&
                           totalAssists26 === maxAssists && (
                             <span
-                              title="Líder de Assistências"
+                              className="rk-leader-badge"
+                              title={`Líder de Assistências (${totalAssists26} assists)`}
                               onClick={() => alert("🎯 Líder de Assistências!")}
-                              style={{
-                                fontSize: "14px",
-                                cursor: "pointer",
-                                marginLeft: "2px",
-                              }}
                             >
                               🎯
                             </span>
                           )}
 
-                        {/* CAIXINHA DO FOGO COM CONTADOR (PNG Mantido) */}
+                        {/* STREAK DE PRESENÇA (FOGO) */}
                         {fireSrc && (
                           <div
+                            className="rk-fire-badge"
                             title={`${streak} treinos sem faltar!`}
                             onClick={() =>
                               alert(
                                 `🔥 ${streak} treinos consecutivos sem faltar!`,
                               )
                             }
-                            style={{
-                              position: "relative",
-                              display: "inline-flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "24px",
-                              height: "24px",
-                              marginTop: "-2px",
-                              cursor: "pointer",
-                            }}
                           >
-                            <img
-                              src={fireSrc}
-                              alt="Streak Fogo"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "contain",
-                              }}
-                            />
-                            <span
-                              style={{
-                                position: "absolute",
-                                bottom: "3px",
-                                fontSize: "11px",
-                                fontWeight: "900",
-                                color: "#fff",
-                                textShadow:
-                                  "1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000",
-                              }}
-                            >
-                              {streak}
-                            </span>
+                            <img src={fireSrc} alt="Streak Fogo" />
+                            <span>{streak}</span>
                           </div>
                         )}
                       </span>
 
-                      {/* ALERTA DE FALTAS */}
-                      {isAdmin &&
-                        checkConsecutiveAbsences(p, matches).isOut && (
-                          <span
-                            title="Alerta: Faltou aos últimos 3 treinos!"
-                            style={{
-                              cursor: "help",
-                              fontSize: "14px",
-                              marginLeft: "auto",
-                              flexShrink: 0,
-                            }}
-                          >
-                            ⚠️
-                          </span>
-                        )}
+                      {/* ALERTA DE FALTAS (ADMIN) */}
+                      {isAdmin && missedCount >= 3 && (
+                        <span
+                          className="rk-absence-alert"
+                          title={`Alerta: Faltou aos últimos ${missedCount} treinos!`}
+                        >
+                          ⚠️
+                        </span>
+                      )}
                     </div>
                   </td>
 
-                  <td className="fw-bold">{points}</td>
-                  <td>{totalGoals26}</td>
-                  <td>{totalAssists26}</td>
-                  <td>{totalGames26}</td>
-                  <td>{wins}</td>
-                  <td>{losses}</td>
+                  {/* COLUNAS DE ESTATÍSTICAS */}
+                  <td className="rk-pts-cell fw-bold">{points}</td>
+                  <td className="rk-stat-cell">{totalGoals26}</td>
+                  <td className="rk-stat-cell">{totalAssists26}</td>
+                  <td className="rk-stat-cell muted">{totalGames26}</td>
+                  <td className="rk-stat-cell win-num">{wins}</td>
+                  <td className="rk-stat-cell loss-num">{losses}</td>
+
+                  {/* ÚLTIMAS 5 PARTIDAS */}
                   <td>
                     <div className="form-container">
                       {form && form.length > 0 ? (
@@ -329,7 +395,7 @@ export default function RankingTable({
                                   ? "Derrota"
                                   : "Empate"
                             }
-                          ></span>
+                          />
                         ))
                       ) : (
                         <span className="no-games">-</span>
@@ -343,22 +409,37 @@ export default function RankingTable({
         </table>
       </div>
 
-      <div className="legend-container">
-        <div className="legend-item">
-          <span
-            className="legend-color"
-            style={{ backgroundColor: "#007bff" }}
-          ></span>
-          <span>Prêmios</span>
+      {/* ==================== LEGENDA OFICIAL ==================== */}
+      <footer className="legend-container">
+        <div className="legend-group">
+          <div className="legend-item">
+            <span
+              className="legend-color"
+              style={{ backgroundColor: "#007bff" }}
+            />
+            <span>Prêmios</span>
+          </div>
+          <div className="legend-item">
+            <span
+              className="legend-color"
+              style={{ backgroundColor: "#dc3545" }}
+            />
+            <span>Punição</span>
+          </div>
         </div>
-        <div className="legend-item">
-          <span
-            className="legend-color"
-            style={{ backgroundColor: "#dc3545" }}
-          ></span>
-          <span>Punição</span>
+
+        <div className="legend-group">
+          <div className="legend-item">
+            <span>⚽ Artilheiro</span>
+          </div>
+          <div className="legend-item">
+            <span>🎯 Líder Assists</span>
+          </div>
+          <div className="legend-item">
+            <span>🔥 Presença</span>
+          </div>
         </div>
-      </div>
+      </footer>
     </main>
   );
 }
