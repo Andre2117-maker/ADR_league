@@ -1,375 +1,609 @@
-/* =====================================================
-   COLUNA ESQUERDA (RANKINGS)
-===================================================== */
+/* ==========================================================================
+   1. VARIÁVEIS DO RADAR (MODO ESCURO PADRÃO: O ADR)
+   ========================================================================== */
+:root {
+  --radar-cor: #d4af37;
+  --radar-grid: rgba(255, 255, 255, 0.12);
+  --radar-text: #cbd5e1;
+}
+
+/* ==========================================================================
+   2. COLUNA ESQUERDA (MINI-RANKINGS DA HOME)
+   ========================================================================== */
 .side-cards {
-  width: 260px;
+  width: 265px;
   position: sticky;
   top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  flex-shrink: 0; /* Não deixa a tabela esmagar os rankings */
+  gap: 18px;
+  flex-shrink: 0;
 }
 
 .info-card {
-  background: #141414;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 14px;
+  background: linear-gradient(180deg, #131316 0%, #0c0c0e 100%);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
 .info-card h3 {
   text-align: center;
   color: #d4af37;
-  margin: 0 0 15px 0;
-  font-size: 16px;
+  margin: 0 0 14px 0;
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .card-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 14px;
-  padding: 4px 0;
-  border-bottom: 1px solid #222;
+  margin-bottom: 6px;
+  font-size: 0.84rem;
+  padding: 6px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: transform 0.2s ease;
 }
+
 .card-row:last-child {
   border-bottom: none;
+  margin-bottom: 0;
+}
+
+.card-row:hover {
+  transform: translateX(3px);
 }
 
 .rank {
   width: 24px;
   height: 24px;
-  border-radius: 50%;
-  display: flex;
+  border-radius: 7px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 12px;
+  font-weight: 900;
+  font-size: 0.72rem;
+  flex-shrink: 0;
 }
+
 .r1 {
-  background: #d4af37;
-  color: #000;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  color: #000000;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.35);
 }
+
 .r2 {
-  background: #c0c0c0;
-  color: #000;
+  background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+  color: #000000;
 }
+
 .r3 {
-  background: #cd7f32;
-  color: #000;
+  background: linear-gradient(135deg, #eab308, #a16207);
+  color: #000000;
 }
 
-/* =====================================================
-   COLUNA CENTRAL (TABELA HOME)
-===================================================== */
-.central-column {
-  flex: 1;
-  min-width: 0; /* Permite que o flex-box diminua a tabela se necessário */
-  max-width: 850px;
-  margin: 0; /* Deixe o flexbox do pai (home-layout) controlar o espaço */
-  background: #101010;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* =====================================================
-   design bonito pra direita
-===================================================== */
-
-/* Card Principal */
+/* ==========================================================================
+   3. CARD DE SCOUT DO JOGADOR (COLUNA DIREITA)
+   ========================================================================== */
 .player-profile-card {
-  background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-  border: 1px solid #333;
+  background: linear-gradient(160deg, #151519 0%, #0b0b0d 100%);
+  border: 1px solid rgba(212, 175, 55, 0.32);
   border-radius: 20px;
-  padding: 24px;
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease;
+  padding: 22px 18px;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+  transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Brilho dourado para atletas ADR */
 .ppg-glow-gold {
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.38);
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.65),
+    0 0 22px rgba(212, 175, 55, 0.12);
 }
 
-/* Header: Avatar e Nome */
+/* Header: Avatar, Badge OVR e Nome */
 .profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 12px;
 }
 
 .profile-avatar {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 12px;
-  background: #222;
-  border: 3px solid #d4af37; /* Dourado */
+  width: 100%;
+  height: 100%;
+  background: #1a1a20;
+  border: 3px solid #d4af37;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 900;
   color: #d4af37;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-.profile-header h2 {
-  font-size: 1.4rem;
-  margin: 8px 0 4px;
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Selo de Overall (OVR) no canto do Avatar */
+.profile-ovr-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -6px;
+  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+  color: #000000;
+  border: 2px solid #0b0b0d;
+  border-radius: 10px;
+  padding: 2px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.ovr-num {
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.ovr-label {
+  font-size: 0.48rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.profile-name {
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin: 2px 0 4px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  color: #ffffff;
 }
 
-.profile-foot {
-  font-size: 0.75rem;
-  background: rgba(212, 175, 55, 0.2);
-  color: #d4af37;
-  padding: 2px 10px;
-  border-radius: 10px;
+.profile-pos-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  font-weight: 600;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 2px 10px;
+  border-radius: 100px;
 }
 
-/* Stats principais (WinRate e Gols) */
+/* ==========================================================================
+   4. KPIS PRINCIPAIS (3 COLUNAS: VITÓRIAS, GOLS/J, G+A)
+   ========================================================================== */
 .profile-main-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .stat-box {
   background: rgba(255, 255, 255, 0.03);
-  padding: 12px;
+  padding: 10px 6px;
   border-radius: 12px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-box.highlight {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.28);
 }
 
 .stat-val {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-box.highlight .stat-val {
+  color: #d4af37;
 }
 
 .stat-lab {
-  font-size: 0.65rem;
-  color: #888;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #888888;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Lista de informações */
+/* ==========================================================================
+   5. LISTA DE INFORMAÇÕES DO ATLETA
+   ========================================================================== */
 .profile-info-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.info-item span {
-  color: #aaa;
+.info-item:last-child {
+  border-bottom: none;
 }
 
-.info-item strong {
-  color: #eee;
+.info-label {
+  color: #94a3b8;
+  font-weight: 600;
 }
 
-/* Radar Section */
+.info-value {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   6. SEÇÃO DO GRÁFICO DE RADAR + MINI PÍLULAS DE ATRIBUTOS
+   ========================================================================== */
 .profile-radar-section {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
+  background: #0d0d10;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-/* Footer do Card */
-.profile-footer {
-  margin-top: 20px;
+.radar-header-bar {
+  text-align: center;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #d4af37;
+  text-transform: uppercase;
+}
+
+.radar-chart-box {
+  width: 100%;
+  height: 185px;
+}
+
+.radar-skills-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.skill-mini-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 4px 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #222;
-  padding-top: 15px;
+  font-size: 0.65rem;
+}
+
+.skill-mini-key {
+  color: #888888;
+  font-weight: 800;
+}
+
+.skill-mini-val {
+  color: #d4af37;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   7. BOTÃO DE PERFIL E RODAPÉ DO CARD
+   ========================================================================== */
+.profile-view-full-btn {
+  width: 100%;
+  margin-top: 14px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #d4af37;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.profile-view-full-btn:hover {
+  background: #d4af37;
+  color: #000000;
+}
+
+.profile-footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
 }
 
 .profile-footer p {
-  font-size: 0.7rem;
-  color: #555;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #666666;
   margin: 0;
 }
 
 .badge-adr {
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-weight: 900;
-  color: #000;
+  letter-spacing: 0.8px;
+  color: #000000;
   background: #d4af37;
   padding: 3px 8px;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
-/* Estado Vazio */
-.empty-state-card {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #555;
-  border: 2px dashed #222;
-  border-radius: 20px;
-  padding: 40px;
-}
-
-/* ==========================================================================
-   TEMA IDR - LAYOUT HOME (COLUNA ESQUERDA, CENTRAL E DIREITA)
-   ========================================================================== */
-
-/* --- COLUNA ESQUERDA (RANKINGS) --- */
-.theme-idr .info-card {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
-}
-
-.theme-idr .info-card h3 {
-  color: #000 !important;
-}
-
-.theme-idr .card-row {
-  border-bottom-color: #eee !important;
-  color: #333 !important;
-}
-
-/* Transformando as medalhas de ranking para o padrão Preto e Branco IDR */
-.theme-idr .r1 {
-  background: #000 !important;
-  color: #fff !important;
-}
-.theme-idr .r2 {
-  background: #666 !important;
-  color: #fff !important;
-}
-.theme-idr .r3 {
-  background: #999 !important;
-  color: #fff !important;
-}
-
-/* --- COLUNA CENTRAL (TABELA HOME) --- */
-.theme-idr .central-column {
-  background: #ffffff !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-  border: 1px solid #ccc !important; /* Adiciona uma borda fina para destacar no fundo claro */
-}
-
-/* --- COLUNA DIREITA (PERFIL DO JOGADOR / SCOUT) --- */
-.theme-idr .player-profile-card {
-  background: linear-gradient(145deg, #ffffff, #f5f5f5) !important;
-  border-color: #ccc !important;
-  color: #111 !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-}
-
-.theme-idr .ppg-glow-gold {
-  border-color: #000 !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .profile-avatar {
-  background: #fff !important;
-  border-color: #000 !important;
-  color: #000 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .profile-header h2 {
-  color: #000 !important;
-}
-
-.theme-idr .profile-foot {
-  background: #eee !important;
-  color: #333 !important;
-}
-
-.theme-idr .stat-box {
-  background: #f9f9f9 !important;
-  border-color: #ddd !important;
-}
-
-.theme-idr .stat-val {
-  color: #000 !important;
-}
-
-.theme-idr .stat-lab {
-  color: #666 !important;
-}
-
-.theme-idr .info-item span {
-  color: #555 !important;
-}
-
-.theme-idr .info-item strong {
-  color: #000 !important;
-}
-
-.theme-idr .profile-radar-section {
-  background: #f5f5f5 !important;
-  border: 1px solid #eee !important;
-}
-
-.theme-idr .profile-footer {
-  border-top-color: #ddd !important;
-}
-
-.theme-idr .profile-footer p {
-  color: #888 !important;
-}
-
-.theme-idr .badge-adr {
-  background: #000 !important;
-  color: #fff !important;
-}
-
-/* Estado Vazio */
-.theme-idr .empty-state-card {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  color: #555 !important;
-}
-
-.theme-idr {
-  --radar-cor: #000000 !important; /* O preenchimento principal vira preto */
-  --radar-grid: #cccccc !important; /* A "teia de aranha" fica cinza clara para aparecer no fundo branco */
-  --radar-text: #333333 !important; /* Os textos (Vel, Cor, Chu) ficam cinza escuros */
-}
-
-/* Garante que a borda de cima do gráfico não fique preta demais no fundo claro */
-.theme-idr .profile-radar-section {
-  border-top-color: #eee !important;
+/* Alternância limpa entre ATLETA D'O ADR e ATLETA IDR */
+.text-adr {
+  display: inline-block;
 }
 
 .text-idr1 {
   display: none;
 }
 
-/* Quando o modo claro estiver ativo, esconde o ADR e mostra o IDR */
-.theme-idr .text-idr1 {
+/* Estado Vazio */
+.empty-state-card {
+  min-height: 360px;
+  background: linear-gradient(160deg, #131316 0%, #0b0b0d 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #666666;
+  border: 1.5px dashed rgba(212, 175, 55, 0.25);
+  border-radius: 20px;
+  padding: 32px 20px;
+  gap: 8px;
+}
+
+.empty-state-icon {
+  font-size: 2rem;
+  margin-bottom: 4px;
+  opacity: 0.8;
+}
+
+.empty-state-card h4 {
+  margin: 0;
+  color: #d4af37;
+  font-size: 0.82rem;
+  letter-spacing: 1.5px;
+}
+
+.empty-state-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: #888888;
+}
+
+/* ==========================================================================
+   8. TEMA IDR (MARFIM, BRANCO & ÔNIX EDITORIAL)
+   ========================================================================== */
+.theme-idr {
+  --radar-cor: #111111 !important;
+  --radar-grid: #d4d4ce !important;
+  --radar-text: #222222 !important;
+}
+
+/* Coluna Esquerda (Rankings) no IDR */
+.theme-idr .info-card {
+  background: #ffffff !important;
+  border-color: #dcdcd4 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
+}
+
+.theme-idr .info-card h3 {
+  color: #000000 !important;
+  border-bottom-color: #eeeeee !important;
+}
+
+.theme-idr .card-row {
+  border-bottom-color: #f2f2ee !important;
+  color: #222222 !important;
+}
+
+.theme-idr .r1 {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .r2 {
+  background: #555555 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .r3 {
+  background: #888888 !important;
+  color: #ffffff !important;
+}
+
+/* Card de Scout do Jogador no IDR */
+.theme-idr .player-profile-card,
+.theme-idr .ppg-glow-gold {
+  background: #ffffff !important;
+  border: 1px solid #dcdcd4 !important;
+  color: #111111 !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .profile-avatar {
+  background: #f8f8f5 !important;
+  border-color: #111111 !important;
+  color: #111111 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-idr .profile-ovr-badge {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.theme-idr .profile-name {
+  color: #000000 !important;
+}
+
+.theme-idr .profile-pos-tag {
+  background: #f2f2ee !important;
+  border-color: #dcdcd4 !important;
+  color: #111111 !important;
+}
+
+.theme-idr .stat-box,
+.theme-idr .stat-box.highlight {
+  background: #fafaf7 !important;
+  border-color: #e4e4de !important;
+}
+
+.theme-idr .stat-val,
+.theme-idr .stat-box.highlight .stat-val {
+  color: #000000 !important;
+}
+
+.theme-idr .stat-lab {
+  color: #666660 !important;
+}
+
+.theme-idr .profile-info-list {
+  background: #fafaf7 !important;
+  border-color: #e4e4de !important;
+}
+
+.theme-idr .info-item {
+  border-bottom-color: #eeeeee !important;
+}
+
+.theme-idr .info-label {
+  color: #555550 !important;
+}
+
+.theme-idr .info-value {
+  color: #000000 !important;
+}
+
+.theme-idr .profile-radar-section {
+  background: #fafaf7 !important;
+  border-color: #e4e4de !important;
+}
+
+.theme-idr .radar-header-bar {
+  color: #111111 !important;
+}
+
+.theme-idr .radar-skills-mini-grid {
+  border-top-color: #e4e4de !important;
+}
+
+.theme-idr .skill-mini-pill {
+  background: #ffffff !important;
+  border-color: #e4e4de !important;
+}
+
+.theme-idr .skill-mini-key {
+  color: #666660 !important;
+}
+
+.theme-idr .skill-mini-val {
+  color: #000000 !important;
+}
+
+.theme-idr .profile-view-full-btn {
+  background: #111111 !important;
+  border-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .profile-view-full-btn:hover {
+  background: #333333 !important;
+}
+
+.theme-idr .profile-footer {
+  border-top-color: #e4e4de !important;
+}
+
+.theme-idr .profile-footer p {
+  color: #777770 !important;
+}
+
+.theme-idr .badge-adr {
+  background: #111111 !important;
+  color: #ffffff !important;
+}
+
+/* Troca o texto ATLETA D'O ADR por ATLETA IDR no modo claro */
+.theme-idr .text-adr {
   display: none !important;
 }
 
 .theme-idr .text-idr1 {
   display: inline-block !important;
-  color: white !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .empty-state-card {
+  background: #ffffff !important;
+  border-color: #cccccc !important;
+  color: #555555 !important;
+}
+
+.theme-idr .empty-state-card h4 {
+  color: #000000 !important;
 }

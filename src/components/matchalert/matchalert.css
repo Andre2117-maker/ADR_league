@@ -1,55 +1,91 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap");
 
-/* =========================================
-   CONTAINER PRINCIPAL
-========================================= */
+/* ==========================================================================
+   1. CONTAINER PRINCIPAL E VARIÁVEIS DE TEMA (O ADR & IDR)
+   ========================================================================== */
 .banners-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding: 20px;
+  gap: 26px;
+  padding: 20px 16px;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* =========================================
-   BANNER (O CARD)
-========================================= */
 .match-banner-container {
+  /* Paleta Padrão: Treino O ADR (Preto Ônix & Ouro) */
+  --mb-accent: #d4af37;
+  --mb-accent-bright: #f5dc82;
+  --mb-accent-glow: rgba(212, 175, 55, 0.2);
+  --mb-bg: linear-gradient(145deg, #16161a 0%, #09090b 100%);
+  --mb-badge-bg: linear-gradient(90deg, #b8860b, #f5dc82, #b8860b);
+  --mb-badge-text: #000000;
+
   width: 100%;
-  max-width: 850px;
-  /* Gradiente mais suave e profundo */
-  background: linear-gradient(145deg, #1c1c1c 0%, #0a0a0a 100%);
-  /* Borda sutil com transparência para dar efeito premium */
-  border: 1px solid rgba(226, 179, 23, 0.4);
-  border-radius: 16px;
+  max-width: 880px;
+  background: var(--mb-bg);
+  border: 1px solid rgba(212, 175, 55, 0.38);
+  border-radius: 18px;
   position: relative;
   overflow: hidden;
-  /* Sombra dupla: uma escura para profundidade, uma dourada para o "Glow" */
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.8),
-    0 0 20px rgba(226, 179, 23, 0.05);
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    0 20px 45px rgba(0, 0, 0, 0.8),
+    0 0 25px var(--mb-accent-glow);
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
 }
 
 .match-banner-container:hover {
   transform: translateY(-2px);
-  box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.9),
-    0 0 30px rgba(226, 179, 23, 0.15);
 }
 
-/* =========================================
-   BADGE (AMISTOSO / TREINO)
-========================================= */
+/* --- VARIAÇÕES DE CORES POR TIPO DE BANNER --- */
+
+/* Amistoso (Azul Safira) */
+.match-banner-container.type-amistoso {
+  --mb-accent: #3b82f6;
+  --mb-accent-bright: #93c5fd;
+  --mb-accent-glow: rgba(59, 130, 246, 0.22);
+  --mb-bg: linear-gradient(145deg, #0b1528 0%, #060a12 100%);
+  --mb-badge-bg: linear-gradient(90deg, #1d4ed8, #60a5fa, #1d4ed8);
+  --mb-badge-text: #ffffff;
+  border-color: rgba(59, 130, 246, 0.45);
+}
+
+/* Campeonato (Roxo Imperial) */
+.match-banner-container.type-campeonato {
+  --mb-accent: #9333ea;
+  --mb-accent-bright: #d8b4fe;
+  --mb-accent-glow: rgba(147, 51, 234, 0.25);
+  --mb-bg: linear-gradient(145deg, #190b28 0%, #09050f 100%);
+  --mb-badge-bg: linear-gradient(90deg, #6b21a8, #c084fc, #6b21a8);
+  --mb-badge-text: #ffffff;
+  border-color: rgba(147, 51, 234, 0.45);
+}
+
+/* Vaquinha / Arrecadação (Esmeralda & Ouro) */
+.match-banner-container.type-arrecadacao {
+  --mb-accent: #10b981;
+  --mb-accent-bright: #6ee7b7;
+  --mb-accent-glow: rgba(16, 185, 129, 0.2);
+  --mb-bg: linear-gradient(145deg, #0c1c17 0%, #070b09 100%);
+  --mb-badge-bg: linear-gradient(90deg, #059669, #34d399, #059669);
+  --mb-badge-text: #000000;
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+/* ==========================================================================
+   2. BADGE DE TOPO E LAYOUT DE PARTIDAS (TREINO / AMISTOSO / CAMPEONATO)
+   ========================================================================== */
 .banner-badge {
-  /* Gradiente metálico */
-  background: linear-gradient(90deg, #c49911, #f3d052, #c49911);
-  color: #000;
+  background: var(--mb-badge-bg);
+  color: var(--mb-badge-text);
   font-weight: 900;
-  padding: 6px 35px;
+  padding: 6px 32px;
   position: absolute;
   top: 0;
   left: 50%;
@@ -57,36 +93,33 @@
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  z-index: 2;
-  box-shadow: 0 4px 15px rgba(226, 179, 23, 0.3);
+  font-size: 0.76rem;
+  letter-spacing: 2.5px;
+  z-index: 3;
+  box-shadow: 0 4px 15px var(--mb-accent-glow);
+  white-space: nowrap;
 }
 
-/* =========================================
-   CONTEÚDO E TIMES
-========================================= */
 .banner-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 50px 30px 40px 30px;
-  min-height: 200px;
+  padding: 52px 32px 36px;
+  min-height: 190px;
   position: relative;
 }
 
-/* Efeito de luz no centro do banner */
 .banner-content::before {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
   background: radial-gradient(
     circle,
-    rgba(226, 179, 23, 0.05) 0%,
+    var(--mb-accent-glow) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -97,118 +130,362 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   z-index: 1;
 }
 
 .banner-logo {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   object-fit: contain;
-  /* Drop shadow mais refinado */
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5))
-    drop-shadow(0 0 20px rgba(226, 179, 23, 0.2));
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.6));
   transition: transform 0.3s ease;
 }
 
 .banner-team:hover .banner-logo {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .banner-team-name {
-  color: #fff;
-  font-weight: 800;
+  color: #ffffff;
+  font-weight: 900;
   font-size: 1.1rem;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* =========================================
-   INFORMAÇÕES CENTRAIS E CRONÔMETRO
-========================================= */
 .banner-info {
-  flex: 1.2;
+  flex: 1.3;
   text-align: center;
-  color: #fff;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   z-index: 1;
 }
 
 .banner-datetime {
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-  color: #f2f2f2;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .b-divider {
-  color: #e2b317;
-  margin: 0 15px;
-  opacity: 0.5;
+  color: var(--mb-accent);
 }
 
 .banner-location {
-  font-size: 0.85rem;
-  color: #aaa;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #cbd5e1;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-top: 5px;
+  letter-spacing: 1.8px;
+  margin-top: 2px;
 }
 
-/* Cronômetro Premium */
+/* Cronômetro Digital */
 .banner-countdown {
   font-family: "Orbitron", sans-serif;
-  background: rgba(0, 0, 0, 0.6);
-  color: #e2b317;
-  padding: 8px 20px;
-  border-radius: 8px;
-  border: 1px solid rgba(226, 179, 23, 0.2);
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
+  background: rgba(0, 0, 0, 0.65);
+  color: var(--mb-accent-bright);
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--mb-accent);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
   display: inline-block;
-  margin-top: 15px;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  margin-top: 8px;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
 }
 
-/* =========================================
-   LAYOUT ESPECÍFICO (TREINO)
-========================================= */
+.banner-countdown.is-live {
+  background: rgba(0, 230, 118, 0.15);
+  border-color: #00e676;
+  color: #00e676;
+  animation: pulseLive 1.5s infinite alternate;
+}
+
+@keyframes pulseLive {
+  from {
+    box-shadow: 0 0 8px rgba(0, 230, 118, 0.2);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.6);
+  }
+}
+
 .banner-treino-full {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 20px;
+  gap: 14px;
   z-index: 1;
 }
 
 .banner-logo-center {
-  width: 120px;
-  height: 120px;
+  width: 105px;
+  height: 105px;
   object-fit: contain;
-  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.6));
 }
 
-/* =========================================
-   RODAPÉ ANIMADO
-========================================= */
+/* ==========================================================================
+   3. CARD DE VAQUINHA / ARRECADAÇÃO DE CAMISAS
+   ========================================================================== */
+.banner-fundraiser-content {
+  padding: 50px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fundraiser-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.fundraiser-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fundraiser-kicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #34d399;
+  text-transform: uppercase;
+}
+
+.fundraiser-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fundraiser-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.86rem;
+  color: #94a3b8;
+}
+
+.fundraiser-percent-circle {
+  background: rgba(16, 185, 129, 0.12);
+  border: 2px solid #10b981;
+  border-radius: 16px;
+  padding: 10px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.percent-big {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #34d399;
+  line-height: 1;
+}
+
+.percent-sub {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #a7f3d0;
+  margin-top: 4px;
+}
+
+/* Barra de Progresso */
+.fundraiser-progress-track {
+  width: 100%;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 100px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.fundraiser-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37 0%, #10b981 100%);
+  border-radius: 100px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.5);
+}
+
+.fundraiser-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.fundraiser-amounts {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+}
+
+.amount-raised strong {
+  color: #34d399;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.amount-target {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.fundraiser-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pix-copy-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #000000;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pix-copy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+
+.admin-quick-edit-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-quick-edit-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+/* ==========================================================================
+   4. CARD DE NOTÍCIAS / COMUNICADO OFICIAL
+   ========================================================================== */
+.banner-news-content {
+  padding: 50px 32px 30px;
+  display: grid;
+  gap: 24px;
+  align-items: center;
+}
+
+.banner-news-content.has-image {
+  grid-template-columns: 240px 1fr;
+}
+
+.banner-news-content.no-image {
+  grid-template-columns: 1fr;
+}
+
+.news-image-box {
+  width: 100%;
+  height: 165px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: #000;
+}
+
+.news-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.news-text-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.news-tag-pill {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #d4af37;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+
+.news-headline {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.news-body-text {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  white-space: pre-line;
+}
+
+/* ==========================================================================
+   5. RODAPÉ ANIMADO E BOTÕES DE ADMIN
+   ========================================================================== */
 .banner-footer {
-  background: #e2b317;
-  color: #000;
+  background: var(--mb-accent);
+  color: var(--mb-badge-text);
   padding: 6px 0;
   overflow: hidden;
   white-space: nowrap;
-  font-weight: 800;
-  font-size: 0.8rem;
+  font-weight: 900;
+  font-size: 0.76rem;
   letter-spacing: 2px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .scrolling-text {
@@ -227,67 +504,95 @@
   }
 }
 
-/* =========================================
-   BOTÕES DE ADMINISTRAÇÃO NO BANNER
-========================================= */
 .del-btn {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(255, 68, 68, 0.1);
-  color: #ff4444;
-  border: 1px solid rgba(255, 68, 68, 0.3);
+  background: rgba(255, 68, 68, 0.14);
+  color: #ff5252;
+  border: 1px solid rgba(255, 68, 68, 0.35);
   width: 32px;
   height: 32px;
   border-radius: 50%;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 900;
   z-index: 10;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .del-btn:hover {
-  background: #ff4444;
-  color: #fff;
+  background: #ff5252;
+  color: #ffffff;
   transform: scale(1.1);
 }
 
-/* =========================================
-   PAINEL DE CONFIGURAÇÃO (ADMIN)
-========================================= */
+/* Painel Criador (Admin) */
 .admin-toggle-btn {
-  background: transparent;
-  color: #e2b317;
-  border: 1px solid #e2b317;
-  padding: 12px 25px;
-  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  padding: 11px 24px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: bold;
-  letter-spacing: 1px;
-  transition: 0.3s;
+  font-weight: 900;
+  font-size: 0.78rem;
+  letter-spacing: 1.2px;
+  transition: all 0.25s ease;
 }
 
 .admin-toggle-btn:hover {
-  background: #e2b317;
-  color: #000;
+  background: #d4af37;
+  color: #000000;
 }
 
 .admin-internal-panel {
-  background: #151515;
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid #333;
+  background: #121215;
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
   width: 100%;
-  max-width: 850px;
+  max-width: 880px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.admin-type-selector-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 14px;
+}
+
+.admin-type-pill {
+  flex: 1;
+  min-width: 130px;
+  background: #1a1a20;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-type-pill.active {
+  background: #d4af37;
+  color: #000000;
+  border-color: #d4af37;
 }
 
 .admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 14px;
 }
 
 .full-width {
@@ -295,142 +600,205 @@
 }
 
 .admin-grid input,
-.admin-grid select {
+.admin-grid select,
+.admin-textarea {
   padding: 12px;
-  background: #222;
-  border: 1px solid #444;
-  color: #fff;
-  border-radius: 8px;
+  background: #1c1c22;
+  border: 1px solid #33333d;
+  color: #ffffff;
+  border-radius: 10px;
   font-family: inherit;
+  font-size: 0.85rem;
   outline: none;
-  transition: border-color 0.2s;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .admin-grid input:focus,
-.admin-grid select:focus {
-  border-color: #e2b317;
+.admin-grid select:focus,
+.admin-textarea:focus {
+  border-color: #d4af37;
 }
 
 .upload-group {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: #1f1f1f;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px dashed #333;
+  gap: 14px;
+  background: #18181d;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px dashed #383842;
 }
 
-.upload-group label {
-  color: #aaa;
-  font-size: 0.8rem;
+.upload-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.upload-col label {
+  color: #94a3b8;
+  font-size: 0.74rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .confirm-btn {
   grid-column: span 2;
-  background: #e2b317;
-  color: #000;
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #000000;
   border: none;
-  padding: 15px;
-  font-weight: 800;
-  font-size: 1rem;
-  letter-spacing: 1px;
+  padding: 14px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 1.2px;
   cursor: pointer;
-  border-radius: 8px;
-  margin-top: 10px;
-  transition: background 0.2s;
+  border-radius: 10px;
 }
 
-.confirm-btn:hover {
-  background: #f3d052;
+/* ==========================================================================
+   6. TEMA IDR (MARFIM, BRANCO & ÔNIX COMPLETO)
+   ========================================================================== */
+.theme-idr .match-banner-container {
+  --mb-accent: #111111;
+  --mb-accent-bright: #111111;
+  --mb-accent-glow: rgba(0, 0, 0, 0.06);
+  --mb-bg: #ffffff;
+  --mb-badge-bg: #111111;
+  --mb-badge-text: #ffffff;
+  border-color: #dcdcd4 !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06) !important;
 }
 
-/* =========================================
-   RESPONSIVIDADE (MOBILE)
-========================================= */
+.theme-idr .match-banner-container.type-amistoso {
+  --mb-accent: #1d4ed8;
+  --mb-badge-bg: #1d4ed8;
+  border-color: #93c5fd !important;
+}
+
+.theme-idr .match-banner-container.type-campeonato {
+  --mb-accent: #7e22ce;
+  --mb-badge-bg: #7e22ce;
+  border-color: #d8b4fe !important;
+}
+
+.theme-idr .match-banner-container.type-arrecadacao {
+  --mb-accent: #0d5c46;
+  --mb-badge-bg: #0d5c46;
+  --mb-badge-text: #ffffff;
+  border-color: #6ee7b7 !important;
+}
+
+.theme-idr .banner-team-name,
+.theme-idr .banner-datetime,
+.theme-idr .fundraiser-title,
+.theme-idr .news-headline {
+  color: #111111 !important;
+}
+
+.theme-idr .banner-location,
+.theme-idr .fundraiser-subtitle,
+.theme-idr .news-body-text,
+.theme-idr .fundraiser-amounts {
+  color: #475569 !important;
+}
+
+.theme-idr .banner-countdown {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-color: #111111 !important;
+}
+
+.theme-idr .fundraiser-progress-track {
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.theme-idr .fundraiser-percent-circle {
+  background: #f0fdf4 !important;
+  border-color: #0d5c46 !important;
+}
+
+.theme-idr .percent-big,
+.theme-idr .amount-raised strong,
+.theme-idr .fundraiser-kicker {
+  color: #0d5c46 !important;
+}
+
+.theme-idr .percent-sub {
+  color: #111111 !important;
+}
+
+.theme-idr .news-tag-pill {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border-color: #111111 !important;
+}
+
+/* ==========================================================================
+   7. RESPONSIVIDADE CELULAR (MOBILE)
+   ========================================================================== */
 @media (max-width: 768px) {
-  .match-banner-container {
-    max-width: 100%;
-    border-radius: 12px;
-  }
-
   .banner-content {
     flex-direction: column;
-    padding: 50px 15px 30px 15px;
-    gap: 30px;
+    padding: 46px 16px 26px;
+    gap: 20px;
   }
 
-  /* Ordem de exibição no mobile: Escudo A -> Info -> Escudo B */
-  .banner-team:nth-child(1) {
-    order: 1;
-  }
   .banner-info {
-    order: 2;
     width: 100%;
-    padding: 20px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  .banner-team:nth-child(3) {
-    order: 3;
+    padding: 14px 0;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   }
 
-  /* Ajustes de tipografia e tamanho para telas menores */
-  .banner-logo {
-    width: 80px;
-    height: 80px;
-  }
-
+  .banner-logo,
   .banner-logo-center {
-    width: 90px;
-    height: 90px;
-  }
-
-  .banner-team-name {
-    font-size: 1.1rem;
+    width: 76px;
+    height: 76px;
   }
 
   .banner-datetime {
-    font-size: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .b-divider {
-    display: none; /* Esconde a barra | no celular */
-  }
-
-  .banner-location {
-    font-size: 0.8rem;
-    margin-top: 10px;
+    font-size: 1.15rem;
   }
 
   .banner-countdown {
-    font-size: 1rem;
-    padding: 8px 15px;
+    font-size: 0.82rem;
+    padding: 7px 12px;
   }
 
-  /* Ajuste Admin Panel para Mobile */
+  .banner-fundraiser-content,
+  .banner-news-content {
+    padding: 46px 16px 22px;
+  }
+
+  .fundraiser-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .fundraiser-percent-circle {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  .banner-news-content.has-image {
+    grid-template-columns: 1fr;
+  }
+
   .admin-grid {
     grid-template-columns: 1fr;
   }
 
   .full-width,
-  .admin-grid input,
-  .admin-grid select,
   .confirm-btn {
     grid-column: span 1;
   }
 
-  .upload-group.full-width {
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-
-  .scrolling-text {
-    animation-duration: 12s; /* Mais rápido no mobile */
+  .upload-group {
+    flex-direction: column;
   }
 }
