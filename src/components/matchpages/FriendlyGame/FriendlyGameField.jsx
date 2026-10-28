@@ -58,7 +58,7 @@ export default function FriendlyGameField({
         return "JOG";
       }
     }
-    return "RES"; // Reserva
+    return "RES";
   };
 
   // Abrevia o nome estilo TV (Ex: "A. Hakimi")
@@ -69,6 +69,65 @@ export default function FriendlyGameField({
       return `${parts[0][0]}. ${parts[parts.length - 1]}`;
     }
     return fullName;
+  };
+
+  // Coleta eventos e status do jogador na partida (Gols, Cartões, Sub, Lesão)
+  const getPlayerMatchBadges = (pId) => {
+    const pIdStr = String(pId);
+    const pEvents =
+      match.events?.filter((e) => String(e.playerId) === pIdStr) || [];
+
+    const goals = pEvents.filter((e) => e.type === "GOAL").length;
+    const assists =
+      match.events?.filter(
+        (e) => e.type === "GOAL" && String(e.assistId) === pIdStr,
+      ).length || 0;
+    const ownGoals = pEvents.filter((e) => e.type === "OWN_GOAL").length;
+    const yellows = pEvents.filter(
+      (e) => e.type === "YELLOW_CARD" || e.type === "YELLOW",
+    ).length;
+    const reds = pEvents.filter(
+      (e) => e.type === "RED_CARD" || e.type === "RED",
+    ).length;
+
+    // Detecta Substituição (Entrou ou Saiu) verificando todos os eventos de sub
+    const subEvent = match.events
+      ?.slice()
+      .reverse()
+      .find(
+        (e) =>
+          e.type === "SUB" &&
+          (String(e.playerInId) === pIdStr || String(e.playerOutId) === pIdStr),
+      );
+
+    let subType = null;
+    let isInjured = false;
+    if (subEvent) {
+      if (String(subEvent.playerOutId) === pIdStr) {
+        subType = "out";
+        isInjured =
+          subEvent.reason && subEvent.reason.toLowerCase().includes("lesão");
+      } else if (String(subEvent.playerInId) === pIdStr) {
+        subType = "in";
+      }
+    }
+
+    const isMVP = match.mvp && String(match.mvp.id) === pIdStr;
+    const isTeamGK = String(match.teamA?.goalkeeperId) === pIdStr;
+    const isCaptain = String(match.teamA?.captainId) === pIdStr;
+
+    return {
+      goals,
+      assists,
+      ownGoals,
+      yellows,
+      reds,
+      subType,
+      isInjured,
+      isMVP,
+      isTeamGK,
+      isCaptain,
+    };
   };
 
   return (
@@ -125,7 +184,7 @@ export default function FriendlyGameField({
         )}
       </div>
 
-      {/* PRANCHETA DO CAMPO CENTRALIZADA E COM ROTAÇÃO 3D */}
+      {/* PRANCHETA DO CAMPO CENTRALIZADA */}
       <div className="friendly-pitch-container">
         <div className="pitch-canvas friendly-pitch">
           <div className="field-lines">
@@ -139,7 +198,7 @@ export default function FriendlyGameField({
       </div>
 
       {/* ==========================================
-          NOVA ESCALAÇÃO VERTICAL ESPELHADA
+          ESCALAÇÃO VERTICAL ESPELHADA COM BADGES
       ========================================== */}
       <div className="psg-vertical-lineup-container">
         <h3 className="psg-vertical-title">ESCALAÇÕES</h3>
@@ -164,35 +223,101 @@ export default function FriendlyGameField({
         {/* LINHA DOS TITULARES */}
         <div className="psg-vertical-list">
           {titulares.length > 0 ? (
-            titulares.map((p) => (
-              <div key={p.id} className="psg-v-row">
-                {/* O Seu Time (ADR) - Lado Esquerdo */}
-                <div className="psg-v-side left">
-                  <span className="psg-v-name">{formatName(p.name)}</span>
-                  <span className="psg-v-pos">{getPlayerRole(p.id)}</span>
-                  <span className="psg-v-num">{p.number || "-"}</span>
-                  <img
-                    className="psg-v-photo"
-                    src={p.photo || "/players/Anonimo.png"}
-                    alt={p.name}
-                  />
-                </div>
+            titulares.map((p) => {
+              const b = getPlayerMatchBadges(p.id);
+              return (
+                <div key={p.id} className="psg-v-row">
+                  {/* O Seu Time (ADR) - Lado Esquerdo */}
+                  <div className="psg-v-side left">
+                    <span className="psg-v-name">{formatName(p.name)}</span>
+                    <span className="psg-v-pos">{getPlayerRole(p.id)}</span>
+                    <span className="psg-v-num">{p.number || "-"}</span>
 
-                {/* Adversário - Lado Direito (Silhueta para manter o design) */}
-                <div className="psg-v-side right">
-                  <img
-                    className="psg-v-photo shadow-opponent"
-                    src="/players/Anonimo.png"
-                    alt="Oponente"
-                  />
-                  <span className="psg-v-num shadow-text">-</span>
-                  <span className="psg-v-pos shadow-text">
-                    {getPlayerRole(p.id)}
-                  </span>
-                  <span className="psg-v-name shadow-text">Oponente</span>
+                    <div className="psg-v-photo-wrapper">
+                      <img
+                        className="psg-v-photo"
+                        src={p.photo || "/players/Anonimo.png"}
+                        alt={p.name}
+                      />
+
+                      <div className="psg-v-badges-overlay">
+                        {b.goals > 0 && (
+                          <span
+                            className="v-badge goal"
+                            title={`${b.goals} Gol(s)`}
+                          >
+                            ⚽{b.goals > 1 && <small>{b.goals}</small>}
+                          </span>
+                        )}
+                        {b.assists > 0 && (
+                          <span
+                            className="v-badge assist"
+                            title={`${b.assists} Assistência(s)`}
+                          >
+                            👟{b.assists > 1 && <small>{b.assists}</small>}
+                          </span>
+                        )}
+                        {b.yellows > 0 && (
+                          <span
+                            className="v-badge yellow"
+                            title="Cartão Amarelo"
+                          >
+                            🟨
+                          </span>
+                        )}
+                        {b.reds > 0 && (
+                          <span className="v-badge red" title="Cartão Vermelho">
+                            🟥
+                          </span>
+                        )}
+                        {b.subType === "out" && (
+                          <span
+                            className="v-badge sub-out"
+                            title="Substituído (Saiu)"
+                          >
+                            <img src="/setaVerm.png" alt="Saiu" />
+                          </span>
+                        )}
+                        {b.subType === "in" && (
+                          <span
+                            className="v-badge sub-in"
+                            title="Entrou em campo"
+                          >
+                            <img src="/setaVerd.png" alt="Entrou" />
+                          </span>
+                        )}
+                        {b.isInjured && (
+                          <span className="v-badge injury" title="Lesão">
+                            <img src="/lesao.png" alt="Lesão" />
+                          </span>
+                        )}
+                        {b.isCaptain && (
+                          <span className="v-badge captain" title="Capitão">
+                            C
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Adversário - Lado Direito */}
+                  <div className="psg-v-side right">
+                    <div className="psg-v-photo-wrapper shadow-opponent">
+                      <img
+                        className="psg-v-photo"
+                        src="/players/Anonimo.png"
+                        alt="Oponente"
+                      />
+                    </div>
+                    <span className="psg-v-num shadow-text">-</span>
+                    <span className="psg-v-pos shadow-text">
+                      {getPlayerRole(p.id)}
+                    </span>
+                    <span className="psg-v-name shadow-text">Oponente</span>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <div style={{ textAlign: "center", color: "#666", width: "100%" }}>
               Escalação pendente...
@@ -200,40 +325,77 @@ export default function FriendlyGameField({
           )}
         </div>
 
-        {/* LINHA DOS RESERVAS */}
+        {/* LINHA DOS RESERVAS (Com suporte a badges de entrada, gols e cartões) */}
         {reservas.length > 0 && (
           <>
             <h4 className="psg-vertical-subtitle">BANCO DE RESERVAS</h4>
             <div className="psg-vertical-list">
-              {reservas.map((p) => (
-                <div key={p.id} className="psg-v-row">
-                  <div className="psg-v-side left">
-                    <span className="psg-v-name" style={{ color: "#aaa" }}>
-                      {formatName(p.name)}
-                    </span>
-                    <span className="psg-v-pos">RES</span>
-                    <span className="psg-v-num" style={{ color: "#888" }}>
-                      {p.number || "-"}
-                    </span>
-                    <img
-                      className="psg-v-photo"
-                      src={p.photo || "/players/Anonimo.png"}
-                      alt={p.name}
-                      style={{ opacity: 0.6 }}
-                    />
+              {reservas.map((p) => {
+                const b = getPlayerMatchBadges(p.id);
+                return (
+                  <div key={p.id} className="psg-v-row">
+                    <div className="psg-v-side left">
+                      <span className="psg-v-name" style={{ color: "#aaa" }}>
+                        {formatName(p.name)}
+                      </span>
+                      <span className="psg-v-pos">RES</span>
+                      <span className="psg-v-num" style={{ color: "#888" }}>
+                        {p.number || "-"}
+                      </span>
+
+                      <div className="psg-v-photo-wrapper">
+                        <img
+                          className="psg-v-photo"
+                          src={p.photo || "/players/Anonimo.png"}
+                          alt={p.name}
+                          style={{ opacity: b.subType === "in" ? 1 : 0.6 }}
+                        />
+
+                        {/* Badges para os reservas que participaram da partida */}
+                        <div className="psg-v-badges-overlay">
+                          {b.goals > 0 && (
+                            <span className="v-badge goal">
+                              ⚽{b.goals > 1 && <small>{b.goals}</small>}
+                            </span>
+                          )}
+                          {b.assists > 0 && (
+                            <span className="v-badge assist">
+                              👟{b.assists > 1 && <small>{b.assists}</small>}
+                            </span>
+                          )}
+                          {b.yellows > 0 && (
+                            <span className="v-badge yellow">🟨</span>
+                          )}
+                          {b.reds > 0 && (
+                            <span className="v-badge red">🟥</span>
+                          )}
+                          {b.subType === "in" && (
+                            <span
+                              className="v-badge sub-in"
+                              title="Entrou em campo do banco"
+                            >
+                              <img src="/setaVerd.png" alt="Entrou" />
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="psg-v-side right">
+                      <div className="psg-v-photo-wrapper shadow-opponent">
+                        <img
+                          className="psg-v-photo"
+                          src="/players/Anonimo.png"
+                          alt="Oponente"
+                        />
+                      </div>
+                      <span className="psg-v-num shadow-text">-</span>
+                      <span className="psg-v-pos shadow-text">RES</span>
+                      <span className="psg-v-name shadow-text">Oponente</span>
+                    </div>
                   </div>
-                  <div className="psg-v-side right">
-                    <img
-                      className="psg-v-photo shadow-opponent"
-                      src="/players/Anonimo.png"
-                      alt="Oponente"
-                    />
-                    <span className="psg-v-num shadow-text">-</span>
-                    <span className="psg-v-pos shadow-text">RES</span>
-                    <span className="psg-v-name shadow-text">Oponente</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </>
         )}
