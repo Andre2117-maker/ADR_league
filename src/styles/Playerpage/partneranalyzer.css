@@ -1,61 +1,264 @@
-/* --- PARTNER ANALYZER CONTAINER --- */
+/* ==========================================================================
+   1. CONTAINER PRINCIPAL (MODO O ADR: ÔNIX & OURO)
+   ========================================================================== */
 .partner-card {
-  margin-top: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 20px;
-  border-radius: 12px;
+  margin-top: 22px;
+  background: linear-gradient(180deg, #12141b 0%, #0b0d12 100%);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  padding: 22px 20px;
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
-/* --- SELECTOR DE PARCEIRO --- */
+.partner-header-top {
+  margin-bottom: 16px;
+}
+
+.partner-kicker {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.partner-card .ppg-card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ==========================================================================
+   2. RADAR AUTOMÁTICO (FIEL ESCUDEIRO, FREGUÊS, CARRASCO)
+   ========================================================================== */
+.partner-auto-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.auto-spot-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auto-spot-chip:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.auto-spot-chip.ally.active,
+.auto-spot-chip.ally:hover {
+  border-color: rgba(212, 175, 55, 0.55);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.auto-spot-chip.customer.active,
+.auto-spot-chip.customer:hover {
+  border-color: rgba(16, 185, 129, 0.55);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.auto-spot-chip.nemesis.active,
+.auto-spot-chip.nemesis:hover {
+  border-color: rgba(239, 68, 68, 0.55);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.spot-tag {
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.auto-spot-chip.ally .spot-tag {
+  color: #d4af37;
+}
+.auto-spot-chip.customer .spot-tag {
+  color: #34d399;
+}
+.auto-spot-chip.nemesis .spot-tag {
+  color: #f87171;
+}
+
+.spot-name {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.spot-meta {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   3. SELETOR DE PARCEIRO E BANNER CARA A CARA (H2H)
+   ========================================================================== */
 .partner-selector {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .partner-selector select {
   width: 100%;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 8px;
-  color: #fff;
-  font-size: 14px;
+  padding: 12px 14px;
+  background: #161821;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 700;
   cursor: pointer;
   outline: none;
-  transition: border 0.3s ease;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .partner-selector select:focus {
   border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
 }
 
-/* --- ESTRUTURA DE RESULTADOS --- */
+.partner-versus-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.p-vs-athlete {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.p-vs-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+  background: #1a1c24;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+
+.p-vs-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p-vs-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.p-vs-badge {
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #d4af37;
+  font-size: 0.68rem;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   4. SEÇÕES DE RESULTADOS E GRIDS
+   ========================================================================== */
 .partner-results-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  animation: fadeIn 0.4s ease-out;
+  gap: 16px;
+  animation: fadeIn 0.35s ease-out;
 }
 
 .partner-section {
   background: rgba(255, 255, 255, 0.02);
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.partner-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .partner-section-title {
-  font-size: 11px;
-  color: #888;
+  font-size: 0.7rem;
+  color: #94a3b8;
   letter-spacing: 1.5px;
-  margin-bottom: 12px;
+  margin: 0 0 12px 0;
   text-align: center;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
-/* --- GRID DE 3 COLUNAS --- */
+.partner-section-head .partner-section-title {
+  margin-bottom: 0;
+}
+
+.partner-mini-form {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.p-form-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.p-form-dot.W {
+  background: #10b981;
+}
+.p-form-dot.L {
+  background: #ef4444;
+}
+.p-form-dot.D {
+  background: #94a3b8;
+}
+
 .partner-grid-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -63,58 +266,141 @@
 }
 
 .partner-stat-box {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 15px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 8px;
   border-radius: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: transform 0.2s;
+  gap: 2px;
+  transition: transform 0.2s ease;
 }
 
 .partner-stat-box:hover {
   transform: translateY(-2px);
 }
 
-/* Cores de Destaque */
 .partner-stat-box.highlight {
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.45);
   background: rgba(212, 175, 55, 0.08);
 }
 
-.partner-stat-box.rivalry {
-  border-bottom: 2px solid rgba(255, 68, 68, 0.3);
+.partner-stat-box.rivalry-win {
+  border-bottom: 2px solid #10b981;
+}
+
+.partner-stat-box.rivalry-loss {
+  border-bottom: 2px solid #ef4444;
 }
 
 .p-stat-val {
-  font-size: 20px;
-  font-weight: 800;
-  color: #d4af37; /* Padrão Dourado */
-  display: block;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #d4af37;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Cor específica para números na rivalidade */
-.partner-stat-box.rivalry .p-stat-val {
-  color: #ff4444;
+.partner-stat-box.rivalry-win .p-stat-val {
+  color: #34d399;
+}
+
+.partner-stat-box.rivalry-loss .p-stat-val {
+  color: #f87171;
 }
 
 .p-stat-label {
-  font-size: 10px;
+  font-size: 0.64rem;
   text-transform: uppercase;
-  color: #aaa;
-  margin-top: 4px;
+  color: #cbd5e1;
+  margin-top: 3px;
   letter-spacing: 0.5px;
+  font-weight: 800;
+}
+
+.p-stat-sub {
+  font-size: 0.6rem;
+  color: #64748b;
   font-weight: 600;
 }
 
-/* --- DIVISÓRIA CENTRAL (VS) --- */
+/* Detalhamento de Passes para Gol */
+.partner-synergy-breakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.synergy-pill {
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 7px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: #cbd5e1;
+}
+
+.synergy-pill strong {
+  color: #d4af37;
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+/* Barra de Domínio na Rivalidade (Cabo de Guerra) */
+.rivalry-tug-wrapper {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rivalry-tug-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.tug-win-txt {
+  color: #34d399;
+}
+.tug-status-txt {
+  color: #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.tug-loss-txt {
+  color: #f87171;
+}
+
+.rivalry-tug-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(239, 68, 68, 0.45);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.rivalry-tug-fill-win {
+  height: 100%;
+  background: linear-gradient(90deg, #059669, #34d399);
+  border-radius: 100px;
+  transition: width 0.4s ease;
+}
+
+/* Divisória e Veredito */
 .partner-divider {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 5px 0;
 }
 
 .partner-divider::before,
@@ -122,44 +408,54 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .partner-divider span {
-  padding: 0 15px;
-  font-size: 10px;
+  padding: 0 14px;
+  font-size: 0.62rem;
   font-weight: 900;
-  color: #555;
-  font-style: italic;
+  color: #64748b;
+  letter-spacing: 1.5px;
 }
 
-/* --- VEREDITO --- */
 .partner-verdict {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 12px;
-  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 11px 14px;
+  border-radius: 8px;
   text-align: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  margin-top: 15px;
-  border-left: 4px solid #d4af37;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 12px;
+  border-left: 3px solid #d4af37;
   letter-spacing: 1px;
 }
 
 .partner-empty {
   text-align: center;
-  color: #555;
-  font-size: 13px;
-  padding: 30px 0;
-  font-style: italic;
+  color: #64748b;
+  font-size: 0.8rem;
+  padding: 22px 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
 }
 
-/* --- ANIMAÇÕES --- */
+.partner-empty-icon {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.partner-empty p {
+  margin: 0;
+  line-height: 1.4;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -167,43 +463,70 @@
   }
 }
 
-/* --- RESPONSIVIDADE (MOBILE) --- */
-@media (max-width: 480px) {
+/* ==========================================================================
+   5. RESPONSIVIDADE (MOBILE)
+   ========================================================================== */
+@media (max-width: 600px) {
+  .partner-auto-highlights {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .auto-spot-chip {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 12px;
+  }
+
+  .partner-synergy-breakdown {
+    grid-template-columns: 1fr;
+  }
+
   .partner-grid-row {
-    grid-template-columns: repeat(
-      3,
-      1fr
-    ); /* Mantém 3 colunas para compacidade */
     gap: 6px;
   }
 
-  .partner-section {
-    padding: 10px;
-  }
-
   .p-stat-val {
-    font-size: 16px;
+    font-size: 1.1rem;
   }
 
   .p-stat-label {
-    font-size: 8px;
-    letter-spacing: 0;
-  }
-
-  .partner-verdict {
-    font-size: 10px;
-    padding: 10px;
+    font-size: 0.56rem;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - PARTNER ANALYZER (BLACK & WHITE PREMIUM)
+   6. TEMA IDR (MARFIM, BRANCO & ÔNIX COMPLETO)
    ========================================================================== */
-
 .theme-idr .partner-card {
   background: #ffffff !important;
-  border-color: #cccccc !important;
+  border-color: #dcdcd4 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .partner-kicker {
+  color: #555555 !important;
+}
+
+.theme-idr .partner-card .ppg-card-title,
+.theme-idr .spot-name,
+.theme-idr .p-vs-name {
+  color: #000000 !important;
+}
+
+.theme-idr .auto-spot-chip {
+  background: #f8f8f5 !important;
+  border-color: #e2e2dc !important;
+}
+
+.theme-idr .auto-spot-chip.ally.active,
+.theme-idr .auto-spot-chip.ally:hover {
+  border-color: #000000 !important;
+  background: #f0f0ec !important;
+}
+
+.theme-idr .auto-spot-chip.ally .spot-tag {
+  color: #000000 !important;
 }
 
 .theme-idr .partner-selector select {
@@ -212,62 +535,70 @@
   color: #000000 !important;
 }
 
-.theme-idr .partner-selector select:focus {
-  border-color: #000000 !important;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1) !important;
-}
-
+.theme-idr .partner-versus-banner,
 .theme-idr .partner-section {
-  background: #fdfdfd !important;
-  border-color: #eeeeee !important;
+  background: #fafaf7 !important;
+  border-color: #e6e6e0 !important;
 }
 
-.theme-idr .partner-section-title {
-  color: #555555 !important;
+.theme-idr .p-vs-avatar {
+  background: #ffffff !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+.theme-idr .p-vs-badge {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
 }
 
 .theme-idr .partner-stat-box {
-  background: #f9f9f9 !important;
-  border-color: #eeeeee !important;
+  background: #ffffff !important;
+  border-color: #e6e6e0 !important;
 }
 
 .theme-idr .partner-stat-box.highlight {
-  background: rgba(0, 0, 0, 0.03) !important;
+  background: #f2f2ee !important;
   border-color: #000000 !important;
-}
-
-.theme-idr .partner-stat-box.rivalry {
-  border-bottom-color: #cc0000 !important; /* Mantém um tom vermelho elegante para rivalidades */
 }
 
 .theme-idr .p-stat-val {
   color: #000000 !important;
 }
 
-.theme-idr .partner-stat-box.rivalry .p-stat-val {
-  color: #cc0000 !important;
+.theme-idr .partner-stat-box.rivalry-win .p-stat-val,
+.theme-idr .tug-win-txt {
+  color: #0d5c46 !important;
 }
 
-.theme-idr .p-stat-label {
-  color: #666666 !important;
+.theme-idr .partner-stat-box.rivalry-loss .p-stat-val,
+.theme-idr .tug-loss-txt {
+  color: #b91c1c !important;
 }
 
-.theme-idr .partner-divider::before,
-.theme-idr .partner-divider::after {
-  background: #dddddd !important;
+.theme-idr .p-stat-label,
+.theme-idr .tug-status-txt {
+  color: #333333 !important;
 }
 
-.theme-idr .partner-divider span {
-  color: #888888 !important;
+.theme-idr .synergy-pill {
+  background: #ffffff !important;
+  border-color: #dcdcd4 !important;
+  color: #333333 !important;
+}
+
+.theme-idr .synergy-pill strong {
+  color: #000000 !important;
 }
 
 .theme-idr .partner-verdict {
-  background: #000000 !important;
+  background: #111111 !important;
   color: #ffffff !important;
   border-left-color: #000000 !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
 }
 
 .theme-idr .partner-empty {
-  color: #888888 !important;
+  border-color: #dcdcd4 !important;
+  color: #666666 !important;
 }

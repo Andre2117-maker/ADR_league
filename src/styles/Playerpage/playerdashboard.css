@@ -567,6 +567,12 @@
   color: #ff5252;
 }
 
+.psd-rule-status-badge.status-anonymous {
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  color: #ff5252;
+}
+
 .psd-expand-arrow {
   font-size: 0.75rem;
   color: var(--premium-gold);

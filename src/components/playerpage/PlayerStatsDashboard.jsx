@@ -18,22 +18,21 @@ const getMatchChronoInfo = (m) => {
 // Função interna blindada para calcular o resultado exato d'O ADR (Sem empate em treino)
 const calculateMatchOutcome = (m, pIdStr) => {
   const isTeamA = m.teamA?.players?.some((id) => String(id) === pIdStr);
-  const playerTeam = isTeamA ? "A" : "B";
   const mType = String(m.type || "TREINO").toUpperCase();
   const isTreino = mType === "TREINO";
 
   const sA =
     m.events?.filter(
       (e) =>
-        (e.team === "A" && e.type === "GOAL") ||
-        (e.team === "B" && e.type === "OWN_GOAL"),
+        (e.type === "GOAL" && e.team === "A") ||
+        (e.type === "OWN_GOAL" && e.team === "B"),
     ).length || 0;
 
   const sB =
     m.events?.filter(
       (e) =>
-        (e.team === "B" && e.type === "GOAL") ||
-        (e.team === "A" && e.type === "OWN_GOAL"),
+        (e.type === "GOAL" && e.team === "B") ||
+        (e.type === "OWN_GOAL" && e.team === "A"),
     ).length || 0;
 
   let result = "L";
@@ -77,7 +76,6 @@ const calculateMatchOutcome = (m, pIdStr) => {
         wRaw === "TIME A";
       result = (teamAWon && isTeamA) || (!teamAWon && !isTeamA) ? "W" : "L";
     } else if (isTreino) {
-      // Em treino não existe empate: se empatou e não salvou pênalti, assume vitória do time A para evitar quebrar estatística
       result = isTeamA ? "W" : "L";
     } else {
       result = "D";
@@ -100,6 +98,7 @@ const PlayerStatsDashboard = ({ player, matches }) => {
     if (!player || !matches) return null;
 
     const pIdStr = String(player.id);
+    const isAnonymousPlayer = Boolean(player.isAnonymous);
 
     let filtered = {
       goals: 0,
@@ -114,7 +113,6 @@ const PlayerStatsDashboard = ({ player, matches }) => {
       braces: 0,
     };
 
-    let dailyGroup = {};
     let activeDays = {};
 
     // 1. LÓGICA DE DIAS DE EVENTO E PRESENÇA
@@ -262,8 +260,6 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         if (conceded === 0) filtered.cleanSheets++;
       }
 
-      // Gols, Assistências e Cartões
-      if (!dailyGroup[displayDate]) dailyGroup[displayDate] = { g: 0, a: 0 };
       let goalsInThisMatch = 0;
 
       m.events?.forEach((e) => {
@@ -273,14 +269,12 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         if (e.type === "GOAL" && isAuthor) {
           filtered.goals++;
           goalsInThisMatch++;
-          dailyGroup[displayDate].g++;
         }
         if (
           (e.type === "GOAL" && isAssist) ||
           (e.type === "ASSIST" && isAuthor)
         ) {
           filtered.assists++;
-          dailyGroup[displayDate].a++;
         }
         if (isAuthor) {
           if (e.type === "YELLOW" || e.type === "YELLOW_CARD")
@@ -332,7 +326,6 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         ? Math.round((filtered.cleanSheets / filtered.gamesAsGK) * 100)
         : 0;
 
-    // Pega as últimas 5 partidas e inverte para o mais recente ficar na esquerda
     const lastFiveForm = recentResults.slice(-5).reverse();
 
     return {
@@ -369,24 +362,13 @@ const PlayerStatsDashboard = ({ player, matches }) => {
             ? (filtered.goalsAgainst / filtered.gamesAsGK).toFixed(2)
             : "0.00",
       },
-      records: {
-        goals: Object.entries(dailyGroup).reduce(
-          (max, [date, val]) =>
-            val.g >= max.value && val.g > 0 ? { value: val.g, date } : max,
-          { value: 0, date: "" },
-        ),
-        assists: Object.entries(dailyGroup).reduce(
-          (max, [date, val]) =>
-            val.a >= max.value && val.a > 0 ? { value: val.a, date } : max,
-          { value: 0, date: "" },
-        ),
-      },
       absences: {
         totalDays: totalActiveDays,
         attendedDays,
         attendanceRate,
         missedList: missedDaysList,
         currentMissedStreak,
+        isAnonymous: isAnonymousPlayer,
       },
     };
   }, [player, matches, selectedSeason, matchFilter]);
@@ -582,38 +564,7 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         </div>
       </div>
 
-      {/* 6. RECORDES */}
-      <div className="psd-lower-grid">
-        <div className="psd-mini-card record-goals">
-          <div className="psd-mini-top">
-            <span className="psd-mini-label">🔥 RECORDE DE GOLS NO DIA</span>
-            <span className="psd-record-date">
-              {stats.records.goals.date || "Sem registro"}
-            </span>
-          </div>
-          <div className="psd-mini-bottom">
-            <span className="psd-mini-value">{stats.records.goals.value}</span>
-            <span className="psd-mini-unit">gols na mesma data</span>
-          </div>
-        </div>
-
-        <div className="psd-mini-card record-assists">
-          <div className="psd-mini-top">
-            <span className="psd-mini-label">🎯 RECORDE DE ASSISTS NO DIA</span>
-            <span className="psd-record-date">
-              {stats.records.assists.date || "Sem registro"}
-            </span>
-          </div>
-          <div className="psd-mini-bottom">
-            <span className="psd-mini-value">
-              {stats.records.assists.value}
-            </span>
-            <span className="psd-mini-unit">assistências na mesma data</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 7. ASSIDUIDADE */}
+      {/* 6. ASSIDUIDADE E STATUS DA TABELA */}
       <div className="psd-absences-wrapper">
         <div className="psd-absence-panel">
           <div
@@ -645,21 +596,27 @@ const PlayerStatsDashboard = ({ player, matches }) => {
             </div>
 
             <div className="psd-absence-info-right">
-              <span
-                className={`psd-rule-status-badge ${
-                  stats.absences.currentMissedStreak > 3
-                    ? "status-out"
+              {stats.absences.isAnonymous ? (
+                <span className="psd-rule-status-badge status-anonymous">
+                  🕵️ Atleta Anônimo (Isento de Faltas)
+                </span>
+              ) : (
+                <span
+                  className={`psd-rule-status-badge ${
+                    stats.absences.currentMissedStreak > 3
+                      ? "status-out"
+                      : stats.absences.currentMissedStreak === 3
+                        ? "status-risk"
+                        : "status-ok"
+                  }`}
+                >
+                  {stats.absences.currentMissedStreak > 3
+                    ? `⚠️ Fora da Tabela (${stats.absences.currentMissedStreak} faltas seg.)`
                     : stats.absences.currentMissedStreak === 3
-                      ? "status-risk"
-                      : "status-ok"
-                }`}
-              >
-                {stats.absences.currentMissedStreak > 3
-                  ? `⚠️ Fora da Tabela (${stats.absences.currentMissedStreak} faltas seg.)`
-                  : stats.absences.currentMissedStreak === 3
-                    ? "⚡ No Limite (3 faltas seg.)"
-                    : "✅ Ativo na Tabela"}
-              </span>
+                      ? "⚡ No Limite (3 faltas seg.)"
+                      : "✅ Ativo na Tabela"}
+                </span>
+              )}
               <span
                 className={`psd-expand-arrow ${showAbsences ? "open" : ""}`}
               >
@@ -670,7 +627,12 @@ const PlayerStatsDashboard = ({ player, matches }) => {
 
           {showAbsences && (
             <div className="psd-absence-content">
-              {stats.absences.missedList.length > 0 ? (
+              {stats.absences.isAnonymous ? (
+                <div className="psd-absence-perfect">
+                  ℹ️ Este perfil está oculto como anônimo e não sofre
+                  penalidades por inatividade.
+                </div>
+              ) : stats.absences.missedList.length > 0 ? (
                 <div className="psd-missed-chips-grid">
                   {stats.absences.missedList.map((date, idx) => (
                     <span key={idx} className="psd-absence-chip">
