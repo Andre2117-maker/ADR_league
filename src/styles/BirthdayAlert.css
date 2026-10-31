@@ -1,8 +1,58 @@
+/* ==========================================================================
+   POP-UP DE ANIVERSÁRIO (MODO O ADR: ÔNIX & OURO)
+   ========================================================================== */
+.bday-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(4, 5, 8, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.bday-card {
+  position: relative;
+  background: linear-gradient(165deg, #151720 0%, #0a0b0e 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  padding: 38px 30px 32px;
+  border-radius: 22px;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(212, 175, 55, 0.22);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.bday-glow-effect {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 100px;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.25) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
 .bday-photo-wrapper {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 18px;
 }
 
 .bday-player-img {
@@ -11,136 +61,149 @@
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid #d4af37;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  background: #000;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.8),
+    0 0 16px rgba(212, 175, 55, 0.4);
 }
 
 .bday-crown {
   position: absolute;
-  top: -15px;
-  right: -5px;
-  font-size: 30px;
-  transform: rotate(20deg);
+  top: -12px;
+  right: -4px;
+  font-size: 32px;
+  transform: rotate(18deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.8));
+  animation: floatCrown 2.2s infinite ease-in-out;
+}
+
+@keyframes floatCrown {
+  0%,
+  100% {
+    transform: translateY(0) rotate(18deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(22deg);
+  }
+}
+
+.bday-kicker {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.bday-title {
+  color: #ffffff;
+  font-size: 1.55rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 8px 0;
+}
+
+.bday-title .highlight {
+  background: linear-gradient(180deg, #fff3b0 0%, #d4af37 55%, #9e7a11 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .bday-name {
-  font-size: 1.8rem !important;
+  font-size: 1.65rem !important;
   font-weight: 900;
-  color: #fff;
-  margin: 5px 0;
-  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
-/* O restante mantém o estilo anterior... */
-
-.bday-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999999;
-}
-
-.bday-card {
-  background: #111;
-  border: 2px solid #d4af37;
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 400px;
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-}
-
-.bday-icon {
-  font-size: 50px;
-  margin-bottom: 20px;
-}
-
-.bday-card h2 {
-  color: #fff;
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-}
-
-.bday-card .highlight {
-  color: #d4af37;
-}
-
-.bday-card p {
-  color: #aaa;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 25px;
+.bday-wish {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.45;
+  margin: 0 0 26px 0;
 }
 
 .bday-btn {
-  background: #d4af37;
-  color: #000;
+  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+  color: #000000;
   border: none;
-  padding: 12px 30px;
+  padding: 13px 32px;
   border-radius: 30px;
-  font-weight: 800;
+  font-weight: 900;
+  font-size: 0.88rem;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: 0.3s;
+  box-shadow: 0 8px 22px rgba(212, 175, 55, 0.35);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .bday-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #d4af37;
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(212, 175, 55, 0.55);
 }
 
 /* ==========================================================================
-   TEMA IDR - ANIVERSÁRIO / BIRTHDAY POP-UP (BLACK & WHITE PREMIUM)
+   TEMA IDR - ANIVERSÁRIO POP-UP (CLÁSSICO PRETO & BRANCO)
    ========================================================================== */
-
-/* Fundo Desfocado (Overlay Claro) */
 .theme-idr .bday-overlay {
-  background: rgba(255, 255, 255, 0.85) !important;
+  background: rgba(245, 245, 242, 0.9) !important;
 }
 
-/* Cartão Principal */
 .theme-idr .bday-card {
   background: #ffffff !important;
   border-color: #cccccc !important;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* Foto do Jogador */
+.theme-idr .bday-glow-effect {
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.08) 0%,
+    transparent 70%
+  ) !important;
+}
+
 .theme-idr .bday-player-img {
   border-color: #000000 !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Textos e Títulos */
+.theme-idr .bday-kicker,
+.theme-idr .bday-title .highlight {
+  color: #000000 !important;
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.theme-idr .bday-title {
+  color: #111111 !important;
+}
+
 .theme-idr .bday-name {
   color: #000000 !important;
 }
 
-.theme-idr .bday-card h2 {
-  color: #111111 !important;
-}
-
-.theme-idr .bday-card .highlight {
-  color: #000000 !important;
-  font-weight: 900 !important;
-}
-
-.theme-idr .bday-card p {
+.theme-idr .bday-wish {
   color: #666666 !important;
 }
 
-/* Botão de Fechar/Agradecimento */
 .theme-idr .bday-btn {
   background: #000000 !important;
   color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2) !important;
 }
 
 .theme-idr .bday-btn:hover {
   background: #222222 !important;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3) !important;
 }

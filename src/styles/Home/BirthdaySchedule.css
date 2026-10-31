@@ -1,230 +1,453 @@
 /* =====================================================
-   BIRTHDAY SCHEDULE - FULL-WIDTH COM PAGINAÇÃO
+   1. CONTAINER E CABEÇALHO (MODO O ADR: ÔNIX & OURO)
    ===================================================== */
-
-/* Container que centraliza o conteúdo */
 .schedule-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 40px 0;
-  overflow: hidden; /* Garante que nada extravase */
-}
-
-/* O Grid agora centraliza e limita os cards */
-.schedule-grid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  max-width: 1150px;
-  padding: 20px;
-  flex-wrap: nowrap;
+  padding: 50px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
   position: relative;
-  left: -130px; /* Seu ajuste manual do desktop */
-}
-
-/* Ajuste nos cards para garantir que caibam */
-.schedule-card {
-  flex: 1 1 350px; /* O "1 1" permite que eles se ajustem proporcionalmente */
-  max-width: 350px; /* Garante que não passem de 350px */
-  background: #1a1a1a;
-  padding: 25px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-sizing: border-box; /* Essencial para o padding não quebrar o tamanho */
 }
 
 .schedule-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  max-width: 1300px;
-  margin: 0 auto 25px auto;
-  padding: 0 20px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.schedule-kicker {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: #d4af37;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
 
 .schedule-title {
-  color: #fff;
-  font-size: 1.8rem;
+  color: #ffffff;
+  font-size: 2.1rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0;
 }
 
-/* --- PAGINAÇÃO E CONTROLES (POSICIONADOS ABAIXO) --- */
-.schedule-pagination-wrapper {
-  display: flex;
-  align-items: center;
+.schedule-title span {
+  background: linear-gradient(180deg, #fff3b0 0%, #d4af37 55%, #9e7a11 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.schedule-underline {
+  width: 75px;
+  height: 3.5px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+/* =====================================================
+   2. GRID CENTRALIZADO E CARDS DE ANIVERSÁRIO
+   ===================================================== */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(290px, 360px));
   justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
-  max-width: 1300px;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 22px;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-.carousel-controls {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-arrow {
-  background: transparent;
-  border: 1px solid #444;
-  color: #fff;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.nav-arrow:hover {
-  border-color: #d4af37;
-  color: #d4af37;
-}
-
-/* Barrinhas de status */
-.pagination-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.dot {
-  width: 30px;
-  height: 6px;
-  background: #333; /* Cor inativa */
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-.dot.active {
-  background: #d4af37; /* Cor ativa (Dourado ADR) */
-  width: 50px; /* Barra mais larga para o item ativo */
-}
-
-@media (min-width: 1340px) {
-  .schedule-grid {
-    padding-left: calc(50% - 650px);
-  }
-}
-
-/* Cards */
 .schedule-card {
-  flex: 0 0 350px;
-  background: #1a1a1a;
-  padding: 25px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: linear-gradient(165deg, #16171d 0%, #0d0e12 100%);
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.schedule-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
 }
 
 .schedule-card:hover {
+  transform: translateY(-6px);
   border-color: #d4af37;
-  background: #222;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.85),
+    0 0 22px rgba(212, 175, 55, 0.18);
+}
+
+.schedule-card:hover::before {
+  opacity: 1;
+}
+
+/* Destaque Especial quando o Aniversário é HOJE */
+.schedule-card.is-birthday-today {
+  border-color: #ffd700;
+  background: linear-gradient(
+    165deg,
+    rgba(212, 175, 55, 0.16) 0%,
+    #111217 65%,
+    #0a0b0e 100%
+  );
+  box-shadow: 0 0 28px rgba(255, 215, 0, 0.28);
+}
+
+/* Topo do Card: Data + Contagem Regressiva */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
 .bday-date {
   color: #d4af37;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-.bday-text {
-  color: #fff;
-  font-size: 1.1rem;
-  margin: 10px 0;
-}
-.bday-tag {
-  color: #666;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
 }
 
-/* Mobile */
-/* 2. APENAS O QUE MUDA NO CELULAR */
-@media (max-width: 768px) {
+.bday-countdown-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.4px;
+}
+
+.bday-countdown-pill.soon {
+  background: rgba(212, 175, 55, 0.14);
+  border-color: rgba(212, 175, 55, 0.45);
+  color: #fde047;
+}
+
+.bday-countdown-pill.today {
+  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+  border-color: #ffffff;
+  color: #000000;
+  font-weight: 900;
+  animation: pulseTodayBday 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseTodayBday {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* Corpo do Card: Avatar + Nome + Idade */
+.bday-Card-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bday-avatar-wrap {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+}
+
+.bday-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #0b0c10;
+  border: 2px solid rgba(212, 175, 55, 0.6);
+}
+
+.bday-shirt-num {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #d4af37;
+  color: #000000;
+  font-size: 0.62rem;
+  font-weight: 900;
+  padding: 2px 5px;
+  border-radius: 10px;
+  border: 1.5px solid #0d0e12;
+  line-height: 1;
+}
+
+.bday-player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.bday-player-name {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bday-text {
+  color: #94a3b8;
+  font-size: 0.84rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Rodapé do Card */
+.bday-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bday-pos-badge {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #d4af37;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.bday-tag {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* =====================================================
+   3. PAGINAÇÃO E CONTROLES
+   ===================================================== */
+.schedule-pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.carousel-controls1 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-arrow {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  color: #d4af37;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.nav-arrow:hover {
+  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+  border-color: #ffd700;
+  color: #000000;
+  transform: scale(1.06);
+}
+
+.pagination-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 26px;
+  height: 6px;
+  background: #2a2c35;
+  border: none;
+  padding: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #d4af37;
+  width: 48px;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* =====================================================
+   4. RESPONSIVIDADE (TABLET & CELULAR)
+   ===================================================== */
+@media (max-width: 1024px) {
   .schedule-grid {
-    left: 0 !important; /* FORÇA o grid a voltar para a posição zero no celular */
-    justify-content: flex-start;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin: 0;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-container {
+    padding: 35px 14px;
   }
 
-  .schedule-grid::-webkit-scrollbar {
-    display: none;
+  .schedule-title {
+    font-size: 1.55rem;
+  }
+
+  .schedule-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    gap: 14px;
   }
 
   .schedule-card {
-    flex: 0 0 280px;
+    padding: 18px;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - CALENDÁRIO DE ANIVERSÁRIOS
+   5. TEMA IDR - CALENDÁRIO DE ANIVERSÁRIOS (CLÁSSICO PRETO & BRANCO)
    ========================================================================== */
-
-/* Título da Seção */
-.theme-idr .schedule-title {
-  color: #000 !important;
+.theme-idr .schedule-kicker {
+  color: #555555 !important;
 }
 
-/* Cartões de Aniversário */
+.theme-idr .schedule-title,
+.theme-idr .schedule-title span {
+  color: #000000 !important;
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.theme-idr .schedule-underline {
+  background: #000000 !important;
+}
+
 .theme-idr .schedule-card {
   background: #ffffff !important;
-  border: 1px solid #ccc !important;
+  border: 1px solid #cccccc !important;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .schedule-card::before {
+  display: none !important;
 }
 
 .theme-idr .schedule-card:hover {
   background: #f9f9f9 !important;
-  border-color: #000 !important;
+  border-color: #000000 !important;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Textos do Cartão */
-.theme-idr .bday-date {
-  color: #000 !important; /* Data que era dourada fica preta e forte */
+.theme-idr .bday-date,
+.theme-idr .bday-player-name {
+  color: #000000 !important;
 }
 
 .theme-idr .bday-text {
-  color: #333 !important; /* Texto principal escuro */
+  color: #444444 !important;
 }
 
 .theme-idr .bday-tag {
-  color: #888 !important; /* Tag sutil em cinza */
+  color: #777777 !important;
 }
 
-/* Controles de Paginação (Setas) */
+.theme-idr .bday-avatar-img {
+  background: #f0f0f0 !important;
+  border-color: #000000 !important;
+}
+
+.theme-idr .bday-shirt-num,
+.theme-idr .bday-countdown-pill.today {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.theme-idr .bday-countdown-pill {
+  background: #f2f2f2 !important;
+  border-color: #dddddd !important;
+  color: #222222 !important;
+}
+
+.theme-idr .bday-pos-badge {
+  background: #f2f2f2 !important;
+  border-color: #cccccc !important;
+  color: #000000 !important;
+}
+
+.theme-idr .bday-card-footer {
+  border-top-color: #eeeeee !important;
+}
+
 .theme-idr .nav-arrow {
-  border-color: #ccc !important;
-  color: #000 !important;
-  background: #fff !important;
+  border-color: #cccccc !important;
+  color: #000000 !important;
+  background: #ffffff !important;
 }
 
 .theme-idr .nav-arrow:hover {
-  border-color: #000 !important;
-  background: #000 !important;
-  color: #fff !important;
+  border-color: #000000 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
 }
 
-/* Barrinhas de Status (Dots) */
 .theme-idr .dot {
-  background: #ddd !important; /* Barrinhas inativas em cinza claro */
+  background: #dddddd !important;
 }
 
 .theme-idr .dot.active {
-  background: #000 !important; /* Barra ativa preta em vez de dourada */
+  background: #000000 !important;
+  box-shadow: none !important;
 }
