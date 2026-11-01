@@ -14,7 +14,6 @@ import MatchPage from "./pages/MatchPage.jsx"; // <--- IMPORTANTE: Importar a no
 import "./styles/global.css";
 import "./styles/navbar.css";
 import "./styles/home.css";
-import "./styles/matches.css";
 import "./styles/admin.css";
 import "./styles/playerpage.css";
 import dadosIniciais from "./dados_iniciais.json";
