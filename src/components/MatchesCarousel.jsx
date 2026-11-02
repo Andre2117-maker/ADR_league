@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoADR from "../assets/logo.png";
 import "../styles/Home/matchescarroussel.css";
+import bannerHallo from "../../public/banner/BannerHallo.png";
 
 function MatchesCarousel({ matches = [], players = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -53,11 +54,24 @@ function MatchesCarousel({ matches = [], players = [] }) {
   const rawType = (match.type || "TREINO").toUpperCase();
   const matchType = rawType.toLowerCase();
 
+  const formatEventSubtype = (subType) => {
+    if (!subType) return "ESPECIAL";
+    const clean = subType.replace(/_/g, " ").toUpperCase();
+    return clean;
+  };
+
   const typeLabelMap = {
     TREINO: "TREINO OFICIAL",
     AMISTOSO: "AMISTOSO",
     CAMPEONATO: "CAMPEONATO",
+    EVENTO: `🎃 ${formatEventSubtype(match.eventType)}`,
   };
+
+  // Identifica o subtipo do evento (ex: "halloween") e define o banner correspondente
+  const eventSubtype = (match.eventType || "").toLowerCase();
+  const isHalloween =
+    rawType === "EVENTO" &&
+    (!match.eventType || match.eventType.toUpperCase() === "HALLOWEEN");
 
   // Contagem de gols no tempo normal
   const goalsA =
@@ -149,7 +163,12 @@ function MatchesCarousel({ matches = [], players = [] }) {
 
   return (
     <section
-      className={`mtc-banner-container mtc-type-${matchType}`}
+      className={`mtc-banner-container mtc-type-${matchType} ${
+        eventSubtype ? `mtc-event-${eventSubtype}` : ""
+      }`}
+      style={
+        isHalloween ? { "--mtc-event-bg": `url(${bannerHallo})` } : undefined
+      }
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -242,7 +261,7 @@ function MatchesCarousel({ matches = [], players = [] }) {
                 <div className="mtc-penalties-bar">
                   <span>PÊNALTIS:</span>
                   <strong>
-                    {displayPenA} - {displayPenB}
+                    ({displayPenA} - {displayPenB})
                   </strong>
                 </div>
               )}

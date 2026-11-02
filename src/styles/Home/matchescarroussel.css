@@ -38,6 +38,20 @@
     border-color 0.35s ease;
 }
 
+/* Camada de Imagem de Fundo Transparente para Eventos (Não empurra nem quebra o flex!) */
+.mtc-banner-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--mtc-event-bg, none);
+  background-size: 100% 100% !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* Luz radial de estádio no topo do banner */
 .mtc-ambient-glow {
   position: absolute;
@@ -83,12 +97,26 @@
   --mtc-score-divider: rgba(255, 255, 255, 0.35);
 }
 
+/* --- EVENTO / HALLOWEEN: LARANJA ABÓBORA (MODO O ADR) --- */
+.mtc-banner-container.mtc-type-evento,
+.mtc-banner-container.mtc-event-halloween {
+  --mtc-bg-top: #0b0502;
+  --mtc-bg-bottom: #180a04;
+  --mtc-accent: #ff7b00;
+  --mtc-accent-bright: #ffa64d;
+  --mtc-accent-glow: rgba(255, 123, 0, 0.32);
+  --mtc-score-bg: linear-gradient(135deg, #ff8800 0%, #c44500 100%);
+  --mtc-score-text: #ffffff;
+  --mtc-score-divider: rgba(255, 255, 255, 0.38);
+}
+
 /* ==========================================================================
    3. ESTRUTURA INTERNA E HEADER
    ========================================================================== */
 .mtc-banner-content {
   width: 90%;
   max-width: 1080px;
+  position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -391,7 +419,7 @@
 }
 
 /* ==========================================================================
-   7. TEMA IDR (BRANCO MARFIM & PRETO + ROXO CAMPEONATO + AZUL AMISTOSO)
+   7. TEMA IDR (BRANCO MARFIM & PRETO + ROXO CAMPEONATO + AZUL AMISTOSO + LARANJA HALLOWEEN)
    ========================================================================== */
 .theme-idr .mtc-banner-container {
   /* No IDR, a base é sempre Marfim Claro & Preto Editorial */
@@ -413,6 +441,11 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
+/* No IDR, deixa o banner de fundo bem suave para não escurecer o tema claro */
+.theme-idr .mtc-banner-container::before {
+  opacity: 0.14;
+}
+
 /* Amistoso no IDR: Mantém o fundo Claro/Preto do IDR, mas aplica Azul Safira nos destaques! */
 .theme-idr .mtc-banner-container.mtc-type-amistoso {
   --mtc-bg-top: #ffffff;
@@ -432,6 +465,18 @@
   --mtc-accent-bright: #6b21a8;
   --mtc-accent-glow: rgba(126, 34, 206, 0.14);
   --mtc-score-bg: linear-gradient(135deg, #7e22ce 0%, #111111 100%);
+  --mtc-score-text: #ffffff;
+}
+
+/* Evento / Halloween no IDR: Fundo Marfim Quente e Laranja Halloween Intenso nos destaques! */
+.theme-idr .mtc-banner-container.mtc-type-evento,
+.theme-idr .mtc-banner-container.mtc-event-halloween {
+  --mtc-bg-top: #ffffff;
+  --mtc-bg-bottom: #fff5eb;
+  --mtc-accent: #ea580c;
+  --mtc-accent-bright: #c2410c;
+  --mtc-accent-glow: rgba(234, 88, 12, 0.18);
+  --mtc-score-bg: linear-gradient(135deg, #ff7b00 0%, #111111 100%);
   --mtc-score-text: #ffffff;
 }
 

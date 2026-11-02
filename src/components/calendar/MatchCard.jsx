@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./MatchCard.css";
-// Ajuste a quantidade de "../" caso o MatchCard esteja dentro de uma subpasta (ex: "../../assets/IDR.png")
 import LogoIDR from "../../assets/IDR.png";
+
+// Importando a moldura de Halloween
+import halloweenMoldura from "../../assets/moldura/halloween.png";
 
 const MatchCard = ({
   match,
@@ -11,7 +13,6 @@ const MatchCard = ({
   onNavigate,
   onSwapOrder,
 }) => {
-  // Detecta automaticamente e em tempo real se o Tema IDR (.theme-idr) está ativo
   const [isIdrTheme, setIsIdrTheme] = useState(false);
 
   useEffect(() => {
@@ -25,7 +26,6 @@ const MatchCard = ({
 
     checkTheme();
 
-    // Observa mudanças de tema em tempo real sem precisar recarregar a página
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, {
       attributes: true,
@@ -36,7 +36,6 @@ const MatchCard = ({
     return () => observer.disconnect();
   }, []);
 
-  // Função para formatar a data no padrão da imagem ("SEXTA-FEIRA 9 OUTUBRO 2026")
   const formatCardDate = (dateString) => {
     if (!dateString) return "Data a definir";
     const [y, m, d] = dateString.split("-");
@@ -79,9 +78,9 @@ const MatchCard = ({
 
   const hasStarted =
     match.status === "FINISHED" ||
-    match.winner || // Se existe um vencedor definido, a partida já ocorreu
+    match.winner ||
     (match.events && match.events.length > 0) ||
-    (match.penalties && (match.penalties.A || match.penalties.B)) || // Se teve disputa de pênaltis cadastrada
+    (match.penalties && (match.penalties.A || match.penalties.B)) ||
     (match.penaltiesScoreA != null && match.penaltiesScoreA !== "");
 
   const scoreA = getTeamScore("A");
@@ -92,32 +91,51 @@ const MatchCard = ({
     const penalties = match.penalties?.[teamLetter];
     if (!penalties || !Array.isArray(penalties)) return 0;
 
-    // Se o primeiro item for string (Lógica Antiga)
     if (typeof penalties[0] === "string") {
       return penalties.filter((p) => p === "goal").length;
     }
-
-    // Se o primeiro item for objeto (Lógica Nova)
     if (typeof penalties[0] === "object") {
       return penalties.filter((p) => p?.result === "goal").length;
     }
-
     return 0;
   };
 
-  // ==========================================
-  // TRATAMENTO DOS NOMES DOS TIMES (Fallback)
-  // ==========================================
   const teamAName = match.teamA?.externalName || match.teamA?.name || "ADR";
   const teamBName =
     match.teamB?.externalName || match.teamB?.name || "Adversário";
 
+  const getEventMolduraSrc = () => {
+    switch (match.eventType) {
+      case "HALLOWEEN":
+        return halloweenMoldura;
+      default:
+        return halloweenMoldura;
+    }
+  };
+
+  const formatEventSubtype = (subType) => {
+    if (!subType) return "";
+    const clean = subType.replace(/_/g, " ").toLowerCase();
+    return clean.charAt(0).toUpperCase() + clean.slice(1);
+  };
+
+  const isEvent = match.type === "EVENTO";
+
   return (
-    <div className="psg-match-card">
+    <div className={`psg-match-card ${isEvent ? "psg-event-card" : ""}`}>
+      {/* Camada da Moldura abraçando o lado de fora da borda do card */}
+      {isEvent && (
+        <div
+          className="psg-event-frame-overlay"
+          style={{
+            backgroundImage: `url(${getEventMolduraSrc()})`,
+          }}
+        />
+      )}
+
       {/* Barra de Ações Administrativas */}
       {isAdmin && (
         <div className="psg-admin-actions">
-          {/* SETAS DE ORDENAÇÃO */}
           {onSwapOrder && (
             <>
               <button
@@ -159,14 +177,21 @@ const MatchCard = ({
         </div>
       )}
 
-      {/* Cabeçalho do Card */}
+      {/* Cabeçalho do Card com o nome do Evento ao lado */}
       <div className="psg-card-top">
         <span className="psg-comp-text">
-          {match.type || "RODADA"}
-          {/* AQUI ENTRA A FASE DO CAMPEONATO SE EXISTIR */}
+          {isEvent ? (
+            <>
+              🎃
+              {match.eventType ? `${formatEventSubtype(match.eventType)}` : ""}
+            </>
+          ) : (
+            match.type || "RODADA"
+          )}
           {match.championshipPhase ? ` - ${match.championshipPhase}` : ""}
         </span>
-        {/* Área da Marca d'água Dinâmica (Troca ADR por IDR no modo IDR) */}
+
+        {/* Marca d'água interna normal */}
         <div className="psg-watermark-image">
           {match.type === "CAMPEONATO" ? (
             <img src="/trofeu.png" alt="Troféu Campeonato" />
@@ -183,7 +208,7 @@ const MatchCard = ({
 
       {/* Área dos Times */}
       <div className="psg-card-teams">
-        {/* TIME A (O ADR) */}
+        {/* TIME A */}
         <div className="psg-team">
           <div className="psg-team-info">
             <img
@@ -214,7 +239,7 @@ const MatchCard = ({
           </div>
         </div>
 
-        {/* TIME B (Adversário / País) */}
+        {/* TIME B */}
         <div className="psg-team">
           <div className="psg-team-info">
             <img
@@ -224,7 +249,6 @@ const MatchCard = ({
             />
             <span className="psg-team-name">{teamBName}</span>
           </div>
-          {/* Placar do Time B ao lado */}
           <div className="psg-team-score">
             {hasStarted ? (
               <span>
@@ -247,7 +271,7 @@ const MatchCard = ({
         </div>
       </div>
 
-      {/* Informações da Partida (Data e Local) */}
+      {/* Informações da Partida */}
       <div className="psg-card-info">
         <p className="psg-date">
           {formatCardDate(match.date)} {match.time ? match.time : ""}

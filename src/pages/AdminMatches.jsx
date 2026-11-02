@@ -17,9 +17,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import LogoADR from "../assets/logo.png";
 import LogoIDR from "../assets/IDR.png";
-// Caso a logo do IDR esteja na pasta src/assets, você pode descomentar a linha abaixo:
-// import LogoIDR from "../assets/logo-idr.png";
-
 import MatchPreview from "../components/adminmatches/MatchPreview";
 import PlayerRow from "../components/adminmatches/PlayerRow";
 import AssistModal from "../components/adminmatches/AssistModal";
@@ -35,11 +32,8 @@ import { saveTeamPreset, loadTeamPresets } from "../data/teamPresets";
 
 import "../styles/adminmatches/adminmatches.css";
 
-// Caminho da logo do IDR na pasta public (ex: public/logo-idr.png)
-// Se você importar lá em cima, basta trocar "/logo-idr.png" por LogoIDR
 const IDR_LOGO_PATH = "/logo-idr.png";
 
-// Compressor de imagem via Canvas para nunca estourar o limite de 1MB do Firebase
 const compressLogoImage = (file, maxSize = 160) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -68,7 +62,6 @@ const compressLogoImage = (file, maxSize = 160) => {
         ctx.clearRect(0, 0, width, height);
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Exporta em WebP (mantém transparência do escudo e reduz 95% do peso!)
         const compressedDataUrl = canvas.toDataURL("image/webp", 0.8);
         resolve(compressedDataUrl);
       };
@@ -96,6 +89,13 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
   const [savedVenues, setSavedVenues] = useState([]);
   const [showVenueModal, setShowVenueModal] = useState(false);
   const [newVenueInput, setNewVenueInput] = useState("");
+
+  // Estados para Modo Evento e Opção de Faltas/Oficial
+  const [eventType, setEventType] = useState(matchToEdit?.eventType || "NATAL");
+  const [isOfficial, setIsOfficial] = useState(matchToEdit?.isOfficial ?? true);
+  const [generateFoul, setGenerateFoul] = useState(
+    matchToEdit?.generateFoul ?? true,
+  );
 
   useEffect(() => {
     const fetchVenues = async () => {
@@ -290,7 +290,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     setPendingEvent(null);
   };
 
-  // Upload com compressão automática (evita estourar limite do Firestore)
   const handleImageUpload = async (e, teamKey) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -312,7 +311,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     }
   };
 
-  // Identifica qual opção do select está ativa para o time
   const getLogoSelectValue = (logoVal) => {
     if (!logoVal || logoVal === LogoADR || logoVal === "/logo.png") {
       return "ADR";
@@ -327,7 +325,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
     return "CUSTOM";
   };
 
-  // Troca rápida pelo Select (ADR, IDR ou Abrir Arquivo)
   const handleLogoSelectChange = (e, t, teamKey) => {
     const choice = e.target.value;
 
@@ -336,11 +333,10 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         ...prev,
         [teamKey]: {
           ...prev[teamKey],
-          logo: "", // Vazio usa automaticamente a LogoADR padrão sem pesar no banco!
+          logo: "",
         },
       }));
     } else if (choice === "IDR") {
-      // Usa diretamente o LogoIDR que você importou de "../assets/IDR.png"!
       setDraft((prev) => ({
         ...prev,
         [teamKey]: {
@@ -513,6 +509,9 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         goalsB,
         winner,
         type: matchType,
+        eventType: matchType === "EVENTO" ? eventType : null,
+        isOfficial: isOfficial,
+        generateFoul: generateFoul,
         championshipPhase:
           matchType === "CAMPEONATO" ? draft.championshipPhase || "" : null,
         updatedAt: serverTimestamp(),
@@ -583,6 +582,111 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
         setShowVenueModal={setShowVenueModal}
       />
 
+      {/* PAINEL DE CONFIGURAÇÕES DE EVENTO E OFICIALIZAÇÃO */}
+      <div
+        className="admin-custom-configs"
+        style={{
+          background: "#14151c",
+          padding: "18px",
+          borderRadius: "12px",
+          marginBottom: "22px",
+          border: "1px solid rgba(212, 175, 55, 0.3)",
+        }}
+      >
+        {matchType === "EVENTO" && (
+          <div style={{ marginBottom: "14px" }}>
+            <label
+              style={{
+                color: "#d4af37",
+                fontWeight: "bold",
+                display: "block",
+                marginBottom: "6px",
+                fontSize: "0.9rem",
+              }}
+            >
+              🎉 Tema Visual do Evento:
+            </label>
+            <select
+              value={eventType}
+              onChange={(e) => setEventType(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                background: "#0c0d12",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,0.15)",
+                borderRadius: "8px",
+                fontWeight: "600",
+              }}
+            >
+              <option value="NATAL">🎄 Especial de Natal</option>
+              <option value="HALLOWEEN">🎃 Especial de Halloween</option>
+              <option value="ANIVERSARIO_ADR">👑 Aniversário d'O ADR</option>
+              <option value="CONFRATERNIZACAO">🥳 Confraternização</option>
+              <option value="OUTRO">✨ Outro Evento</option>
+            </select>
+          </div>
+        )}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              cursor: "pointer",
+              color: "#fff",
+              fontWeight: "700",
+              fontSize: "0.9rem",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={isOfficial}
+              onChange={(e) => setIsOfficial(e.target.checked)}
+              style={{
+                accentColor: "#d4af37",
+                width: "18px",
+                height: "18px",
+                cursor: "pointer",
+              }}
+            />
+            <span>
+              Contar como Partida Oficial (Soma Gols, Assistências e
+              Estatísticas Gerais)
+            </span>
+          </label>
+
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              cursor: "pointer",
+              color: "#fff",
+              fontWeight: "700",
+              fontSize: "0.9rem",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={generateFoul}
+              onChange={(e) => setGenerateFoul(e.target.checked)}
+              style={{
+                accentColor: "#d4af37",
+                width: "18px",
+                height: "18px",
+                cursor: "pointer",
+              }}
+            />
+            <span>
+              Gerar Faltas para Ausentes (Afeta Streak e Status de Ativo na
+              Tabela)
+            </span>
+          </label>
+        </div>
+      </div>
+
       <div className="match-teams-grid">
         {["A", "B"].map((t) => {
           const teamKey = t === "A" ? "teamA" : "teamB";
@@ -602,7 +706,6 @@ function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
               className={`team-card ${isExternal ? "opponent-card" : ""}`}
             >
               <div className="team-upload-header">
-                {/* BLOCO DE LOGO + SELECT (ADR / IDR / NOVA LOGO) */}
                 <div className="logo-selector-group">
                   <div
                     className="logo-box"

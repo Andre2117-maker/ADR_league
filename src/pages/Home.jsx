@@ -51,21 +51,29 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
       if (!sortedMatchesByDate || sortedMatchesByDate.length === 0)
         return defaultReturn;
 
-      // --- CORREÇÃO AQUI: FILTRAR APENAS TREINOS ---
-      // A Tabela Geral e os cards laterais devem ignorar AMISTOSOS
       const params = new URLSearchParams(window.location.search);
-
       const limite = Number(params.get("limit")) || 9999;
 
-      const onlyTrainings = sortedMatchesByDate
-        .filter((m) => m.type === "TREINO")
+      // --- CORREÇÃO AQUI: INCLUIR TREINOS E EVENTOS OFICIAIS ---
+      // Agora o sistema aceita TREINOS e também EVENTOS que estejam marcados como oficiais (isOfficial !== false)
+      const validMatches = sortedMatchesByDate
+        .filter((m) => {
+          const type = String(m.type || "TREINO").toUpperCase();
+          const isTreino = type === "TREINO";
+          const isOfficialEvent = type === "EVENTO" && m.isOfficial !== false;
+          return isTreino || isOfficialEvent;
+        })
         .slice(-limite);
 
-      // Agora filtramos apenas onde o jogador participou DENTRO DOS TREINOS
-      const playerMatches = onlyTrainings.filter(
+      // Filtra apenas onde o jogador participou DENTRO DAS PARTIDAS VÁLIDAS
+      const playerMatches = validMatches.filter(
         (m) =>
           m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
-          m.teamB?.players?.some((id) => String(id) === String(playerId)),
+          m.teamB?.players?.some((id) => String(id) === String(playerId)) ||
+          m.actualParticipantsA?.some(
+            (id) => String(id) === String(playerId),
+          ) ||
+          m.actualParticipantsB?.some((id) => String(id) === String(playerId)),
       );
 
       if (playerMatches.length === 0) return defaultReturn;
@@ -77,15 +85,14 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
       let totalDraws = 0;
 
       playerMatches.forEach((m) => {
-        const isTeamA = m.teamA?.players?.some(
-          (id) => String(id) === String(playerId),
-        );
+        const isTeamA =
+          m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
+          m.actualParticipantsA?.some((id) => String(id) === String(playerId));
         const playerTeam = isTeamA ? "A" : "B";
         const pIdStr = String(playerId);
 
         // Gols e Assistências
         m.events?.forEach((e) => {
-          // Garante que não conta gols de "OPONENTE_EXTERNO" para seus jogadores
           if (e.type === "GOAL" && String(e.playerId) === pIdStr) {
             totalGoals++;
           }
@@ -100,7 +107,7 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
           }
         });
 
-        // Placar (Calculado dinamicamente para cada partida do loop)
+        // Placar
         const goalsA =
           m.events?.filter(
             (e) =>
@@ -134,11 +141,11 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
         else if (result === "L") totalLosses++;
       });
 
-      // Cálculo da Forma (últimos 5 jogos de TREINO)
+      // Cálculo da Forma (últimos 5 jogos válidos)
       const form = playerMatches.slice(-5).map((m) => {
-        const isTeamA = m.teamA?.players?.some(
-          (id) => String(id) === String(playerId),
-        );
+        const isTeamA =
+          m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
+          m.actualParticipantsA?.some((id) => String(id) === String(playerId));
         const playerTeam = isTeamA ? "A" : "B";
         const goalsA =
           m.events?.filter(
@@ -179,7 +186,7 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
 
   const playersWith2026Stats = useMemo(() => {
     return players.map((p) => {
-      const stats = getPlayerStats(p.id); // <-- Você usa a função aqui
+      const stats = getPlayerStats(p.id);
       const manual26 = p.statsBySeason?.["2026"] || {};
 
       return {
@@ -193,10 +200,8 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
         form: stats.form,
       };
     });
-    // AQUI ESTÁ A CORREÇÃO: Adicione getPlayerStats no array abaixo
   }, [players, getPlayerStats]);
 
-  // Agora as listas ordenadas usam os dados de 2026:
   const sorted = [...playersWith2026Stats].sort(
     (a, b) =>
       b.points - a.points ||

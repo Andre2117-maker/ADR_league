@@ -32,7 +32,7 @@ function AdminHeader({
           {loadingLastTeams ? "CARREGANDO..." : "📋 USAR ÚLTIMOS TIMES"}
         </button>
 
-        {/* NOVA CLASSE ADICIONADA AQUI 👇 */}
+        {/* SELETOR DE TIPO DE PARTIDA COM A OPÇÃO DE EVENTO ADICIONADA */}
         <select
           className="match-type-select"
           value={matchType}
@@ -40,7 +40,7 @@ function AdminHeader({
             const newType = e.target.value;
             setMatchType(newType);
 
-            if (newType === "TREINO") {
+            if (newType === "TREINO" || newType === "EVENTO") {
               setDraft((prev) => ({
                 ...prev,
                 teamB: {
@@ -54,6 +54,7 @@ function AdminHeader({
           <option value="TREINO">🏟️ TREINO INTERNO</option>
           <option value="AMISTOSO">🤝 AMISTOSO EXTERNO</option>
           <option value="CAMPEONATO">🏆 CAMPEONATO</option>
+          <option value="EVENTO">🎉 EVENTO ESPECIAL</option>
         </select>
       </div>
 

@@ -1,7 +1,7 @@
 .psg-card-top {
   padding: 20px;
-  position: relative; /* Necessário para posicionar a marca d'água */
-  overflow: hidden;
+  position: relative;
+  overflow: hidden; /* Mantém a marca d'água cortada dentro do topo */
   border-bottom: 1px solid #f9f9f9;
 }
 
@@ -10,19 +10,82 @@
   right: -10px;
   top: -70px;
   z-index: 1;
-  opacity: 0.1; /* Deixa bem suave igual à imagem image_a76a52.png */
+  opacity: 0.1;
 }
 
 .psg-watermark-image img {
-  width: 190px; /* Ajuste o tamanho conforme necessário */
+  width: 190px;
   height: auto;
-  pointer-events: none; /* Evita que o usuário clique na imagem de fundo */
+  pointer-events: none;
 }
 
 .psg-comp-text {
   position: relative;
-  z-index: 2; /* Garante que o texto "TREINO" fique acima da imagem */
+  z-index: 2;
   font-size: 11px;
   font-weight: bold;
   color: #666;
+}
+
+/* =========================================================
+   MODO EVENTO (MOLDURA CRAVADA NAS BORDAS EXTERNAS DO CARD)
+   ========================================================= */
+.psg-match-card.psg-event-card {
+  position: relative !important;
+  background-color: #0b0c10 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  overflow: visible !important; /* Permite que os detalhes da moldura abracem a borda sem corte */
+  padding: 0 !important; /* Remove o recuo que afastava os elementos internos */
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.85),
+    0 0 18px rgba(235, 94, 0, 0.18) !important;
+}
+
+/* Compensa a borda transparente nativa do PNG para a moldura colar 100% na quina do card */
+.psg-event-frame-overlay {
+  position: absolute !important;
+  top: -15px !important;
+  left: -15px !important;
+  right: -15px !important;
+  bottom: -15px !important;
+  background-size: 100% 100% !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  pointer-events: none !important;
+  z-index: 15 !important;
+}
+
+/* Ajusta o respiro do topo para as teias de aranha não cobrirem o texto "EVENTO - Halloween" */
+.psg-match-card.psg-event-card .psg-card-top {
+  padding: 26px 26px 16px 28px !important;
+  border-radius: 10px 10px 0 0;
+}
+
+.psg-match-card.psg-event-card .psg-comp-text {
+  color: #ff9100 !important;
+  letter-spacing: 0.5px;
+}
+
+/* Recuo lateral suave para os escudos e placares não baterem nas hastes da moldura */
+.psg-match-card.psg-event-card .psg-card-teams,
+.psg-match-card.psg-event-card .psg-card-info {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
+
+/* Ajusta o botão "+ INFORMAÇÕES" para não ficar escondido atrás da barra inferior e das abóboras */
+.psg-match-card.psg-event-card .psg-match-center-btn {
+  padding-top: 14px !important;
+  padding-bottom: 22px !important;
+  border-radius: 0 0 10px 10px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Garante que os botões de Admin (Editar/Excluir) fiquem sempre clicáveis acima da moldura */
+.psg-match-card.psg-event-card .psg-admin-actions {
+  z-index: 25 !important;
+  top: 14px !important;
+  right: 16px !important;
 }

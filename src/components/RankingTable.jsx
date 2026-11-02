@@ -23,14 +23,19 @@ export default function RankingTable({
     direction: "asc",
   });
 
-  // 1. PRÉ-PROCESSAMENTO DE DATAS DE TREINO
+  // 1. PRÉ-PROCESSAMENTO DE DATAS (TREINOS E EVENTOS OFICIAIS QUE GERAM FALTAS)
   const trainingData = useMemo(() => {
-    const onlyTrainings = (matches || []).filter(
-      (m) => String(m.type || "TREINO").toUpperCase() === "TREINO" && m.date,
-    );
+    const validMatchesForAttendance = (matches || []).filter((m) => {
+      const type = String(m.type || "TREINO").toUpperCase();
+      const isTreino = type === "TREINO";
+      const isEventWithFoul = type === "EVENTO" && m.generateFoul !== false;
+      return (isTreino || isEventWithFoul) && m.date;
+    });
 
     const rawDates = [
-      ...new Set(onlyTrainings.map((m) => String(m.date).split("T")[0])),
+      ...new Set(
+        validMatchesForAttendance.map((m) => String(m.date).split("T")[0]),
+      ),
     ];
 
     const sortedTrainingDays = rawDates.sort((a, b) => {
@@ -39,7 +44,7 @@ export default function RankingTable({
       return new Date(y2, m2 - 1, d2, 12) - new Date(y1, m1 - 1, d1, 12);
     });
 
-    return { onlyTrainings, sortedTrainingDays };
+    return { validMatchesForAttendance, sortedTrainingDays };
   }, [matches]);
 
   // 2. DADOS DOS JOGADORES ATIVOS
@@ -48,7 +53,7 @@ export default function RankingTable({
     let highestGoals = 0;
     let highestAssists = 0;
 
-    const { onlyTrainings, sortedTrainingDays } = trainingData;
+    const { validMatchesForAttendance, sortedTrainingDays } = trainingData;
 
     const processed = active.map((p, originalIdx) => {
       const pIdStr = String(p.id);
@@ -74,24 +79,38 @@ export default function RankingTable({
       if (totalGoals26 > highestGoals) highestGoals = totalGoals26;
       if (totalAssists26 > highestAssists) highestAssists = totalAssists26;
 
-      // Calcula Streak de Presença e Faltas Consecutivas
+      // --- CÁLCULO DE STREAK E FALTAS INTELIGENTE ---
       let streak = 0;
       let missedCount = 0;
       let countingStreak = true;
       let countingMissed = true;
 
       for (const day of sortedTrainingDays) {
-        const playedOnThisDay = onlyTrainings.some((match) => {
-          const mDay = String(match.date).split("T")[0];
-          if (mDay !== day) return false;
-          const inA = match.teamA?.players?.some((id) => String(id) === pIdStr);
-          const inB = match.teamB?.players?.some((id) => String(id) === pIdStr);
+        // Verifica se houve partidas geradoras de falta neste dia
+        const matchesOnThisDay = validMatchesForAttendance.filter(
+          (match) => String(match.date).split("T")[0] === day,
+        );
+
+        // Se por acaso o dia só tiver partidas que NÃO geram falta, ignoramos completamente o dia para o streak
+        const hasFoulGeneratingMatch = matchesOnThisDay.some(
+          (m) => m.generateFoul !== false,
+        );
+        if (!hasFoulGeneratingMatch) continue;
+
+        const playedOnThisDay = matchesOnThisDay.some((match) => {
+          const teamAPlayers =
+            match.teamA?.players || match.actualParticipantsA || [];
+          const teamBPlayers =
+            match.teamB?.players || match.actualParticipantsB || [];
+
+          const inA = teamAPlayers.some((id) => String(id) === pIdStr);
+          const inB = teamBPlayers.some((id) => String(id) === String(pIdStr));
           return inA || inB;
         });
 
         if (countingStreak) {
           if (playedOnThisDay) streak++;
-          else countingStreak = false;
+          else countingStreak = false; // Quebra o foguinho apenas se faltou a um treino/evento oficial gerador de falta
         }
 
         if (countingMissed) {
@@ -124,7 +143,7 @@ export default function RankingTable({
     };
   }, [sortedPlayers, getPlayerStats, trainingData]);
 
-  // 3. ORDENAÇÃO POR COLUNA (Atualiza as colocações dinamicamente)
+  // 3. ORDENAÇÃO POR COLUNA
   const displayedPlayers = useMemo(() => {
     let list = [...enrichedPlayers];
 
@@ -275,7 +294,6 @@ export default function RankingTable({
                 missedCount,
               } = item;
 
-              // Colocação atualizada conforme a ordenação atual
               const currentPos = idx + 1;
               const isLast =
                 idx === displayedPlayers.length - 1 &&
@@ -297,7 +315,6 @@ export default function RankingTable({
                   onMouseEnter={() => setHoveredPlayer && setHoveredPlayer(p)}
                   className={rowClass}
                 >
-                  {/* POSIÇÃO DINÂMICA (1º, 2º, 3º...) */}
                   <td className="fw-bold sticky-col pin-pos">
                     {currentPos <= 3 ? (
                       <img
@@ -312,13 +329,11 @@ export default function RankingTable({
                     )}
                   </td>
 
-                  {/* NOME DO JOGADOR (Sem interatividade de clique) */}
                   <td className="player-td-name fw-bold sticky-col pin-name">
                     <div className="rk-player-cell-inner">
                       <span className="rk-player-name-wrap">
                         <span className="rk-player-name-text">{p.name}</span>
 
-                        {/* MEDALHA DE ARTILHEIRO */}
                         {totalGoals26 > 0 && totalGoals26 === maxGoals && (
                           <span
                             className="rk-leader-badge"
@@ -331,7 +346,6 @@ export default function RankingTable({
                           </span>
                         )}
 
-                        {/* MEDALHA DE GARÇOM */}
                         {totalAssists26 > 0 &&
                           totalAssists26 === maxAssists && (
                             <span
@@ -343,7 +357,6 @@ export default function RankingTable({
                             </span>
                           )}
 
-                        {/* STREAK DE PRESENÇA (FOGO) */}
                         {fireSrc && (
                           <div
                             className="rk-fire-badge"
@@ -360,7 +373,6 @@ export default function RankingTable({
                         )}
                       </span>
 
-                      {/* ALERTA DE FALTAS (ADMIN) */}
                       {isAdmin && missedCount >= 3 && (
                         <span
                           className="rk-absence-alert"
@@ -372,7 +384,6 @@ export default function RankingTable({
                     </div>
                   </td>
 
-                  {/* COLUNAS DE ESTATÍSTICAS */}
                   <td className="rk-pts-cell fw-bold">{points}</td>
                   <td className="rk-stat-cell">{totalGoals26}</td>
                   <td className="rk-stat-cell">{totalAssists26}</td>
@@ -380,7 +391,6 @@ export default function RankingTable({
                   <td className="rk-stat-cell win-num">{wins}</td>
                   <td className="rk-stat-cell loss-num">{losses}</td>
 
-                  {/* ÚLTIMAS 5 PARTIDAS */}
                   <td>
                     <div className="form-container">
                       {form && form.length > 0 ? (
@@ -409,7 +419,6 @@ export default function RankingTable({
         </table>
       </div>
 
-      {/* ==================== LEGENDA OFICIAL ==================== */}
       <footer className="legend-container">
         <div className="legend-group">
           <div className="legend-item">
