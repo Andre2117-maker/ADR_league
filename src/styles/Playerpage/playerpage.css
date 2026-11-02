@@ -286,7 +286,7 @@
 
   /* 4. Ajuste do Layout debaixo (Cards) */
   .ppg-main-layout {
-    grid-template-columns: 1fr; /* Coluna única */
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 15px;
     margin-top: 20px;
   }

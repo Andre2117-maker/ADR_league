@@ -155,14 +155,11 @@ const MatchHistory = ({ matches = [], player }) => {
   // Contadores de partidas por aba para este jogador
 
   const tabCounts = useMemo(() => {
-    const counts = { TREINO: 0, AMISTOSO: 0, CAMPEONATO: 0 };
-
+    const counts = { TREINO: 0, AMISTOSO: 0, CAMPEONATO: 0, EVENTO: 0 };
     matches.forEach((m) => {
       const t = (m.type || "TREINO").toUpperCase();
-
       if (counts[t] !== undefined) counts[t]++;
     });
-
     return counts;
   }, [matches]);
 
@@ -216,6 +213,15 @@ const MatchHistory = ({ matches = [], player }) => {
             <span>Campeonatos</span>
 
             <span className="adr-tab-count">{tabCounts.CAMPEONATO}</span>
+          </button>
+
+          <button
+            type="button"
+            className={`adr-tab-btn ${activeTab === "EVENTO" ? "active" : ""}`}
+            onClick={() => setActiveTab("EVENTO")}
+          >
+            <span>Eventos</span>
+            <span className="adr-tab-count">{tabCounts.EVENTO}</span>
           </button>
         </div>
       </div>

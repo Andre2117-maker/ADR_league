@@ -17,6 +17,8 @@
   margin-top: 24px;
   box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
+  min-width: 0; /* permite encolher dentro de pais flex/grid */
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
   position: relative;
 }
@@ -30,12 +32,15 @@
   border-bottom: 1px solid rgba(212, 175, 55, 0.15);
   gap: 16px;
   flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .adr-history-title-group {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .adr-history-kicker {
@@ -56,7 +61,7 @@
 }
 
 /* ==========================================================================
-   2. SISTEMA DE ABAS (PRETO & DOURADO IMPERIAL)
+   2. SISTEMA DE ABAS (PRETO & DOURADO IMPERIAL) — COM SCROLL HORIZONTAL
    ========================================================================== */
 .adr-history-tabs {
   display: inline-flex;
@@ -65,12 +70,26 @@
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   gap: 6px;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge antigo */
+}
+
+.adr-history-tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .adr-tab-btn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  flex: 0 0 auto; /* nunca encolhe: quem rola é o container */
+  white-space: nowrap;
   background: transparent;
   border: 1px solid transparent;
   color: #777777;
@@ -119,6 +138,7 @@
   max-height: 560px;
   overflow-y: auto;
   padding-right: 6px;
+  min-width: 0;
 }
 
 .adr-history-list::-webkit-scrollbar {
@@ -393,16 +413,17 @@
 }
 
 /* ==========================================================================
-   5. RESPONSIVIDADE CELULAR (MOBILE) — BLINDADO E COMPACTO
+   5. RESPONSIVIDADE CELULAR (MOBILE) — BLINDADO, COMPACTO E COM ABAS ROLÁVEIS
    ========================================================================== */
 @media (max-width: 640px) {
   .adr-history-container {
-    padding: 12px 10px;
+    padding: 12px 10px !important;
     border-radius: 14px;
     margin-top: 16px;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
   }
 
   .adr-history-header {
@@ -411,35 +432,63 @@
     gap: 10px;
     margin-bottom: 14px;
     padding-bottom: 12px;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .adr-history-title-group {
+    min-width: 0;
   }
 
   .adr-history-title {
     font-size: 1rem;
   }
 
+  /* ABAS: scroll horizontal (Treinos / Amistosos / Campeonatos / Eventos) */
   .adr-history-tabs {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    justify-content: flex-start !important;
     box-sizing: border-box;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .adr-history-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .adr-tab-btn {
-    flex: 1;
+    flex: 0 0 auto !important; /* não encolhe nem estica */
     justify-content: center;
-    padding: 7px 4px;
+    padding: 7px 12px !important;
     font-size: 0.62rem;
-    gap: 3px;
+    gap: 4px;
     letter-spacing: 0.4px;
+    white-space: nowrap !important;
+    scroll-snap-align: start;
+  }
+
+  .adr-history-list {
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
 
   /* Grid mobile de 3 colunas fixas: [Status/Data] [Placar/Logos] [Badges] */
   .adr-match-card {
     display: grid !important;
-    grid-template-columns: 40px 1fr 76px !important;
+    grid-template-columns: 40px minmax(0, 1fr) 76px !important;
     padding: 8px 6px !important;
     gap: 4px !important;
     width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
     min-height: 58px !important;
   }
