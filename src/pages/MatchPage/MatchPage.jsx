@@ -651,6 +651,7 @@ function MatchPage({ matches, players, isAdmin }) {
       <div className="psg-tab-content">
         {mainTab === "ESTATISTICAS" && (
           <MatchStats
+            match={match}
             teamStats={stats}
             teamAName={match.teamA.name}
             teamBName={match.teamB.name}

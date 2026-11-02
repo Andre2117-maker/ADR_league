@@ -1,13 +1,17 @@
 import React, { useState, useMemo } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import LogoADR from "../../assets/logo.png";
+
 import "../../styles/Playerpage/matchHistory.css";
 
-// Função oficial de resultado d'O ADR (Garante ZERO empate em TREINO e EVENTO oficial)
+// Função oficial de resultado d'O ADR (Garante ZERO empate em TREINO)
+
 export const resolveADRMatchOutcome = (m, isTeamA) => {
   const mType = String(m.type || "TREINO").toUpperCase();
+
   const isTreino = mType === "TREINO";
-  const isOfficialEvent = mType === "EVENTO" && m.isOfficial !== false;
 
   const sA =
     m.events?.filter(
@@ -24,10 +28,12 @@ export const resolveADRMatchOutcome = (m, isTeamA) => {
     ).length || 0;
 
   // Extrai placar de pênaltis (sistema novo ou antigo)
+
   const newPensA =
     m.penalties?.A?.length > 0
       ? m.penalties.A.filter((p) => p.result === "goal").length
       : null;
+
   const newPensB =
     m.penalties?.B?.length > 0
       ? m.penalties.B.filter((p) => p.result === "goal").length
@@ -37,46 +43,62 @@ export const resolveADRMatchOutcome = (m, isTeamA) => {
     m.penaltiesScoreA !== undefined && m.penaltiesScoreA !== ""
       ? Number(m.penaltiesScoreA)
       : null;
+
   const oldPensB =
     m.penaltiesScoreB !== undefined && m.penaltiesScoreB !== ""
       ? Number(m.penaltiesScoreB)
       : null;
 
   const pensA = newPensA !== null ? newPensA : oldPensA;
+
   const pensB = newPensB !== null ? newPensB : oldPensB;
 
+  const hasPenaltiesScore =
+    pensA !== null && pensB !== null && (pensA > 0 || pensB > 0 || sA === sB);
+
   let result = "draw";
+
   let decidedBy = "NORMAL"; // "NORMAL" | "GOLDEN_GOAL" | "PENALTIES"
 
   // 1. Gol de Ouro
+
   if (m.goldenGoalWinner) {
     const teamAWonGG = String(m.goldenGoalWinner).toUpperCase() === "A";
+
     result =
       (teamAWonGG && isTeamA) || (!teamAWonGG && !isTeamA) ? "win" : "loss";
+
     decidedBy = "GOLDEN_GOAL";
   }
+
   // 2. Vitória no Tempo Normal
   else if (sA > sB) {
     result = isTeamA ? "win" : "loss";
   } else if (sB > sA) {
     result = !isTeamA ? "win" : "loss";
   }
+
   // 3. Empate no Tempo Normal -> Decide nos Pênaltis
   else {
     const pA = pensA ?? 0;
+
     const pB = pensB ?? 0;
 
     if (pA !== pB) {
       const teamAWonPens = pA > pB;
+
       result =
         (teamAWonPens && isTeamA) || (!teamAWonPens && !isTeamA)
           ? "win"
           : "loss";
+
       decidedBy = "PENALTIES";
     } else if (m.penaltiesWinner || m.winner) {
       const wRaw = String(m.penaltiesWinner || m.winner)
         .trim()
+
         .toUpperCase();
+
       const teamAWon =
         wRaw === "A" ||
         wRaw === "TEAMA" ||
@@ -86,60 +108,61 @@ export const resolveADRMatchOutcome = (m, isTeamA) => {
 
       result =
         (teamAWon && isTeamA) || (!teamAWon && !isTeamA) ? "win" : "loss";
+
       decidedBy = "PENALTIES";
-    } else if (isTreino || isOfficialEvent) {
-      // Trava de segurança: Nunca permite "draw" em TREINO ou EVENTO oficial
+    } else if (isTreino) {
+      // Trava de segurança: Nunca permite "draw" em TREINO
+
       result = isTeamA ? "win" : "loss";
+
       decidedBy = "PENALTIES";
     }
   }
 
   return {
     result,
+
     sA,
+
     sB,
+
     pensA: pensA ?? 0,
+
     pensB: pensB ?? 0,
+
     decidedBy,
+
     hasPenaltiesScore:
       decidedBy === "PENALTIES" && pensA !== null && pensB !== null,
   };
 };
 
-// Formata o nome do subtipo do evento (ex: "HALLOWEEN" -> "Halloween")
-const formatEventName = (subType) => {
-  if (!subType) return "Especial";
-  const clean = String(subType).replace(/_/g, " ").toLowerCase();
-  return clean.charAt(0).toUpperCase() + clean.slice(1);
-};
-
-// Define o emoji correspondente ao tipo de evento
-const getEventEmoji = (subType) => {
-  const upper = String(subType || "").toUpperCase();
-  if (upper === "HALLOWEEN") return "🎃";
-  if (upper === "NATAL") return "🎄";
-  if (upper === "ANO_NOVO" || upper === "REVEILLON") return "🎆";
-  return "🎉";
-};
-
 const MatchHistory = ({ matches = [], player }) => {
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState("TREINO");
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "S/D";
+
     if (dateStr.includes("/")) return dateStr.substring(0, 5);
+
     const [, month, day] = dateStr.split("T")[0].split("-");
+
     return `${day}/${month}`;
   };
 
   // Contadores de partidas por aba para este jogador
+
   const tabCounts = useMemo(() => {
-    const counts = { TREINO: 0, AMISTOSO: 0, CAMPEONATO: 0, EVENTO: 0 };
+    const counts = { TREINO: 0, AMISTOSO: 0, CAMPEONATO: 0 };
+
     matches.forEach((m) => {
       const t = (m.type || "TREINO").toUpperCase();
+
       if (counts[t] !== undefined) counts[t]++;
     });
+
     return counts;
   }, [matches]);
 
@@ -147,15 +170,18 @@ const MatchHistory = ({ matches = [], player }) => {
     const filtered = matches.filter(
       (m) => (m.type || "TREINO").toUpperCase() === activeTab,
     );
+
     return [...filtered].sort((a, b) => (b.order || 0) - (a.order || 0));
   }, [matches, activeTab]);
 
   return (
     <div className="adr-history-container">
       {/* CABEÇALHO & ABAS */}
+
       <div className="adr-history-header">
         <div className="adr-history-title-group">
           <span className="adr-history-kicker">REGISTRO DE PARTIDAS</span>
+
           <h3 className="adr-history-title">Histórico de Jogos</h3>
         </div>
 
@@ -166,6 +192,7 @@ const MatchHistory = ({ matches = [], player }) => {
             onClick={() => setActiveTab("TREINO")}
           >
             <span>Treinos</span>
+
             <span className="adr-tab-count">{tabCounts.TREINO}</span>
           </button>
 
@@ -175,6 +202,7 @@ const MatchHistory = ({ matches = [], player }) => {
             onClick={() => setActiveTab("AMISTOSO")}
           >
             <span>Amistosos</span>
+
             <span className="adr-tab-count">{tabCounts.AMISTOSO}</span>
           </button>
 
@@ -186,49 +214,41 @@ const MatchHistory = ({ matches = [], player }) => {
             onClick={() => setActiveTab("CAMPEONATO")}
           >
             <span>Campeonatos</span>
-            <span className="adr-tab-count">{tabCounts.CAMPEONATO}</span>
-          </button>
 
-          {/* Aba oficial de EVENTO */}
-          <button
-            type="button"
-            className={`adr-tab-btn tab-evento ${
-              activeTab === "EVENTO" ? "active" : ""
-            }`}
-            onClick={() => setActiveTab("EVENTO")}
-          >
-            <span>Evento</span>
-            <span className="adr-tab-count">{tabCounts.EVENTO}</span>
+            <span className="adr-tab-count">{tabCounts.CAMPEONATO}</span>
           </button>
         </div>
       </div>
 
       {/* LISTA DE PARTIDAS */}
+
       <div className="adr-history-list">
         {sortedMatches.length > 0 ? (
           sortedMatches.map((m) => {
             const pIdStr = String(player?.id);
+
             const isTeamA = m.teamA?.players?.some(
               (id) => String(id) === pIdStr,
             );
 
-            const isEventMatch =
-              String(m.type || "").toUpperCase() === "EVENTO";
-            const eventSubtypeKey = String(
-              m.eventType || "HALLOWEEN",
-            ).toLowerCase();
-
             const {
               result,
+
               sA,
+
               sB,
+
               pensA,
+
               pensB,
+
               decidedBy,
+
               hasPenaltiesScore,
             } = resolveADRMatchOutcome(m, isTeamA);
 
             // Scouts do jogador na partida
+
             const pG =
               m.events?.filter(
                 (e) => String(e.playerId) === pIdStr && e.type === "GOAL",
@@ -260,25 +280,27 @@ const MatchHistory = ({ matches = [], player }) => {
               String(m.teamB?.goalkeeperId) === pIdStr;
 
             const teamConceded = isTeamA ? sB : sA;
+
             const isCleanSheet = isGoalkeeper && teamConceded === 0;
 
             return (
               <div
                 key={m.id}
-                className={`adr-match-card result-${result} ${
-                  isEventMatch ? `is-event-match event-${eventSubtypeKey}` : ""
-                }`}
+                className={`adr-match-card result-${result}`}
                 onClick={() => navigate(`/match/${m.id}`)}
               >
                 {/* COLUNA ESQUERDA: RESULTADO (V/D/E) + DATA */}
+
                 <div className="adr-match-info">
                   <div className={`adr-status-indicator ${result}`}>
                     {result === "win" ? "V" : result === "loss" ? "D" : "E"}
                   </div>
+
                   <span className="adr-match-date">{formatDate(m.date)}</span>
                 </div>
 
                 {/* COLUNA CENTRAL: CONFRONTO E PLACAR */}
+
                 <div className="adr-match-main">
                   <span
                     className={`adr-team-name team-a ${
@@ -305,7 +327,9 @@ const MatchHistory = ({ matches = [], player }) => {
                         >
                           {sA}
                         </span>
+
                         <span className="score-divider">:</span>
+
                         <span
                           className={`score-num ${
                             !isTeamA ? "my-team-score" : ""
@@ -316,6 +340,7 @@ const MatchHistory = ({ matches = [], player }) => {
                       </div>
 
                       {/* Sub-placar quando decidido nos Pênaltis */}
+
                       {decidedBy === "PENALTIES" && (
                         <span className="adr-pens-sub">
                           {hasPenaltiesScore
@@ -343,19 +368,9 @@ const MatchHistory = ({ matches = [], player }) => {
                 </div>
 
                 {/* COLUNA DIREITA: BADGES DE DESEMPENHO INDIVIDUAL */}
+
                 <div className="adr-match-player-stats">
                   <div className="stats-badges">
-                    {/* Tag com a palavra EVENTO + Subtipo (ex: 🎃 EVENTO - Halloween) */}
-                    {isEventMatch && (
-                      <span
-                        className={`badge-tag badge-event-subtype subtype-${eventSubtypeKey}`}
-                        title={`Evento Especial: ${formatEventName(m.eventType || "HALLOWEEN")}`}
-                      >
-                        {getEventEmoji(m.eventType)}
-                        {formatEventName(m.eventType || "HALLOWEEN")}
-                      </span>
-                    )}
-
                     {decidedBy === "GOLDEN_GOAL" && (
                       <span
                         className="badge-tag badge-golden"
@@ -364,15 +379,19 @@ const MatchHistory = ({ matches = [], player }) => {
                         ⚡ Ouro
                       </span>
                     )}
+
                     {pG > 0 && (
                       <span className="badge-tag badge-goal">⚽ +{pG}</span>
                     )}
+
                     {pA > 0 && (
                       <span className="badge-tag badge-assist">👟 +{pA}</span>
                     )}
+
                     {isGoalkeeper && (
                       <span className="badge-tag badge-gk">🧤 GK</span>
                     )}
+
                     {isCleanSheet && (
                       <span
                         className="badge-tag badge-cs"
@@ -381,13 +400,16 @@ const MatchHistory = ({ matches = [], player }) => {
                         🛡️ SG
                       </span>
                     )}
+
                     {pY > 0 && (
                       <span className="badge-tag badge-yellow">🟨 {pY}</span>
                     )}
+
                     {pR > 0 && (
                       <span className="badge-tag badge-red">🟥 {pR}</span>
                     )}
                   </div>
+
                   <span className="adr-match-chevron">❯</span>
                 </div>
               </div>
