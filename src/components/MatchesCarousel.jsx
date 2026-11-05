@@ -306,19 +306,33 @@ function MatchesCarousel({ matches = [], players = [] }) {
       </div>
 
       {/* INDICADORES INFERIORES (DOTS) */}
-      {sortedMatches.length > 1 && (
-        <div className="mtc-dots">
-          {sortedMatches.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              className={`mtc-dot ${i === currentIndex ? "active" : ""}`}
-              onClick={() => setCurrentIndex(i)}
-              aria-label={`Ir para partida ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      {sortedMatches.length > 1 &&
+        (() => {
+          const MAX_DOTS = 30; // Quantidade máxima de bolinhas por leva
+          const currentBatch = Math.floor(currentIndex / MAX_DOTS);
+          const startDot = currentBatch * MAX_DOTS;
+          const visibleDots = sortedMatches.slice(
+            startDot,
+            startDot + MAX_DOTS,
+          );
+
+          return (
+            <div className="mtc-dots">
+              {visibleDots.map((_, idx) => {
+                const realIndex = startDot + idx;
+                return (
+                  <button
+                    key={realIndex}
+                    type="button"
+                    className={`mtc-dot ${realIndex === currentIndex ? "active" : ""}`}
+                    onClick={() => setCurrentIndex(realIndex)}
+                    aria-label={`Ir para partida ${realIndex + 1}`}
+                  />
+                );
+              })}
+            </div>
+          );
+        })()}
     </section>
   );
 }

@@ -396,9 +396,17 @@
 .mtc-dots {
   position: absolute;
   bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
+  width: 90%;
+  max-width: 100%;
   z-index: 4;
+  box-sizing: border-box;
 }
 
 .mtc-dot {
@@ -409,6 +417,7 @@
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  flex-shrink: 0;
   transition: all 0.25s ease;
 }
 
@@ -628,6 +637,18 @@
   }
 
   .mtc-dots {
-    bottom: 10px;
+    bottom: 14px;
+    width: 92%;
+    gap: 5px;
+    row-gap: 6px;
+  }
+
+  .mtc-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .mtc-dot.active {
+    width: 18px;
   }
 }
