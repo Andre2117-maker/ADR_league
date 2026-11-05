@@ -1,15 +1,75 @@
-/* --- ESTILO NOVO: CALENDÁRIO TIPO PSG (MODO ESCURO) --- */
+/* ==========================================================================
+   CALENDÁRIO - VERSÃO AURA
+   ========================================================================== */
 
 .psg-page-container {
+  position: relative;
   padding-top: 70px;
-  background-color: #000000; /* Fundo totalmente preto */
+  background-color: #050505;
   min-height: 100vh;
-  color: #ffffff; /* Texto geral em branco para dar contraste */
+  color: #ffffff;
   font-family: "Arial", sans-serif;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E");
-  background-size: 60px 60px; /* Isso controla o espaçamento entre os grupos de '+' */
+  overflow-x: hidden;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)'%3E+%3C/text%3E%3C/svg%3E");
+  background-size: 60px 60px;
   background-attachment: fixed;
   background-position: center;
+}
+
+/* Aurora animada */
+.psg-page-container::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      40% 35% at 15% 25%,
+      rgba(212, 175, 55, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 30% at 85% 15%,
+      rgba(120, 80, 255, 0.16),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 65% 90%,
+      rgba(212, 175, 55, 0.14),
+      transparent 70%
+    );
+  filter: blur(40px);
+  animation: calAuraFloat 18s ease-in-out infinite alternate;
+}
+
+/* Vinheta */
+.psg-page-container::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+/* Conteúdo acima da aurora */
+.psg-page-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes calAuraFloat {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
 }
 
 .psg-calendar-wrapper {
@@ -18,151 +78,347 @@
   padding: 40px 20px;
 }
 
+/* ==========================================================================
+   CABEÇALHO
+   ========================================================================== */
 .psg-header {
+  position: relative;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+}
+
+.psg-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    #d4af37,
+    rgba(212, 175, 55, 0.15) 40%,
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.6);
 }
 
 .psg-season-title {
-  font-size: 24px;
+  font-size: clamp(3rem, 9vw, 5.5rem);
   font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: 3px;
   margin: 0;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #ffffff;
+  align-items: baseline;
+  gap: 14px;
+  background: linear-gradient(100deg, #fff 0%, #fff 35%, #d4af37 55%, #fff 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: calTitleShine 6s linear infinite;
+  filter: drop-shadow(0 0 22px rgba(212, 175, 55, 0.25));
+}
+
+.psg-season-title small {
+  font-size: 0.85rem;
+  letter-spacing: 5px;
+  font-style: normal;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+@keyframes calTitleShine {
+  to {
+    background-position: 200% center;
+  }
 }
 
 .psg-add-btn {
-  background-color: #d4af37; /* Mantive o dourado pois destaca bem no escuro */
-  color: #000000; /* Texto preto dentro do botão dourado */
+  background: linear-gradient(135deg, #f0d36b, #d4af37 55%, #a8861f);
+  color: #000000;
   border: none;
-  padding: 10px 20px;
-  font-weight: bold;
-  border-radius: 4px;
+  padding: 12px 24px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.4);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .psg-add-btn:hover {
-  background-color: #bfa030;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 34px rgba(212, 175, 55, 0.7);
 }
 
-/* Navegação Meses */
+/* ==========================================================================
+   NAVEGAÇÃO DE MESES
+   ========================================================================== */
 .psg-month-nav {
   display: flex;
-  gap: 20px;
+  gap: 8px;
   flex-wrap: wrap;
-  border-bottom: 1px solid #333333; /* Linha sutil em cinza escuro */
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .psg-month-nav span {
-  padding-bottom: 10px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #888888; /* Cinza médio para os inativos */
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
   text-transform: uppercase;
-  transition: color 0.2s;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .psg-month-nav span:hover {
-  color: #cccccc;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .psg-month-nav span.active {
-  color: #ffffff; /* Branco para o mês ativo */
-  border-bottom: 3px solid #ffffff; /* Linha branca debaixo */
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
 }
 
-/* Navegação Competições */
+/* ==========================================================================
+   NAVEGAÇÃO DE COMPETIÇÕES
+   ========================================================================== */
 .psg-comp-nav {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
 }
 
 .psg-comp-nav span {
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #aaaaaa; /* Cinza claro */
-  background-color: #1a1a1a; /* Fundo quase preto para inativos */
+  padding: 9px 16px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
-  border-radius: 2px;
-  border: 1px solid #333333;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: skewX(-8deg);
+  transition: all 0.3s ease;
+}
+
+.psg-comp-nav span:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .psg-comp-nav span.active {
-  background-color: #ffffff; /* Fundo branco para ativo */
-  color: #000000; /* Texto preto para o botão ativo */
-  border: 1px solid #ffffff;
+  background: #d4af37;
+  color: #000000;
+  border-color: #d4af37;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.55);
 }
 
-/* Título do Mês */
+/* ==========================================================================
+   TÍTULO DO MÊS
+   ========================================================================== */
 .psg-month-title {
-  font-size: 28px;
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
   font-style: italic;
   font-weight: 900;
-  margin-bottom: 30px;
+  letter-spacing: 2px;
+  margin: 0 0 32px 0;
   text-transform: uppercase;
   color: #ffffff;
 }
 
-/* Grid de Partidas */
+.psg-month-title small {
+  font-size: 0.8rem;
+  font-style: normal;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.psg-month-title small b {
+  color: #d4af37;
+}
+
+/* ==========================================================================
+   GRID E CARDS
+   ========================================================================== */
 .psg-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: 26px;
 }
 
-/* Card Individual */
+.psg-cards-grid > .psg-match-card {
+  animation: calCardIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.psg-cards-grid > .psg-match-card:nth-child(1) {
+  animation-delay: 0ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(2) {
+  animation-delay: 50ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(3) {
+  animation-delay: 100ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(4) {
+  animation-delay: 150ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(5) {
+  animation-delay: 200ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(6) {
+  animation-delay: 250ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(7) {
+  animation-delay: 300ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(8) {
+  animation-delay: 350ms;
+}
+.psg-cards-grid > .psg-match-card:nth-child(n + 9) {
+  animation-delay: 400ms;
+}
+
+@keyframes calCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    filter: blur(6px);
+  }
+}
+
 .psg-match-card {
-  background: #0f0f0f; /* Cinza suuuuper escuro, quase preto, para o card se destacar do fundo 100% preto */
-  border: 1px solid #2a2a2a; /* Borda visível mas discreta */
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.015) 55%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   position: relative;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
 }
 
 .psg-match-card:hover {
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05); /* Sombra clara muito sutil */
-  transform: translateY(-2px);
-  border-color: #444444; /* Clareia a borda levemente no hover */
+  transform: translateY(-10px);
+  border-color: rgba(212, 175, 55, 0.65);
+  box-shadow:
+    0 0 38px rgba(212, 175, 55, 0.28),
+    0 22px 44px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .psg-card-top {
   padding: 20px;
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid #222222;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Linha de acento dourada no topo */
+.psg-card-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+}
+
+/* Brilho que varre o topo no hover */
+.psg-card-top::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.14),
+    transparent
+  );
+  transform: skewX(-12deg);
+  transition: left 0.9s ease;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.psg-match-card:hover .psg-card-top::before {
+  opacity: 1;
+}
+
+.psg-match-card:hover .psg-card-top::after {
+  left: 140%;
+}
+
+/* Cards de evento mantêm só a moldura */
+.psg-event-card .psg-card-top::before,
+.psg-event-card .psg-card-top::after {
+  display: none;
 }
 
 .psg-comp-text {
-  font-size: 11px;
-  font-weight: bold;
-  color: #aaaaaa;
   position: relative;
   z-index: 2;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.psg-watermark {
+.psg-watermark-image {
   position: absolute;
   right: -10px;
-  top: -10px;
-  font-size: 80px;
-  font-style: italic;
-  font-weight: 900;
-  color: #1c1c1c; /* Marca d'água bem escura, só um leve detalhe de fundo */
+  top: -70px;
   z-index: 1;
+  opacity: 0.1;
+}
+
+.psg-watermark-image img {
+  width: 190px;
+  height: auto;
+  pointer-events: none;
 }
 
 .psg-card-teams {
@@ -187,34 +443,61 @@
   gap: 12px;
 }
 
-.psg-team-score {
-  font-size: 22px;
-  font-weight: 800;
-  color: #ffffff; /* Número do placar em branco forte */
-  background-color: rgba(255, 255, 255, 0.15); /* Fundo sutil atrás do número */
-  padding: 4px 12px;
-  border-radius: 6px;
-  min-width: 40px;
-  text-align: center;
-}
-
-.psg-penalty-score {
-  font-size: 14px;
-  color: #d4af37; /* Dourado para destacar que foi nos pênaltis */
-  margin-left: 6px;
-  vertical-align: middle;
-}
-
 .psg-team-logo {
   width: 45px;
   height: 45px;
   object-fit: contain;
   background-color: transparent;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+  transition: transform 0.4s ease;
+}
+
+.psg-match-card:hover .psg-team-logo {
+  transform: scale(1.1);
 }
 
 .psg-team-logo.opp-logo {
   width: 45px;
   height: 45px;
+}
+
+.psg-team-name {
+  font-size: 20px;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  color: #ffffff;
+  transition: letter-spacing 0.4s ease;
+}
+
+.psg-match-card:hover .psg-team-name {
+  letter-spacing: 1px;
+}
+
+.psg-team-score {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 12px;
+  border-radius: 8px;
+  min-width: 40px;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.psg-match-card:hover .psg-team-score {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.6);
+  text-shadow: 0 0 14px rgba(212, 175, 55, 0.8);
+}
+
+.psg-penalty-score {
+  font-size: 14px;
+  color: #d4af37;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
 .psg-logo-placeholder {
@@ -234,51 +517,45 @@
   background: #d42029;
 }
 
-.psg-team-name {
-  font-size: 20px;
-  font-weight: 900;
-  font-style: italic;
-  text-transform: uppercase;
-  color: #ffffff;
-}
-
 .psg-card-info {
   padding: 0 20px 20px;
 }
 
 .psg-date {
   font-size: 12px;
-  font-weight: bold;
-  color: #dddddd; /* Branco um pouco mais suave */
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #e8e8e8;
   margin: 0 0 5px 0;
 }
 
 .psg-venue {
   font-size: 12px;
-  color: #888888; /* Cinza para não roubar a atenção */
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
 
 .psg-match-center-btn {
-  background-color: #141414; /* Fundo do botão no rodapé do card */
+  background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
-  font-weight: bold;
+  font-weight: 900;
   font-size: 12px;
+  letter-spacing: 3px;
   text-align: center;
   padding: 15px;
   cursor: pointer;
-  border-top: 1px solid #2a2a2a;
-  transition:
-    background 0.2s,
-    color 0.2s;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0 0 10px 10px;
+  transition: all 0.35s ease;
 }
 
 .psg-match-center-btn:hover {
-  background-color: #ffffff;
-  color: #000000; /* Inverte a cor no hover para ficar bonito */
+  background: linear-gradient(135deg, #f0d36b, #d4af37);
+  color: #000000;
+  letter-spacing: 4px;
 }
 
-/* Ações do Admin Overlay */
+/* Ações do Admin */
 .psg-admin-actions {
   position: absolute;
   top: 15px;
@@ -289,94 +566,184 @@
 }
 
 .psg-admin-actions button {
-  background: rgba(0, 0, 0, 0.8); /* Fundo preto transparente */
-  border: 1px solid #444444;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  border-radius: 4px;
-  padding: 5px;
+  border-radius: 6px;
+  padding: 5px 7px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.25s ease;
 }
 
 .psg-admin-actions button:hover {
-  background: #333333;
+  background: rgba(212, 175, 55, 0.25);
+  border-color: #d4af37;
 }
 
 .psg-no-matches {
   text-align: center;
-  padding: 50px;
-  color: #777777;
+  padding: 70px 20px;
+  color: rgba(255, 255, 255, 0.45);
   font-size: 16px;
+  letter-spacing: 2px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psg-page-container::before,
+  .psg-season-title,
+  .psg-cards-grid > .psg-match-card {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .psg-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .psg-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .psg-month-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .psg-month-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .psg-month-nav span {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 /* ==========================================================================
-   TEMA IDR - CALENDÁRIO DE PARTIDAS (PRETO E BRANCO PREMIUM)
+   TEMA IDR - CALENDÁRIO (PRETO E BRANCO PREMIUM)
    ========================================================================== */
-
-/* Fundo da Página (Branco com SVG Claro) */
 .theme-idr .psg-page-container {
   background-color: #f5f5f5 !important;
   color: #111 !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E") !important;
 }
 
-/* Textos e Títulos */
-.theme-idr .psg-season-title,
-.theme-idr .psg-month-title,
-.theme-idr .psg-team-name {
+.theme-idr .psg-page-container::before {
+  background:
+    radial-gradient(40% 35% at 15% 25%, rgba(0, 0, 0, 0.09), transparent 70%),
+    radial-gradient(35% 30% at 85% 15%, rgba(0, 0, 0, 0.06), transparent 70%),
+    radial-gradient(45% 40% at 65% 90%, rgba(0, 0, 0, 0.07), transparent 70%) !important;
+}
+
+.theme-idr .psg-page-container::after {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.08) 100%
+  ) !important;
+}
+
+.theme-idr .psg-header::after {
+  background: linear-gradient(
+    90deg,
+    #000,
+    rgba(0, 0, 0, 0.15) 40%,
+    transparent
+  ) !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .psg-season-title {
+  background: linear-gradient(
+    100deg,
+    #000 0%,
+    #000 35%,
+    #777 55%,
+    #000 75%
+  ) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: none !important;
+}
+
+.theme-idr .psg-season-title small {
+  -webkit-text-fill-color: #777 !important;
+}
+
+.theme-idr .psg-month-title {
   color: #000 !important;
 }
 
-/* Botão de Adicionar Partida */
+.theme-idr .psg-month-title small {
+  color: #666 !important;
+}
+
+.theme-idr .psg-month-title small b {
+  color: #000 !important;
+}
+
 .theme-idr .psg-add-btn {
-  background-color: #000 !important;
+  background: #000 !important;
   color: #fff !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
 }
 
 .theme-idr .psg-add-btn:hover {
-  background-color: #333 !important;
-}
-
-/* Navegação Meses */
-.theme-idr .psg-month-nav {
-  border-bottom-color: #ddd !important;
+  background: #333 !important;
 }
 
 .theme-idr .psg-month-nav span {
-  color: #888 !important;
+  color: #777 !important;
 }
 
 .theme-idr .psg-month-nav span:hover {
-  color: #444 !important;
+  color: #000 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
 .theme-idr .psg-month-nav span.active {
-  color: #000 !important;
-  border-bottom-color: #000 !important;
+  color: #fff !important;
+  background: #000 !important;
+  border-color: #000 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Navegação Competições */
 .theme-idr .psg-comp-nav span {
-  background-color: #fff !important;
+  background: #fff !important;
   color: #555 !important;
   border-color: #ccc !important;
 }
 
-.theme-idr .psg-comp-nav span.active {
-  background-color: #000 !important;
-  color: #fff !important;
+.theme-idr .psg-comp-nav span:hover {
   border-color: #000 !important;
+  color: #000 !important;
 }
 
-/* Cards das Partidas (Vidro Claro) */
+.theme-idr .psg-comp-nav span.active {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
 .theme-idr .psg-match-card {
-  background: #ffffff !important;
+  background: linear-gradient(160deg, #ffffff, #f0f0f0) !important;
   border-color: #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06) !important;
 }
 
 .theme-idr .psg-match-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16) !important;
   border-color: #000 !important;
 }
 
@@ -384,29 +751,40 @@
   border-bottom-color: #eee !important;
 }
 
+.theme-idr .psg-team-name {
+  color: #000;
+}
+
+.theme-idr .psg-card-top::before {
+  background: linear-gradient(90deg, transparent, #000, transparent) !important;
+}
+
 .theme-idr .psg-comp-text {
   color: #555 !important;
 }
 
-/* Marca d'água no fundo do Card */
-.theme-idr .psg-watermark {
-  color: rgba(0, 0, 0, 0.03) !important;
+.theme-idr .psg-team-logo {
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2)) !important;
 }
 
-/* Placar (Fundo escuro com número branco para melhor leitura no IDR) */
 .theme-idr .psg-team-score {
-  background-color: #f0f0f0 !important;
+  background: #f0f0f0 !important;
   color: #000 !important;
   border: 1px solid #ddd !important;
+  text-shadow: none !important;
 }
 
-/* Pênaltis */
+.theme-idr .psg-match-card:hover .psg-team-score {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
 .theme-idr .psg-penalty-score {
   color: #000 !important;
   font-weight: 800 !important;
 }
 
-/* Info do Card */
 .theme-idr .psg-date {
   color: #333 !important;
 }
@@ -415,19 +793,17 @@
   color: #666 !important;
 }
 
-/* Botão Match Center (Rodapé do Card) */
 .theme-idr .psg-match-center-btn {
-  background-color: #f9f9f9 !important;
+  background: #f9f9f9 !important;
   color: #333 !important;
   border-top-color: #eee !important;
 }
 
 .theme-idr .psg-match-center-btn:hover {
-  background-color: #000 !important;
+  background: #000 !important;
   color: #fff !important;
 }
 
-/* Botões do Admin (Editar/Apagar) */
 .theme-idr .psg-admin-actions button {
   background: rgba(255, 255, 255, 0.9) !important;
   color: #000 !important;
@@ -440,7 +816,8 @@
   border-color: #000 !important;
 }
 
-/* Estado sem partidas */
 .theme-idr .psg-no-matches {
   color: #666 !important;
+  border-color: #ccc !important;
+  background: rgba(255, 255, 255, 0.5) !important;
 }

@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase";
-import { doc, updateDoc } from "firebase/firestore";
 import MatchCard from "../components/calendar/MatchCard";
 import Footer from "../components/Footer";
 import "../styles/calendar.css";
@@ -104,7 +102,7 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
         {/* Cabeçalho */}
         <div className="psg-header">
           <h1 className="psg-season-title">
-            2026 <span style={{ fontSize: "14px" }}>v</span>
+            2026 <small>Temporada</small>
           </h1>
 
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -140,17 +138,21 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
 
         {/* Navegação de Competições */}
         <div className="psg-comp-nav">
-          {["TODAS AS COMPETIÇÕES", "TREINO", "AMISTOSO", "CAMPEONATO"].map(
-            (comp) => (
-              <span
-                key={comp}
-                className={selectedComp === comp ? "active" : ""}
-                onClick={() => setSelectedComp(comp)}
-              >
-                {comp}
-              </span>
-            ),
-          )}
+          {[
+            "TODAS AS COMPETIÇÕES",
+            "TREINO",
+            "AMISTOSO",
+            "CAMPEONATO",
+            "EVENTO",
+          ].map((comp) => (
+            <span
+              key={comp}
+              className={selectedComp === comp ? "active" : ""}
+              onClick={() => setSelectedComp(comp)}
+            >
+              {comp}
+            </span>
+          ))}
         </div>
 
         {/* Título do Mês Atual */}
@@ -158,11 +160,18 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
           {selectedMonth === "ALL"
             ? "TODA A TEMPORADA"
             : mesesFull[selectedMonth]}
+          <small>
+            <b>{filteredMatches.length}</b>{" "}
+            {filteredMatches.length === 1 ? "partida" : "partidas"}
+          </small>
         </h2>
 
-        {/* Grid de Cards */}
+        {/* Grid de Cards (key reinicia a animação ao trocar filtros) */}
         {filteredMatches.length > 0 ? (
-          <div className="psg-cards-grid">
+          <div
+            className="psg-cards-grid"
+            key={`${selectedMonth}-${selectedComp}`}
+          >
             {filteredMatches.map((match) => (
               <MatchCard
                 key={match.id}
