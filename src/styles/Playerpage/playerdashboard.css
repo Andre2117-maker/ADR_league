@@ -1,6 +1,8 @@
 /* ==========================================================================
-   1. VARIÁVEIS E CONTAINER PRINCIPAL (MODO ESCURO PADRÃO / O ADR)
+   DASHBOARD DO JOGADOR - ESTILO MINIMALISTA (GRID DE CÉLULAS)
    ========================================================================== */
+
+/* Variáveis globais antigas (mantidas caso outras telas usem) */
 :root {
   --premium-gold: #d4af37;
   --premium-gold-bright: #f9e29c;
@@ -12,6 +14,17 @@
 }
 
 .psd-dashboard {
+  /* Paleta do dashboard (o tema IDR só redefine estas variáveis) */
+  --psd-bg: #050505;
+  --psd-hover: #0d0d0d;
+  --psd-line: #2b2b2b;
+  --psd-fg: #ffffff;
+  --psd-muted: #7a7a7a;
+  --psd-accent: #d4af37; /* troque por #e4002b para números vermelhos */
+  --psd-win: #00c853;
+  --psd-draw: #9e9e9e;
+  --psd-loss: #e4002b;
+
   font-family:
     "Inter",
     -apple-system,
@@ -19,200 +32,172 @@
     sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   padding: 8px 4px;
-  color: #ffffff;
+  color: var(--psd-fg);
   width: 100%;
   box-sizing: border-box;
 }
 
 /* ==========================================================================
-   2. HEADER E FILTROS (SELECTS UNIFICADOS)
+   TÍTULOS
    ========================================================================== */
-.psd-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.psd-title-block {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.psd-kicker {
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #7c8594;
-  text-transform: uppercase;
-}
-
 .psd-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
   font-weight: 900;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--premium-gold);
-  border-left: 3px solid var(--premium-gold);
-  padding-left: 10px;
+  color: var(--psd-fg);
+  line-height: 1;
 }
 
+.psd-section-title {
+  margin: 14px 0 -4px;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--psd-fg);
+}
+
+/* ==========================================================================
+   FILTROS (SELECTS COM BORDA FINA)
+   ========================================================================== */
 .psd-filters {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
 }
 
 .psd-season-select,
 .psd-type-select {
-  background: #0d0f14;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: var(--premium-gold);
-  padding: 9px 14px;
-  border-radius: 10px;
-  font-size: 0.72rem;
-  font-weight: 800;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--psd-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  color: var(--psd-fg);
+  border: 1px solid var(--psd-fg);
+  border-radius: 4px;
+  padding: 11px 40px 11px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
   outline: none;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  transition: all 0.22s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-width: 190px;
+  transition: background-color 0.2s ease;
 }
 
 .psd-season-select:hover,
-.psd-type-select:hover,
-.psd-season-select:focus,
-.psd-type-select:focus {
-  border-color: var(--premium-gold);
-  background: rgba(212, 175, 55, 0.12);
-  color: #ffffff;
+.psd-type-select:hover {
+  background-color: var(--psd-hover);
+}
+
+/* Foco com contorno duplo, como no modelo */
+.psd-season-select:focus-visible,
+.psd-type-select:focus-visible {
+  outline: 2px solid var(--psd-fg);
+  outline-offset: 2px;
 }
 
 .psd-season-select option,
 .psd-type-select option {
-  background: #0d0f14;
-  color: #ffffff;
+  background: #111;
+  color: #fff;
 }
 
 /* ==========================================================================
-   3. BANNER DE RETROSPECTO (V-E-D), APROVEITAMENTO E FORMA (ÚLT. 5)
+   GRID DE CÉLULAS (LINHAS FINAS ENTRE AS CÉLULAS)
    ========================================================================== */
-.psd-summary-banner {
+.psd-grid {
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 14px;
-  background: linear-gradient(145deg, #12151e 0%, #0b0d12 100%);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 14px;
-  padding: 14px 18px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  gap: 1px;
+  background: var(--psd-line);
+  border: 1px solid var(--psd-line);
+  width: 100%;
 }
 
-.psd-record-group,
-.psd-form-group {
+.psd-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.psd-grid.cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.psd-cell {
+  background: var(--psd-bg);
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 28px 12px;
+  min-height: 150px;
+  text-align: center;
+  box-sizing: border-box;
+  transition: background 0.2s ease;
 }
 
-.psd-form-group {
-  border-left: 1px solid rgba(255, 255, 255, 0.07);
-  padding-left: 18px;
+.psd-cell:hover {
+  background: var(--psd-hover);
 }
 
-.psd-banner-label {
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  color: #8a93a2;
-  text-transform: uppercase;
-}
-
-.psd-wdl-pills {
+.psd-cell-icon {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+}
+
+.psd-cell-icon svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: var(--psd-fg);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.psd-cell-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--psd-fg);
+  line-height: 1.25;
+}
+
+.psd-cell-value {
+  font-size: 1.7rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--psd-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.psd-cell-sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--psd-muted);
+}
+
+/* Últimos 5 jogos */
+.psd-bubbles {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
-.wdl-pill {
-  font-size: 0.76rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  color: #cbd5e1;
-}
-
-.wdl-pill.win {
-  color: #00e676;
-  background: rgba(0, 230, 118, 0.08);
-  border-color: rgba(0, 230, 118, 0.25);
-}
-
-.wdl-pill.loss {
-  color: #ff5252;
-  background: rgba(255, 82, 82, 0.08);
-  border-color: rgba(255, 82, 82, 0.25);
-}
-
-.wdl-pill.pts {
-  color: var(--premium-gold);
-  background: rgba(212, 175, 55, 0.1);
-  border-color: rgba(212, 175, 55, 0.3);
-}
-
-/* Barra de Progresso do Aproveitamento */
-.psd-winrate-bar-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.psd-winrate-track {
-  flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 100px;
-  overflow: hidden;
-}
-
-.psd-winrate-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #d4af37, #00e676);
-  border-radius: 100px;
-  transition: width 0.4s ease;
-}
-
-.psd-winrate-text {
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: #e2e8f0;
-  min-width: 68px;
-  text-align: right;
-}
-
-/* Bolinhas de Forma (Últimos 5 Jogos) */
-.psd-form-bubbles {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .form-bubble {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  font-size: 0.78rem;
+  width: 26px;
+  height: 26px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 0.72rem;
   font-weight: 900;
   display: inline-flex;
   align-items: center;
@@ -220,362 +205,103 @@
 }
 
 .form-bubble.is-win {
-  background: rgba(0, 230, 118, 0.16);
-  border: 1px solid rgba(0, 230, 118, 0.45);
-  color: #00e676;
+  color: var(--psd-win);
 }
 
 .form-bubble.is-draw {
-  background: rgba(148, 163, 184, 0.15);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  color: #cbd5e1;
+  color: var(--psd-draw);
 }
 
 .form-bubble.is-loss {
-  background: rgba(255, 82, 82, 0.15);
-  border: 1px solid rgba(255, 82, 82, 0.4);
-  color: #ff5252;
-}
-
-.psd-no-form {
-  font-size: 0.75rem;
-  color: #64748b;
-  font-style: italic;
+  color: var(--psd-loss);
 }
 
 /* ==========================================================================
-   4. CARDS E GRIDS PRINCIPAIS (LINHA & MILESTONES)
+   FREQUÊNCIA / ASSIDUIDADE
    ========================================================================== */
-.psd-grid-season {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 100%;
-}
-
-.psd-grid-secondary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  width: 100%;
-}
-
-.psd-card {
-  background: linear-gradient(180deg, #131720 0%, #0d0f15 100%);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-}
-
-.psd-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(212, 175, 55, 0.38);
-}
-
-.psd-label {
-  font-size: 0.64rem;
-  font-weight: 800;
-  color: #7c8594;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.psd-value {
-  font-size: 1.85rem;
-  font-weight: 900;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, #ffffff 0%, #b0b6c3 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.psd-value-sm {
-  font-size: 1.45rem;
-  font-weight: 900;
-  color: #f1f5f9;
-}
-
-.psd-sub-metric {
-  margin-top: 6px;
-  font-size: 0.68rem;
-  color: #64748b;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 2px 8px;
-  border-radius: 100px;
-}
-
-.psd-sub-metric strong {
-  color: #cbd5e1;
-}
-
-.psd-sub-metric.highlight strong {
-  color: var(--premium-gold);
-}
-
-.season-main .psd-value,
-.participation-box .psd-value {
-  background: linear-gradient(180deg, #ffffff 15%, var(--premium-gold) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-.participation-box {
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.1) 0%, #0d0f15 100%);
-  border-color: rgba(212, 175, 55, 0.28);
-}
-
-/* Card de Disciplina (Amarelo / Vermelho) */
-.cards-counters-row {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 2px;
-}
-
-.card-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 900;
-  font-size: 1.15rem;
-  color: #ffffff;
-}
-
-.card-rect {
-  width: 12px;
-  height: 17px;
-  border-radius: 3px;
-}
-
-.yellow .card-rect {
-  background: #ffd700;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.35);
-}
-
-.red .card-rect {
-  background: #ff4d4d;
-  box-shadow: 0 0 10px rgba(255, 77, 77, 0.35);
-}
-
-/* ==========================================================================
-   5. SEÇÃO DE GOLEIRO (GK - 4 COLUNAS)
-   ========================================================================== */
-.psd-gk-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.psd-section-mini-header {
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--gk-cyan);
-  text-transform: uppercase;
-  padding-left: 4px;
-}
-
-.gk-style {
-  background: linear-gradient(145deg, #101920 0%, #0b0f14 100%);
-  border: 1px solid rgba(0, 210, 235, 0.16);
-}
-
-.gk-style:hover {
-  border-color: rgba(0, 210, 235, 0.45);
-}
-
-.gk-style .psd-label {
-  color: #7dd3fc;
-}
-
-.gk-style .psd-value {
-  background: linear-gradient(180deg, #ffffff 0%, var(--gk-cyan) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-/* ==========================================================================
-   6. RECORDES PESSOAIS EM UM ÚNICO DIA
-   ========================================================================== */
-.psd-lower-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.psd-mini-card {
-  background: linear-gradient(135deg, #131720 0%, #0b0d12 100%);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-.psd-mini-card.record-goals {
-  border-left: 3px solid var(--premium-gold);
-}
-
-.psd-mini-card.record-assists {
-  border-left: 3px solid #38bdf8;
-}
-
-.psd-mini-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.psd-mini-label {
-  font-size: 0.65rem;
-  font-weight: 800;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-
-.psd-record-date {
-  font-size: 0.68rem;
-  color: var(--premium-gold-bright);
-  background: rgba(212, 175, 55, 0.1);
-  padding: 2px 8px;
-  border-radius: 100px;
-  font-weight: 700;
-}
-
-.psd-mini-bottom {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.psd-mini-value {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #ffffff;
-  line-height: 1;
-}
-
-.psd-mini-unit {
-  font-size: 0.72rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-/* ==========================================================================
-   7. PAINEL DE ASSIDUIDADE E STATUS NA TABELA D'O ADR
-   ========================================================================== */
-.psd-absences-wrapper {
-  width: 100%;
-}
-
 .psd-absence-panel {
-  background: #0e1117;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  overflow: hidden;
+  border: 1px solid var(--psd-line);
+  background: var(--psd-bg);
 }
 
 .psd-absence-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
-  cursor: pointer;
-  background: #131720;
-  user-select: none;
   gap: 12px;
+  padding: 16px 18px;
+  cursor: pointer;
+  user-select: none;
   transition: background 0.2s ease;
 }
 
 .psd-absence-header:hover {
-  background: #181d28;
+  background: var(--psd-hover);
 }
 
 .psd-absence-info-left {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .psd-absence-title {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 800;
-  color: #f1f5f9;
+  color: var(--psd-fg);
 }
 
 .psd-absence-sub {
-  font-size: 0.74rem;
-  color: #94a3b8;
+  font-size: 0.75rem;
+  color: var(--psd-muted);
 }
 
-.txt-ok {
-  color: #00e676;
+.psd-absence-sub strong {
+  color: var(--psd-fg);
 }
 
-.txt-danger {
-  color: #ff5252;
+.psd-absence-sub .txt-ok {
+  color: var(--psd-win);
+}
+
+.psd-absence-sub .txt-danger {
+  color: var(--psd-loss);
 }
 
 .psd-absence-info-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .psd-rule-status-badge {
   font-size: 0.68rem;
   font-weight: 800;
   padding: 4px 10px;
-  border-radius: 100px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
   white-space: nowrap;
 }
 
 .psd-rule-status-badge.status-ok {
-  background: rgba(0, 230, 118, 0.1);
-  border: 1px solid rgba(0, 230, 118, 0.3);
-  color: #00e676;
+  color: var(--psd-win);
 }
 
 .psd-rule-status-badge.status-risk {
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.4);
-  color: #fbbf24;
+  color: #ffb300;
 }
 
 .psd-rule-status-badge.status-out {
-  background: rgba(255, 82, 82, 0.15);
-  border: 1px solid rgba(255, 82, 82, 0.4);
-  color: #ff5252;
+  color: var(--psd-loss);
 }
 
 .psd-rule-status-badge.status-anonymous {
-  background: rgba(255, 82, 82, 0.15);
-  border: 1px solid rgba(255, 82, 82, 0.4);
-  color: #ff5252;
+  color: var(--psd-draw);
 }
 
 .psd-expand-arrow {
   font-size: 0.75rem;
-  color: var(--premium-gold);
+  color: var(--psd-fg);
   transition: transform 0.25s ease;
   display: inline-block;
 }
@@ -585,21 +311,10 @@
 }
 
 .psd-absence-content {
-  padding: 14px 16px;
-  background: #090b0f;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 16px 18px;
+  border-top: 1px solid var(--psd-line);
 }
 
-.psd-missed-caption {
-  font-size: 0.72rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-/* Grade de Chips para as datas de falta */
 .psd-missed-chips-grid {
   display: flex;
   flex-wrap: wrap;
@@ -607,17 +322,16 @@
 }
 
 .psd-absence-chip {
-  background: rgba(255, 82, 82, 0.08);
-  border: 1px solid rgba(255, 82, 82, 0.25);
-  color: #ff6b6b;
+  color: var(--psd-loss);
+  border: 1px solid var(--psd-loss);
   font-size: 0.74rem;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .psd-absence-perfect {
-  color: #00e676;
+  color: var(--psd-win);
   font-size: 0.82rem;
   text-align: center;
   font-weight: 800;
@@ -625,72 +339,57 @@
 }
 
 /* ==========================================================================
-   8. RESPONSIVIDADE CELULAR (MOBILE)
+   RESPONSIVO
    ========================================================================== */
-@media (max-width: 640px) {
-  .psd-header-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+@media (max-width: 768px) {
+  .psd-grid.cols-4 {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
+@media (max-width: 640px) {
   .psd-filters {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .psd-season-select,
   .psd-type-select {
-    font-size: 0.68rem;
-    padding: 8px 6px;
-    text-align: center;
     width: 100%;
   }
 
-  .psd-summary-banner {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 12px 14px;
+  .psd-cell {
+    min-height: 120px;
+    padding: 20px 6px;
+    gap: 9px;
   }
 
-  .psd-form-group {
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    padding-left: 0;
-    padding-top: 10px;
+  .psd-cell-icon svg {
+    width: 26px;
+    height: 26px;
   }
 
-  .psd-grid-season {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  .psd-cell-label {
+    font-size: 0.66rem;
   }
 
-  .psd-grid-secondary {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+  .psd-cell-value {
+    font-size: 1.35rem;
   }
 
-  .psd-card {
-    padding: 13px 8px;
-    border-radius: 12px;
+  .psd-cell-sub {
+    font-size: 0.6rem;
   }
 
-  .psd-value {
-    font-size: 1.5rem;
+  .form-bubble {
+    width: 20px;
+    height: 20px;
+    font-size: 0.6rem;
   }
 
-  .psd-value-sm {
-    font-size: 1.2rem;
-  }
-
-  .psd-label {
-    font-size: 0.58rem;
-  }
-
-  .psd-lower-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .psd-bubbles {
+    gap: 3px;
   }
 
   .psd-absence-header {
@@ -705,163 +404,27 @@
 }
 
 /* ==========================================================================
-   9. TEMA IDR - DASHBOARD DO JOGADOR (BLACK & WHITE PREMIUM)
+   TEMA IDR (só troca as variáveis)
    ========================================================================== */
-.theme-idr .psd-header-row {
-  border-bottom-color: #e2e5ec !important;
-}
-
-.theme-idr .psd-title {
-  color: #000000 !important;
-  border-left-color: #000000 !important;
+.theme-idr .psd-dashboard {
+  --psd-bg: #ffffff;
+  --psd-hover: #f5f5f5;
+  --psd-line: #d9d9d9;
+  --psd-fg: #000000;
+  --psd-muted: #666666;
+  --psd-accent: #000000;
+  --psd-win: #008a00;
+  --psd-draw: #777777;
+  --psd-loss: #cc0000;
 }
 
 .theme-idr .psd-season-select,
 .theme-idr .psd-type-select {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-}
-
-.theme-idr .psd-season-select:hover,
-.theme-idr .psd-type-select:hover {
-  border-color: #000000 !important;
-  background: #f8f9fa !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
 }
 
 .theme-idr .psd-season-select option,
 .theme-idr .psd-type-select option {
   background: #ffffff !important;
   color: #000000 !important;
-}
-
-/* Banner de Retrospecto e Forma IDR */
-.theme-idr .psd-summary-banner {
-  background: #ffffff !important;
-  border-color: #dcdcdc !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04) !important;
-}
-
-.theme-idr .psd-form-group {
-  border-left-color: #e2e5ec !important;
-  border-top-color: #e2e5ec !important;
-}
-
-.theme-idr .wdl-pill {
-  background: #f1f3f5 !important;
-  border-color: #dee2e6 !important;
-  color: #333333 !important;
-}
-
-.theme-idr .wdl-pill.pts {
-  background: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-}
-
-.theme-idr .psd-winrate-track {
-  background: #e9ecef !important;
-}
-
-.theme-idr .psd-winrate-fill {
-  background: #000000 !important;
-}
-
-.theme-idr .psd-winrate-text {
-  color: #000000 !important;
-}
-
-/* Cards Principais IDR */
-.theme-idr .psd-card,
-.theme-idr .participation-box,
-.theme-idr .gk-style {
-  background: #ffffff !important;
-  border-color: #dcdcdc !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04) !important;
-}
-
-.theme-idr .psd-card:hover {
-  border-color: #000000 !important;
-}
-
-.theme-idr .psd-label,
-.theme-idr .gk-style .psd-label,
-.theme-idr .psd-section-mini-header {
-  color: #555555 !important;
-}
-
-.theme-idr .psd-value,
-.theme-idr .season-main .psd-value,
-.theme-idr .participation-box .psd-value,
-.theme-idr .gk-style .psd-value,
-.theme-idr .psd-value-sm,
-.theme-idr .card-item {
-  background: none !important;
-  -webkit-text-fill-color: #000000 !important;
-  color: #000000 !important;
-}
-
-.theme-idr .psd-sub-metric {
-  background: #f1f3f5 !important;
-  color: #666666 !important;
-}
-
-.theme-idr .psd-sub-metric strong,
-.theme-idr .psd-sub-metric.highlight strong {
-  color: #000000 !important;
-}
-
-/* Recordes e Painel de Faltas IDR */
-.theme-idr .psd-mini-card {
-  background: #ffffff !important;
-  border-color: #dcdcdc !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
-}
-
-.theme-idr .psd-mini-card.record-goals {
-  border-left-color: #000000 !important;
-}
-
-.theme-idr .psd-mini-card.record-assists {
-  border-left-color: #666666 !important;
-}
-
-.theme-idr .psd-mini-value {
-  color: #000000 !important;
-}
-
-.theme-idr .psd-record-date {
-  background: #f1f3f5 !important;
-  color: #222222 !important;
-}
-
-.theme-idr .psd-absence-panel {
-  background: #ffffff !important;
-  border-color: #dcdcdc !important;
-}
-
-.theme-idr .psd-absence-header {
-  background: #f8f9fa !important;
-}
-
-.theme-idr .psd-absence-header:hover {
-  background: #f1f3f5 !important;
-}
-
-.theme-idr .psd-absence-title {
-  color: #000000 !important;
-}
-
-.theme-idr .psd-absence-sub {
-  color: #555555 !important;
-}
-
-.theme-idr .psd-expand-arrow {
-  color: #000000 !important;
-}
-
-.theme-idr .psd-absence-content {
-  background: #ffffff !important;
-  border-top-color: #eaedf2 !important;
 }

@@ -1,6 +1,107 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/Playerpage/playerdashboard.css";
 
+// ==========================================
+// ÍCONES MINIMALISTAS (traço fino, herdam a cor do tema)
+// ==========================================
+const ICONS = {
+  whistle: (
+    <>
+      <circle cx="9" cy="14" r="5" />
+      <path d="M13.5 11.5L21 9v5l-6.5 1" />
+      <path d="M9 9V6" />
+    </>
+  ),
+  ball: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 8l3.5 2.5-1.3 4h-4.4l-1.3-4z" />
+      <path d="M12 8V3M15.5 10.5L20 9M14.2 14.5l3 3.5M9.8 14.5l-3 3.5M8.5 10.5L4 9" />
+    </>
+  ),
+  goal: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="1.5" />
+      <path d="M3 10h18M8 10v9M16 10v9" />
+    </>
+  ),
+  plus: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.5v9M7.5 12h9" />
+    </>
+  ),
+  hat: (
+    <>
+      <path d="M7 16V8a2 2 0 012-2h6a2 2 0 012 2v8" />
+      <path d="M3 16h18M7 12h10" />
+    </>
+  ),
+  bolt: <path d="M13 3L5 14h6l-1 7 8-11h-6z" />,
+  flame: (
+    <path d="M12 3c.8 3.6 5 5 5 10a5 5 0 01-10 0c0-2 1-3.2 2-4 0 2 .8 3 2 3 0-3-1.2-5 1-9z" />
+  ),
+  check: <path d="M5 12.5l4.5 4.5L19 7" />,
+  equal: <path d="M5 9h14M5 15h14" />,
+  cross: <path d="M6 6l12 12M18 6L6 18" />,
+  star: (
+    <path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.3l6.1-.7z" />
+  ),
+  percent: (
+    <>
+      <circle cx="7" cy="7" r="2.5" />
+      <circle cx="17" cy="17" r="2.5" />
+      <path d="M19 5L5 19" />
+    </>
+  ),
+  bars: <path d="M5 19v-8M12 19V5M19 19v-6" />,
+  shield: <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />,
+  down: <path d="M12 4v13M7 12.5l5 5 5-5" />,
+  yellow: (
+    <rect
+      x="7"
+      y="4"
+      width="10"
+      height="16"
+      rx="1.5"
+      fill="#ffd600"
+      stroke="none"
+    />
+  ),
+  red: (
+    <rect
+      x="7"
+      y="4"
+      width="10"
+      height="16"
+      rx="1.5"
+      fill="#e4002b"
+      stroke="none"
+    />
+  ),
+};
+
+const Icon = ({ name }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    {ICONS[name]}
+  </svg>
+);
+
+// Célula do grid (ícone, rótulo, valor e uma linha opcional de apoio)
+const StatCell = ({ icon, label, value, sub, children }) => (
+  <div className="psd-cell">
+    <span className="psd-cell-icon">
+      <Icon name={icon} />
+    </span>
+    <span className="psd-cell-label">{label}</span>
+    {children ? children : <span className="psd-cell-value">{value}</span>}
+    {sub && <span className="psd-cell-sub">{sub}</span>}
+  </div>
+);
+
+// Mostra "/" quando o valor é zero (estilo scout minimalista)
+const orSlash = (n) => (Number(n) > 0 ? n : "/");
+
 // Função auxiliar para extrair informações cronológicas da partida
 const getMatchChronoInfo = (m) => {
   const rawDate = m.date ? String(m.date).split("T")[0] : "";
@@ -375,84 +476,93 @@ const PlayerStatsDashboard = ({ player, matches }) => {
 
   if (!stats) return null;
 
-  const filterLabelMap = {
-    ALL_TYPES: "Visão Geral",
-    TREINO: "Treinos",
-    AMISTOSO: "Amistosos",
-    CAMPEONATO: "Campeonatos",
-  };
+  const d = stats.display;
+  const a = stats.absences;
 
   return (
     <div className="psd-dashboard">
-      {/* 1. CABEÇALHO E FILTROS */}
-      <div className="psd-header-row">
-        <div className="psd-title-block">
-          <span className="psd-kicker">SCOUT INDIVIDUAL</span>
-          <h3 className="psd-title">{filterLabelMap[matchFilter]}</h3>
-        </div>
+      {/* 1. TÍTULO E FILTROS */}
+      <h3 className="psd-title">ESTATÍSTICAS</h3>
 
-        <div className="psd-filters">
-          <select
-            className="psd-season-select"
-            value={selectedSeason}
-            onChange={(e) => setSelectedSeason(e.target.value)}
-          >
-            <option value="ALL">TODAS AS TEMPORADAS</option>
-            <option value="2026">TEMPORADA 2026</option>
-            <option value="2025">TEMPORADA 2025</option>
-          </select>
+      <div className="psd-filters">
+        <select
+          className="psd-type-select"
+          value={matchFilter}
+          onChange={(e) => setMatchFilter(e.target.value)}
+        >
+          <option value="ALL_TYPES">Todas as competições</option>
+          <option value="TREINO">Treinos</option>
+          <option value="AMISTOSO">Amistosos</option>
+          <option value="CAMPEONATO">Campeonatos</option>
+          <option value="EVENTO">Evento</option>
+        </select>
 
-          <select
-            className="psd-type-select"
-            value={matchFilter}
-            onChange={(e) => setMatchFilter(e.target.value)}
-          >
-            <option value="ALL_TYPES">📊 GERAL</option>
-            <option value="TREINO">⚽ TREINOS</option>
-            <option value="AMISTOSO">🤝 AMISTOSOS</option>
-            <option value="CAMPEONATO">🏆 CAMPEONATOS</option>
-          </select>
-        </div>
+        <select
+          className="psd-season-select"
+          value={selectedSeason}
+          onChange={(e) => setSelectedSeason(e.target.value)}
+        >
+          <option value="ALL">Todas as temporadas</option>
+          <option value="2026">Temporada 2026</option>
+          <option value="2025">Temporada 2025</option>
+        </select>
       </div>
 
-      {/* 2. BARRA DE RETROSPECTO E FORMA RECENTE */}
-      <div className="psd-summary-banner">
-        <div className="psd-record-group">
-          <span className="psd-banner-label">RETROSPECTO E APROVEITAMENTO</span>
-          <div className="psd-wdl-pills">
-            <span className="wdl-pill win">
-              <strong>{stats.display.wins}</strong> V
-            </span>
-            <span className="wdl-pill draw">
-              <strong>{stats.display.draws}</strong> E
-            </span>
-            <span className="wdl-pill loss">
-              <strong>{stats.display.losses}</strong> D
-            </span>
-            <span className="wdl-pill pts">
-              <strong>{stats.display.points}</strong> PTS
-            </span>
-          </div>
-          <div className="psd-winrate-bar-wrap">
-            <div className="psd-winrate-track">
-              <div
-                className="psd-winrate-fill"
-                style={{ width: `${stats.display.winRate}%` }}
-              />
-            </div>
-            <span className="psd-winrate-text">
-              {stats.display.winRate}% aprov.
-            </span>
-          </div>
-        </div>
+      {/* 2. NÚMEROS PRINCIPAIS */}
+      <div className="psd-grid cols-3">
+        <StatCell icon="whistle" label="Jogos disputados" value={d.matches} />
+        <StatCell
+          icon="ball"
+          label="Gols"
+          value={d.goals}
+          sub={`${d.goalsPerGame} / jogo`}
+        />
+        <StatCell
+          icon="goal"
+          label="Assistências"
+          value={d.assists}
+          sub={`${d.assistsPerGame} / jogo`}
+        />
 
-        <div className="psd-form-group">
-          <span className="psd-banner-label">
-            ÚLTIMOS 5 JOGOS (1º = MAIS RECENTE)
-          </span>
-          <div className="psd-form-bubbles">
-            {stats.display.lastFiveForm.length > 0 ? (
-              stats.display.lastFiveForm.map((item, idx) => (
+        <StatCell
+          icon="plus"
+          label="Participações (G+A)"
+          value={d.participation}
+          sub={`${d.partPerGame} / jogo`}
+        />
+        <StatCell icon="hat" label="Hat-tricks" value={orSlash(d.hatTricks)} />
+        <StatCell icon="bolt" label="Dobradinhas" value={orSlash(d.braces)} />
+
+        <StatCell
+          icon="yellow"
+          label="Cartões amarelos"
+          value={orSlash(d.yellow)}
+        />
+        <StatCell icon="red" label="Cartões vermelhos" value={orSlash(d.red)} />
+        <StatCell
+          icon="flame"
+          label="Maior sequência invicta"
+          value={orSlash(d.maxUnbeatenStreak)}
+        />
+      </div>
+
+      {/* 3. RESULTADOS */}
+      <h4 className="psd-section-title">RESULTADOS</h4>
+      <div className="psd-grid cols-3">
+        <StatCell icon="check" label="Vitórias" value={d.wins} />
+        <StatCell icon="equal" label="Empates" value={d.draws} />
+        <StatCell icon="cross" label="Derrotas" value={d.losses} />
+
+        <StatCell icon="star" label="Pontos" value={d.points} />
+        <StatCell
+          icon="percent"
+          label="Aproveitamento"
+          value={`${d.winRate}%`}
+        />
+        <StatCell icon="bars" label="Últimos 5 jogos">
+          {d.lastFiveForm.length > 0 ? (
+            <div className="psd-bubbles">
+              {d.lastFiveForm.map((item, idx) => (
                 <span
                   key={idx}
                   className={`form-bubble ${
@@ -466,188 +576,109 @@ const PlayerStatsDashboard = ({ player, matches }) => {
                 >
                   {item.result === "W" ? "V" : item.result === "D" ? "E" : "D"}
                 </span>
-              ))
+              ))}
+            </div>
+          ) : (
+            <span className="psd-cell-value">/</span>
+          )}
+          <span className="psd-cell-sub">1º = mais recente</span>
+        </StatCell>
+      </div>
+
+      {/* 4. GOLEIRO (só aparece se já jogou no gol) */}
+      {d.gamesAsGK > 0 && (
+        <>
+          <h4 className="psd-section-title">GOLEIRO</h4>
+          <div className="psd-grid cols-4">
+            <StatCell icon="goal" label="Jogos no gol" value={d.gamesAsGK} />
+            <StatCell
+              icon="shield"
+              label="Clean sheets"
+              value={orSlash(d.cleanSheets)}
+            />
+            <StatCell icon="down" label="Média sofridos" value={d.mgs} />
+            <StatCell
+              icon="percent"
+              label="Jogos sem sofrer"
+              value={`${d.cleanSheetRate}%`}
+            />
+          </div>
+        </>
+      )}
+
+      {/* 5. ASSIDUIDADE E STATUS DA TABELA */}
+      <h4 className="psd-section-title">FREQUÊNCIA</h4>
+      <div className="psd-absence-panel">
+        <div
+          className="psd-absence-header"
+          onClick={() => setShowAbsences(!showAbsences)}
+        >
+          <div className="psd-absence-info-left">
+            <span className="psd-absence-title">
+              Assiduidade · {a.attendanceRate}% de presença
+            </span>
+            <span className="psd-absence-sub">
+              Esteve em <strong className="txt-ok">{a.attendedDays}</strong> de{" "}
+              <strong>{a.totalDays}</strong> dias de evento (
+              <strong
+                className={a.missedList.length > 0 ? "txt-danger" : "txt-ok"}
+              >
+                {a.missedList.length} faltas
+              </strong>
+              )
+            </span>
+          </div>
+
+          <div className="psd-absence-info-right">
+            {a.isAnonymous ? (
+              <span className="psd-rule-status-badge status-anonymous">
+                Atleta anônimo (isento de faltas)
+              </span>
             ) : (
-              <span className="psd-no-form">Sem jogos registrados</span>
+              <span
+                className={`psd-rule-status-badge ${
+                  a.currentMissedStreak > 3
+                    ? "status-out"
+                    : a.currentMissedStreak === 3
+                      ? "status-risk"
+                      : "status-ok"
+                }`}
+              >
+                {a.currentMissedStreak > 3
+                  ? `Fora da tabela (${a.currentMissedStreak} faltas seg.)`
+                  : a.currentMissedStreak === 3
+                    ? "No limite (3 faltas seg.)"
+                    : "Ativo na tabela"}
+              </span>
+            )}
+            <span className={`psd-expand-arrow ${showAbsences ? "open" : ""}`}>
+              ❯
+            </span>
+          </div>
+        </div>
+
+        {showAbsences && (
+          <div className="psd-absence-content">
+            {a.isAnonymous ? (
+              <div className="psd-absence-perfect">
+                Este perfil está oculto como anônimo e não sofre penalidades por
+                inatividade.
+              </div>
+            ) : a.missedList.length > 0 ? (
+              <div className="psd-missed-chips-grid">
+                {a.missedList.map((date, idx) => (
+                  <span key={idx} className="psd-absence-chip">
+                    {date}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <div className="psd-absence-perfect">
+                Presença 100%! Não faltou a nenhum dia de evento.
+              </div>
             )}
           </div>
-        </div>
-      </div>
-
-      {/* 3. KPIS PRINCIPAIS */}
-      <div className="psd-grid-season">
-        <div className="psd-card season-main">
-          <span className="psd-label">JOGOS DISPUTADOS</span>
-          <span className="psd-value">{stats.display.matches}</span>
-          <span className="psd-sub-metric">
-            Sequência máx: <strong>{stats.display.maxUnbeatenStreak}V</strong>
-          </span>
-        </div>
-
-        <div className="psd-card season-goals">
-          <span className="psd-label">GOLS MARCADOS</span>
-          <span className="psd-value">{stats.display.goals}</span>
-          <span className="psd-sub-metric">
-            Média: <strong>{stats.display.goalsPerGame}</strong> / jogo
-          </span>
-        </div>
-
-        <div className="psd-card season-assists">
-          <span className="psd-label">ASSISTÊNCIAS</span>
-          <span className="psd-value">{stats.display.assists}</span>
-          <span className="psd-sub-metric">
-            Média: <strong>{stats.display.assistsPerGame}</strong> / jogo
-          </span>
-        </div>
-
-        <div className="psd-card participation-box">
-          <span className="psd-label">PARTICIPAÇÕES (G+A)</span>
-          <span className="psd-value">{stats.display.participation}</span>
-          <span className="psd-sub-metric highlight">
-            Impacto: <strong>{stats.display.partPerGame}</strong> / jogo
-          </span>
-        </div>
-      </div>
-
-      {/* 4. MILESTONES E DISCIPLINA */}
-      <div className="psd-grid-secondary">
-        <div className="psd-card milestone-card">
-          <span className="psd-label">🎩 HAT-TRICKS (3+ GOLS)</span>
-          <span className="psd-value-sm">{stats.display.hatTricks}</span>
-        </div>
-
-        <div className="psd-card milestone-card">
-          <span className="psd-label">⚡ DOBRADINHAS (2 GOLS)</span>
-          <span className="psd-value-sm">{stats.display.braces}</span>
-        </div>
-
-        <div className="psd-card cards-box">
-          <span className="psd-label">DISCIPLINA</span>
-          <div className="cards-counters-row">
-            <div className="card-item yellow" title="Cartões Amarelos">
-              <div className="card-rect"></div>
-              <span>{stats.display.yellow}</span>
-            </div>
-            <div className="card-item red" title="Cartões Vermelhos">
-              <div className="card-rect"></div>
-              <span>{stats.display.red}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 5. GOLEIRO */}
-      <div className="psd-gk-section">
-        <div className="psd-section-mini-header">
-          <span>🧤 DESEMPENHO NO GOL (GOLEIRO)</span>
-        </div>
-        <div className="psd-grid-season">
-          <div className="psd-card gk-style">
-            <span className="psd-label">JOGOS NO GOL</span>
-            <span className="psd-value">{stats.display.gamesAsGK}</span>
-          </div>
-
-          <div className="psd-card gk-style">
-            <span className="psd-label">CLEAN SHEETS (SG)</span>
-            <span className="psd-value">{stats.display.cleanSheets}</span>
-          </div>
-
-          <div className="psd-card gk-style">
-            <span className="psd-label">MÉDIA SOFRIDOS (MGS)</span>
-            <span className="psd-value">{stats.display.mgs}</span>
-          </div>
-
-          <div className="psd-card gk-style">
-            <span className="psd-label">% JOGOS SEM SOFRER</span>
-            <span className="psd-value">{stats.display.cleanSheetRate}%</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 6. ASSIDUIDADE E STATUS DA TABELA */}
-      <div className="psd-absences-wrapper">
-        <div className="psd-absence-panel">
-          <div
-            className="psd-absence-header"
-            onClick={() => setShowAbsences(!showAbsences)}
-          >
-            <div className="psd-absence-info-left">
-              <span className="psd-absence-title">
-                📅 Assiduidade & Frequência ({stats.absences.attendanceRate}% de
-                presença)
-              </span>
-              <span className="psd-absence-sub">
-                Esteve em{" "}
-                <strong className="txt-ok">
-                  {stats.absences.attendedDays}
-                </strong>{" "}
-                de <strong>{stats.absences.totalDays}</strong> dias de evento (
-                <strong
-                  className={
-                    stats.absences.missedList.length > 0
-                      ? "txt-danger"
-                      : "txt-ok"
-                  }
-                >
-                  {stats.absences.missedList.length} faltas
-                </strong>
-                )
-              </span>
-            </div>
-
-            <div className="psd-absence-info-right">
-              {stats.absences.isAnonymous ? (
-                <span className="psd-rule-status-badge status-anonymous">
-                  🕵️ Atleta Anônimo (Isento de Faltas)
-                </span>
-              ) : (
-                <span
-                  className={`psd-rule-status-badge ${
-                    stats.absences.currentMissedStreak > 3
-                      ? "status-out"
-                      : stats.absences.currentMissedStreak === 3
-                        ? "status-risk"
-                        : "status-ok"
-                  }`}
-                >
-                  {stats.absences.currentMissedStreak > 3
-                    ? `⚠️ Fora da Tabela (${stats.absences.currentMissedStreak} faltas seg.)`
-                    : stats.absences.currentMissedStreak === 3
-                      ? "⚡ No Limite (3 faltas seg.)"
-                      : "✅ Ativo na Tabela"}
-                </span>
-              )}
-              <span
-                className={`psd-expand-arrow ${showAbsences ? "open" : ""}`}
-              >
-                ❯
-              </span>
-            </div>
-          </div>
-
-          {showAbsences && (
-            <div className="psd-absence-content">
-              {stats.absences.isAnonymous ? (
-                <div className="psd-absence-perfect">
-                  ℹ️ Este perfil está oculto como anônimo e não sofre
-                  penalidades por inatividade.
-                </div>
-              ) : stats.absences.missedList.length > 0 ? (
-                <div className="psd-missed-chips-grid">
-                  {stats.absences.missedList.map((date, idx) => (
-                    <span key={idx} className="psd-absence-chip">
-                      📅 {date}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <div className="psd-absence-perfect">
-                  🏆 Presença 100%! Não faltou a nenhum dia de evento.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

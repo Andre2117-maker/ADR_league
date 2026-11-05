@@ -1,111 +1,132 @@
+/* ==========================================================================
+   RANKING SLICE - ESTILO MINIMALISTA (LINHAS FINAS, CANTOS RETOS)
+   ========================================================================== */
 .rs-container {
-  background: #0a0a0a; /* Fundo quase preto */
-  border-radius: 12px;
-  padding: 20px;
-  color: #fff;
-  border: 1px solid #1a1a1a; /* Borda cinza bem escura */
+  /* Paleta (o tema IDR só redefine estas variáveis) */
+  --rs-bg: #050505;
+  --rs-hover: #0d0d0d;
+  --rs-line: #2b2b2b;
+  --rs-fg: #ffffff;
+  --rs-muted: #7a7a7a;
+  --rs-accent: #d4af37; /* troque por #e4002b para destaque vermelho */
+
+  background: var(--rs-bg);
+  color: var(--rs-fg);
+  border: 1px solid var(--rs-line);
+  border-radius: 0;
+  padding: 0;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  box-sizing: border-box;
 }
 
 .rs-title {
-  font-size: 13px;
+  margin: 0;
+  padding: 16px 18px;
+  font-size: 0.8rem;
+  font-weight: 900;
   text-transform: uppercase;
-  color: #666; /* Cinza para o título */
-  margin-bottom: 15px;
-  letter-spacing: 0.5px;
+  letter-spacing: 3px;
+  color: var(--rs-fg);
+  border-bottom: 1px solid var(--rs-line);
 }
 
+/* ==========================================================================
+   LINHAS
+   ========================================================================== */
 .rs-row {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 12px 10px;
-  border-bottom: 1px solid #1a1a1a; /* Separador cinza escuro */
-  transition: background 0.2s;
-  font-family: "Inter", sans-serif;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rs-line);
+  background: var(--rs-bg);
+  font-family: inherit;
+  transition: background 0.2s ease;
 }
 
 .rs-row:last-child {
   border-bottom: none;
 }
 
+.rs-row:hover {
+  background: var(--rs-hover);
+}
+
 .rs-pos {
-  font-weight: 700;
-  color: #888; /* Cinza claro para a posição */
-  width: 10px;
+  width: 24px;
   text-align: left;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--rs-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .rs-separator {
-  color: #333; /* Separador cinza escuro */
-  margin: 0 10px;
+  margin: 0 12px;
+  color: var(--rs-line);
   font-weight: 300;
 }
 
 .rs-name {
   flex: 1;
-  font-weight: 500;
-  color: #e0e0e0;
+  min-width: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--rs-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rs-pts {
-  font-size: 0.9em;
-  color: #fff;
-  font-weight: 600;
-}
-
-/* Destaque "Premier League" ajustado para preto/dourado */
-.rs-row.active {
-  background: #1a1a1a; /* Cinza escuro para o destaque */
-  border-radius: 6px;
-  border-left: 4px solid #ffd700; /* Borda dourada lateral mantida */
-}
-
-/* Opcional: deixar a posição dourada quando estiver ativo */
-.rs-row.active .rs-pos {
-  color: #ffd700;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--rs-accent);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ==========================================================================
-   TEMA IDR - RANKING SLICE / WIDGET DE RANKING (BLACK & WHITE PREMIUM)
+   LINHA ATIVA (DESTAQUE)
    ========================================================================== */
+.rs-row.active {
+  background: var(--rs-hover);
+  border-radius: 0;
+  border-left: none;
+}
 
+/* Barra fina de destaque no lado esquerdo */
+.rs-row.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--rs-accent);
+}
+
+.rs-row.active .rs-pos {
+  color: var(--rs-accent);
+}
+
+.rs-row.active .rs-name {
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   TEMA IDR (só troca as variáveis)
+   ========================================================================== */
 .theme-idr .rs-container {
-  background: #ffffff !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
-}
+  --rs-bg: #ffffff;
+  --rs-hover: #f5f5f5;
+  --rs-line: #d9d9d9;
+  --rs-fg: #000000;
+  --rs-muted: #777777;
+  --rs-accent: #000000;
 
-.theme-idr .rs-title {
-  color: #666666 !important;
-}
-
-.theme-idr .rs-row {
-  border-bottom-color: #eeeeee !important;
-}
-
-.theme-idr .rs-pos {
-  color: #888888 !important;
-}
-
-.theme-idr .rs-separator {
-  color: #dddddd !important;
-}
-
-.theme-idr .rs-name {
-  color: #000000 !important;
-  font-weight: 700 !important;
-}
-
-.theme-idr .rs-pts {
-  color: #000000 !important;
-}
-
-/* Destaque do Usuário Ativo */
-.theme-idr .rs-row.active {
-  background: rgba(0, 0, 0, 0.03) !important;
-  border-left-color: #000000 !important; /* Dourado vira Preto */
-}
-
-.theme-idr .rs-row.active .rs-pos {
-  color: #000000 !important;
-  font-weight: 900 !important;
+  box-shadow: none !important;
 }
