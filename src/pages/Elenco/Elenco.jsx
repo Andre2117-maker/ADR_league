@@ -93,6 +93,9 @@ export default function Elenco() {
         <div className="elenco-content-limit">
           <header className="elenco-page-header">
             <h1 className="elenco-page-title">ELENCO</h1>
+            <p className="elenco-count">
+              <b>{finalList.length}</b> atletas · {genderTab} · {seasonTab}
+            </p>
 
             <div className="elenco-selectors-group">
               <div className="elenco-dropdown">
@@ -120,13 +123,17 @@ export default function Elenco() {
             </div>
           </header>
 
-          <section className="elenco-grid-psg">
+          {/* key força a animação de entrada a rodar ao trocar filtros */}
+          <section
+            className="elenco-grid-psg"
+            key={`${genderTab}-${seasonTab}`}
+          >
             {finalList.length === 0 ? (
               <p className="elenco-empty-msg">
                 Nenhum atleta encontrado nesta temporada.
               </p>
             ) : (
-              finalList.map((p) => {
+              finalList.map((p, i) => {
                 const nameParts = p.name.trim().split(" ");
                 const firstName = nameParts.length > 1 ? nameParts[0] : "";
                 const lastName =
@@ -134,17 +141,11 @@ export default function Elenco() {
                     ? nameParts.slice(1).join(" ")
                     : nameParts[0];
 
-                let periodoDisplay = p.clubRole || "Atleta";
-                if (p.entrada) {
-                  periodoDisplay = p.saida
-                    ? `${p.entrada} - ${p.saida}`
-                    : `${p.entrada} - PRESENTE`;
-                }
-
                 return (
                   <div
                     className="psg-card"
                     key={p.id}
+                    style={{ "--i": Math.min(i, 20) }}
                     onClick={() => navigate(`/player/${p.id}`)}
                   >
                     <div className="psg-card-bg"></div>
