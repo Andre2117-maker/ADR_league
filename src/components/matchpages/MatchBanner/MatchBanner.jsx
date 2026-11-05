@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "./MatchBanner.css";
 
 export default function MatchBanner({
@@ -13,8 +12,6 @@ export default function MatchBanner({
   isTimelineExpanded,
   setIsTimelineExpanded,
 }) {
-  const navigate = useNavigate();
-
   // ==========================================
   // TRATAMENTO DOS NOMES DOS TIMES (Fallback)
   // ==========================================
@@ -44,6 +41,10 @@ export default function MatchBanner({
   const isWinnerA = penScoreA > penScoreB;
   const isWinnerB = penScoreB > penScoreA;
 
+  // Destaca o placar de quem está na frente (empate = nenhum)
+  const leadA = Number(scoreA) > Number(scoreB);
+  const leadB = Number(scoreB) > Number(scoreA);
+
   return (
     <div className="psg-match-banner">
       <div className="psg-banner-header">
@@ -51,7 +52,6 @@ export default function MatchBanner({
         <div className="psg-meta">
           <span className="psg-date">{match.date || "Data Indefinida"}</span>
 
-          {/* AQUI ESTÁ A MÁGICA DA FASE DO CAMPEONATO */}
           <span className="psg-comp">
             {match.type}
             {match.championshipPhase ? ` - ${match.championshipPhase}` : ""}
@@ -72,7 +72,9 @@ export default function MatchBanner({
           <div className="psg-team-details">
             <div className="psg-name-score">
               <h2>{teamAName}</h2>
-              <span className="psg-score-num">{scoreA}</span>
+              <span className={`psg-score-num ${leadA ? "is-leading" : ""}`}>
+                {scoreA}
+              </span>
             </div>
             <div className="psg-scorers">{getScorers("A")}</div>
           </div>
@@ -88,15 +90,15 @@ export default function MatchBanner({
           <div className="psg-team-details">
             <div className="psg-name-score">
               <h2>{teamBName}</h2>
-              <span className="psg-score-num">{scoreB}</span>
+              <span className={`psg-score-num ${leadB ? "is-leading" : ""}`}>
+                {scoreB}
+              </span>
             </div>
             <div className="psg-scorers">{getScorers("B")}</div>
           </div>
         </div>
 
-        {/* ==========================================
-            LINHA DOS PÊNALTIS (ESTILO IMAGEM PSG)
-        ========================================== */}
+        {/* LINHA DOS PÊNALTIS */}
         {hasPenalties && (
           <div className="psg-penalties-text-box">
             <span
@@ -115,51 +117,18 @@ export default function MatchBanner({
       </div>
 
       {match.goldenGoalWinner && (
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: "12px",
-            paddingBottom: "10px",
-          }}
-        >
+        <div className="golden-goal-wrap">
           <div
+            className="golden-goal-pill"
             onClick={() => setShowGoldenGoalInfo(!showGoldenGoalInfo)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "4px 15px",
-              backgroundColor: "rgba(212, 175, 55, 0.15)",
-              border: "1px solid #d4af37",
-              borderRadius: "20px",
-              color: "#ffd700",
-              fontSize: "0.85rem",
-              fontWeight: "bold",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-            }}
           >
             ⚽ Decidido no Gol de Ouro {showGoldenGoalInfo ? "▲" : "▼"}
           </div>
           {showGoldenGoalInfo && (
-            <div
-              style={{
-                marginTop: "10px",
-                padding: "10px 15px",
-                backgroundColor: "rgba(25, 25, 25, 0.9)",
-                border: "1px solid rgba(212, 175, 55, 0.5)",
-                borderRadius: "8px",
-                color: "#eee",
-                fontSize: "0.85rem",
-                lineHeight: "1.4",
-                maxWidth: "320px",
-                margin: "10px auto 0 auto",
-                textAlign: "center",
-              }}
-            >
+            <div className="golden-goal-info">
               <strong>Regra do Gol de Ouro:</strong>
               <br />O time{" "}
-              <strong style={{ color: "#ffd700" }}>
+              <strong className="gold">
                 {match.goldenGoalWinner === "A" ? teamAName : teamBName}
               </strong>{" "}
               marcou primeiro no desempate e venceu a partida.

@@ -1,142 +1,383 @@
+/* ==========================================================================
+   BANNER DA PARTIDA - VERSÃO AURA
+   (tudo escopado em .psg-match-banner para não colidir com o calendar.css)
+   ========================================================================== */
 .psg-match-banner {
-  background: linear-gradient(135deg, #130924 0%, #050505 100%);
-  border-bottom: 2px solid #d4af37;
+  background: linear-gradient(135deg, #130924 0%, #050505 70%);
   color: #fff;
-  padding: 90px 20px 20px 20px;
+  padding: 90px 20px 24px 20px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-.psg-banner-header {
+/* Aurora animada dentro do banner */
+.psg-match-banner::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      35% 40% at 15% 30%,
+      rgba(212, 175, 55, 0.25),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 40% at 85% 25%,
+      rgba(138, 43, 226, 0.28),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 40% at 55% 100%,
+      rgba(212, 175, 55, 0.14),
+      transparent 70%
+    );
+  filter: blur(40px);
+  animation: bannerAura 16s ease-in-out infinite alternate;
+}
+
+/* Linha inferior dourada com glow */
+.psg-match-banner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #d4af37 30%,
+    #f0d36b 50%,
+    #d4af37 70%,
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
+}
+
+.psg-match-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes bannerAura {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
+}
+
+/* ==========================================================================
+   CABEÇALHO (STATUS + META)
+   ========================================================================== */
+.psg-match-banner .psg-banner-header {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
   width: 100%;
   max-width: 900px;
-  margin-bottom: 30px;
+  margin-bottom: 34px;
+  animation: bannerIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
-.psg-status {
-  background: #d4af37;
+.psg-match-banner .psg-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f0d36b, #d4af37 55%, #a8861f);
   color: #000;
-  padding: 6px 12px;
+  padding: 7px 16px;
   font-weight: 900;
   font-style: italic;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  border-radius: 4px;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  border-radius: 999px;
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.45);
 }
 
-.psg-meta {
+.psg-match-banner .psg-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  animation: bannerPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes bannerPulse {
+  50% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+}
+
+.psg-match-banner .psg-meta {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
-.psg-date {
+
+.psg-match-banner .psg-date {
   font-weight: 900;
   font-size: 1rem;
+  letter-spacing: 2px;
   color: #fff;
+  margin: 0;
 }
-.psg-comp {
-  color: #8a2be2;
-  font-weight: 600;
-  font-size: 0.8rem;
+
+.psg-match-banner .psg-comp {
+  color: #b98cff;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-.psg-scoreboard {
+/* ==========================================================================
+   PLACAR
+   ========================================================================== */
+.psg-match-banner .psg-scoreboard {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 26px;
   width: 100%;
   max-width: 900px;
 }
 
-.psg-team-row {
+.psg-match-banner .psg-team-row {
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 22px;
+  animation: bannerIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
-.psg-logo {
-  width: 70px;
-  height: 70px;
+.psg-match-banner .psg-team-row:nth-child(1) {
+  animation-delay: 120ms;
+}
+
+.psg-match-banner .psg-team-row:nth-child(2) {
+  animation-delay: 240ms;
+}
+
+@keyframes bannerIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(6px);
+  }
+}
+
+.psg-match-banner .psg-logo {
+  width: 76px;
+  height: 76px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 0 16px rgba(212, 175, 55, 0.22));
 }
 
-.psg-team-details {
+.psg-match-banner .psg-team-details {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   flex: 1;
 }
 
-.psg-name-score {
+.psg-match-banner .psg-name-score {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 }
 
-.psg-name-score h2 {
+.psg-match-banner .psg-name-score h2 {
   margin: 0;
-  font-size: 2.4rem;
+  font-size: 2.5rem;
   font-weight: 900;
   font-style: italic;
   text-transform: uppercase;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
   color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
 }
 
-.psg-score-num {
-  font-size: 2.6rem;
-  color: #d4af37;
+.psg-match-banner .psg-score-num {
+  font-size: 2.4rem;
   font-weight: 900;
-  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+  line-height: 1;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 10px;
+  min-width: 56px;
+  text-align: center;
 }
 
-.psg-scorers {
+/* Placar de quem está na frente */
+.psg-match-banner .psg-score-num.is-leading {
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.14);
+  border-color: rgba(212, 175, 55, 0.65);
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
+  box-shadow: 0 0 26px rgba(212, 175, 55, 0.3);
+}
+
+.psg-match-banner .psg-scorers {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 5px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #bbb;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #cfcfcf;
 }
-.scorer-item {
+
+.psg-match-banner .scorer-item {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
-.psg-timeline-toggle {
-  margin-top: 30px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
+/* ==========================================================================
+   PÊNALTIS
+   ========================================================================== */
+.psg-match-banner .psg-penalties-text-box {
+  align-self: flex-start;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  padding: 10px 22px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.psg-match-banner .pen-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.psg-match-banner .pen-team.pen-winner {
+  font-weight: 900;
+  color: #f0d36b;
+  text-shadow: 0 0 14px rgba(212, 175, 55, 0.7);
+}
+
+.psg-match-banner .pen-team.pen-loser {
+  font-weight: 500;
+  color: #8892a0;
+}
+
+.psg-match-banner .pen-divider {
+  color: #8892a0;
+  font-weight: 500;
+  margin: 0 2px;
+}
+
+/* ==========================================================================
+   GOL DE OURO
+   ========================================================================== */
+.psg-match-banner .golden-goal-wrap {
+  text-align: center;
+  margin-top: 18px;
+  padding-bottom: 6px;
+}
+
+.psg-match-banner .golden-goal-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid #d4af37;
+  border-radius: 999px;
+  color: #ffd700;
+  font-size: 0.85rem;
+  font-weight: 900;
   letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+}
+
+.psg-match-banner .golden-goal-pill:hover {
+  background: rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.55);
+}
+
+.psg-match-banner .golden-goal-info {
+  margin: 12px auto 0 auto;
+  padding: 12px 18px;
+  max-width: 340px;
+  background: rgba(15, 15, 15, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 12px;
+  color: #eee;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  text-align: center;
+  animation: slideDown 0.3s ease;
+}
+
+.psg-match-banner .golden-goal-info strong.gold {
+  color: #ffd700;
+}
+
+/* ==========================================================================
+   TOGGLE DA TIMELINE
+   ========================================================================== */
+.psg-match-banner .psg-timeline-toggle {
+  margin-top: 32px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
   color: #d4af37;
   cursor: pointer;
-  padding: 8px 20px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 20px;
-  transition: all 0.3s;
-}
-.psg-timeline-toggle:hover {
-  background: rgba(212, 175, 55, 0.15);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  padding: 10px 24px;
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 999px;
+  transition: all 0.35s ease;
 }
 
+.psg-match-banner .psg-timeline-toggle:hover {
+  background: linear-gradient(135deg, #f0d36b, #d4af37);
+  color: #000;
+  border-color: #d4af37;
+  box-shadow: 0 0 28px rgba(212, 175, 55, 0.55);
+  transform: translateY(-2px);
+}
+
+/* Dropdown da timeline (fora do banner) */
 .psg-timeline-dropdown {
-  background: #080808;
-  border-bottom: 1px solid #222;
+  background: rgba(8, 8, 8, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 20px 0;
   width: 100%;
   animation: slideDown 0.3s ease;
@@ -153,65 +394,26 @@
   }
 }
 
-/* ==========================================================================
-   PÊNALTIS (ESTILO TEXTO PSG)
-   ========================================================================== */
-.psg-penalties-text-box {
-  width: 100%;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Alinhado à esquerda como na foto */
-  gap: 10px;
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
-}
-
-.pen-team {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pen-team.pen-winner {
-  font-weight: 900;
-  color: #ffffff; /* Vencedor com texto branco brilhante e negrito */
-}
-
-.pen-team.pen-loser {
-  font-weight: 500;
-  color: #8892a0; /* Perdedor com texto mais cinza e fino (apagado) */
-}
-
-.pen-divider {
-  color: #8892a0;
-  font-weight: 500;
-  margin: 0 2px;
-}
-
-/* No celular, dá uma leve reduzida na fonte para não quebrar a linha */
-@media (max-width: 768px) {
-  .psg-match-banner {
-    padding-top: 190px;
-  }
-  .psg-penalties-text-box {
-    font-size: 1rem;
-    justify-content: center; /* Centraliza no celular pra ficar mais harmônico */
+@media (prefers-reduced-motion: reduce) {
+  .psg-match-banner::before,
+  .psg-match-banner .psg-status::before,
+  .psg-match-banner .psg-banner-header,
+  .psg-match-banner .psg-team-row {
+    animation: none;
   }
 }
 
 /* ==========================================================================
-   RESPONSIVIDADE MOBILE (CORRIGIDA)
+   RESPONSIVIDADE MOBILE
    ========================================================================== */
 @media (max-width: 900px) {
-  .psg-scoreboard {
-    flex-direction: column;
+  .psg-match-banner .psg-scoreboard {
     gap: 30px;
   }
-  .psg-team-row {
+  .psg-match-banner .psg-team-row {
     width: 100%;
     justify-content: flex-start;
-    align-items: center; /* Mantém a logo centralizada com o texto */
+    align-items: center;
   }
 }
 
@@ -220,142 +422,177 @@
     padding-top: 190px;
   }
 
-  /* O SEGREDO: Tirar o Flex e deixar o texto correr solto */
-  .psg-name-score {
+  .psg-match-banner .psg-name-score {
     display: block;
-    line-height: 1.2;
+    line-height: 1.3;
     margin-bottom: 5px;
   }
 
-  .psg-name-score h2 {
-    display: inline; /* O texto agora quebra naturalmente palavra por palavra */
+  .psg-match-banner .psg-name-score h2 {
+    display: inline;
     font-size: 1.5rem;
-    margin-right: 8px;
+    margin-right: 10px;
     vertical-align: baseline;
   }
 
-  .psg-score-num {
-    display: inline-block; /* O número agora vai grudar no final do nome! */
-    font-size: 1.8rem;
+  .psg-match-banner .psg-score-num {
+    display: inline-block;
+    font-size: 1.7rem;
+    padding: 4px 12px;
+    min-width: 44px;
     vertical-align: baseline;
   }
 
-  .psg-logo {
-    width: 50px;
-    height: 50px;
-    min-width: 50px; /* Impede a logo de ser "esmagada" ao lado de textos gigantes */
+  .psg-match-banner .psg-logo {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
   }
 
-  .psg-penalties-text-box {
+  .psg-match-banner .psg-penalties-text-box {
+    align-self: center;
     font-size: 1rem;
     justify-content: center;
-    flex-wrap: wrap; /* Garante que os pênaltis não quebrem o layout no celular */
+    flex-wrap: wrap;
+  }
+
+  .psg-match-banner .psg-banner-header {
+    flex-wrap: wrap;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - BANNER DA PARTIDA / MATCH CENTER (BLACK & WHITE ULTRA-PREMIUM)
+   TEMA IDR - BANNER DA PARTIDA (BLACK & WHITE PREMIUM)
    ========================================================================== */
-
-/* Banner Principal: Fundo preto sólido de altíssimo contraste ou branco minimalista de luxo */
 .theme-idr .psg-match-banner {
-  background: #ffffff !important;
-  border-bottom: 2px solid #000000 !important;
+  background: linear-gradient(135deg, #ffffff 0%, #ececec 100%) !important;
   border-top: 1px solid #e5e5e5 !important;
-  color: #111111 !important;
+  color: #111 !important;
   padding: 90px 20px 25px 20px !important;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Status (Ex: Fim de Jogo / Ao Vivo) - Padrão Pílula Preta Sólida */
-.theme-idr .psg-status {
-  background: #000000 !important;
-  color: #ffffff !important;
-  border: 1px solid #000000 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  letter-spacing: 1px !important;
+.theme-idr .psg-match-banner::before {
+  background:
+    radial-gradient(35% 40% at 15% 30%, rgba(0, 0, 0, 0.08), transparent 70%),
+    radial-gradient(35% 40% at 85% 25%, rgba(0, 0, 0, 0.06), transparent 70%),
+    radial-gradient(40% 40% at 55% 100%, rgba(0, 0, 0, 0.07), transparent 70%) !important;
 }
 
-/* Metadados (Data e Competição) */
-.theme-idr .psg-date {
-  color: #111111 !important;
-  font-weight: 800 !important;
+.theme-idr .psg-match-banner::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #000 30%,
+    #000 70%,
+    transparent
+  ) !important;
+  box-shadow: none !important;
 }
 
-.theme-idr .psg-comp {
-  color: #666666 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.5px !important;
+.theme-idr .psg-match-banner .psg-status {
+  background: #000 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Nomes dos Times e Placares (Tipografia de Estádio) */
-.theme-idr .psg-name-score h2 {
-  color: #000000 !important;
+.theme-idr .psg-match-banner .psg-status::before {
+  background: #fff !important;
+}
+
+.theme-idr .psg-match-banner .psg-date {
+  color: #111 !important;
+}
+
+.theme-idr .psg-match-banner .psg-comp {
+  color: #666 !important;
+}
+
+.theme-idr .psg-match-banner .psg-name-score h2 {
+  color: #000 !important;
   text-shadow: none !important;
-  letter-spacing: -0.5px !important;
 }
 
-.theme-idr .psg-score-num {
-  color: #000000 !important;
+.theme-idr .psg-match-banner .psg-score-num {
+  color: #000 !important;
   text-shadow: none !important;
   background: rgba(0, 0, 0, 0.04) !important;
-  padding: 2px 12px !important;
-  border-radius: 8px !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: none !important;
 }
 
-/* Logos dos Times com Sombra Profunda e Elegante */
-.theme-idr .psg-logo {
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15)) !important;
+.theme-idr .psg-match-banner .psg-score-num.is-leading {
+  color: #fff !important;
+  background: #000 !important;
+  border-color: #000 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Artilheiros */
-.theme-idr .psg-scorers {
-  color: #555555 !important;
+.theme-idr .psg-match-banner .psg-logo {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18)) !important;
 }
 
-.theme-idr .scorer-item {
-  background: rgba(0, 0, 0, 0.03) !important;
-  padding: 4px 10px !important;
-  border-radius: 6px !important;
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+.theme-idr .psg-match-banner .psg-scorers {
+  color: #555 !important;
 }
 
-/* Botão de Toggle da Timeline (Estilo Minimalista Chique) */
-.theme-idr .psg-timeline-toggle {
-  color: #000000 !important;
-  border-color: #000000 !important;
+.theme-idr .psg-match-banner .scorer-item {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-idr .psg-match-banner .psg-penalties-text-box {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .psg-match-banner .pen-team.pen-winner {
+  color: #000 !important;
+  text-shadow: none !important;
+  border-bottom: 2px solid #000 !important;
+  padding-bottom: 2px !important;
+}
+
+.theme-idr .psg-match-banner .pen-team.pen-loser {
+  color: #888 !important;
+}
+
+.theme-idr .psg-match-banner .pen-divider {
+  color: #888 !important;
+}
+
+.theme-idr .psg-match-banner .golden-goal-pill {
+  background: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .psg-match-banner .golden-goal-info {
+  background: #fff !important;
+  border-color: #000 !important;
+  color: #111 !important;
+}
+
+.theme-idr .psg-match-banner .golden-goal-info strong.gold {
+  color: #000 !important;
+}
+
+.theme-idr .psg-match-banner .psg-timeline-toggle {
+  color: #000 !important;
+  border-color: #000 !important;
   background: #f8f9fa !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
 }
 
-.theme-idr .psg-timeline-toggle:hover {
-  background: #000000 !important;
-  color: #ffffff !important;
+.theme-idr .psg-match-banner .psg-timeline-toggle:hover {
+  background: #000 !important;
+  color: #fff !important;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2) !important;
-  transform: translateY(-2px) !important;
 }
 
-/* Dropdown da Timeline Integrado */
 .theme-idr .psg-timeline-dropdown {
   background: #ffffff !important;
   border-bottom: 1px solid #e0e0e0 !important;
   box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.02) !important;
-}
-
-/* Seção de Pênaltis */
-.theme-idr .pen-team.pen-winner {
-  color: #000000 !important;
-  font-weight: 900 !important;
-  border-bottom: 2px solid #000000 !important;
-  padding-bottom: 2px !important;
-}
-
-.theme-idr .pen-team.pen-loser {
-  color: #888888 !important;
-  font-weight: 600 !important;
-}
-
-.theme-idr .pen-divider {
-  color: #888888 !important;
 }
