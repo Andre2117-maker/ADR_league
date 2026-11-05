@@ -1,17 +1,49 @@
 /* ==========================================================================
-   ESTILOS GERAIS DA TIMELINE DA PARTIDA
+   TIMELINE DA PARTIDA - VERSÃO AURA
    ========================================================================== */
 
 .timeline-scroll-wrapper {
+  position: relative;
   width: 100%;
   max-width: 600px;
   margin: 20px auto;
   max-height: 350px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 10px;
-  background-color: #000;
-  border-radius: 8px;
+  padding: 14px 12px;
+  background:
+    radial-gradient(
+      60% 40% at 15% 0%,
+      rgba(212, 175, 55, 0.12),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 40% at 90% 100%,
+      rgba(138, 43, 226, 0.14),
+      transparent 70%
+    ),
+    #0a0a0e;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 14px;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(212, 175, 55, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.6) transparent;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(#f0d36b, #a8861f);
+  border-radius: 999px;
 }
 
 .match-timeline-container {
@@ -23,19 +55,28 @@
   padding-top: 10px;
 }
 
-/* Linha vertical central */
+/* Linha vertical central com brilho dourado */
 .timeline-vertical-line {
   position: absolute;
   top: 25px;
   bottom: 25px;
   left: 50%;
   width: 2px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    to bottom,
+    rgba(212, 175, 55, 0.1),
+    rgba(212, 175, 55, 0.55) 15%,
+    rgba(212, 175, 55, 0.55) 85%,
+    rgba(212, 175, 55, 0.1)
+  );
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
   transform: translateX(-50%);
   z-index: 1;
 }
 
-/* Marcador Inicial / Final */
+/* ==========================================================================
+   MARCADORES INICIAL / FINAL
+   ========================================================================== */
 .timeline-marker-wrapper {
   display: flex;
   align-items: center;
@@ -48,41 +89,70 @@
 .timeline-horizontal-line {
   flex: 1;
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5));
+}
+
+.timeline-marker-wrapper .timeline-horizontal-line:last-child {
+  background: linear-gradient(270deg, transparent, rgba(212, 175, 55, 0.5));
 }
 
 .timeline-marker-center {
-  padding: 0 15px;
+  padding: 8px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #000;
+  background: #0d0b14;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 999px;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
 .marker-icon {
   font-size: 16px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .marker-title {
-  color: #8faec2;
+  color: #d4af37;
   font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1px;
+  font-weight: 900;
+  letter-spacing: 3px;
 }
 
 .match-end-time {
-  color: #888;
+  color: #999;
   font-size: 11px;
   margin-top: 4px;
 }
 
-/* Linha do Evento Real */
+/* ==========================================================================
+   LINHAS DE EVENTO
+   ========================================================================== */
 .timeline-event-row {
   display: flex;
   width: 100%;
   align-items: center;
   margin-bottom: 12px;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+  animation: tlEventIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.timeline-event-row:hover {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.08) 50%,
+    transparent
+  );
+}
+
+@keyframes tlEventIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
 }
 
 .timeline-side {
@@ -104,43 +174,71 @@
   text-align: left;
 }
 
+/* Ícone central dentro de um orbe de vidro */
 .timeline-center-icon {
-  width: 30px;
+  width: 34px;
+  height: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   z-index: 2;
+  background: #0d0b14;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 50%;
+  box-shadow:
+    0 0 16px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.timeline-event-row:hover .timeline-center-icon {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 24px rgba(212, 175, 55, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .event-icon {
-  font-size: 1.1rem;
-  filter: drop-shadow(0 0 2px #000);
+  font-size: 1.05rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
 }
 
 .own-goal {
   color: #ff4444;
+  filter: drop-shadow(0 0 6px rgba(255, 68, 68, 0.8));
 }
 
 .own-goal-label {
-  color: #ff4444;
-  font-weight: bold;
+  color: #ff5a5a;
+  font-weight: 900;
 }
 
 .yellow-card {
   color: #ffd700;
   font-weight: bold;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
 }
 
 .red-card {
   color: #ff2222;
   font-weight: bold;
+  filter: drop-shadow(0 0 6px rgba(255, 34, 34, 0.7));
 }
 
+/* Minuto em pílula dourada */
 .timeline-minute {
-  color: #d4af37;
-  font-weight: bold;
-  font-size: 13px;
+  display: inline-block;
+  color: #f0d36b;
+  font-weight: 900;
+  font-size: 12px;
+  padding: 2px 9px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 999px;
 }
 
 .minute-spacing-left {
@@ -153,24 +251,31 @@
 
 .player-name {
   color: #fff;
-  font-weight: 600;
+  font-weight: 800;
   font-size: 0.9rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
 .timeline-assist {
   font-size: 0.7rem;
-  color: #aaa;
+  color: rgba(255, 255, 255, 0.55);
   font-weight: 400;
   margin: 0 5px;
   text-transform: none;
 }
 
-/* Substituições */
+/* ==========================================================================
+   SUBSTITUIÇÕES
+   ========================================================================== */
 .sub-box {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
 }
 
 .sub-box.left {
@@ -193,54 +298,80 @@
 }
 
 .sub-out {
-  color: #ff4444;
+  color: #ff5a5a;
   font-size: 11px;
+  font-weight: 700;
 }
 
 .sub-in {
-  color: #44ff44;
+  color: #4dff7a;
   font-size: 11px;
+  font-weight: 700;
 }
 
-/* Marcadores de Minutagem (5 em 5 min) */
+/* ==========================================================================
+   MARCADORES DE MINUTAGEM (5 EM 5 MIN)
+   ========================================================================== */
 .timeline-time-marker {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin: 6px 0;
+  margin: 8px 0;
   z-index: 2;
 }
 
 .marker-badge {
-  background-color: #000;
-  color: rgba(255, 255, 255, 0.3);
+  background: #0d0b14;
+  color: rgba(255, 255, 255, 0.45);
   font-size: 10px;
-  font-weight: bold;
-  padding: 2px 0;
-  width: 36px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 3px 0;
+  width: 40px;
   text-align: center;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-event-row {
+    animation: none;
+  }
 }
 
 @media (max-width: 768px) {
+  .timeline-scroll-wrapper {
+    border-radius: 12px;
+    padding: 12px 8px;
+  }
   .timeline-event-item {
     font-size: 0.75rem;
+  }
+  .player-name {
+    font-size: 0.8rem;
   }
   .timeline-assist {
     font-size: 0.6rem;
     margin-left: -10px;
   }
+  .timeline-minute {
+    padding: 2px 7px;
+    font-size: 11px;
+  }
 }
 
 /* ==========================================================================
-   TEMA IDR - TIMELINE DE EVENTOS / GOLS DA PARTIDA (P&B PREMIUM)
+   TEMA IDR - TIMELINE (P&B PREMIUM)
    ========================================================================== */
-
 .theme-idr .timeline-scroll-wrapper {
-  background-color: #ffffff !important;
+  background: linear-gradient(160deg, #ffffff, #f0f0f0) !important;
   border: 1px solid #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06) !important;
+  scrollbar-color: #000 transparent !important;
+}
+
+.theme-idr .timeline-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #000 !important;
 }
 
 .theme-idr .match-timeline-container {
@@ -248,23 +379,59 @@
 }
 
 .theme-idr .timeline-vertical-line {
-  background-color: rgba(0, 0, 0, 0.15) !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.08),
+    rgba(0, 0, 0, 0.3) 15%,
+    rgba(0, 0, 0, 0.3) 85%,
+    rgba(0, 0, 0, 0.08)
+  ) !important;
+  box-shadow: none !important;
 }
 
 .theme-idr .timeline-horizontal-line {
-  background-color: rgba(0, 0, 0, 0.15) !important;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.3)
+  ) !important;
+}
+
+.theme-idr .timeline-marker-wrapper .timeline-horizontal-line:last-child {
+  background: linear-gradient(
+    270deg,
+    transparent,
+    rgba(0, 0, 0, 0.3)
+  ) !important;
 }
 
 .theme-idr .timeline-marker-center {
-  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border-color: #000 !important;
+  box-shadow: none !important;
 }
 
 .theme-idr .marker-title {
-  color: #444 !important;
+  color: #000 !important;
 }
 
 .theme-idr .match-end-time {
   color: #666 !important;
+}
+
+.theme-idr .timeline-event-row:hover {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.04) 50%,
+    transparent
+  ) !important;
+}
+
+.theme-idr .timeline-center-icon {
+  background: #ffffff !important;
+  border-color: #000 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
 }
 
 .theme-idr .timeline-event-item,
@@ -282,11 +449,21 @@
 
 .theme-idr .timeline-minute {
   color: #000 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.theme-idr .sub-box {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme-idr .sub-in {
+  color: #0a9a3a !important;
 }
 
 .theme-idr .marker-badge {
-  background-color: #ffffff !important;
-  color: rgba(0, 0, 0, 0.4) !important;
-  border-top-color: rgba(0, 0, 0, 0.15) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.15) !important;
+  background: #ffffff !important;
+  color: rgba(0, 0, 0, 0.45) !important;
+  border-color: rgba(0, 0, 0, 0.18) !important;
 }
