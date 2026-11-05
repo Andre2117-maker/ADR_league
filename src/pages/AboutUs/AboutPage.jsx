@@ -1,33 +1,112 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import HistoryCarousel from "../../components/HistoryCarousel";
 import Footer from "../../components/Footer";
 import "./aboutpage.css";
 
+// ==========================================
+// CONTEÚDO EDITÁVEL (edite aqui)
+// ==========================================
+const FOUNDING_YEAR = 2023;
+
+// Marcos da linha do tempo
+const MILESTONES = [
+  {
+    year: "2023",
+    title: "A Fundação",
+    desc: "João e Jairo dão o primeiro passo e o grupo sela o pacto de se tornar, oficialmente, um time.",
+  },
+  {
+    year: "2023",
+    title: "O Batismo de Fogo",
+    desc: "Estreia no Campeonato do Lato Sensu: quatro jogos, quatro derrotas e muito combustível.",
+  },
+  {
+    year: "2025",
+    title: "ADR 2.0",
+    desc: "A evolução do escudo e da identidade visual do clube.",
+  },
+  {
+    year: "2026",
+    title: "IDR",
+    desc: "O Ódio: uma nova identidade para uma nova fase.",
+  },
+];
+
+// Fundadores. Preencha playerId (id do jogador no banco) para linkar o perfil e usar a foto.
+const FOUNDERS = [
+  { name: "João", role: "Fundador", playerId: "" },
+  { name: "Jairo", role: "Fundador", playerId: "" },
+  { name: "André", role: "Primeiro a embarcar", playerId: "" },
+  { name: "Carlos", role: "Primeiro a embarcar", playerId: "" },
+];
+
+// Sala de troféus. A seção só aparece se houver itens.
+// Exemplo: { title: "Campeão do ...", season: "2026", desc: "..." }
+const TROPHIES = [];
+
+// Botões do final da página (ajuste as rotas para as do seu projeto)
+const CTA_LINKS = [
+  { to: "/elenco", label: "Conhecer o elenco", primary: true },
+  { to: "/campeonato", label: "Ver o campeonato" },
+  { to: "/transparency", label: "Transparência" },
+];
+
+// Número que sobe de 0 até o valor
+function StatNumber({ value }) {
+  const [shown, setShown] = useState(0);
+
+  useEffect(() => {
+    if (value == null) return;
+    const duration = 1400;
+    const start = performance.now();
+    let raf;
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setShown(Math.round(value * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+
+  if (value == null) return <>—</>;
+  return <>{shown}</>;
+}
+
 function AboutPage({ players = [], isAdmin }) {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const wrapperRef = useRef(null);
 
   // O estado inicial começa vazio ou com o que vier do banco
   const [primeiroElenco, setPrimeiroElenco] = useState([]);
 
+  // Estatísticas calculadas a partir das partidas (null enquanto carrega)
+  const [matchStats, setMatchStats] = useState(null);
+
   const values = [
     {
       title: "Excelência",
+      icon: "🏆",
       desc: "Busca constante pelo alto nível técnico e organizacional em cada partida.",
     },
     {
       title: "Comunidade",
+      icon: "🤝",
       desc: "Fortalecimento dos laços entre jogadores, amigos e entusiastas do esporte.",
     },
     {
       title: "Transparência",
+      icon: "🔎",
       desc: "Gestão clara de estatísticas, finanças e regras da liga.",
     },
     {
       title: "História",
+      icon: "📜",
       desc: "Respeito à trajetória de cada atleta que veste a camisa do ADR.",
     },
   ];
@@ -54,6 +133,11 @@ function AboutPage({ players = [], isAdmin }) {
       src: "/camisa/terceira camisa.png",
       season: "Temporada 2025/26",
     },
+    {
+      name: "Quarto Manto",
+      src: "/camisa/quarta camisa.png",
+      season: "Temporada 2026/27",
+    },
   ];
 
   // ==========================================
@@ -72,6 +156,42 @@ function AboutPage({ players = [], isAdmin }) {
     },
   ];
 
+  // ==========================================
+  // ANIMAÇÃO DE ENTRADA AO ROLAR A PÁGINA
+  // ==========================================
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const items = wrapper.querySelectorAll(".reveal");
+
+    // Sem suporte (ou movimento reduzido): mostra tudo direto
+    if (
+      !("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      items.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+
+    wrapper.classList.add("js-reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const fetchElenco = async () => {
       try {
@@ -88,6 +208,54 @@ function AboutPage({ players = [], isAdmin }) {
       }
     };
     fetchElenco();
+  }, []);
+
+  // Jogos, gols e vitórias do ADR (considera o time A como ADR)
+  useEffect(() => {
+    const fetchMatchStats = async () => {
+      try {
+        const snap = await getDocs(collection(db, "matches"));
+        let jogos = 0;
+        let gols = 0;
+        let vitorias = 0;
+
+        snap.docs.forEach((d) => {
+          const m = d.data();
+          if (m.type === "TREINO" || m.type === "EVENTO") return;
+
+          const events = m.events || [];
+          const finished = m.status === "FINISHED" || events.length > 0;
+          if (!finished) return;
+
+          const scoreA = events.filter(
+            (e) =>
+              (e.type === "GOAL" && e.team === "A") ||
+              (e.type === "OWN_GOAL" && e.team === "B"),
+          ).length;
+          const scoreB = events.filter(
+            (e) =>
+              (e.type === "GOAL" && e.team === "B") ||
+              (e.type === "OWN_GOAL" && e.team === "A"),
+          ).length;
+
+          jogos += 1;
+          gols += scoreA;
+
+          let won = scoreA > scoreB;
+          if (scoreA === scoreB) {
+            const penA = Number(m.penaltiesScoreA) || 0;
+            const penB = Number(m.penaltiesScoreB) || 0;
+            won = penA > penB || m.goldenGoalWinner === "A";
+          }
+          if (won) vitorias += 1;
+        });
+
+        setMatchStats({ jogos, gols, vitorias });
+      } catch (error) {
+        console.error("Erro ao calcular estatísticas:", error);
+      }
+    };
+    fetchMatchStats();
   }, []);
 
   // Salva no banco de dados
@@ -162,18 +330,50 @@ function AboutPage({ players = [], isAdmin }) {
   };
 
   return (
-    <div className="about-wrapper">
+    <div className="about-wrapper" ref={wrapperRef}>
       <section className="about-hero">
+        <span className="hero-kicker">Desde 2023</span>
         <h1 className="hero-title">
           ADR <span className="gold-text">ORGANIZATION</span>
         </h1>
         <p className="hero-subtitle">
           Mais que uma liga, um legado digital no futebol.
         </p>
+        <div className="hero-line"></div>
+      </section>
+
+      {/* FAIXA DE NÚMEROS */}
+      <section className="stats-strip reveal">
+        {[
+          {
+            label: "Anos de história",
+            value: new Date().getFullYear() - FOUNDING_YEAR,
+          },
+          {
+            label: "Atletas",
+            value: players.filter((p) => !p.isAnonymous).length,
+          },
+          { label: "Jogos", value: matchStats ? matchStats.jogos : null },
+          { label: "Gols", value: matchStats ? matchStats.gols : null },
+          {
+            label: "Vitórias",
+            value: matchStats ? matchStats.vitorias : null,
+          },
+          ...(TROPHIES.length > 0
+            ? [{ label: "Títulos", value: TROPHIES.length }]
+            : []),
+        ].map((s, i) => (
+          <div key={s.label} className="stat-card stagger" style={{ "--i": i }}>
+            <span className="stat-value">
+              <StatNumber value={s.value} />
+            </span>
+            <span className="stat-label">{s.label}</span>
+          </div>
+        ))}
       </section>
 
       <div className="about-content">
-        <section className="about-section">
+        <section className="about-section reveal">
           <h2 className="section-title">A Fundação</h2>
           <p className="section-text">
             A história d<strong>o ADR (Amigos do Renzo)</strong> começou em
@@ -190,11 +390,55 @@ function AboutPage({ players = [], isAdmin }) {
           </p>
         </section>
 
+        {/* FUNDADORES */}
+        <section className="founders-section reveal">
+          <h2 className="section-title center">Os Fundadores</h2>
+          <p className="section-subtitle">
+            Quem acreditou antes de existir um time.
+          </p>
+          <div className="founders-grid">
+            {FOUNDERS.map((f, idx) => {
+              const jogador = f.playerId
+                ? players.find((p) => String(p.id) === String(f.playerId))
+                : null;
+              const foto =
+                jogador?.photo || jogador?.image || jogador?.photoURL;
+              const CardElement = jogador ? Link : "div";
+              const cardProps = jogador ? { to: `/player/${jogador.id}` } : {};
+
+              return (
+                <CardElement
+                  key={f.name}
+                  className={`founder-card stagger ${jogador ? "is-link" : ""}`}
+                  style={{ "--i": idx }}
+                  {...cardProps}
+                >
+                  <div
+                    className={`primordial-avatar ${foto ? "has-photo" : ""}`}
+                  >
+                    {foto ? (
+                      <img
+                        src={foto}
+                        alt={f.name}
+                        className="primordial-photo"
+                      />
+                    ) : (
+                      f.name.charAt(0).toUpperCase()
+                    )}
+                  </div>
+                  <h3 className="founder-name">{f.name}</h3>
+                  <span className="founder-role">{f.role}</span>
+                </CardElement>
+              );
+            })}
+          </div>
+        </section>
+
         {/* ==================================================== */}
-        {/* NOVA SEÇÃO DINÂMICA: PRIMEIRO ELENCO (EX-PRIMORDIAIS) */}
+        {/* SEÇÃO DINÂMICA: PRIMEIRO ELENCO */}
         {/* ==================================================== */}
-        <section className="primordiais-section">
-          <h2 className="section-title">O Primeiro Elenco</h2>
+        <section className="primordiais-section reveal">
+          <h2 className="section-title center">O Primeiro Elenco</h2>
           <p className="section-subtitle">
             Os nomes e os pilares que deram início à história do ADR em 2023.
           </p>
@@ -202,75 +446,26 @@ function AboutPage({ players = [], isAdmin }) {
           {isAdmin && (
             <button
               onClick={() => setIsEditing(!isEditing)}
-              style={{
-                background: isEditing ? "#ff4d4d" : "#111",
-                color: isEditing ? "#fff" : "#d4af37",
-                border: `1px solid ${isEditing ? "#ff4d4d" : "#d4af37"}`,
-                padding: "8px 20px",
-                borderRadius: "50px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                margin: "0 auto 20px",
-                display: "block",
-              }}
+              className={`primordial-edit-toggle ${isEditing ? "active" : ""}`}
             >
               {isEditing ? "Cancelar Edição" : "✏️ Editar Primeiro Elenco"}
             </button>
           )}
 
           {isEditing && isAdmin ? (
-            <div
-              style={{
-                background: "#151515",
-                border: "1px dashed #d4af37",
-                borderRadius: "12px",
-                padding: "20px",
-                maxWidth: "500px",
-                margin: "0 auto 30px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-              }}
-            >
+            <div className="primordial-editor">
               {primeiroElenco.map((membro, idx) => {
                 const isManual = membro.isManual || false;
 
                 return (
-                  <div
-                    key={idx}
-                    style={{
-                      background: "#000",
-                      border: "1px solid #333",
-                      borderRadius: "8px",
-                      padding: "15px",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "10px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <span style={{ color: "#d4af37", fontWeight: "bold" }}>
-                        Membro {idx + 1}
-                      </span>
+                  <div key={idx} className="primordial-edit-card">
+                    <div className="pe-head">
+                      <span className="pe-label">Membro {idx + 1}</span>
 
-                      <div style={{ display: "flex", gap: "10px" }}>
+                      <div className="pe-actions">
                         <button
                           onClick={() => handleToggleType(idx)}
-                          style={{
-                            background: "#222",
-                            color: "#aaa",
-                            border: "1px solid #444",
-                            borderRadius: "4px",
-                            padding: "4px 8px",
-                            cursor: "pointer",
-                            fontSize: "0.8rem",
-                          }}
+                          className="pe-switch"
                         >
                           🔄 Trocar para{" "}
                           {isManual ? "Jogador do Banco" : "Nome Manual"}
@@ -278,13 +473,7 @@ function AboutPage({ players = [], isAdmin }) {
 
                         <button
                           onClick={() => handleRemoveMember(idx)}
-                          style={{
-                            background: "transparent",
-                            color: "#ff4d4d",
-                            border: "none",
-                            cursor: "pointer",
-                            fontSize: "0.9rem",
-                          }}
+                          className="pe-remove"
                         >
                           ❌
                         </button>
@@ -292,34 +481,20 @@ function AboutPage({ players = [], isAdmin }) {
                     </div>
 
                     {isManual ? (
-                      /* INPUT MANUAL */
                       <input
                         type="text"
                         value={membro.nome}
                         onChange={(e) => handleNameChange(idx, e.target.value)}
                         placeholder="Digite o nome de exibição..."
-                        style={{
-                          padding: "8px",
-                          background: "#111",
-                          color: "#fff",
-                          border: "1px solid #444",
-                          borderRadius: "6px",
-                        }}
+                        className="pe-input"
                       />
                     ) : (
-                      /* SELECT DO BANCO */
                       <select
                         value={membro.id || ""}
                         onChange={(e) =>
                           handleSelectChange(idx, e.target.value)
                         }
-                        style={{
-                          padding: "8px",
-                          background: "#111",
-                          color: "#aaa",
-                          border: "1px solid #444",
-                          borderRadius: "6px",
-                        }}
+                        className="pe-input"
                       >
                         <option value="">Selecione um jogador...</option>
                         {[...players]
@@ -335,34 +510,14 @@ function AboutPage({ players = [], isAdmin }) {
                 );
               })}
 
-              <button
-                onClick={handleAddMember}
-                style={{
-                  background: "transparent",
-                  color: "#00ff7f",
-                  border: "1px dashed #00ff7f",
-                  padding: "10px",
-                  borderRadius: "6px",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-              >
+              <button onClick={handleAddMember} className="pe-add">
                 + Adicionar Novo Membro
               </button>
 
               <button
                 onClick={handleSaveElenco}
                 disabled={loading}
-                style={{
-                  background: "#d4af37",
-                  color: "#000",
-                  border: "none",
-                  padding: "12px",
-                  borderRadius: "6px",
-                  fontWeight: "900",
-                  cursor: "pointer",
-                  marginTop: "10px",
-                }}
+                className="pe-save"
               >
                 {loading ? "Salvando..." : "Salvar no Banco de Dados"}
               </button>
@@ -377,12 +532,10 @@ function AboutPage({ players = [], isAdmin }) {
                   ? { to: `/player/${membro.id}` }
                   : {};
 
-                // --- LÓGICA DA FOTO ---
                 // Encontra o jogador na lista pelo ID para pegar a imagem dele
                 const jogadorBanco = isLinked
                   ? players.find((p) => String(p.id) === String(membro.id))
                   : null;
-                // Busca a propriedade de foto (tenta várias opções comuns caso seu banco varie)
                 const fotoURL =
                   jogadorBanco?.photo ||
                   jogadorBanco?.image ||
@@ -391,28 +544,18 @@ function AboutPage({ players = [], isAdmin }) {
                 return (
                   <CardElement
                     key={idx}
-                    className="primordial-card"
+                    className={`primordial-card stagger ${isLinked ? "is-link" : ""}`}
+                    style={{ "--i": idx }}
                     {...cardProps}
-                    style={{ cursor: isLinked ? "pointer" : "default" }}
                   >
-                    {/* Alterado aqui: Adicionado overflow hidden e checagem da foto */}
                     <div
-                      className="primordial-avatar"
-                      style={{
-                        overflow: "hidden",
-                        padding: fotoURL ? "0" : undefined, // Remove o padding se tiver foto para ela preencher tudo
-                      }}
+                      className={`primordial-avatar ${fotoURL ? "has-photo" : ""}`}
                     >
                       {fotoURL ? (
                         <img
                           src={fotoURL}
                           alt={membro.nome}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            borderRadius: "50%",
-                          }}
+                          className="primordial-photo"
                         />
                       ) : membro.nome ? (
                         membro.nome.charAt(0).toUpperCase()
@@ -430,7 +573,7 @@ function AboutPage({ players = [], isAdmin }) {
           )}
         </section>
 
-        <section className="about-section highlight-border">
+        <section className="about-section highlight-border reveal">
           <h2 className="section-title">O Batismo de Fogo</h2>
           <p className="section-text">
             O ADR nasceu para o desafio, estreando no{" "}
@@ -448,15 +591,41 @@ function AboutPage({ players = [], isAdmin }) {
           </p>
         </section>
 
+        {/* LINHA DO TEMPO */}
+        <section className="milestones-section reveal">
+          <h2 className="section-title center">Linha do Tempo</h2>
+          <p className="section-subtitle">Os marcos que moldaram o ADR.</p>
+          <div className="milestones">
+            {MILESTONES.map((m, i) => (
+              <div
+                key={`${m.year}-${m.title}`}
+                className={`milestone stagger ${i % 2 === 0 ? "left" : "right"}`}
+                style={{ "--i": i }}
+              >
+                <div className="milestone-dot"></div>
+                <div className="milestone-card">
+                  <span className="milestone-year">{m.year}</span>
+                  <h3 className="milestone-title">{m.title}</h3>
+                  <p className="milestone-desc">{m.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* EVOLUÇÃO DAS LOGOS */}
-        <section className="teams-logos-section">
-          <h2 className="section-title">Evolução do Escudo</h2>
+        <section className="teams-logos-section reveal">
+          <h2 className="section-title center">Evolução do Escudo</h2>
           <p className="section-subtitle">
             A transformação da nossa identidade visual.
           </p>
           <div className="logos-timeline">
             {teamLogos.map((logo, idx) => (
-              <div key={idx} className="logo-timeline-item">
+              <div
+                key={idx}
+                className="logo-timeline-item stagger"
+                style={{ "--i": idx }}
+              >
                 <div className="logo-container">
                   <img src={logo.src} alt={logo.name} />
                 </div>
@@ -472,17 +641,19 @@ function AboutPage({ players = [], isAdmin }) {
           </div>
         </section>
 
-        {/* ==================================================== */}
         {/* SEÇÃO: MASCOTES */}
-        {/* ==================================================== */}
-        <section className="mascotes-section">
-          <h2 className="section-title">Nossos Mascotes</h2>
+        <section className="mascotes-section reveal">
+          <h2 className="section-title center">Nossos Mascotes</h2>
           <p className="section-subtitle">
             A energia e o carisma que representam a garra do ADR.
           </p>
           <div className="mascotes-grid">
             {mascotes.map((mascote, idx) => (
-              <div key={idx} className="mascote-card">
+              <div
+                key={idx}
+                className="mascote-card stagger"
+                style={{ "--i": idx }}
+              >
                 <div className="mascote-image-wrapper">
                   <img src={mascote.src} alt={mascote.name} />
                 </div>
@@ -495,17 +666,19 @@ function AboutPage({ players = [], isAdmin }) {
           </div>
         </section>
 
-        {/* ==================================================== */}
         {/* SEÇÃO: MANTOS */}
-        {/* ==================================================== */}
-        <section className="kits-section">
-          <h2 className="section-title">Nossos Mantos</h2>
+        <section className="kits-section reveal">
+          <h2 className="section-title center">Nossos Mantos</h2>
           <p className="section-subtitle">
             A pele que representa a história do ADR.
           </p>
           <div className="kits-grid">
             {teamKits.map((kit, idx) => (
-              <div key={idx} className="kit-card">
+              <div
+                key={idx}
+                className="kit-card stagger"
+                style={{ "--i": idx }}
+              >
                 <div className="kit-image-wrapper">
                   <img src={kit.src} alt={kit.name} />
                 </div>
@@ -518,7 +691,31 @@ function AboutPage({ players = [], isAdmin }) {
           </div>
         </section>
 
-        <section className="about-vision">
+        {/* SALA DE TROFÉUS (só aparece se TROPHIES tiver itens) */}
+        {TROPHIES.length > 0 && (
+          <section className="trophies-section reveal">
+            <h2 className="section-title center">Sala de Troféus</h2>
+            <p className="section-subtitle">
+              A glória que o suor transformou em prata e ouro.
+            </p>
+            <div className="trophies-grid">
+              {TROPHIES.map((t, i) => (
+                <div
+                  key={`${t.title}-${t.season}`}
+                  className="trophy-card stagger"
+                  style={{ "--i": i }}
+                >
+                  <span className="trophy-icon">🏆</span>
+                  <h3 className="trophy-title">{t.title}</h3>
+                  <span className="trophy-season">{t.season}</span>
+                  {t.desc && <p className="trophy-desc">{t.desc}</p>}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="about-vision reveal">
           <div className="vision-card">
             <h2 className="vision-title">O Amanhã é Dourado</h2>
             <p className="vision-text">
@@ -534,15 +731,40 @@ function AboutPage({ players = [], isAdmin }) {
           </div>
         </section>
 
-        <div className="values-grid">
+        <div className="values-grid reveal">
           {values.map((v, index) => (
-            <div key={index} className="value-card">
+            <div
+              key={index}
+              className="value-card stagger"
+              style={{ "--i": index }}
+            >
+              <span className="value-icon">{v.icon}</span>
               <h3 className="value-title">{v.title}</h3>
               <p className="value-desc">{v.desc}</p>
             </div>
           ))}
         </div>
       </div>
+
+      {/* CHAMADA FINAL */}
+      <section className="about-cta reveal">
+        <h2 className="cta-title">Faça parte da história</h2>
+        <p className="cta-text">
+          Acompanhe os jogos, conheça o elenco e veja para onde vai cada centavo
+          do clube.
+        </p>
+        <div className="cta-buttons">
+          {CTA_LINKS.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={`cta-btn ${l.primary ? "primary" : ""}`}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <HistoryCarousel />
       <Footer />
