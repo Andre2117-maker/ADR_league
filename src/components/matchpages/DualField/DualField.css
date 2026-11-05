@@ -1,3 +1,6 @@
+/* ==========================================================================
+   CAMPOS / FORMAÇÕES - VERSÃO AURA
+   ========================================================================== */
 .dual-fields-layout {
   display: flex;
   gap: 50px;
@@ -9,44 +12,150 @@
 }
 
 .field-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 380px;
+  animation: fieldIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
+.field-section:nth-child(2) {
+  animation-delay: 140ms;
+}
+
+@keyframes fieldIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(6px);
+  }
+}
+
+/* Halo dourado atrás do campo */
+.field-section::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  width: 90%;
+  height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(212, 175, 55, 0.22),
+    transparent 70%
+  );
+  filter: blur(34px);
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.field-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.field-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Título do time com gradiente e linha de brilho */
 .field-team-title {
-  color: #d4af37;
+  position: relative;
+  margin: 0 0 18px 0;
+  padding-bottom: 12px;
+  font-size: 1.3rem;
   font-weight: 900;
-  margin-bottom: 15px;
+  font-style: italic;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
+  text-align: center;
+  background: linear-gradient(100deg, #f0d36b 0%, #fff 50%, #d4af37 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: fieldTitleShine 6s linear infinite;
+}
+
+.field-team-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 60%;
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+}
+
+@keyframes fieldTitleShine {
+  to {
+    background-position: 200% center;
+  }
 }
 
 .formation-select-wrapper {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
+/* Dropdown em pílula de vidro */
 .formation-dropdown {
-  background: #111;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #d4af37;
-  border: 1px solid #333;
-  padding: 8px 15px;
-  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 9px 38px 9px 18px;
+  border-radius: 999px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 900;
+  letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
   width: 100%;
   max-width: 220px;
-  transition: 0.3s;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
-.formation-dropdown:hover {
+.formation-dropdown:hover,
+.formation-dropdown:focus {
   border-color: #d4af37;
+  background-color: rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+}
+
+.formation-dropdown option,
+.formation-dropdown optgroup {
+  background: #111;
+  color: #fff;
+}
+
+.formation-dropdown optgroup {
+  color: #d4af37;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-section,
+  .field-team-title {
+    animation: none;
+  }
 }
 
 @media (max-width: 900px) {
@@ -65,17 +174,31 @@
 /* ==========================================================================
    TEMA IDR - ESCALAÇÃO / CAMPOS E FORMAÇÕES (BLACK & WHITE PREMIUM)
    ========================================================================== */
-
-/* Título do Time Acima do Campo */
-.theme-idr .field-team-title {
-  color: #000000 !important;
-  text-shadow: none !important;
-  font-weight: 900 !important;
+.theme-idr .field-section::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.14),
+    transparent 70%
+  ) !important;
 }
 
-/* Dropdown de Formação Tática (Seletor Premium) */
+.theme-idr .field-team-title {
+  background: linear-gradient(100deg, #000 0%, #777 50%, #000 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+}
+
+.theme-idr .field-team-title::after {
+  background: linear-gradient(90deg, transparent, #000, transparent) !important;
+  box-shadow: none !important;
+}
+
 .theme-idr .formation-dropdown {
-  background: #ffffff !important;
+  background-color: #ffffff !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
   color: #000000 !important;
   border: 1px solid #d0d0d0 !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
@@ -84,7 +207,13 @@
 .theme-idr .formation-dropdown:hover,
 .theme-idr .formation-dropdown:focus {
   border-color: #000000 !important;
-  background: #fdfdfd !important;
+  background-color: #fdfdfd !important;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1) !important;
   outline: none !important;
+}
+
+.theme-idr .formation-dropdown option,
+.theme-idr .formation-dropdown optgroup {
+  background: #fff !important;
+  color: #000 !important;
 }
