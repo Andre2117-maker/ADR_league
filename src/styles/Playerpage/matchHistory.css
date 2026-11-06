@@ -457,152 +457,171 @@
 }
 
 /* ==========================================================================
-   TEMA IDR — MESMA BASE MINIMALISTA, COM ACENTO VERDE
+   TEMA IDR — BRANCO E PRETO
    ========================================================================== */
 
 .theme-idr .adr-history-container {
-  color: #f5f5f5 !important;
-  background: #080808 !important;
-  border-color: #292929 !important;
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #ddd !important;
   box-shadow: none !important;
 }
 
 .theme-idr .adr-history-header {
-  border-bottom-color: #292929 !important;
+  border-bottom-color: #ddd !important;
 }
 
-.theme-idr .adr-history-kicker {
-  color: #42b889 !important;
-}
-
+.theme-idr .adr-history-kicker,
 .theme-idr .adr-history-title {
-  color: #fff !important;
+  color: #111 !important;
 }
 
+/* Abas */
 .theme-idr .adr-history-tabs {
-  background: #050505 !important;
-  border-color: #292929 !important;
+  background: #fff !important;
+  border-color: #ddd !important;
 }
 
 .theme-idr .adr-tab-btn {
-  color: #888 !important;
+  color: #777 !important;
 }
 
 .theme-idr .adr-tab-btn:hover {
-  color: #fff !important;
-  background: #151515 !important;
+  color: #000 !important;
+  background: #f2f2f2 !important;
 }
 
 .theme-idr .adr-tab-btn.active {
-  color: #55c99a !important;
-  background: rgba(22, 163, 106, 0.1) !important;
-  box-shadow: inset 0 -2px 0 #24966b !important;
+  color: #000 !important;
+  background: #eee !important;
+  box-shadow: inset 0 -2px 0 #111 !important;
 }
 
 .theme-idr .adr-tab-count {
-  color: #aaa !important;
-  background: #202020 !important;
+  color: #555 !important;
+  background: #e8e8e8 !important;
 }
 
 .theme-idr .adr-tab-btn.active .adr-tab-count {
   color: #fff !important;
-  background: #176d4d !important;
+  background: #111 !important;
 }
 
+/* Lista */
 .theme-idr .adr-history-list {
-  background: #050505 !important;
-  border-color: #292929 !important;
+  background: #fff !important;
+  border-color: #ddd !important;
 }
 
 .theme-idr .adr-match-card {
-  color: #f5f5f5 !important;
-  background: #080808 !important;
-  border-color: #292929 !important;
-  border-left-width: 2px !important;
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #e5e5e5 !important;
+  border-left-color: transparent !important;
 }
 
 .theme-idr .adr-match-card.result-win {
-  border-left-color: #24966b !important;
+  border-left: 2px solid #111 !important;
 }
 
 .theme-idr .adr-match-card.result-loss {
-  border-left-color: #d34b4b !important;
+  border-left: 2px solid #999 !important;
 }
 
 .theme-idr .adr-match-card.result-draw {
-  border-left-color: #777 !important;
+  border-left: 2px solid #ccc !important;
 }
 
 .theme-idr .adr-match-card:hover {
-  background: #141414 !important;
-  box-shadow: none !important;
+  background: #f4f4f4 !important;
 }
 
+/* Resultado */
 .theme-idr .adr-match-info {
-  border-right-color: #292929 !important;
+  border-right-color: #ddd !important;
 }
 
-.theme-idr .adr-status-indicator.win {
-  color: #55c99a !important;
-  background: rgba(22, 163, 106, 0.1) !important;
-  border-color: rgba(36, 150, 107, 0.5) !important;
-}
-
-.theme-idr .adr-status-indicator.loss {
-  color: #ff7777 !important;
-  background: rgba(211, 75, 75, 0.1) !important;
-  border-color: rgba(211, 75, 75, 0.4) !important;
-}
-
+.theme-idr .adr-status-indicator,
+.theme-idr .adr-status-indicator.win,
+.theme-idr .adr-status-indicator.loss,
 .theme-idr .adr-status-indicator.draw {
-  color: #bbb !important;
-  background: #171717 !important;
-  border-color: #444 !important;
+  color: #111 !important;
+  background: #f1f1f1 !important;
+  border-color: #ccc !important;
 }
 
-.theme-idr .adr-match-date,
+.theme-idr .adr-match-date {
+  color: #777 !important;
+}
+
+/* Times e placar */
 .theme-idr .adr-team-name {
   color: #888 !important;
 }
 
-.theme-idr .adr-team-name.highlight,
-.theme-idr .score-num.my-team-score {
-  color: #fff !important;
+.theme-idr .adr-team-name.highlight {
+  color: #111 !important;
 }
 
 .theme-idr .adr-match-score {
-  background: #030303 !important;
-  border-color: #333 !important;
+  background: #f5f5f5 !important;
+  border-color: #ddd !important;
 }
 
 .theme-idr .score-num {
   color: #888 !important;
 }
 
+.theme-idr .score-num.my-team-score {
+  color: #111 !important;
+}
+
 .theme-idr .score-divider,
 .theme-idr .adr-pens-sub {
-  color: #42b889 !important;
+  color: #111 !important;
 }
 
-.theme-idr .badge-goal {
-  color: #f2ca42 !important;
-  background: rgba(224, 182, 41, 0.08) !important;
-  border-color: rgba(224, 182, 41, 0.35) !important;
-}
-
+/* Badges */
+.theme-idr .badge-tag,
+.theme-idr .badge-goal,
 .theme-idr .badge-assist,
-.theme-idr .badge-cs {
-  color: #55c99a !important;
-  background: rgba(22, 163, 106, 0.08) !important;
-  border-color: rgba(36, 150, 107, 0.35) !important;
+.theme-idr .badge-gk,
+.theme-idr .badge-cs,
+.theme-idr .badge-yellow,
+.theme-idr .badge-red {
+  color: #222 !important;
+  background: #eee !important;
+  border-color: #ccc !important;
 }
 
-.theme-idr .badge-gk {
-  color: #c6a5e8 !important;
-  background: rgba(155, 105, 195, 0.09) !important;
-  border-color: rgba(155, 105, 195, 0.35) !important;
+/* Gol de Ouro */
+.theme-idr .badge-golden {
+  color: #fff !important;
+  background: #111 !important;
+  border-color: #111 !important;
 }
 
+/* Ícones */
+.theme-idr .adr-match-chevron {
+  color: #888 !important;
+}
+
+.theme-idr .adr-match-card:hover .adr-match-chevron {
+  color: #111 !important;
+}
+
+.theme-idr .adr-empty-history {
+  color: #777 !important;
+}
+
+/* Scrollbar */
+.theme-idr .adr-history-list::-webkit-scrollbar-thumb {
+  background: #aaa !important;
+}
+
+.theme-idr .adr-history-list::-webkit-scrollbar-track {
+  background: #eee !important;
+}
 /* ==========================================================================
    RESPONSIVIDADE
    ========================================================================== */

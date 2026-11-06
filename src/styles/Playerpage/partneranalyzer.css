@@ -555,91 +555,279 @@
   }
 }
 
-/* TEMA IDR: mantém a mesma identidade escura e minimalista */
+/* ==========================================================================
+   TEMA IDR — BRANCO E PRETO
+   Mantém verde e vermelho nos indicadores de rivalidade.
+   ========================================================================== */
+
 .theme-idr .partner-card {
-  --pa-bg: #080808;
-  --pa-panel: #050505;
-  --pa-panel-soft: #101010;
-  --pa-border: #292929;
-  --pa-border-soft: #202020;
-  --pa-text: #ffffff;
-  --pa-muted: #8b8b8b;
-  --pa-gold: #e0b51b;
-  background: #080808 !important;
-  border-color: #292929 !important;
+  --pa-bg: #ffffff;
+  --pa-panel: #ffffff;
+  --pa-panel-soft: #f3f3f3;
+  --pa-border: #dddddd;
+  --pa-border-soft: #e8e8e8;
+  --pa-text: #111111;
+  --pa-muted: #777777;
+  --pa-gold: #111111;
+  --pa-green: #22a06b;
+  --pa-red: #d83b4b;
+
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #ddd !important;
   box-shadow: none !important;
 }
 
-.theme-idr .partner-card .ppg-card-title,
-.theme-idr .spot-name,
-.theme-idr .p-vs-name {
-  color: #ffffff !important;
+/* Cabeçalho */
+.theme-idr .partner-card .ppg-card-title {
+  color: #111 !important;
 }
 
-.theme-idr .auto-spot-chip,
-.theme-idr .partner-stat-box,
-.theme-idr .partner-versus-banner,
-.theme-idr .partner-section,
-.theme-idr .synergy-pill {
-  background-color: #050505 !important;
-  border-color: #292929 !important;
+.theme-idr .partner-kicker {
+  color: #777 !important;
+}
+
+/* Destaques automáticos */
+.theme-idr .partner-auto-highlights {
+  border-color: #ddd !important;
+}
+
+.theme-idr .auto-spot-chip {
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #ddd !important;
 }
 
 .theme-idr .auto-spot-chip:hover,
-.theme-idr .auto-spot-chip.active,
-.theme-idr .partner-stat-box:hover {
-  background-color: #151515 !important;
+.theme-idr .auto-spot-chip.active {
+  background: #f2f2f2 !important;
+  box-shadow: inset 0 -2px 0 #111 !important;
+}
+
+/* Mantém verde e vermelho nos indicadores */
+.theme-idr .auto-spot-chip.ally .spot-tag {
+  color: #111 !important;
+}
+
+.theme-idr .auto-spot-chip.customer .spot-tag {
+  color: #22a06b !important;
+}
+
+.theme-idr .auto-spot-chip.nemesis .spot-tag {
+  color: #d83b4b !important;
+}
+
+.theme-idr .spot-name {
+  color: #111 !important;
+}
+
+.theme-idr .spot-meta {
+  color: #777 !important;
+}
+
+/* Seletor */
+.theme-idr .partner-selector {
+  border-color: #ddd !important;
 }
 
 .theme-idr .partner-selector select {
-  color: #ffffff !important;
-  background: #090909 !important;
-  border-color: #444444 !important;
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .partner-selector select:focus {
+  border-color: #111 !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .partner-selector select option {
+  color: #111 !important;
+  background: #fff !important;
+}
+
+/* Confronto entre jogadores */
+.theme-idr .partner-versus-banner {
+  background: #f8f8f8 !important;
+  border-color: #ddd !important;
 }
 
 .theme-idr .p-vs-avatar {
-  color: #e0b51b !important;
-  background: #171717 !important;
-  border-color: #555555 !important;
+  color: #111 !important;
+  background: #eee !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .p-vs-name {
+  color: #111 !important;
 }
 
 .theme-idr .p-vs-badge {
-  color: #e0b51b !important;
-  background: transparent !important;
-  border-color: #555555 !important;
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #bbb !important;
+}
+
+/* Seções */
+.theme-idr .partner-section {
+  background: #fff !important;
+  border-color: #ddd !important;
+}
+
+.theme-idr .partner-section-head {
+  background: #f2f2f2 !important;
+  border-color: #ddd !important;
+}
+
+.theme-idr .partner-section-title {
+  color: #555 !important;
+}
+
+/* Indicadores de vitórias, derrotas e empates */
+.theme-idr .p-form-dot.W {
+  background: #22a06b !important;
+}
+
+.theme-idr .p-form-dot.L {
+  background: #d83b4b !important;
+}
+
+.theme-idr .p-form-dot.D {
+  background: #888 !important;
+}
+
+/* Estatísticas */
+.theme-idr .partner-stat-box {
+  color: #111 !important;
+  background: #fff !important;
+  border-color: #e5e5e5 !important;
+}
+
+.theme-idr .partner-stat-box:hover {
+  background: #f5f5f5 !important;
+}
+
+.theme-idr .partner-stat-box.highlight {
+  background: #f5f5f5 !important;
+  box-shadow: inset 0 2px 0 #111 !important;
 }
 
 .theme-idr .p-stat-val {
-  color: #e0b51b !important;
-}
-.theme-idr .partner-stat-box.rivalry-win .p-stat-val {
-  color: #55bd8b !important;
-}
-.theme-idr .partner-stat-box.rivalry-loss .p-stat-val {
-  color: #e47780 !important;
+  color: #111 !important;
 }
 
-.theme-idr .p-stat-label,
-.theme-idr .tug-status-txt {
-  color: #e5e5e5 !important;
+/* Preserva as cores das estatísticas de rivalidade */
+.theme-idr .partner-stat-box.rivalry-win {
+  box-shadow: inset 0 2px 0 #22a06b !important;
+}
+
+.theme-idr .partner-stat-box.rivalry-win .p-stat-val {
+  color: #22a06b !important;
+}
+
+.theme-idr .partner-stat-box.rivalry-loss {
+  box-shadow: inset 0 2px 0 #d83b4b !important;
+}
+
+.theme-idr .partner-stat-box.rivalry-loss .p-stat-val {
+  color: #d83b4b !important;
+}
+
+.theme-idr .p-stat-label {
+  color: #222 !important;
+}
+
+.theme-idr .p-stat-sub {
+  color: #777 !important;
+}
+
+/* Detalhamento de assistências */
+.theme-idr .partner-synergy-breakdown {
+  border-color: #ddd !important;
 }
 
 .theme-idr .synergy-pill {
-  color: #cfcfcf !important;
+  color: #333 !important;
+  background: #f7f7f7 !important;
+  border-color: #ddd !important;
 }
+
 .theme-idr .synergy-pill strong {
-  color: #e0b51b !important;
+  color: #111 !important;
 }
 
+/* Confronto direto */
+.theme-idr .partner-divider::before,
+.theme-idr .partner-divider::after {
+  background: #ddd !important;
+}
+
+.theme-idr .partner-divider span {
+  color: #777 !important;
+}
+
+.theme-idr .rivalry-tug-wrapper {
+  background: #f7f7f7 !important;
+  border-color: #ddd !important;
+}
+
+/* Mantém verde e vermelho no gráfico de rivalidade */
+.theme-idr .tug-win-txt {
+  color: #22a06b !important;
+}
+
+.theme-idr .tug-loss-txt {
+  color: #d83b4b !important;
+}
+
+.theme-idr .tug-status-txt {
+  color: #333 !important;
+}
+
+.theme-idr .rivalry-tug-track {
+  background: rgba(216, 59, 75, 0.55) !important;
+}
+
+.theme-idr .rivalry-tug-fill-win {
+  background: #22a06b !important;
+}
+
+/* Veredito */
 .theme-idr .partner-verdict {
-  color: #ffffff !important;
-  background: #111111 !important;
-  border-left-color: #e0b51b !important;
+  color: #111 !important;
+  background: #f2f2f2 !important;
+  border-color: #ddd !important;
+  border-left: 2px solid #111 !important;
 }
 
+/* Estado vazio */
 .theme-idr .partner-empty {
-  color: #8b8b8b !important;
-  border-color: #383838 !important;
+  color: #777 !important;
+  background: #fafafa !important;
+  border-color: #ccc !important;
+}
+
+.theme-idr .partner-empty-icon {
+  color: #111 !important;
+}
+
+.theme-idr .partner-empty strong {
+  color: #111 !important;
+}
+
+/* Responsividade: mantém a identidade no celular */
+@media (max-width: 700px) {
+  .theme-idr .auto-spot-chip {
+    background: #fff !important;
+    border-bottom-color: #ddd !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-idr .synergy-pill {
+    background: #f7f7f7 !important;
+    border-bottom-color: #ddd !important;
+  }
 }
 
 /* RESPONSIVIDADE */
