@@ -4,11 +4,9 @@ import "../../styles/Playerpage/playerbanner.css";
 const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
   if (!player) return null;
 
-  // Cálculo da Idade Exato (Baseado em 20/03/2026)
   const calculateExactAge = (birthDate) => {
     if (!birthDate) return "—";
 
-    // Suporta formatos DD/MM/AAAA ou AAAA-MM-DD
     let day, month, year;
 
     if (birthDate.includes("/")) {
@@ -19,111 +17,111 @@ const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
 
     if (!year || !month || !day) return "—";
 
-    const today = new Date(); // 20 de Março de 2026
+    const today = new Date();
     const birth = new Date(year, month - 1, day);
 
     let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
 
-    // Se o mês atual é antes do mês de nascimento,
-    // ou se é o mesmo mês mas o dia atual é antes do dia de nascimento:
-    // ainda não fez aniversário este ano.
     if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birth.getDate())
+      today.getMonth() < birth.getMonth() ||
+      (today.getMonth() === birth.getMonth() &&
+        today.getDate() < birth.getDate())
     ) {
       age--;
     }
 
     return age;
   };
-
+  const country = player.country;
+  const altura = player.height;
   const age = calculateExactAge(player.birthDate);
 
-  // Lógica de divisão de nome
-  const nameParts = player.name ? player.name.trim().split(/\s+/) : ["—"];
+  const nameParts = player.name?.trim().split(/\s+/) || ["—"];
   const firstName = nameParts[0];
   const lastName = nameParts.slice(1).join(" ");
 
-  const formattedPositions =
-    player.positions && player.positions.length > 0
-      ? player.positions.join(" / ")
-      : "—";
+  const positions =
+    player.positions?.length > 0 ? player.positions.join(" / ") : "—";
+
+  const shirtNumber = player.number || "00";
+
+  const details = [
+    { label: "Idade", value: age },
+    { label: "Pé forte", value: player.strongFoot || "—" },
+    { label: "País", value: country || "-" },
+    { label: "Altura", value: altura || "-" },
+  ];
 
   return (
-    <section className="ppg-player-banner">
-      <div className="ppg-banner-content">
+    <div className="ppg-player-page">
+      {/* BANNER PRINCIPAL */}
+      <section className="ppg-player-banner">
+        {/* Número gigante de fundo */}
+        <span
+          className="ppg-banner-bgnumber"
+          data-len={String(shirtNumber).length}
+          aria-hidden="true"
+        >
+          {shirtNumber}
+        </span>
+
+        {/* Informações do jogador */}
         <div className="ppg-banner-info">
           {player.clubRole && (
-            <div className="ppg-banner-role">
-              <span className="role-icon">🛡️</span>
+            <span className="ppg-banner-role">
               {player.clubRole.toUpperCase()}
-            </div>
+            </span>
           )}
-
-          <h2 className="ppg-banner-number">{player.number || "00"}</h2>
 
           <h1 className="ppg-banner-name">
             <span className="ppg-firstname">{firstName}</span>
+
             {lastName && <span className="ppg-lastname">{lastName}</span>}
           </h1>
 
-          <div className="ppg-banner-details">
-            <div className="ppg-detail-item">
-              <span className="ppg-detail-label">Idade</span>
-              <span className="ppg-detail-value">{age}</span>
-            </div>
-
-            <div className="ppg-detail-item">
-              <span className="ppg-detail-label">Pé Forte</span>
-              <span className="ppg-detail-value">
-                {player.strongFoot || "—"}
-              </span>
-            </div>
-
-            <div className="ppg-detail-item">
-              <span className="ppg-detail-label">Parceiro</span>
-              <span className="ppg-detail-value">
-                {getBestPartner ? getBestPartner(player.id) : "—"}
-              </span>
-            </div>
-
-            <div className="ppg-detail-item">
-              <span className="ppg-detail-label">Posição</span>
-              <span className="ppg-detail-value">
-                {formattedPositions.toUpperCase()}
-              </span>
-            </div>
-          </div>
-
-          <div className="ppg-career-timeline">
-            <div className="career-item">
-              <span className="career-label">SINCE</span>
-              <span className="career-value">
-                {careerDates?.entrada || "—"}
-              </span>
-            </div>
-            {careerDates?.saida && (
-              <div className="career-item">
-                <span className="career-label">LAST YEAR</span>
-                <span className="career-value">{careerDates.saida}</span>
-              </div>
-            )}
-          </div>
+          <p className="ppg-banner-position">{positions.toUpperCase()}</p>
         </div>
 
+        {/* Foto do jogador */}
         <div className="ppg-banner-photo-container">
           <img
-            src={player.photo || ""}
+            src={player.photo || "/players/Anonimo.png"}
             alt={player.name}
             className="ppg-banner-photo"
             crossOrigin="anonymous"
           />
         </div>
-      </div>
 
-      <div className="ppg-banner-overlay-grid"></div>
-    </section>
+        <div className="ppg-banner-overlay"></div>
+      </section>
+
+      {/* INFORMAÇÕES COMPLEMENTARES */}
+      <section className="ppg-player-extras">
+        <div className="ppg-banner-details">
+          {details.map((item) => (
+            <div key={item.label} className="ppg-detail-item">
+              <span className="ppg-detail-label">{item.label}</span>
+
+              <span className="ppg-detail-value">{item.value}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="ppg-career-timeline">
+          <div className="career-item">
+            <span className="career-label">DESDE</span>
+            <span className="career-value">{careerDates?.entrada || "—"}</span>
+          </div>
+
+          {careerDates?.saida && (
+            <div className="career-item">
+              <span className="career-label">ATÉ</span>
+              <span className="career-value">{careerDates.saida}</span>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 };
 

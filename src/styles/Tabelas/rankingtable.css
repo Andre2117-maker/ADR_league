@@ -1,21 +1,71 @@
 /* ==========================================================================
-   1. CONTAINER PRINCIPAL DA TABELA (O ADR: PRETO ÔNIX & OURO)
+   1. CONTAINER PRINCIPAL - MINIMALISTA COM AURA
    ========================================================================== */
 .central-column {
+  /* Paleta (o tema IDR só redefine estas variáveis) */
+  --rk-bg: #050505;
+  --rk-head: #08080a;
+  --rk-hover: #0e0e11;
+  --rk-line: #2b2b2b;
+  --rk-line-soft: #1c1c1f;
+  --rk-fg: #ffffff;
+  --rk-muted: #7a7a7a;
+  --rk-accent: #d4af37;
+  --rk-glow: rgba(212, 175, 55, 0.4);
+  --rk-win: #00d45f;
+  --rk-loss: #ff4040;
+
+  position: relative;
   width: 100%;
   max-width: 880px;
-  background: #0d0d0f;
-  border-radius: 18px;
-  padding: 26px 24px;
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.75);
+  background: var(--rk-bg);
+  border: 1px solid var(--rk-line);
+  border-radius: 0;
+  padding: 28px 24px;
   margin: 0 auto;
   box-sizing: border-box;
+  overflow: hidden;
   font-family:
     "Inter",
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
+}
+
+/* Aurora suave no topo, atrás do título */
+.central-column::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  width: 90%;
+  height: 300px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(50% 60% at 35% 40%, var(--rk-glow), transparent 70%),
+    radial-gradient(
+      45% 55% at 70% 45%,
+      rgba(120, 80, 255, 0.2),
+      transparent 70%
+    );
+  filter: blur(46px);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: rkAura 16s ease-in-out infinite alternate;
+}
+
+.central-column > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes rkAura {
+  0% {
+    transform: translateX(-54%) scale(1);
+  }
+  100% {
+    transform: translateX(-46%) scale(1.12);
+  }
 }
 
 /* ==========================================================================
@@ -25,8 +75,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding-bottom: 22px;
+  position: relative;
+}
+
+/* Linha fina com brilho dourado */
+.rk-header-area::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--rk-accent) 50%,
+    transparent
+  );
+  box-shadow: 0 0 14px var(--rk-glow);
 }
 
 .rk-title-wrap {
@@ -40,64 +109,90 @@
 .rk-kicker {
   font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 3.5px;
-  color: #888888;
+  letter-spacing: 4px;
+  color: var(--rk-muted);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .page-title {
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  -webkit-text-fill-color: initial !important;
-  color: #d4af37 !important;
-  text-shadow: 0px 0px 14px rgba(212, 175, 55, 0.45);
-  font-size: 1.75rem;
+  background: linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 35%,
+    var(--rk-accent) 55%,
+    #fff 75%
+  ) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: none !important;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   font-weight: 900;
+  font-style: italic;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
   margin: 0 !important;
   width: 100%;
+  animation: rkTitleShine 6s linear infinite;
 }
 
-/* Remove o traço amarelo solto embaixo do título se vier de outro CSS global */
+@keyframes rkTitleShine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Remove o traço solto embaixo do título se vier de outro CSS global */
 .rk-title-wrap .page-title::after {
   display: none !important;
 }
 
 .rk-reset-sort-btn {
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  color: #d4af37;
-  font-size: 0.7rem;
+  background: transparent;
+  border: 1px solid var(--rk-accent);
+  color: var(--rk-accent);
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 6px 16px;
-  border-radius: 100px;
+  padding: 8px 18px;
+  border-radius: 0;
   cursor: pointer;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  transition: all 0.2s ease;
+  letter-spacing: 1.5px;
+  transition: all 0.25s ease;
 }
 
 .rk-reset-sort-btn:hover {
-  background: #d4af37;
+  background: var(--rk-accent);
   color: #000000;
+  box-shadow: 0 0 22px var(--rk-glow);
 }
 
 /* ==========================================================================
-   3. ESTRUTURA DE SCROLL E COLUNAS FIXAS (STICKY UNIFICADO)
+   3. TABELA, SCROLL E COLUNAS FIXAS
    ========================================================================== */
 .table-responsive {
   width: 100% !important;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  border-radius: 12px;
-  border: 1px solid #222226;
-  background: #121214;
+  border: 1px solid var(--rk-line);
+  border-radius: 0;
+  background: var(--rk-bg);
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rk-accent) transparent;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--rk-accent);
 }
 
 table.rk-table {
@@ -105,20 +200,20 @@ table.rk-table {
   min-width: 680px;
   border-collapse: separate !important;
   border-spacing: 0 !important;
-  background: #121214 !important;
+  background: var(--rk-bg) !important;
   margin: 0 !important;
 }
 
 /* Cabeçalho */
 table.rk-table thead th {
-  padding: 14px 8px;
-  background: #16161a !important;
-  font-size: 0.7rem;
+  padding: 15px 8px;
+  background: var(--rk-head) !important;
+  font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #d4af37;
-  border-bottom: 2px solid #242429;
+  letter-spacing: 2px;
+  color: var(--rk-muted);
+  border-bottom: 1px solid var(--rk-line);
   text-align: center;
   user-select: none;
   white-space: nowrap;
@@ -137,49 +232,90 @@ table.rk-table thead th.sortable-th {
 }
 
 table.rk-table thead th.sortable-th:hover {
-  color: #ffffff;
-  background: #1e1e24 !important;
+  color: var(--rk-fg);
+  background: var(--rk-hover) !important;
 }
 
 table.rk-table thead th.active-sort {
-  color: #ffffff;
-  background: rgba(212, 175, 55, 0.16) !important;
-  border-bottom: 2px solid #d4af37 !important;
+  color: var(--rk-accent);
+  background: var(--rk-hover) !important;
+  border-bottom: 2px solid var(--rk-accent) !important;
+  box-shadow: 0 6px 16px -8px var(--rk-glow);
 }
 
-/* Linhas e Células (Todas com o exato mesmo fundo #121214, sem faixa dourada no 1º!) */
+/* Linhas e células */
 table.rk-table tbody tr {
-  height: 48px;
-  background-color: #121214 !important;
-  transition: background-color 0.15s ease;
+  height: 50px;
+  background-color: var(--rk-bg) !important;
+  transition: background-color 0.2s ease;
   cursor: default;
+  animation: rkRowIn 0.5s ease backwards;
+}
+
+table.rk-table tbody tr:nth-child(1) {
+  animation-delay: 0ms;
+}
+table.rk-table tbody tr:nth-child(2) {
+  animation-delay: 40ms;
+}
+table.rk-table tbody tr:nth-child(3) {
+  animation-delay: 80ms;
+}
+table.rk-table tbody tr:nth-child(4) {
+  animation-delay: 120ms;
+}
+table.rk-table tbody tr:nth-child(5) {
+  animation-delay: 160ms;
+}
+table.rk-table tbody tr:nth-child(6) {
+  animation-delay: 200ms;
+}
+table.rk-table tbody tr:nth-child(7) {
+  animation-delay: 240ms;
+}
+table.rk-table tbody tr:nth-child(8) {
+  animation-delay: 280ms;
+}
+table.rk-table tbody tr:nth-child(n + 9) {
+  animation-delay: 320ms;
+}
+
+/* Só opacidade: transform quebraria as colunas fixas */
+@keyframes rkRowIn {
+  from {
+    opacity: 0;
+  }
 }
 
 table.rk-table tbody td {
-  font-size: 0.84rem;
+  font-size: 0.85rem;
   padding: 0 8px;
   text-align: center;
-  background-color: #121214 !important;
-  border-bottom: 1px solid #1c1c21;
-  color: #eaeaea;
+  background-color: var(--rk-bg) !important;
+  border-bottom: 1px solid var(--rk-line-soft);
+  color: var(--rk-fg);
   font-variant-numeric: tabular-nums;
   vertical-align: middle;
+}
+
+table.rk-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .player-td-name {
   cursor: default !important;
 }
 
-/* Colunas Fixas (# e Jogador) com a mesma cor exata das outras células */
+/* Colunas fixas (# e Jogador) com o mesmo fundo das outras células */
 .sticky-col {
   position: sticky !important;
-  background-color: #121214 !important;
-  transition: background-color 0.15s ease;
+  background-color: var(--rk-bg) !important;
+  transition: background-color 0.2s ease;
 }
 
 table.rk-table thead th.sticky-col {
   z-index: 15;
-  background-color: #16161a !important;
+  background-color: var(--rk-head) !important;
 }
 
 .pin-pos {
@@ -198,17 +334,17 @@ table.rk-table thead th.sticky-col {
   z-index: 11;
   text-align: left !important;
   padding-left: 14px !important;
-  border-right: 1px solid #1e1e24;
+  border-right: 1px solid var(--rk-line-soft);
 }
 
-/* Hover sincronizado em toda a linha */
+/* Hover sincronizado em toda a linha, com leve toque dourado */
 table.rk-table tbody tr:hover td,
 table.rk-table tbody tr:hover td.sticky-col {
-  background-color: #1a1a20 !important;
+  background-color: var(--rk-hover) !important;
 }
 
 /* ==========================================================================
-   4. INDICADORES LATERAIS (TOP 3 E LANTERNA) & ELEMENTOS INTERNOS
+   4. INDICADORES LATERAIS (TOP 3 E LANTERNA) E ELEMENTOS INTERNOS
    ========================================================================== */
 tr.destaque-top3 td.pin-pos::before,
 tr.destaque-ultimo td.pin-pos::before {
@@ -216,27 +352,29 @@ tr.destaque-ultimo td.pin-pos::before {
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
+  width: 2px;
   height: 100%;
   z-index: 13;
 }
 
 tr.destaque-top3 td.pin-pos::before {
   background-color: #007bff;
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.8);
 }
 
 tr.destaque-ultimo td.pin-pos::before {
   background-color: #dc3545;
+  box-shadow: 0 0 12px rgba(220, 53, 69, 0.8);
 }
 
 .rk-medal-img {
   display: block;
   margin: 0 auto;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
 }
 
 .rk-pos-num {
-  color: #888888;
+  color: var(--rk-muted);
   font-size: 0.8rem;
   font-weight: 800;
 }
@@ -262,8 +400,13 @@ tr.destaque-ultimo td.pin-pos::before {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #ffffff !important; /* Todos os nomes brancos uniformes */
+  color: var(--rk-fg) !important;
   font-weight: 700;
+  transition: letter-spacing 0.3s ease;
+}
+
+table.rk-table tbody tr:hover .rk-player-name-text {
+  letter-spacing: 0.4px;
 }
 
 .rk-leader-badge {
@@ -277,7 +420,7 @@ tr.destaque-ultimo td.pin-pos::before {
   transform: scale(1.2);
 }
 
-/* Ícone de Fogo (Streak de Assiduidade) */
+/* Ícone de fogo (streak de assiduidade) */
 .rk-fire-badge {
   position: relative;
   display: inline-flex;
@@ -316,24 +459,25 @@ tr.destaque-ultimo td.pin-pos::before {
   cursor: help;
 }
 
-/* Tipografia das Colunas Numéricas */
+/* Colunas numéricas */
 .rk-pts-cell {
-  color: #d4af37 !important;
-  font-size: 0.92rem !important;
+  color: var(--rk-accent) !important;
+  font-size: 0.95rem !important;
   font-weight: 900 !important;
+  text-shadow: 0 0 14px var(--rk-glow);
 }
 
 .rk-stat-cell.muted {
-  color: #888888;
+  color: var(--rk-muted) !important;
 }
 
 .rk-stat-cell.win-num {
-  color: #48e26c;
+  color: var(--rk-win) !important;
   font-weight: 700;
 }
 
 .rk-stat-cell.loss-num {
-  color: #ff5252;
+  color: var(--rk-loss) !important;
   font-weight: 700;
 }
 
@@ -342,7 +486,7 @@ tr.destaque-ultimo td.pin-pos::before {
 }
 
 /* ==========================================================================
-   5. FORM DOTS (ÚLTIMOS 5 JOGOS)
+   5. ÚLTIMAS 5 (QUADRADINHOS FINOS)
    ========================================================================== */
 .form-container {
   display: flex;
@@ -354,35 +498,37 @@ tr.destaque-ultimo td.pin-pos::before {
 .form-dot {
   width: 9px;
   height: 9px;
-  border-radius: 50%;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  background: currentColor;
   transition:
     transform 0.2s ease,
-    filter 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .form-dot:hover {
-  transform: scale(1.3);
-  filter: brightness(1.2);
+  transform: scale(1.35);
 }
 
 .form-dot.W {
-  background: radial-gradient(circle at 30% 30%, #48e26c, #2a8a40);
-  box-shadow: 0 0 6px rgba(72, 226, 108, 0.4);
+  color: var(--rk-win);
+  box-shadow: 0 0 8px rgba(0, 212, 95, 0.55);
 }
 
 .form-dot.L {
-  background: radial-gradient(circle at 30% 30%, #ff4d4d, #a31e1e);
-  box-shadow: 0 0 6px rgba(255, 77, 77, 0.4);
+  color: var(--rk-loss);
+  box-shadow: 0 0 8px rgba(255, 64, 64, 0.55);
 }
 
 .form-dot.D {
-  background: radial-gradient(circle at 30% 30%, #a0a0a0, #666666);
-  box-shadow: 0 0 6px rgba(160, 160, 160, 0.2);
+  color: #8a8a8a;
+}
+
+.no-games {
+  color: var(--rk-muted);
 }
 
 /* ==========================================================================
-   6. LEGENDA INFERIOR
+   6. LEGENDA
    ========================================================================== */
 .legend-container {
   display: flex;
@@ -390,17 +536,18 @@ tr.destaque-ultimo td.pin-pos::before {
   align-items: center;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: #121214;
-  border-radius: 10px;
-  border: 1px solid #222226;
+  margin-top: 18px;
+  padding: 14px 4px 0;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--rk-line);
+  border-radius: 0;
 }
 
 .legend-group {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   flex-wrap: wrap;
 }
 
@@ -408,26 +555,33 @@ tr.destaque-ultimo td.pin-pos::before {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #94a3b8;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--rk-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
 }
 
 .legend-color {
   width: 11px;
   height: 11px;
-  border-radius: 3px;
+  border-radius: 0;
 }
 
 /* ==========================================================================
-   7. RESPONSIVIDADE CELULAR (MOBILE)
+   7. MOBILE
    ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .central-column::before,
+  .page-title,
+  table.rk-table tbody tr {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
   .central-column {
-    padding: 14px 10px;
-    border-radius: 14px;
+    padding: 18px 10px;
   }
 
   .page-title {
@@ -450,7 +604,7 @@ tr.destaque-ultimo td.pin-pos::before {
   }
 
   table.rk-table tbody tr {
-    height: 42px;
+    height: 44px;
   }
 
   table.rk-table tbody td {
@@ -462,96 +616,67 @@ tr.destaque-ultimo td.pin-pos::before {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    padding: 10px 12px;
   }
 }
 
 /* ==========================================================================
-   8. TEMA IDR - TABELA DE RANKING (MARFIM & ÔNIX COMPLETO)
+   8. TEMA IDR (só troca as variáveis)
    ========================================================================== */
 .theme-idr .central-column {
-  background: #ffffff !important;
-  border: 1px solid #dcdcd4 !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05) !important;
+  --rk-bg: #ffffff;
+  --rk-head: #f5f5f5;
+  --rk-hover: #f2f2f2;
+  --rk-line: #d9d9d9;
+  --rk-line-soft: #ececec;
+  --rk-fg: #000000;
+  --rk-muted: #666666;
+  --rk-accent: #000000;
+  --rk-glow: rgba(0, 0, 0, 0.12);
+  --rk-win: #0d7a3a;
+  --rk-loss: #c01818;
+
+  box-shadow: none !important;
 }
 
-.theme-idr .rk-kicker {
-  color: #666660 !important;
+.theme-idr .central-column::before {
+  background:
+    radial-gradient(50% 60% at 35% 40%, rgba(0, 0, 0, 0.1), transparent 70%),
+    radial-gradient(45% 55% at 70% 45%, rgba(0, 0, 0, 0.06), transparent 70%) !important;
+  opacity: 0.6;
 }
 
 .theme-idr .page-title {
-  color: #000000 !important;
-  text-shadow: none !important;
+  background: linear-gradient(
+    100deg,
+    #000 0%,
+    #000 35%,
+    #777 55%,
+    #000 75%
+  ) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
-.theme-idr .rk-reset-sort-btn {
-  background: #000000 !important;
+.theme-idr .rk-header-area::after {
+  box-shadow: none !important;
+}
+
+.theme-idr .rk-reset-sort-btn:hover {
+  box-shadow: none !important;
   color: #ffffff !important;
-  border-color: #000000 !important;
-}
-
-.theme-idr .table-responsive {
-  border-color: #e2e2dc !important;
-  background: #ffffff !important;
-}
-
-.theme-idr table.rk-table {
-  background: #ffffff !important;
-}
-
-.theme-idr table.rk-table thead th,
-.theme-idr table.rk-table thead th.sticky-col {
-  background: #f2f2ee !important;
-  color: #111111 !important;
-  border-bottom: 2px solid #dcdcd4 !important;
-}
-
-.theme-idr table.rk-table thead th.active-sort {
-  background: #e4e4de !important;
-  border-bottom-color: #000000 !important;
-}
-
-.theme-idr table.rk-table tbody tr,
-.theme-idr table.rk-table tbody td,
-.theme-idr .sticky-col {
-  background-color: #ffffff !important;
-  color: #111111 !important;
-}
-
-.theme-idr table.rk-table tbody td {
-  border-bottom: 1px solid #eeeeee !important;
-}
-
-.theme-idr .pin-name {
-  border-right-color: #eeeeee !important;
-}
-
-.theme-idr table.rk-table tbody tr:hover td,
-.theme-idr table.rk-table tbody tr:hover td.sticky-col {
-  background-color: #f4f4f0 !important;
-}
-
-.theme-idr .rk-player-name-text {
-  color: #000000 !important;
 }
 
 .theme-idr .rk-pts-cell {
-  color: #000000 !important;
+  text-shadow: none !important;
 }
 
-.theme-idr .rk-stat-cell.win-num {
-  color: #0d5c46 !important;
+.theme-idr .form-dot {
+  box-shadow: none !important;
 }
 
-.theme-idr .rk-stat-cell.loss-num {
-  color: #b91c1c !important;
-}
-
-.theme-idr .legend-container {
-  background: #f8f8f5 !important;
-  border-color: #e2e2dc !important;
-}
-
-.theme-idr .legend-item {
-  color: #333333 !important;
+.theme-idr tr.destaque-top3 td.pin-pos::before,
+.theme-idr tr.destaque-ultimo td.pin-pos::before {
+  box-shadow: none !important;
 }

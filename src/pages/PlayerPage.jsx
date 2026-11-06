@@ -361,33 +361,75 @@ function PlayerPage({
                   );
                 })()}
 
-              <div className="ppg-card">
-                <h3 className="ppg-card-title">Habilidades</h3>
-                <div className="ppg-radar-chart-container">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart
-                      data={SKILLS_ORDER.map((k) => ({
-                        subject: k.toUpperCase(),
-                        A: player.skills?.[k] || 0,
-                      }))}
-                    >
-                      <PolarGrid stroke="rgba(255,255,255,0.1)" />
-                      <PolarAngleAxis
-                        dataKey="subject"
-                        tick={{ fill: "#666", fontSize: 10 }}
-                      />
-                      <Radar
-                        dataKey="A"
-                        className="custom-radar-shape"
-                        fillOpacity={0.4}
-                      />
-                      <PolarRadiusAxis
-                        domain={[0, 100]}
-                        tick={false}
-                        axisLine={false}
-                      />
-                    </RadarChart>
-                  </ResponsiveContainer>
+              {/* CARD DE HABILIDADES - VISUAL MINIMALISTA EDITORIAL */}
+              <div className="ppg-skills-minimal-section">
+                <div className="ppg-skills-minimal-header">
+                  <h3 className="ppg-skills-minimal-title">HABILIDADES</h3>
+                  <span className="ppg-skills-minimal-ovr">
+                    OVR{" "}
+                    <strong>
+                      {Math.round(
+                        SKILLS_ORDER.reduce(
+                          (acc, k) => acc + (Number(player.skills?.[k]) || 0),
+                          0,
+                        ) / SKILLS_ORDER.length,
+                      ) || 0}
+                    </strong>
+                  </span>
+                </div>
+
+                <div className="ppg-skills-minimal-box">
+                  <div className="ppg-radar-chart-container">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart
+                        cx="50%"
+                        cy="50%"
+                        outerRadius="72%"
+                        data={SKILLS_ORDER.map((k) => ({
+                          subject: k.toUpperCase(),
+                          A: player.skills?.[k] || 0,
+                        }))}
+                      >
+                        <PolarGrid stroke="rgba(255,255,255,0.08)" />
+                        <PolarAngleAxis
+                          dataKey="subject"
+                          tick={{
+                            fill: "#ffffff",
+                            fontSize: 10,
+                            fontWeight: 700,
+                          }}
+                        />
+                        <Radar
+                          dataKey="A"
+                          className="custom-radar-shape"
+                          fillOpacity={0.28}
+                          strokeWidth={2}
+                        />
+                        <PolarRadiusAxis
+                          domain={[0, 100]}
+                          tick={false}
+                          axisLine={false}
+                        />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  {/* Grade inferior minimalista igual ao painel de Estatísticas */}
+                  <div className="ppg-skills-minimal-grid">
+                    {SKILLS_ORDER.map((k) => {
+                      const val = player.skills?.[k];
+                      return (
+                        <div key={k} className="ppg-skill-minimal-cell">
+                          <span className="ppg-skill-cell-label">
+                            {k.toUpperCase()}
+                          </span>
+                          <span className="ppg-skill-cell-val">
+                            {val && val > 0 ? val : "/"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
               <RankingSlice

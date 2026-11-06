@@ -1,15 +1,72 @@
-/* favoritefield.css */
+/* ==========================================================================
+   MAPA DE CALOR & POSIÇÕES — VISUAL MINIMALISTA (IGUAL ESTATÍSTICAS)
+   ========================================================================== */
 
+.fav-pos-minimal-section {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.fav-pos-minimal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.fav-pos-minimal-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.fav-pos-minimal-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #888888;
+  letter-spacing: 1px;
+}
+
+.fav-pos-minimal-kicker strong {
+  color: #d4af37;
+  font-size: 0.85rem;
+  font-weight: 900;
+  margin-left: 3px;
+}
+
+.fav-pos-minimal-box {
+  background: #050505;
+  border: 1px solid #1a1a1a;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.fav-pos-pitch-wrapper {
+  padding: 26px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+    circle at center,
+    rgba(212, 175, 55, 0.04) 0%,
+    transparent 75%
+  );
+}
+
+/* Prancheta Tática Minimalista Escura */
 .mini-field-container {
-  width: 150px;
-  height: 200px;
-  background-color: #2e7d32;
-  border: 2px solid #fff;
-  border-radius: 8px;
+  width: 156px;
+  height: 214px;
+  background-color: #0b0b0b;
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2px;
   position: relative;
   overflow: visible;
-  margin: 35px auto 25px auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
 }
 
 /* Linha do meio campo */
@@ -18,8 +75,8 @@
   top: 50%;
   left: 0;
   width: 100%;
-  height: 2px;
-  background-color: rgba(255, 255, 255, 0.5);
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.14);
   transform: translateY(-50%);
 }
 
@@ -28,143 +85,188 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
 
-/* Grande Área - Topo (Time A) */
+/* Grande Área - Topo */
 .penalty-area-top {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 90px;
-  height: 35px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  width: 86px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-top: none;
-  border-radius: 0 0 50px 50px;
   transform: translateX(-50%);
 }
 
-/* Grande Área - Base (Time B) */
+/* Grande Área - Base */
 .penalty-area-bottom {
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 90px;
-  height: 35px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  width: 86px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-bottom: none;
-  border-radius: 50px 50px 0 0;
   transform: translateX(-50%);
 }
 
-/* ========================================================== */
-/* PONTOS (Base padrão)                                       */
-/* ========================================================== */
-
+/* ==========================================================================
+   PONTOS TÁTICOS (DOURADO PRINCIPAL & BRANCO/CINZA SECUNDÁRIO)
+   ========================================================================== */
 .blinking-dot {
   position: absolute;
-  border: 2px solid #fff;
+  border: 2px solid #050505;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  z-index: 2; /* Z-index base para todos os pontos */
+  z-index: 2;
+  transition: transform 0.2s ease;
 }
 
-/* Ponto principal */
+/* Posição Mais Jogada: Ouro Pulsante */
 .blinking-dot.main-dot {
   width: 14px;
   height: 14px;
-  background-color: #ff3b30;
-  animation: pulse-red 1.2s infinite;
+  background-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  animation: pulse-adr-gold 1.4s infinite;
 }
 
-/* Pontos secundários */
+/* Posições Secundárias */
 .blinking-dot.secondary-dot {
   width: 10px;
   height: 10px;
-  background-color: #ff9500;
+  background-color: rgba(255, 255, 255, 0.45);
 }
 
-/* ========================================================== */
-/* TOOLTIP / BALÃO PRETO                                      */
-/* ========================================================== */
+@keyframes pulse-adr-gold {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.75);
+  }
+  70% {
+    box-shadow: 0 0 0 11px rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
 
+/* ==========================================================================
+   TOOLTIP / BALÃO MINIMALISTA
+   ========================================================================== */
 .blinking-dot::after {
   content: attr(data-role);
   position: absolute;
-  top: -1px;
+  top: -6px;
   left: 50%;
   transform: translate(-50%, -100%);
-  background-color: rgba(0, 0, 0, 0.95);
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: bold;
+  background-color: #050505;
+  border: 1px solid #d4af37;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.85);
   z-index: 99999 !important;
 }
 
-/* Setinha do Tooltip */
 .blinking-dot::before {
   content: "";
   position: absolute;
-  top: -4px;
+  top: -6px;
   left: 50%;
   transform: translateX(-50%);
   border-width: 5px;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
+  border-color: #d4af37 transparent transparent transparent;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
   z-index: 99999 !important;
 }
 
-/* ========================================================== */
-/* TRUQUE DE HOVER DINÂMICO                                   */
-/* ========================================================== */
-
-/* Quando você passa o mouse por CIMA de qualquer ponto (vermelho ou laranja), 
-   ele ganha z-index máximo instantaneamente, jogando ele E o balão para cima de todos os outros pontos */
 .blinking-dot:hover {
   z-index: 100000 !important;
 }
 
-/* Exibe o balão e a seta */
 .blinking-dot:hover::after,
 .blinking-dot:hover::before {
   opacity: 1;
 }
 
-@keyframes pulse-red {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 59, 48, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
-  }
+/* ==========================================================================
+   GRADE DE FREQUÊNCIA INFERIOR (PADRÃO ESTATÍSTICAS)
+   ========================================================================== */
+.fav-pos-minimal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  border-top: 1px solid #1a1a1a;
+  background: #050505;
+}
+
+.fav-pos-minimal-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 10px;
+  border-right: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  text-align: center;
+}
+
+.fav-pos-minimal-cell:last-child {
+  border-right: none;
+}
+
+.fav-pos-cell-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.fav-pos-cell-val {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #d4af37;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 5px;
+}
+
+.fav-pos-cell-sub {
+  font-size: 0.65rem;
+  color: #666666;
+  font-weight: 600;
+}
+
+.fav-pos-empty {
+  padding: 36px 16px;
+  text-align: center;
+  color: #666666;
+  font-size: 0.82rem;
 }
 
 /* ==========================================================================
-   TEMA IDR - CAMPO FAVORITO / WIDGET TÁTICO (BLACK & WHITE PREMIUM)
+   TEMA IDR (BLACK & WHITE EDITORIAL)
    ========================================================================== */
-
-/* Nova animação de pulso preto para o modo IDR */
 @keyframes pulse-idr-black {
   0% {
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.45);
   }
   70% {
     box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
@@ -174,14 +276,27 @@
   }
 }
 
-/* Transforma a grama verde em prancheta branca */
-.theme-idr .mini-field-container {
-  background-color: #f9f9f9 !important;
-  border-color: #000000 !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+.theme-idr .fav-pos-minimal-title,
+.theme-idr .fav-pos-minimal-kicker strong {
+  color: #111111 !important;
 }
 
-/* Linhas do campo em cinza escuro/preto ao invés de branco */
+.theme-idr .fav-pos-minimal-box,
+.theme-idr .fav-pos-minimal-grid {
+  background: #ffffff !important;
+  border-color: #e5e5e5 !important;
+}
+
+.theme-idr .fav-pos-pitch-wrapper {
+  background: #fafafa !important;
+}
+
+.theme-idr .mini-field-container {
+  background-color: #ffffff !important;
+  border-color: #222222 !important;
+  box-shadow: none !important;
+}
+
 .theme-idr .field-line-center {
   background-color: rgba(0, 0, 0, 0.15) !important;
 }
@@ -192,9 +307,8 @@
   border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Ponto Pulsante Principal (Vermelho -> Preto Sólido) */
 .theme-idr .blinking-dot {
-  border-color: #ffffff !important; /* Mantém a bordinha branca para destacar na prancheta */
+  border-color: #ffffff !important;
 }
 
 .theme-idr .blinking-dot.main-dot {
@@ -202,10 +316,26 @@
   animation: pulse-idr-black 1.2s infinite !important;
 }
 
-/* Pontos Secundários (Laranja -> Cinza) */
 .theme-idr .blinking-dot.secondary-dot {
   background-color: #888888 !important;
 }
 
-/* O Tooltip (balão preto) não precisa ser sobrescrito, pois um balão preto 
-   escrevendo branco fica PERFEITO no modo claro. É o contraste ideal! */
+.theme-idr .blinking-dot::after {
+  border-color: #000000 !important;
+}
+
+.theme-idr .blinking-dot::before {
+  border-color: #000000 transparent transparent transparent !important;
+}
+
+.theme-idr .fav-pos-minimal-cell {
+  border-color: #e5e5e5 !important;
+}
+
+.theme-idr .fav-pos-cell-label {
+  color: #555555 !important;
+}
+
+.theme-idr .fav-pos-cell-val {
+  color: #111111 !important;
+}

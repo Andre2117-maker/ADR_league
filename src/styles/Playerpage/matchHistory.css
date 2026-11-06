@@ -1,144 +1,168 @@
 /* ==========================================================================
-   1. CONTAINER PRINCIPAL E HEADER (MODO O ADR: PRETO ÔNIX & OURO PURO)
+   HISTÓRICO DE PARTIDAS — VISUAL MINIMALISTA ADR / IDR
+   Mantém as classes utilizadas pelo componente MatchHistory.jsx
    ========================================================================== */
+
 :root {
-  --adr-gold: #d4af37;
-  --adr-gold-light: #f5dc82;
-  --adr-onyx: #080808;
-  --adr-card: #111111;
-  --adr-border: rgba(212, 175, 55, 0.16);
+  --history-bg: #080808;
+  --history-surface: #050505;
+  --history-card: #0b0b0b;
+  --history-border: #292929;
+  --history-border-soft: #1d1d1d;
+  --history-text: #f5f5f5;
+  --history-muted: #858585;
+  --history-gold: #e0b629;
+  --history-gold-soft: rgba(224, 182, 41, 0.12);
+  --history-green: #16a36a;
+  --history-red: #e04444;
 }
 
+/* Container */
 .adr-history-container {
-  background: var(--adr-onyx);
-  border-radius: 20px;
-  border: 1px solid var(--adr-border);
-  padding: 24px;
-  margin-top: 24px;
-  box-sizing: border-box;
   width: 100%;
   max-width: 100%;
-  min-width: 0; /* permite encolher dentro de pais flex/grid */
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+  min-width: 0;
+  margin-top: 20px;
+  padding: 20px;
+  box-sizing: border-box;
   position: relative;
+  color: var(--history-text);
+  background: var(--history-bg);
+  border: 1px solid var(--history-border);
+  border-radius: 0;
+  box-shadow: none;
 }
 
+/* Cabeçalho */
 .adr-history-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 22px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-  gap: 16px;
+  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 14px;
   min-width: 0;
   max-width: 100%;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--history-border);
 }
 
 .adr-history-title-group {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   min-width: 0;
 }
 
 .adr-history-kicker {
+  color: var(--history-gold);
   font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 2.5px;
-  color: var(--adr-gold);
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .adr-history-title {
-  color: #ffffff;
-  font-size: 1.15rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
   margin: 0;
+  color: #fff;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
-/* ==========================================================================
-   2. SISTEMA DE ABAS (PRETO & DOURADO IMPERIAL) — COM SCROLL HORIZONTAL
-   ========================================================================== */
+/* Abas */
 .adr-history-tabs {
   display: inline-flex;
-  background: #030303;
-  padding: 5px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  gap: 6px;
-  box-sizing: border-box;
+  align-items: center;
+  gap: 0;
   max-width: 100%;
   min-width: 0;
+  padding: 0;
   overflow-x: auto;
   overflow-y: hidden;
+  background: transparent;
+  border: 1px solid var(--history-border);
+  border-radius: 0;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge antigo */
 }
 
 .adr-history-tabs::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
 .adr-tab-btn {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
+  justify-content: center;
   gap: 7px;
-  flex: 0 0 auto; /* nunca encolhe: quem rola é o container */
-  white-space: nowrap;
+  padding: 10px 13px;
+  color: #929292;
   background: transparent;
-  border: 1px solid transparent;
-  color: #777777;
-  padding: 8px 16px;
-  font-size: 0.72rem;
-  font-weight: 800;
+  border: 0;
+  border-right: 1px solid var(--history-border);
+  border-radius: 0;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.65px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 8px;
+  white-space: nowrap;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition:
+    color 0.18s ease,
+    background 0.18s ease;
+}
+
+.adr-tab-btn:last-child {
+  border-right: 0;
 }
 
 .adr-tab-btn:hover {
-  color: #e0e0e0;
-  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  background: #151515;
 }
 
 .adr-tab-btn.active {
-  background: linear-gradient(135deg, #d4af37 0%, #a67c00 100%);
-  color: #000000;
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+  color: var(--history-gold);
+  background: var(--history-gold-soft);
+  box-shadow: inset 0 -2px 0 var(--history-gold);
 }
 
 .adr-tab-count {
-  font-size: 0.65rem;
-  font-weight: 900;
-  padding: 1px 6px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.07);
-  color: #999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 2px 5px;
+  color: #aaa;
+  background: #202020;
+  border-radius: 2px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .adr-tab-btn.active .adr-tab-count {
-  background: rgba(0, 0, 0, 0.22);
-  color: #000000;
+  color: #080808;
+  background: var(--history-gold);
 }
 
-/* ==========================================================================
-   3. LISTA E CARDS DE PARTIDAS (DESKTOP)
-   ========================================================================== */
+/* Lista */
 .adr-history-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   max-height: 560px;
-  overflow-y: auto;
-  padding-right: 6px;
   min-width: 0;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--history-border);
+  background: var(--history-surface);
 }
 
 .adr-history-list::-webkit-scrollbar {
@@ -146,111 +170,128 @@
 }
 
 .adr-history-list::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.35);
-  border-radius: 10px;
+  background: #555;
+  border-radius: 0;
 }
 
+.adr-history-list::-webkit-scrollbar-track {
+  background: #101010;
+}
+
+/* Linha de partida */
 .adr-match-card {
   display: grid;
-  grid-template-columns: 76px 1fr 160px;
+  grid-template-columns: 72px minmax(0, 1fr) 150px;
   align-items: center;
-  background: linear-gradient(90deg, #121212 0%, #0c0c0c 100%);
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-left: 3px solid transparent;
-  cursor: pointer;
-  transition: all 0.22s ease;
-  position: relative;
+  gap: 0;
   min-height: 68px;
+  padding: 10px 14px;
   box-sizing: border-box;
+  position: relative;
+  color: var(--history-text);
+  background: #080808;
+  border: 0;
+  border-bottom: 1px solid var(--history-border-soft);
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.adr-match-card:last-child {
+  border-bottom: 0;
 }
 
 .adr-match-card.result-win {
-  border-left-color: #00e676;
+  border-left-color: var(--history-green);
 }
 
 .adr-match-card.result-loss {
-  border-left-color: #ff4d4d;
+  border-left-color: var(--history-red);
 }
 
 .adr-match-card.result-draw {
-  border-left-color: #888888;
+  border-left-color: #777;
 }
 
 .adr-match-card:hover {
-  background: linear-gradient(90deg, #181610 0%, #111111 100%);
-  transform: translateX(4px);
-  border-color: rgba(212, 175, 55, 0.4);
+  background: #141414;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: var(--history-border);
+  transform: none;
 }
 
-/* ==========================================================================
-   4. ELEMENTOS INTERNOS (INDICADOR, PLACAR, LOGOS, BADGES)
-   ========================================================================== */
+/* Resultado e data */
 .adr-match-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
   padding-right: 10px;
+  border-right: 1px solid var(--history-border);
 }
 
 .adr-status-indicator {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.78rem;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  background: #171717;
+  border: 1px solid #383838;
+  border-radius: 2px;
+  font-size: 0.72rem;
   font-weight: 900;
 }
 
 .adr-status-indicator.win {
-  background: rgba(0, 230, 118, 0.15);
-  color: #00e676;
-  border: 1px solid rgba(0, 230, 118, 0.4);
+  color: #36d392;
+  background: rgba(22, 163, 106, 0.1);
+  border-color: rgba(22, 163, 106, 0.45);
 }
 
 .adr-status-indicator.loss {
-  background: rgba(255, 77, 77, 0.14);
-  color: #ff4d4d;
-  border: 1px solid rgba(255, 77, 77, 0.35);
+  color: #ff6666;
+  background: rgba(224, 68, 68, 0.1);
+  border-color: rgba(224, 68, 68, 0.4);
 }
 
 .adr-status-indicator.draw {
-  background: rgba(255, 255, 255, 0.08);
-  color: #bbbbbb;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #bbb;
+  background: #171717;
+  border-color: #444;
 }
 
 .adr-match-date {
-  font-size: 0.68rem;
-  color: #777777;
+  color: var(--history-muted);
+  font-size: 0.64rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.25px;
 }
 
-/* MIOLO DO CONFRONTO */
+/* Confronto */
 .adr-match-main {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 14px;
-  padding: 0 14px;
+  gap: 10px;
   min-width: 0;
+  padding: 0 12px;
 }
 
 .adr-team-name {
-  font-size: 0.82rem;
-  color: #777777;
-  text-transform: uppercase;
-  font-weight: 700;
-  white-space: nowrap;
   overflow: hidden;
+  color: #888;
+  font-size: 0.72rem;
+  font-weight: 750;
   text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .adr-team-name.team-a {
@@ -262,20 +303,20 @@
 }
 
 .adr-team-name.highlight {
-  color: #ffffff;
+  color: #fff;
   font-weight: 900;
 }
 
 .adr-score-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .adr-history-logo {
-  width: 30px;
-  height: 30px;
-  min-width: 30px;
+  width: 27px;
+  height: 27px;
+  min-width: 27px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -292,426 +333,423 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: #040404;
-  padding: 5px 14px;
-  border-radius: 9px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  min-width: 56px;
+  min-width: 55px;
+  padding: 5px 10px;
+  background: #030303;
+  border: 1px solid #333;
+  border-radius: 0;
 }
 
 .score-num {
-  font-size: 1.1rem;
+  color: #888;
+  font-size: 1rem;
   font-weight: 900;
-  color: #999999;
   font-variant-numeric: tabular-nums;
 }
 
 .score-num.my-team-score {
-  color: #ffffff;
+  color: #fff;
 }
 
 .score-divider {
-  color: var(--adr-gold);
+  color: var(--history-gold);
   font-weight: 900;
 }
 
 .adr-pens-sub {
-  font-size: 0.62rem;
+  color: var(--history-gold);
+  font-size: 0.58rem;
   font-weight: 800;
-  color: var(--adr-gold);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
 }
 
-/* BADGES DE ESTATÍSTICAS DO JOGADOR (COLORIDAS PARA IDENTIFICAÇÃO RÁPIDA) */
+/* Estatísticas individuais */
 .adr-match-player-stats {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
 }
 
 .stats-badges {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
   align-items: center;
-  gap: 5px;
+  justify-content: flex-end;
+  gap: 4px;
 }
 
 .badge-tag {
-  font-size: 0.68rem;
-  font-weight: 900;
-  padding: 3px 8px;
-  border-radius: 6px;
-  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 3px;
+  padding: 3px 6px;
+  border: 1px solid #383838;
+  border-radius: 2px;
+  color: #ddd;
+  background: #171717;
+  font-size: 0.62rem;
+  font-weight: 850;
+  white-space: nowrap;
 }
 
 .badge-golden {
-  background: linear-gradient(135deg, #d4af37, #ffd700);
-  color: #000000;
+  color: #080808;
+  background: var(--history-gold);
+  border-color: var(--history-gold);
 }
 
 .badge-goal {
-  background: rgba(255, 215, 0, 0.12);
-  color: #ffd700;
-  border: 1px solid rgba(255, 215, 0, 0.35);
+  color: #f2ca42;
+  background: rgba(224, 182, 41, 0.08);
+  border-color: rgba(224, 182, 41, 0.35);
 }
 
 .badge-assist {
-  background: rgba(0, 210, 235, 0.12);
-  color: #00d2eb;
-  border: 1px solid rgba(0, 210, 235, 0.35);
+  color: #76c9e8;
+  background: rgba(72, 166, 205, 0.08);
+  border-color: rgba(72, 166, 205, 0.32);
 }
 
 .badge-gk {
-  background: rgba(186, 85, 211, 0.14);
-  color: #e066ff;
-  border: 1px solid rgba(186, 85, 211, 0.4);
+  color: #c6a5e8;
+  background: rgba(155, 105, 195, 0.09);
+  border-color: rgba(155, 105, 195, 0.35);
 }
 
 .badge-cs {
-  background: rgba(0, 230, 118, 0.12);
-  color: #00e676;
-  border: 1px solid rgba(0, 230, 118, 0.35);
+  color: #5ed6a2;
+  background: rgba(22, 163, 106, 0.08);
+  border-color: rgba(22, 163, 106, 0.35);
 }
 
 .badge-yellow {
-  background: rgba(241, 196, 15, 0.12);
-  color: #f1c40f;
-  border: 1px solid rgba(241, 196, 15, 0.35);
+  color: #f3d45b;
+  background: rgba(243, 212, 91, 0.08);
+  border-color: rgba(243, 212, 91, 0.3);
 }
 
 .badge-red {
-  background: rgba(229, 57, 53, 0.14);
-  color: #ff5252;
-  border: 1px solid rgba(229, 57, 53, 0.4);
+  color: #ff7777;
+  background: rgba(224, 68, 68, 0.08);
+  border-color: rgba(224, 68, 68, 0.3);
 }
 
 .adr-match-chevron {
-  color: #555555;
-  font-size: 0.85rem;
+  color: #666;
+  font-size: 0.78rem;
   transition:
-    transform 0.2s ease,
-    color 0.2s ease;
+    color 0.18s ease,
+    transform 0.18s ease;
 }
 
 .adr-match-card:hover .adr-match-chevron {
-  color: var(--adr-gold);
-  transform: translateX(3px);
+  color: var(--history-gold);
+  transform: translateX(2px);
 }
 
 .adr-empty-history {
+  padding: 36px 18px;
+  color: #777;
+  font-size: 0.85rem;
   text-align: center;
-  padding: 40px 20px;
-  color: #666666;
-  font-size: 0.9rem;
-  font-style: italic;
 }
 
 /* ==========================================================================
-   5. RESPONSIVIDADE CELULAR (MOBILE) — BLINDADO, COMPACTO E COM ABAS ROLÁVEIS
+   TEMA IDR — MESMA BASE MINIMALISTA, COM ACENTO VERDE
    ========================================================================== */
-@media (max-width: 640px) {
+
+.theme-idr .adr-history-container {
+  color: #f5f5f5 !important;
+  background: #080808 !important;
+  border-color: #292929 !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .adr-history-header {
+  border-bottom-color: #292929 !important;
+}
+
+.theme-idr .adr-history-kicker {
+  color: #42b889 !important;
+}
+
+.theme-idr .adr-history-title {
+  color: #fff !important;
+}
+
+.theme-idr .adr-history-tabs {
+  background: #050505 !important;
+  border-color: #292929 !important;
+}
+
+.theme-idr .adr-tab-btn {
+  color: #888 !important;
+}
+
+.theme-idr .adr-tab-btn:hover {
+  color: #fff !important;
+  background: #151515 !important;
+}
+
+.theme-idr .adr-tab-btn.active {
+  color: #55c99a !important;
+  background: rgba(22, 163, 106, 0.1) !important;
+  box-shadow: inset 0 -2px 0 #24966b !important;
+}
+
+.theme-idr .adr-tab-count {
+  color: #aaa !important;
+  background: #202020 !important;
+}
+
+.theme-idr .adr-tab-btn.active .adr-tab-count {
+  color: #fff !important;
+  background: #176d4d !important;
+}
+
+.theme-idr .adr-history-list {
+  background: #050505 !important;
+  border-color: #292929 !important;
+}
+
+.theme-idr .adr-match-card {
+  color: #f5f5f5 !important;
+  background: #080808 !important;
+  border-color: #292929 !important;
+  border-left-width: 2px !important;
+}
+
+.theme-idr .adr-match-card.result-win {
+  border-left-color: #24966b !important;
+}
+
+.theme-idr .adr-match-card.result-loss {
+  border-left-color: #d34b4b !important;
+}
+
+.theme-idr .adr-match-card.result-draw {
+  border-left-color: #777 !important;
+}
+
+.theme-idr .adr-match-card:hover {
+  background: #141414 !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .adr-match-info {
+  border-right-color: #292929 !important;
+}
+
+.theme-idr .adr-status-indicator.win {
+  color: #55c99a !important;
+  background: rgba(22, 163, 106, 0.1) !important;
+  border-color: rgba(36, 150, 107, 0.5) !important;
+}
+
+.theme-idr .adr-status-indicator.loss {
+  color: #ff7777 !important;
+  background: rgba(211, 75, 75, 0.1) !important;
+  border-color: rgba(211, 75, 75, 0.4) !important;
+}
+
+.theme-idr .adr-status-indicator.draw {
+  color: #bbb !important;
+  background: #171717 !important;
+  border-color: #444 !important;
+}
+
+.theme-idr .adr-match-date,
+.theme-idr .adr-team-name {
+  color: #888 !important;
+}
+
+.theme-idr .adr-team-name.highlight,
+.theme-idr .score-num.my-team-score {
+  color: #fff !important;
+}
+
+.theme-idr .adr-match-score {
+  background: #030303 !important;
+  border-color: #333 !important;
+}
+
+.theme-idr .score-num {
+  color: #888 !important;
+}
+
+.theme-idr .score-divider,
+.theme-idr .adr-pens-sub {
+  color: #42b889 !important;
+}
+
+.theme-idr .badge-goal {
+  color: #f2ca42 !important;
+  background: rgba(224, 182, 41, 0.08) !important;
+  border-color: rgba(224, 182, 41, 0.35) !important;
+}
+
+.theme-idr .badge-assist,
+.theme-idr .badge-cs {
+  color: #55c99a !important;
+  background: rgba(22, 163, 106, 0.08) !important;
+  border-color: rgba(36, 150, 107, 0.35) !important;
+}
+
+.theme-idr .badge-gk {
+  color: #c6a5e8 !important;
+  background: rgba(155, 105, 195, 0.09) !important;
+  border-color: rgba(155, 105, 195, 0.35) !important;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 760px) {
   .adr-history-container {
-    padding: 12px 10px !important;
-    border-radius: 14px;
+    padding: 14px 10px;
     margin-top: 16px;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
   }
 
   .adr-history-header {
-    flex-direction: column;
     align-items: stretch;
-    gap: 10px;
-    margin-bottom: 14px;
-    padding-bottom: 12px;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-
-  .adr-history-title-group {
-    min-width: 0;
+    flex-direction: column;
+    gap: 11px;
+    margin-bottom: 12px;
+    padding-bottom: 11px;
   }
 
   .adr-history-title {
     font-size: 1rem;
   }
 
-  /* ABAS: scroll horizontal (Treinos / Amistosos / Campeonatos / Eventos) */
   .adr-history-tabs {
-    display: flex !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    justify-content: flex-start !important;
-    box-sizing: border-box;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .adr-history-tabs::-webkit-scrollbar {
-    display: none;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .adr-tab-btn {
-    flex: 0 0 auto !important; /* não encolhe nem estica */
-    justify-content: center;
-    padding: 7px 12px !important;
+    padding: 9px 11px;
     font-size: 0.62rem;
-    gap: 4px;
-    letter-spacing: 0.4px;
-    white-space: nowrap !important;
-    scroll-snap-align: start;
+    letter-spacing: 0.35px;
   }
 
   .adr-history-list {
-    min-width: 0 !important;
-    max-width: 100% !important;
+    max-height: 560px;
   }
 
-  /* Grid mobile de 3 colunas fixas: [Status/Data] [Placar/Logos] [Badges] */
   .adr-match-card {
-    display: grid !important;
-    grid-template-columns: 40px minmax(0, 1fr) 76px !important;
-    padding: 8px 6px !important;
-    gap: 4px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    min-height: 58px !important;
+    grid-template-columns: 48px minmax(0, 1fr) 86px;
+    min-height: 60px;
+    padding: 8px 6px;
+  }
+
+  .adr-match-info {
+    padding-right: 5px;
+    gap: 3px;
+  }
+
+  .adr-status-indicator {
+    width: 20px;
+    height: 20px;
+    font-size: 0.62rem;
+  }
+
+  .adr-match-date {
+    font-size: 0.55rem;
+  }
+
+  .adr-match-main {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+    padding: 0 3px;
   }
 
   .adr-team-name,
   .adr-match-chevron {
-    display: none !important;
-  }
-
-  .adr-match-main {
-    display: flex !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    min-width: 0 !important;
+    display: none;
   }
 
   .adr-score-wrapper {
-    gap: 3px !important;
+    gap: 4px;
   }
 
   .adr-history-logo {
-    width: 20px !important;
-    height: 20px !important;
-    min-width: 20px !important;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
   }
 
   .adr-match-score {
-    padding: 3px 5px !important;
-    min-width: 36px !important;
-    gap: 3px !important;
+    min-width: 38px;
+    gap: 4px;
+    padding: 3px 5px;
   }
 
   .score-num {
-    font-size: 0.85rem !important;
+    font-size: 0.85rem;
   }
 
   .adr-pens-sub {
-    font-size: 0.52rem !important;
-  }
-
-  .adr-match-info {
-    border-right: none !important;
-    padding-right: 0 !important;
-    gap: 3px !important;
-  }
-
-  .adr-status-indicator {
-    width: 18px !important;
-    height: 18px !important;
-    font-size: 0.58rem !important;
-    border-radius: 4px !important;
-  }
-
-  .adr-match-date {
-    font-size: 0.58rem !important;
+    font-size: 0.5rem;
   }
 
   .adr-match-player-stats {
-    width: 100% !important;
-    justify-content: flex-end !important;
+    width: 100%;
+    justify-content: flex-end;
+    min-width: 0;
   }
 
   .stats-badges {
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    gap: 2px !important;
+    justify-content: flex-end;
+    gap: 2px;
   }
 
   .badge-tag {
-    font-size: 0.58rem !important;
-    padding: 1px 4px !important;
-    border-radius: 4px !important;
+    padding: 2px 4px;
+    font-size: 0.55rem;
   }
 }
 
-/* ==========================================================================
-   6. TEMA IDR INOVADO - EDITORIAL MARFIM, ÔNIX & ESMERALDA IMPERIAL
-   ========================================================================== */
-.theme-idr .adr-history-container {
-  background: #ffffff !important;
-  border: 1px solid #dcdcd4 !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.05) !important;
+@media (max-width: 380px) {
+  .adr-history-container {
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+
+  .adr-match-card {
+    grid-template-columns: 40px minmax(0, 1fr) 72px;
+    gap: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+
+  .adr-history-logo {
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+  }
+
+  .adr-match-score {
+    min-width: 34px;
+    gap: 3px;
+    padding: 2px 4px;
+  }
+
+  .badge-tag {
+    font-size: 0.5rem;
+    padding: 1px 3px;
+  }
 }
 
-.theme-idr .adr-history-header {
-  border-bottom-color: #eaeae4 !important;
-}
-
-.theme-idr .adr-history-kicker {
-  color: #0d5c46 !important; /* Verde Esmeralda Editorial */
-}
-
-.theme-idr .adr-history-title {
-  color: #111111 !important;
-}
-
-.theme-idr .adr-history-tabs {
-  background: #f2f2ee !important;
-  border-color: #dcdcd4 !important;
-}
-
-.theme-idr .adr-tab-btn {
-  color: #666660 !important;
-}
-
-.theme-idr .adr-tab-btn:hover {
-  color: #000000 !important;
-}
-
-.theme-idr .adr-tab-btn.active {
-  background: #858282 !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14) !important;
-}
-
-.theme-idr .adr-tab-count {
-  background: rgba(0, 0, 0, 0.07) !important;
-  color: #444444 !important;
-}
-
-.theme-idr .adr-tab-btn.active .adr-tab-count {
-  background: #0d5c46 !important; /* Detalhe Esmeralda no contador ativo */
-  color: #ffffff !important;
-}
-
-/* Cards IDR com acento Esmeralda nas vitórias e Terracota nas derrotas */
-.theme-idr .adr-match-card {
-  background: #fafaf8 !important;
-  border: 1px solid #e6e6e0 !important;
-  border-left-width: 4px !important;
-}
-
-.theme-idr .adr-match-card.result-win {
-  border-left-color: #0d5c46 !important;
-}
-
-.theme-idr .adr-match-card.result-loss {
-  border-left-color: #b91c1c !important;
-}
-
-.theme-idr .adr-match-card.result-draw {
-  border-left-color: #71717a !important;
-}
-
-.theme-idr .adr-match-card:hover {
-  background: #ffffff !important;
-  border-color: #111111 !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06) !important;
-}
-
-.theme-idr .adr-match-info {
-  border-right-color: #eaeae4 !important;
-}
-
-.theme-idr .adr-status-indicator.win {
-  background: #0d5c46 !important;
-  color: #ffffff !important;
-  border-color: #0d5c46 !important;
-}
-
-.theme-idr .adr-status-indicator.loss {
-  background: #fef2f2 !important;
-  color: #b91c1c !important;
-  border-color: #fca5a5 !important;
-}
-
-.theme-idr .adr-status-indicator.draw {
-  background: #e4e4e7 !important;
-  color: #27272a !important;
-  border-color: #d4d4d8 !important;
-}
-
-.theme-idr .adr-match-date {
-  color: #555550 !important;
-}
-
-.theme-idr .adr-team-name {
-  color: #666660 !important;
-}
-
-.theme-idr .adr-team-name.highlight {
-  color: #000000 !important;
-}
-
-.theme-idr .adr-match-score {
-  background: #111111 !important;
-  border-color: #111111 !important;
-}
-
-.theme-idr .score-num {
-  color: #a1a1aa !important;
-}
-
-.theme-idr .score-num.my-team-score {
-  color: #ffffff !important;
-}
-
-.theme-idr .score-divider {
-  color: #10b981 !important;
-}
-
-.theme-idr .adr-pens-sub {
-  color: #0d5c46 !important;
-}
-
-/* Badges no Modo IDR */
-.theme-idr .badge-goal {
-  background: #111111 !important;
-  color: #ffffff !important;
-  border-color: #111111 !important;
-}
-
-.theme-idr .badge-assist {
-  background: #ecfdf5 !important;
-  color: #0d5c46 !important;
-  border-color: #6ee7b7 !important;
-}
-
-.theme-idr .badge-gk,
-.theme-idr .badge-cs {
-  background: #f4f4f0 !important;
-  color: #111111 !important;
-  border-color: #a1a1aa !important;
+@media (prefers-reduced-motion: reduce) {
+  .adr-tab-btn,
+  .adr-match-card,
+  .adr-match-chevron {
+    transition: none !important;
+  }
 }

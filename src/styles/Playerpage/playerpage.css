@@ -448,3 +448,124 @@
 .theme-idr .recharts-polar-grid polygon {
   stroke: rgba(0, 0, 0, 0.15) !important;
 }
+
+/* ==========================================================================
+   HABILIDADES — VISUAL MINIMALISTA (IGUAL AO PAINEL DE ESTATÍSTICAS)
+   ========================================================================== */
+.ppg-skills-minimal-section {
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.ppg-skills-minimal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.ppg-skills-minimal-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.ppg-skills-minimal-ovr {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #888888;
+  letter-spacing: 1px;
+}
+
+.ppg-skills-minimal-ovr strong {
+  color: var(--gold);
+  font-size: 1.05rem;
+  font-weight: 900;
+  margin-left: 3px;
+}
+
+.ppg-skills-minimal-box {
+  background: #050505;
+  border: 1px solid #1a1a1a;
+  border-radius: 0; /* Visual reto e minimalista igual à grade de estatísticas */
+  overflow: hidden;
+}
+
+.ppg-skills-minimal-box .ppg-radar-chart-container {
+  height: 250px;
+  margin-top: 0;
+  padding: 10px 0;
+}
+
+/* Grade 3x2 com divisórias finas idênticas ao painel de Estatísticas */
+.ppg-skills-minimal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #1a1a1a;
+  background: #050505;
+}
+
+.ppg-skill-minimal-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  border-right: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  text-align: center;
+}
+
+.ppg-skill-minimal-cell:nth-child(3n) {
+  border-right: none;
+}
+
+.ppg-skill-minimal-cell:nth-child(n + 4) {
+  border-bottom: none;
+}
+
+.ppg-skill-cell-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.ppg-skill-cell-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #d4af37;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- ADAPTAÇÃO TEMA CLARO (IDR) --- */
+.theme-idr .ppg-skills-minimal-title {
+  color: #111111 !important;
+}
+
+.theme-idr .ppg-skills-minimal-ovr strong {
+  color: #111111 !important;
+}
+
+.theme-idr .ppg-skills-minimal-box,
+.theme-idr .ppg-skills-minimal-grid {
+  background: #ffffff !important;
+  border-color: #e5e5e5 !important;
+}
+
+.theme-idr .ppg-skill-minimal-cell {
+  border-color: #e5e5e5 !important;
+}
+
+.theme-idr .ppg-skill-cell-label {
+  color: #555555 !important;
+}
+
+.theme-idr .ppg-skill-cell-val {
+  color: #111111 !important;
+}

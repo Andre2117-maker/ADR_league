@@ -38,6 +38,10 @@ const PlayerAdminMode = ({
 }) => {
   const [formData, setFormData] = useState(() => ({
     ...player,
+
+    country: player?.country || "",
+    height: player?.height ?? "",
+
     skills: {
       velocidade: 50,
       corpo: 50,
@@ -47,13 +51,18 @@ const PlayerAdminMode = ({
       defesa: 50,
       ...(player?.skills || {}),
     },
+
     positions: player?.positions || (player?.position ? [player.position] : []),
+
     achievements: player?.achievements || [],
     isAnonymous: Boolean(player?.isAnonymous),
   }));
 
   const [selectedYear, setSelectedYear] = useState("2026");
-  const [newAch, setNewAch] = useState({ icon: "🏆", title: "" });
+  const [newAch, setNewAch] = useState({
+    icon: "🏆",
+    title: "",
+  });
 
   // Estatísticas da temporada selecionada
   const currentSeasonStats = formData.statsBySeason?.[selectedYear] || {
@@ -62,39 +71,46 @@ const PlayerAdminMode = ({
     games: 0,
   };
 
-  // Calcula o Overall (OVR) em tempo real enquanto mexe nos sliders
+  // Calcula Overall em tempo real
   const liveOverall = useMemo(() => {
     if (!SKILLS_ORDER || SKILLS_ORDER.length === 0) return 50;
+
     const sum = SKILLS_ORDER.reduce(
       (acc, key) => acc + Number(formData.skills?.[key] ?? 50),
       0,
     );
+
     return Math.round(sum / SKILLS_ORDER.length);
   }, [formData.skills, SKILLS_ORDER]);
 
-  // Calcula o resumo acumulado de todas as temporadas manuais
+  // Resumo das estatísticas manuais
   const manualTotalsSummary = useMemo(() => {
     const seasons = formData.statsBySeason || {};
+
     let g = 0;
     let a = 0;
     let m = 0;
+
     Object.keys(seasons).forEach((yr) => {
       const s = seasons[yr] || {};
+
       g += Number(s.goals || 0);
       a += Number(s.assists || 0);
       m += Number(s.matches ?? s.games ?? 0);
     });
+
     return { g, a, m };
   }, [formData.statsBySeason]);
 
+  // Atualização de estatísticas por temporada
   const handleSeasonChange = (field, value) => {
     const numVal = Math.max(0, Number(value) || 0);
+
     const updatedSeasonObj = {
       ...currentSeasonStats,
       [field]: numVal,
     };
 
-    // Mantém 'games' e 'matches' sincronizados para compatibilidade com todos os componentes
     if (field === "games") {
       updatedSeasonObj.matches = numVal;
     }
@@ -103,11 +119,17 @@ const PlayerAdminMode = ({
       ...(formData.statsBySeason || {}),
       [selectedYear]: updatedSeasonObj,
     };
-    setFormData({ ...formData, statsBySeason: updatedStatsBySeason });
+
+    setFormData({
+      ...formData,
+      statsBySeason: updatedStatsBySeason,
+    });
   };
 
+  // Seleção de posições
   const handlePositionToggle = (pos) => {
     const currentPositions = formData.positions || [];
+
     const updatedPositions = currentPositions.includes(pos)
       ? currentPositions.filter((p) => p !== pos)
       : [...currentPositions, pos];
@@ -115,13 +137,14 @@ const PlayerAdminMode = ({
     setFormData({
       ...formData,
       positions: updatedPositions,
-      // Atualiza também a string 'position' principal para os cards que leem singular
       position: updatedPositions[0] || "",
     });
   };
 
+  // Atualização de habilidades
   const handleSkillChange = (skillKey, val) => {
     const clamped = Math.min(100, Math.max(0, Number(val) || 0));
+
     setFormData({
       ...formData,
       skills: {
@@ -131,21 +154,40 @@ const PlayerAdminMode = ({
     });
   };
 
+  // Adicionar conquista
   const addAchievement = () => {
     if (!newAch.title.trim()) return;
+
     const updated = [
       ...(formData.achievements || []),
-      { icon: newAch.icon || "🏆", title: newAch.title.trim() },
+      {
+        icon: newAch.icon || "🏆",
+        title: newAch.title.trim(),
+      },
     ];
-    setFormData({ ...formData, achievements: updated });
-    setNewAch({ icon: "🏆", title: "" });
+
+    setFormData({
+      ...formData,
+      achievements: updated,
+    });
+
+    setNewAch({
+      icon: "🏆",
+      title: "",
+    });
   };
 
+  // Remover conquista
   const removeAchievement = (index) => {
     const updated = (formData.achievements || []).filter((_, i) => i !== index);
-    setFormData({ ...formData, achievements: updated });
+
+    setFormData({
+      ...formData,
+      achievements: updated,
+    });
   };
 
+  // SALVAR
   const handleSave = () => {
     const seasons = formData.statsBySeason || {};
 
@@ -155,6 +197,7 @@ const PlayerAdminMode = ({
 
     Object.keys(seasons).forEach((year) => {
       const s = seasons[year] || {};
+
       totalManualGoals += Number(s.goals || 0);
       totalManualAssists += Number(s.assists || 0);
       totalManualMatches += Number(s.matches ?? s.games ?? 0);
@@ -162,40 +205,61 @@ const PlayerAdminMode = ({
 
     const dataToSave = {
       ...formData,
+
       number:
         formData.number !== "" && formData.number !== undefined
           ? Number(formData.number)
           : "",
+
+      // NOVOS CAMPOS
+      country: (formData.country || "").trim(),
+
+      height:
+        formData.height !== "" &&
+        formData.height !== undefined &&
+        formData.height !== null
+          ? Number(formData.height)
+          : "",
+
       titlesADR: Number(formData.titlesADR || 0),
+
       manualGoals: totalManualGoals,
       manualAssists: totalManualAssists,
       manualMatches: totalManualMatches,
+
       goals: 0,
       assists: 0,
       games: 0,
+
       statsBySeason: seasons,
     };
 
     onSave(dataToSave);
   };
 
-  // Converte "DD/MM/AAAA" para "AAAA-MM-DD" para o input type="date"
+  // Conversão da data para o input
   const formattedDateForInput = useMemo(() => {
     if (!formData.birthDate) return "";
+
     if (formData.birthDate.includes("/")) {
       const parts = formData.birthDate.split("/");
-      if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+      if (parts.length === 3) {
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
     }
+
     return formData.birthDate;
   }, [formData.birthDate]);
 
   return (
     <div className="adm-container">
       <div className="adm-card">
-        {/* ==================== TOPO DO EDITOR ==================== */}
+        {/* TOPO */}
         <header className="adm-top-bar">
           <div className="adm-top-titles">
             <span className="adm-kicker">PAINEL DE GESTÃO TÉCNICA • O ADR</span>
+
             <h1 className="adm-main-title">
               Editar Atleta: <span>{formData.name || player.name}</span>
             </h1>
@@ -206,14 +270,16 @@ const PlayerAdminMode = ({
             title="Overall Calculado em Tempo Real"
           >
             <span className="adm-ovr-num">{liveOverall}</span>
+
             <span className="adm-ovr-label">OVR</span>
           </div>
         </header>
 
-        {/* ==================== 1. DADOS PESSOAIS E STATUS ==================== */}
+        {/* 1. DADOS PESSOAIS */}
         <section className="adm-section">
           <div className="adm-section-header">
             <h3 className="adm-title">1. Dados Pessoais & Status no Clube</h3>
+
             <label
               className={`adm-status-toggle ${
                 formData.isAnonymous ? "is-anon" : "is-active"
@@ -223,10 +289,15 @@ const PlayerAdminMode = ({
                 type="checkbox"
                 checked={!formData.isAnonymous}
                 onChange={(e) =>
-                  setFormData({ ...formData, isAnonymous: !e.target.checked })
+                  setFormData({
+                    ...formData,
+                    isAnonymous: !e.target.checked,
+                  })
                 }
               />
+
               <span className="adm-status-dot" />
+
               <span>
                 {formData.isAnonymous
                   ? "🕵️ Oculto / Anônimo (Fora da Tabela)"
@@ -242,7 +313,10 @@ const PlayerAdminMode = ({
                 type="text"
                 value={formData.name || ""}
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData({
+                    ...formData,
+                    name: e.target.value,
+                  })
                 }
                 placeholder="Nome do Atleta"
               />
@@ -254,7 +328,10 @@ const PlayerAdminMode = ({
                 type="number"
                 value={formData.number ?? ""}
                 onChange={(e) =>
-                  setFormData({ ...formData, number: e.target.value })
+                  setFormData({
+                    ...formData,
+                    number: e.target.value,
+                  })
                 }
                 placeholder="Ex: 10"
               />
@@ -267,11 +344,17 @@ const PlayerAdminMode = ({
                 value={formattedDateForInput}
                 onChange={(e) => {
                   const dateVal = e.target.value;
+
                   if (!dateVal) {
-                    setFormData({ ...formData, birthDate: "" });
+                    setFormData({
+                      ...formData,
+                      birthDate: "",
+                    });
                     return;
                   }
+
                   const [year, month, day] = dateVal.split("-");
+
                   setFormData({
                     ...formData,
                     birthDate: `${day}/${month}/${year}`,
@@ -286,7 +369,10 @@ const PlayerAdminMode = ({
                 className="adm-select-field"
                 value={formData.strongFoot || "Destro"}
                 onChange={(e) =>
-                  setFormData({ ...formData, strongFoot: e.target.value })
+                  setFormData({
+                    ...formData,
+                    strongFoot: e.target.value,
+                  })
                 }
               >
                 <option value="Destro">🦶 Destro</option>
@@ -296,7 +382,7 @@ const PlayerAdminMode = ({
             </div>
 
             <div className="adm-input-group">
-              <label>🏆 Títulos d'O ADR</label>
+              <label>🏆 Títulos do ADR</label>
               <input
                 type="number"
                 min="0"
@@ -309,14 +395,50 @@ const PlayerAdminMode = ({
                 }
               />
             </div>
+
+            {/* NOVO CAMPO: PAÍS */}
+            <div className="adm-input-group">
+              <label>🌎 País</label>
+              <input
+                type="text"
+                value={formData.country || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    country: e.target.value,
+                  })
+                }
+                placeholder="Ex: Brasil"
+              />
+            </div>
+
+            {/* NOVO CAMPO: ALTURA */}
+            <div className="adm-input-group">
+              <label>📏 Altura (cm)</label>
+              <input
+                type="number"
+                min="1"
+                max="250"
+                step="1"
+                value={formData.height ?? ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    height: e.target.value,
+                  })
+                }
+                placeholder="Ex: 180"
+              />
+            </div>
           </div>
 
-          {/* SELEÇÃO DE MÚLTIPLAS POSIÇÕES EM PÍLULAS TÁTICAS */}
+          {/* POSIÇÕES */}
           <div className="adm-positions-block">
             <div className="adm-positions-header">
               <label className="adm-positions-label">
                 Posições de Atuação (A 1ª selecionada será a principal)
               </label>
+
               {formData.positions?.length > 0 && (
                 <span className="adm-pos-selected-summary">
                   Selecionadas:{" "}
@@ -328,7 +450,9 @@ const PlayerAdminMode = ({
             <div className="adm-positions-grid">
               {ALL_POSITIONS.map((pos) => {
                 const isChecked = (formData.positions || []).includes(pos);
+
                 const isPrimary = formData.positions?.[0] === pos;
+
                 return (
                   <button
                     key={pos}
@@ -347,11 +471,12 @@ const PlayerAdminMode = ({
           </div>
         </section>
 
-        {/* ==================== 2. HISTÓRICO MANUAL POR TEMPORADA ==================== */}
+        {/* 2. HISTÓRICO POR TEMPORADA */}
         <section className="adm-section">
           <div className="adm-section-header">
             <div>
               <h3 className="adm-title">2. Ajuste Manual por Temporada</h3>
+
               <p className="adm-sub-hint">
                 Some gols/jogos antigos que não estão cadastrados nas súmulas.
               </p>
@@ -404,6 +529,7 @@ const PlayerAdminMode = ({
 
           <div className="adm-manual-totals-strip">
             <span>Soma Manual Total (Todas as Temporadas):</span>
+
             <strong>
               {manualTotalsSummary.g} Gols • {manualTotalsSummary.a} Assists •{" "}
               {manualTotalsSummary.m} Jogos
@@ -411,17 +537,23 @@ const PlayerAdminMode = ({
           </div>
         </section>
 
-        {/* ==================== 3. ATRIBUTOS TÉCNICOS (SKILLS) ==================== */}
+        {/* 3. HABILIDADES */}
         <section className="adm-section">
           <div className="adm-section-header">
             <h3 className="adm-title">3. Atributos Técnicos (Carta & Radar)</h3>
+
             <button
               type="button"
               className="adm-reset-skills-btn"
               onClick={() => {
                 const balanced = {};
+
                 SKILLS_ORDER.forEach((k) => (balanced[k] = 70));
-                setFormData({ ...formData, skills: balanced });
+
+                setFormData({
+                  ...formData,
+                  skills: balanced,
+                });
               }}
             >
               Padrão 70
@@ -431,6 +563,7 @@ const PlayerAdminMode = ({
           <div className="adm-grid-skills">
             {SKILLS_ORDER.map((s) => {
               const val = Number(formData.skills?.[s] ?? 50);
+
               const tierClass =
                 val >= 85
                   ? "tier-elite"
@@ -444,6 +577,7 @@ const PlayerAdminMode = ({
                 <div key={s} className={`adm-skill-item ${tierClass}`}>
                   <div className="adm-skill-top">
                     <label>{s.toUpperCase()}</label>
+
                     <input
                       type="number"
                       min="0"
@@ -474,12 +608,13 @@ const PlayerAdminMode = ({
           </div>
         </section>
 
-        {/* ==================== 4. GALERIA DE CONQUISTAS ==================== */}
+        {/* 4. CONQUISTAS */}
         <section className="adm-section">
           <h3 className="adm-title">4. Troféus & Conquistas Individuais</h3>
 
           <div className="adm-quick-icons-bar">
             <span>Ícones rápidos:</span>
+
             {QUICK_ICONS.map((ic) => (
               <button
                 key={ic}
@@ -498,16 +633,28 @@ const PlayerAdminMode = ({
             <input
               className="adm-ach-icon"
               value={newAch.icon}
-              onChange={(e) => setNewAch({ ...newAch, icon: e.target.value })}
+              onChange={(e) =>
+                setNewAch({
+                  ...newAch,
+                  icon: e.target.value,
+                })
+              }
               placeholder="🏆"
             />
+
             <input
               className="adm-ach-title"
               placeholder="Ex: Artilheiro da Copa ADR 2026..."
               value={newAch.title}
-              onChange={(e) => setNewAch({ ...newAch, title: e.target.value })}
+              onChange={(e) =>
+                setNewAch({
+                  ...newAch,
+                  title: e.target.value,
+                })
+              }
               onKeyDown={(e) => e.key === "Enter" && addAchievement()}
             />
+
             <button
               type="button"
               onClick={addAchievement}
@@ -523,8 +670,10 @@ const PlayerAdminMode = ({
                 <div key={idx} className="adm-ach-item">
                   <div className="adm-ach-info">
                     <span className="adm-ach-badge-icon">{ach.icon}</span>
+
                     <span className="adm-ach-badge-text">{ach.title}</span>
                   </div>
+
                   <button
                     type="button"
                     className="adm-ach-del"
@@ -543,11 +692,12 @@ const PlayerAdminMode = ({
           </div>
         </section>
 
-        {/* ==================== BOTÕES FINAIS ==================== */}
+        {/* BOTÕES FINAIS */}
         <footer className="adm-actions">
           <button type="button" className="adm-btn-cancel" onClick={onCancel}>
             CANCELAR
           </button>
+
           <button type="button" className="adm-btn-save" onClick={handleSave}>
             💾 SALVAR ALTERAÇÕES
           </button>
