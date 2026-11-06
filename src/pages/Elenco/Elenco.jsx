@@ -4,7 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./Elenco.css";
 import Footer from "../../components/Footer";
-import { getShirtNumber, useClubMode } from "../../utils/shirtNumber";
+import { getShirtNumber, useClubMode } from "../../utils/Shirtnumber";
 
 export default function Elenco() {
   const [players, setPlayers] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import ALL from "../assets/ALL.png";
 import "../styles/Home/sqdcarroussel.css";
-import { getShirtNumber, useClubMode } from "../utils/shirtNumber";
+import { getShirtNumber, useClubMode } from "../utils/Shirtnumber";
 
 function SquadCarousel({ players, onSelectPlayer, mode }) {
   const carouselRef = useRef(null);
