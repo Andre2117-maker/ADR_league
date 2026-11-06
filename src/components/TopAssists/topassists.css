@@ -1,46 +1,151 @@
 /* ==========================================================
-   COMPONENT: TOP ASSISTS CARD (PREFIX: ta-)
+   COMPONENT: TOP ASSISTS CARD (PREFIX: ta-) — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho sutil no topo.
+   O tema IDR só redefine as variáveis.
    ========================================================== */
 
 .ta-card {
+  --ta-bg: #050505;
+  --ta-hover: #0d0d0d;
+  --ta-line: #2b2b2b;
+  --ta-fg: #ffffff;
+  --ta-muted: #7a7a7a;
+  --ta-accent: #2196f3;
+  --ta-glow: rgba(33, 150, 243, 0.16);
+
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(110% 55% at 50% -8%, var(--ta-glow), transparent 62%),
+    var(--ta-bg);
+  color: var(--ta-fg);
+  border: 1px solid var(--ta-line);
+  border-radius: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* linha de brilho no topo */
+.ta-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
   background: linear-gradient(
-    145deg,
-    rgba(30, 30, 30, 0.9),
-    rgba(15, 15, 15, 0.95)
+    90deg,
+    transparent,
+    var(--ta-accent),
+    transparent
   );
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 12px;
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 .ta-title {
-  border-bottom: 1px solid rgba(33, 150, 243, 0.3);
-  padding-bottom: 10px;
-  color: #2196f3; /* Azul destaque para assistências */
-  font-size: 14px;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+  margin: 0;
+  padding: 16px 18px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  border-bottom: 1px solid var(--ta-line);
+  background: linear-gradient(
+    100deg,
+    var(--ta-fg) 35%,
+    var(--ta-accent) 50%,
+    var(--ta-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: taShine 7s linear infinite;
+}
+
+@keyframes taShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes taRowIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .ta-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
+  margin: 0;
 }
 
 .ta-row {
-  background: rgba(255, 255, 255, 0.02);
-  padding: 10px 12px;
-  border-radius: 8px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s;
+  gap: 10px;
+  padding: 12px 18px;
+  background: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid var(--ta-line);
+  transition: background 0.2s ease;
+  animation: taRowIn 0.5s ease both;
+}
+
+.ta-row:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.ta-row:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.ta-row:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.ta-row:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.ta-row:nth-child(n + 6) {
+  animation-delay: 0.25s;
+}
+
+.ta-row:last-child {
+  border-bottom: none;
 }
 
 .ta-row:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--ta-hover);
+}
+
+/* barra fina de destaque no líder */
+.ta-row:first-child {
+  background: linear-gradient(90deg, var(--ta-glow), transparent 55%);
+}
+.ta-row:first-child::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--ta-accent);
+  box-shadow: 0 0 10px var(--ta-accent);
 }
 
 .ta-info {
@@ -52,35 +157,41 @@
 }
 
 .ta-rank {
-  color: #555;
-  font-weight: 900;
-  font-size: 12px;
-  min-width: 20px;
+  min-width: 22px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ta-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .ta-rank.is-first {
-  color: #2196f3;
+  color: var(--ta-accent);
 }
 
 .ta-avatar-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 4px;
+  width: 44px;
+  height: 44px;
+  border-radius: 0;
   object-fit: cover;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--ta-bg);
+  border: 1px solid var(--ta-line);
   flex-shrink: 0;
+  transition: border-color 0.2s ease;
 }
 
 .ta-avatar-img.is-first {
-  border-color: #2196f3;
+  border-color: var(--ta-accent);
+  box-shadow: 0 0 14px var(--ta-glow);
+}
+
+.ta-row:hover .ta-avatar-img {
+  border-color: var(--ta-accent);
 }
 
 .ta-name {
-  font-size: 13px;
-  font-weight: 500;
-  color: #eee;
-  /* Truncate para nomes longos */
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ta-fg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -88,80 +199,57 @@
 
 .ta-stats {
   display: flex;
-  align-items: center;
-  gap: 4px;
+  align-items: baseline;
+  gap: 5px;
   flex-shrink: 0;
 }
 
 .ta-assists-val {
-  font-size: 16px;
-  font-weight: 800;
-  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--ta-accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 14px var(--ta-glow);
 }
 
 .ta-assists-label {
-  font-size: 9px;
-  color: #666;
-  margin-top: 4px;
+  margin: 0;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ta-muted);
 }
 
 .ta-empty {
-  color: #666;
-  font-size: 12px;
+  color: var(--ta-muted);
+  font-size: 0.75rem;
   text-align: center;
-  padding: 10px;
+  padding: 18px;
 }
 
-/* ==========================================================================
-   TEMA IDR - TOP ASSISTS CARD (PRETO E BRANCO PREMIUM)
-   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .ta-title,
+  .ta-row {
+    animation: none;
+  }
+  .ta-title {
+    -webkit-text-fill-color: var(--ta-fg);
+    color: var(--ta-fg);
+    background: none;
+  }
+}
 
+/* ==========================================================
+   TEMA IDR (só troca as variáveis)
+   ========================================================== */
 .theme-idr .ta-card {
-  background: #ffffff;
-  border-color: #ccc;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.theme-idr .ta-title {
-  color: #000;
-  border-bottom-color: #eee;
-}
-
-.theme-idr .ta-row {
-  background: #f9f9f9;
-}
-
-.theme-idr .ta-row:hover {
-  background: #f0f0f0;
-}
-
-.theme-idr .ta-rank {
-  color: #888;
-}
-
-/* O líder perde o azul e ganha preto forte no modo claro */
-.theme-idr .ta-rank.is-first {
-  color: #000;
-}
-
-.theme-idr .ta-avatar-img {
-  background: #eee;
-  border-color: #ddd;
-}
-
-.theme-idr .ta-avatar-img.is-first {
-  border-color: #000;
-}
-
-.theme-idr .ta-name {
-  color: #000;
-  font-weight: 800;
-}
-
-.theme-idr .ta-assists-val {
-  color: #000;
-}
-
-.theme-idr .ta-empty {
-  color: #555;
+  --ta-bg: #ffffff;
+  --ta-hover: #f5f5f5;
+  --ta-line: #d9d9d9;
+  --ta-fg: #000000;
+  --ta-muted: #777777;
+  --ta-accent: #000000;
+  --ta-glow: rgba(0, 0, 0, 0.06);
+  box-shadow: none;
 }

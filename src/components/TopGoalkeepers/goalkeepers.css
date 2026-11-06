@@ -1,50 +1,106 @@
 /* ==========================================================
-   COMPONENT: TOP GOALKEEPERS CARD (PREFIX: gk-)
+   COMPONENT: TOP GOALKEEPERS CARD (PREFIX: gk-) — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho sutil no topo.
+   O tema IDR só redefine as variáveis.
    ========================================================== */
 
 .gk-card {
+  --gk-bg: #050505;
+  --gk-hover: #0d0d0d;
+  --gk-line: #2b2b2b;
+  --gk-fg: #ffffff;
+  --gk-muted: #7a7a7a;
+  --gk-accent: #d4af37;
+  --gk-glow: rgba(212, 175, 55, 0.16);
+  --gk-bad: #ff5252;
+  --gk-good: #00c853;
+
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  /* Removi o max-width rígido para ele poder expandir no Statics se necessário */
+  background:
+    radial-gradient(110% 55% at 50% -8%, var(--gk-glow), transparent 62%),
+    var(--gk-bg);
+  color: var(--gk-fg);
+  border: 1px solid var(--gk-line);
+  border-radius: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.gk-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
   background: linear-gradient(
-    145deg,
-    rgba(30, 30, 30, 0.9),
-    rgba(15, 15, 15, 0.95)
+    90deg,
+    transparent,
+    var(--gk-accent),
+    transparent
   );
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 12px;
-  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 /* ==========================================================
-   TOPO DO CARD, TÍTULO E BOTÃO "i"
+   TOPO, TÍTULO E BOTÃO "i"
    ========================================================== */
 .gk-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  padding: 14px 18px;
+  margin: 0;
+  border-bottom: 1px solid var(--gk-line);
 }
 
 .gk-title {
-  border-bottom: none;
-  padding-bottom: 0;
-  color: #d4af37;
-  font-size: 14px;
-  letter-spacing: 1px;
   margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(
+    100deg,
+    var(--gk-fg) 35%,
+    var(--gk-accent) 50%,
+    var(--gk-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: gkShine 7s linear infinite;
+}
+
+@keyframes gkShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
 }
 
 .gk-info-btn {
   width: 24px;
   height: 24px;
-  border-radius: 50%;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: #d4af37;
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid var(--gk-line);
+  color: var(--gk-fg);
   font-family: Georgia, serif;
   font-style: italic;
   font-weight: 900;
@@ -59,23 +115,23 @@
 
 .gk-info-btn:hover,
 .gk-info-btn.active {
-  background: #d4af37;
-  color: #000000;
-  border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
-  transform: scale(1.05);
+  background: var(--gk-accent);
+  border-color: var(--gk-accent);
+  color: var(--gk-bg);
+  box-shadow: 0 0 12px var(--gk-glow);
 }
 
 /* ==========================================================
-   CAIXA EXPLICATIVA (POPOVER INTERNO DO BOTÃO "i")
+   POPOVER EXPLICATIVO
    ========================================================== */
 .gk-info-popover {
-  background: rgba(10, 10, 10, 0.95);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+  background: var(--gk-bg);
+  border: none;
+  border-bottom: 1px solid var(--gk-line);
+  border-radius: 0;
+  padding: 14px 18px;
+  margin: 0;
+  box-shadow: none;
   animation: gkFadeIn 0.2s ease-out;
 }
 
@@ -94,31 +150,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gk-line);
 }
 
 .gk-info-popover-header strong {
-  color: #d4af37;
-  font-size: 11px;
+  color: var(--gk-accent);
+  font-size: 0.68rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 2px;
 }
 
 .gk-info-close {
   background: transparent;
   border: none;
-  color: #777;
-  font-size: 11px;
+  color: var(--gk-muted);
+  font-size: 0.7rem;
   cursor: pointer;
   padding: 2px 5px;
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 .gk-info-close:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--gk-fg);
 }
 
 .gk-info-list {
@@ -134,23 +190,23 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 11px;
-  color: #ccc;
-  line-height: 1.35;
+  font-size: 0.7rem;
+  color: var(--gk-muted);
+  line-height: 1.4;
 }
 
 .gk-info-list li strong {
-  color: #fff;
+  color: var(--gk-fg);
 }
 
 .gk-badge-mini {
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: #d4af37;
+  background: transparent;
+  border: 1px solid var(--gk-accent);
+  color: var(--gk-accent);
   font-weight: 900;
-  font-size: 9px;
+  font-size: 0.6rem;
   padding: 2px 5px;
-  border-radius: 4px;
+  border-radius: 0;
   min-width: 28px;
   text-align: center;
   flex-shrink: 0;
@@ -158,105 +214,155 @@
 }
 
 .gk-info-rule-box {
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 3px solid #d4af37;
-  padding: 6px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  color: #aaa;
-  line-height: 1.4;
+  background: var(--gk-hover);
+  border-left: 2px solid var(--gk-accent);
+  padding: 8px 10px;
+  border-radius: 0;
+  font-size: 0.66rem;
+  color: var(--gk-muted);
+  line-height: 1.45;
 }
 
 .gk-info-rule-box strong {
-  color: #ddd;
+  color: var(--gk-fg);
   display: inline;
 }
-
 .gk-info-rule-box p {
   margin: 3px 0 0 0;
 }
 
 /* ==========================================================
-   CABEÇALHO E LISTA DE GOLEIROS
+   CABEÇALHO E LISTA
    ========================================================== */
 .gk-header {
-  padding: 8px;
-  opacity: 0.5;
-  font-size: 9px;
+  padding: 10px 18px;
+  opacity: 1;
+  color: var(--gk-muted);
+  font-size: 0.6rem;
   font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid var(--gk-line);
 }
 
 .gk-header-stats {
   display: flex;
   gap: 10px;
-  flex-shrink: 0; /* Impede que os cabeçalhos das colunas encolham */
+  flex-shrink: 0;
 }
-
 .gk-stat-label {
-  width: 30px; /* Reduzi um pouco para ganhar espaço lateral */
+  width: 30px;
   text-align: center;
 }
 
 .gk-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
 }
 
 .gk-row {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 10px 8px;
-  border-radius: 6px;
+  position: relative;
+  background: transparent;
+  padding: 10px 18px;
+  border-radius: 0;
+  border-bottom: 1px solid var(--gk-line);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s;
-  gap: 8px; /* Espaço entre info e stats */
+  gap: 8px;
+  transition: background 0.2s ease;
+  animation: gkRowIn 0.5s ease both;
 }
 
+@keyframes gkRowIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gk-row:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.gk-row:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.gk-row:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.gk-row:nth-child(n + 5) {
+  animation-delay: 0.2s;
+}
+
+.gk-row:last-child {
+  border-bottom: none;
+}
 .gk-row:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--gk-hover);
+}
+
+.gk-row:first-child {
+  background: linear-gradient(90deg, var(--gk-glow), transparent 55%);
+}
+.gk-row:first-child::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--gk-accent);
+  box-shadow: 0 0 10px var(--gk-accent);
 }
 
 .gk-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex: 1; /* Ocupa todo o espaço restante */
-  min-width: 0; /* NECESSÁRIO para o texto com "..." funcionar */
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
 .gk-rank {
-  font-size: 10px;
-  color: #666;
-  font-weight: 900;
+  font-size: 0.75rem;
+  color: var(--gk-muted);
+  font-weight: 800;
   width: 20px;
   flex-shrink: 0;
-  text-align: center;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
 }
 
 .gk-rank.is-first {
-  color: #d4af37;
+  color: var(--gk-accent);
 }
 
 .gk-avatar-img {
-  width: 36px; /* Ajustado proporcionalmente para encaixar bem no card */
-  height: 36px;
-  border-radius: 6px;
+  width: 38px;
+  height: 38px;
+  border-radius: 0;
   object-fit: cover;
-  background: #000000;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  flex-shrink: 0; /* Impede a imagem de ser esmagada */
+  background: var(--gk-bg);
+  border: 1px solid var(--gk-line);
+  flex-shrink: 0;
+  transition: border-color 0.2s ease;
+}
+
+.gk-row:hover .gk-avatar-img,
+.gk-row:first-child .gk-avatar-img {
+  border-color: var(--gk-accent);
 }
 
 .gk-name {
-  font-size: 13px;
-  color: #eee;
-  /* TRUNCATE: Coloca "..." se o nome for muito grande */
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gk-fg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -266,178 +372,71 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  flex-shrink: 0; /* Impede os números de sumirem */
+  flex-shrink: 0;
 }
 
 .gk-val {
-  font-size: 13px; /* Reduzi de 14px para 13px */
-  font-weight: 700;
-  width: 30px; /* Alinhado com o header */
+  font-size: 0.85rem;
+  font-weight: 800;
+  width: 30px;
   text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .mgs {
-  color: #ff5252;
+  color: var(--gk-bad);
 }
 .cs {
-  color: #4caf50;
+  color: var(--gk-good);
 }
 .j {
-  color: #aaa;
+  color: var(--gk-muted);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 0.85rem;
 }
 
 .gk-footer {
-  margin-top: 15px;
+  margin-top: 0;
   display: flex;
   justify-content: center;
   gap: 15px;
-  font-size: 9px;
-  opacity: 0.6;
+  padding: 12px 18px;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: #fff;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 10px;
+  color: var(--gk-muted);
+  opacity: 1;
+  border-top: 1px solid var(--gk-line);
 }
 
 .gk-footer strong {
-  color: #d4af37; /* Dourado para destacar a sigla */
+  color: var(--gk-accent);
 }
 
-/* ==========================================================================
-   TEMA IDR - TOP GOALKEEPERS CARD (PRETO E BRANCO PREMIUM)
-   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .gk-title,
+  .gk-row {
+    animation: none;
+  }
+  .gk-title {
+    -webkit-text-fill-color: var(--gk-fg);
+    color: var(--gk-fg);
+    background: none;
+  }
+}
 
-/* Cartão Principal */
+/* ==========================================================
+   TEMA IDR (só troca as variáveis)
+   ========================================================== */
 .theme-idr .gk-card {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Topo, Título e Botão "i" */
-.theme-idr .gk-card-top {
-  border-bottom-color: #eee !important;
-}
-
-.theme-idr .gk-title {
-  color: #000 !important;
-}
-
-.theme-idr .gk-info-btn {
-  background: #f1f3f5 !important;
-  border-color: #adb5bd !important;
-  color: #111111 !important;
-}
-
-.theme-idr .gk-info-btn:hover,
-.theme-idr .gk-info-btn.active {
-  background: #000000 !important;
-  border-color: #000000 !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Popover Explicativo no Tema IDR */
-.theme-idr .gk-info-popover {
-  background: #f8f9fa !important;
-  border-color: #ced4da !important;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03) !important;
-}
-
-.theme-idr .gk-info-popover-header {
-  border-bottom-color: #e2e5ec !important;
-}
-
-.theme-idr .gk-info-popover-header strong {
-  color: #000000 !important;
-}
-
-.theme-idr .gk-info-list li {
-  color: #495057 !important;
-}
-
-.theme-idr .gk-info-list li strong {
-  color: #000000 !important;
-}
-
-.theme-idr .gk-badge-mini {
-  background: #000000 !important;
-  border-color: #000000 !important;
-  color: #ffffff !important;
-}
-
-.theme-idr .gk-info-rule-box {
-  background: #ffffff !important;
-  border-left-color: #000000 !important;
-  color: #495057 !important;
-}
-
-.theme-idr .gk-info-rule-box strong {
-  color: #000000 !important;
-}
-
-/* Cabeçalho */
-.theme-idr .gk-header {
-  color: #555 !important;
-  opacity: 0.8 !important;
-}
-
-/* Linhas da Lista */
-.theme-idr .gk-row {
-  background: #f9f9f9 !important;
-  border: 1px solid transparent !important;
-}
-
-.theme-idr .gk-row:hover {
-  background: #f0f0f0 !important;
-  border-color: #e2e2e2 !important;
-}
-
-/* Ranking e Avatar */
-.theme-idr .gk-rank {
-  color: #888 !important;
-}
-
-.theme-idr .gk-rank.is-first {
-  color: #000 !important;
-}
-
-.theme-idr .gk-avatar-img {
-  background: #eee !important;
-  border: 1px solid #ddd !important;
-}
-
-.theme-idr .gk-name {
-  color: #000 !important;
-  font-weight: 800 !important;
-}
-
-/* Estatísticas (Cores escurecidas para dar contraste no fundo branco) */
-.theme-idr .gk-val {
-  color: #000 !important;
-}
-
-.theme-idr .mgs {
-  color: #cc0000 !important; /* Vermelho escuro */
-}
-
-.theme-idr .cs {
-  color: #008a00 !important; /* Verde escuro */
-}
-
-.theme-idr .j {
-  color: #555 !important; /* Cinza escuro */
-}
-
-/* Rodapé */
-.theme-idr .gk-footer {
-  color: #666 !important;
-  border-top-color: #eee !important;
-  opacity: 0.8 !important;
-}
-
-.theme-idr .gk-footer strong {
-  color: #000 !important;
+  --gk-bg: #ffffff;
+  --gk-hover: #f5f5f5;
+  --gk-line: #d9d9d9;
+  --gk-fg: #000000;
+  --gk-muted: #777777;
+  --gk-accent: #000000;
+  --gk-glow: rgba(0, 0, 0, 0.06);
+  --gk-bad: #cc0000;
+  --gk-good: #008a00;
+  box-shadow: none;
 }

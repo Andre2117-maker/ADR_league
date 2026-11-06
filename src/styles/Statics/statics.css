@@ -1,62 +1,118 @@
 /* ==========================================================================
+   ESTATÍSTICAS GERAIS — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho dourado sutil.
+   O tema IDR só redefine as variáveis (seção 5).
+   ========================================================================== */
+
+/* ==========================================================================
    1. CONTAINER PRINCIPAL E TÍTULOS
    ========================================================================== */
 .statics-container {
+  --st-bg: #050505;
+  --st-page: #030303;
+  --st-hover: #0d0d0d;
+  --st-line: #2b2b2b;
+  --st-fg: #ffffff;
+  --st-muted: #7a7a7a;
+  --st-accent: #d4af37;
+  --st-on-accent: #000000;
+  --st-glow: rgba(212, 175, 55, 0.16);
+  --st-win: #00c853;
+  --st-loss: #ff5252;
+  --st-silver: #cbd5e1;
+  --st-bronze: #cd7f32;
+
+  position: relative;
   padding-top: 130px !important;
   padding-bottom: 60px;
   padding-left: 20px;
   padding-right: 20px;
   width: 100%;
   min-height: 100vh;
-  background-color: #050608;
+  background-color: var(--st-page);
+  color: var(--st-fg);
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   background-image:
+    radial-gradient(70% 38% at 50% 0%, var(--st-glow), transparent 70%),
     radial-gradient(
-      circle at 50% 0%,
-      rgba(212, 175, 55, 0.1) 0%,
-      transparent 55%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 25v10M25 30h10' stroke='rgba(255,255,255,0.06)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-size:
-    100% 100%,
-    60px 60px;
-  background-position:
-    top center,
-    center center;
+      40% 25% at 90% 18%,
+      rgba(130, 90, 255, 0.07),
+      transparent 70%
+    );
+  background-repeat: no-repeat;
 }
 
-.page-title {
-  color: #d4af37;
-  text-shadow: 0px 4px 16px rgba(212, 175, 55, 0.35);
-  font-size: 1.85rem;
+.page-title3 {
+  position: relative;
+  margin: 50px 0 28px 0;
+  font-size: 1.6rem;
   font-weight: 900;
+  font-style: italic;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 2.5px;
-  margin: 50px 0 28px 0;
-  position: relative;
+  letter-spacing: 4px;
+  background: linear-gradient(
+    100deg,
+    var(--st-fg) 35%,
+    var(--st-accent) 50%,
+    var(--st-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: stShine 7s linear infinite;
 }
 
-.page-title:first-of-type {
+.page-title3:first-of-type {
   margin-top: 0;
 }
 
-.page-title::after {
+/* linha de brilho abaixo do título */
+.page-title3::after {
   content: "";
   display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #d4af37, transparent);
-  margin: 10px auto 0;
-  border-radius: 2px;
+  width: min(320px, 70%);
+  height: 1px;
+  margin: 14px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--st-accent),
+    transparent
+  );
+  -webkit-text-fill-color: initial;
+}
+
+@keyframes stShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes stFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
-   2. PAINEL DE RESUMO DE CAMPEONATOS (MELHOR CAMPANHA & FASES)
+   2. RESUMO DE CAMPEONATOS
    ========================================================================== */
 .camp-summary-wrapper {
   width: 100%;
@@ -75,28 +131,60 @@
 }
 
 .camp-highlight-card {
-  background: linear-gradient(180deg, #11141c 0%, #0b0d12 100%);
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  background: var(--st-bg);
+  border: 1px solid var(--st-line);
+  border-radius: 0;
   padding: 22px 24px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.55);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  animation: stFadeIn 0.6s ease both;
+}
+
+.camp-highlight-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--st-accent),
+    transparent
+  );
+  opacity: 0.8;
 }
 
 .best-campaign-card {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.14) 0%, #0d0f14 70%);
-  border-color: rgba(212, 175, 55, 0.45);
+  background:
+    radial-gradient(90% 120% at 0% 0%, var(--st-glow), transparent 65%),
+    var(--st-bg);
+  border-color: var(--st-line);
+}
+
+.best-campaign-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--st-accent);
+  box-shadow: 0 0 10px var(--st-accent);
 }
 
 .camp-card-kicker {
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #d4af37;
-  text-transform: uppercase;
   margin-bottom: 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--st-accent);
 }
 
 .best-campaign-main {
@@ -109,29 +197,29 @@
 .best-stage-text {
   font-size: 1.55rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--st-fg);
   letter-spacing: 0.5px;
 }
 
 .best-edition-badge {
-  background: #d4af37;
-  color: #000000;
-  font-size: 0.72rem;
+  background: var(--st-accent);
+  color: var(--st-on-accent);
+  font-size: 0.68rem;
   font-weight: 900;
   padding: 4px 10px;
-  border-radius: 100px;
+  border-radius: 0;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
 }
 
 .best-campaign-sub {
   margin: 8px 0 0 0;
-  font-size: 0.85rem;
-  color: #94a3b8;
+  font-size: 0.82rem;
   font-weight: 600;
+  color: var(--st-muted);
 }
 
-/* KPIs da Direita */
+/* KPIs da direita */
 .kpi-stats-card {
   flex-direction: row;
   align-items: center;
@@ -146,111 +234,122 @@
 }
 
 .kpi-label {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 1.2px;
-  color: #7c8594;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  color: var(--st-muted);
 }
 
 .kpi-num {
   font-size: 1.7rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--st-fg);
+  font-variant-numeric: tabular-nums;
 }
 
 .kpi-num.gold {
-  color: #d4af37;
-  text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+  color: var(--st-accent);
+  text-shadow: 0 0 16px var(--st-glow);
 }
 
 .camp-kpi-divider {
   width: 1px;
   height: 44px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--st-line);
 }
 
-/* Tira de Números (Jogos, Vitórias, Empates, Derrotas, Gols) */
+/* Tira de números: células coladas por linhas finas */
 .camp-record-strip {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
+  gap: 1px;
+  background: var(--st-line);
+  border: 1px solid var(--st-line);
 }
 
 .record-pill {
-  background: #0d0f14;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
-  padding: 14px 10px;
+  background: var(--st-bg);
+  border: none;
+  border-radius: 0;
+  padding: 18px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  gap: 6px;
+  box-shadow: none;
+  transition: background 0.2s ease;
+}
+
+.record-pill:hover {
+  background: var(--st-hover);
 }
 
 .record-pill span {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  letter-spacing: 1px;
-  color: #6c7583;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--st-muted);
 }
 
 .record-pill strong {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 900;
-  color: #f1f5f9;
+  color: var(--st-fg);
+  font-variant-numeric: tabular-nums;
 }
 
 .record-pill.win strong,
 .text-win {
-  color: #00e676 !important;
+  color: var(--st-win) !important;
 }
 
 .record-pill.loss strong,
 .text-loss {
-  color: #ff5252 !important;
+  color: var(--st-loss) !important;
 }
 
-/* Lista de Edições e Fase Alcançada */
+/* Lista de edições */
 .camp-editions-list {
-  background: #0b0d12;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
-  padding: 20px;
+  background: var(--st-bg);
+  border: 1px solid var(--st-line);
+  border-radius: 0;
+  padding: 0;
 }
 
 .editions-list-title {
-  margin: 0 0 16px 0;
-  font-size: 0.85rem;
-  font-weight: 800;
+  margin: 0;
+  padding: 16px 18px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #94a3b8;
+  color: var(--st-fg);
+  border-bottom: 1px solid var(--st-line);
 }
 
 .editions-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 14px;
+  gap: 1px;
+  background: var(--st-line);
 }
 
 .edition-history-card {
-  background: #11141c;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 16px;
+  background: var(--st-bg);
+  border: none;
+  border-radius: 0;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .edition-history-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(212, 175, 55, 0.35);
+  background: var(--st-hover);
+  transform: none;
 }
 
 .edition-card-top {
@@ -261,79 +360,81 @@
 }
 
 .edition-year-tag {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  color: #d4af37;
-  letter-spacing: 1.2px;
+  letter-spacing: 2px;
+  color: var(--st-accent);
 }
 
 .edition-name {
-  margin: 2px 0 0 0;
-  font-size: 1.05rem;
+  margin: 3px 0 0 0;
+  font-size: 1rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--st-fg);
 }
 
-/* Badges de Fase Alcançada */
+/* Fase alcançada */
 .edition-stage-badge {
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 800;
+  letter-spacing: 0.5px;
   padding: 5px 10px;
-  border-radius: 8px;
+  border-radius: 0;
   white-space: nowrap;
+  border: 1px solid transparent;
 }
 
 .stage-champion {
-  background: linear-gradient(135deg, #ffd700, #b8860b);
-  color: #000000;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  background: var(--st-accent);
+  color: var(--st-on-accent);
+  box-shadow: 0 0 14px var(--st-glow);
 }
 
 .stage-runnerup {
-  background: rgba(226, 232, 240, 0.14);
-  border: 1px solid rgba(226, 232, 240, 0.4);
-  color: #f8fafc;
+  background: transparent;
+  border-color: var(--st-silver);
+  color: var(--st-silver);
 }
 
 .stage-semi {
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: #d4af37;
+  background: transparent;
+  border-color: var(--st-accent);
+  color: var(--st-accent);
 }
 
 .stage-quarters,
 .stage-eighths,
 .stage-groups {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94a3b8;
+  background: transparent;
+  border-color: var(--st-line);
+  color: var(--st-muted);
 }
 
 .edition-mini-stats {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
-  color: #94a3b8;
   flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--st-muted);
 }
 
 .edition-mini-stats strong {
-  color: #ffffff;
+  color: var(--st-fg);
 }
 
 .dot-sep {
-  color: #475569;
+  color: var(--st-line);
 }
 
 .edition-last-match {
-  font-size: 0.76rem;
-  color: #cbd5e1;
-  background: rgba(0, 0, 0, 0.35);
-  padding: 8px 10px;
-  border-radius: 8px;
-  border-left: 3px solid #d4af37;
+  font-size: 0.74rem;
   font-weight: 600;
+  color: var(--st-muted);
+  background: transparent;
+  padding: 6px 0 6px 10px;
+  border-radius: 0;
+  border-left: 2px solid var(--st-accent);
 }
 
 /* ==========================================================================
@@ -342,111 +443,119 @@
 .statics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  gap: 18px;
   width: 100%;
   max-width: 1200px;
   margin-bottom: 40px;
   box-sizing: border-box;
 }
 
-/* Card de Estatística (Visual Premier League / EA FC) */
 .stat-column {
-  background: linear-gradient(180deg, #11141c 0%, #0a0c10 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 22px 18px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
   position: relative;
   overflow: hidden;
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(110% 45% at 50% -8%, var(--st-glow), transparent 62%),
+    var(--st-bg);
+  border: 1px solid var(--st-line);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  transition: border-color 0.25s ease;
+  animation: stFadeIn 0.6s ease both;
+}
+
+.stat-column:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.stat-column:nth-child(3) {
+  animation-delay: 0.16s;
 }
 
 .stat-column::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 15%;
-  right: 15%;
-  height: 2px;
+  left: 8%;
+  right: 8%;
+  height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 175, 55, 0.65),
+    var(--st-accent),
     transparent
   );
+  opacity: 0.8;
 }
 
 .stat-column:hover {
-  transform: translateY(-4px);
-  border-color: rgba(212, 175, 55, 0.3);
+  transform: none;
+  border-color: var(--st-accent);
 }
 
-/* Cabeçalho da Coluna */
 .stat-header {
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  margin: 0;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--st-line);
 }
 
 .stat-header h2 {
-  color: #ffffff;
-  font-size: 1.2rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
   margin: 0;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--st-fg);
 }
 
 .stat-header h2::before {
   content: "";
   display: inline-block;
-  width: 4px;
-  height: 18px;
-  border-radius: 2px;
-  background: #d4af37;
+  width: 2px;
+  height: 14px;
+  border-radius: 0;
+  background: var(--st-accent);
 }
 
 .arrow-icon {
-  color: #d4af37;
-  font-weight: 600;
   margin-left: auto;
+  font-weight: 600;
+  color: var(--st-accent);
 }
 
-/* Lista e Linhas de Jogadores */
 .stat-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
 }
 
 .stat-row {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+  padding: 11px 18px;
+  border: none;
+  border-bottom: 1px solid var(--st-line);
+  border-radius: 0;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
 }
 
 .stat-row:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(4px);
+  background: var(--st-hover);
+  border-color: var(--st-line);
+  transform: none;
 }
 
-/* Lado Esquerdo (Posição, Foto e Nome) */
 .stat-left {
   display: flex;
   align-items: center;
@@ -456,28 +565,34 @@
 }
 
 .stat-rank {
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #888;
+  width: 22px;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--st-muted);
   font-size: 0.8rem;
   font-weight: 800;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 0;
   object-fit: cover;
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  background: #14171f;
+  border: 1px solid var(--st-line);
+  background: var(--st-bg);
   flex-shrink: 0;
+  transition: border-color 0.2s ease;
+}
+
+.stat-row:hover .stat-avatar {
+  border-color: var(--st-accent);
 }
 
 .stat-info {
@@ -487,24 +602,23 @@
 }
 
 .stat-name {
-  color: #ffffff;
+  color: var(--st-fg);
   font-weight: 700;
-  font-size: 0.94rem;
+  font-size: 0.9rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .stat-team {
-  color: #6c7583;
-  font-size: 0.75rem;
+  color: var(--st-muted);
+  font-size: 0.72rem;
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Lado Direito (Pílula do Valor) */
 .stat-right {
   display: flex;
   align-items: center;
@@ -514,78 +628,78 @@
 }
 
 .stat-value {
-  min-width: 38px;
-  height: 30px;
-  padding: 0 9px;
-  border-radius: 8px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  color: #d4af37;
+  min-width: 34px;
+  height: auto;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--st-accent);
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 1.1rem;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 14px var(--st-glow);
 }
 
-/* PÓDIO: TOP 1, TOP 2 E TOP 3 */
+/* PÓDIO */
 .stat-row:nth-child(1) {
-  background: linear-gradient(
-    90deg,
-    rgba(212, 175, 55, 0.16) 0%,
-    rgba(212, 175, 55, 0.03) 100%
-  );
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  padding: 11px 12px;
+  background: linear-gradient(90deg, var(--st-glow), transparent 55%);
+  border: none;
+  border-bottom: 1px solid var(--st-line);
+  padding: 13px 18px;
+}
+
+.stat-row:nth-child(1)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--st-accent);
+  box-shadow: 0 0 10px var(--st-accent);
 }
 
 .stat-row:nth-child(1) .stat-rank {
-  background: linear-gradient(135deg, #ffd700, #b8860b);
-  color: #000000;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: 900;
+  color: var(--st-accent);
 }
 
 .stat-row:nth-child(1) .stat-avatar {
   width: 48px;
   height: 48px;
-  border: 2px solid #d4af37;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+  border: 1px solid var(--st-accent);
+  box-shadow: 0 0 14px var(--st-glow);
 }
 
 .stat-row:nth-child(1) .stat-name {
-  color: #ffd700;
+  color: var(--st-fg);
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 0.98rem;
 }
 
 .stat-row:nth-child(1) .stat-value {
-  background: linear-gradient(135deg, #d4af37, #b8860b);
-  color: #000000;
-  border-color: #ffd700;
-  font-size: 1.1rem;
+  background: transparent;
+  color: var(--st-accent);
+  border: none;
+  font-size: 1.25rem;
 }
 
 .stat-row:nth-child(2) .stat-rank {
-  background: rgba(203, 213, 225, 0.15);
-  border-color: rgba(203, 213, 225, 0.45);
-  color: #e2e8f0;
+  color: var(--st-silver);
 }
-
 .stat-row:nth-child(3) .stat-rank {
-  background: rgba(205, 127, 50, 0.15);
-  border-color: rgba(205, 127, 50, 0.45);
-  color: #eab308;
+  color: var(--st-bronze);
 }
 
 /* ==========================================================================
-   4. RESPONSIVIDADE COMPLETA (TABLET & CELULAR)
+   4. RESPONSIVIDADE
    ========================================================================== */
 @media (max-width: 1024px) {
   .statics-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
   }
 
   .camp-summary-top-grid {
@@ -605,13 +719,12 @@
     padding-bottom: 40px;
   }
 
-  .page-title {
-    font-size: 1.35rem;
-    letter-spacing: 1.5px;
+  .page-title3 {
+    font-size: 1.2rem;
+    letter-spacing: 2.5px;
     margin: 36px 0 20px 0;
   }
 
-  /* Resumo de Campeonatos no Celular */
   .camp-highlight-card {
     padding: 16px;
   }
@@ -625,28 +738,19 @@
   }
 
   .kpi-label {
-    font-size: 0.6rem;
-  }
-
-  .camp-record-strip {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    font-size: 0.56rem;
   }
 
   .record-pill {
-    padding: 10px 6px;
+    padding: 14px 6px;
   }
 
   .record-pill span {
-    font-size: 0.6rem;
+    font-size: 0.56rem;
   }
 
   .record-pill strong {
-    font-size: 1.05rem;
-  }
-
-  .camp-editions-list {
-    padding: 14px;
+    font-size: 1.1rem;
   }
 
   .editions-cards-grid {
@@ -659,35 +763,27 @@
     gap: 8px;
   }
 
-  /* Grid de Artilheiro / Assistência / Goleiro no Celular */
   .statics-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 14px;
     padding: 0;
     margin-bottom: 30px;
   }
 
-  .stat-column {
-    padding: 16px 12px;
-    border-radius: 14px;
-  }
-
-  .stat-header h2 {
-    font-size: 1.05rem;
+  .stat-header {
+    padding: 14px;
   }
 
   .stat-row {
-    padding: 7px 8px;
+    padding: 9px 14px;
+  }
+
+  .stat-row:nth-child(1) {
+    padding: 11px 14px;
   }
 
   .stat-left {
     gap: 10px;
-  }
-
-  .stat-rank {
-    width: 24px;
-    height: 24px;
-    font-size: 0.75rem;
   }
 
   .stat-avatar {
@@ -709,189 +805,58 @@
   }
 
   .stat-team {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
   }
 
   .stat-value {
-    min-width: 34px;
-    height: 28px;
-    font-size: 0.9rem;
-    padding: 0 7px;
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-title3,
+  .camp-highlight-card,
+  .stat-column {
+    animation: none;
+  }
+
+  .page-title3 {
+    background: none;
+    -webkit-text-fill-color: var(--st-fg);
+    color: var(--st-fg);
   }
 }
 
 /* ==========================================================================
-   5. TEMA IDR - ESTATÍSTICAS GERAIS (PRETO E BRANCO PREMIUM)
+   5. TEMA IDR (só troca as variáveis)
    ========================================================================== */
+.theme-idr .statics-container {
+  --st-bg: #ffffff;
+  --st-page: #f6f6f4;
+  --st-hover: #f5f5f5;
+  --st-line: #d9d9d9;
+  --st-fg: #000000;
+  --st-muted: #777777;
+  --st-accent: #000000;
+  --st-on-accent: #ffffff;
+  --st-glow: rgba(0, 0, 0, 0.06);
+  --st-win: #008a00;
+  --st-loss: #cc0000;
+  --st-silver: #666666;
+  --st-bronze: #8a5a2b;
+
+  background-image: radial-gradient(
+    70% 38% at 50% 0%,
+    rgba(0, 0, 0, 0.04),
+    transparent 70%
+  );
+}
 
 .theme-idr .best-label {
   color: #050608;
 }
 
-.theme-idr .statics-container {
-  background-color: #f6f6f4 !important;
-  color: #111111 !important;
-  background-image:
-    radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.03) 0%, transparent 55%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.06)'/%3E%3C/svg%3E") !important;
-  background-size:
-    100% 100%,
-    40px 40px !important;
-  background-repeat: no-repeat, repeat !important;
-  background-position:
-    top center,
-    center center !important;
-}
-
-.theme-idr .page-title {
-  color: #000000 !important;
-  text-shadow: none !important;
-}
-
-.theme-idr .page-title::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #000000,
-    transparent
-  ) !important;
-}
-
-/* Painel de Campeonatos no Tema IDR */
-.theme-idr .camp-highlight-card,
-.theme-idr .best-campaign-card,
-.theme-idr .record-pill,
-.theme-idr .camp-editions-list {
-  background: #ffffff !important;
-  border-color: #dcdcdc !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
-}
-
-.theme-idr .camp-card-kicker,
-.theme-idr .edition-year-tag {
-  color: #555555 !important;
-}
-
-.theme-idr .best-stage-text,
-.theme-idr .kpi-num,
 .theme-idr .kpi-num.gold,
-.theme-idr .record-pill strong,
-.theme-idr .edition-name,
-.theme-idr .edition-mini-stats strong {
-  color: #000000 !important;
-  text-shadow: none !important;
-}
-
-.theme-idr .best-edition-badge,
-.theme-idr .stage-champion {
-  background: #000000 !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .edition-history-card {
-  background: #f8f9fa !important;
-  border-color: #e2e5ec !important;
-}
-
-.theme-idr .stage-runnerup,
-.theme-idr .stage-semi,
-.theme-idr .stage-quarters,
-.theme-idr .stage-eighths,
-.theme-idr .stage-groups {
-  background: #e9ecef !important;
-  border-color: #ced4da !important;
-  color: #111111 !important;
-}
-
-.theme-idr .edition-last-match {
-  background: #f1f3f5 !important;
-  color: #222222 !important;
-  border-left-color: #000000 !important;
-}
-
-/* Colunas de Artilheiro / Assistência / Goleiro no Tema IDR */
-.theme-idr .stat-column {
-  background: #ffffff !important;
-  border-color: #dcdcdc !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-}
-
-.theme-idr .stat-column::before {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 0, 0, 0.35),
-    transparent
-  ) !important;
-}
-
-.theme-idr .stat-header {
-  border-bottom-color: #eeeeee !important;
-}
-
-.theme-idr .stat-header h2 {
-  color: #000000 !important;
-}
-
-.theme-idr .stat-header h2::before {
-  background: #000000 !important;
-}
-
-.theme-idr .stat-row {
-  background: #f8f9fa !important;
-  border-color: #f1f3f5 !important;
-}
-
-.theme-idr .stat-row:hover {
-  background: #f1f3f5 !important;
-}
-
-.theme-idr .stat-rank {
-  background: #ffffff !important;
-  border-color: #dee2e6 !important;
-  color: #666666 !important;
-}
-
-.theme-idr .stat-avatar {
-  border-color: #dddddd !important;
-  background: #eeeeee !important;
-}
-
-.theme-idr .stat-name {
-  color: #222222 !important;
-}
-
-.theme-idr .stat-team {
-  color: #777777 !important;
-}
-
 .theme-idr .stat-value {
-  background: #f1f3f5 !important;
-  border-color: #dee2e6 !important;
-  color: #000000 !important;
-  text-shadow: none !important;
-}
-
-/* Top 1 no Tema IDR */
-.theme-idr .stat-row:nth-child(1) {
-  background: #f1f3f5 !important;
-  border-color: #000000 !important;
-}
-
-.theme-idr .stat-row:nth-child(1) .stat-rank,
-.theme-idr .stat-row:nth-child(1) .stat-value {
-  background: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-}
-
-.theme-idr .stat-row:nth-child(1) .stat-avatar {
-  border-color: #000000 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .stat-row:nth-child(1) .stat-name {
-  color: #000000 !important;
-  font-weight: 900 !important;
+  text-shadow: none;
 }

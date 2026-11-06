@@ -411,11 +411,11 @@ export default function Statics({ players = [], matches = [] }) {
     <div>
       <div className="statics-container">
         {/* ==================== 1. AMISTOSOS ==================== */}
-        <h1 className="page-title">AMISTOSOS</h1>
+        <h1 className="page-title3">AMISTOSOS</h1>
         <FriendlySummary stats={friendlyStats} />
 
         {/* ==================== 2. CAMPEONATOS (NOVO PAINEL DE CAMPANHA) ==================== */}
-        <h1 className="page-title">CAMPEONATOS</h1>
+        <h1 className="page-title3">CAMPEONATOS</h1>
         <div className="camp-summary-wrapper">
           {/* LINHA DE DESTAQUE: MELHOR CAMPANHA + KPIS GERAIS */}
           <div className="camp-summary-top-grid">
@@ -562,7 +562,7 @@ export default function Statics({ players = [], matches = [] }) {
         </div>
 
         {/* ==================== 3. ESTATÍSTICAS DA TEMPORADA 2026 ==================== */}
-        <h1 className="page-title">Estatísticas da Temporada 2026</h1>
+        <h1 className="page-title3">Estatísticas da Temporada 2026</h1>
         <div className="statics-grid">
           <TopScorersCard players={sortedByGoals} limit={10} />
           <TopAssistsCard players={sortedByAssists} limit={10} />
@@ -570,7 +570,7 @@ export default function Statics({ players = [], matches = [] }) {
         </div>
 
         {/* ==================== 4. ALL TIME ==================== */}
-        <h1 className="page-title">ALL TIME</h1>
+        <h1 className="page-title3">ALL TIME</h1>
         <AllTimeTable matches={matches} players={players} />
       </div>
       <Footer />
