@@ -273,6 +273,14 @@ function Regras({ isAdmin }) {
               >
                 📖 Livro de Regras (PDF)
               </a>
+              <a
+                href="/docs/Codigo Eleitoral ADR 2027.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pdf-download-btn"
+              >
+                📖 CODIGO ELEITORAL (PDF)
+              </a>
             </div>
           </div>
 
