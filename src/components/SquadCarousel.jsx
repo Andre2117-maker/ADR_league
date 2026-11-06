@@ -1,9 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import ALL from "../assets/ALL.png";
 import "../styles/Home/sqdcarroussel.css";
+import { getShirtNumber, useClubMode } from "../utils/shirtNumber";
 
-function SquadCarousel({ players, onSelectPlayer }) {
+function SquadCarousel({ players, onSelectPlayer, mode }) {
   const carouselRef = useRef(null);
+  const detectedMode = useClubMode();
+  const clubMode = mode || detectedMode;
 
   // 1. Filtra (remove anônimos), ordena e TRIPLICA a lista para o efeito infinito
   const baseSquad = [...players]
@@ -61,42 +64,52 @@ function SquadCarousel({ players, onSelectPlayer }) {
 
       <div className="sqd-carousel-window" ref={carouselRef}>
         <div className="sqd-track">
-          {infiniteSquad.map((player, index) => (
-            <div
-              key={`${player.id}-${index}`}
-              className="sqd-player-card"
-              onClick={() => onSelectPlayer(player)}
-            >
-              <div className="sqd-photo-area">
-                {player.isAllStar && (
-                  <img src={ALL} className="sqd-badge-icon" alt="All Star" />
-                )}
+          {infiniteSquad.map((player, index) => {
+            const shirt = getShirtNumber(player, clubMode);
+            const hasNumber =
+              player.number !== undefined &&
+              player.number !== null &&
+              player.number !== "";
 
-                {/* CANTO DIREITO: Número da Camisa */}
-                {player.number && (
-                  <div className="player-number-badge">{player.number}</div>
-                )}
+            return (
+              <div
+                key={`${player.id}-${index}`}
+                className="sqd-player-card"
+                onClick={() => onSelectPlayer(player)}
+              >
+                <div className="sqd-photo-area">
+                  {player.isAllStar && (
+                    <img src={ALL} className="sqd-badge-icon" alt="All Star" />
+                  )}
 
-                {player.photo ? (
-                  <img
-                    src={player.photo}
-                    alt={player.name}
-                    className="sqd-player-img"
-                  />
-                ) : (
-                  <div className="sqd-placeholder">{player.name.charAt(0)}</div>
-                )}
+                  {/* CANTO DIREITO: Número da Camisa (muda com o modo ADR/IDR) */}
+                  {(hasNumber || player.numberIDR) && (
+                    <div className="player-number-badge">{shirt}</div>
+                  )}
 
-                <div className="sqd-card-overlay">
-                  <div className="sqd-info">
-                    <span className="sqd-name">
-                      {player.name.toUpperCase()}
-                    </span>
+                  {player.photo ? (
+                    <img
+                      src={player.photo}
+                      alt={player.name}
+                      className="sqd-player-img"
+                    />
+                  ) : (
+                    <div className="sqd-placeholder">
+                      {player.name.charAt(0)}
+                    </div>
+                  )}
+
+                  <div className="sqd-card-overlay">
+                    <div className="sqd-info">
+                      <span className="sqd-name">
+                        {player.name.toUpperCase()}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

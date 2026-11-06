@@ -211,6 +211,13 @@ const PlayerAdminMode = ({
           ? Number(formData.number)
           : "",
 
+      numberIDR:
+        formData.numberIDR !== "" &&
+        formData.numberIDR !== undefined &&
+        formData.numberIDR !== null
+          ? Number(formData.numberIDR)
+          : "",
+
       // NOVOS CAMPOS
       country: (formData.country || "").trim(),
 
@@ -323,9 +330,10 @@ const PlayerAdminMode = ({
             </div>
 
             <div className="adm-input-group">
-              <label>Nº da Camisa</label>
+              <label>👕 Nº da Camisa (ADR)</label>
               <input
                 type="number"
+                min="0"
                 value={formData.number ?? ""}
                 onChange={(e) =>
                   setFormData({
@@ -334,6 +342,22 @@ const PlayerAdminMode = ({
                   })
                 }
                 placeholder="Ex: 10"
+              />
+            </div>
+
+            <div className="adm-input-group">
+              <label>👕 Nº da Camisa (IDR)</label>
+              <input
+                type="number"
+                min="0"
+                value={formData.numberIDR ?? ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    numberIDR: e.target.value,
+                  })
+                }
+                placeholder="Vazio = usa o número do ADR"
               />
             </div>
 

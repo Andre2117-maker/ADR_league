@@ -4,6 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./Elenco.css";
 import Footer from "../../components/Footer";
+import { getShirtNumber, useClubMode } from "../../utils/shirtNumber";
 
 export default function Elenco() {
   const [players, setPlayers] = useState([]);
@@ -11,6 +12,7 @@ export default function Elenco() {
   const [seasonTab, setSeasonTab] = useState("2026");
   const [loading, setLoading] = useState(true);
 
+  const clubMode = useClubMode();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -157,7 +159,9 @@ export default function Elenco() {
                     />
 
                     <div className="psg-card-footer">
-                      <div className="psg-number">{p.number || "-"}</div>
+                      <div className="psg-number">
+                        {getShirtNumber(p, clubMode, "-")}
+                      </div>
 
                       <div className="psg-name-block">
                         <span className="psg-firstname">{firstName}</span>

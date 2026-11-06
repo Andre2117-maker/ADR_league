@@ -1,7 +1,12 @@
 import React from "react";
 import "../../styles/Playerpage/playerbanner.css";
+import { getShirtNumber, useClubMode } from "../../utils/Shirtnumber";
 
-const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
+// `mode` ("adr" | "idr") é opcional: se não vier por prop, detecta pelo tema.
+const PlayerBanner = ({ player, getBestPartner, careerDates, mode }) => {
+  const detectedMode = useClubMode();
+  const clubMode = mode || detectedMode;
+
   if (!player) return null;
 
   const calculateExactAge = (birthDate) => {
@@ -43,7 +48,8 @@ const PlayerBanner = ({ player, getBestPartner, careerDates }) => {
   const positions =
     player.positions?.length > 0 ? player.positions.join(" / ") : "—";
 
-  const shirtNumber = player.number || "00";
+  // Número muda conforme o modo (ADR / IDR)
+  const shirtNumber = getShirtNumber(player, clubMode);
 
   const details = [
     { label: "Idade", value: age },
