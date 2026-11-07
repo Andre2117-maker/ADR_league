@@ -1,99 +1,514 @@
 /* ==========================================================
-   COMPONENT: AWARDS CARD (PREFIX: aw-)
+   COMPONENT: AWARDS CARD (PREFIX: aw-) — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho sutil no topo.
+   A cor de cada prêmio vem de --award-color (definida no JSX).
+   O tema IDR só redefine as variáveis.
    ========================================================== */
 
 .aw-card {
+  --aw-bg: #050505;
+  --aw-hover: #0d0d0d;
+  --aw-line: #2b2b2b;
+  --aw-fg: #ffffff;
+  --aw-muted: #7a7a7a;
+  --aw-accent: #d4af37;
+  --aw-glow: rgba(212, 175, 55, 0.16);
+
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(110% 55% at 50% -8%, var(--aw-glow), transparent 62%),
+    var(--aw-bg);
+  color: var(--aw-fg);
+  border: 1px solid var(--aw-line);
+  border-radius: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.aw-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
   background: linear-gradient(
-    145deg,
-    rgba(40, 40, 40, 0.9),
-    rgba(20, 20, 20, 0.95)
+    90deg,
+    transparent,
+    var(--aw-accent),
+    transparent
   );
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 12px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* ---------- topo: título + anos ---------- */
+.aw-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--aw-line);
 }
 
 .aw-title {
-  color: #fff;
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 15px;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-align: left;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  background: linear-gradient(
+    100deg,
+    var(--aw-fg) 35%,
+    var(--aw-accent) 50%,
+    var(--aw-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: awShine 7s linear infinite;
 }
 
+@keyframes awShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.aw-years {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--aw-line);
+}
+
+.aw-year {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--aw-line);
+  color: var(--aw-muted);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 11px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.aw-year:last-child {
+  border-right: none;
+}
+.aw-year:hover {
+  background: var(--aw-hover);
+  color: var(--aw-fg);
+}
+
+.aw-year.is-active {
+  background: var(--aw-accent);
+  color: var(--aw-bg);
+}
+
+.aw-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 18px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--aw-muted);
+  border-bottom: 1px solid var(--aw-line);
+}
+
+/* ---------- lista de prêmios ---------- */
 .aw-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 0;
 }
 
 .aw-item {
   position: relative;
-  padding: 15px;
-  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px 16px 20px;
+  border-radius: 0;
+  border-bottom: 1px solid var(--aw-line);
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(0, 0, 0, 0) 100%
+    color-mix(in srgb, var(--award-color) 14%, transparent),
+    transparent 60%
   );
-  border-left: 3px solid var(--award-color); /* Consome a cor dinâmica do React */
   overflow: hidden;
+  transition: background 0.2s ease;
+  animation: awIn 0.5s ease both;
+  animation-delay: calc(var(--i, 0) * 0.07s);
+}
+
+@keyframes awIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.aw-item:last-child {
+  border-bottom: none;
+}
+
+/* barra fina na cor do prêmio */
+.aw-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--award-color);
+  box-shadow: 0 0 10px var(--award-color);
+}
+
+.aw-item.is-link {
+  cursor: pointer;
+}
+.aw-item.is-link:hover {
+  background-color: var(--aw-hover);
 }
 
 .aw-icon-bg {
   position: absolute;
-  right: -10px;
-  bottom: -10px;
-  font-size: 40px;
-  opacity: 0.1;
-  transform: rotate(-15deg);
+  right: 10px;
+  bottom: -8px;
+  font-size: 46px;
+  opacity: 0.08;
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+.aw-avatar {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 0;
+  background: var(--aw-bg);
+  border: 1px solid var(--award-color);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .aw-content {
   position: relative;
   z-index: 1;
+  min-width: 0;
+  flex: 1;
 }
 
 .aw-award-title {
-  font-size: 9px;
-  color: var(--award-color); /* Consome a cor dinâmica do React */
+  font-size: 0.6rem;
   font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  color: var(--award-color);
 }
 
 .aw-winner-name {
-  font-size: 18px;
+  margin-top: 3px;
+  font-size: 1.15rem;
   font-weight: 900;
-  color: #fff;
+  color: var(--aw-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.aw-detail {
   margin-top: 2px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--aw-muted);
 }
 
-/* ==========================================================================
-   TEMA IDR - AWARDS CARD (PRETO E BRANCO PREMIUM)
-   ========================================================================== */
+/* número de prêmios já ganhos (2x, 3x...) */
+.aw-wins {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: 3px 7px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: var(--aw-accent);
+  border: 1px solid var(--aw-accent);
+}
 
+/* prêmio ainda sem vencedor */
+.aw-item.is-pending {
+  background: transparent;
+}
+.aw-item.is-pending::before {
+  opacity: 0.35;
+  box-shadow: none;
+}
+.aw-item.is-pending .aw-winner-name {
+  color: var(--aw-muted);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.aw-item.is-pending .aw-icon-bg {
+  opacity: 0.04;
+}
+
+/* ---------- ADMIN: botões e formulário ---------- */
+.aw-year-add {
+  color: var(--aw-accent);
+  font-size: 0.85rem;
+}
+.aw-year:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.aw-admin-btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--aw-line);
+  color: var(--aw-fg);
+  font: inherit;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.aw-admin-btn:hover {
+  border-color: var(--aw-accent);
+  color: var(--aw-accent);
+}
+
+.aw-edit {
+  display: flex;
+  flex-direction: column;
+}
+
+.aw-edit-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 18px 12px 20px;
+  border-bottom: 1px solid var(--aw-line);
+}
+.aw-edit-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--award-color);
+}
+
+.aw-edit-row {
+  display: flex;
+  gap: 8px;
+}
+
+.aw-in {
+  flex: 1;
+  min-width: 0;
+  background: var(--aw-bg);
+  color: var(--aw-fg);
+  border: 1px solid var(--aw-line);
+  border-radius: 0;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.8rem;
+  outline: none;
+  box-sizing: border-box;
+}
+.aw-in:focus {
+  border-color: var(--aw-accent);
+}
+.aw-in::placeholder {
+  color: var(--aw-muted);
+}
+.aw-in-icon {
+  flex: 0 0 48px;
+  text-align: center;
+}
+.aw-in-title {
+  font-weight: 800;
+}
+.aw-in-color {
+  flex: 0 0 42px;
+  padding: 2px;
+  height: auto;
+  cursor: pointer;
+}
+
+.aw-edit-tools {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.aw-edit-tools button {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--aw-line);
+  color: var(--aw-muted);
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+.aw-edit-tools button:hover:not(:disabled) {
+  color: var(--aw-fg);
+  border-color: var(--aw-fg);
+}
+.aw-edit-tools button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.aw-edit-tools .is-danger:hover:not(:disabled) {
+  color: #ff5252;
+  border-color: #ff5252;
+}
+
+.aw-add-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--aw-line);
+  color: var(--aw-accent);
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px 18px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+.aw-add-btn:hover {
+  background: var(--aw-hover);
+}
+
+.aw-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 18px;
+}
+.aw-btn-cancel,
+.aw-btn-save {
+  appearance: none;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: 0;
+  cursor: pointer;
+}
+.aw-btn-cancel {
+  background: transparent;
+  border: 1px solid var(--aw-line);
+  color: var(--aw-muted);
+}
+.aw-btn-cancel:hover:not(:disabled) {
+  color: var(--aw-fg);
+  border-color: var(--aw-fg);
+}
+.aw-btn-save {
+  background: var(--aw-accent);
+  border: 1px solid var(--aw-accent);
+  color: var(--aw-bg);
+}
+.aw-btn-save:disabled,
+.aw-btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+@media (max-width: 480px) {
+  .aw-head {
+    padding: 12px 14px;
+  }
+  .aw-item {
+    padding: 14px 14px 14px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aw-title,
+  .aw-item {
+    animation: none;
+  }
+  .aw-title {
+    -webkit-text-fill-color: var(--aw-fg);
+    color: var(--aw-fg);
+    background: none;
+  }
+}
+
+/* ==========================================================
+   TEMA IDR (só troca as variáveis)
+   ========================================================== */
 .theme-idr .aw-card {
-  background: #ffffff;
-  border-color: #ccc;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  --aw-bg: #ffffff;
+  --aw-hover: #f5f5f5;
+  --aw-line: #d9d9d9;
+  --aw-fg: #000000;
+  --aw-muted: #777777;
+  --aw-accent: #000000;
+  --aw-glow: rgba(0, 0, 0, 0.06);
+  box-shadow: none;
 }
 
-.theme-idr .aw-title {
-  color: #000;
-}
-
+/* ignora as cores dos prêmios (verde, laranja, dourado) */
 .theme-idr .aw-item {
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.03) 0%, transparent 100%);
-  /* Força a borda a ser preta, ignorando as cores originais (verde, laranja, dourado) */
-  border-left-color: #000 !important;
+  --award-color: #000000 !important;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.04), transparent 60%);
 }
-
+.theme-idr .aw-item::before {
+  box-shadow: none;
+}
 .theme-idr .aw-award-title {
-  /* Força o nome do prêmio a ser cinza escuro */
-  color: #555 !important;
+  color: #555555 !important;
+}
+.theme-idr .aw-item.is-pending {
+  background: transparent;
 }
 
-.theme-idr .aw-winner-name {
-  color: #000;
+.theme-idr .aw-edit-item {
+  --award-color: #000000 !important;
 }

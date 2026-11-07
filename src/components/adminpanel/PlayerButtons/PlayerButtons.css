@@ -1,798 +1,461 @@
 /* ==========================================================================
-   1. A LINHA DO JOGADOR (DESKTOP) - ESTILO PREMIUM GLASS
+   LINHA DO JOGADOR — MINIMALISTA + AURA
+   Usa as variáveis --pn-* definidas em .adm-main-layout (panel.css).
    ========================================================================== */
+
 .adm-tr {
+  position: relative;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;
+  grid-template-columns: minmax(210px, 1.3fr) 150px minmax(190px, 1.1fr) minmax(
+      300px,
+      2fr
+    ) 170px;
+  gap: 16px;
   align-items: center;
-  background: linear-gradient(
-    145deg,
-    rgba(25, 25, 30, 0.7),
-    rgba(10, 10, 12, 0.9)
-  );
-  backdrop-filter: blur(10px); /* Efeito Vidro */
-  margin-bottom: 15px;
-  padding: 15px 25px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin: 0;
+  padding: 14px 22px;
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-bottom: 1px solid var(--pn-line);
+  border-radius: 0;
+  box-shadow: none;
+  transition: background 0.2s ease;
+}
+
+.adm-tr:last-child {
+  border-bottom: none;
 }
 
 .adm-tr:hover {
-  border-color: rgba(212, 175, 55, 0.5);
-  background: linear-gradient(
-    145deg,
-    rgba(35, 35, 40, 0.85),
-    rgba(15, 15, 20, 0.95)
-  );
-  transform: translateY(-3px);
-  box-shadow:
-    0 12px 25px rgba(0, 0, 0, 0.6),
-    0 0 15px rgba(212, 175, 55, 0.15);
+  background: var(--pn-hover);
+  border-color: var(--pn-line);
+  transform: none;
+  box-shadow: none;
 }
 
-/* ==========================================================================
-   2. NOME E FOTO (AVATAR COM GLOW)
-   ========================================================================== */
+.adm-tr:hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--pn-accent);
+  box-shadow: 0 0 10px var(--pn-accent);
+}
+
+.row-anonymous .adm-name-cell,
+.row-anonymous .adm-auto-stats-cell {
+  opacity: 0.55;
+}
+
+.adm-cell-label {
+  display: none;
+}
+
+/* ---------- jogador ---------- */
 .adm-name-container {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 14px;
+  min-width: 0;
 }
 
 .adm-avatar-wrapper {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: 2px solid #d4af37;
+  width: 52px;
+  height: 52px;
+  border-radius: 0;
+  border: 1px solid var(--pn-line);
   overflow: hidden;
-  background: #000;
+  background: var(--pn-bg);
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.25); /* Brilho dourado suave */
-  transition: all 0.3s ease;
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .adm-tr:hover .adm-avatar-wrapper {
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  border-color: var(--pn-accent);
+  box-shadow: 0 0 14px var(--pn-glow);
 }
 
 .adm-player-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .row-anonymous .adm-avatar-wrapper {
-  opacity: 0.4;
   filter: grayscale(100%);
 }
 
+.adm-name-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .adm-player-name {
-  font-size: 15px;
-  color: #fff;
   display: flex;
   align-items: center;
   gap: 8px;
-  text-transform: uppercase;
+  font-size: 0.88rem;
+  font-weight: 800;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--pn-fg);
 }
 
-.adm-edit-name-btn {
-  cursor: pointer;
-  font-size: 0.85rem;
-  opacity: 0.5;
-  transition: all 0.2s;
-}
-
-.adm-edit-name-btn:hover {
-  opacity: 1;
-  transform: scale(1.2);
-  filter: drop-shadow(0 0 5px #d4af37);
+.adm-player-name-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .adm-mini-stats {
-  font-size: 11px;
-  color: #8892a0;
-  margin-top: 3px;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 0.64rem;
+  font-weight: 700;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--pn-muted);
 }
 
 .anon-tag {
-  background: rgba(255, 255, 255, 0.1);
-  color: #aaa;
-  font-size: 9px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  padding: 2px 6px;
+  border: 1px solid var(--pn-muted);
+  border-radius: 0;
+  background: transparent;
+  color: var(--pn-muted);
+  font-size: 0.54rem;
+  letter-spacing: 1px;
 }
 
-/* ==========================================================================
-   3. ESTATÍSTICAS (BADGE DE LUXO) E CONTROLES (GOLS/ASSIST)
-   ========================================================================== */
-.adm-total-badge {
+/* pendências de cadastro */
+.adm-pending-tags {
   display: flex;
-  gap: 12px;
-  background: linear-gradient(to bottom right, #111, #080808);
-  padding: 10px 15px;
-  border-radius: 12px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.02);
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.adm-pending-tags span {
+  padding: 1px 6px;
+  border: 1px solid var(--pn-warn);
+  color: var(--pn-warn);
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ---------- resumo (somente leitura) ---------- */
+.adm-total-badge {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 0;
+  background: transparent;
+  border: 1px solid var(--pn-line);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 .adm-stat-item {
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 4px;
 }
 
 .adm-label {
-  color: #6b7280;
+  color: var(--pn-muted);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
 }
+
 .adm-value {
-  color: #d4af37;
-  margin-left: 5px;
-  font-size: 13px;
+  margin: 0;
+  color: var(--pn-accent);
+  font-size: 0.95rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
 }
+
 .adm-stat-divider {
   width: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  align-self: stretch;
+  background: var(--pn-line);
 }
 
-/* Controles de Cálculos (Estilo Neon / Ghost Buttons) */
-.adm-calc-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: center;
-}
-
-.adm-btn-minus {
-  background: rgba(220, 53, 69, 0.1) !important;
-  color: #dc3545;
-  border: 1px solid rgba(220, 53, 69, 0.3);
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 900;
-  transition: all 0.2s ease;
-}
-
-.adm-btn-minus:hover {
-  background: #dc3545 !important;
-  color: #fff;
-  box-shadow: 0 0 15px rgba(220, 53, 69, 0.4);
-}
-
-.adm-btn-plus {
-  background: rgba(40, 167, 69, 0.1) !important;
-  color: #28a745;
-  border: 1px solid rgba(40, 167, 69, 0.3);
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 900;
-  transition: all 0.2s ease;
-}
-
-.adm-btn-plus:hover {
-  background: #28a745 !important;
-  color: #000;
-  box-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
-}
-
-.adm-input-number {
-  width: 45px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 6px;
-  font-weight: 900;
-  font-size: 14px;
-  transition: 0.3s;
-}
-
-.adm-input-number:focus {
-  border-color: #d4af37;
-  outline: none;
-  box-shadow: inset 0 0 5px rgba(212, 175, 55, 0.3);
-}
-
-/* ==========================================================================
-   4. PERFIL (CARGO, FOTO, ALL-STAR, TÍTULOS)
-   ========================================================================== */
+/* ---------- perfil ---------- */
 .adm-profile-inputs {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  align-items: center;
+  align-items: stretch;
+  gap: 8px;
 }
 
 .adm-profile-row-1 {
   display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.adm-input-titles,
-.adm-input-role {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #eee;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  outline: none;
-  transition: 0.3s;
-}
-
-.adm-input-titles:focus,
-.adm-input-role:focus {
-  border-color: rgba(212, 175, 55, 0.5);
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.adm-input-titles {
-  width: 55px;
-  text-align: center;
-  color: #d4af37;
-  font-weight: 900;
-}
-
-.adm-input-role {
-  width: 140px;
-}
-
-.adm-photo-url-input {
-  width: 100%;
-  max-width: 250px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
-  color: #8892a0;
-  font-size: 11px;
-  text-align: center;
-  padding: 6px;
-  transition: 0.3s;
-}
-
-.adm-photo-url-input:focus {
-  border-bottom-color: #d4af37;
-  color: #d4af37;
-  outline: none;
-}
-
-.adm-number-wrapper {
-  display: flex;
-  align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 4px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
-.adm-number-label {
-  font-size: 10px;
-  color: #d4af37;
-  font-weight: 900;
-}
-
-.adm-number-input {
-  width: 30px;
-  background: transparent;
-  color: #fff;
-  border: none;
+.adm-input-role {
+  flex: 1;
+  min-width: 0;
+  background: var(--pn-bg);
+  border: 1px solid var(--pn-line);
+  color: var(--pn-fg);
+  padding: 7px 10px;
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.74rem;
   outline: none;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
+  transition: border-color 0.2s ease;
+}
+
+.adm-input-gender {
+  flex: 0 0 82px;
+  width: auto;
+  cursor: pointer;
+  text-align: left;
+}
+.adm-input-role option {
+  background: #111;
+  color: #fff;
+}
+
+.adm-input-role:focus {
+  border-color: var(--pn-accent);
+  background: var(--pn-bg);
+}
+.adm-input-role::placeholder {
+  color: var(--pn-muted);
 }
 
 .adm-label-allstar {
-  font-size: 11px;
-  color: #a1a1aa;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  letter-spacing: 0.5px;
+  gap: 8px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--pn-muted);
+  cursor: pointer;
 }
 
 .adm-label-allstar input {
-  accent-color: #d4af37;
+  accent-color: var(--pn-accent);
   width: 14px;
   height: 14px;
   cursor: pointer;
 }
 
-/* ==========================================================================
-   5. BOTÕES DE AÇÃO (LIXO E ANÔNIMO)
-   ========================================================================== */
+/* ---------- fotos ---------- */
+.adm-photos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.adm-photo-row {
+  display: grid;
+  grid-template-columns: 62px 26px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.adm-photo-tag {
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--pn-muted);
+  text-transform: uppercase;
+}
+
+.adm-photo-thumb {
+  width: 26px;
+  height: 26px;
+  object-fit: cover;
+  border: 1px solid var(--pn-line);
+  border-radius: 0;
+  background: var(--pn-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pn-muted);
+  font-size: 0.6rem;
+}
+
+.adm-photo-url-input {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pn-line);
+  border-radius: 0;
+  color: var(--pn-muted);
+  font: inherit;
+  font-size: 0.7rem;
+  text-align: left;
+  padding: 5px 2px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.adm-photo-url-input:focus {
+  border-bottom-color: var(--pn-accent);
+  color: var(--pn-fg);
+}
+.adm-photo-url-input::placeholder {
+  color: var(--pn-line);
+}
+
+/* ---------- ações ---------- */
 .adm-action-buttons {
   display: flex;
-  gap: 20px;
+  gap: 8px;
+  align-items: center;
   justify-content: flex-end;
+}
+
+.adm-btn-edit {
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px solid var(--pn-line);
+  border-radius: 0;
+  color: var(--pn-fg);
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.adm-btn-edit:hover {
+  background: var(--pn-accent);
+  border-color: var(--pn-accent);
+  color: var(--pn-on-accent);
 }
 
 .adm-btn-anon,
 .adm-btn-delete {
-  background: none;
-  border: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--pn-line);
+  border-radius: 0;
+  font-size: 0.95rem;
   cursor: pointer;
-  font-size: 20px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  opacity: 0.7;
+  opacity: 0.8;
+  filter: none;
+  transition: all 0.2s ease;
 }
 
 .adm-btn-anon:hover,
 .adm-btn-delete:hover {
   opacity: 1;
-  transform: translateY(-2px) scale(1.1);
+  transform: none;
+  border-color: var(--pn-fg);
 }
 
-.adm-btn-anon {
-  color: #888;
-}
 .adm-btn-anon.active {
-  color: #d4af37;
-  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+  border-color: var(--pn-accent);
+  box-shadow: 0 0 10px var(--pn-glow);
+  filter: none;
   opacity: 1;
 }
 
 .adm-btn-delete:hover {
-  filter: drop-shadow(0 0 8px rgba(220, 53, 69, 0.8));
+  border-color: var(--pn-bad);
+  filter: none;
 }
 
 /* ==========================================================================
-   6. CUSTOM PROMPT (MODAL PREMIUM)
-   ========================================================================== */
-.custom-prompt-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px); /* Desfoca o fundo do site inteiro */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.custom-prompt-box {
-  background: linear-gradient(145deg, #151515, #0a0a0a);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 16px;
-  padding: 30px;
-  width: 90%;
-  max-width: 380px;
-  text-align: center;
-  box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.8),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.custom-prompt-box h3 {
-  color: #fff;
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 1.4rem;
-  letter-spacing: 1px;
-}
-
-.custom-prompt-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 25px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #d4af37;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  text-align: center;
-  transition: 0.3s;
-}
-
-.custom-prompt-box input:focus {
-  outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-}
-
-.custom-prompt-actions {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-.custom-prompt-actions button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border: none;
-  transition: 0.3s;
-}
-
-.custom-prompt-actions .btn-cancel {
-  background: rgba(255, 255, 255, 0.05);
-  color: #aaa;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.custom-prompt-actions .btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-.custom-prompt-actions .btn-save {
-  background: #d4af37;
-  color: #000;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-}
-.custom-prompt-actions .btn-save:hover {
-  background: #f1c40f;
-  transform: translateY(-2px);
-}
-
-@keyframes popIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* ==========================================================================
-   7. RESPONSIVIDADE (MOBILE CARD PREMIUM)
+   RESPONSIVO — vira um bloco por jogador, com seções rotuladas
    ========================================================================== */
 @media (max-width: 1023px) {
   .adm-tr {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 35px 25px;
-    max-width: 420px;
-    margin: 0 auto 20px;
-    border-radius: 24px;
+    align-items: stretch;
+    gap: 16px;
+    max-width: none;
+    margin: 0;
+    padding: 20px 16px;
+    border-radius: 0;
   }
 
-  .adm-name-container {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .adm-avatar-wrapper {
-    width: 110px;
-    height: 110px;
-    border-width: 3px;
-    margin-bottom: 5px;
-  }
-
-  .adm-player-name {
-    font-size: 22px;
-    text-align: center;
-    justify-content: center;
-  }
-
-  .adm-mini-stats {
-    text-align: center;
-    font-size: 12px;
-  }
-
-  .adm-auto-stats-cell {
-    width: 100%;
-    margin: 20px 0;
+  .adm-cell-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.56rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--pn-muted);
   }
 
   .adm-total-badge {
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 15px;
   }
 
-  .adm-manual-cell {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .adm-calc-container {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .adm-calc-controls {
-    gap: 20px;
-  }
-
-  .adm-calc-controls button {
-    width: 60px;
-    height: 60px;
-    font-size: 28px;
-    border-radius: 16px;
-  }
-
-  .adm-input-number {
-    width: 70px;
-    height: 60px;
-    font-size: 20px;
-    border-radius: 16px;
-  }
-
-  .adm-profile-cell {
-    width: 100%;
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
-    padding-top: 25px;
-    margin-top: 5px;
-  }
-
-  .adm-profile-inputs {
-    gap: 15px;
-  }
-
-  .adm-profile-row-1 {
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .adm-input-role,
-  .adm-photo-url-input,
-  .adm-input-titles {
-    height: 50px;
-    font-size: 15px;
-    border-radius: 12px;
-  }
-
-  .adm-number-wrapper {
-    height: 50px;
-    padding: 0 15px;
-    border-radius: 12px;
-  }
-
-  .adm-number-input {
-    font-size: 16px;
+  .adm-profile-cell,
+  .adm-photos-cell,
+  .adm-auto-stats-cell {
+    padding-top: 14px;
+    border-top: 1px solid var(--pn-line);
   }
 
   .adm-actions-cell {
-    width: 100%;
-    margin-top: 25px;
+    padding-top: 14px;
+    border-top: 1px solid var(--pn-line);
   }
 
   .adm-action-buttons {
-    justify-content: center;
-    gap: 50px;
+    justify-content: space-between;
   }
-
+  .adm-btn-edit {
+    flex: 1;
+    padding: 11px;
+  }
   .adm-btn-anon,
   .adm-btn-delete {
-    font-size: 32px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .adm-input-role {
+    padding: 11px 12px;
+    font-size: 0.85rem;
+  }
+  .adm-photo-url-input {
+    padding: 9px 2px;
+    font-size: 0.8rem;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - GERENCIAMENTO DE JOGADORES / ADMIN TABLE (PRETO E BRANCO PREMIUM)
+   TEMA IDR: nada a fazer aqui, só as variáveis de panel.css mudam
    ========================================================================== */
-
-/* Linha do Jogador (Card / TR) */
-.theme-idr .adm-tr {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05) !important;
-}
-
-.theme-idr .adm-tr:hover {
-  border-color: #000 !important;
-  background: #fcfcfc !important;
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Avatar e Nome do Jogador */
-.theme-idr .adm-avatar-wrapper {
-  border-color: #000 !important;
-  background: #eee !important;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .adm-tr:hover .adm-avatar-wrapper {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
-}
-
-.theme-idr .adm-player-name {
-  color: #000 !important;
-}
-
-.theme-idr .adm-edit-name-btn:hover {
-  filter: drop-shadow(0 0 5px #000) !important;
-}
-
-.theme-idr .adm-mini-stats {
-  color: #666 !important;
-}
-
-.theme-idr .anon-tag {
-  background: rgba(0, 0, 0, 0.05) !important;
-  color: #555 !important;
-  border-color: #ccc !important;
-}
-
-/* Badge de Estatísticas Totais */
-.theme-idr .adm-total-badge {
-  background: linear-gradient(to bottom right, #f9f9f9, #f0f0f0) !important;
-  border-color: #ddd !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02) !important;
-}
-
-.theme-idr .adm-label {
-  color: #777 !important;
-}
-
-.theme-idr .adm-value {
-  color: #000 !important;
-}
-
-.theme-idr .adm-stat-divider {
-  background: rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Botões de mais e menos (Cálculos) */
-.theme-idr .adm-btn-minus {
-  background: rgba(0, 0, 0, 0.05) !important;
-  color: #333 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .adm-btn-minus:hover {
-  background: #333 !important;
-  color: #fff !important;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
-}
-
-.theme-idr .adm-btn-plus {
-  background: rgba(0, 0, 0, 0.05) !important;
-  color: #000 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .adm-btn-plus:hover {
-  background: #000 !important;
-  color: #fff !important;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
-}
-
-.theme-idr .adm-input-number {
-  background: #f9f9f9 !important;
-  border-color: #ccc !important;
-  color: #000 !important;
-}
-
-.theme-idr .adm-input-number:focus {
-  border-color: #000 !important;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Inputs de Perfil (Títulos, Cargo, Foto, Número, All-Star) */
-.theme-idr .adm-input-titles,
-.theme-idr .adm-input-role {
-  background: #f9f9f9 !important;
-  border-color: #ccc !important;
-  color: #000 !important;
-}
-
-.theme-idr .adm-input-titles:focus,
-.theme-idr .adm-input-role:focus {
-  border-color: #000 !important;
-  background: #ffffff !important;
-}
-
-.theme-idr .adm-input-titles {
-  color: #000 !important;
-}
-
-.theme-idr .adm-photo-url-input {
-  border-bottom-color: #ccc !important;
-  color: #666 !important;
-}
-
-.theme-idr .adm-photo-url-input:focus {
-  border-bottom-color: #000 !important;
-  color: #000 !important;
-}
-
-.theme-idr .adm-number-wrapper {
-  background: #f9f9f9 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .adm-number-label {
-  color: #000 !important;
-}
-
-.theme-idr .adm-number-input {
-  color: #000 !important;
-}
-
-.theme-idr .adm-label-allstar {
-  color: #555 !important;
-}
-
-.theme-idr .adm-label-allstar input {
-  accent-color: #000 !important;
-}
-
-/* Botões de Ação (Anônimo e Lixo) */
-.theme-idr .adm-btn-anon {
-  color: #888 !important;
-}
-
-.theme-idr .adm-btn-anon.active {
-  color: #000 !important;
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
-}
-
-.theme-idr .adm-btn-delete:hover {
-  filter: drop-shadow(0 0 8px rgba(200, 0, 0, 0.8)) !important;
-}
-
-/* Modal de Prompt Personalizado */
-.theme-idr .custom-prompt-overlay {
-  background: rgba(0, 0, 0, 0.4) !important;
-}
-
-.theme-idr .custom-prompt-box {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
-}
-
-.theme-idr .custom-prompt-box h3 {
-  color: #000 !important;
-}
-
-.theme-idr .custom-prompt-box input {
-  background: #f9f9f9 !important;
-  color: #000 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .custom-prompt-box input:focus {
-  border-color: #000 !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .custom-prompt-actions .btn-cancel {
-  background: #f0f0f0 !important;
-  color: #555 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .custom-prompt-actions .btn-cancel:hover {
-  background: #e0e0e0 !important;
-  color: #000 !important;
-}
-
-.theme-idr .custom-prompt-actions .btn-save {
-  background: #000 !important;
-  color: #fff !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
-}
-
-.theme-idr .custom-prompt-actions .btn-save:hover {
-  background: #333 !important;
+.theme-idr .adm-input-role option {
+  background: #fff;
+  color: #000;
 }

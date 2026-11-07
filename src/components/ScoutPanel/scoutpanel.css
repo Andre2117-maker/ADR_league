@@ -1,10 +1,50 @@
 /* ==========================================================================
-   1. VARIÁVEIS DO RADAR (MODO ESCURO PADRÃO: O ADR)
+   SCOUT PANEL + MINI-RANKINGS — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho dourado sutil.
+   O tema IDR só redefine as variáveis (seção 8). JSX não muda.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIÁVEIS
    ========================================================================== */
 :root {
+  /* Radar (lidas pelo recharts via var()) */
   --radar-cor: #d4af37;
   --radar-grid: rgba(255, 255, 255, 0.12);
   --radar-text: #cbd5e1;
+}
+
+.info-card,
+.player-profile-card,
+.empty-state-card {
+  --sp-bg: #050505;
+  --sp-hover: #0d0d0d;
+  --sp-line: #2b2b2b;
+  --sp-fg: #ffffff;
+  --sp-muted: #7a7a7a;
+  --sp-accent: #d4af37;
+  --sp-on-accent: #000000;
+  --sp-glow: rgba(212, 175, 55, 0.16);
+  --sp-silver: #cbd5e1;
+  --sp-bronze: #cd7f32;
+}
+
+@keyframes spShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes spFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ==========================================================================
@@ -16,39 +56,73 @@
   top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   flex-shrink: 0;
 }
 
 .info-card {
-  background: linear-gradient(180deg, #131316 0%, #0c0c0e 100%);
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(110% 50% at 50% -8%, var(--sp-glow), transparent 62%),
+    var(--sp-bg);
+  color: var(--sp-fg);
+  border: 1px solid var(--sp-line);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  animation: spFadeIn 0.6s ease both;
+}
+
+.info-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sp-accent),
+    transparent
+  );
+  opacity: 0.8;
 }
 
 .info-card h3 {
-  text-align: center;
-  color: #d4af37;
-  margin: 0 0 14px 0;
-  font-size: 0.85rem;
+  margin: 0;
+  padding: 15px 16px;
+  text-align: left;
+  font-size: 0.78rem;
   font-weight: 900;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--sp-line);
+  background: linear-gradient(
+    100deg,
+    var(--sp-fg) 35%,
+    var(--sp-accent) 50%,
+    var(--sp-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: spShine 7s linear infinite;
 }
 
 .card-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 16px;
   font-size: 0.84rem;
-  padding: 6px 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  transition: transform 0.2s ease;
+  border-bottom: 1px solid var(--sp-line);
+  transition: background 0.2s ease;
 }
 
 .card-row:last-child {
@@ -57,90 +131,114 @@
 }
 
 .card-row:hover {
-  transform: translateX(3px);
+  background: var(--sp-hover);
+  transform: none;
 }
 
+/* posição no ranking: número simples, quadrado só no pódio */
 .rank {
   width: 24px;
   height: 24px;
-  border-radius: 7px;
+  border-radius: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
   font-size: 0.72rem;
   flex-shrink: 0;
+  color: var(--sp-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .r1 {
-  background: linear-gradient(135deg, #ffd700, #b8860b);
-  color: #000000;
-  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.35);
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+  box-shadow: 0 0 12px var(--sp-glow);
 }
 
 .r2 {
-  background: linear-gradient(135deg, #e2e8f0, #94a3b8);
-  color: #000000;
+  background: transparent;
+  border: 1px solid var(--sp-silver);
+  color: var(--sp-silver);
 }
 
 .r3 {
-  background: linear-gradient(135deg, #eab308, #a16207);
-  color: #000000;
+  background: transparent;
+  border: 1px solid var(--sp-bronze);
+  color: var(--sp-bronze);
 }
 
 /* ==========================================================================
    3. CARD DE SCOUT DO JOGADOR (COLUNA DIREITA)
    ========================================================================== */
 .player-profile-card {
-  background: linear-gradient(160deg, #151519 0%, #0b0b0d 100%);
-  border: 1px solid rgba(212, 175, 55, 0.32);
-  border-radius: 20px;
-  padding: 22px 18px;
-  color: #ffffff;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
-  transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
+  background:
+    radial-gradient(90% 38% at 50% 0%, var(--sp-glow), transparent 68%),
+    var(--sp-bg);
+  color: var(--sp-fg);
+  border: 1px solid var(--sp-line);
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  animation: spFadeIn 0.5s ease both;
+}
+
+.player-profile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sp-accent),
+    transparent
+  );
+  opacity: 0.8;
 }
 
 .ppg-glow-gold {
-  border-color: rgba(212, 175, 55, 0.38);
-  box-shadow:
-    0 14px 35px rgba(0, 0, 0, 0.65),
-    0 0 22px rgba(212, 175, 55, 0.12);
+  border-color: var(--sp-line);
+  box-shadow: none;
 }
 
-/* Header: Avatar, Badge OVR e Nome */
+/* Header: avatar, OVR e nome */
 .profile-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 18px;
+  margin: 0;
+  padding: 26px 18px 18px;
+  border-bottom: 1px solid var(--sp-line);
 }
 
 .profile-avatar-wrapper {
   position: relative;
   width: 92px;
   height: 92px;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
 }
 
 .profile-avatar {
   width: 100%;
   height: 100%;
-  background: #1a1a20;
-  border: 3px solid #d4af37;
-  border-radius: 50%;
+  background: var(--sp-bg);
+  border: 1px solid var(--sp-accent);
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   font-weight: 900;
-  color: #d4af37;
+  color: var(--sp-accent);
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 22px var(--sp-glow);
 }
 
 .profile-avatar-img {
@@ -150,121 +248,133 @@
   display: block;
 }
 
-/* Selo de Overall (OVR) no canto do Avatar */
+/* Selo de Overall */
 .profile-ovr-badge {
   position: absolute;
-  bottom: -4px;
-  right: -6px;
-  background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-  color: #000000;
-  border: 2px solid #0b0b0d;
-  border-radius: 10px;
-  padding: 2px 7px;
+  bottom: -8px;
+  right: -10px;
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+  border: 2px solid var(--sp-bg);
+  border-radius: 0;
+  padding: 3px 7px;
   display: flex;
   flex-direction: column;
   align-items: center;
   line-height: 1;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: none;
 }
 
 .ovr-num {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 900;
+  font-variant-numeric: tabular-nums;
 }
 
 .ovr-label {
   font-size: 0.48rem;
   font-weight: 900;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .profile-name {
-  font-size: 1.25rem;
+  margin: 2px 0 6px;
+  font-size: 1.2rem;
   font-weight: 900;
-  margin: 2px 0 4px;
+  font-style: italic;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #ffffff;
+  color: var(--sp-fg);
 }
 
 .profile-pos-tag {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #d4af37;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  padding: 2px 10px;
-  border-radius: 100px;
+  color: var(--sp-accent);
+  background: transparent;
+  border: 1px solid var(--sp-accent);
+  padding: 3px 10px;
+  border-radius: 0;
 }
 
 /* ==========================================================================
-   4. KPIS PRINCIPAIS (3 COLUNAS: VITÓRIAS, GOLS/J, G+A)
+   4. KPIS (3 COLUNAS) — células coladas por linhas finas
    ========================================================================== */
 .profile-main-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 1px;
+  margin: 0;
+  background: var(--sp-line);
+  border-bottom: 1px solid var(--sp-line);
 }
 
 .stat-box {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 10px 6px;
-  border-radius: 12px;
+  background: var(--sp-bg);
+  padding: 14px 6px;
+  border: none;
+  border-radius: 0;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  transition: background 0.2s ease;
+}
+
+.stat-box:hover {
+  background: var(--sp-hover);
 }
 
 .stat-box.highlight {
-  background: rgba(212, 175, 55, 0.08);
-  border-color: rgba(212, 175, 55, 0.28);
+  background: var(--sp-bg);
+  border: none;
 }
 
 .stat-val {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--sp-fg);
   font-variant-numeric: tabular-nums;
 }
 
 .stat-box.highlight .stat-val {
-  color: #d4af37;
+  color: var(--sp-accent);
+  text-shadow: 0 0 14px var(--sp-glow);
 }
 
 .stat-lab {
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 800;
-  color: #888888;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--sp-muted);
 }
 
 /* ==========================================================================
-   5. LISTA DE INFORMAÇÕES DO ATLETA
+   5. FICHA TÉCNICA
    ========================================================================== */
 .profile-info-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 10px 12px;
-  margin-bottom: 14px;
+  gap: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--sp-line);
+  border-radius: 0;
+  padding: 4px 18px;
+  margin: 0;
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.78rem;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  gap: 10px;
+  font-size: 0.76rem;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--sp-line);
 }
 
 .info-item:last-child {
@@ -272,23 +382,25 @@
 }
 
 .info-label {
-  color: #94a3b8;
+  color: var(--sp-muted);
   font-weight: 600;
 }
 
 .info-value {
-  color: #ffffff;
+  color: var(--sp-fg);
   font-weight: 800;
+  text-align: right;
 }
 
 /* ==========================================================================
-   6. SEÇÃO DO GRÁFICO DE RADAR + MINI PÍLULAS DE ATRIBUTOS
+   6. RADAR + MINI PÍLULAS
    ========================================================================== */
 .profile-radar-section {
-  background: #0d0d10;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 12px 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--sp-line);
+  border-radius: 0;
+  padding: 16px 12px 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -296,11 +408,11 @@
 
 .radar-header-bar {
   text-align: center;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  letter-spacing: 2px;
-  color: #d4af37;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  color: var(--sp-accent);
 }
 
 .radar-chart-box {
@@ -311,104 +423,121 @@
 .radar-skills-mini-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 1px;
+  margin: 6px -12px 0;
+  padding: 0;
+  background: var(--sp-line);
+  border-top: 1px solid var(--sp-line);
 }
 
 .skill-mini-pill {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 4px 6px;
+  background: var(--sp-bg);
+  border: none;
+  border-radius: 0;
+  padding: 9px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
+  transition: background 0.2s ease;
+}
+
+.skill-mini-pill:hover {
+  background: var(--sp-hover);
 }
 
 .skill-mini-key {
-  color: #888888;
+  color: var(--sp-muted);
   font-weight: 800;
+  letter-spacing: 1px;
 }
 
 .skill-mini-val {
-  color: #d4af37;
+  color: var(--sp-accent);
   font-weight: 900;
   font-variant-numeric: tabular-nums;
 }
 
 /* ==========================================================================
-   7. BOTÃO DE PERFIL E RODAPÉ DO CARD
+   7. BOTÃO E RODAPÉ
    ========================================================================== */
 .profile-view-full-btn {
-  width: 100%;
-  margin-top: 14px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: #d4af37;
-  font-size: 0.7rem;
+  display: block;
+  width: calc(100% - 36px);
+  margin: 16px 18px;
+  background: transparent;
+  border: 1px solid var(--sp-accent);
+  color: var(--sp-accent);
+  font-family: inherit;
+  font-size: 0.68rem;
   font-weight: 900;
-  letter-spacing: 1.2px;
-  padding: 9px 12px;
-  border-radius: 10px;
-  cursor: pointer;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  transition: all 0.2s ease;
+  padding: 11px 12px;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .profile-view-full-btn:hover {
-  background: #d4af37;
-  color: #000000;
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+  box-shadow: 0 0 16px var(--sp-glow);
 }
 
 .profile-footer {
-  margin-top: 14px;
+  margin: 0;
+  padding: 12px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 12px;
+  border-top: 1px solid var(--sp-line);
 }
 
 .profile-footer p {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #666666;
   margin: 0;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--sp-muted);
 }
 
 .badge-adr {
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 900;
-  letter-spacing: 0.8px;
-  color: #000000;
-  background: #d4af37;
+  letter-spacing: 1.2px;
+  color: var(--sp-on-accent);
+  background: var(--sp-accent);
   padding: 3px 8px;
-  border-radius: 5px;
+  border-radius: 0;
 }
 
-/* Alternância limpa entre ATLETA D'O ADR e ATLETA IDR */
+/* Alternância entre ATLETA D'O ADR e ATLETA IDR */
 .text-adr {
   display: inline-block;
 }
-
 .text-idr1 {
   display: none;
 }
 
-/* Estado Vazio */
+/* Estado vazio */
 .empty-state-card {
   min-height: 360px;
-  background: linear-gradient(160deg, #131316 0%, #0b0b0d 100%);
+  background:
+    radial-gradient(90% 40% at 50% 0%, var(--sp-glow), transparent 68%),
+    var(--sp-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #666666;
-  border: 1.5px dashed rgba(212, 175, 55, 0.25);
-  border-radius: 20px;
+  color: var(--sp-muted);
+  border: 1px dashed var(--sp-line);
+  border-radius: 0;
   padding: 32px 20px;
   gap: 8px;
 }
@@ -421,20 +550,34 @@
 
 .empty-state-card h4 {
   margin: 0;
-  color: #d4af37;
-  font-size: 0.82rem;
-  letter-spacing: 1.5px;
+  color: var(--sp-accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 3px;
 }
 
 .empty-state-card p {
   margin: 0;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  color: #888888;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--sp-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-card,
+  .player-profile-card {
+    animation: none;
+  }
+  .info-card h3 {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--sp-fg);
+    color: var(--sp-fg);
+  }
 }
 
 /* ==========================================================================
-   8. TEMA IDR (MARFIM, BRANCO & ÔNIX EDITORIAL)
+   8. TEMA IDR (só troca as variáveis)
    ========================================================================== */
 .theme-idr {
   --radar-cor: #111111 !important;
@@ -442,168 +585,30 @@
   --radar-text: #222222 !important;
 }
 
-/* Coluna Esquerda (Rankings) no IDR */
-.theme-idr .info-card {
-  background: #ffffff !important;
-  border-color: #dcdcd4 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
-}
-
-.theme-idr .info-card h3 {
-  color: #000000 !important;
-  border-bottom-color: #eeeeee !important;
-}
-
-.theme-idr .card-row {
-  border-bottom-color: #f2f2ee !important;
-  color: #222222 !important;
-}
-
-.theme-idr .r1 {
-  background: #000000 !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .r2 {
-  background: #555555 !important;
-  color: #ffffff !important;
-}
-
-.theme-idr .r3 {
-  background: #888888 !important;
-  color: #ffffff !important;
-}
-
-/* Card de Scout do Jogador no IDR */
+.theme-idr .info-card,
 .theme-idr .player-profile-card,
-.theme-idr .ppg-glow-gold {
-  background: #ffffff !important;
-  border: 1px solid #dcdcd4 !important;
-  color: #111111 !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05) !important;
+.theme-idr .empty-state-card {
+  --sp-bg: #ffffff;
+  --sp-hover: #f5f5f5;
+  --sp-line: #d9d9d9;
+  --sp-fg: #000000;
+  --sp-muted: #777777;
+  --sp-accent: #000000;
+  --sp-on-accent: #ffffff;
+  --sp-glow: rgba(0, 0, 0, 0.06);
+  --sp-silver: #666666;
+  --sp-bronze: #8a5a2b;
 }
 
-.theme-idr .profile-avatar {
-  background: #f8f8f5 !important;
-  border-color: #111111 !important;
-  color: #111111 !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
-}
-
-.theme-idr .profile-ovr-badge {
-  background: #111111 !important;
-  color: #ffffff !important;
-  border-color: #ffffff !important;
-}
-
-.theme-idr .profile-name {
-  color: #000000 !important;
-}
-
-.theme-idr .profile-pos-tag {
-  background: #f2f2ee !important;
-  border-color: #dcdcd4 !important;
-  color: #111111 !important;
-}
-
-.theme-idr .stat-box,
-.theme-idr .stat-box.highlight {
-  background: #fafaf7 !important;
-  border-color: #e4e4de !important;
-}
-
-.theme-idr .stat-val,
 .theme-idr .stat-box.highlight .stat-val {
-  color: #000000 !important;
+  text-shadow: none;
 }
 
-.theme-idr .stat-lab {
-  color: #666660 !important;
-}
-
-.theme-idr .profile-info-list {
-  background: #fafaf7 !important;
-  border-color: #e4e4de !important;
-}
-
-.theme-idr .info-item {
-  border-bottom-color: #eeeeee !important;
-}
-
-.theme-idr .info-label {
-  color: #555550 !important;
-}
-
-.theme-idr .info-value {
-  color: #000000 !important;
-}
-
-.theme-idr .profile-radar-section {
-  background: #fafaf7 !important;
-  border-color: #e4e4de !important;
-}
-
-.theme-idr .radar-header-bar {
-  color: #111111 !important;
-}
-
-.theme-idr .radar-skills-mini-grid {
-  border-top-color: #e4e4de !important;
-}
-
-.theme-idr .skill-mini-pill {
-  background: #ffffff !important;
-  border-color: #e4e4de !important;
-}
-
-.theme-idr .skill-mini-key {
-  color: #666660 !important;
-}
-
-.theme-idr .skill-mini-val {
-  color: #000000 !important;
-}
-
-.theme-idr .profile-view-full-btn {
-  background: #111111 !important;
-  border-color: #111111 !important;
-  color: #ffffff !important;
-}
-
-.theme-idr .profile-view-full-btn:hover {
-  background: #333333 !important;
-}
-
-.theme-idr .profile-footer {
-  border-top-color: #e4e4de !important;
-}
-
-.theme-idr .profile-footer p {
-  color: #777770 !important;
-}
-
-.theme-idr .badge-adr {
-  background: #111111 !important;
-  color: #ffffff !important;
-}
-
-/* Troca o texto ATLETA D'O ADR por ATLETA IDR no modo claro */
+/* troca o texto ATLETA D'O ADR por ATLETA IDR */
 .theme-idr .text-adr {
   display: none !important;
 }
-
 .theme-idr .text-idr1 {
   display: inline-block !important;
   color: #ffffff !important;
-}
-
-.theme-idr .empty-state-card {
-  background: #ffffff !important;
-  border-color: #cccccc !important;
-  color: #555555 !important;
-}
-
-.theme-idr .empty-state-card h4 {
-  color: #000000 !important;
 }

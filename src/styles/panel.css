@@ -1,6 +1,10 @@
-/* ==========================================================
-   1. BASE & RESET PREMIUM
-   ========================================================== */
+/* ==========================================================================
+   PAINEL ADMIN — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho dourado sutil.
+   O tema IDR só redefine as variáveis (final do arquivo).
+   ========================================================================== */
+
+/* 1. BASE (mantida do original) */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -15,130 +19,391 @@ body {
 }
 
 .adm-main-layout {
-  padding: 40px 20px;
-  background: radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%);
+  --pn-bg: #050505;
+  --pn-page: #030303;
+  --pn-hover: #0d0d0d;
+  --pn-line: #2b2b2b;
+  --pn-fg: #ffffff;
+  --pn-muted: #7a7a7a;
+  --pn-accent: #d4af37;
+  --pn-on-accent: #000000;
+  --pn-glow: rgba(212, 175, 55, 0.16);
+  --pn-ok: #00c853;
+  --pn-bad: #ff5252;
+  --pn-warn: #ffb300;
+
   min-height: 100vh;
+  padding: 40px 20px;
   padding-top: 135px !important;
+  background:
+    radial-gradient(70% 38% at 50% 0%, var(--pn-glow), transparent 70%),
+    radial-gradient(
+      40% 25% at 92% 14%,
+      rgba(130, 90, 255, 0.07),
+      transparent 70%
+    ),
+    var(--pn-page);
+  color: var(--pn-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
-/* ==========================================================
-   2. HEADER & NAVEGAÇÃO
-   ========================================================== */
+.adm-wrap {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ==========================================================================
+   2. HEADER
+   ========================================================================== */
 .adm-header-nav {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1300px;
-  margin: 0 auto 40px;
-  padding: 20px 30px;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  gap: 16px;
+  margin: 0;
+  padding: 18px 22px;
+  background: var(--pn-bg);
+  border: 1px solid var(--pn-line);
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.adm-header-nav::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--pn-accent),
+    transparent
+  );
+  opacity: 0.8;
 }
 
 .adm-title-main {
-  font-size: 18px;
-  letter-spacing: 3px;
+  font-size: 0.85rem;
   font-weight: 300;
+  letter-spacing: 4px;
   text-transform: uppercase;
 }
 
 .adm-title-highlight {
-  color: #d4af37;
   font-weight: 900;
-  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  font-style: italic;
+  background: linear-gradient(
+    100deg,
+    var(--pn-accent) 35%,
+    var(--pn-fg) 50%,
+    var(--pn-accent) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: pnShine 7s linear infinite;
+}
+
+@keyframes pnShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
 }
 
 .adm-nav-left {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .adm-nav-left button {
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #111;
-  color: #aaa;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 9px 14px;
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  border: 1px solid var(--pn-line);
+  background: transparent;
+  color: var(--pn-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .adm-nav-left button:hover {
-  border-color: #d4af37;
-  color: #fff;
-  transform: translateY(-2px);
+  border-color: var(--pn-accent);
+  color: var(--pn-fg);
+  transform: none;
 }
 
 .adm-btn-matches {
-  background: #d4af37 !important;
-  color: #000 !important;
+  background: var(--pn-accent) !important;
+  border-color: var(--pn-accent) !important;
+  color: var(--pn-on-accent) !important;
 }
 
-/* ==========================================================
-   3. SEÇÃO ADICIONAR JOGADOR
-   ========================================================== */
-.adm-add-section {
-  max-width: 800px;
-  margin: 0 auto 50px;
+/* ==========================================================================
+   3. RESUMO / FILTROS RÁPIDOS (células coladas por linhas finas)
+   ========================================================================== */
+.adm-summary {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--pn-line);
+  border: 1px solid var(--pn-line);
 }
 
-.adm-add-form {
+.adm-summary-cell {
+  appearance: none;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 8px;
+  background: var(--pn-bg);
+  border: none;
+  border-radius: 0;
+  color: var(--pn-fg);
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.adm-summary-cell:hover {
+  background: var(--pn-hover);
+}
+
+.adm-summary-num {
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.adm-summary-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pn-muted);
+}
+
+.adm-summary-cell.is-warn .adm-summary-num {
+  color: var(--pn-warn);
+}
+
+.adm-summary-cell.is-active {
+  background:
+    radial-gradient(90% 100% at 50% 0%, var(--pn-glow), transparent 70%),
+    var(--pn-hover);
+  box-shadow: inset 0 -2px 0 var(--pn-accent);
+}
+
+.adm-summary-cell.is-active .adm-summary-label {
+  color: var(--pn-accent);
+}
+
+/* ==========================================================================
+   4. ADICIONAR + BUSCA
+   ========================================================================== */
+.adm-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  max-width: none;
+  margin: 0;
+}
+
+.adm-add-form,
+.adm-search-form {
+  display: flex;
+  gap: 8px;
+}
+
+.adm-input-new-player,
+.adm-select-gender {
+  background: var(--pn-bg);
+  border: 1px solid var(--pn-line);
+  color: var(--pn-fg);
+  border-radius: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .adm-input-new-player {
   flex: 1;
-  background: #111;
-  border: 1px solid #222;
-  padding: 15px 20px;
-  border-radius: 12px;
-  color: #fff;
-  outline: none;
-  transition: 0.3s;
+  min-width: 0;
+}
+.adm-select-gender {
+  cursor: pointer;
+  font-weight: 700;
 }
 
-.adm-input-new-player:focus {
-  border-color: #d4af37;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+.adm-input-new-player:focus,
+.adm-select-gender:focus {
+  border-color: var(--pn-accent);
+  box-shadow: 0 0 14px var(--pn-glow);
+}
+
+.adm-input-new-player::placeholder {
+  color: var(--pn-muted);
+}
+
+.adm-select-gender option {
+  background: #111;
+  color: #fff;
 }
 
 .adm-btn-add-confirm {
-  background: #28a745;
-  color: #fff;
-  border: none;
-  padding: 0 25px;
-  border-radius: 12px;
-  font-weight: 800;
+  background: var(--pn-accent);
+  color: var(--pn-on-accent);
+  border: 1px solid var(--pn-accent);
+  border-radius: 0;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   cursor: pointer;
+  white-space: nowrap;
+  transition: box-shadow 0.2s ease;
 }
 
-/* ==========================================================
-   4. LAYOUT DE TABELA GERAL
-   ========================================================== */
+.adm-btn-add-confirm:hover {
+  box-shadow: 0 0 16px var(--pn-glow);
+}
+
+/* ==========================================================================
+   5. TABELA
+   ========================================================================== */
 .adm-table-container {
-  max-width: 1300px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 
-/* Cabeçalho Fake PC */
+.adm-table {
+  border: 1px solid var(--pn-line);
+  background:
+    radial-gradient(90% 20% at 50% 0%, var(--pn-glow), transparent 70%),
+    var(--pn-bg);
+}
+
 .adm-thead-fake-pc {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 2fr 0.5fr;
-  padding: 15px 25px;
-  color: #555;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 1px;
+  grid-template-columns: minmax(210px, 1.3fr) 150px minmax(190px, 1.1fr) minmax(
+      300px,
+      2fr
+    ) 170px;
+  gap: 16px;
+  padding: 14px 22px;
+  color: var(--pn-muted);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
+  border-bottom: 1px solid var(--pn-line);
 }
 
+.adm-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--pn-muted);
+  font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   6. FERRAMENTAS DE MANUTENÇÃO
+   ========================================================================== */
+.adm-tools {
+  border: 1px solid var(--pn-line);
+  background: var(--pn-bg);
+}
+
+.adm-tools summary {
+  padding: 14px 18px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pn-muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.adm-tools summary::-webkit-details-marker {
+  display: none;
+}
+.adm-tools summary:hover {
+  color: var(--pn-fg);
+}
+
+.adm-tools p {
+  padding: 0 18px;
+  font-size: 0.74rem;
+  color: var(--pn-muted);
+  line-height: 1.5;
+}
+
+.adm-tools-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 18px 18px;
+}
+
+.adm-tools-actions button {
+  padding: 9px 14px;
+  background: transparent;
+  border: 1px solid var(--pn-line);
+  border-radius: 0;
+  color: var(--pn-fg);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.adm-tools-actions button:hover {
+  border-color: var(--pn-fg);
+}
+
+.adm-tools-actions .is-danger {
+  color: var(--pn-bad);
+  border-color: var(--pn-bad);
+}
+.adm-tools-actions .is-danger:hover {
+  background: var(--pn-bad);
+  color: #fff;
+}
+
+/* ==========================================================================
+   7. RESPONSIVO
+   ========================================================================== */
 @media (max-width: 1023px) {
   .adm-thead-fake-pc {
     display: none;
@@ -150,26 +415,34 @@ body {
     padding-right: 15px;
   }
 
+  .adm-toolbar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .adm-tbody {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    padding-bottom: 50px;
+    gap: 0;
+    padding-bottom: 0;
   }
 }
 
 @media (max-width: 600px) {
   .adm-header-nav {
     flex-direction: column;
-    gap: 15px;
-    padding: 15px;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .adm-title-main {
+    order: -1;
   }
 
   .adm-nav-left {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    gap: 8px;
   }
 
   .adm-nav-left button {
@@ -177,77 +450,39 @@ body {
     padding: 12px 5px;
   }
 
-  .adm-title-main {
-    order: -1;
-    font-size: 16px;
+  .adm-summary {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adm-title-highlight {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--pn-accent);
+    color: var(--pn-accent);
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - PAINEL ADMINISTRATIVO GERAL (PRETO E BRANCO PREMIUM)
+   TEMA IDR (só troca as variáveis)
    ========================================================================== */
-
-/* Fundo Principal da Página */
 .theme-idr .adm-main-layout {
-  background: radial-gradient(
-    circle at top right,
-    #ffffff 0%,
-    #e5e5e5 100%
-  ) !important;
-  color: #111 !important;
+  --pn-bg: #ffffff;
+  --pn-page: #f6f6f4;
+  --pn-hover: #f5f5f5;
+  --pn-line: #d9d9d9;
+  --pn-fg: #000000;
+  --pn-muted: #777777;
+  --pn-accent: #000000;
+  --pn-on-accent: #ffffff;
+  --pn-glow: rgba(0, 0, 0, 0.06);
+  --pn-ok: #008a00;
+  --pn-bad: #cc0000;
+  --pn-warn: #b87400;
 }
 
-/* Header & Navegação */
-.theme-idr .adm-header-nav {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: #ccc !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-}
-
-.theme-idr .adm-title-highlight {
-  color: #000 !important;
-  text-shadow: none !important;
-}
-
-/* Botões do Menu de Navegação */
-.theme-idr .adm-nav-left button {
-  background: #f0f0f0 !important;
-  color: #555 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .adm-nav-left button:hover {
-  border-color: #000 !important;
-  color: #000 !important;
-}
-
-.theme-idr .adm-btn-matches {
-  background: #000 !important;
-  color: #fff !important;
-}
-
-/* Seção de Adicionar Jogador */
-.theme-idr .adm-input-new-player {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  color: #000 !important;
-}
-
-.theme-idr .adm-input-new-player:focus {
-  border-color: #000 !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .adm-btn-add-confirm {
-  background: #000 !important;
-  color: #fff !important;
-}
-
-.theme-idr .adm-btn-add-confirm:hover {
-  background: #333 !important;
-}
-
-/* Cabeçalho Fake da Tabela */
-.theme-idr .adm-thead-fake-pc {
-  color: #666 !important;
+.theme-idr .adm-select-gender option {
+  background: #fff;
+  color: #000;
 }

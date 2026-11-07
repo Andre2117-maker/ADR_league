@@ -29,6 +29,21 @@ const InstagramIcon = () => (
   </svg>
 );
 
+const ArrowUp = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </svg>
+);
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
@@ -48,14 +63,23 @@ const Footer = () => {
     }
   };
 
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
     <footer className="sponsors-footer">
+      {/* Marca d'água gigante ao fundo (troca ADR/IDR pelo tema) */}
+      <span className="footer-watermark" aria-hidden="true">
+        <span className="text-adr">ADR</span>
+        <span className="text-idr">IDR</span>
+      </span>
+
       <div className="footer-container">
         <div className="sponsors-wrapper">
           <p className="footer-label">PATROCINADORES OFICIAIS</p>
+
           <div className="sponsors-display">
             <div className="sponsor-item master">
-              {/* Troca do Master */}
+              <span className="sponsor-tag">Master</span>
               <img
                 src={master}
                 alt="Patrocinador Master ADR"
@@ -68,42 +92,29 @@ const Footer = () => {
               />
             </div>
 
-            <div className="footer-divider"></div>
+            <div className="sponsor-item">
+              <span className="sponsor-tag">Oficial</span>
+              <img src={patro1} alt="Patrocinador 1 ADR" className="img-adr" />
+              <img
+                src={patro1Idr}
+                alt="Patrocinador 1 IDR"
+                className="img-idr"
+              />
+            </div>
 
-            <div className="sponsors-secondary">
-              <div className="sponsor-item">
-                {/* Troca do Patrocinador 1 */}
-                <img
-                  src={patro1}
-                  alt="Patrocinador 1 ADR"
-                  className="img-adr"
-                />
-                <img
-                  src={patro1Idr}
-                  alt="Patrocinador 1 IDR"
-                  className="img-idr"
-                />
-              </div>
-              <div className="sponsor-item">
-                {/* Troca do Patrocinador 2 */}
-                <img
-                  src={patro2}
-                  alt="Patrocinador 2 ADR"
-                  className="img-adr"
-                />
-                <img
-                  src={patro2Idr}
-                  alt="Patrocinador 2 IDR"
-                  className="img-idr"
-                />
-              </div>
+            <div className="sponsor-item">
+              <span className="sponsor-tag">Oficial</span>
+              <img src={patro2} alt="Patrocinador 2 ADR" className="img-adr" />
+              <img
+                src={patro2Idr}
+                alt="Patrocinador 2 IDR"
+                className="img-idr"
+              />
             </div>
           </div>
         </div>
 
-        <div className="footer-divider"></div>
-
-        <div className="footer-socials">
+        <div className="footer-mid">
           <a
             href="https://www.instagram.com/clube_do_adr/"
             target="_blank"
@@ -111,7 +122,25 @@ const Footer = () => {
             className="social-link"
           >
             <InstagramIcon />
+            <span>@clube_do_adr</span>
           </a>
+
+          <div className="footer-motto">
+            "Honra,
+            <span className="egg-trigger" onClick={handlePiscinaClick}>
+              {" "}
+              Piscina
+            </span>{" "}
+            e Resenha"
+          </div>
+
+          <button
+            type="button"
+            className="footer-top-btn"
+            onClick={scrollToTop}
+          >
+            <ArrowUp /> Topo
+          </button>
         </div>
 
         <div className="footer-bottom">
@@ -125,14 +154,6 @@ const Footer = () => {
             </span>{" "}
             LEAGUE — Todos os direitos reservados.
           </p>
-          <div className="footer-motto">
-            "Honra,
-            <span className="egg-trigger" onClick={handlePiscinaClick}>
-              {" "}
-              Piscina
-            </span>{" "}
-            e Resenha"
-          </div>
         </div>
       </div>
     </footer>

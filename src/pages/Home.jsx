@@ -305,7 +305,7 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
             />
           </div>
           <div className="awards-section">
-            <AwardsCard />
+            <AwardsCard isAdmin={isAdmin} />
           </div>
         </main>
 

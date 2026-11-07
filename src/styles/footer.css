@@ -1,19 +1,85 @@
-/* Container Principal do Rodapé */
+/* ==========================================================================
+   FOOTER — MINIMALISTA + AURA
+   Grade de patrocinadores com linhas finas, brilho dourado no topo,
+   marca d'água gigante. O tema IDR só redefine as variáveis.
+   ========================================================================== */
+
 .sponsors-footer {
+  --ft-bg: #000000;
+  --ft-hover: #0d0d0d;
+  --ft-line: #2b2b2b;
+  --ft-fg: #ffffff;
+  --ft-muted: #7a7a7a;
+  --ft-accent: #d4af37;
+  --ft-glow: rgba(212, 175, 55, 0.14);
+  --ft-mark: rgba(255, 255, 255, 0.035);
+
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  background-color: #000; /* Fundo preto para sumir no site */
-  padding: 60px 0 30px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  margin-top: auto; /* Empurra para o fim da página se usar flex no App */
+  margin-top: auto;
+  padding: 64px 0 28px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(60% 55% at 50% 0%, var(--ft-glow), transparent 70%),
+    radial-gradient(
+      35% 40% at 92% 100%,
+      rgba(130, 90, 255, 0.07),
+      transparent 70%
+    ),
+    var(--ft-bg);
+  color: var(--ft-fg);
+  border-top: 1px solid var(--ft-line);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
-/* Container centralizador */
+/* linha de brilho no topo */
+.sponsors-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ft-accent),
+    transparent
+  );
+  opacity: 0.9;
+}
+
+/* marca d'água */
+.footer-watermark {
+  position: absolute;
+  left: 50%;
+  bottom: -0.18em;
+  transform: translateX(-50%);
+  font-size: clamp(9rem, 26vw, 22rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--ft-mark);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
 .footer-container {
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 36px;
   padding: 0 20px;
 }
 
@@ -24,165 +90,262 @@
   align-items: center;
 }
 
-/* Texto "PATROCINADORES OFICIAIS" */
+/* título com linhas laterais */
 .footer-label {
-  color: #555;
-  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin: 0 0 28px;
+  color: var(--ft-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
   letter-spacing: 4px;
   text-transform: uppercase;
-  margin-bottom: 30px;
-  font-weight: 400;
+  white-space: nowrap;
 }
 
-/* Container das Logos */
-.sponsors-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-}
-
-/* Item de Patrocinador (Efeito comum para todos) */
-.sponsor-item img {
-  width: auto;
-  filter: grayscale(1) brightness(0.8); /* Fica P&B por padrão */
-  transition: all 0.4s ease;
-  opacity: 0.7;
-}
-
-.sponsor-item:hover img {
-  filter: grayscale(0) brightness(1); /* Ganha cor no hover */
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-/* Estilo específico para o Patrocinador Master (Topo) */
-.sponsor-item.master img {
-  height: 200px; /* Maior que os outros */
-}
-
-/* A linha divisória dourada (estilo a sua imagem) */
-.footer-divider {
-  width: 100%;
-  max-width: 1000px;
+.footer-label::before,
+.footer-label::after {
+  content: "";
+  flex: 1;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(212, 175, 55, 0.4),
-    /* Dourado suave */ transparent
-  );
-  margin: 15px 0;
+  background: var(--ft-line);
 }
 
-/* Container dos patrocinadores de baixo */
-.sponsors-secondary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 60px; /* Espaço entre os dois de baixo */
-  margin-bottom: 20px;
-}
-
-.sponsors-secondary img {
-  height: 100px; /* Menores para dar hierarquia */
-}
-
-/* Parte final: Copyright e Lema */
-.footer-bottom {
-  margin-top: 50px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
-  text-align: center;
+/* ==========================================================================
+   GRADE DE PATROCINADORES (células coladas por linhas de 1px)
+   ========================================================================== */
+.sponsors-display {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 1px;
   width: 100%;
+  background: var(--ft-line);
+  border: 1px solid var(--ft-line);
 }
 
-.footer-bottom p {
-  color: #444;
-  font-size: 11px;
-  margin-bottom: 8px;
-}
-
-.footer-motto {
-  color: #d4af37; /* Dourado do seu tema */
-  font-family: "serif";
-  font-style: italic;
-  font-size: 14px;
-  letter-spacing: 1px;
-  opacity: 0.8;
-}
-
-.footer-socials {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px; /* Espaço entre os ícones */
-  margin: 30px 0 10px 0; /* Espaço após os patrocinadores e antes do copyright */
-  width: 100%;
-}
-
-.social-link {
-  color: #d4af37; /* Dourado do seu tema */
-  text-decoration: none;
+.sponsor-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  opacity: 0.6; /* Começa um pouco apagado como os patrocinadores */
+  min-height: 190px;
+  padding: 36px 24px 24px;
+  background: var(--ft-bg);
+  box-sizing: border-box;
+  transition: background 0.3s ease;
 }
 
-/* Efeito de Hover igual ao dos patrocinadores */
-.social-link:hover {
-  color: #fff; /* Muda para branco no hover */
-  opacity: 1;
-  transform: translateY(-3px); /* Leve subida */
-  filter: drop-shadow(
-    0 0 8px rgba(212, 175, 55, 0.4)
-  ); /* Brilho dourado suave */
+.sponsor-item:hover {
+  background:
+    radial-gradient(80% 80% at 50% 0%, var(--ft-glow), transparent 70%),
+    var(--ft-hover);
 }
 
-/* Ajuste do SVG para manter o padrão visual */
-.social-link svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.5px; /* Deixa o ícone mais elegante/fino */
-}
-
-.egg-trigger {
-  cursor: default; /* Ou 'pointer' se quiser facilitar a descoberta */
-  user-select: none; /* Evita que o texto fique azul ao clicar rápido */
+.sponsor-tag {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ft-muted);
   transition: color 0.3s ease;
 }
 
-/* Opcional: um brilho dourado beeeeem sutil quando passa o mouse, 
-   quase imperceptível para quem não está procurando */
-.egg-trigger:hover {
-  color: #d4af37;
+.sponsor-item:hover .sponsor-tag {
+  color: var(--ft-accent);
 }
 
-/* Responsividade para Celular */
-@media (max-width: 600px) {
-  .sponsors-secondary {
-    gap: 30px;
+.sponsor-item img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 90px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0.8);
+  opacity: 0.7;
+  transition:
+    filter 0.4s ease,
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.sponsor-item.master img {
+  max-height: 140px;
+}
+
+.sponsor-item:hover img {
+  filter: grayscale(0) brightness(1);
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   FAIXA DO MEIO: Instagram · lema · topo
+   ========================================================================== */
+.footer-mid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 0;
+  border-top: 1px solid var(--ft-line);
+  border-bottom: 1px solid var(--ft-line);
+}
+
+.social-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  color: var(--ft-fg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  border: 1px solid var(--ft-line);
+  opacity: 1;
+  transition: all 0.25s ease;
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5px;
+  color: var(--ft-accent);
+  transition: color 0.25s ease;
+}
+
+.social-link:hover {
+  color: var(--ft-bg);
+  background: var(--ft-accent);
+  border-color: var(--ft-accent);
+  box-shadow: 0 0 18px var(--ft-glow);
+  transform: none;
+  filter: none;
+}
+
+.social-link:hover svg {
+  color: var(--ft-bg);
+}
+
+.footer-motto {
+  justify-self: center;
+  text-align: center;
+  color: var(--ft-accent);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.footer-top-btn {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid var(--ft-line);
+  color: var(--ft-muted);
+  font: inherit;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.footer-top-btn:hover {
+  color: var(--ft-fg);
+  border-color: var(--ft-fg);
+}
+
+/* ==========================================================================
+   COPYRIGHT
+   ========================================================================== */
+.footer-bottom {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: var(--ft-muted);
+  font-size: 0.66rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Easter egg: sutil */
+.egg-trigger {
+  cursor: default;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.egg-trigger:hover {
+  color: var(--ft-accent);
+}
+
+/* ==========================================================================
+   RESPONSIVO
+   ========================================================================== */
+@media (max-width: 800px) {
+  .sponsors-footer {
+    padding: 48px 0 24px;
+  }
+
+  .sponsors-display {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sponsor-item.master {
+    grid-column: 1 / -1;
+    min-height: 180px;
+  }
+
+  .sponsor-item {
+    min-height: 140px;
+    padding: 34px 16px 18px;
+  }
+
+  .sponsor-item img {
+    max-height: 70px;
   }
 
   .sponsor-item.master img {
-    height: 200px;
+    max-height: 110px;
   }
 
-  .sponsors-secondary img {
-    height: 100px;
+  .footer-mid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
   }
 
-  .footer-socials {
-    gap: 35px; /* Aumenta o espaço do clique no celular */
-    margin-top: 40px;
+  .footer-motto {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .footer-label {
+    font-size: 0.58rem;
+    letter-spacing: 3px;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR E TROCA DE PATROCINADORES (PRETO E BRANCO PREMIUM)
+   TEMA IDR E TROCA DE PATROCINADORES (só troca as variáveis)
    ========================================================================== */
 
 /* 1. Esconde os elementos do IDR por padrão */
@@ -191,42 +354,27 @@
   display: none;
 }
 
-/* 2. Regras quando o TEMA IDR estiver ativo */
-/* Fundo do Footer */
+/* 2. Variáveis no tema IDR */
 .theme-idr .sponsors-footer {
-  background: #ffffff !important;
-  border-top: 1px solid #ccc !important;
-  color: #111 !important;
+  --ft-bg: #ffffff;
+  --ft-hover: #f5f5f5;
+  --ft-line: #d9d9d9;
+  --ft-fg: #000000;
+  --ft-muted: #777777;
+  --ft-accent: #000000;
+  --ft-glow: rgba(0, 0, 0, 0.05);
+  --ft-mark: rgba(0, 0, 0, 0.04);
 }
 
-/* Textos e Divisórias */
-.theme-idr .footer-label,
-.theme-idr .footer-bottom p,
+.theme-idr .sponsors-footer::before {
+  opacity: 0.5;
+}
+
 .theme-idr .footer-motto {
-  color: #555 !important;
+  color: #555555;
 }
 
-.theme-idr .footer-divider {
-  background: #ddd !important;
-}
-
-.theme-idr .sponsors-secondary img {
-  height: 50px !important;
-}
-
-/* Ícone do Instagram */
-.theme-idr .social-link {
-  color: #000 !important;
-  background: #f5f5f5 !important;
-  border-color: #ccc !important;
-}
-
-.theme-idr .social-link:hover {
-  background: #000000 !important;
-  color: #fff !important;
-}
-
-/* 3. O Truque Mágico: Inverte as Imagens e Textos (ADR sai, IDR entra) */
+/* 3. Inverte imagens e textos (ADR sai, IDR entra) */
 .theme-idr .img-adr,
 .theme-idr .text-adr {
   display: none !important;
@@ -234,6 +382,14 @@
 
 .theme-idr .img-idr {
   display: block !important;
+}
+
+.theme-idr .text-idr {
+  display: inline !important;
+}
+
+.theme-idr .footer-watermark .text-idr {
+  display: inline !important;
 }
 
 .theme-idr .egg-trigger:hover,
