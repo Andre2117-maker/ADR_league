@@ -1,128 +1,264 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap");
 
-/* ==========================================================================
-   1. CONTAINER PRINCIPAL E VARIÁVEIS DE TEMA (O ADR & IDR)
-   ========================================================================== */
 .banners-wrapper {
+  --mw-bg: #050505;
+  --mw-hover: #0d0d0d;
+  --mw-line: #2b2b2b;
+  --mw-fg: #ffffff;
+  --mw-muted: #7a7a7a;
+  --mw-accent: #d4af37;
+  --mw-on-accent: #000000;
+
   display: flex;
   flex-direction: column;
-  gap: 26px;
-  padding: 20px 16px;
+  gap: 22px;
+  padding: 20px 0;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  overflow-x: clip;
+}
+
+.mb-carousel {
+  --mb-slide-w: min(880px, 78vw);
+  --mb-gap: 28px;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.mb-viewport {
+  position: relative;
+  width: 100%;
+  padding: 26px 0;
+  overflow: hidden;
+  outline: none;
+  touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+}
+
+.mb-viewport:focus-visible {
+  outline: 1px dashed var(--mw-accent);
+  outline-offset: -6px;
+}
+
+.mb-track {
+  display: flex;
+  align-items: center;
+  gap: var(--mb-gap);
+  width: max-content;
+  margin-left: calc(50% - var(--mb-slide-w) / 2);
+  transform: translateX(
+    calc(var(--active) * (var(--mb-slide-w) + var(--mb-gap)) * -1)
+  );
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.mb-slide {
+  flex: 0 0 var(--mb-slide-w);
+  width: var(--mb-slide-w);
+  transform: scale(calc(1 - var(--d, 0) * 0.14));
+  opacity: calc(1 - var(--d, 0) * 0.55);
+  filter: blur(calc(var(--d, 0) * 3px));
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease,
+    filter 0.5s ease;
+  cursor: default;
+}
+
+.mb-slide:not(.is-active) {
+  cursor: pointer;
+}
+
+.mb-slide:not(.is-active) > * {
+  pointer-events: none;
+}
+
+.mb-slide:not(.is-active):hover {
+  opacity: calc(1 - var(--d, 0) * 0.4);
+  filter: blur(calc(var(--d, 0) * 2px));
+}
+
+.mb-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--mw-fg);
+}
+
+.mb-arrow {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--mw-line);
+  border-radius: 0;
+  color: var(--mw-fg);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mb-arrow:hover {
+  background: var(--mw-accent);
+  border-color: var(--mw-accent);
+  color: var(--mw-on-accent);
+}
+
+.mb-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mb-dot {
+  width: 18px;
+  height: 3px;
+  padding: 0;
+  background: var(--mw-line);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    width 0.3s ease;
+}
+
+.mb-dot:hover {
+  background: var(--mw-muted);
+}
+
+.mb-dot.is-active {
+  width: 34px;
+  background: var(--mw-accent);
+  box-shadow: 0 0 8px var(--mw-accent);
+}
+
+.mb-counter {
+  min-width: 34px;
+  text-align: center;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--mw-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .match-banner-container {
-  /* Paleta Padrão: Treino O ADR (Preto Ônix & Ouro) */
   --mb-accent: #d4af37;
   --mb-accent-bright: #f5dc82;
-  --mb-accent-glow: rgba(212, 175, 55, 0.2);
-  --mb-bg: linear-gradient(145deg, #16161a 0%, #09090b 100%);
-  --mb-badge-bg: linear-gradient(90deg, #b8860b, #f5dc82, #b8860b);
+  --mb-accent-glow: rgba(212, 175, 55, 0.18);
+  --mb-surface: #050505;
+  --mb-line: #2b2b2b;
+  --mb-fg: #ffffff;
+  --mb-muted: #8a8a8a;
   --mb-badge-text: #000000;
 
-  width: 100%;
-  max-width: 880px;
-  background: var(--mb-bg);
-  border: 1px solid rgba(212, 175, 55, 0.38);
-  border-radius: 18px;
   position: relative;
-  overflow: hidden;
-  box-shadow:
-    0 20px 45px rgba(0, 0, 0, 0.8),
-    0 0 25px var(--mb-accent-glow);
-  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 55% at 50% 0%, var(--mb-accent-glow), transparent 70%),
+    var(--mb-surface);
+  color: var(--mb-fg);
+  border: 1px solid var(--mb-line);
+  border-radius: 0;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.match-banner-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--mb-accent),
+    transparent
+  );
+  z-index: 4;
 }
 
 .match-banner-container:hover {
-  transform: translateY(-2px);
+  transform: none;
 }
 
-/* --- VARIAÇÕES DE CORES POR TIPO DE BANNER --- */
-
-/* Amistoso (Azul Safira) */
 .match-banner-container.type-amistoso {
   --mb-accent: #3b82f6;
   --mb-accent-bright: #93c5fd;
-  --mb-accent-glow: rgba(59, 130, 246, 0.22);
-  --mb-bg: linear-gradient(145deg, #0b1528 0%, #060a12 100%);
-  --mb-badge-bg: linear-gradient(90deg, #1d4ed8, #60a5fa, #1d4ed8);
+  --mb-accent-glow: rgba(59, 130, 246, 0.2);
   --mb-badge-text: #ffffff;
-  border-color: rgba(59, 130, 246, 0.45);
 }
 
-/* Campeonato (Roxo Imperial) */
 .match-banner-container.type-campeonato {
   --mb-accent: #9333ea;
   --mb-accent-bright: #d8b4fe;
-  --mb-accent-glow: rgba(147, 51, 234, 0.25);
-  --mb-bg: linear-gradient(145deg, #190b28 0%, #09050f 100%);
-  --mb-badge-bg: linear-gradient(90deg, #6b21a8, #c084fc, #6b21a8);
+  --mb-accent-glow: rgba(147, 51, 234, 0.22);
   --mb-badge-text: #ffffff;
-  border-color: rgba(147, 51, 234, 0.45);
 }
 
-/* Vaquinha / Arrecadação (Esmeralda & Ouro) */
 .match-banner-container.type-arrecadacao {
   --mb-accent: #10b981;
   --mb-accent-bright: #6ee7b7;
-  --mb-accent-glow: rgba(16, 185, 129, 0.2);
-  --mb-bg: linear-gradient(145deg, #0c1c17 0%, #070b09 100%);
-  --mb-badge-bg: linear-gradient(90deg, #059669, #34d399, #059669);
+  --mb-accent-glow: rgba(16, 185, 129, 0.18);
   --mb-badge-text: #000000;
-  border-color: rgba(16, 185, 129, 0.45);
 }
 
-/* ==========================================================================
-   2. BADGE DE TOPO E LAYOUT DE PARTIDAS (TREINO / AMISTOSO / CAMPEONATO)
-   ========================================================================== */
 .banner-badge {
-  background: var(--mb-badge-bg);
-  color: var(--mb-badge-text);
-  font-weight: 900;
-  padding: 6px 32px;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  text-transform: uppercase;
-  font-size: 0.76rem;
-  letter-spacing: 2.5px;
   z-index: 3;
-  box-shadow: 0 4px 15px var(--mb-accent-glow);
+  padding: 6px 26px;
+  background: var(--mb-accent);
+  color: var(--mb-badge-text);
+  border-radius: 0;
+  box-shadow: 0 0 18px var(--mb-accent-glow);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 .banner-content {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 52px 32px 36px;
   min-height: 190px;
-  position: relative;
-}
-
-.banner-content::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(
-    circle,
-    var(--mb-accent-glow) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
+  padding: 56px 32px 38px;
 }
 
 .banner-team {
@@ -143,39 +279,40 @@
 }
 
 .banner-team:hover .banner-logo {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .banner-team-name {
-  color: #ffffff;
+  color: var(--mb-fg);
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .banner-info {
   flex: 1.3;
-  text-align: center;
-  color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  text-align: center;
+  color: var(--mb-fg);
   z-index: 1;
 }
 
 .banner-datetime {
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: 1.2px;
-  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--mb-fg);
+  font-variant-numeric: tabular-nums;
 }
 
 .b-divider {
@@ -183,35 +320,39 @@
 }
 
 .banner-location {
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #cbd5e1;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  letter-spacing: 1.8px;
-  margin-top: 2px;
+  color: var(--mb-muted);
 }
 
-/* Cronômetro Digital */
 .banner-countdown {
-  font-family: "Orbitron", sans-serif;
-  background: rgba(0, 0, 0, 0.65);
-  color: var(--mb-accent-bright);
-  padding: 8px 18px;
-  border-radius: 10px;
-  border: 1px solid var(--mb-accent);
-  font-weight: 800;
-  font-size: 0.95rem;
-  letter-spacing: 1.5px;
   display: inline-block;
-  margin-top: 8px;
-  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
+  margin-top: 6px;
+  padding: 8px 16px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--mb-accent-bright);
+  background: transparent;
+  border: 1px solid var(--mb-accent);
+  border-radius: 0;
+  box-shadow: inset 0 0 18px var(--mb-accent-glow);
 }
 
 .banner-countdown.is-live {
-  background: rgba(0, 230, 118, 0.15);
-  border-color: #00e676;
   color: #00e676;
+  border-color: #00e676;
+  background: rgba(0, 230, 118, 0.08);
   animation: pulseLive 1.5s infinite alternate;
+}
+
+.banner-countdown.is-ended {
+  color: var(--mb-muted);
+  border-color: var(--mb-line);
+  box-shadow: none;
 }
 
 @keyframes pulseLive {
@@ -239,14 +380,11 @@
   filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.6));
 }
 
-/* ==========================================================================
-   3. CARD DE VAQUINHA / ARRECADAÇÃO DE CAMISAS
-   ========================================================================== */
 .banner-fundraiser-content {
-  padding: 50px 32px 28px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding: 54px 32px 28px;
 }
 
 .fundraiser-header {
@@ -263,75 +401,75 @@
 }
 
 .fundraiser-kicker {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 2px;
-  color: #34d399;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  color: var(--mb-accent);
 }
 
 .fundraiser-title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 900;
-  color: #ffffff;
-  text-transform: uppercase;
   letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--mb-fg);
 }
 
 .fundraiser-subtitle {
   margin: 2px 0 0;
-  font-size: 0.86rem;
-  color: #94a3b8;
+  font-size: 0.82rem;
+  color: var(--mb-muted);
 }
 
 .fundraiser-percent-circle {
-  background: rgba(16, 185, 129, 0.12);
-  border: 2px solid #10b981;
-  border-radius: 16px;
-  padding: 10px 18px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid var(--mb-accent);
+  border-radius: 0;
+  box-shadow: 0 0 20px var(--mb-accent-glow);
 }
 
 .percent-big {
   font-family: "Orbitron", sans-serif;
-  font-size: 1.55rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  color: #34d399;
   line-height: 1;
+  color: var(--mb-accent-bright);
 }
 
 .percent-sub {
-  font-size: 0.58rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: #a7f3d0;
   margin-top: 4px;
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--mb-muted);
 }
 
-/* Barra de Progresso */
 .fundraiser-progress-track {
   width: 100%;
-  height: 16px;
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 100px;
+  height: 6px;
+  padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2px;
+  background: var(--mb-line);
+  border: none;
+  border-radius: 0;
   box-sizing: border-box;
 }
 
 .fundraiser-progress-fill {
+  position: relative;
   height: 100%;
-  background: linear-gradient(90deg, #d4af37 0%, #10b981 100%);
-  border-radius: 100px;
+  background: linear-gradient(90deg, #d4af37 0%, var(--mb-accent) 100%);
+  border-radius: 0;
+  box-shadow: 0 0 14px var(--mb-accent-glow);
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 0 14px rgba(16, 185, 129, 0.5);
 }
 
 .fundraiser-bottom-row {
@@ -347,96 +485,148 @@
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  font-size: 0.88rem;
-  color: #cbd5e1;
+  font-size: 0.84rem;
+  color: var(--mb-muted);
 }
 
 .amount-raised strong {
-  color: #34d399;
   font-size: 1.05rem;
   font-weight: 900;
+  color: var(--mb-accent-bright);
 }
 
 .amount-target {
-  color: #94a3b8;
   font-weight: 600;
+  color: var(--mb-muted);
 }
 
 .fundraiser-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .pix-copy-btn {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: #000000;
-  border: none;
   padding: 9px 16px;
-  border-radius: 10px;
-  font-size: 0.76rem;
+  background: var(--mb-accent);
+  color: var(--mb-badge-text);
+  border: 1px solid var(--mb-accent);
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.7rem;
   font-weight: 900;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .pix-copy-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  transform: none;
+  box-shadow: 0 0 18px var(--mb-accent-glow);
 }
 
 .admin-quick-edit-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
   padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 0.74rem;
-  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--mb-line);
+  border-radius: 0;
+  color: var(--mb-fg);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .admin-quick-edit-btn:hover {
-  border-color: #d4af37;
-  color: #d4af37;
+  border-color: var(--mb-accent);
+  color: var(--mb-accent);
 }
 
-/* ==========================================================================
-   4. CARD DE NOTÍCIAS / COMUNICADO OFICIAL
-   ========================================================================== */
 .banner-news-content {
-  padding: 50px 32px 30px;
   display: grid;
   gap: 24px;
   align-items: center;
+  padding: 54px 32px 30px;
 }
 
 .banner-news-content.has-image {
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
 }
 
 .banner-news-content.no-image {
   grid-template-columns: 1fr;
 }
 
+/* A imagem mantém a proporção original e pode ser ampliada pelo clique. */
 .news-image-box {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 165px;
-  border-radius: 12px;
+  min-height: 220px;
+  max-height: 420px;
+  padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  background: #000;
+  background: #080808;
+  border: 1px solid var(--mb-line);
+  border-radius: 0;
+  cursor: zoom-in;
 }
 
 .news-image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+/* Visualizador da imagem em tela ampliada */
+.news-image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(0, 0, 0, 0.94);
+  cursor: zoom-out;
+}
+
+.news-image-lightbox img {
+  display: block;
+  max-width: min(96vw, 1400px);
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.65);
+  cursor: default;
+}
+
+.news-image-lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #fff;
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .news-text-box {
@@ -447,152 +637,172 @@
 
 .news-tag-pill {
   display: inline-block;
-  background: rgba(212, 175, 55, 0.14);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: #d4af37;
-  font-size: 0.65rem;
-  font-weight: 900;
-  letter-spacing: 1.5px;
   padding: 3px 10px;
-  border-radius: 100px;
+  background: transparent;
+  border: 1px solid var(--mb-accent);
+  border-radius: 0;
+  color: var(--mb-accent);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .news-headline {
   margin: 0;
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   font-weight: 900;
-  color: #ffffff;
   line-height: 1.25;
+  color: var(--mb-fg);
 }
 
 .news-body-text {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   line-height: 1.55;
-  color: #cbd5e1;
+  color: var(--mb-muted);
   white-space: pre-line;
 }
 
-/* ==========================================================================
-   5. RODAPÉ ANIMADO E BOTÕES DE ADMIN
-   ========================================================================== */
 .banner-footer {
-  background: var(--mb-accent);
-  color: var(--mb-badge-text);
-  padding: 6px 0;
   overflow: hidden;
   white-space: nowrap;
+  padding: 6px 0;
+  background: var(--mb-accent);
+  color: var(--mb-badge-text);
+  font-size: 0.68rem;
   font-weight: 900;
-  font-size: 0.76rem;
   letter-spacing: 2px;
 }
 
 .scrolling-text {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scroll-text 20s linear infinite;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  white-space: nowrap;
   text-transform: uppercase;
+  will-change: transform;
+  animation: adr-marquee 20s linear infinite !important;
 }
 
-@keyframes scroll-text {
+.scrolling-text span {
+  display: inline-block;
+  flex: 0 0 auto;
+  padding-right: 2.5rem;
+}
+
+@keyframes adr-marquee {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-100%);
+    /* Com 4 cópias iguais, -50% move exatamente 2 cópias e faz o loop contínuo */
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .del-btn {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(255, 68, 68, 0.14);
-  color: #ff5252;
-  border: 1px solid rgba(255, 68, 68, 0.35);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: 900;
+  top: 10px;
+  right: 10px;
   z-index: 10;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  color: #ff5252;
+  border: 1px solid rgba(255, 82, 82, 0.45);
+  border-radius: 0;
+  font-weight: 900;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .del-btn:hover {
   background: #ff5252;
   color: #ffffff;
-  transform: scale(1.1);
+  transform: none;
 }
 
-/* Painel Criador (Admin) */
 .admin-toggle-btn {
-  background: rgba(212, 175, 55, 0.1);
-  color: #d4af37;
-  border: 1px solid #d4af37;
-  padding: 11px 24px;
-  border-radius: 10px;
-  cursor: pointer;
+  padding: 11px 22px;
+  background: transparent;
+  color: var(--mw-accent);
+  border: 1px solid var(--mw-accent);
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.7rem;
   font-weight: 900;
-  font-size: 0.78rem;
-  letter-spacing: 1.2px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .admin-toggle-btn:hover {
-  background: #d4af37;
-  color: #000000;
+  background: var(--mw-accent);
+  color: var(--mw-on-accent);
 }
 
 .admin-internal-panel {
-  background: #121215;
-  padding: 22px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 880px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding: 22px;
+  background: var(--mw-bg);
+  border: 1px solid var(--mw-line);
+  border-radius: 0;
+  box-sizing: border-box;
 }
 
 .admin-type-selector-bar {
   display: flex;
-  gap: 8px;
+  gap: 0;
   flex-wrap: wrap;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 14px;
+  border: 1px solid var(--mw-line);
 }
 
 .admin-type-pill {
   flex: 1;
-  min-width: 130px;
-  background: #1a1a20;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #94a3b8;
-  padding: 10px 12px;
-  border-radius: 10px;
-  font-size: 0.75rem;
+  min-width: 120px;
+  padding: 11px 12px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--mw-line);
+  border-radius: 0;
+  color: var(--mw-muted);
+  font: inherit;
+  font-size: 0.68rem;
   font-weight: 800;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-type-pill:last-child {
+  border-right: none;
+}
+
+.admin-type-pill:hover {
+  background: var(--mw-hover);
+  color: var(--mw-fg);
 }
 
 .admin-type-pill.active {
-  background: #d4af37;
-  color: #000000;
-  border-color: #d4af37;
+  background: var(--mw-accent);
+  color: var(--mw-on-accent);
 }
 
 .admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 12px;
 }
 
 .full-width {
@@ -602,31 +812,37 @@
 .admin-grid input,
 .admin-grid select,
 .admin-textarea {
+  width: 100%;
   padding: 12px;
-  background: #1c1c22;
-  border: 1px solid #33333d;
-  color: #ffffff;
-  border-radius: 10px;
+  background: var(--mw-bg);
+  color: var(--mw-fg);
+  border: 1px solid var(--mw-line);
+  border-radius: 0;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   outline: none;
   box-sizing: border-box;
-  width: 100%;
+  transition: border-color 0.2s ease;
 }
 
 .admin-grid input:focus,
 .admin-grid select:focus,
 .admin-textarea:focus {
-  border-color: #d4af37;
+  border-color: var(--mw-accent);
+}
+
+.admin-grid select option {
+  background: #111;
+  color: #fff;
 }
 
 .upload-group {
   display: flex;
   gap: 14px;
-  background: #18181d;
   padding: 14px;
-  border-radius: 10px;
-  border: 1px dashed #383842;
+  background: transparent;
+  border: 1px dashed var(--mw-line);
+  border-radius: 0;
 }
 
 .upload-col {
@@ -637,119 +853,103 @@
 }
 
 .upload-col label {
-  color: #94a3b8;
-  font-size: 0.74rem;
+  font-size: 0.62rem;
   font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  color: var(--mw-muted);
 }
 
 .confirm-btn {
   grid-column: span 2;
-  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-  color: #000000;
-  border: none;
   padding: 14px;
+  background: var(--mw-accent);
+  color: var(--mw-on-accent);
+  border: 1px solid var(--mw-accent);
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.78rem;
   font-weight: 900;
-  font-size: 0.9rem;
-  letter-spacing: 1.2px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
-  border-radius: 10px;
 }
 
-/* ==========================================================================
-   6. TEMA IDR (MARFIM, BRANCO & ÔNIX COMPLETO)
-   ========================================================================== */
+.confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.theme-idr .banners-wrapper {
+  --mw-bg: #ffffff;
+  --mw-hover: #f5f5f5;
+  --mw-line: #d9d9d9;
+  --mw-fg: #000000;
+  --mw-muted: #777777;
+  --mw-accent: #000000;
+  --mw-on-accent: #ffffff;
+}
+
 .theme-idr .match-banner-container {
   --mb-accent: #111111;
   --mb-accent-bright: #111111;
   --mb-accent-glow: rgba(0, 0, 0, 0.06);
-  --mb-bg: #ffffff;
-  --mb-badge-bg: #111111;
+  --mb-surface: #ffffff;
+  --mb-line: #d9d9d9;
+  --mb-fg: #111111;
+  --mb-muted: #666666;
   --mb-badge-text: #ffffff;
-  border-color: #dcdcd4 !important;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06) !important;
+
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.07);
 }
 
 .theme-idr .match-banner-container.type-amistoso {
   --mb-accent: #1d4ed8;
-  --mb-badge-bg: #1d4ed8;
-  border-color: #93c5fd !important;
+  --mb-accent-bright: #1d4ed8;
 }
 
 .theme-idr .match-banner-container.type-campeonato {
   --mb-accent: #7e22ce;
-  --mb-badge-bg: #7e22ce;
-  border-color: #d8b4fe !important;
+  --mb-accent-bright: #7e22ce;
 }
 
 .theme-idr .match-banner-container.type-arrecadacao {
   --mb-accent: #0d5c46;
-  --mb-badge-bg: #0d5c46;
-  --mb-badge-text: #ffffff;
-  border-color: #6ee7b7 !important;
-}
-
-.theme-idr .banner-team-name,
-.theme-idr .banner-datetime,
-.theme-idr .fundraiser-title,
-.theme-idr .news-headline {
-  color: #111111 !important;
-}
-
-.theme-idr .banner-location,
-.theme-idr .fundraiser-subtitle,
-.theme-idr .news-body-text,
-.theme-idr .fundraiser-amounts {
-  color: #475569 !important;
+  --mb-accent-bright: #0d5c46;
 }
 
 .theme-idr .banner-countdown {
-  background: #111111 !important;
-  color: #ffffff !important;
-  border-color: #111111 !important;
+  background: transparent;
 }
 
-.theme-idr .fundraiser-progress-track {
-  background: #e2e8f0 !important;
-  border-color: #cbd5e1 !important;
+.theme-idr .banner-countdown.is-live {
+  color: #0d5c46;
+  border-color: #0d5c46;
+  background: rgba(13, 92, 70, 0.08);
 }
 
-.theme-idr .fundraiser-percent-circle {
-  background: #f0fdf4 !important;
-  border-color: #0d5c46 !important;
+.theme-idr .admin-grid select option {
+  background: #fff;
+  color: #000;
 }
 
-.theme-idr .percent-big,
-.theme-idr .amount-raised strong,
-.theme-idr .fundraiser-kicker {
-  color: #0d5c46 !important;
-}
-
-.theme-idr .percent-sub {
-  color: #111111 !important;
-}
-
-.theme-idr .news-tag-pill {
-  background: #111111 !important;
-  color: #ffffff !important;
-  border-color: #111111 !important;
-}
-
-/* ==========================================================================
-   7. RESPONSIVIDADE CELULAR (MOBILE)
-   ========================================================================== */
 @media (max-width: 768px) {
+  .mb-carousel {
+    --mb-slide-w: 78vw;
+    --mb-gap: 14px;
+  }
+
   .banner-content {
     flex-direction: column;
-    padding: 46px 16px 26px;
     gap: 20px;
+    padding: 50px 16px 26px;
   }
 
   .banner-info {
     width: 100%;
     padding: 14px 0;
-    border-top: 1px solid rgba(148, 163, 184, 0.12);
-    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    border-top: 1px solid var(--mb-line);
+    border-bottom: 1px solid var(--mb-line);
   }
 
   .banner-logo,
@@ -759,17 +959,17 @@
   }
 
   .banner-datetime {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
   }
 
   .banner-countdown {
-    font-size: 0.82rem;
-    padding: 7px 12px;
+    font-size: 0.74rem;
+    padding: 7px 10px;
   }
 
   .banner-fundraiser-content,
   .banner-news-content {
-    padding: 46px 16px 22px;
+    padding: 50px 16px 22px;
   }
 
   .fundraiser-header {
@@ -789,6 +989,15 @@
     grid-template-columns: 1fr;
   }
 
+  .news-image-box {
+    min-height: 0;
+    max-height: 520px;
+  }
+
+  .news-image-box img {
+    max-height: 520px;
+  }
+
   .admin-grid {
     grid-template-columns: 1fr;
   }
@@ -800,5 +1009,10 @@
 
   .upload-group {
     flex-direction: column;
+  }
+
+  .admin-type-pill {
+    min-width: 50%;
+    border-bottom: 1px solid var(--mw-line);
   }
 }

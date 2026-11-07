@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../firebase";
 import {
   collection,
@@ -26,18 +26,15 @@ const compressBannerImage = (file, maxWidth = 480) => {
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
-
         if (width > maxWidth) {
           height = Math.round((height * maxWidth) / width);
           width = maxWidth;
         }
-
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, width, height);
         ctx.drawImage(img, 0, 0, width, height);
-
         resolve(canvas.toDataURL("image/webp", 0.82));
       };
       img.onerror = reject;
@@ -55,7 +52,6 @@ const Countdown = ({ targetDate, targetTime }) => {
 
   useEffect(() => {
     if (!targetDate || !targetTime) return;
-
     const updateTimer = () => {
       const target = new Date(`${targetDate}T${targetTime}:00`).getTime();
       const now = new Date().getTime();
@@ -78,8 +74,8 @@ const Countdown = ({ targetDate, targetTime }) => {
       );
       const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const s = Math.floor((distance % (1000 * 60)) / 1000);
-
       const format = (num) => String(num).padStart(2, "0");
+
       setTimeLeft(
         `FALTAM: ${format(d)}d : ${format(h)}h : ${format(m)}m : ${format(s)}s`,
       );
@@ -92,7 +88,6 @@ const Countdown = ({ targetDate, targetTime }) => {
   }, [targetDate, targetTime]);
 
   if (!timeLeft) return null;
-
   return <div className={`banner-countdown ${statusClass}`}>{timeLeft}</div>;
 };
 
@@ -104,6 +99,22 @@ const MatchBanner = ({ isAdmin }) => {
   const [savedVenues, setSavedVenues] = useState([]);
   const [copiedId, setCopiedId] = useState(null);
   const [isIdrTheme, setIsIdrTheme] = useState(false);
+  const [expandedNewsImage, setExpandedNewsImage] = useState(null);
+
+  // Fecha a imagem ampliada ao pressionar ESC.
+  useEffect(() => {
+    if (!expandedNewsImage) return;
+    const handleEscape = (event) => {
+      if (event.key === "Escape") setExpandedNewsImage(null);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [expandedNewsImage]);
+
+  // Carrossel: índice do alerta em destaque
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const touchX = useRef(null);
 
   const initialFormState = {
     title: "TREINO",
@@ -139,7 +150,6 @@ const MatchBanner = ({ isAdmin }) => {
         Boolean(document.querySelector(".theme-idr"));
       setIsIdrTheme(hasIdr);
     };
-
     checkTheme();
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, {
@@ -147,7 +157,6 @@ const MatchBanner = ({ isAdmin }) => {
       subtree: true,
       attributeFilter: ["class"],
     });
-
     return () => observer.disconnect();
   }, []);
 
@@ -179,7 +188,6 @@ const MatchBanner = ({ isAdmin }) => {
       NOTICIA:
         "PLANTÃO D'O ADR • COMUNICADO OFICIAL DA DIRETORIA • FIQUE POR DENTRO •",
     };
-
     setFormData((prev) => ({
       ...prev,
       footerText: defaultFooters[bannerType] || defaultFooters.TREINO,
@@ -195,7 +203,6 @@ const MatchBanner = ({ isAdmin }) => {
         id: docSnap.id,
         ...docSnap.data(),
       }));
-
       const filteredBanners = data.filter((b) => {
         // Vaquinhas e Notícias permanecem ativas até o Admin deletar
         if (b.type === "ARRECADACAO" || b.type === "NOTICIA") return true;
@@ -204,22 +211,55 @@ const MatchBanner = ({ isAdmin }) => {
         // Partidas expiram 12 horas após o horário marcado
         return now - matchTime < 12 * 60 * 60 * 1000;
       });
-
       setBanners(filteredBanners);
     });
     return () => unsubscribe();
   }, []);
 
+  // Mantém o índice válido quando um banner é removido/expira
+  const total = banners.length;
+  const safeActive = Math.min(active, Math.max(total - 1, 0));
+
+  const goTo = (i) => {
+    if (total === 0) return;
+    setActive(((i % total) + total) % total);
+  };
+
+  // Troca automática (pausa ao passar o mouse, tocar ou com o painel admin aberto)
+  useEffect(() => {
+    if (total < 2 || paused || showAdmin) return;
+    const t = setTimeout(() => goTo(safeActive + 1), 9000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [safeActive, total, paused, showAdmin]);
+
+  const onTouchStart = (e) => {
+    touchX.current = e.touches[0].clientX;
+    setPaused(true);
+  };
+
+  const onTouchEnd = (e) => {
+    if (touchX.current !== null) {
+      const dx = e.changedTouches[0].clientX - touchX.current;
+      if (Math.abs(dx) > 50) goTo(safeActive + (dx < 0 ? 1 : -1));
+    }
+    touchX.current = null;
+    setPaused(false);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "ArrowRight") goTo(safeActive + 1);
+    if (e.key === "ArrowLeft") goTo(safeActive - 1);
+  };
+
   // Upload com compressão automática para Logo Adversário ou Foto da Notícia
   const handleFile = async (e, target) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     try {
       setIsConverting(true);
       const maxDim = target === "NEWS" ? 720 : 200;
       const compressedBase64 = await compressBannerImage(file, maxDim);
-
       if (target === "B") {
         setFormData((prev) => ({
           ...prev,
@@ -243,15 +283,12 @@ const MatchBanner = ({ isAdmin }) => {
     if (isConverting) {
       return alert("Aguarde o processamento da imagem...");
     }
-
     if (bannerType === "NOTICIA" && !formData.newsHeadline.trim()) {
       return alert("Digite a manchete da notícia!");
     }
-
     if (bannerType === "ARRECADACAO" && !formData.goalTitle.trim()) {
       return alert("Digite o título da arrecadação (ex: Novas Camisas)!");
     }
-
     try {
       await addDoc(collection(db, "banners"), {
         ...formData,
@@ -259,9 +296,9 @@ const MatchBanner = ({ isAdmin }) => {
         title: bannerType,
         createdAt: new Date(),
       });
-
       setFormData(initialFormState);
       setShowAdmin(false);
+      setActive(0);
     } catch (err) {
       console.error("Erro ao salvar banner:", err);
       alert("Erro ao publicar no site.");
@@ -284,19 +321,16 @@ const MatchBanner = ({ isAdmin }) => {
       banner.currentAmount ?? "",
     );
     if (novoAtual === null) return;
-
     const novaMeta = prompt(
       "Digite a META TOTAL em R$ (ou deixe igual):",
       banner.targetAmount ?? "",
     );
     if (novaMeta === null) return;
-
     const novaPorcentagem = prompt(
       "Porcentagem manual (0 a 100) — Deixe em branco para calcular automaticamente pelos valores R$:",
       banner.customPercent ?? "",
     );
     if (novaPorcentagem === null) return;
-
     try {
       await updateDoc(doc(db, "banners", banner.id), {
         currentAmount: novoAtual,
@@ -377,7 +411,6 @@ const MatchBanner = ({ isAdmin }) => {
                     setFormData({ ...formData, time: e.target.value })
                   }
                 />
-
                 <select
                   className={bannerType === "CAMPEONATO" ? "" : "full-width"}
                   value={formData.location}
@@ -418,7 +451,6 @@ const MatchBanner = ({ isAdmin }) => {
                     + Adicionar novo local...
                   </option>
                 </select>
-
                 {bannerType === "CAMPEONATO" && (
                   <input
                     type="text"
@@ -432,7 +464,6 @@ const MatchBanner = ({ isAdmin }) => {
                     }
                   />
                 )}
-
                 {(bannerType === "AMISTOSO" || bannerType === "CAMPEONATO") && (
                   <div className="upload-group full-width">
                     <div className="upload-col">
@@ -537,7 +568,6 @@ const MatchBanner = ({ isAdmin }) => {
                   <option value="RESENHA">🔥 DESTAQUE DA RODADA</option>
                   <option value="MERCADO">🤝 MERCADO DA BOLA</option>
                 </select>
-
                 <input
                   type="text"
                   placeholder="Manchete Principal da Notícia..."
@@ -546,7 +576,6 @@ const MatchBanner = ({ isAdmin }) => {
                     setFormData({ ...formData, newsHeadline: e.target.value })
                   }
                 />
-
                 <textarea
                   className="full-width admin-textarea"
                   rows={3}
@@ -556,7 +585,6 @@ const MatchBanner = ({ isAdmin }) => {
                     setFormData({ ...formData, newsBody: e.target.value })
                   }
                 />
-
                 <div className="upload-group full-width">
                   <div className="upload-col">
                     <label>
@@ -584,7 +612,6 @@ const MatchBanner = ({ isAdmin }) => {
                 setFormData({ ...formData, footerText: e.target.value })
               }
             />
-
             <button
               type="button"
               className="confirm-btn"
@@ -597,231 +624,360 @@ const MatchBanner = ({ isAdmin }) => {
         </div>
       )}
 
-      {/* ==================== RENDERIZAÇÃO DOS CARDS ATIVOS ==================== */}
-      {banners.map((item) => {
-        const typeKey = (item.type || "TREINO").toUpperCase();
-        const typeClass = typeKey.toLowerCase();
-        const clubLogo = isIdrTheme ? LogoIDR : ADR_LOGO_DEFAULT;
-        const clubName = isIdrTheme ? "IDR" : item.teamA?.name || "O ADR";
-
-        // Cálculo da porcentagem da Vaquinha
-        const curVal = Number(item.currentAmount || 0);
-        const tarVal = Number(item.targetAmount || 0);
-        const rawPercent =
-          item.customPercent !== undefined && item.customPercent !== ""
-            ? Number(item.customPercent)
-            : tarVal > 0
-              ? Math.round((curVal / tarVal) * 100)
-              : 0;
-        const clampedPercent = Math.min(100, Math.max(0, rawPercent));
-
-        const badgeLabels = {
-          TREINO: "TREINO OFICIAL",
-          AMISTOSO: "AMISTOSO OFICIAL",
-          CAMPEONATO: item.championshipPhase
-            ? `CAMPEONATO • ${item.championshipPhase}`
-            : "CAMPEONATO",
-          ARRECADACAO: "💰 META & ARRECADAÇÃO",
-          NOTICIA: `📰 ${item.newsCategory || "COMUNICADO"}`,
-        };
-
-        return (
+      {/* ==================== CARROSSEL DE ALERTAS ==================== */}
+      {total > 0 && (
+        <div
+          className="mb-carousel"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
           <div
-            key={item.id}
-            className={`match-banner-container type-${typeClass}`}
+            className="mb-viewport"
+            tabIndex={0}
+            role="region"
+            aria-roledescription="carrossel"
+            aria-label="Alertas do clube"
+            onKeyDown={onKeyDown}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
-            <div className="banner-badge">
-              {badgeLabels[typeKey] || item.title}
-            </div>
+            <div className="mb-track" style={{ "--active": safeActive }}>
+              {banners.map((item, index) => {
+                const isActive = index === safeActive;
+                const typeKey = (item.type || "TREINO").toUpperCase();
+                const typeClass = typeKey.toLowerCase();
+                const clubLogo = isIdrTheme ? LogoIDR : ADR_LOGO_DEFAULT;
+                const clubName = isIdrTheme
+                  ? "IDR"
+                  : item.teamA?.name || "O ADR";
 
-            {/* -------------------- 1. CARD DE VAQUINHA / CAMISAS -------------------- */}
-            {typeKey === "ARRECADACAO" ? (
-              <div className="banner-fundraiser-content">
-                <div className="fundraiser-header">
-                  <div className="fundraiser-title-block">
-                    <span className="fundraiser-kicker">
-                      CAMPANHA OFICIAL DO CLUBE
-                    </span>
-                    <h2 className="fundraiser-title">{item.goalTitle}</h2>
-                    {item.goalSubtitle && (
-                      <p className="fundraiser-subtitle">{item.goalSubtitle}</p>
-                    )}
-                  </div>
+                // Cálculo da porcentagem da Vaquinha
+                const curVal = Number(item.currentAmount || 0);
+                const tarVal = Number(item.targetAmount || 0);
+                const rawPercent =
+                  item.customPercent !== undefined && item.customPercent !== ""
+                    ? Number(item.customPercent)
+                    : tarVal > 0
+                      ? Math.round((curVal / tarVal) * 100)
+                      : 0;
+                const clampedPercent = Math.min(100, Math.max(0, rawPercent));
 
-                  <div className="fundraiser-percent-circle">
-                    <span className="percent-big">{rawPercent}%</span>
-                    <span className="percent-sub">ATINGIDO</span>
-                  </div>
-                </div>
+                const badgeLabels = {
+                  TREINO: "TREINO OFICIAL",
+                  AMISTOSO: "AMISTOSO OFICIAL",
+                  CAMPEONATO: item.championshipPhase
+                    ? `CAMPEONATO • ${item.championshipPhase}`
+                    : "CAMPEONATO",
+                  ARRECADACAO: "💰 META & ARRECADAÇÃO",
+                  NOTICIA: `📰 ${item.newsCategory || "COMUNICADO"}`,
+                };
 
-                {/* Barra de Progresso Animada com Shimmer */}
-                <div className="fundraiser-progress-track">
+                const marqueeText =
+                  item.footerText || "COMUNICADO OFICIAL DO CLUBE •";
+
+                return (
                   <div
-                    className="fundraiser-progress-fill"
-                    style={{ width: `${clampedPercent}%` }}
-                  />
-                </div>
+                    key={item.id}
+                    className={`mb-slide ${isActive ? "is-active" : ""}`}
+                    style={{ "--d": Math.abs(index - safeActive) }}
+                    onClick={() => !isActive && goTo(index)}
+                    aria-hidden={!isActive}
+                  >
+                    <div className={`match-banner-container type-${typeClass}`}>
+                      <div className="banner-badge">
+                        {badgeLabels[typeKey] || item.title}
+                      </div>
 
-                <div className="fundraiser-bottom-row">
-                  <div className="fundraiser-amounts">
-                    {(curVal > 0 || tarVal > 0) && (
-                      <>
-                        <span className="amount-raised">
-                          Arrecadado:{" "}
-                          <strong>
-                            R${" "}
-                            {curVal.toLocaleString("pt-BR", {
-                              minimumFractionDigits: 2,
-                            })}
-                          </strong>
-                        </span>
-                        {tarVal > 0 && (
-                          <span className="amount-target">
-                            Meta: R${" "}
-                            {tarVal.toLocaleString("pt-BR", {
-                              minimumFractionDigits: 2,
-                            })}
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </div>
+                      {/* -------------------- 1. CARD DE VAQUINHA / CAMISAS -------------------- */}
+                      {typeKey === "ARRECADACAO" ? (
+                        <div className="banner-fundraiser-content">
+                          <div className="fundraiser-header">
+                            <div className="fundraiser-title-block">
+                              <span className="fundraiser-kicker">
+                                CAMPANHA OFICIAL DO CLUBE
+                              </span>
+                              <h2 className="fundraiser-title">
+                                {item.goalTitle}
+                              </h2>
+                              {item.goalSubtitle && (
+                                <p className="fundraiser-subtitle">
+                                  {item.goalSubtitle}
+                                </p>
+                              )}
+                            </div>
+                            <div className="fundraiser-percent-circle">
+                              <span className="percent-big">{rawPercent}%</span>
+                              <span className="percent-sub">ATINGIDO</span>
+                            </div>
+                          </div>
 
-                  <div className="fundraiser-actions">
-                    {item.pixKey && (
-                      <button
-                        type="button"
-                        className="pix-copy-btn"
-                        onClick={() => handleCopyPix(item.pixKey, item.id)}
-                      >
-                        {copiedId === item.id
-                          ? "✅ CHAVE PIX COPIADA!"
-                          : `💠 COPIAR PIX: ${item.pixKey}`}
-                      </button>
-                    )}
+                          {/* Barra de Progresso Animada com Shimmer */}
+                          <div className="fundraiser-progress-track">
+                            <div
+                              className="fundraiser-progress-fill"
+                              style={{ width: `${clampedPercent}%` }}
+                            />
+                          </div>
 
-                    {isAdmin && (
-                      <button
-                        type="button"
-                        className="admin-quick-edit-btn"
-                        onClick={() => handleQuickUpdateFundraiser(item)}
-                      >
-                        ✏️ Atualizar Valor / %
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : typeKey === "NOTICIA" ? (
-              /* -------------------- 2. CARD DE NOTÍCIA / COMUNICADO -------------------- */
-              <div
-                className={`banner-news-content ${
-                  item.newsImage ? "has-image" : "no-image"
-                }`}
-              >
-                {item.newsImage && (
-                  <div className="news-image-box">
-                    <img src={item.newsImage} alt={item.newsHeadline} />
-                  </div>
-                )}
+                          <div className="fundraiser-bottom-row">
+                            <div className="fundraiser-amounts">
+                              {(curVal > 0 || tarVal > 0) && (
+                                <>
+                                  <span className="amount-raised">
+                                    Arrecadado:{" "}
+                                    <strong>
+                                      R${" "}
+                                      {curVal.toLocaleString("pt-BR", {
+                                        minimumFractionDigits: 2,
+                                      })}
+                                    </strong>
+                                  </span>
+                                  {tarVal > 0 && (
+                                    <span className="amount-target">
+                                      Meta: R${" "}
+                                      {tarVal.toLocaleString("pt-BR", {
+                                        minimumFractionDigits: 2,
+                                      })}
+                                    </span>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                            <div className="fundraiser-actions">
+                              {item.pixKey && (
+                                <button
+                                  type="button"
+                                  className="pix-copy-btn"
+                                  onClick={() =>
+                                    handleCopyPix(item.pixKey, item.id)
+                                  }
+                                >
+                                  {copiedId === item.id
+                                    ? "✅ CHAVE PIX COPIADA!"
+                                    : `💠 COPIAR PIX: ${item.pixKey}`}
+                                </button>
+                              )}
+                              {isAdmin && (
+                                <button
+                                  type="button"
+                                  className="admin-quick-edit-btn"
+                                  onClick={() =>
+                                    handleQuickUpdateFundraiser(item)
+                                  }
+                                >
+                                  ✏️ Atualizar Valor / %
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ) : typeKey === "NOTICIA" ? (
+                        /* -------------------- 2. CARD DE NOTÍCIA / COMUNICADO -------------------- */
+                        <div
+                          className={`banner-news-content ${
+                            item.newsImage ? "has-image" : "no-image"
+                          }`}
+                        >
+                          {item.newsImage && (
+                            <button
+                              type="button"
+                              className="news-image-box"
+                              onClick={() =>
+                                setExpandedNewsImage({
+                                  src: item.newsImage,
+                                  alt: item.newsHeadline || "Imagem da notícia",
+                                })
+                              }
+                              aria-label="Ampliar imagem da notícia"
+                              title="Clique para ampliar"
+                            >
+                              <img
+                                src={item.newsImage}
+                                alt={item.newsHeadline || "Imagem da notícia"}
+                              />
+                            </button>
+                          )}
+                          <div className="news-text-box">
+                            <div className="news-meta-row">
+                              <span className="news-tag-pill">
+                                {item.newsCategory || "OFICIAL"}
+                              </span>
+                            </div>
+                            <h2 className="news-headline">
+                              {item.newsHeadline}
+                            </h2>
+                            {item.newsBody && (
+                              <p className="news-body-text">{item.newsBody}</p>
+                            )}
+                          </div>
+                        </div>
+                      ) : typeKey === "AMISTOSO" || typeKey === "CAMPEONATO" ? (
+                        /* -------------------- 3. CARD DE AMISTOSO OU CAMPEONATO -------------------- */
+                        <div className="banner-content">
+                          <div className="banner-team">
+                            <img
+                              src={
+                                item.teamA?.logo &&
+                                item.teamA.logo !== ADR_LOGO_DEFAULT
+                                  ? item.teamA.logo
+                                  : clubLogo
+                              }
+                              className="banner-logo"
+                              alt="Logo A"
+                            />
+                            <span className="banner-team-name">{clubName}</span>
+                          </div>
+                          <div className="banner-info">
+                            <div className="banner-datetime">
+                              <span>
+                                {item.date?.split("-").reverse().join("/")}
+                              </span>
+                              <span className="b-divider">•</span>
+                              <span>{item.time}</span>
+                            </div>
+                            <Countdown
+                              targetDate={item.date}
+                              targetTime={item.time}
+                            />
+                            {item.location && (
+                              <div className="banner-location">
+                                📍 {item.location}
+                              </div>
+                            )}
+                          </div>
+                          <div className="banner-team">
+                            <img
+                              src={item.teamB?.logo || clubLogo}
+                              className="banner-logo"
+                              alt="Logo B"
+                            />
+                            <span className="banner-team-name">
+                              {item.teamB?.name || "ADVERSÁRIO"}
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        /* -------------------- 4. CARD DE TREINO OFICIAL -------------------- */
+                        <div className="banner-content">
+                          <div className="banner-treino-full">
+                            <img
+                              src={clubLogo}
+                              className="banner-logo-center"
+                              alt={clubName}
+                            />
+                            <div className="banner-info">
+                              <div className="banner-datetime">
+                                <span>
+                                  {item.date?.split("-").reverse().join("/")}
+                                </span>
+                                {item.time && (
+                                  <>
+                                    <span className="b-divider">•</span>
+                                    <span>{item.time}</span>
+                                  </>
+                                )}
+                              </div>
+                              {item.location && (
+                                <div className="banner-location">
+                                  📍 {item.location}
+                                </div>
+                              )}
+                              <Countdown
+                                targetDate={item.date}
+                                targetTime={item.time}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
-                <div className="news-text-box">
-                  <div className="news-meta-row">
-                    <span className="news-tag-pill">
-                      {item.newsCategory || "OFICIAL"}
-                    </span>
-                  </div>
-                  <h2 className="news-headline">{item.newsHeadline}</h2>
-                  {item.newsBody && (
-                    <p className="news-body-text">{item.newsBody}</p>
-                  )}
-                </div>
-              </div>
-            ) : typeKey === "AMISTOSO" || typeKey === "CAMPEONATO" ? (
-              /* -------------------- 3. CARD DE AMISTOSO OU CAMPEONATO -------------------- */
-              <div className="banner-content">
-                <div className="banner-team">
-                  <img
-                    src={
-                      item.teamA?.logo && item.teamA.logo !== ADR_LOGO_DEFAULT
-                        ? item.teamA.logo
-                        : clubLogo
-                    }
-                    className="banner-logo"
-                    alt="Logo A"
-                  />
-                  <span className="banner-team-name">{clubName}</span>
-                </div>
+                      {/* RODAPÉ COM LETREIRO ANIMADO (4 cópias para loop infinito contínuo) */}
+                      <div className="banner-footer">
+                        <div className="scrolling-text">
+                          <span>{marqueeText}</span>
+                          <span aria-hidden="true">{marqueeText}</span>
+                          <span aria-hidden="true">{marqueeText}</span>
+                          <span aria-hidden="true">{marqueeText}</span>
+                        </div>
+                      </div>
 
-                <div className="banner-info">
-                  <div className="banner-datetime">
-                    <span>{item.date?.split("-").reverse().join("/")}</span>
-                    <span className="b-divider">•</span>
-                    <span>{item.time}</span>
-                  </div>
-                  <Countdown targetDate={item.date} targetTime={item.time} />
-                  {item.location && (
-                    <div className="banner-location">📍 {item.location}</div>
-                  )}
-                </div>
-
-                <div className="banner-team">
-                  <img
-                    src={item.teamB?.logo || clubLogo}
-                    className="banner-logo"
-                    alt="Logo B"
-                  />
-                  <span className="banner-team-name">
-                    {item.teamB?.name || "ADVERSÁRIO"}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              /* -------------------- 4. CARD DE TREINO OFICIAL -------------------- */
-              <div className="banner-content">
-                <div className="banner-treino-full">
-                  <img
-                    src={clubLogo}
-                    className="banner-logo-center"
-                    alt={clubName}
-                  />
-                  <div className="banner-info">
-                    <div className="banner-datetime">
-                      <span>{item.date?.split("-").reverse().join("/")}</span>
-                      {item.time && (
-                        <>
-                          <span className="b-divider">•</span>
-                          <span>{item.time}</span>
-                        </>
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          className="del-btn"
+                          onClick={() => deleteBanner(item.id)}
+                          title="Excluir este banner"
+                        >
+                          ✕
+                        </button>
                       )}
                     </div>
-                    {item.location && (
-                      <div className="banner-location">📍 {item.location}</div>
-                    )}
-                    <Countdown targetDate={item.date} targetTime={item.time} />
                   </div>
-                </div>
-              </div>
-            )}
-
-            {/* RODAPÉ COM LETREIRO ANIMADO */}
-            <div className="banner-footer">
-              <div className="scrolling-text">{item.footerText}</div>
+                );
+              })}
             </div>
+          </div>
 
-            {isAdmin && (
+          {total > 1 && (
+            <div className="mb-controls">
               <button
                 type="button"
-                className="del-btn"
-                onClick={() => deleteBanner(item.id)}
-                title="Excluir este banner"
+                className="mb-arrow"
+                onClick={() => goTo(safeActive - 1)}
+                aria-label="Alerta anterior"
               >
-                ✕
+                ‹
               </button>
-            )}
-          </div>
-        );
-      })}
+              <div className="mb-dots">
+                {banners.map((b, i) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    className={`mb-dot ${i === safeActive ? "is-active" : ""}`}
+                    onClick={() => goTo(i)}
+                    aria-label={`Ir para o alerta ${i + 1}`}
+                  />
+                ))}
+              </div>
+              <span className="mb-counter">
+                {safeActive + 1}/{total}
+              </span>
+              <button
+                type="button"
+                className="mb-arrow"
+                onClick={() => goTo(safeActive + 1)}
+                aria-label="Próximo alerta"
+              >
+                ›
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {expandedNewsImage && (
+        <div
+          className="news-image-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Imagem ampliada da notícia"
+          onClick={() => setExpandedNewsImage(null)}
+        >
+          <button
+            type="button"
+            className="news-image-lightbox-close"
+            onClick={() => setExpandedNewsImage(null)}
+            aria-label="Fechar imagem ampliada"
+          >
+            ×
+          </button>
+          <img
+            src={expandedNewsImage.src}
+            alt={expandedNewsImage.alt}
+            onClick={(event) => event.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };
