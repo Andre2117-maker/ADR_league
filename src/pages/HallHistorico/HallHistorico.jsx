@@ -14,7 +14,7 @@ import {
 import "./hallHistorico.css";
 import Footer from "../../components/Footer";
 import { useNavigate } from "react-router-dom";
-import { getShirtNumber, useClubMode } from "../../utils/shirtNumber";
+import { getShirtNumber, useClubMode } from "../../utils/Shirtnumber";
 
 const norm = (s) =>
   String(s || "")
