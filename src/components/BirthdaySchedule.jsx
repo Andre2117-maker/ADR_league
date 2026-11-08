@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "../styles/Home/BirthdaySchedule.css";
-import { getShirtNumber, useClubMode } from "../utils/shirtNumber";
+import { getShirtNumber, useClubMode } from "../utils/Shirtnumber";
 
 const BirthdaySchedule = ({ players = [] }) => {
   const [pageIndex, setPageIndex] = useState(0);
