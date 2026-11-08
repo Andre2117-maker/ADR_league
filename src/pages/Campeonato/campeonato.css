@@ -1,0 +1,797 @@
+/* ==========================================================================
+   CAMPEONATO — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho dourado sutil.
+   As variáveis --cp-* ficam em .camp-page-wrapper e são herdadas pelos
+   componentes filhos (FaseGrupos, MataMata, AdminConfig). O tema IDR só
+   redefine as variáveis (seção 7).
+   ========================================================================== */
+
+/* ==========================================================================
+   1. ESTRUTURA GLOBAL E FUNDO
+   ========================================================================== */
+.camp-page-wrapper {
+  --cp-bg: #050505;
+  --cp-page: #030303;
+  --cp-hover: #0d0d0d;
+  --cp-line: #2b2b2b;
+  --cp-fg: #ffffff;
+  --cp-muted: #7a7a7a;
+  --cp-accent: #d4af37;
+  --cp-on-accent: #000000;
+  --cp-glow: rgba(212, 175, 55, 0.16);
+  --cp-ok: #00c853;
+  --cp-bad: #ff5252;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 110px 20px 80px;
+  background-color: var(--cp-page);
+  color: var(--cp-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  background-image:
+    radial-gradient(70% 38% at 50% 0%, var(--cp-glow), transparent 70%),
+    radial-gradient(
+      40% 25% at 92% 16%,
+      rgba(130, 90, 255, 0.07),
+      transparent 70%
+    );
+  background-repeat: no-repeat;
+}
+
+@keyframes cpShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes cpFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* TELA DE LOADING */
+.camp-loading-screen {
+  justify-content: center;
+  gap: 20px;
+}
+
+.camp-spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--cp-line);
+  border-top-color: var(--cp-accent);
+  border-radius: 50%;
+  animation: campSpin 0.8s linear infinite;
+}
+
+.camp-loading-text {
+  margin: 0;
+  color: var(--cp-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+@keyframes campSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   2. CABEÇALHO HERO
+   ========================================================================== */
+.camp-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.camp-logo-glow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.camp-logo-glow::before {
+  content: "";
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle, var(--cp-glow) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.camp-logo {
+  position: relative;
+  z-index: 1;
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+  transition: transform 0.3s ease;
+}
+
+.camp-logo:hover {
+  transform: scale(1.05);
+}
+
+.camp-subtitle {
+  margin-bottom: 12px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+.camp-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 4px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-shadow: none;
+  background: linear-gradient(
+    100deg,
+    var(--cp-fg) 35%,
+    var(--cp-accent) 50%,
+    var(--cp-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: cpShine 8s linear infinite;
+}
+
+.camp-edition {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cp-accent);
+}
+
+.camp-header-divider {
+  width: min(320px, 70%);
+  height: 1px;
+  margin-top: 18px;
+  border-radius: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cp-accent),
+    transparent
+  );
+}
+
+/* ---------- edição rápida do nome (admin) ---------- */
+.camp-edit-btn {
+  margin-top: 16px;
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--cp-line);
+  border-radius: 0;
+  color: var(--cp-muted);
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.camp-edit-btn:hover {
+  border-color: var(--cp-accent);
+  color: var(--cp-accent);
+}
+
+.camp-meta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(460px, 92vw);
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--cp-bg);
+  border: 1px solid var(--cp-line);
+  text-align: left;
+}
+
+.camp-meta-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  background: var(--cp-bg);
+  color: var(--cp-fg);
+  border: 1px solid var(--cp-line);
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.camp-meta-form input::placeholder {
+  color: var(--cp-muted);
+}
+
+.camp-meta-form input:focus {
+  border-color: var(--cp-accent);
+  box-shadow: 0 0 14px var(--cp-glow);
+}
+
+.camp-meta-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.camp-meta-cancel,
+.camp-meta-save {
+  padding: 9px 16px;
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.camp-meta-cancel {
+  background: transparent;
+  border: 1px solid var(--cp-line);
+  color: var(--cp-muted);
+}
+
+.camp-meta-cancel:hover:not(:disabled) {
+  color: var(--cp-fg);
+  border-color: var(--cp-fg);
+}
+
+.camp-meta-save {
+  background: var(--cp-accent);
+  border: 1px solid var(--cp-accent);
+  color: var(--cp-on-accent);
+}
+
+.camp-meta-save:disabled,
+.camp-meta-cancel:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* ---------- resumo da temporada ---------- */
+.camp-summary {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1px;
+  width: min(640px, 100%);
+  margin-bottom: 34px;
+  background: var(--cp-line);
+  border: 1px solid var(--cp-line);
+  animation: cpFadeIn 0.6s ease both;
+}
+
+.camp-summary > div {
+  flex: 1 1 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 8px;
+  background: var(--cp-bg);
+}
+
+.camp-summary strong {
+  font-size: 1.4rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--cp-accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 16px var(--cp-glow);
+}
+
+.camp-summary span {
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+/* ==========================================================================
+   3. BARRA DE CONTROLES (ANOS E ABAS)
+   ========================================================================== */
+.camp-controls-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1300px;
+  margin-bottom: 40px;
+}
+
+/* ---------- temporadas ---------- */
+.camp-years-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid var(--cp-line);
+}
+
+.camp-year-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--cp-line);
+  border-radius: 0;
+  color: var(--cp-muted);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.camp-year-btn:last-child {
+  border-right: none;
+}
+
+.camp-year-btn .year-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 0;
+  background: var(--cp-line);
+  transition: all 0.25s ease;
+}
+
+.camp-year-btn .year-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  line-height: 1.1;
+}
+
+.camp-year-btn .year-text b {
+  font-weight: 900;
+  font-size: 0.85rem;
+}
+
+.camp-year-btn .year-name {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--cp-muted);
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.camp-year-btn:hover {
+  background: var(--cp-hover);
+  color: var(--cp-fg);
+  transform: none;
+  border-color: var(--cp-line);
+}
+
+.camp-year-btn.active {
+  background:
+    radial-gradient(90% 100% at 50% 0%, var(--cp-glow), transparent 70%),
+    var(--cp-hover);
+  color: var(--cp-accent);
+  box-shadow: inset 0 -2px 0 var(--cp-accent);
+}
+
+.camp-year-btn.active .year-name {
+  color: var(--cp-accent);
+}
+
+.camp-year-btn.active .year-dot {
+  background: var(--cp-accent);
+  box-shadow: 0 0 8px var(--cp-accent);
+}
+
+.camp-year-add {
+  color: var(--cp-accent);
+  font-size: 0.66rem;
+  letter-spacing: 1.5px;
+}
+
+/* ---------- abas ---------- */
+.camp-tabs {
+  display: inline-flex;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--cp-line);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.camp-tab-btn {
+  padding: 12px 28px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--cp-line);
+  border-radius: 0;
+  color: var(--cp-muted);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.camp-tab-btn:last-child {
+  border-right: none;
+}
+
+.camp-tab-btn:hover {
+  background: var(--cp-hover);
+  color: var(--cp-fg);
+}
+
+.camp-tab-btn.active {
+  background: var(--cp-accent);
+  color: var(--cp-on-accent);
+  box-shadow: 0 0 18px var(--cp-glow);
+}
+
+.camp-tab-admin {
+  color: var(--cp-accent);
+  border: none;
+  border-left: 1px dashed var(--cp-line);
+}
+
+.camp-tab-admin.active {
+  background: var(--cp-fg);
+  color: var(--cp-bg);
+  border-left-style: solid;
+  box-shadow: none;
+}
+
+/* ÁREA DOS COMPONENTES FILHOS */
+.camp-content-area {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px;
+}
+
+/* ==========================================================================
+   4. BRACKET (MATA-MATA) — mesmas classes, estilo fino
+   ========================================================================== */
+.camp-bracket-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 600px;
+  padding: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bracket-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  z-index: 2;
+}
+
+.bracket-matches-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 1;
+}
+
+.bracket-round-title {
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+.bracket-match {
+  position: relative;
+  overflow: hidden;
+  background: var(--cp-bg);
+  border: 1px solid var(--cp-line);
+  border-radius: 0;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
+}
+
+.bracket-match:hover {
+  border-color: var(--cp-muted);
+}
+
+.bracket-match.gold-border {
+  border-color: var(--cp-accent);
+  box-shadow: 0 0 18px var(--cp-glow);
+}
+
+.bracket-date {
+  padding: 6px;
+  background: transparent;
+  border-bottom: 1px solid var(--cp-line);
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+.bracket-team {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cp-line);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--cp-muted);
+}
+
+.bracket-team:last-child {
+  border-bottom: none;
+}
+
+.bracket-team.winner {
+  color: var(--cp-fg);
+  background: var(--cp-hover);
+}
+
+.bracket-team.winner .bracket-score {
+  color: var(--cp-accent);
+  border-color: var(--cp-accent);
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.bracket-score {
+  min-width: 28px;
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid var(--cp-line);
+  border-radius: 0;
+  text-align: center;
+  font-family: "Orbitron", monospace;
+  font-size: 0.9rem;
+}
+
+.champion-box {
+  padding: 24px;
+  background:
+    radial-gradient(90% 100% at 50% 0%, var(--cp-glow), transparent 70%),
+    var(--cp-bg);
+  color: var(--cp-accent);
+  border: 1px solid var(--cp-accent);
+  border-radius: 0;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  box-shadow: 0 0 28px var(--cp-glow);
+}
+
+.bracket-column-connectors {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 30px;
+  z-index: 1;
+}
+
+.bracket-connector {
+  position: relative;
+  width: 100%;
+}
+
+.oitavas-to-quartas {
+  height: 12.5%;
+}
+.quartas-to-semis {
+  height: 25%;
+}
+.semis-to-final {
+  height: 50%;
+}
+.final-to-champ {
+  height: 100%;
+}
+
+.bracket-connector .top-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  border-top: 1px solid var(--cp-line);
+  border-right: 1px solid var(--cp-line);
+}
+
+.bracket-connector .bottom-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  border-bottom: 1px solid var(--cp-line);
+  border-right: 1px solid var(--cp-line);
+}
+
+.bracket-connector .center-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 1px;
+  background: var(--cp-line);
+  transform: translateY(-50%);
+}
+
+.final-to-champ .center-line {
+  left: 0;
+  width: 100%;
+  background: var(--cp-accent);
+  box-shadow: 0 0 6px var(--cp-accent);
+}
+
+/* ==========================================================================
+   5. RESPONSIVO
+   ========================================================================== */
+@media (max-width: 768px) {
+  .camp-page-wrapper {
+    padding: 95px 12px 50px;
+  }
+
+  .camp-logo {
+    width: 64px;
+  }
+  .camp-subtitle {
+    font-size: 0.58rem;
+    letter-spacing: 3px;
+  }
+  .camp-title {
+    letter-spacing: 2px;
+  }
+
+  .camp-controls-bar {
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  /* anos deslizam na horizontal */
+  .camp-years-container {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .camp-years-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .camp-year-btn {
+    flex-shrink: 0;
+    padding: 9px 16px;
+  }
+
+  /* abas dividem a largura */
+  .camp-tabs {
+    width: 100%;
+    display: flex;
+  }
+
+  .camp-tab-btn {
+    flex: 1;
+    padding: 12px 6px;
+    font-size: 0.64rem;
+    letter-spacing: 1px;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camp-title {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--cp-fg);
+    color: var(--cp-fg);
+  }
+  .camp-summary {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   6. (reservado)
+   ========================================================================== */
+
+/* ==========================================================================
+   7. TEMA IDR (só troca as variáveis)
+   ========================================================================== */
+.theme-idr .camp-page-wrapper {
+  --cp-bg: #ffffff;
+  --cp-page: #f6f6f4;
+  --cp-hover: #f5f5f5;
+  --cp-line: #d9d9d9;
+  --cp-fg: #000000;
+  --cp-muted: #777777;
+  --cp-accent: #000000;
+  --cp-on-accent: #ffffff;
+  --cp-glow: rgba(0, 0, 0, 0.06);
+  --cp-ok: #008a00;
+  --cp-bad: #cc0000;
+
+  background-image: radial-gradient(
+    70% 38% at 50% 0%,
+    rgba(0, 0, 0, 0.04),
+    transparent 70%
+  );
+}
+
+.theme-idr .camp-logo {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+}
+.theme-idr .camp-summary strong {
+  text-shadow: none;
+}

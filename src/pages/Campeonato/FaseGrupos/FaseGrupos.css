@@ -1,0 +1,660 @@
+/* ==========================================================================
+   FASE DE GRUPOS — ADR / IDR
+   Temas controlados pela classe .theme-idr no elemento pai.
+   ========================================================================== */
+
+.camp-groups-layout {
+  --camp-bg: #090909;
+  --camp-card: #101010;
+  --camp-card-soft: #151515;
+  --camp-header: #0c0c0c;
+  --camp-border: #292929;
+  --camp-border-soft: rgba(255, 255, 255, 0.07);
+  --camp-text: #f2f2f2;
+  --camp-muted: #858585;
+  --camp-subtle: #626262;
+  --camp-accent: #d4af37;
+  --camp-accent-soft: rgba(212, 175, 55, 0.11);
+  --camp-qualified: #d4af37;
+  --camp-qualified-soft: rgba(212, 175, 55, 0.12);
+  --camp-positive: #45c982;
+  --camp-negative: #ef6464;
+  --camp-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+  gap: 22px;
+  width: 100%;
+  max-width: 1350px;
+  margin-inline: auto;
+  color: var(--camp-text);
+}
+
+.camp-group-card,
+.camp-group-card * {
+  box-sizing: border-box;
+}
+
+.camp-group-card {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--camp-card);
+  border: 1px solid var(--camp-border);
+  border-radius: 10px;
+  box-shadow: var(--camp-shadow);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.camp-group-card:hover {
+  border-color: color-mix(in srgb, var(--camp-accent) 38%, var(--camp-border));
+}
+
+/* CABEÇALHO */
+
+.camp-group-header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 20px;
+  background: linear-gradient(110deg, var(--camp-accent-soft), transparent 65%);
+  border-bottom: 1px solid var(--camp-border-soft);
+}
+
+.group-title-wrapper {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.group-tag,
+.dropdown-kicker,
+.empty-eyebrow {
+  color: var(--camp-muted);
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.camp-group-title {
+  margin: 0;
+  color: var(--camp-accent);
+  font-size: 1.12rem;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  line-height: 1.2;
+}
+
+.group-click-hint {
+  flex: 0 1 auto;
+  max-width: 48%;
+  padding: 6px 9px;
+  color: var(--camp-muted);
+  background: var(--camp-card-soft);
+  border: 1px solid var(--camp-border);
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: right;
+}
+
+/* TABELA */
+
+.camp-table-scroll {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--camp-border) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.camp-table-scroll:focus-visible {
+  outline: 2px solid var(--camp-accent);
+  outline-offset: -2px;
+}
+
+.camp-table {
+  width: 100%;
+  min-width: 430px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.camp-table th,
+.camp-table td {
+  vertical-align: middle;
+}
+
+.camp-table th.th-team,
+.camp-table td.td-team {
+  width: 43%;
+  padding-left: 17px;
+  text-align: left;
+}
+
+.camp-table th:not(.th-team),
+.camp-table td:not(.td-team) {
+  width: 9.5%;
+  text-align: center;
+}
+
+.camp-table thead th {
+  padding: 12px 3px;
+  color: var(--camp-muted);
+  background: var(--camp-header);
+  border-bottom: 1px solid var(--camp-border);
+  font-size: 0.64rem;
+  font-weight: 850;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.camp-tr {
+  background: transparent;
+  transition: background-color 160ms ease;
+}
+
+.camp-tr:not(:last-child) td {
+  border-bottom: 1px solid var(--camp-border-soft);
+}
+
+.camp-tr:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.camp-tr.is-expanded {
+  background: var(--camp-accent-soft);
+}
+
+.camp-table td {
+  padding: 11px 3px;
+  color: var(--camp-text);
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+/* EQUIPE E BOTÃO DE EXPANSÃO */
+
+.team-toggle {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.team-toggle:focus-visible {
+  outline: 2px solid var(--camp-accent);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+.expand-chevron {
+  width: 11px;
+  flex: 0 0 11px;
+  color: var(--camp-subtle);
+  font-size: 0.61rem;
+  transition:
+    transform 180ms ease,
+    color 180ms ease;
+}
+
+.expand-chevron.open {
+  color: var(--camp-accent);
+  transform: rotate(90deg);
+}
+
+.pos-badge {
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--camp-muted);
+  background: var(--camp-card-soft);
+  border: 1px solid var(--camp-border);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.team-name-text {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--camp-text);
+  font-size: 0.82rem;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* CLASSIFICAÇÃO */
+
+.camp-tr.is-qualified td.td-team {
+  box-shadow: inset 3px 0 0 var(--camp-qualified);
+}
+
+.camp-tr.is-qualified .pos-badge {
+  color: var(--camp-qualified);
+  background: var(--camp-qualified-soft);
+  border-color: color-mix(in srgb, var(--camp-qualified) 45%, transparent);
+}
+
+.camp-tr.is-qualified .team-name-text {
+  color: var(--camp-text);
+}
+
+.pts-pill {
+  display: inline-flex;
+  min-width: 28px;
+  justify-content: center;
+  padding: 3px 7px;
+  color: var(--camp-accent);
+  background: var(--camp-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--camp-accent) 25%, transparent);
+  border-radius: 4px;
+  font-size: 0.87rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.td-stat {
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-win {
+  color: var(--camp-text) !important;
+  font-weight: 800 !important;
+}
+
+.sg-badge {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+
+.sg-pos {
+  color: var(--camp-positive);
+  background: color-mix(in srgb, var(--camp-positive) 10%, transparent);
+}
+
+.sg-neg {
+  color: var(--camp-negative);
+  background: color-mix(in srgb, var(--camp-negative) 10%, transparent);
+}
+
+.sg-zero {
+  color: var(--camp-muted);
+}
+
+.camp-empty-row td {
+  padding: 28px 12px;
+  color: var(--camp-muted);
+  text-align: center;
+  font-size: 0.78rem;
+}
+
+/* CONFRONTOS EXPANDIDOS */
+
+.expanded-cell {
+  padding: 0 !important;
+  border-bottom: 1px solid var(--camp-border) !important;
+}
+
+.matches-dropdown {
+  min-width: 0;
+  padding: 17px 18px;
+  background: var(--camp-bg);
+  border-left: 3px solid var(--camp-accent);
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 13px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--camp-border-soft);
+}
+
+.dropdown-heading {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dropdown-kicker {
+  font-size: 0.56rem;
+  letter-spacing: 1.4px;
+}
+
+.dropdown-title {
+  overflow-wrap: anywhere;
+  color: var(--camp-text);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.dropdown-badge {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  color: var(--camp-accent);
+  background: var(--camp-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--camp-accent) 25%, transparent);
+  border-radius: 4px;
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.7px;
+}
+
+.matches-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.camp-match-item {
+  min-width: 0;
+  padding: 10px;
+  background: var(--camp-card);
+  border: 1px solid var(--camp-border);
+  border-radius: 6px;
+}
+
+.no-matches-message {
+  margin: 0;
+  padding: 13px;
+  color: var(--camp-muted);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+/* RODAPÉ */
+
+.camp-group-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-top: auto;
+  padding: 11px 17px;
+  color: var(--camp-muted);
+  background: var(--camp-header);
+  border-top: 1px solid var(--camp-border-soft);
+  font-size: 0.65rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 650;
+}
+
+.legend-item strong {
+  color: var(--camp-text);
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 2px;
+}
+
+.qualified-dot {
+  background: var(--camp-qualified);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--camp-qualified) 45%, transparent);
+}
+
+.legend-cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  font-weight: 600;
+}
+
+.legend-cols strong {
+  color: var(--camp-text);
+}
+
+/* ESTADO VAZIO */
+
+.camp-empty-state {
+  width: min(100%, 520px);
+  margin: 22px auto;
+  padding: 42px 24px;
+  color: var(--camp-text);
+  background: var(--camp-card);
+  border: 1px dashed var(--camp-border);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.camp-empty-state .empty-icon {
+  margin-bottom: 12px;
+  font-size: 2.2rem;
+}
+
+.camp-empty-state .empty-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.camp-empty-state h2 {
+  margin: 0 0 9px;
+  color: var(--camp-text);
+  font-size: 1.08rem;
+  font-weight: 850;
+}
+
+.camp-empty-state p {
+  max-width: 390px;
+  margin: 0 auto;
+  color: var(--camp-muted);
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   TEMA IDR — PRETO E BRANCO
+   ========================================================================== */
+
+.theme-idr .camp-groups-layout {
+  --camp-bg: #f7f7f7;
+  --camp-card: #ffffff;
+  --camp-card-soft: #f5f5f5;
+  --camp-header: #f7f7f7;
+  --camp-border: #e5e5e5;
+  --camp-border-soft: #eeeeee;
+  --camp-text: #111111;
+  --camp-muted: #777777;
+  --camp-subtle: #999999;
+  --camp-accent: #111111;
+  --camp-accent-soft: rgba(0, 0, 0, 0.055);
+  --camp-qualified: #111111;
+  --camp-qualified-soft: rgba(0, 0, 0, 0.06);
+  --camp-positive: #25834d;
+  --camp-negative: #c43e3e;
+  --camp-shadow: 0 8px 24px rgba(0, 0, 0, 0.045);
+}
+
+.theme-idr .camp-group-card:hover {
+  border-color: #bdbdbd;
+}
+
+.theme-idr .camp-group-header {
+  background: #fafafa;
+}
+
+.theme-idr .camp-tr:hover {
+  background: #f8f8f8;
+}
+
+.theme-idr .camp-tr.is-expanded {
+  background: #f3f3f3;
+}
+
+.theme-idr .camp-tr.is-qualified .pos-badge {
+  color: #ffffff;
+  background: #111111;
+  border-color: #111111;
+}
+
+.theme-idr .camp-tr.is-qualified td.td-team {
+  box-shadow: inset 3px 0 0 #111111;
+}
+
+.theme-idr .pts-pill {
+  color: #ffffff;
+  background: #111111;
+  border-color: #111111;
+}
+
+.theme-idr .matches-dropdown {
+  background: #f7f7f7;
+}
+
+.theme-idr .dropdown-badge {
+  color: #ffffff;
+  background: #111111;
+  border-color: #111111;
+}
+
+.theme-idr .qualified-dot {
+  box-shadow: none;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+  .camp-groups-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .camp-group-card {
+    border-radius: 8px;
+  }
+
+  .camp-group-header {
+    min-height: 68px;
+    padding: 13px 14px;
+  }
+
+  .camp-group-title {
+    font-size: 1rem;
+  }
+
+  .group-click-hint {
+    max-width: 45%;
+    padding: 5px 7px;
+    font-size: 0.59rem;
+  }
+
+  .camp-table {
+    min-width: 445px;
+  }
+
+  .camp-table th.th-team,
+  .camp-table td.td-team {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    width: 176px;
+    min-width: 176px;
+    padding-left: 11px;
+    background: var(--camp-card);
+    box-shadow: 5px 0 9px rgba(0, 0, 0, 0.08);
+  }
+
+  .camp-table thead th.th-team {
+    z-index: 3;
+    background: var(--camp-header);
+  }
+
+  .camp-tr.is-expanded td.td-team {
+    background: var(--camp-card-soft);
+  }
+
+  .team-toggle {
+    gap: 7px;
+  }
+
+  .team-name-text {
+    font-size: 0.78rem;
+  }
+
+  .camp-table td {
+    padding-block: 10px;
+    font-size: 0.77rem;
+  }
+
+  .matches-dropdown {
+    padding: 13px 10px;
+  }
+
+  .camp-match-item {
+    padding: 8px;
+  }
+
+  .camp-group-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  .camp-group-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .group-click-hint {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .camp-table {
+    min-width: 425px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camp-group-card,
+  .camp-tr,
+  .expand-chevron {
+    transition: none;
+  }
+}

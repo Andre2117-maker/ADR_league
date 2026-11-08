@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from "react";
 import "../styles/Home/BirthdaySchedule.css";
+import { getShirtNumber, useClubMode } from "../utils/shirtNumber";
 
 const BirthdaySchedule = ({ players = [] }) => {
   const [pageIndex, setPageIndex] = useState(0);
+  const clubMode = useClubMode(); // "adr" | "idr" (muda o nº da camisa)
   const itemsPerPage = 3;
 
   // 1. Processamento inteligente de datas, contagem regressiva e idade
@@ -89,7 +91,9 @@ const BirthdaySchedule = ({ players = [] }) => {
     <section className="schedule-container">
       {/* CABEÇALHO DA SEÇÃO */}
       <div className="schedule-header">
-        <span className="schedule-kicker">CALENDÁRIO DO ELENCO • O ADR</span>
+        <span className="schedule-kicker">
+          CALENDÁRIO DO ELENCO • {clubMode === "idr" ? "IDR" : "O ADR"}
+        </span>
         <h2 className="schedule-title">
           PRÓXIMOS <span>ANIVERSÁRIOS</span>
         </h2>
@@ -101,6 +105,12 @@ const BirthdaySchedule = ({ players = [] }) => {
         {currentItems.map((player) => {
           const primaryPos =
             player.positions?.[0] || player.position || "ATLETA";
+          // Número conforme o modo (ADR / IDR); "" = sem número
+          const shirt = getShirtNumber(player, clubMode, "");
+          const photo =
+            clubMode === "idr"
+              ? player.photoIDR1 || player.photo
+              : player.photo;
 
           return (
             <div
@@ -134,12 +144,12 @@ const BirthdaySchedule = ({ players = [] }) => {
               <div className="bday-Card-body">
                 <div className="bday-avatar-wrap">
                   <img
-                    src={player.photo || "/players/Anonimo.png"}
+                    src={photo || "/players/Anonimo.png"}
                     alt={player.name}
                     className="bday-avatar-img"
                   />
-                  {player.number !== undefined && player.number !== "" && (
-                    <span className="bday-shirt-num">#{player.number}</span>
+                  {shirt !== "" && (
+                    <span className="bday-shirt-num">#{shirt}</span>
                   )}
                 </div>
 

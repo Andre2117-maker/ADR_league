@@ -1,0 +1,927 @@
+/* ==========================================================================
+   1. ESTRUTURA GERAL, BARRA ADMIN E FILTRO MOBILE (DESIGN SHARP ADR)
+   ========================================================================== */
+.bkt-outer-wrapper {
+  --bkt-bg: #050505;
+  --bkt-card-bg: #08080a;
+  --bkt-header-bg: #0c0c0f;
+  --bkt-line: #1f1f24;
+  --bkt-line-strong: #2e2e36;
+  --bkt-gold: #d4af37;
+  --bkt-gold-soft: rgba(212, 175, 55, 0.14);
+  --bkt-win: #16a34a;
+  --bkt-lose: #dc2626;
+  --bkt-text: #ffffff;
+  --bkt-muted: #6b7280;
+
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* Barra discreta de dicas de atalho para Admin */
+.bkt-admin-hint-bar {
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 18px;
+  padding: 8px 16px;
+  background: #08080a;
+  border: 1px solid var(--bkt-line);
+  border-left: 3px solid var(--bkt-gold);
+  color: #9ca3af;
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.bkt-admin-hint-bar strong {
+  color: var(--bkt-gold);
+}
+
+.bkt-admin-hint-bar kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  margin: 0 2px;
+  background: #141418;
+  border: 1px solid #333;
+  color: #fff;
+  font-family: monospace;
+  font-size: 0.68rem;
+}
+
+/* Barra de filtro rápido (Estilo Abas Quadradas igual "2026 PEBARIANOS CUP") */
+.bkt-mobile-nav {
+  display: none;
+  gap: 0;
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 18px;
+  border: 1px solid var(--bkt-line);
+  background: #050505;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.bkt-mobile-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.bkt-mob-pill {
+  flex: 1;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #070709;
+  border: none;
+  border-right: 1px solid var(--bkt-line);
+  border-bottom: 2px solid transparent;
+  color: var(--bkt-muted);
+  padding: 11px 16px;
+  border-radius: 0;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bkt-mob-pill:last-child {
+  border-right: none;
+}
+
+.bkt-pill-sq {
+  width: 5px;
+  height: 5px;
+  background: #333;
+  display: inline-block;
+}
+
+.bkt-mob-pill.active {
+  background: linear-gradient(
+    180deg,
+    rgba(212, 175, 55, 0.14) 0%,
+    #070709 100%
+  );
+  color: #ffffff;
+  border-bottom-color: var(--bkt-gold);
+}
+
+.bkt-mob-pill.active .bkt-pill-sq {
+  background: var(--bkt-gold);
+  box-shadow: 0 0 6px var(--bkt-gold);
+}
+
+/* ==========================================================================
+   2. ÁRVORE DO CHAVEAMENTO E COLUNAS
+   ========================================================================== */
+.bkt-tree-scroll {
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px 10px 44px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bkt-gold) #0a0a0c;
+}
+
+.bkt-tree-board {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 54px;
+  min-width: max-content;
+  margin: 0 auto;
+}
+
+.bkt-round-col {
+  display: flex;
+  flex-direction: column;
+  width: 288px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Cabeçalhos das Colunas (Tipografia Itálica Pesada igual "CLASSIFICAÇÃO GERAL") */
+.bkt-col-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  margin-bottom: 24px;
+  padding: 12px 10px;
+  background: #08080a;
+  border: 1px solid var(--bkt-line);
+  position: relative;
+}
+
+.bkt-col-header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.45),
+    transparent
+  );
+}
+
+.bkt-col-kicker {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--bkt-muted);
+  text-transform: uppercase;
+}
+
+.bkt-col-title {
+  font-size: 0.92rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 2px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.bkt-header-final {
+  border-color: rgba(212, 175, 55, 0.4);
+  background:
+    radial-gradient(
+      80% 100% at 50% 0%,
+      rgba(212, 175, 55, 0.14),
+      transparent 75%
+    ),
+    #08080a;
+}
+
+.bkt-header-final .bkt-col-title {
+  color: var(--bkt-gold);
+}
+
+.bkt-col-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex: 1;
+  gap: 28px;
+}
+
+/* ==========================================================================
+   3. GEOMETRIA DAS LINHAS CONECTORAS (ÂNGULOS RETOS / SHARP)
+   ========================================================================== */
+.bkt-pair {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 22px;
+  flex: 1;
+  position: relative;
+}
+
+/* Forqueta Quadrada saindo da direita do Par */
+.bkt-round-col.has-next-col .bkt-pair::after {
+  content: "";
+  position: absolute;
+  right: -27px;
+  top: 25%;
+  bottom: 25%;
+  width: 27px;
+  border-top: 1px solid var(--bkt-line-strong);
+  border-bottom: 1px solid var(--bkt-line-strong);
+  border-right: 1px solid var(--bkt-line-strong);
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: border-color 0.25s ease;
+}
+
+/* Linha horizontal saindo do meio da Forqueta até a próxima fase */
+.bkt-round-col.has-next-col .bkt-pair::before {
+  content: "";
+  position: absolute;
+  right: -54px;
+  top: 50%;
+  width: 27px;
+  height: 1px;
+  background: var(--bkt-line-strong);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+  transition: background-color 0.25s ease;
+}
+
+/* Quando o par já tem vencedor definido, as linhas acendem em Dourado */
+.bkt-round-col.has-next-col .bkt-pair.pair-active::after {
+  border-color: var(--bkt-gold);
+}
+
+.bkt-round-col.has-next-col .bkt-pair.pair-active::before {
+  background: var(--bkt-gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+/* ==========================================================================
+   4. CARD DO CONFRONTO (ESTILO TABELA CLASSIFICAÇÃO GERAL)
+   ========================================================================== */
+.bkt-card {
+  background: var(--bkt-card-bg);
+  border: 1px solid var(--bkt-line);
+  border-radius: 0;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.bkt-card:hover {
+  border-color: #383842;
+}
+
+.bkt-card.bkt-card-highlighted {
+  border-color: var(--bkt-gold);
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.2);
+}
+
+.bkt-card.bkt-card-dirty {
+  border-color: rgba(212, 175, 55, 0.6);
+}
+
+.bkt-card.bkt-card-final {
+  border-color: rgba(212, 175, 55, 0.55);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* Topo do Card */
+.bkt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 11px;
+  background: var(--bkt-header-bg);
+  border-bottom: 1px solid var(--bkt-line);
+}
+
+.bkt-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.bkt-square-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--bkt-gold);
+  display: inline-block;
+}
+
+.bkt-match-code {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.bkt-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bkt-dirty-badge {
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--bkt-gold);
+}
+
+.bkt-quick-tools {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.bkt-tool-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #26262e;
+  color: #888;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bkt-tool-btn:hover,
+.bkt-tool-btn.active {
+  border-color: var(--bkt-gold);
+  color: var(--bkt-gold);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.bkt-tool-btn.bkt-tool-danger:hover {
+  border-color: var(--bkt-lose);
+  color: var(--bkt-lose);
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.bkt-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 0;
+  background: var(--bkt-win);
+  box-shadow: 0 0 6px var(--bkt-win);
+}
+
+/* Corpo das Equipes (Linhas divisórias estilo Tabela de Classificação) */
+.bkt-teams-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+
+.bkt-team-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 11px;
+  background: #08080a;
+  border-bottom: 1px solid #141418;
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.bkt-team-row:last-child {
+  border-bottom: none;
+}
+
+.bkt-team-row.is-hovered-team {
+  background: rgba(212, 175, 55, 0.14) !important;
+}
+
+.bkt-team-info {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Barra vertical lateral igual ao Top 3 da Classificação Geral */
+.bkt-team-indicator {
+  width: 3px;
+  height: 18px;
+  border-radius: 0;
+  background: #232329;
+  flex-shrink: 0;
+}
+
+.bkt-team-name {
+  color: #f3f4f6;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bkt-team-name.is-tbd {
+  color: #52525b;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Select do Admin */
+.bkt-team-select {
+  width: 100%;
+  background: #0f0f13;
+  color: #ffffff;
+  border: 1px solid #27272f;
+  padding: 5px 8px;
+  border-radius: 0;
+  font-weight: 700;
+  font-size: 0.76rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.bkt-team-select:focus {
+  border-color: var(--bkt-gold);
+}
+
+/* Placar (Input Admin e Pill Visitante Quadrados) */
+.bkt-score-input {
+  width: 46px;
+  height: 28px;
+  text-align: center;
+  background: #040405;
+  color: #ffffff;
+  border: 1px solid #27272f;
+  border-radius: 0;
+  font-weight: 900;
+  font-size: 0.84rem;
+  font-family: "Inter", monospace;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+.bkt-score-input:focus {
+  border-color: var(--bkt-gold);
+  outline: none;
+}
+
+.bkt-score-pill {
+  min-width: 34px;
+  height: 26px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #040405;
+  border: 1px solid #1f1f24;
+  border-radius: 0;
+  color: #71717a;
+  font-weight: 900;
+  font-size: 0.82rem;
+  font-family: "Inter", monospace;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   5. ESTADOS DE VENCEDOR E PERDEDOR (CORES DA TABELA: DOURADO, VERDE E VERMELHO)
+   ========================================================================== */
+.bkt-team-row.is-winner {
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.12) 0%,
+    rgba(8, 8, 10, 0.95) 100%
+  );
+}
+
+.bkt-team-row.is-winner .bkt-team-indicator {
+  background: var(--bkt-gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.bkt-team-row.is-winner .bkt-team-name {
+  color: var(--bkt-gold);
+  font-weight: 900;
+}
+
+.bkt-team-row.is-loser {
+  opacity: 0.55;
+}
+
+/* Placar Vencedor em Verde e Perdedor em Vermelho (igual colunas V e D da tabela) */
+.bkt-score-input.score-win,
+.bkt-score-pill.score-win {
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.bkt-score-input.score-lose,
+.bkt-score-pill.score-lose {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+/* ==========================================================================
+   6. GRANDE FINAL, TROFÉU E BANNER DO CAMPEÃO
+   ========================================================================== */
+.bkt-final-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.bkt-trophy-pedestal {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.bkt-trophy-pedestal::before {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.25) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.bkt-trophy-img {
+  width: 72px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.85));
+}
+
+.bkt-final-showcase .bkt-card {
+  width: 100%;
+}
+
+.bkt-champion-banner {
+  margin: 0;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(212, 175, 55, 0.4);
+  background:
+    radial-gradient(
+      90% 100% at 50% 0%,
+      rgba(212, 175, 55, 0.22),
+      transparent 80%
+    ),
+    #060608;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+}
+
+.bkt-champ-label {
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  color: var(--bkt-gold);
+}
+
+.bkt-champ-team {
+  font-size: 1rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   7. RODAPÉ DE AÇÕES DO CARD E GAVETA DE LINK (BOTÕES QUADRADOS)
+   ========================================================================== */
+.bkt-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: #060608;
+  border-top: 1px solid var(--bkt-line);
+}
+
+.bkt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 29px;
+  border-radius: 0;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Botão igual ao botão ativo "FASE DE GRUPOS" do seu print */
+.bkt-btn-details {
+  width: 100%;
+  background: var(--bkt-gold);
+  color: #000000;
+  border: 1px solid var(--bkt-gold);
+}
+
+.bkt-btn-details:hover {
+  filter: brightness(1.1);
+}
+
+.bkt-admin-controls {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.bkt-btn-link {
+  flex: 1;
+  background: #0b0b0e;
+  color: #9ca3af;
+  border: 1px solid #26262e;
+}
+
+.bkt-btn-link:hover,
+.bkt-btn-link.active,
+.bkt-btn-link.has-link {
+  border-color: var(--bkt-gold);
+  color: var(--bkt-gold);
+}
+
+.bkt-btn-save {
+  flex: 1;
+  background: #0b0b0e;
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.bkt-btn-save.is-dirty {
+  background: rgba(212, 175, 55, 0.16);
+  color: var(--bkt-gold);
+  border-color: var(--bkt-gold);
+}
+
+.bkt-btn-save:hover:not(:disabled) {
+  background: var(--bkt-gold);
+  border-color: var(--bkt-gold);
+  color: #000000;
+}
+
+/* Gaveta Inline de Linkar */
+.bkt-link-drawer {
+  display: flex;
+  gap: 5px;
+  padding: 8px;
+  background: #040405;
+  border-top: 1px dashed rgba(212, 175, 55, 0.4);
+}
+
+.bkt-link-input {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  background: #0b0b0e;
+  border: 1px solid #27272f;
+  border-radius: 0;
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 0 8px;
+  outline: none;
+}
+
+.bkt-link-input:focus {
+  border-color: var(--bkt-gold);
+}
+
+.bkt-link-drawer-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.bkt-drawer-ok {
+  background: var(--bkt-gold);
+  color: #000;
+  border: none;
+  border-radius: 0;
+  padding: 0 10px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.bkt-drawer-cancel {
+  background: transparent;
+  color: #888;
+  border: 1px solid #27272f;
+  border-radius: 0;
+  padding: 0 8px;
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDADE CELULAR (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .bkt-admin-hint-bar {
+    display: none;
+  }
+
+  .bkt-mobile-nav {
+    display: flex;
+  }
+
+  .bkt-tree-board {
+    gap: 36px;
+    justify-content: flex-start;
+  }
+
+  .bkt-round-col {
+    width: 260px;
+  }
+
+  .bkt-round-col.has-next-col .bkt-pair::after {
+    right: -18px;
+    width: 18px;
+  }
+
+  .bkt-round-col.has-next-col .bkt-pair::before {
+    right: -36px;
+    width: 18px;
+  }
+
+  .bkt-tree-scroll.is-filtered-mobile .bkt-tree-board {
+    min-width: 100%;
+    justify-content: center;
+  }
+
+  .bkt-tree-scroll.is-filtered-mobile .bkt-round-col {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .bkt-tree-scroll.is-filtered-mobile .bkt-pair::after,
+  .bkt-tree-scroll.is-filtered-mobile .bkt-pair::before {
+    display: none;
+  }
+
+  .mob-hidden {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   9. TEMA IDR - CHAVEAMENTO CLEAN (BRANCO & PRETO SHARP)
+   ========================================================================== */
+.theme-idr .bkt-outer-wrapper {
+  --bkt-bg: #ffffff;
+  --bkt-card-bg: #ffffff;
+  --bkt-header-bg: #f8fafc;
+  --bkt-line: #e2e8f0;
+  --bkt-line-strong: #cbd5e1;
+  --bkt-gold: #0f172a;
+}
+
+.theme-idr .bkt-admin-hint-bar {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.theme-idr .bkt-mob-pill {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+.theme-idr .bkt-mob-pill.active {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .bkt-col-header {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+.theme-idr .bkt-col-title {
+  color: #0f172a !important;
+}
+
+.theme-idr .bkt-card {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-idr .bkt-card-header {
+  background: #f8fafc !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+.theme-idr .bkt-team-row {
+  background: #ffffff !important;
+  border-bottom-color: #f1f5f9 !important;
+}
+
+.theme-idr .bkt-team-name {
+  color: #1e293b !important;
+}
+
+.theme-idr .bkt-team-row.is-winner {
+  background: #f1f5f9 !important;
+}
+
+.theme-idr .bkt-team-row.is-winner .bkt-team-name {
+  color: #000000 !important;
+}
+
+.theme-idr .bkt-score-input,
+.theme-idr .bkt-score-pill {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.theme-idr .bkt-card-footer {
+  background: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+.theme-idr .bkt-btn-details {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.theme-idr .bkt-champion-banner {
+  margin: 0;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(136, 132, 120, 0.4);
+  background:
+    radial-gradient(
+      90% 100% at 50% 0%,
+      rgba(160, 159, 157, 0.22),
+      transparent 80%
+    ),
+    #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+}
+
+.theme-idr .bkt-champ-team {
+  font-size: 1rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 1px;
+  color: #050505;
+  text-transform: uppercase;
+}

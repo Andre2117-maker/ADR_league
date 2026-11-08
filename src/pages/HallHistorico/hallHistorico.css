@@ -1,0 +1,817 @@
+/* =====================================================
+   MEMORIAL (HALL HISTÓRICO) — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho dourado sutil.
+   O tema IDR só redefine as variáveis (final do arquivo).
+   ===================================================== */
+
+.hall-vertical-container {
+  --hf-bg: #050505;
+  --hf-hover: #0d0d0d;
+  --hf-line: #2b2b2b;
+  --hf-fg: #ffffff;
+  --hf-muted: #7a7a7a;
+  --hf-accent: #d4af37;
+  --hf-on-accent: #000000;
+  --hf-glow: rgba(212, 175, 55, 0.16);
+  --hf-ok: #00c853;
+  --hf-bad: #ff5252;
+
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 135px 20px 60px !important;
+  color: var(--hf-fg);
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  animation: hfFadeIn 0.7s ease-out both;
+}
+
+/* aurora atrás do cabeçalho */
+.hall-vertical-container::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: min(900px, 100vw);
+  height: 380px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(50% 60% at 40% 30%, var(--hf-glow), transparent 70%),
+    radial-gradient(
+      40% 50% at 70% 50%,
+      rgba(130, 90, 255, 0.08),
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hall-vertical-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes hfFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hfShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.hall-loader {
+  padding: 160px 20px;
+  text-align: center;
+  color: #7a7a7a;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* =====================================================
+   CABEÇALHO
+   ===================================================== */
+.hall-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.hall-kicker {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 5px;
+  color: var(--hf-muted);
+}
+
+.hall-title {
+  margin: 0;
+  font-size: clamp(1.9rem, 5.5vw, 3.3rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  background: linear-gradient(
+    100deg,
+    var(--hf-fg) 35%,
+    var(--hf-accent) 50%,
+    var(--hf-fg) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: hfShine 8s linear infinite;
+  filter: none;
+}
+
+.hall-title::after {
+  content: "";
+  display: block;
+  width: min(320px, 70%);
+  height: 1px;
+  margin: 18px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--hf-accent),
+    transparent
+  );
+}
+
+.hall-subtitle {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  color: var(--hf-muted);
+}
+
+/* =====================================================
+   RESUMO (células coladas por linhas finas)
+   ===================================================== */
+.hall-summary {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  margin-bottom: 36px;
+  background: var(--hf-line);
+  border: 1px solid var(--hf-line);
+}
+
+.hall-summary > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 8px;
+  background: var(--hf-bg);
+  transition: background 0.2s ease;
+}
+
+.hall-summary > div:hover {
+  background: var(--hf-hover);
+}
+
+.hall-summary strong {
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--hf-accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 16px var(--hf-glow);
+}
+
+.hall-summary span {
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--hf-muted);
+  text-align: center;
+}
+
+/* =====================================================
+   FORMULÁRIO ADMIN
+   ===================================================== */
+.hall-admin-card {
+  position: relative;
+  margin-bottom: 36px;
+  padding: 24px;
+  background:
+    radial-gradient(90% 50% at 50% 0%, var(--hf-glow), transparent 70%),
+    var(--hf-bg);
+  border: 1px solid var(--hf-line);
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  scroll-margin-top: 120px;
+}
+
+.hall-admin-card h3 {
+  margin: 0 0 18px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hall-admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  align-items: center;
+}
+
+.hall-admin-form input,
+.hall-select-link {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--hf-bg);
+  color: var(--hf-fg);
+  border: 1px solid var(--hf-line);
+  padding: 13px 14px;
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.hall-admin-form input::placeholder {
+  color: var(--hf-muted);
+}
+
+.hall-admin-form input:focus,
+.hall-select-link:focus {
+  border-color: var(--hf-accent);
+  background-color: var(--hf-bg);
+  box-shadow: 0 0 14px var(--hf-glow);
+}
+
+.hall-select-link {
+  color: var(--hf-accent);
+  font-weight: 700;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+.hall-select-link option {
+  background: #111;
+  color: #fff;
+}
+
+.hall-form-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.hall-admin-form button {
+  flex: 1;
+  padding: 13px 20px;
+  background: var(--hf-accent);
+  color: var(--hf-on-accent);
+  border: 1px solid var(--hf-accent);
+  border-radius: 0;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.hall-admin-form button:hover {
+  transform: none;
+  box-shadow: 0 0 18px var(--hf-glow);
+}
+
+.hall-admin-form .btn-cancel {
+  background: transparent;
+  color: var(--hf-muted);
+  border-color: var(--hf-line);
+}
+
+.hall-admin-form .btn-cancel:hover {
+  color: var(--hf-fg);
+  border-color: var(--hf-fg);
+  box-shadow: none;
+}
+
+/* =====================================================
+   BUSCA E FILTROS
+   ===================================================== */
+.hall-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.hall-search {
+  flex: 1;
+  min-width: 0;
+  background: var(--hf-bg);
+  color: var(--hf-fg);
+  border: 1px solid var(--hf-line);
+  border-radius: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.hall-search::placeholder {
+  color: var(--hf-muted);
+}
+
+.hall-search:focus {
+  border-color: var(--hf-accent);
+  box-shadow: 0 0 14px var(--hf-glow);
+}
+
+.hall-filters {
+  display: flex;
+  border: 1px solid var(--hf-line);
+}
+
+.hall-filter {
+  appearance: none;
+  padding: 0 16px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--hf-line);
+  color: var(--hf-muted);
+  font: inherit;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.hall-filter:last-child {
+  border-right: none;
+}
+.hall-filter:hover {
+  background: var(--hf-hover);
+  color: var(--hf-fg);
+}
+
+.hall-filter.is-active {
+  background: var(--hf-accent);
+  color: var(--hf-on-accent);
+}
+
+.hall-empty {
+  padding: 50px 0;
+  text-align: center;
+  color: var(--hf-muted);
+  font-size: 0.85rem;
+}
+
+/* =====================================================
+   GRUPOS POR ANO
+   ===================================================== */
+.hall-group {
+  margin-bottom: 54px;
+}
+
+.hall-year-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.hall-year-row::after {
+  content: "";
+  flex: 1;
+  order: 2;
+  height: 1px;
+  background: linear-gradient(90deg, var(--hf-line), transparent);
+}
+
+.year-label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: 2px;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--hf-accent);
+}
+
+.hall-year-count {
+  order: 3;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--hf-muted);
+  white-space: nowrap;
+}
+
+.hall-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* =====================================================
+   CARD DO MEMBRO
+   ===================================================== */
+.hall-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  background: var(--hf-bg);
+  border: 1px solid var(--hf-line);
+  border-radius: 0;
+  box-shadow: none;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+  animation: hfCardIn 0.5s ease both;
+  animation-delay: calc(var(--i, 0) * 0.04s);
+}
+
+@keyframes hfCardIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* barra lateral de status */
+.hall-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  height: auto;
+  background: var(--hf-accent);
+  box-shadow: 0 0 10px var(--hf-accent);
+  transform: none;
+  transition: none;
+  z-index: 2;
+}
+
+.hall-item.retired::before {
+  background: var(--hf-muted);
+  box-shadow: none;
+}
+
+.hall-item:hover {
+  background: var(--hf-hover);
+  border-color: var(--hf-accent);
+  transform: none;
+  box-shadow: none;
+}
+
+.hall-item.retired {
+  opacity: 0.72;
+  filter: none;
+  border-left: 1px solid var(--hf-line);
+}
+.hall-item.retired:hover {
+  opacity: 1;
+  filter: none;
+}
+.hall-item.active {
+  border-left: 1px solid var(--hf-line);
+  box-shadow: none;
+}
+
+.hall-item-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 16px 16px 20px;
+}
+
+.hall-avatar {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--hf-bg);
+  border: 1px solid var(--hf-line);
+  color: var(--hf-accent);
+  font-size: 1.4rem;
+  font-weight: 900;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.hall-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hall-item.retired .hall-avatar img {
+  filter: grayscale(1);
+}
+.hall-item:hover .hall-avatar img {
+  filter: none;
+}
+
+.hall-item:hover .hall-avatar {
+  border-color: var(--hf-accent);
+  box-shadow: 0 0 14px var(--hf-glow);
+}
+
+.hall-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.name-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.player-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: var(--hf-fg);
+}
+
+.player-name.clickable-link {
+  cursor: pointer;
+}
+.player-name.clickable-link:hover {
+  color: var(--hf-accent);
+}
+
+.linked-badge {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--hf-accent);
+  opacity: 0.9;
+  filter: none;
+  vertical-align: baseline;
+}
+
+.player-nickname {
+  font-size: 0.82rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--hf-accent);
+}
+
+.hall-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.player-dates,
+.hall-tenure,
+.hall-pos,
+.hall-shirt {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  padding: 2px 7px;
+  background: transparent;
+  border: 1px solid var(--hf-line);
+  border-radius: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--hf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hall-shirt {
+  color: var(--hf-fg);
+}
+
+.hall-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.hall-status,
+.hall-tag {
+  padding: 2px 7px;
+  border: 1px solid var(--hf-line);
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--hf-muted);
+}
+
+.hall-status.is-on {
+  color: var(--hf-ok);
+  border-color: var(--hf-ok);
+}
+.hall-status.is-off {
+  color: var(--hf-muted);
+}
+.hall-tag.is-gold {
+  color: var(--hf-accent);
+  border-color: var(--hf-accent);
+}
+
+/* números de carreira */
+.hall-career {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hf-line);
+  border-top: 1px solid var(--hf-line);
+}
+
+.hall-career > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 4px;
+  background: var(--hf-bg);
+  transition: background 0.25s ease;
+}
+
+.hall-item:hover .hall-career > div {
+  background: var(--hf-hover);
+}
+
+.hall-career strong {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--hf-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.hall-career span {
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--hf-muted);
+}
+
+/* ações do admin */
+.hall-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1;
+}
+
+.btn-edit,
+.btn-del {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--hf-line);
+  border-radius: 0;
+  color: var(--hf-muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+  border-color: var(--hf-accent);
+  color: var(--hf-accent);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-del:hover {
+  border-color: var(--hf-bad);
+  color: var(--hf-bad);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+/* =====================================================
+   RESPONSIVO
+   ===================================================== */
+@media (max-width: 768px) {
+  .hall-vertical-container {
+    padding-top: 110px !important;
+  }
+
+  .hall-summary {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hall-toolbar {
+    flex-direction: column;
+  }
+  .hall-filter {
+    flex: 1;
+    padding: 11px 8px;
+  }
+
+  .hall-items-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .hall-admin-card {
+    padding: 20px 16px;
+  }
+  .hall-admin-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hall-vertical-container,
+  .hall-item {
+    animation: none;
+  }
+  .hall-title {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--hf-fg);
+    color: var(--hf-fg);
+  }
+}
+
+/* =====================================================
+   TEMA IDR (só troca as variáveis)
+   ===================================================== */
+.theme-idr .hall-vertical-container {
+  --hf-bg: #ffffff;
+  --hf-hover: #f5f5f5;
+  --hf-line: #d9d9d9;
+  --hf-fg: #111111;
+  --hf-muted: #777777;
+  --hf-accent: #000000;
+  --hf-on-accent: #ffffff;
+  --hf-glow: rgba(0, 0, 0, 0.06);
+  --hf-ok: #008a00;
+  --hf-bad: #cc0000;
+}
+
+.theme-idr .hall-select-link {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.theme-idr .hall-select-link option {
+  background: #fff;
+  color: #000;
+}
+
+.theme-idr .hall-summary strong {
+  text-shadow: none;
+}

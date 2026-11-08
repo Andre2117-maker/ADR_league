@@ -1,47 +1,187 @@
+/* =====================================================
+   CARROSSEL "NOSSA TRAJETÓRIA" — MINIMALISTA + AURA
+   Linhas finas, cantos retos, brilho dourado sutil.
+   O tema IDR só redefine as variáveis (final do arquivo).
+   ===================================================== */
+
 .history-carousel-wrapper {
-  padding: 40px 0;
+  --hc-bg: #050505;
+  --hc-hover: #0d0d0d;
+  --hc-line: #2b2b2b;
+  --hc-fg: #ffffff;
+  --hc-muted: #7a7a7a;
+  --hc-accent: #d4af37;
+  --hc-on-accent: #000000;
+  --hc-glow: rgba(212, 175, 55, 0.16);
+
+  position: relative;
   width: 100%;
+  padding: 56px 0;
   overflow: hidden;
+  color: var(--hc-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* aurora ao fundo */
+.history-carousel-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(1000px, 100%);
+  height: 340px;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(50% 60% at 45% 30%, var(--hc-glow), transparent 70%),
+    radial-gradient(
+      40% 50% at 75% 50%,
+      rgba(130, 90, 255, 0.07),
+      transparent 70%
+    );
+  pointer-events: none;
+}
+
+.history-carousel-wrapper > * {
+  position: relative;
+}
+
+@keyframes hcShine {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
 }
 
 .history-main-title {
-  color: #d4af37;
+  margin: 0 0 34px;
   text-align: center;
+  font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 5px;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  background: linear-gradient(
+    100deg,
+    var(--hc-accent) 35%,
+    var(--hc-fg) 50%,
+    var(--hc-accent) 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: hcShine 8s linear infinite;
 }
 
+.history-main-title::after {
+  content: "";
+  display: block;
+  width: min(280px, 60%);
+  height: 1px;
+  margin: 16px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--hc-accent),
+    transparent
+  );
+}
+
+/* =====================================================
+   TRILHO
+   ===================================================== */
 .carousel-controls {
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
   width: 100%;
 }
 
 .history-carousel-container {
   display: flex;
+  width: 100%;
+  padding: 6px 0;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  width: 100%;
+  /* esmaece as pontas */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
 }
 
 .history-carousel-container::-webkit-scrollbar {
   display: none;
 }
 
+/* centraliza o 1º e o último card */
+.history-carousel-container::before,
+.history-carousel-container::after {
+  content: "";
+  flex: 0 0 max(0px, calc(50% - 310px));
+}
+
+/* =====================================================
+   CARD
+   ===================================================== */
 .history-card {
-  /* No Desktop: Quadro mais largo para fotos de grupo */
+  position: relative;
+  flex-shrink: 0;
   min-width: 600px;
   height: 400px;
-  flex-shrink: 0;
-  scroll-snap-align: center;
-  position: relative;
   margin: 0 10px;
-  background: #111; /* Fundo escuro caso a imagem seja menor */
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 10px;
   overflow: hidden;
+  scroll-snap-align: center;
+  background: var(--hc-bg);
+  border: 1px solid var(--hc-line);
+  border-radius: 0;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* linha de brilho no topo */
+.history-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--hc-accent),
+    transparent
+  );
+  opacity: 0.8;
+  z-index: 3;
+}
+
+.history-card:hover {
+  border-color: var(--hc-accent);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.5),
+    0 0 24px var(--hc-glow);
 }
 
 .img-wrapper {
@@ -52,9 +192,13 @@
 .card-bg-img {
   width: 100%;
   height: 100%;
-  /* MUDANÇA AQUI: 'contain' garante que a foto apareça INTEIRA sem cortes */
-  object-fit: contain;
-  background-color: #000;
+  object-fit: contain; /* foto aparece inteira, sem cortes */
+  background-color: var(--hc-bg);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.history-card:hover .card-bg-img {
+  transform: scale(1.02);
 }
 
 .card-overlay {
@@ -62,111 +206,169 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 20px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 56px 22px 18px;
   text-align: left;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 55%,
+    transparent 100%
+  );
+  border-bottom: 1px solid var(--hc-line);
 }
 
+/* ano em contorno */
 .card-year {
-  color: #d4af37;
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 900;
-}
-.card-title {
-  color: #fff;
-  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: 2px;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--hc-accent);
 }
 
+.card-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* =====================================================
+   SETAS
+   ===================================================== */
 .arrow-btn {
   position: absolute;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.7);
-  color: #d4af37;
-  border: 1px solid #d4af37;
+  top: 50%;
+  transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--hc-bg);
+  color: var(--hc-fg);
+  border: 1px solid var(--hc-line);
+  border-radius: 0;
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.arrow-btn:hover {
+  background: var(--hc-accent);
+  border-color: var(--hc-accent);
+  color: var(--hc-on-accent);
+  box-shadow: 0 0 16px var(--hc-glow);
 }
 
 .btn-left {
-  left: 10px;
+  left: 14px;
 }
 .btn-right {
-  right: 10px;
+  right: 14px;
 }
 
-/* RESPONSIVO MOBILE */
+/* =====================================================
+   RESPONSIVO
+   ===================================================== */
 @media (max-width: 768px) {
-  .history-card {
-    /* Ocupa quase a largura total do celular */
-    min-width: 95vw;
-    max-width: 95vw;
-    height: 300px; /* Altura reduzida para manter a proporção horizontal */
-    margin: 0 2.5vw;
+  .history-carousel-wrapper {
+    padding: 40px 0;
   }
 
-  .card-bg-img {
-    /* Se a foto ainda estiver cortando, o 'contain' resolve 100% */
-    object-fit: contain;
+  .history-carousel-container::before,
+  .history-carousel-container::after {
+    flex-basis: 2.5vw;
+  }
+
+  .history-card {
+    min-width: 92vw;
+    max-width: 92vw;
+    height: 300px;
+    margin: 0 2vw;
   }
 
   .card-year {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
   .card-title {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+  }
+
+  .card-overlay {
+    padding: 44px 16px 14px;
+  }
+
+  .arrow-btn {
+    width: 34px;
+    height: 34px;
+  }
+  .btn-left {
+    left: 6px;
+  }
+  .btn-right {
+    right: 6px;
   }
 }
 
-/* ==========================================================================
-   TEMA IDR - CARROSSEL HISTÓRICO (BLACK & WHITE PREMIUM)
-   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .history-main-title {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--hc-accent);
+    color: var(--hc-accent);
+  }
 
-.theme-idr .history-main-title {
-  color: #000000 !important;
+  .card-bg-img {
+    transition: none;
+  }
+}
+
+/* =====================================================
+   TEMA IDR (só troca as variáveis)
+   ===================================================== */
+.theme-idr .history-carousel-wrapper {
+  --hc-bg: #ffffff;
+  --hc-hover: #f5f5f5;
+  --hc-line: #d9d9d9;
+  --hc-fg: #000000;
+  --hc-muted: #777777;
+  --hc-accent: #000000;
+  --hc-on-accent: #ffffff;
+  --hc-glow: rgba(0, 0, 0, 0.06);
 }
 
 .theme-idr .history-card {
-  background: #ffffff !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
 }
 
-/* Fundo da imagem claro (para preencher as sobras do object-fit: contain) */
 .theme-idr .card-bg-img {
-  background-color: #f9f9f9 !important;
+  background-color: #f9f9f9;
 }
 
-/* Degradê sobre a imagem (Trocado de preto para um branco fosco elegante) */
+/* degradê sobre a foto: branco fosco em vez de preto */
 .theme-idr .card-overlay {
   background: linear-gradient(
     to top,
-    rgba(255, 255, 255, 0.95),
-    rgba(255, 255, 255, 0.5),
-    transparent
-  ) !important;
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.6) 55%,
+    transparent 100%
+  );
 }
 
 .theme-idr .card-year {
-  color: #000000 !important;
+  -webkit-text-stroke: 1px #000000;
 }
-
 .theme-idr .card-title {
-  color: #444444 !important;
-  font-weight: 700 !important;
-}
-
-/* Botões de Navegação (Setas) */
-.theme-idr .arrow-btn {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .arrow-btn:hover {
-  background: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
+  color: #111111;
 }

@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useEffect } from "react";
-import "../styles/Campeonato/campeonato.css";
-import LogoADR from "../assets/logo.png";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import "./campeonato.css";
+import LogoADR from "../../assets/logo.png";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 // Importando os componentes modulares
-import FaseGrupos from "../components/campeonato/FaseGrupos/FaseGrupos";
-import AdminConfig from "../components/campeonato/ADMINCONFIG/AdminConfig";
-import MataMata from "../components/campeonato/MataMata/MataMata";
+import FaseGrupos from "./FaseGrupos/FaseGrupos";
+import AdminConfig from "./ADMINCONFIG/AdminConfig";
+import MataMata from "./MataMata/MataMata";
 
 export default function Campeonato({ isAdmin }) {
   const [partidas, setPartidas] = useState([]);
@@ -15,6 +15,11 @@ export default function Campeonato({ isAdmin }) {
   const [loading, setLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState("2026");
   const [activeTab, setActiveTab] = useState("GRUPOS");
+
+  // Edição rápida do nome da competição (admin)
+  const [editingMeta, setEditingMeta] = useState(false);
+  const [metaForm, setMetaForm] = useState({ nome: "", subtitulo: "" });
+  const [savingMeta, setSavingMeta] = useState(false);
 
   const loadData = async () => {
     try {
@@ -177,6 +182,74 @@ export default function Campeonato({ isAdmin }) {
     return tabelaOrdenada;
   }, [partidas, configs, selectedYear]);
 
+  const configAtual = configs[selectedYear];
+
+  // Resumo da temporada (jogos, realizados, gols, grupos)
+  const resumo = useMemo(() => {
+    const jogos = partidas.filter((p) => p.ano === selectedYear);
+    const feitos = jogos.filter((p) => p.finalizado);
+    const gols = feitos.reduce((acc, p) => {
+      const a = parseInt(p.placarA, 10);
+      const b = parseInt(p.placarB, 10);
+      return acc + (isNaN(a) ? 0 : a) + (isNaN(b) ? 0 : b);
+    }, 0);
+    return {
+      total: jogos.length,
+      feitos: feitos.length,
+      gols,
+      grupos: Object.keys(configAtual?.grupos || {}).length,
+    };
+  }, [partidas, selectedYear, configAtual]);
+
+  // Abre o editor inline já preenchido
+  const startEditMeta = () => {
+    setMetaForm({
+      nome: configAtual?.nome || "",
+      subtitulo: configAtual?.subtitulo || "",
+    });
+    setEditingMeta(true);
+  };
+
+  // Salva só nome/subtítulo (merge: não mexe em grupos nem no resto)
+  const saveMeta = async () => {
+    setSavingMeta(true);
+    try {
+      await setDoc(
+        doc(db, "campeonatos_config", String(selectedYear)),
+        {
+          nome: metaForm.nome.trim(),
+          subtitulo: metaForm.subtitulo.trim(),
+        },
+        { merge: true },
+      );
+      await loadData();
+      setEditingMeta(false);
+    } catch (err) {
+      console.error("Erro ao salvar nome da competição:", err);
+      alert("Não foi possível salvar. Verifique as permissões.");
+    } finally {
+      setSavingMeta(false);
+    }
+  };
+
+  // Cria a próxima temporada já com um nome sugerido
+  const addSeason = async () => {
+    const next = String(Math.max(...anosDisponiveis.map(Number)) + 1);
+    try {
+      await setDoc(
+        doc(db, "campeonatos_config", next),
+        { nome: `Campeonato ${next}`, subtitulo: "" },
+        { merge: true },
+      );
+      await loadData();
+      setSelectedYear(next);
+      setActiveTab("GRUPOS");
+    } catch (err) {
+      console.error("Erro ao criar temporada:", err);
+      alert("Não foi possível criar a temporada.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="camp-page-wrapper camp-loading-screen">
@@ -195,10 +268,94 @@ export default function Campeonato({ isAdmin }) {
         <div className="camp-logo-glow">
           <img src={LogoADR} alt="Logo O ADR" className="camp-logo" />
         </div>
-        <span className="camp-subtitle">HUB OFICIAL DE COMPETIÇÕES</span>
-        <h1 className="camp-title">CAMPEONATOS DO ADR</h1>
+        <span className="camp-subtitle">
+          TEMPORADA {selectedYear} • HUB OFICIAL
+        </span>
+        <h1 className="camp-title">
+          {configAtual?.nome || "CAMPEONATOS DO ADR"}
+        </h1>
+        {configAtual?.subtitulo && (
+          <p className="camp-edition">{configAtual.subtitulo}</p>
+        )}
         <div className="camp-header-divider"></div>
+
+        {/* Edição rápida do nome (só admin) */}
+        {isAdmin && !editingMeta && (
+          <button
+            type="button"
+            className="camp-edit-btn"
+            onClick={startEditMeta}
+          >
+            ✎ Editar nome da competição
+          </button>
+        )}
+
+        {isAdmin && editingMeta && (
+          <div className="camp-meta-form">
+            <input
+              type="text"
+              autoFocus
+              placeholder="Nome (ex: Copa ADR 2026)"
+              value={metaForm.nome}
+              onChange={(e) =>
+                setMetaForm({ ...metaForm, nome: e.target.value })
+              }
+              onKeyDown={(e) => e.key === "Enter" && saveMeta()}
+            />
+            <input
+              type="text"
+              placeholder="Subtítulo opcional (ex: A edição da vingança)"
+              value={metaForm.subtitulo}
+              onChange={(e) =>
+                setMetaForm({ ...metaForm, subtitulo: e.target.value })
+              }
+              onKeyDown={(e) => e.key === "Enter" && saveMeta()}
+            />
+            <div className="camp-meta-actions">
+              <button
+                type="button"
+                className="camp-meta-cancel"
+                onClick={() => setEditingMeta(false)}
+                disabled={savingMeta}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="camp-meta-save"
+                onClick={saveMeta}
+                disabled={savingMeta}
+              >
+                {savingMeta ? "Salvando..." : "Salvar"}
+              </button>
+            </div>
+          </div>
+        )}
       </header>
+
+      {/* RESUMO DA TEMPORADA */}
+      {resumo.total > 0 && (
+        <div className="camp-summary">
+          <div>
+            <strong>{resumo.total}</strong>
+            <span>Jogos</span>
+          </div>
+          <div>
+            <strong>{resumo.feitos}</strong>
+            <span>Realizados</span>
+          </div>
+          <div>
+            <strong>{resumo.gols}</strong>
+            <span>Gols</span>
+          </div>
+          {resumo.grupos > 0 && (
+            <div>
+              <strong>{resumo.grupos}</strong>
+              <span>Grupos</span>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* PAINEL DE CONTROLES (ANOS + ABAS) */}
       <div className="camp-controls-bar">
@@ -211,9 +368,25 @@ export default function Campeonato({ isAdmin }) {
               onClick={() => setSelectedYear(ano)}
             >
               <span className="year-dot"></span>
-              Temporada {ano}
+              <span className="year-text">
+                <b>{ano}</b>
+                {configs[ano]?.nome && (
+                  <small className="year-name">{configs[ano].nome}</small>
+                )}
+              </span>
             </button>
           ))}
+
+          {isAdmin && (
+            <button
+              type="button"
+              className="camp-year-btn camp-year-add"
+              onClick={addSeason}
+              title="Criar a próxima temporada"
+            >
+              + Nova temporada
+            </button>
+          )}
         </div>
 
         {/* Navegação de Fase */}
@@ -264,7 +437,7 @@ export default function Campeonato({ isAdmin }) {
             tabelaGrupos={tabelaGrupos}
             loadData={loadData}
             isAdmin={isAdmin}
-            configAtual={configs[selectedYear]}
+            configAtual={configAtual}
           />
         )}
 

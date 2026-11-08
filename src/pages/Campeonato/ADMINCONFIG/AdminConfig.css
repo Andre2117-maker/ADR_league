@@ -1,0 +1,652 @@
+/* ==========================================================================
+   PAINEL DE CONFIGURAÇÃO DO TORNEIO (DESIGN SHARP / PEBARIANOS CUP)
+   ========================================================================== */
+.camp-admin-container {
+  --ca-bg: #050505;
+  --ca-surface: #0a0a0d;
+  --ca-line: #1f1f24;
+  --ca-line-strong: #2e2e36;
+  --ca-gold: #d4af37;
+  --ca-text: #ffffff;
+  --ca-muted: #71717a;
+
+  background: var(--ca-bg);
+  padding: 34px 30px;
+  border-radius: 0;
+  border: 1px solid var(--ca-line);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* Cabeçalho Estilo "PEBARIANOS CUP" / "CLASSIFICAÇÃO GERAL" */
+.camp-admin-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.camp-admin-kicker {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  color: var(--ca-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.camp-admin-title {
+  color: var(--ca-text);
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+}
+
+.camp-admin-gold-line {
+  width: 65%;
+  max-width: 460px;
+  height: 1px;
+  margin-top: 14px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.65),
+    transparent
+  );
+}
+
+/* Barra de Contadores (Igual ao topo de estatísticas do seu site) */
+.camp-admin-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--ca-line);
+  background: #070709;
+  margin-bottom: 26px;
+}
+
+.camp-stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  border-right: 1px solid var(--ca-line);
+  gap: 4px;
+}
+
+.camp-stat-box:last-child {
+  border-right: none;
+}
+
+.camp-stat-num {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--ca-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.camp-stat-label {
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--ca-muted);
+  text-transform: uppercase;
+}
+
+/* Seção de Torneios Salvos (Abas estilo "2026 PEBARIANOS CUP") */
+.camp-saved-tournaments-section {
+  margin-bottom: 26px;
+}
+
+.camp-section-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--ca-gold);
+  text-transform: uppercase;
+}
+
+.camp-btn-new-preset {
+  background: transparent;
+  border: 1px solid var(--ca-gold);
+  color: var(--ca-gold);
+  padding: 5px 12px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.camp-btn-new-preset:hover {
+  background: var(--ca-gold);
+  color: #000;
+}
+
+.camp-tournaments-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--ca-line);
+  background: #070709;
+}
+
+.camp-tournament-tab {
+  flex: 1;
+  min-width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-right: 1px solid var(--ca-line);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.camp-tournament-tab:hover {
+  background: #0d0d11;
+}
+
+.camp-tournament-tab.active {
+  background: linear-gradient(
+    180deg,
+    rgba(212, 175, 55, 0.14) 0%,
+    #070709 100%
+  );
+  border-bottom-color: var(--ca-gold);
+}
+
+.camp-tab-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.camp-tab-year {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.camp-sq {
+  width: 5px;
+  height: 5px;
+  background: var(--ca-gold);
+  display: inline-block;
+}
+
+.camp-tab-name {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: var(--ca-muted);
+  text-transform: uppercase;
+}
+
+.camp-tab-del {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #555;
+  width: 22px;
+  height: 22px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.camp-tab-del:hover {
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ================= CAMPOS E LINHAS DE FORMULÁRIO ================= */
+.camp-admin-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.camp-admin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.camp-toolbar-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.camp-admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.camp-field-small {
+  width: 135px;
+}
+
+.camp-admin-field label {
+  color: var(--ca-muted);
+  font-size: 0.64rem;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.camp-admin-container input,
+.camp-admin-container select {
+  background: var(--ca-surface);
+  color: #fff;
+  border: 1px solid var(--ca-line-strong);
+  padding: 11px 14px;
+  border-radius: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  font-family: inherit;
+  outline: none;
+  height: 42px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.camp-admin-container input:focus,
+.camp-admin-container select:focus {
+  border-color: var(--ca-gold);
+}
+
+.camp-admin-input-flex {
+  flex: 1;
+  min-width: 240px;
+}
+
+.camp-admin-divider {
+  border: 0;
+  height: 1px;
+  background: var(--ca-line);
+  margin: 26px 0;
+}
+
+.camp-hint-text {
+  font-size: 0.68rem;
+  color: var(--ca-muted);
+  margin-bottom: 18px;
+  letter-spacing: 0.4px;
+}
+
+.camp-hint-text strong {
+  color: #d4d4d8;
+}
+
+/* ================= BOTÕES ADMIN (SHARP) ================= */
+.camp-btn {
+  height: 42px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.camp-btn-dark {
+  background: #0f0f13;
+  color: #e4e4e7;
+  border-color: var(--ca-line-strong);
+}
+
+.camp-btn-dark:hover {
+  border-color: var(--ca-gold);
+  color: var(--ca-gold);
+}
+
+.camp-btn-outline-gold {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--ca-gold);
+  border-color: rgba(212, 175, 55, 0.45);
+}
+
+.camp-btn-outline-gold:hover {
+  background: var(--ca-gold);
+  color: #000;
+}
+
+/* Botão Dourado Sólido igual ao botão "FASE DE GRUPOS" do seu print */
+.camp-btn-gold {
+  background: var(--ca-gold);
+  color: #000000;
+  border-color: var(--ca-gold);
+}
+
+.camp-btn-gold:hover {
+  filter: brightness(1.1);
+}
+
+.camp-btn-save {
+  width: 100%;
+  height: 50px;
+  background: var(--ca-gold);
+  color: #000000;
+  border: 1px solid var(--ca-gold);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-top: 8px;
+}
+
+.camp-btn-save:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.28);
+}
+
+.camp-btn-save:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* ================= GRID DE GRUPOS CRIADOS ================= */
+.camp-admin-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.camp-admin-group-card {
+  background: #08080a;
+  border-radius: 0;
+  border: 1px solid var(--ca-line);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.camp-admin-group-card:hover {
+  border-color: #32323c;
+}
+
+.camp-admin-group-card.is-selected-group {
+  border-color: var(--ca-gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.12);
+}
+
+.camp-admin-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0c0c10;
+  border-bottom: 1px solid var(--ca-line);
+  padding: 10px 14px;
+}
+
+.camp-group-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.camp-admin-group-header h4 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.camp-group-count {
+  font-size: 0.64rem;
+  font-weight: 900;
+  padding: 1px 6px;
+  background: rgba(212, 175, 55, 0.14);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--ca-gold);
+}
+
+.btn-delete-group {
+  background: transparent;
+  border: none;
+  color: #71717a;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 4px;
+  transition: color 0.2s ease;
+}
+
+.btn-delete-group:hover {
+  color: #ef4444;
+}
+
+/* Lista de Equipes do Grupo (Estilo Linhas da Classificação Geral) */
+.camp-team-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.camp-admin-team-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #131318;
+  border-left: 3px solid transparent;
+  font-size: 0.82rem;
+  color: #e4e4e7;
+  transition: background 0.15s ease;
+}
+
+.camp-admin-team-item:last-child {
+  border-bottom: none;
+}
+
+.camp-admin-team-item:hover {
+  background: #0e0e13;
+}
+
+/* Destaque lateral azul/dourado para as vagas de classificação (igual Top 3 da sua tabela) */
+.camp-admin-team-item.is-qualifying-slot {
+  border-left-color: #3b82f6;
+}
+
+.camp-team-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.camp-team-pos {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #52525b;
+  width: 14px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.camp-team-name-text {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.camp-inline-edit-input {
+  height: 26px !important;
+  padding: 2px 6px !important;
+  font-size: 0.78rem !important;
+  width: 100%;
+}
+
+.camp-team-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-move-team,
+.btn-delete-team {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #71717a;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 900;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.btn-move-team:hover {
+  color: var(--ca-gold);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+.btn-delete-team:hover {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.empty-msg {
+  padding: 16px 12px;
+  font-size: 0.75rem;
+  color: #52525b;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+  .camp-admin-container {
+    padding: 22px 16px;
+  }
+
+  .camp-admin-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .camp-stat-box:nth-child(2) {
+    border-right: none;
+  }
+
+  .camp-stat-box:nth-child(1),
+  .camp-stat-box:nth-child(2) {
+    border-bottom: 1px solid var(--ca-line);
+  }
+
+  .camp-field-small {
+    width: 100%;
+  }
+
+  .camp-admin-toolbar,
+  .camp-toolbar-left {
+    width: 100%;
+  }
+
+  .camp-toolbar-left .camp-admin-field,
+  .camp-toolbar-left .camp-btn,
+  .camp-toolbar-right,
+  .camp-toolbar-right .camp-btn,
+  .camp-add-team-row .camp-btn {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   TEMA IDR - PAINEL DE CONFIGURAÇÃO CLEAN (PRETO E BRANCO SHARP)
+   ========================================================================== */
+.theme-idr .camp-admin-container {
+  --ca-bg: #ffffff;
+  --ca-surface: #f8fafc;
+  --ca-line: #e2e8f0;
+  --ca-line-strong: #cbd5e1;
+  --ca-gold: #0f172a;
+  --ca-text: #0f172a;
+  --ca-muted: #64748b;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+.theme-idr .camp-admin-stats-bar,
+.theme-idr .camp-tournaments-tabs {
+  background: #f8fafc !important;
+}
+
+.theme-idr .camp-tournament-tab.active {
+  background: #e2e8f0 !important;
+}
+
+.theme-idr .camp-tab-year,
+.theme-idr .camp-admin-group-header h4 {
+  color: #0f172a !important;
+}
+
+.theme-idr .camp-admin-container input,
+.theme-idr .camp-admin-container select {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.theme-idr .camp-btn-gold,
+.theme-idr .camp-btn-save {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+}
+
+.theme-idr .camp-admin-group-card {
+  background: #ffffff !important;
+}
+
+.theme-idr .camp-admin-group-header {
+  background: #f8fafc !important;
+}
+
+.theme-idr .camp-admin-team-item {
+  color: #1e293b !important;
+  border-bottom-color: #f1f5f9 !important;
+}
