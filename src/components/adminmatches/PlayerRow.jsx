@@ -1,10 +1,20 @@
 import React, { useState } from "react";
+import { CARD_REASONS } from "./adminMatchesUtils";
 
+/**
+ * Linha do jogador: toque no nome = entra/sai da escalação.
+ * Se ele está jogando, aparecem os botões grandes de ação.
+ * Mostra número da camisa e o que ele já fez na partida.
+ */
 function PlayerRow({
   player,
+  shirt,
   isSelected,
   isGK,
   isCaptain,
+  cameIn,
+  wentOut,
+  stats,
   onToggle,
   onSetGK,
   onSetCaptain,
@@ -12,144 +22,100 @@ function PlayerRow({
   onOwnGoal,
   onCard,
 }) {
-  // Estados para controlar o input do motivo do cartão
-  const [pendingCardType, setPendingCardType] = useState(null);
-  const [cardReason, setCardReason] = useState("");
+  const [pendingCard, setPendingCard] = useState(null);
+  const [reason, setReason] = useState("");
 
-  const handleConfirmCard = (e) => {
-    e.stopPropagation();
-    // Envia o tipo de cartão e o motivo escrito
-    onCard(pendingCardType, cardReason);
-    // Limpa o estado e fecha o input
-    setPendingCardType(null);
-    setCardReason("");
-  };
+  const playing = isSelected || cameIn;
+  const s = stats || {};
 
-  const handleCancelCard = (e) => {
-    e.stopPropagation();
-    setPendingCardType(null);
-    setCardReason("");
+  const confirmCard = (r = reason) => {
+    onCard(pendingCard, r);
+    setPendingCard(null);
+    setReason("");
   };
 
   return (
-    <div className={`player-row ${isSelected ? "active" : ""}`}>
-      <div className="p-clickable-area" onClick={onToggle}>
-        <input type="checkbox" checked={isSelected} readOnly />
+    <div className={`amp-row ${isSelected ? "is-selected" : ""} ${cameIn && !isSelected ? "is-sub" : ""} ${s.red ? "is-sent-off" : ""}`}>
+      <button type="button" className="amp-main" onClick={onToggle} aria-pressed={isSelected}>
+        <span className="amp-check" aria-hidden="true" />
+        {shirt !== "" && <span className="amp-num">{shirt}</span>}
+        <span className="amp-name">{player.name}</span>
 
-        <span className="p-name">
-          {player.name} {isGK && "🧤"} {isCaptain && "Ⓒ"}
+        <span className="amp-tags">
+          {isGK && <i title="Goleiro titular">🧤</i>}
+          {isCaptain && <i title="Capitão">Ⓒ</i>}
+          {cameIn && <i title="Entrou">⬆️</i>}
+          {wentOut && <i title="Saiu">⬇️</i>}
         </span>
-      </div>
 
-      {/* Renderiza os botões normais se não houver um cartão pendente de justificativa */}
-      {isSelected && !pendingCardType && (
-        <div className="actions">
-          <button
-            title="Capitão"
-            className={`btn-captain ${isCaptain ? "is-captain-active" : ""}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              onSetCaptain();
-            }}
-          >
-            Ⓒ
+        <span className="amp-stats">
+          {s.goals > 0 && <em>⚽{s.goals > 1 ? s.goals : ""}</em>}
+          {s.assists > 0 && <em>🎯{s.assists > 1 ? s.assists : ""}</em>}
+          {s.og > 0 && <em>⚠️{s.og > 1 ? s.og : ""}</em>}
+          {s.yellow > 0 && <em>🟨{s.yellow > 1 ? s.yellow : ""}</em>}
+          {s.red > 0 && <em>🟥</em>}
+        </span>
+      </button>
+
+      {playing && !pendingCard && (
+        <div className="amp-actions">
+          <button type="button" className="amp-act amp-goal" onClick={onGoal}>
+            ⚽ <span>Gol</span>
           </button>
-
-          <button
-            title="Goleiro"
-            className={`btn-gk ${isGK ? "is-gk" : ""}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              onSetGK();
-            }}
-          >
-            GK
-          </button>
-
-          <button
-            title="Gol"
-            className="btn-goal"
-            onClick={(e) => {
-              e.stopPropagation();
-              onGoal();
-            }}
-          >
-            ⚽
-          </button>
-
-          <button
-            title="GC"
-            className="btn-og"
-            onClick={(e) => {
-              e.stopPropagation();
-              onOwnGoal();
-            }}
-          >
+          <button type="button" className="amp-act amp-og" onClick={onOwnGoal}>
             GC
           </button>
-
-          <button
-            title="Amarelo"
-            className="btn-card yellow"
-            onClick={(e) => {
-              e.stopPropagation();
-              setPendingCardType("YELLOW"); // Abre o input
-            }}
-          >
+          <button type="button" className="amp-act amp-yellow" onClick={() => setPendingCard("YELLOW")} aria-label="Amarelo">
             🟨
           </button>
-
-          <button
-            title="Vermelho"
-            className="btn-card red"
-            onClick={(e) => {
-              e.stopPropagation();
-              setPendingCardType("RED"); // Abre o input
-            }}
-          >
+          <button type="button" className="amp-act amp-red" onClick={() => setPendingCard("RED")} aria-label="Vermelho">
             🟥
           </button>
+          {isSelected && (
+            <>
+              <button type="button" className={`amp-act amp-gk ${isGK ? "on" : ""}`} onClick={onSetGK} title="Goleiro titular">
+                🧤
+              </button>
+              <button type="button" className={`amp-act amp-cap ${isCaptain ? "on" : ""}`} onClick={onSetCaptain} title="Capitão">
+                Ⓒ
+              </button>
+            </>
+          )}
         </div>
       )}
 
-      {/* Renderiza o campo de texto se o usuário clicou em um cartão */}
-      {isSelected && pendingCardType && (
-        <div
-          className="actions card-reason-box"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <input
-            type="text"
-            placeholder={`Motivo (${pendingCardType === "YELLOW" ? "Amarelo" : "Vermelho"})...`}
-            value={cardReason}
-            onChange={(e) => setCardReason(e.target.value)}
-            autoFocus
-            style={{ padding: "4px", fontSize: "12px", width: "120px" }}
-          />
-          <button
-            style={{
-              backgroundColor: "#28a745",
-              color: "white",
-              padding: "4px 8px",
-            }}
-            onClick={handleConfirmCard}
-          >
-            ✔
-          </button>
-          <button
-            style={{
-              backgroundColor: "#dc3545",
-              color: "white",
-              padding: "4px 8px",
-            }}
-            onClick={handleCancelCard}
-          >
-            ✖
-          </button>
+      {playing && pendingCard && (
+        <div className="amp-card-box">
+          <div className="amp-card-title">
+            {pendingCard === "YELLOW" ? "🟨 Amarelo" : "🟥 Vermelho"} · motivo (opcional)
+          </div>
+          <div className="am-chips">
+            {CARD_REASONS.map((r) => (
+              <button key={r} type="button" className="am-chip" onClick={() => confirmCard(r)}>
+                {r}
+              </button>
+            ))}
+          </div>
+          <div className="am-inline">
+            <input
+              className="am-input"
+              placeholder="Outro motivo..."
+              value={reason}
+              autoFocus
+              onChange={(e) => setReason(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && confirmCard()}
+            />
+            <button type="button" className="am-btn am-btn-primary" onClick={() => confirmCard()}>
+              ✓
+            </button>
+            <button type="button" className="am-btn am-btn-ghost" onClick={() => setPendingCard(null)}>
+              ✕
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 }
 
-export default PlayerRow;
+export default React.memo(PlayerRow);

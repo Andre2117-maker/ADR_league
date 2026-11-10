@@ -16,7 +16,7 @@ import { getBestPartner, calculateStandings } from "./utils/statsLogic";
 import Home from "./pages/Home.jsx";
 import AdminLogin from "./pages/Login/AdminLogin.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
-import AdminMatches from "./pages/AdminMatches.jsx";
+import AdminMatches from "./pages/AdminMatches/AdminMatches.jsx";
 import Regras from "./pages/Rules/Regras.jsx";
 import Calendar from "./pages/Calendar.jsx";
 import Navbar from "./pages/NavBar/NavBar.jsx";

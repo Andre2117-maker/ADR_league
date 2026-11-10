@@ -1,242 +1,136 @@
 import React, { useState } from "react";
+import Modal from "./Modal";
+import { penaltyGoals, penaltyResult, playerName } from "./adminMatchesUtils";
 
-function PenaltiesSection({ draft, players = [], addPenalty, removePenalty }) {
-  const [modalConfig, setModalConfig] = useState(null); // Controla se o modal está aberto
-  const [selectedPlayer, setSelectedPlayer] = useState("");
-  const [externalName, setExternalName] = useState("");
-
-  // 1. Calcula o placar automático lendo o array de pênaltis
-  const getScore = (team) => {
-    const teamPenalties = draft.penalties?.[team] || [];
-    return teamPenalties.filter((p) => {
-      // Suporta o formato antigo (string) e o novo (objeto)
-      const result = typeof p === "object" ? p.result : p;
-      return result === "goal";
-    }).length;
-  };
-
-  const scoreA = getScore("A");
-  const scoreB = getScore("B");
-
-  // 2. Lida com o clique nos botões
-  const handlePenaltyClick = (team, result) => {
-    if (result === "pending") {
-      // Se for a bolinha branca, não precisa de cobrador
-      addPenalty(team, result, null, "");
-    } else {
-      // Se for Gol ou Miss, abre a tela pra escolher o jogador
-      setModalConfig({ team, result });
-      setSelectedPlayer("");
-      setExternalName("");
-    }
-  };
-
-  // 3. Salva o jogador escolhido no modal
-  const handleSavePlayer = () => {
-    if (!modalConfig) return;
-    addPenalty(
-      modalConfig.team,
-      modalConfig.result,
-      selectedPlayer,
-      externalName,
-    );
-    setModalConfig(null);
-  };
-
-  // 4. Pega o nome do jogador pra mostrar quando passar o mouse em cima da bolinha
-  const getPlayerName = (id, extName) => {
-    if (!id) return "";
-    if (id === "EXTERNO") return extName || "Jogador Externo";
-    return players.find((p) => p.id === id)?.name || "Desconhecido";
-  };
-
-  // 5. Filtra os jogadores do time correto
-  const getTeamPlayers = (teamLetter) => {
-    const teamIds =
-      teamLetter === "A"
-        ? draft.teamA?.players || draft.actualParticipantsA || []
-        : draft.teamB?.players || draft.actualParticipantsB || [];
-
-    console.log(`Time ${teamLetter} - IDs encontrados:`, teamIds);
-    console.log("Total de jogadores disponíveis na prop:", players.length);
-
-    const filtered = players.filter((p) => teamIds.includes(p.id));
-    console.log(`Jogadores filtrados para o time ${teamLetter}:`, filtered);
-
-    return filtered;
-  };
+/* Modal: quem cobrou? (toque no nome) */
+function TakerModal({ result, teamName, candidates, onSave, onClose }) {
+  const [ext, setExt] = useState("");
+  const [showExt, setShowExt] = useState(candidates.length === 0);
 
   return (
-    <div className="penalties-admin-section">
-      <h3 className="section-title">🏆 PÊNALTIS</h3>
-
-      {/* --- PLACAR AUTOMÁTICO COM CSS NOVO --- */}
-      <div className="penalties-score-display">
-        <div
-          className={`penalties-score-box ${scoreA > scoreB ? "winner" : ""}`}
-        >
-          {scoreA}
-        </div>
-        <span className="penalties-score-divider">X</span>
-        <div
-          className={`penalties-score-box ${scoreB > scoreA ? "winner" : ""}`}
-        >
-          {scoreB}
-        </div>
+    <Modal
+      title={`${result === "goal" ? "✅ Gol" : "❌ Perdeu"} · quem cobrou?`}
+      subtitle={teamName}
+      onClose={onClose}
+    >
+      <div className="amx-grid">
+        {candidates.map((p) => (
+          <button key={p.id} type="button" className="amx-pick" onClick={() => onSave(p.id, "")}>
+            {p.name}
+          </button>
+        ))}
       </div>
 
-      {/* --- MODAL DE SELEÇÃO DE COBRADOR (AQUI ESTAVA FALTANDO!) --- */}
-      {modalConfig && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.85)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 9999,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#111",
-              padding: "20px",
-              borderRadius: "8px",
-              border: "1px solid #d4af37",
-              width: "90%",
-              maxWidth: "300px",
-              textAlign: "center",
-            }}
+      {showExt ? (
+        <div className="am-inline">
+          <input
+            className="am-input"
+            autoFocus
+            placeholder="Nome do cobrador"
+            value={ext}
+            onChange={(e) => setExt(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && ext.trim() && onSave("EXTERNO", ext.trim())}
+          />
+          <button
+            type="button"
+            className="am-btn am-btn-primary"
+            disabled={!ext.trim()}
+            onClick={() => onSave("EXTERNO", ext.trim())}
           >
-            <h3
-              style={{
-                color: "#d4af37",
-                marginBottom: "15px",
-                fontSize: "16px",
-              }}
-            >
-              Quem cobrou? (
-              {modalConfig.result === "goal" ? "⚽ Gol" : "❌ Perdeu"})
-            </h3>
-
-            <select
-              value={selectedPlayer}
-              onChange={(e) => setSelectedPlayer(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: selectedPlayer === "EXTERNO" ? "10px" : "20px",
-                backgroundColor: "#222",
-                color: "#fff",
-                border: "1px solid #444",
-                borderRadius: "4px",
-              }}
-            >
-              <option value="">Selecione um jogador...</option>
-              {getTeamPlayers(modalConfig.team).map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-              <option value="EXTERNO">Outro / Externo</option>
-            </select>
-
-            {selectedPlayer === "EXTERNO" && (
-              <input
-                type="text"
-                placeholder="Nome do jogador externo"
-                value={externalName}
-                onChange={(e) => setExternalName(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  marginBottom: "20px",
-                  backgroundColor: "#222",
-                  color: "#fff",
-                  border: "1px solid #444",
-                  borderRadius: "4px",
-                }}
-              />
-            )}
-
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button
-                onClick={() => setModalConfig(null)}
-                style={{
-                  flex: 1,
-                  padding: "10px",
-                  backgroundColor: "#444",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleSavePlayer}
-                style={{
-                  flex: 1,
-                  padding: "10px",
-                  backgroundColor: "#d4af37",
-                  color: "#000",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                }}
-              >
-                Salvar
-              </button>
-            </div>
-          </div>
+            ✓
+          </button>
         </div>
+      ) : (
+        <button type="button" className="am-chip" onClick={() => setShowExt(true)}>
+          Outro / externo
+        </button>
       )}
 
-      {/* --- BLOCOS DOS TIMES --- */}
-      {["A", "B"].map((team) => (
-        <div key={team} className="penalty-team-block">
-          <h4>{team === "A" ? draft.teamA?.name : draft.teamB?.name}</h4>
-
-          <div className="penalty-buttons">
-            <button onClick={() => handlePenaltyClick(team, "goal")}>✅</button>
-            <button onClick={() => handlePenaltyClick(team, "miss")}>❌</button>
-            <button onClick={() => handlePenaltyClick(team, "pending")}>
-              ⚪
-            </button>
-          </div>
-
-          <div className="penalty-seq">
-            {(draft.penalties?.[team] || []).map((p, i) => {
-              // Se p for objeto, pegamos os dados, se for string, tratamos como antigo
-              const isObj = typeof p === "object";
-              const result = isObj ? p.result : p;
-              const pName = isObj
-                ? getPlayerName(p.playerId, p.externalName)
-                : "";
-
-              return (
-                <span
-                  key={i}
-                  className={`penalty ${result}`}
-                  onClick={() => removePenalty(team, i)}
-                  title={pName ? `Cobrador: ${pName}` : "Remover"}
-                  style={{ cursor: "pointer" }}
-                >
-                  {result === "goal" ? "⚽" : result === "miss" ? "✖" : "•"}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </div>
+      <button type="button" className="am-btn am-btn-ghost am-btn-block" onClick={() => onSave(null, "")}>
+        Registrar sem cobrador
+      </button>
+    </Modal>
   );
 }
 
-export default PenaltiesSection;
+/**
+ * Disputa de pênaltis: dois botões grandes por time.
+ * Toque numa bolinha para remover aquela cobrança.
+ */
+export default function PenaltiesSection({
+  penalties,
+  teamA,
+  teamB,
+  candidates,
+  playersById,
+  onAdd,
+  onRemove,
+}) {
+  const [taker, setTaker] = useState(null);
+  const pA = penaltyGoals(penalties, "A");
+  const pB = penaltyGoals(penalties, "B");
+  const names = { A: teamA.name || "Time A", B: teamB.name || "Time B" };
+
+  return (
+    <div className="am-panel am-pens">
+      <div className="am-panel-head">
+        <span className="am-kicker">EMPATE</span>
+        <h2>Pênaltis</h2>
+      </div>
+
+      <div className="am-pens-score">
+        <b className={pA > pB ? "win" : ""}>{pA}</b>
+        <i>×</i>
+        <b className={pB > pA ? "win" : ""}>{pB}</b>
+      </div>
+
+      <div className="am-pens-teams">
+        {["A", "B"].map((side) => (
+          <div key={side} className="am-pens-team">
+            <h4>{names[side]}</h4>
+            <div className="am-pens-btns">
+              <button type="button" className="amp-act amp-goal" onClick={() => setTaker({ side, result: "goal" })}>
+                ✅ Gol
+              </button>
+              <button type="button" className="amp-act amp-red" onClick={() => setTaker({ side, result: "miss" })}>
+                ❌ Perdeu
+              </button>
+            </div>
+            <div className="am-pens-seq">
+              {(penalties?.[side] || []).map((p, i) => {
+                const r = penaltyResult(p);
+                const who = typeof p === "object" && p ? playerName(playersById, p.playerId, p.externalName) : "";
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`am-pen ${r}`}
+                    title={who ? `${i + 1}ª: ${who}` : `${i + 1}ª cobrança`}
+                    onClick={() => {
+                      if (window.confirm(`Remover a ${i + 1}ª cobrança${who ? ` (${who})` : ""}?`)) onRemove(side, i);
+                    }}
+                  >
+                    {r === "goal" ? "●" : r === "miss" ? "✕" : "•"}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {taker && (
+        <TakerModal
+          result={taker.result}
+          teamName={names[taker.side]}
+          candidates={candidates[taker.side] || []}
+          onClose={() => setTaker(null)}
+          onSave={(playerId, externalName) => {
+            onAdd(taker.side, taker.result, playerId, externalName);
+            setTaker(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}

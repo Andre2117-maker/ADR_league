@@ -14,6 +14,17 @@ import Footer from "../components/Footer";
 import FriendlySummary from "../components/Statics/FriendlySummary";
 import { useFriendlyStats } from "../data/useFriendlyStats";
 
+// Regras únicas de estatística (mesmas do dashboard do jogador)
+import {
+  CURRENT_SEASON,
+  SEASON_STAT_TYPES,
+  matchType,
+  isOfficialMatch,
+  matchYear,
+  playerSide,
+  countMatchGoals,
+} from "../utils/matchStats";
+
 // Função auxiliar para identificar se o nome do time na tabela é O ADR
 const isADRTeam = (teamName) => {
   if (!teamName) return false;
@@ -166,7 +177,12 @@ export default function Statics({ players = [], matches = [] }) {
       if (!editionsMap[anoKey]) {
         editionsMap[anoKey] = {
           ano: anoKey,
-          titulo: configsCamp[anoKey]?.titulo || `Campeonato ${anoKey}`,
+          titulo:
+            configsCamp[anoKey]?.nome ||
+            configsCamp[anoKey]?.titulo ||
+            Object.values(configsCamp).find((c) => String(c?.ano) === anoKey)
+              ?.titulo ||
+            `Campeonato ${anoKey}`,
           jogos: 0,
           vitorias: 0,
           empates: 0,
@@ -296,17 +312,27 @@ export default function Statics({ players = [], matches = [] }) {
     };
   }, [partidasCamp, configsCamp, sortedMatchesByDate]);
 
-  // 2. Função de cálculo original da Temporada 2026 (Mantida 100% igual à sua)
+  // 2. Partidas que valem para a temporada: treino + evento, oficiais, do ano atual
+  //    (antes só contava TREINO, por isso gols/assistências de EVENTO sumiam)
+  const seasonMatches = useMemo(
+    () =>
+      sortedMatchesByDate.filter(
+        (m) =>
+          SEASON_STAT_TYPES.includes(matchType(m)) &&
+          isOfficialMatch(m) &&
+          matchYear(m) === CURRENT_SEASON,
+      ),
+    [sortedMatchesByDate],
+  );
+
   const getPlayerStats = useCallback(
     (playerId) => {
       const defaultReturn = { goals: 0, assists: 0, points: 0, games: 0 };
-      if (!sortedMatchesByDate.length) return defaultReturn;
+      if (!seasonMatches.length) return defaultReturn;
 
-      const playerMatches = sortedMatchesByDate.filter(
-        (m) =>
-          m.type === "TREINO" &&
-          (m.teamA?.players?.some((id) => String(id) === String(playerId)) ||
-            m.teamB?.players?.some((id) => String(id) === String(playerId))),
+      // Conta também quem entrou como substituto (actualParticipants)
+      const playerMatches = seasonMatches.filter((m) =>
+        playerSide(m, playerId),
       );
 
       let totalGoals = 0;
@@ -315,10 +341,8 @@ export default function Statics({ players = [], matches = [] }) {
       let totalDraws = 0;
 
       playerMatches.forEach((m) => {
-        const isTeamA = m.teamA?.players?.some(
-          (id) => String(id) === String(playerId),
-        );
-        const playerTeam = isTeamA ? "A" : "B";
+        const playerTeam = playerSide(m, playerId);
+        const isTeamA = playerTeam === "A";
         const pIdStr = String(playerId);
 
         m.events?.forEach((e) => {
@@ -331,18 +355,7 @@ export default function Statics({ players = [], matches = [] }) {
           }
         });
 
-        const goalsA =
-          m.events?.filter(
-            (e) =>
-              (e.type === "GOAL" && e.team === "A") ||
-              (e.type === "OWN_GOAL" && e.team === "B"),
-          ).length || 0;
-        const goalsB =
-          m.events?.filter(
-            (e) =>
-              (e.type === "GOAL" && e.team === "B") ||
-              (e.type === "OWN_GOAL" && e.team === "A"),
-          ).length || 0;
+        const { a: goalsA, b: goalsB } = countMatchGoals(m);
 
         const winner = m.penaltiesWinner || m.winner;
         let result = "";
@@ -366,7 +379,7 @@ export default function Statics({ players = [], matches = [] }) {
         games: playerMatches.length,
       };
     },
-    [sortedMatchesByDate],
+    [seasonMatches],
   );
 
   // 3. Processamento Final original (Mantido sem alterações)
@@ -562,11 +575,17 @@ export default function Statics({ players = [], matches = [] }) {
         </div>
 
         {/* ==================== 3. ESTATÍSTICAS DA TEMPORADA 2026 ==================== */}
-        <h1 className="page-title3">Estatísticas da Temporada 2026</h1>
+        <h1 className="page-title3">
+          Estatísticas da Temporada {CURRENT_SEASON}
+        </h1>
         <div className="statics-grid">
           <TopScorersCard players={sortedByGoals} limit={10} />
           <TopAssistsCard players={sortedByAssists} limit={10} />
-          <TopGoalkeepersCard players={players} matches={matches} limit={10} />
+          <TopGoalkeepersCard
+            players={players}
+            matches={seasonMatches}
+            limit={10}
+          />
         </div>
 
         {/* ==================== 4. ALL TIME ==================== */}

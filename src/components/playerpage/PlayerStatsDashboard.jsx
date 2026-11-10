@@ -1,5 +1,10 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/Playerpage/playerdashboard.css";
+import {
+  isOfficialMatch,
+  playerSide,
+  playerGkLine,
+} from "../../utils/matchStats";
 
 // ==========================================
 // ÍCONES MINIMALISTAS (traço fino, herdam a cor do tema)
@@ -118,7 +123,7 @@ const getMatchChronoInfo = (m) => {
 
 // Função interna blindada para calcular o resultado exato d'O ADR (Sem empate em treino)
 const calculateMatchOutcome = (m, pIdStr) => {
-  const isTeamA = m.teamA?.players?.some((id) => String(id) === pIdStr);
+  const isTeamA = playerSide(m, pIdStr) === "A";
   const mType = String(m.type || "TREINO").toUpperCase();
   const isTreino = mType === "TREINO";
 
@@ -195,6 +200,19 @@ const PlayerStatsDashboard = ({ player, matches }) => {
   const [matchFilter, setMatchFilter] = useState("ALL_TYPES");
   const [showAbsences, setShowAbsences] = useState(false);
 
+  // Temporadas que existem nas partidas (em vez de 2025/2026 fixos)
+  const seasonOptions = useMemo(() => {
+    const years = new Set();
+    (matches || []).forEach((m) => {
+      const y = String(m.date || "").slice(0, 4);
+      if (/^\d{4}$/.test(y)) years.add(y);
+    });
+    Object.keys(player?.statsBySeason || {}).forEach((y) =>
+      years.add(String(y)),
+    );
+    return [...years].sort((a, b) => b.localeCompare(a));
+  }, [matches, player]);
+
   const stats = useMemo(() => {
     if (!player || !matches) return null;
 
@@ -231,9 +249,7 @@ const PlayerStatsDashboard = ({ player, matches }) => {
           if (!activeDays[rawDate]) {
             activeDays[rawDate] = { played: false };
           }
-          const participated =
-            m.teamA?.players?.some((id) => String(id) === pIdStr) ||
-            m.teamB?.players?.some((id) => String(id) === pIdStr);
+          const participated = Boolean(playerSide(m, pIdStr));
           if (participated) {
             activeDays[rawDate].played = true;
           }
@@ -273,9 +289,9 @@ const PlayerStatsDashboard = ({ player, matches }) => {
     // 2. FILTRAR E ORDENAR PARTIDAS DO JOGADOR EM ORDEM CRONOLÓGICA
     const pMatchesChrono = matches
       .filter((m) => {
-        const inA = m.teamA?.players?.some((id) => String(id) === pIdStr);
-        const inB = m.teamB?.players?.some((id) => String(id) === pIdStr);
-        if (!inA && !inB) return false;
+        // Jogou (titular ou entrou) e a partida conta como oficial
+        if (!playerSide(m, pIdStr)) return false;
+        if (!isOfficialMatch(m)) return false;
 
         const matchYear = new Date(m.date).getFullYear();
         const isSelectedSeason =
@@ -337,28 +353,13 @@ const PlayerStatsDashboard = ({ player, matches }) => {
         order: m.order || "",
       });
 
-      // Estatísticas como Goleiro
-      const isGkTeamA = String(m.teamA?.goalkeeperId) === pIdStr;
-      const isGkTeamB = String(m.teamB?.goalkeeperId) === pIdStr;
-
-      if (isGkTeamA || isGkTeamB) {
+      // Estatísticas como Goleiro: cada gol conta para quem estava no gol
+      // na hora (titular + trocas de goleiro). Partidas antigas: o titular leva todos.
+      const gkLine = playerGkLine(m, pIdStr);
+      if (gkLine) {
         filtered.gamesAsGK++;
-        const goalsA =
-          m.events?.filter(
-            (e) =>
-              (e.type === "GOAL" && e.team === "A") ||
-              (e.type === "OWN_GOAL" && e.team === "B"),
-          ).length || 0;
-        const goalsB =
-          m.events?.filter(
-            (e) =>
-              (e.type === "GOAL" && e.team === "B") ||
-              (e.type === "OWN_GOAL" && e.team === "A"),
-          ).length || 0;
-
-        const conceded = isGkTeamA ? goalsB : goalsA;
-        filtered.goalsAgainst += conceded;
-        if (conceded === 0) filtered.cleanSheets++;
+        filtered.goalsAgainst += gkLine.conceded;
+        if (gkLine.cleanSheet) filtered.cleanSheets++;
       }
 
       let goalsInThisMatch = 0;
@@ -503,8 +504,11 @@ const PlayerStatsDashboard = ({ player, matches }) => {
           onChange={(e) => setSelectedSeason(e.target.value)}
         >
           <option value="ALL">Todas as temporadas</option>
-          <option value="2026">Temporada 2026</option>
-          <option value="2025">Temporada 2025</option>
+          {seasonOptions.map((y) => (
+            <option key={y} value={y}>
+              Temporada {y}
+            </option>
+          ))}
         </select>
       </div>
 
