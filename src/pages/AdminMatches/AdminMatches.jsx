@@ -49,7 +49,7 @@ import {
   fmtClock,
 } from "../../components/adminmatches/adminMatchesUtils";
 import { computeGkStats } from "../../utils/goalkeeperStats";
-import { getShirtNumber, useClubMode } from "../../utils/shirtNumber";
+import { getShirtNumber, useClubMode } from "../../utils/Shitnumber";
 import { saveTeamPreset, loadTeamPresets } from "../../data/teamPresets";
 import LogoADR from "../../assets/logo.png";
 
