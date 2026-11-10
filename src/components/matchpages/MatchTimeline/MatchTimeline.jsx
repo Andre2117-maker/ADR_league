@@ -42,6 +42,49 @@ const MatchTimeline = ({ events, players, match }) => {
       <span className="timeline-minute">{e.minute}</span>
     ) : null;
 
+    // TROCA DE GOLEIRO: quem entra no gol (jogador do elenco ou nome externo)
+    if (e.type === "GK_CHANGE") {
+      const gkName = getPlayerName(e.playerInId, e.externalName);
+      const gkBlock = (
+        <div className={`gk-change-box ${isTeamA ? "left" : "right"}`}>
+          <span className="player-name">{gkName}</span>
+          <small className="gk-change-label">assume o gol</small>
+        </div>
+      );
+
+      return (
+        <div key={stableKey} className="timeline-event-row is-gk-change">
+          <div className="timeline-side left">
+            {isTeamA && (
+              <>
+                {gkBlock}
+                {minuteElement && (
+                  <span className="minute-spacing-left">{minuteElement}</span>
+                )}
+              </>
+            )}
+          </div>
+
+          <div className="timeline-center-icon">
+            <span className="event-icon gk-change" title="Troca de goleiro">
+              🧤
+            </span>
+          </div>
+
+          <div className="timeline-side right">
+            {!isTeamA && (
+              <>
+                {minuteElement && (
+                  <span className="minute-spacing-right">{minuteElement}</span>
+                )}
+                {gkBlock}
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+
     if (isSub) {
       isInjured = e.reason === "Lesão" || e.reason === "Machucado";
       playerOut = getPlayerName(e.playerOutId);

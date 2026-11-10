@@ -467,3 +467,44 @@
   color: rgba(0, 0, 0, 0.45) !important;
   border-color: rgba(0, 0, 0, 0.18) !important;
 }
+/* ==========================================================================
+   TROCA DE GOLEIRO NA LINHA DO TEMPO
+   Cole no FINAL do MatchTimeline.css
+   ========================================================================== */
+.gk-change-box {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.2;
+}
+
+.gk-change-box.left {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.gk-change-box.right {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.gk-change-label {
+  color: #3b82f6;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.event-icon.gk-change {
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.45));
+}
+
+/* Tema IDR */
+.theme-idr .gk-change-label {
+  color: #1d4ed8;
+}
+
+.theme-idr .event-icon.gk-change {
+  filter: none;
+}
