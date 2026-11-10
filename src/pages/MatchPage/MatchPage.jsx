@@ -77,6 +77,46 @@ function MatchPage({ matches, players, isAdmin }) {
 
   const { stats, mvp } = calculateMatchStats(match, players);
 
+  /* ------------------------------------------------------------------
+     TROCA DE GOLEIRO (sem substituição): titular sai do gol e um
+     jogador de linha assume. Vira o card igual à substituição.
+     Se a troca foi feita por substituição, o flip de SUB já mostra.
+     ------------------------------------------------------------------ */
+  const getGkSwap = (teamKey) => {
+    const teamData = teamKey === "B" ? match.teamB : match.teamA;
+    const startGk = teamData?.goalkeeperId
+      ? String(teamData.goalkeeperId)
+      : null;
+    const changes = (match.events || []).filter(
+      (e) => e.type === "GK_CHANGE" && e.team === teamKey && e.playerInId,
+    );
+    if (!startGk || changes.length === 0) return null;
+
+    const last = changes[changes.length - 1];
+    const finalGk = String(last.playerInId);
+    if (finalGk === startGk) return null;
+
+    const subs = (match.events || []).filter(
+      (e) => e.type === "SUB" && e.team === teamKey,
+    );
+    // Goleiro saiu numa substituição e quem entrou foi pro gol: já é o flip de SUB
+    const viaSub = subs.some(
+      (e) =>
+        String(e.playerOutId) === startGk && String(e.playerInId) === finalGk,
+    );
+    if (viaSub) return null;
+
+    return {
+      startGk,
+      finalGk,
+      minute: last.minute || "",
+      // o antigo goleiro continuou em campo (para virar o card do slot de linha)
+      startGkStayed: !subs.some((e) => String(e.playerOutId) === startGk),
+    };
+  };
+
+  const gkSwaps = { A: getGkSwap("A"), B: getGkSwap("B") };
+
   const getScorers = (teamKey) => {
     const goals =
       match.events?.filter(
@@ -253,7 +293,21 @@ function MatchPage({ matches, players, isAdmin }) {
     );
   };
 
-  const renderPlayerUI = (stats, subType, subReason, slotUniqueKey = "") => {
+  // gkMode: "gk-out" | "gk-in" (slot do gol) · "field-out" | "field-in" (slot de linha)
+  const GK_SWAP_TITLES = {
+    "gk-out": "Saiu do gol",
+    "gk-in": "Assumiu o gol",
+    "field-out": "Foi para o gol",
+    "field-in": "Saiu do gol e foi para a linha",
+  };
+
+  const renderPlayerUI = (
+    stats,
+    subType,
+    subReason,
+    slotUniqueKey = "",
+    gkMode = null,
+  ) => {
     if (!stats) return null;
     const {
       pObj,
@@ -269,6 +323,14 @@ function MatchPage({ matches, players, isAdmin }) {
       redReasons,
       role,
     } = stats;
+
+    // Luva: no slot do gol sempre; no slot de linha da troca nunca
+    const showGlove =
+      gkMode === "gk-out" || gkMode === "gk-in"
+        ? true
+        : gkMode === "field-out" || gkMode === "field-in"
+          ? false
+          : role === "GK" || isTeamGK;
 
     const isInjured =
       subType === "out" &&
@@ -392,20 +454,25 @@ function MatchPage({ matches, players, isAdmin }) {
           )}
 
           {/* LUVA DE GOLEIRO (Mostra se for o Goleiro do banco OU estiver no slot GK) */}
-          {(role === "GK" || isTeamGK) && (
+          {showGlove && (
             <div className="pro-role-badge gk" title="Goleiro da Equipe">
               🧤
             </div>
           )}
-
           {subType === "out" && (
-            <div className="pro-sub-badge sub-out" title="Substituído (Saiu)">
+            <div
+              className={`pro-sub-badge sub-out ${gkMode ? "is-gk-swap" : ""}`}
+              title={GK_SWAP_TITLES[gkMode] || "Substituído (Saiu)"}
+            >
               <img src="/setaVerm.png" alt="Saiu" />
             </div>
           )}
 
           {subType === "in" && (
-            <div className="pro-sub-badge sub-in" title="Entrou em campo">
+            <div
+              className={`pro-sub-badge sub-in ${gkMode ? "is-gk-swap" : ""}`}
+              title={GK_SWAP_TITLES[gkMode] || "Entrou em campo"}
+            >
               <img src="/setaVerd.png" alt="Entrou" />
             </div>
           )}
@@ -482,6 +549,38 @@ function MatchPage({ matches, players, isAdmin }) {
       : getPlayerStats(occupantId, slot.role, teamKey);
 
     const slotUniqueKey = `${teamKey}_${slot.id}`;
+
+    // Troca de goleiro: só quando o slot não tem substituição própria
+    const swap = gkSwaps[teamKey];
+    let gkFlip = null;
+    if (!subEvent && swap && occupantId) {
+      const occ = String(occupantId);
+      const roleUp = String(slot.role || "").toUpperCase();
+      const isGoalRole = ["GK", "GOL", "GOLEIRO", "G", "GL"].includes(roleUp);
+      // Slot do gol = onde o goleiro titular está escalado (ou slot marcado como goleiro)
+      const isGoalSlot =
+        occ === swap.startGk || (occ === swap.finalGk && isGoalRole);
+
+      if (isGoalSlot) {
+        // Slot do gol: titular (frente) -> quem assumiu (verso)
+        gkFlip = {
+          front: getPlayerStats(swap.startGk, slot.role, teamKey),
+          back: getPlayerStats(swap.finalGk, slot.role, teamKey),
+          frontMode: "gk-out",
+          backMode: "gk-in",
+        };
+      } else if (occ === swap.finalGk && swap.startGkStayed) {
+        // Slot de linha: quem foi pro gol (frente) -> antigo goleiro na linha (verso)
+        gkFlip = {
+          front: getPlayerStats(swap.finalGk, slot.role, teamKey),
+          back: getPlayerStats(swap.startGk, slot.role, teamKey),
+          frontMode: "field-out",
+          backMode: "field-in",
+        };
+      }
+      if (gkFlip && (!gkFlip.front || !gkFlip.back)) gkFlip = null;
+    }
+
     const hasOpenPopoverInSlot =
       activePopover && activePopover.key.startsWith(slotUniqueKey);
 
@@ -502,7 +601,38 @@ function MatchPage({ matches, players, isAdmin }) {
         }`}
         style={{ left: slot.x, top: slot.y }}
       >
-        {outStats && inStats ? (
+        {gkFlip ? (
+          <div
+            className="sub-flip-container gk-swap-flip"
+            tabIndex="0"
+            title={
+              swap?.minute
+                ? `Troca de goleiro aos ${swap.minute}`
+                : "Troca de goleiro"
+            }
+          >
+            <div className="sub-flip-inner">
+              <div className="sub-flip-front">
+                {renderPlayerUI(
+                  gkFlip.front,
+                  "out",
+                  null,
+                  `${slotUniqueKey}_GKOUT`,
+                  gkFlip.frontMode,
+                )}
+              </div>
+              <div className="sub-flip-back">
+                {renderPlayerUI(
+                  gkFlip.back,
+                  "in",
+                  null,
+                  `${slotUniqueKey}_GKIN`,
+                  gkFlip.backMode,
+                )}
+              </div>
+            </div>
+          </div>
+        ) : outStats && inStats ? (
           <div className="sub-flip-container" tabIndex="0">
             <div className="sub-flip-inner">
               <div className="sub-flip-front">

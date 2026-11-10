@@ -843,3 +843,24 @@
 .theme-idr .player-tactical.is-mvp .player-card-label {
   border-color: #000000 !important;
 }
+.pro-sub-badge.is-gk-swap {
+  position: relative;
+}
+
+.pro-sub-badge.is-gk-swap::after {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  font-size: 9px;
+  line-height: 1;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
+}
+
+/* Brilho azul (cor de goleiro) no card que vira */
+.gk-swap-flip .player-tactical {
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.35));
+}
+
+.theme-idr .gk-swap-flip .player-tactical {
+  filter: none;
+}
