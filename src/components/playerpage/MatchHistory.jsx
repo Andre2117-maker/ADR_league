@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import LogoADR from "../../assets/logo.png";
 
 import "../../styles/Playerpage/matchHistory.css";
+import { playerSide, playerGkLine } from "../../utils/matchStats";
 
 // Função oficial de resultado d'O ADR (Garante ZERO empate em TREINO)
 
@@ -233,9 +234,11 @@ const MatchHistory = ({ matches = [], player }) => {
           sortedMatches.map((m) => {
             const pIdStr = String(player?.id);
 
-            const isTeamA = m.teamA?.players?.some(
-              (id) => String(id) === pIdStr,
-            );
+            // Lado do jogador considera também quem entrou como substituto
+            const side = playerSide(m, pIdStr);
+            const isTeamA = side
+              ? side === "A"
+              : m.teamA?.players?.some((id) => String(id) === pIdStr);
 
             const {
               result,
@@ -281,13 +284,30 @@ const MatchHistory = ({ matches = [], player }) => {
                   (e.type === "RED" || e.type === "RED_CARD"),
               ).length || 0;
 
-            const isGoalkeeper =
+            // Goleiro: titular OU quem assumiu o gol durante a partida
+            const gkLine = playerGkLine(m, pIdStr);
+            const isGoalkeeper = Boolean(gkLine);
+
+            // Entrou no gol depois do início? (troca de goleiro)
+            const gkEntry = m.events?.find(
+              (e) => e.type === "GK_CHANGE" && String(e.playerInId) === pIdStr,
+            );
+            const isStarterGk =
               String(m.teamA?.goalkeeperId) === pIdStr ||
               String(m.teamB?.goalkeeperId) === pIdStr;
+            const gkLabel =
+              gkEntry && !isStarterGk
+                ? `🧤 GK${gkEntry.minute ? ` ${gkEntry.minute}` : ""}`
+                : "🧤 GK";
+            const gkTitle = isGoalkeeper
+              ? `${
+                  gkEntry && !isStarterGk
+                    ? `Assumiu o gol${gkEntry.minute ? ` aos ${gkEntry.minute}` : ""}`
+                    : "Goleiro titular"
+                } · ${gkLine.conceded} gol(s) sofrido(s)`
+              : "";
 
-            const teamConceded = isTeamA ? sB : sA;
-
-            const isCleanSheet = isGoalkeeper && teamConceded === 0;
+            const isCleanSheet = isGoalkeeper && gkLine.cleanSheet;
 
             return (
               <div
@@ -395,7 +415,9 @@ const MatchHistory = ({ matches = [], player }) => {
                     )}
 
                     {isGoalkeeper && (
-                      <span className="badge-tag badge-gk">🧤 GK</span>
+                      <span className="badge-tag badge-gk" title={gkTitle}>
+                        {gkLabel}
+                      </span>
                     )}
 
                     {isCleanSheet && (
