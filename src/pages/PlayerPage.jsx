@@ -8,7 +8,6 @@ import {
   ResponsiveContainer,
   PolarRadiusAxis,
 } from "recharts";
-import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import "../styles/Playerpage/playerpage.css";
