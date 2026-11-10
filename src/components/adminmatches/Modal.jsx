@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useClubMode } from "../../utils/shirtNumber";
+import { useClubMode } from "../../utils/Shirtnumber";
 
 /**
  * Modal base de todo o admin de partidas.
@@ -8,7 +8,14 @@ import { useClubMode } from "../../utils/shirtNumber";
  * - Computador: caixa centralizada
  * - ESC ou toque fora fecha; trava a rolagem do fundo
  */
-export default function Modal({ title, subtitle, onClose, children, footer, wide = false }) {
+export default function Modal({
+  title,
+  subtitle,
+  onClose,
+  children,
+  footer,
+  wide = false,
+}) {
   const mode = useClubMode();
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
@@ -33,13 +40,22 @@ export default function Modal({ title, subtitle, onClose, children, footer, wide
         if (e.target === e.currentTarget) closeRef.current?.();
       }}
     >
-      <div className={`amx-modal ${wide ? "is-wide" : ""}`} role="dialog" aria-modal="true">
+      <div
+        className={`amx-modal ${wide ? "is-wide" : ""}`}
+        role="dialog"
+        aria-modal="true"
+      >
         <header className="amx-head">
           <div>
             <h3>{title}</h3>
             {subtitle && <p>{subtitle}</p>}
           </div>
-          <button type="button" className="amx-x" onClick={() => closeRef.current?.()} aria-label="Fechar">
+          <button
+            type="button"
+            className="amx-x"
+            onClick={() => closeRef.current?.()}
+            aria-label="Fechar"
+          >
             ✕
           </button>
         </header>
