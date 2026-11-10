@@ -1,17 +1,3 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import {
-  updateDoc,
-  doc,
-  addDoc,
-  collection,
-  serverTimestamp,
-  query,
-  orderBy,
-  getDocs,
-  limit,
-  writeBatch,
-} from "firebase/firestore";
 import { db } from "../../firebase";
 
 import MatchSetup from "../../components/adminmatches/MatchSetup";
@@ -49,7 +35,7 @@ import {
   fmtClock,
 } from "../../components/adminmatches/adminMatchesUtils";
 import { computeGkStats } from "../../utils/goalkeeperStats";
-import { getShirtNumber, useClubMode } from "../../utils/Shitnumber";
+import { getShirtNumber, useClubMode } from "../../utils/Shirtnumber";
 import { saveTeamPreset, loadTeamPresets } from "../../data/teamPresets";
 import LogoADR from "../../assets/logo.png";
 
