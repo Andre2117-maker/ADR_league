@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { db } from "../../firebase";
 import {
   collection,
@@ -91,6 +91,35 @@ const Countdown = ({ targetDate, targetTime }) => {
   return <div className={`banner-countdown ${statusClass}`}>{timeLeft}</div>;
 };
 
+// Texto da notícia cortado em poucas linhas + botão "Ler mais" (só aparece se cortar)
+const NewsBody = ({ text, onReadMore }) => {
+  const ref = useRef(null);
+  const [overflows, setOverflows] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const check = () => setOverflows(el.scrollHeight - el.clientHeight > 2);
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [text]);
+
+  return (
+    <>
+      <p ref={ref} className="news-body-text is-clamped">
+        {text}
+      </p>
+      {overflows && (
+        <button type="button" className="news-read-more" onClick={onReadMore}>
+          Ler mais <span aria-hidden="true">›</span>
+        </button>
+      )}
+    </>
+  );
+};
+
 const MatchBanner = ({ isAdmin }) => {
   const [banners, setBanners] = useState([]);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -100,16 +129,29 @@ const MatchBanner = ({ isAdmin }) => {
   const [copiedId, setCopiedId] = useState(null);
   const [isIdrTheme, setIsIdrTheme] = useState(false);
   const [expandedNewsImage, setExpandedNewsImage] = useState(null);
+  const [readingNews, setReadingNews] = useState(null);
 
-  // Fecha a imagem ampliada ao pressionar ESC.
+  // Fecha a imagem ampliada / o leitor de notícia ao pressionar ESC.
   useEffect(() => {
-    if (!expandedNewsImage) return;
+    if (!expandedNewsImage && !readingNews) return;
     const handleEscape = (event) => {
-      if (event.key === "Escape") setExpandedNewsImage(null);
+      if (event.key !== "Escape") return;
+      if (expandedNewsImage) setExpandedNewsImage(null);
+      else setReadingNews(null);
     };
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
-  }, [expandedNewsImage]);
+  }, [expandedNewsImage, readingNews]);
+
+  // Trava a rolagem do fundo enquanto a notícia está aberta
+  useEffect(() => {
+    if (!readingNews) return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [readingNews]);
 
   // Carrossel: índice do alerta em destaque
   const [active, setActive] = useState(0);
@@ -219,6 +261,23 @@ const MatchBanner = ({ isAdmin }) => {
   // Mantém o índice válido quando um banner é removido/expira
   const total = banners.length;
   const safeActive = Math.min(active, Math.max(total - 1, 0));
+
+  // Altura do carrossel = altura do alerta em destaque (sem "vácuo" embaixo)
+  const slideRefs = useRef([]);
+  const [activeHeight, setActiveHeight] = useState(null);
+
+  useLayoutEffect(() => {
+    const el = slideRefs.current[safeActive];
+    if (!el) {
+      setActiveHeight(null);
+      return undefined;
+    }
+    const measure = () => setActiveHeight(el.offsetHeight);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [safeActive, total]);
 
   const goTo = (i) => {
     if (total === 0) return;
@@ -640,6 +699,11 @@ const MatchBanner = ({ isAdmin }) => {
             onKeyDown={onKeyDown}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            style={
+              activeHeight
+                ? { "--mb-active-h": `${activeHeight}px` }
+                : undefined
+            }
           >
             <div className="mb-track" style={{ "--active": safeActive }}>
               {banners.map((item, index) => {
@@ -678,6 +742,9 @@ const MatchBanner = ({ isAdmin }) => {
                 return (
                   <div
                     key={item.id}
+                    ref={(el) => {
+                      slideRefs.current[index] = el;
+                    }}
                     className={`mb-slide ${isActive ? "is-active" : ""}`}
                     style={{ "--d": Math.abs(index - safeActive) }}
                     onClick={() => !isActive && goTo(index)}
@@ -807,7 +874,10 @@ const MatchBanner = ({ isAdmin }) => {
                               {item.newsHeadline}
                             </h2>
                             {item.newsBody && (
-                              <p className="news-body-text">{item.newsBody}</p>
+                              <NewsBody
+                                text={item.newsBody}
+                                onReadMore={() => setReadingNews(item)}
+                              />
                             )}
                           </div>
                         </div>
@@ -952,6 +1022,58 @@ const MatchBanner = ({ isAdmin }) => {
               </button>
             </div>
           )}
+        </div>
+      )}
+
+      {readingNews && (
+        <div
+          className="news-reader-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={readingNews.newsHeadline || "Notícia"}
+          onClick={() => setReadingNews(null)}
+        >
+          <article
+            className="news-reader"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <header className="news-reader-head">
+              <span className="news-tag-pill">
+                📰 {readingNews.newsCategory || "OFICIAL"}
+              </span>
+              <button
+                type="button"
+                className="news-reader-close"
+                onClick={() => setReadingNews(null)}
+                aria-label="Fechar notícia"
+              >
+                ✕
+              </button>
+            </header>
+
+            <div className="news-reader-body">
+              {readingNews.newsImage && (
+                <button
+                  type="button"
+                  className="news-reader-image"
+                  onClick={() =>
+                    setExpandedNewsImage({
+                      src: readingNews.newsImage,
+                      alt: readingNews.newsHeadline || "Imagem da notícia",
+                    })
+                  }
+                  aria-label="Ampliar imagem"
+                >
+                  <img
+                    src={readingNews.newsImage}
+                    alt={readingNews.newsHeadline || "Imagem da notícia"}
+                  />
+                </button>
+              )}
+              <h2 className="news-reader-title">{readingNews.newsHeadline}</h2>
+              <p className="news-reader-text">{readingNews.newsBody}</p>
+            </div>
+          </article>
         </div>
       )}
 
