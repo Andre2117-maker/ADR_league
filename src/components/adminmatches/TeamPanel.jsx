@@ -2,13 +2,14 @@ import React, { useMemo, useState } from "react";
 import PlayerRow from "./PlayerRow";
 import ExternalTeamTools from "./ExternalTeamTools";
 import { norm } from "./adminMatchesUtils";
-import { getShirtNumber } from "../../utils/shirtNumber";
+import { getShirtNumber } from "../../utils/Shirtnumber";
 import LogoADR from "../../assets/logo.png";
 import LogoIDR from "../../assets/IDR.png";
 
 const logoKind = (logo) => {
   if (!logo || logo === LogoADR || logo === "/logo.png") return "ADR";
-  if (logo === LogoIDR || logo === "/IDR.png" || logo === "/logo-idr.png") return "IDR";
+  if (logo === LogoIDR || logo === "/IDR.png" || logo === "/logo-idr.png")
+    return "IDR";
   return "CUSTOM";
 };
 
@@ -57,11 +58,21 @@ export default function TeamPanel({
     return players.filter((p) => {
       const mine = team.players.includes(p.id) || lineup.cameIn.has(p.id);
       if (onlySelected && !mine) return false;
-      if (showHideTaken && hideTaken && !mine && otherTeamIds.has(p.id)) return false;
+      if (showHideTaken && hideTaken && !mine && otherTeamIds.has(p.id))
+        return false;
       if (nq && !norm(p.name).includes(nq)) return false;
       return true;
     });
-  }, [players, team.players, lineup, onlySelected, showHideTaken, hideTaken, otherTeamIds, q]);
+  }, [
+    players,
+    team.players,
+    lineup,
+    onlySelected,
+    showHideTaken,
+    hideTaken,
+    otherTeamIds,
+    q,
+  ]);
 
   const gkName = currentGk
     ? currentGk.id
@@ -103,10 +114,18 @@ export default function TeamPanel({
             onChange={(e) => onUpdateTeam({ name: e.target.value })}
           />
           <div className="am-seg am-seg-sm">
-            <button type="button" className={kind === "ADR" ? "on" : ""} onClick={() => onUpdateTeam({ logo: "" })}>
+            <button
+              type="button"
+              className={kind === "ADR" ? "on" : ""}
+              onClick={() => onUpdateTeam({ logo: "" })}
+            >
               ADR
             </button>
-            <button type="button" className={kind === "IDR" ? "on" : ""} onClick={() => onUpdateTeam({ logo: LogoIDR })}>
+            <button
+              type="button"
+              className={kind === "IDR" ? "on" : ""}
+              onClick={() => onUpdateTeam({ logo: LogoIDR })}
+            >
               IDR
             </button>
             <button
@@ -127,14 +146,22 @@ export default function TeamPanel({
           value=""
           onChange={(e) => e.target.value && onApplyPreset(e.target.value)}
         >
-          <option value="">📋 Carregar preset{teamPresets.length ? ` (${teamPresets.length})` : ""}</option>
+          <option value="">
+            📋 Carregar preset
+            {teamPresets.length ? ` (${teamPresets.length})` : ""}
+          </option>
           {teamPresets.map((p) => (
             <option key={p.id} value={p.id}>
               {p.name}
             </option>
           ))}
         </select>
-        <button type="button" className="am-btn" onClick={onSavePreset} title="Salvar este time como preset">
+        <button
+          type="button"
+          className="am-btn"
+          onClick={onSavePreset}
+          title="Salvar este time como preset"
+        >
           💾
         </button>
       </div>
@@ -155,7 +182,12 @@ export default function TeamPanel({
           <div className="am-team-summary">
             <span>
               <b>{team.players.length}</b> titulares
-              {lineup.cameIn.size > 0 && <> · <b>{lineup.cameIn.size}</b> entraram</>}
+              {lineup.cameIn.size > 0 && (
+                <>
+                  {" "}
+                  · <b>{lineup.cameIn.size}</b> entraram
+                </>
+              )}
             </span>
             {gkName ? (
               <span className="am-pill">🧤 {gkName}</span>
@@ -173,11 +205,19 @@ export default function TeamPanel({
             onChange={(e) => setQ(e.target.value)}
           />
           <div className="am-chips">
-            <button type="button" className={`am-chip ${onlySelected ? "on" : ""}`} onClick={() => setOnlySelected((v) => !v)}>
+            <button
+              type="button"
+              className={`am-chip ${onlySelected ? "on" : ""}`}
+              onClick={() => setOnlySelected((v) => !v)}
+            >
               Só quem joga
             </button>
             {showHideTaken && (
-              <button type="button" className={`am-chip ${hideTaken ? "on" : ""}`} onClick={() => setHideTaken((v) => !v)}>
+              <button
+                type="button"
+                className={`am-chip ${hideTaken ? "on" : ""}`}
+                onClick={() => setHideTaken((v) => !v)}
+              >
                 Ocultar do outro time
               </button>
             )}
@@ -212,14 +252,26 @@ export default function TeamPanel({
                 onCard={(type, reason) => onCard(p.id, type, reason)}
               />
             ))}
-            {visible.length === 0 && <p className="am-muted am-center">Nenhum jogador encontrado.</p>}
+            {visible.length === 0 && (
+              <p className="am-muted am-center">Nenhum jogador encontrado.</p>
+            )}
           </div>
 
           <div className="am-team-actions">
-            <button type="button" className="am-btn" onClick={onOpenSub} disabled={team.players.length === 0}>
+            <button
+              type="button"
+              className="am-btn"
+              onClick={onOpenSub}
+              disabled={team.players.length === 0}
+            >
               🔄 Substituição
             </button>
-            <button type="button" className="am-btn" onClick={onOpenGk} disabled={team.players.length === 0}>
+            <button
+              type="button"
+              className="am-btn"
+              onClick={onOpenGk}
+              disabled={team.players.length === 0}
+            >
               🧤 Troca de goleiro
             </button>
           </div>
