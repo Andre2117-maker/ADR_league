@@ -37,7 +37,8 @@
   overflow: hidden;
   outline: none;
   touch-action: pan-y;
-  /* altura = alerta em destaque (medido no JSX); sem medida, cresce normal */
+  /* altura = alerta em destaque + padding (medido no JSX); sem medida, cresce normal */
+  box-sizing: border-box;
   height: var(--mb-active-h, auto);
   transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-mask-image: linear-gradient(

@@ -264,6 +264,7 @@ const MatchBanner = ({ isAdmin }) => {
 
   // Altura do carrossel = altura do alerta em destaque (sem "vácuo" embaixo)
   const slideRefs = useRef([]);
+  const viewportRef = useRef(null);
   const [activeHeight, setActiveHeight] = useState(null);
 
   useLayoutEffect(() => {
@@ -272,7 +273,15 @@ const MatchBanner = ({ isAdmin }) => {
       setActiveHeight(null);
       return undefined;
     }
-    const measure = () => setActiveHeight(el.offsetHeight);
+    // Soma o padding do viewport (funciona com ou sem box-sizing: border-box no site)
+    const measure = () => {
+      const vp = viewportRef.current;
+      const cs = vp ? window.getComputedStyle(vp) : null;
+      const pad = cs
+        ? parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+        : 0;
+      setActiveHeight(el.offsetHeight + pad);
+    };
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
@@ -691,6 +700,7 @@ const MatchBanner = ({ isAdmin }) => {
           onMouseLeave={() => setPaused(false)}
         >
           <div
+            ref={viewportRef}
             className="mb-viewport"
             tabIndex={0}
             role="region"
