@@ -9,6 +9,7 @@ import TopGoalkeepersCard from "../components/TopGoalkeepers/TopGoalkeepersCard"
 import TopScorersCard from "../components/TopScorers/TopScorersCard";
 import AllTimeTable from "../components/AllTimeTable/ALLTimeTable";
 import Footer from "../components/Footer";
+import ClubRecords from "../components/ClubRecords/ClubRecords";
 
 // IMPORTES (Amistosos)
 import FriendlySummary from "../components/Statics/FriendlySummary";
@@ -591,6 +592,9 @@ export default function Statics({ players = [], matches = [] }) {
         {/* ==================== 4. ALL TIME ==================== */}
         <h1 className="page-title3">ALL TIME</h1>
         <AllTimeTable matches={matches} players={players} />
+
+        {/* ==================== 5. RECORDES ==================== */}
+        <ClubRecords players={players} matches={matches} />
       </div>
       <Footer />
     </div>

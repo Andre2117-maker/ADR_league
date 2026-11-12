@@ -1,0 +1,693 @@
+/* ==========================================================================
+   CARD DO JOGADOR (estilo carta de game, desenho próprio do ADR)
+   Só usa recursos que o html2canvas desenha: degradês, bordas, sombras.
+   ========================================================================== */
+.fc-card {
+  /* cores do nível (ouro por padrão) */
+  --fc-a: #f6e3a1;
+  --fc-b: #d4af37;
+  --fc-c: #6e5514;
+  --fc-ink: #1a1305;
+  --fc-ink-soft: rgba(26, 19, 5, 0.65);
+  --fc-line: rgba(26, 19, 5, 0.28);
+  --fc-glow: rgba(212, 175, 55, 0.55);
+
+  position: relative;
+  width: 300px;
+  height: 440px;
+  overflow: hidden;
+  border-radius: 18px 18px 26px 26px;
+  background:
+    radial-gradient(120% 70% at 30% 0%, var(--fc-a) 0%, transparent 60%),
+    linear-gradient(160deg, var(--fc-a) 0%, var(--fc-b) 45%, var(--fc-c) 100%);
+  color: var(--fc-ink);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px var(--fc-glow);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.fc-card * {
+  box-sizing: border-box;
+}
+
+/* Moldura interna fina */
+.fc-frame {
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--fc-line);
+  border-radius: 12px 12px 20px 20px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Faixa de brilho diagonal */
+.fc-shine {
+  position: absolute;
+  top: -40%;
+  left: -60%;
+  width: 60%;
+  height: 180%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.28),
+    rgba(255, 255, 255, 0)
+  );
+  transform: rotate(18deg);
+  animation: fcShine 5.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 4;
+}
+
+@keyframes fcShine {
+  0%,
+  55% {
+    left: -60%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+/* ---------- Topo ---------- */
+.fc-top {
+  position: relative;
+  height: 246px;
+}
+
+.fc-rating {
+  position: absolute;
+  top: 26px;
+  left: 24px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 58px;
+}
+
+.fc-ovr {
+  font-size: 3.1rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.9;
+  letter-spacing: -1px;
+}
+
+.fc-pos {
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+/* Escudo num selo escuro: o logo dourado do ADR some sobre o card dourado/bronze */
+.fc-club-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #2a2a2a 0%, #0b0b0b 75%);
+  border: 1px solid var(--fc-line);
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 2px rgba(212, 175, 55, 0.35);
+}
+
+.fc-club {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* IDR: card claro, o selo vira branco */
+.fc-card.is-idr .fc-club-badge {
+  background: #ffffff;
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 2px rgba(0, 0, 0, 0.12);
+}
+
+.fc-card.is-idr.tier-icon .fc-club-badge {
+  background: #1a1a1a;
+}
+
+.fc-shirt {
+  margin-top: 2px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--fc-ink-soft);
+}
+
+/* Linha fina entre os números e os selos */
+.fc-divider {
+  width: 30px;
+  height: 1px;
+  margin: 4px 0 2px;
+  background: var(--fc-line);
+}
+
+/* Bandeira */
+.fc-flag {
+  display: block;
+  width: 34px;
+  height: 23px;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    0 0 0 1px var(--fc-line);
+}
+
+.fc-flag-svg,
+.fc-flag-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Títulos: troféu + número */
+.fc-trophies {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 2px;
+  color: var(--fc-ink);
+}
+
+.fc-trophy-svg {
+  width: 17px;
+  height: 17px;
+  color: var(--fc-ink);
+}
+
+.fc-trophies b {
+  font-size: 0.95rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+
+.fc-photo-wrap {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  width: 222px;
+  height: 236px;
+}
+
+.fc-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* "Some" a base da foto no card (sem mask-image, que o html2canvas não faz) */
+.fc-photo-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), var(--fc-b));
+}
+
+/* ---------- Nome ---------- */
+.fc-name-band {
+  position: relative;
+  z-index: 2;
+  margin: 0 22px;
+  padding: 8px 0 10px;
+  border-top: 1px solid var(--fc-line);
+  border-bottom: 1px solid var(--fc-line);
+  text-align: center;
+}
+
+.fc-name {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 1.45rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ---------- Habilidades ---------- */
+.fc-skills {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 0;
+  margin: 12px 26px 0;
+}
+
+.fc-skill {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+}
+
+.fc-skill b {
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.fc-skill span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--fc-ink-soft);
+}
+
+/* ---------- Rodapé ---------- */
+.fc-foot {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--fc-line);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.fc-tier {
+  padding: 2px 6px;
+  border: 1px solid var(--fc-line);
+}
+
+.fc-season {
+  color: var(--fc-ink-soft);
+  white-space: nowrap;
+}
+
+/* ---------- Níveis ---------- */
+.fc-card.tier-silver {
+  --fc-a: #f4f6f8;
+  --fc-b: #b9c0c8;
+  --fc-c: #59616b;
+  --fc-ink: #111418;
+  --fc-ink-soft: rgba(17, 20, 24, 0.62);
+  --fc-line: rgba(17, 20, 24, 0.25);
+  --fc-glow: rgba(200, 210, 220, 0.4);
+}
+
+.fc-card.tier-bronze {
+  --fc-a: #f1c8a0;
+  --fc-b: #b4744a;
+  --fc-c: #4e2c16;
+  --fc-ink: #1d0f06;
+  --fc-ink-soft: rgba(29, 15, 6, 0.65);
+  --fc-line: rgba(29, 15, 6, 0.28);
+  --fc-glow: rgba(180, 116, 74, 0.45);
+}
+
+/* Ícone: preto com dourado */
+.fc-card.tier-icon {
+  --fc-a: #2a2414;
+  --fc-b: #0d0b06;
+  --fc-c: #000000;
+  --fc-ink: #f3d77a;
+  --fc-ink-soft: rgba(243, 215, 122, 0.7);
+  --fc-line: rgba(243, 215, 122, 0.35);
+  --fc-glow: rgba(212, 175, 55, 0.7);
+}
+
+.fc-card.tier-icon .fc-frame {
+  border-color: rgba(243, 215, 122, 0.6);
+  box-shadow: inset 0 0 18px rgba(212, 175, 55, 0.25);
+}
+
+/* Modo IDR: preto e branco */
+.fc-card.is-idr {
+  --fc-a: #ffffff;
+  --fc-b: #d9d9d9;
+  --fc-c: #7a7a7a;
+  --fc-ink: #0a0a0a;
+  --fc-ink-soft: rgba(10, 10, 10, 0.6);
+  --fc-line: rgba(10, 10, 10, 0.25);
+  --fc-glow: rgba(255, 255, 255, 0.25);
+}
+
+.fc-card.is-idr.tier-icon {
+  --fc-a: #2b2b2b;
+  --fc-b: #111111;
+  --fc-c: #000000;
+  --fc-ink: #ffffff;
+  --fc-ink-soft: rgba(255, 255, 255, 0.7);
+  --fc-line: rgba(255, 255, 255, 0.35);
+}
+
+/* Na exportação o brilho animado fica de fora */
+.is-exporting .fc-shine,
+.fc-card.is-exporting .fc-shine {
+  display: none;
+}
+
+/* A imagem sai sempre no tamanho cheio, mesmo se o card estiver encolhido na tela */
+.fc-card.is-exporting {
+  transform: none !important;
+  margin: 0 !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-shine {
+    animation: none;
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   BOTÃO + JANELA DO CARD (FutCardShare)
+   ========================================================================== */
+.fcs-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px;
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.fcs-open svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fcs-open:hover {
+  background: #d4af37;
+  color: #000;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.4);
+}
+
+.theme-idr .fcs-open {
+  color: #000;
+  border-color: #000;
+}
+
+.theme-idr .fcs-open:hover {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.fcs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fcsFade 0.2s ease;
+}
+
+.fcs-modal {
+  width: 100%;
+  max-width: 380px;
+  max-height: 94vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px 20px;
+  background: linear-gradient(180deg, #101010, #060606);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #d4af37;
+  color: #fff;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  animation: fcsUp 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fcs-head {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 -18px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.fcs-x {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  color: #8a8f98;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+}
+
+.fcs-x:hover {
+  color: #d4af37;
+  border-color: #d4af37;
+}
+
+.fcs-stage {
+  padding: 10px 0 4px;
+}
+
+.fcs-seasons {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.fcs-seasons button {
+  min-width: 70px;
+  min-height: 36px;
+  background: transparent;
+  color: #8a8f98;
+  border: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+}
+
+.fcs-seasons button:last-child {
+  border-right: 0;
+}
+
+.fcs-seasons button.on {
+  color: #d4af37;
+  box-shadow: inset 0 -2px 0 #d4af37;
+}
+
+.fcs-download {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  background: #d4af37;
+  color: #000;
+  border: 0;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  cursor: pointer;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.35);
+}
+
+.fcs-download span {
+  font-size: 1.1rem;
+}
+
+.fcs-download:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.fcs-msg {
+  margin: 0;
+  color: #22c55e;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.fcs-hint {
+  margin: 0;
+  color: #6f737b;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.fcs-overlay.theme-idr .fcs-modal {
+  background: #ffffff;
+  color: #0a0a0a;
+  border-color: #e6e6e6;
+  border-top-color: #000;
+}
+
+.fcs-overlay.theme-idr .fcs-head {
+  border-bottom-color: #e6e6e6;
+}
+
+.fcs-overlay.theme-idr .fcs-download {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.fcs-overlay.theme-idr .fcs-seasons button.on {
+  color: #000;
+  box-shadow: inset 0 -2px 0 #000;
+}
+
+@keyframes fcsFade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fcsUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* Celular: o card encolhe para o botão de baixar caber na tela sem rolar */
+@media (max-height: 900px) {
+  .fcs-stage {
+    padding-top: 4px;
+  }
+
+  .fcs-stage .fc-card {
+    transform: scale(0.84);
+    transform-origin: top center;
+    margin-bottom: -70px;
+  }
+}
+
+@media (max-height: 720px), (max-width: 360px) {
+  .fcs-stage .fc-card {
+    transform: scale(0.74);
+    margin-bottom: -114px;
+  }
+}
+
+/* ==========================================================================
+   BARRA NA PÁGINA DO JOGADOR (card + retrospectiva)
+   ========================================================================== */
+.ppg-share-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 18px auto 6px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.ppg-retro-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.ppg-retro-link svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.ppg-retro-link:hover {
+  color: #d4af37;
+  border-color: #d4af37;
+}
+
+.theme-idr .ppg-retro-link {
+  color: #000;
+  border-color: #cfcfcf;
+}
+
+.theme-idr .ppg-retro-link:hover {
+  border-color: #000;
+}
+
+@media (max-width: 480px) {
+  .ppg-share-bar > * {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}

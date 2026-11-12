@@ -20,7 +20,7 @@ import AdminMatches from "./pages/AdminMatches/AdminMatches.jsx";
 import Regras from "./pages/Rules/Regras.jsx";
 import Calendar from "./pages/Calendar.jsx";
 import Navbar from "./pages/NavBar/NavBar.jsx";
-import PlayerPage from "./pages/PlayerPage.jsx";
+import PlayerPage from "./pages/Playerpage/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage/MatchPage.jsx";
 import AdminTransparency from "./pages/AdminTransparency.jsx";
 import HallHistorico from "./pages/HallHistorico/HallHistorico.jsx";
@@ -36,6 +36,7 @@ import Titulos from "./pages/Titulos/Titulos.jsx";
 import LocalTreinos from "./pages/LocalTreinos/LocalTreinos.jsx";
 import Elenco from "./pages/Elenco/Elenco.jsx";
 import Configuracao from "./pages/Configuracao/Configuracao.jsx";
+import Retrospectiva from "./pages/Retrospectiva/Retrospectiva.jsx";
 
 import "./styles/global.css";
 
@@ -241,6 +242,22 @@ function App() {
           <Route
             path="/transparency"
             element={<AdminTransparency isAdmin={isAdmin} />}
+          />
+
+          <Route
+            path="/retrospectiva"
+            element={
+              <Retrospectiva
+                isAdmin={isAdmin}
+                players={players}
+                matches={matches}
+              />
+            }
+          />
+
+          <Route
+            path="/retrospectiva/:id"
+            element={<Retrospectiva players={players} matches={matches} />}
           />
 
           <Route

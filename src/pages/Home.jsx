@@ -18,6 +18,7 @@ import Footer from "../components/Footer";
 import BirthdayAlert from "../components/BirthdayAlert";
 import MatchAlert from "../components/matchalert/MatchAlert";
 import ClubExplore from "./ClubExplore/ClubExplore";
+import HeadToHead from "../components/HeadToHead/HeadToHead";
 
 /* ==========================================================================
    EXPORTAÇÃO: o html2canvas só entende cores em rgb/rgba/hex.
@@ -358,7 +359,7 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
       <div className="home-layout">
         <aside className="side-cards">
           <button className="export-btn" onClick={exportTabela}>
-            📸 Exportar Tabela
+            Exportar tabela
           </button>
           <TopScorersCard players={sortedByGoals} limit={3} />
           <TopAssistsCard players={sortedByAssists} limit={3} />
@@ -397,6 +398,9 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
           </aside>
         )}
       </div>
+
+      {/* CONFRONTO DIRETO ALEATÓRIO */}
+      <HeadToHead players={players} matches={matches} />
 
       {/* ARQUIVO DO CLUBE: Hall Histórico · Transparência · Legends */}
       <ClubExplore />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Importes necessários para rotas
+import { useParams, useNavigate, Link } from "react-router-dom"; // Importes necessários para rotas
 import {
   Radar,
   RadarChart,
@@ -8,18 +8,20 @@ import {
   ResponsiveContainer,
   PolarRadiusAxis,
 } from "recharts";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import "../styles/Playerpage/playerpage.css";
-import RankingSlice from "../components/playerpage/RankingSlice";
-import PlayerStatsDashboard from "../components/playerpage/PlayerStatsDashboard";
-import MatchHistory from "../components/playerpage/MatchHistory";
-import Footer from "../components/Footer";
-import PlayerAdminMode from "../components/playerpage/PlayerAdminMode";
-import PlayerBanner from "../components/playerpage/PlayerBanner";
-import PartnerAnalyzer from "../components/playerpage/PartnerAnalyzer";
-import FavoritePositionField from "../components/playerpage/FavoritePositionField";
-import { calculateLiveRanking } from "../data/rankingCalculator";
+import "./playerpage.css";
+import RankingSlice from "../../components/playerpage/RankingSlice";
+import PlayerStatsDashboard from "../../components/playerpage/PlayerStatsDashboard";
+import MatchHistory from "../../components/playerpage/MatchHistory";
+import Footer from "../../components/Footer";
+import PlayerAdminMode from "../../components/playerpage/PlayerAdminMode";
+import PlayerBanner from "../../components/playerpage/PlayerBanner";
+import PartnerAnalyzer from "../../components/playerpage/PartnerAnalyzer";
+import FavoritePositionField from "../../components/playerpage/FavoritePositionField";
+import { calculateLiveRanking } from "../../data/rankingCalculator";
+import { playerSide, matchType } from "../../utils/matchStats";
+import FutCardShare from "./FutCard/FutCardShare";
 
 function PlayerPage({
   playersWithStats, // Recebe a lista completa para encontrar o player pelo ID
@@ -80,11 +82,8 @@ function PlayerPage({
 
   const playerMatches = useMemo(() => {
     if (!player || !matches) return [];
-    return matches.filter(
-      (m) =>
-        m.teamA.players.some((pId) => String(pId) === String(player.id)) ||
-        m.teamB.players.some((pId) => String(pId) === String(player.id)),
-    );
+    // Titulares + quem entrou como substituto (actualParticipants)
+    return matches.filter((m) => Boolean(playerSide(m, player.id)));
   }, [player, matches]);
 
   // --- VERIFICAÇÃO DE SEGURANÇA ---
@@ -126,8 +125,13 @@ function PlayerPage({
       if (!allMatches || allMatches.length === 0)
         return { isOut: false, missedCount: 0 };
 
-      // 1. Filtra para considerar APENAS TREINOS (ignora Amistosos)
-      const onlyTrainings = allMatches.filter((m) => m.type === "TREINO");
+      // 1. Dias que geram falta: partidas com "Gerar faltas para ausentes" ligado.
+      //    Partidas antigas (sem o campo) seguem a regra antiga: só TREINO.
+      const onlyTrainings = allMatches.filter((m) =>
+        m.generateFoul === undefined || m.generateFoul === null
+          ? matchType(m) === "TREINO"
+          : m.generateFoul === true,
+      );
 
       if (onlyTrainings.length === 0) return { isOut: false, missedCount: 0 };
 
@@ -145,15 +149,7 @@ function PlayerPage({
       for (const day of trainingDays) {
         // Verifica se o jogador participou de algum treino naquele dia específico
         const playedOnThisDay = onlyTrainings.some((match) => {
-          return (
-            match.date === day &&
-            (match.teamA.players.some(
-              (pId) => String(pId) === String(player.id),
-            ) ||
-              match.teamB.players.some(
-                (pId) => String(pId) === String(player.id),
-              ))
-          );
+          return match.date === day && Boolean(playerSide(match, player.id));
         });
 
         if (playedOnThisDay)
@@ -184,6 +180,22 @@ function PlayerPage({
           getBestPartner={getBestPartner}
           careerDates={careerDates}
         />
+
+        {/* CARD PARA POSTAR + RETROSPECTIVA */}
+        <div className="ppg-share-bar">
+          <FutCardShare
+            player={player}
+            players={playersWithTrainingStats || playersWithStats}
+            matches={matches}
+          />
+          <Link to={`/retrospectiva/${player.id}`} className="ppg-retro-link">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6" y="3" width="12" height="18" rx="1" />
+              <path d="M10 9l4 3-4 3z" />
+            </svg>
+            Minha retrospectiva
+          </Link>
+        </div>
 
         <div className="ppg-page-container">
           <div className="ppg-main-layout">
