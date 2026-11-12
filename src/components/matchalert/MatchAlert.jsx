@@ -167,7 +167,7 @@ const MatchBanner = ({ isAdmin }) => {
     location: "",
     championshipPhase: "",
     // Campos para ARRECADACAO (Vaquinha / Camisas)
-    goalTitle: "NOVO MANTO D'O ADR 2026",
+    goalTitle: "NOVO MANTO DO ADR 2026",
     goalSubtitle: "Arrecadação oficial para a confecção dos novos uniformes",
     currentAmount: "",
     targetAmount: "",
@@ -228,7 +228,7 @@ const MatchBanner = ({ isAdmin }) => {
       ARRECADACAO:
         "O ADR • CAMPANHA OFICIAL DOS NOVOS UNIFORMES • FAÇA SUA CONTRIBUIÇÃO VIA PIX •",
       NOTICIA:
-        "PLANTÃO D'O ADR • COMUNICADO OFICIAL DA DIRETORIA • FIQUE POR DENTRO •",
+        "PLANTÃO DO ADR • COMUNICADO OFICIAL DA DIRETORIA • FIQUE POR DENTRO •",
     };
     setFormData((prev) => ({
       ...prev,
@@ -570,7 +570,7 @@ const MatchBanner = ({ isAdmin }) => {
               <>
                 <input
                   type="text"
-                  placeholder="Título (Ex: NOVAS CAMISAS D'O ADR 2026)"
+                  placeholder="Título (Ex: NOVAS CAMISAS DO ADR 2026)"
                   value={formData.goalTitle}
                   onChange={(e) =>
                     setFormData({ ...formData, goalTitle: e.target.value })

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import "../styles/Home/home.css";
 
@@ -17,6 +17,7 @@ import HistoryCarousel from "../components/HistoryCarousel";
 import Footer from "../components/Footer";
 import BirthdayAlert from "../components/BirthdayAlert";
 import MatchAlert from "../components/matchalert/MatchAlert";
+import ClubExplore from "./ClubExplore/ClubExplore";
 
 function Home({ players, matches, getBestPartner, isAdmin }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
@@ -218,16 +219,31 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
     (a, b) => b.assists - a.assists,
   );
 
-  const exportTabela = () => {
+  const exportTabela = async () => {
     const element = document.getElementById("tabela-content");
-    html2canvas(element, { backgroundColor: "#101010", scale: 2 }).then(
-      (canvas) => {
-        const link = document.createElement("a");
-        link.download = "tabela-adr.png";
-        link.href = canvas.toDataURL();
-        link.click();
+    if (!element) return;
+
+    const isIdr = Boolean(document.querySelector(".theme-idr"));
+
+    // Espera as fontes carregarem para o print não sair com fonte errada
+    if (document.fonts?.ready) await document.fonts.ready;
+
+    const canvas = await html2canvas(element, {
+      backgroundColor: isIdr ? "#ffffff" : "#050505",
+      scale: 2,
+      useCORS: true,
+      // O html2canvas não entende texto com degradê (background-clip: text)
+      // nem animações: na cópia usada para o print, liga o "modo exportação"
+      onclone: (clonedDoc) => {
+        const root = clonedDoc.getElementById("tabela-content");
+        if (root) root.classList.add("is-exporting");
       },
-    );
+    });
+
+    const link = document.createElement("a");
+    link.download = isIdr ? "tabela-idr.png" : "tabela-adr.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
   };
 
   const getTotalAssists = (playerId) => {
@@ -266,19 +282,6 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
       <BirthdaySchedule players={players} />
 
       <BirthdayAlert players={players} />
-
-      {/* NAVEGAÇÃO ENTRE PÁGINAS */}
-      <div className="transparency-nav-container">
-        <Link to="/hall-historico" className="btn-transparency-nav">
-          🗿 MEMORIAL DOS JOGADORES
-        </Link>
-        <Link to="/transparency" className="btn-transparency-nav">
-          💰 TRANSPARÊNCIA
-        </Link>
-        <Link to="/Legends" className="btn-transparency-nav">
-          👑 Legends
-        </Link>
-      </div>
 
       <div className="home-layout">
         <aside className="side-cards">
@@ -322,6 +325,9 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
           </aside>
         )}
       </div>
+
+      {/* ARQUIVO DO CLUBE: Hall Histórico · Transparência · Legends */}
+      <ClubExplore />
 
       <SquadCarousel players={players} onSelectPlayer={handlePlayerClick} />
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import primeiro from "../assets/primeiro.png";
 import segundo from "../assets/segundo.png";
 import terceiro from "../assets/terceiro.png";
@@ -11,6 +11,108 @@ import fogoVerde from "../assets/medalhas/streak/fogoVer.png";
 
 import "../styles/Tabelas/rankingtable.css";
 
+/* ==========================================================================
+   ÍCONES DE TRAÇO FINO (substituem os emojis; herdam a cor do tema)
+   ========================================================================== */
+// Bola clássica: círculo sólido com os gomos recortados na cor do fundo
+const BallIcon = ({ className = "" }) => {
+  const clipId = `rk-ball-${React.useId().replace(/:/g, "")}`;
+  return (
+    <svg
+      className={`rk-glyph ${className}`}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      style={{ fill: "currentColor", stroke: "none" }}
+    >
+      <defs>
+        <clipPath id={clipId}>
+          <circle cx="12" cy="12" r="9.4" />
+        </clipPath>
+      </defs>
+      <circle cx="12" cy="12" r="9.4" fill="currentColor" />
+      <g
+        clipPath={`url(#${clipId})`}
+        style={{ fill: "var(--rk-bg, #050505)", stroke: "none" }}
+      >
+        <path d="M12 8.6l3.25 2.36-1.24 3.82H9.99l-1.24-3.82z" />
+        <path d="M12 1.2l2.6 2.2-.4 2.2H9.8l-.4-2.2z" />
+        <path d="M22.6 9.4l-.6 3.4-2 .8-1.4-1.8.8-3z" />
+        <path d="M17.8 21.6l-3.3.4-1-1.9 1.6-1.8 2.9.6z" />
+        <path d="M6.2 21.6l3.3.4 1-1.9-1.6-1.8-2.9.6z" />
+        <path d="M1.4 9.4l.6 3.4 2 .8 1.4-1.8-.8-3z" />
+      </g>
+    </svg>
+  );
+};
+
+const ICON_PATHS = {
+  // Chuteira de perfil com travas
+  assist: (
+    <>
+      <path
+        fill="currentColor"
+        d="M4.6 5.6h5.4l.9 3.8 6.4 2.3c2 .8 3.5 2.4 3.5 4.1v1.4H4.1c-.8 0-1.4-.6-1.4-1.4v-2.3c0-1.1.5-2 1.1-2.8z"
+      />
+      <path
+        fill="currentColor"
+        d="M5 18.4h2.2v1.8H5zM9.8 18.4H12v1.8H9.8zM14.6 18.4h2.2v1.8h-2.2zM18.6 18.4h2.2v1.8h-2.2z"
+      />
+    </>
+  ),
+  // Triângulo sólido com exclamação recortada
+  alert: (
+    <>
+      <path d="M12 2.8l10 17.6H2z" fill="currentColor" />
+      <path
+        d="M12 9.2v5"
+        fill="none"
+        stroke="#000"
+        strokeWidth="2.3"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="17.2" r="1.25" fill="#000" />
+    </>
+  ),
+  reset: (
+    <path
+      d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4v4h4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  ),
+  chevron: (
+    <path
+      d="M7 10l5 5 5-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  ),
+};
+
+const Icon = ({ name, className = "" }) =>
+  name === "ball" ? (
+    <BallIcon className={className} />
+  ) : (
+    <svg
+      className={`rk-glyph ${className}`}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      style={{ fill: "currentColor", stroke: "none" }}
+    >
+      {ICON_PATHS[name]}
+    </svg>
+  );
+
+// Seta de ordenação no cabeçalho
+const SortMark = ({ active }) =>
+  active ? <Icon name="chevron" className="rk-sort-glyph" /> : null;
+
 export default function RankingTable({
   sortedPlayers = [],
   getPlayerStats,
@@ -22,6 +124,17 @@ export default function RankingTable({
     key: "rank",
     direction: "asc",
   });
+
+  // Aviso discreto ao tocar num selo (no lugar do alert do navegador)
+  const [info, setInfo] = useState(null);
+  const infoTimer = useRef(null);
+  const showInfo = (e, data) => {
+    e.stopPropagation();
+    clearTimeout(infoTimer.current);
+    setInfo(data);
+    infoTimer.current = setTimeout(() => setInfo(null), 3500);
+  };
+  useEffect(() => () => clearTimeout(infoTimer.current), []);
 
   // 1. PRÉ-PROCESSAMENTO DE DATAS (TREINOS E EVENTOS OFICIAIS QUE GERAM FALTAS)
   const trainingData = useMemo(() => {
@@ -196,7 +309,7 @@ export default function RankingTable({
             className="rk-reset-sort-btn"
             onClick={() => setSortConfig({ key: "rank", direction: "asc" })}
           >
-            ↺ Voltar para Classificação Oficial
+            <Icon name="reset" /> Voltar para Classificação Oficial
           </button>
         )}
       </header>
@@ -222,7 +335,7 @@ export default function RankingTable({
                 onClick={() => handleSort("points")}
                 title="Ordenar por Pontos"
               >
-                Pts {sortConfig.key === "points" && "▾"}
+                Pts <SortMark active={sortConfig.key === "points"} />
               </th>
 
               <th
@@ -232,7 +345,7 @@ export default function RankingTable({
                 onClick={() => handleSort("totalGoals26")}
                 title="Ordenar por Gols"
               >
-                Gols {sortConfig.key === "totalGoals26" && "▾"}
+                Gols <SortMark active={sortConfig.key === "totalGoals26"} />
               </th>
 
               <th
@@ -242,7 +355,7 @@ export default function RankingTable({
                 onClick={() => handleSort("totalAssists26")}
                 title="Ordenar por Assistências"
               >
-                Assis {sortConfig.key === "totalAssists26" && "▾"}
+                Assis <SortMark active={sortConfig.key === "totalAssists26"} />
               </th>
 
               <th
@@ -252,7 +365,7 @@ export default function RankingTable({
                 onClick={() => handleSort("totalGames26")}
                 title="Ordenar por Jogos"
               >
-                J {sortConfig.key === "totalGames26" && "▾"}
+                J <SortMark active={sortConfig.key === "totalGames26"} />
               </th>
 
               <th
@@ -262,7 +375,7 @@ export default function RankingTable({
                 onClick={() => handleSort("wins")}
                 title="Ordenar por Vitórias"
               >
-                V {sortConfig.key === "wins" && "▾"}
+                V <SortMark active={sortConfig.key === "wins"} />
               </th>
 
               <th
@@ -272,7 +385,7 @@ export default function RankingTable({
                 onClick={() => handleSort("losses")}
                 title="Ordenar por Derrotas"
               >
-                D {sortConfig.key === "losses" && "▾"}
+                D <SortMark active={sortConfig.key === "losses"} />
               </th>
 
               <th>Últimas 5</th>
@@ -335,51 +448,74 @@ export default function RankingTable({
                         <span className="rk-player-name-text">{p.name}</span>
 
                         {totalGoals26 > 0 && totalGoals26 === maxGoals && (
-                          <span
-                            className="rk-leader-badge"
-                            title={`Artilheiro do Campeonato (${totalGoals26} gols)`}
-                            onClick={() =>
-                              alert("⚽ Artilheiro do Campeonato!")
+                          <button
+                            type="button"
+                            className="rk-lead-chip is-goal"
+                            title={`Artilheiro da temporada (${totalGoals26} gols)`}
+                            onClick={(e) =>
+                              showInfo(e, {
+                                type: "goal",
+                                title: "Artilheiro da temporada",
+                                text: `${p.name} · ${totalGoals26} gols`,
+                              })
                             }
                           >
-                            ⚽
-                          </span>
+                            <Icon name="ball" />
+                          </button>
                         )}
 
                         {totalAssists26 > 0 &&
                           totalAssists26 === maxAssists && (
-                            <span
-                              className="rk-leader-badge"
-                              title={`Líder de Assistências (${totalAssists26} assists)`}
-                              onClick={() => alert("🎯 Líder de Assistências!")}
+                            <button
+                              type="button"
+                              className="rk-lead-chip is-assist"
+                              title={`Líder de assistências (${totalAssists26})`}
+                              onClick={(e) =>
+                                showInfo(e, {
+                                  type: "assist",
+                                  title: "Líder de assistências",
+                                  text: `${p.name} · ${totalAssists26} assistências`,
+                                })
+                              }
                             >
-                              🎯
-                            </span>
+                              <Icon name="assist" />
+                            </button>
                           )}
 
                         {fireSrc && (
-                          <div
-                            className="rk-fire-badge"
-                            title={`${streak} treinos sem faltar!`}
-                            onClick={() =>
-                              alert(
-                                `🔥 ${streak} treinos consecutivos sem faltar!`,
-                              )
+                          <button
+                            type="button"
+                            className="rk-fire-chip"
+                            title={`${streak} treinos seguidos sem faltar`}
+                            onClick={(e) =>
+                              showInfo(e, {
+                                type: "fire",
+                                title: "Sequência de presença",
+                                text: `${p.name} · ${streak} treinos seguidos sem faltar`,
+                              })
                             }
                           >
-                            <img src={fireSrc} alt="Streak Fogo" />
+                            <img src={fireSrc} alt="" />
                             <span>{streak}</span>
-                          </div>
+                          </button>
                         )}
                       </span>
 
                       {isAdmin && missedCount >= 3 && (
-                        <span
-                          className="rk-absence-alert"
-                          title={`Alerta: Faltou aos últimos ${missedCount} treinos!`}
+                        <button
+                          type="button"
+                          className="rk-absence-btn"
+                          title={`Faltou aos últimos ${missedCount} treinos`}
+                          onClick={(e) =>
+                            showInfo(e, {
+                              type: "alert",
+                              title: "Alerta de faltas",
+                              text: `${p.name} faltou aos últimos ${missedCount} treinos`,
+                            })
+                          }
                         >
-                          ⚠️
-                        </span>
+                          <Icon name="alert" />
+                        </button>
                       )}
                     </div>
                   </td>
@@ -439,16 +575,43 @@ export default function RankingTable({
 
         <div className="legend-group">
           <div className="legend-item">
-            <span>⚽ Artilheiro</span>
+            <span className="rk-legend-chip is-goal">
+              <Icon name="ball" />
+            </span>
+            <span>Artilheiro</span>
           </div>
           <div className="legend-item">
-            <span>🎯 Líder Assists</span>
+            <span className="rk-legend-chip is-assist">
+              <Icon name="assist" />
+            </span>
+            <span>Líder Assists</span>
           </div>
           <div className="legend-item">
-            <span>🔥 Presença</span>
+            <img src={fogoLaranja} alt="" className="rk-legend-flame" />
+            <span>Presença</span>
           </div>
         </div>
       </footer>
+
+      {/* AVISO AO TOCAR NUM SELO */}
+      {info && (
+        <div className={`rk-info-toast type-${info.type}`} role="status">
+          <div className="rk-info-body">
+            <span className="rk-info-title">{info.title}</span>
+            <span className="rk-info-text">{info.text}</span>
+          </div>
+          <button
+            type="button"
+            className="rk-info-close"
+            onClick={() => setInfo(null)}
+            aria-label="Fechar"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+      )}
     </main>
   );
 }

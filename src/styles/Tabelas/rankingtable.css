@@ -680,3 +680,290 @@ table.rk-table tbody tr:hover .rk-player-name-text {
 .theme-idr tr.destaque-ultimo td.pin-pos::before {
   box-shadow: none !important;
 }
+
+/* ==========================================================================
+   9. SELOS SEM EMOJI (classes novas, à prova do CSS antigo)
+   ========================================================================== */
+.rk-glyph {
+  display: block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.rk-lead-chip,
+.rk-fire-chip,
+.rk-absence-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Selinho quadrado: artilheiro (dourado) e assistências (azul) */
+.rk-lead-chip {
+  --rk-chip: var(--rk-accent);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 15px;
+  color: var(--rk-chip);
+  background: color-mix(in srgb, var(--rk-chip) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rk-chip) 42%, transparent);
+  border-radius: 3px;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.rk-lead-chip.is-assist {
+  --rk-chip: #3b82f6;
+}
+
+.rk-lead-chip:hover {
+  background: color-mix(in srgb, var(--rk-chip) 24%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--rk-chip) 45%, transparent);
+}
+
+/* Foguinho: igual ao original (número por cima da imagem) */
+.rk-fire-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: -2px;
+}
+
+.rk-fire-chip img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.rk-fire-chip span {
+  position: absolute;
+  bottom: 2px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 1px #000,
+    -1px -1px 1px #000,
+    1px -1px 1px #000,
+    -1px 1px 1px #000;
+}
+
+/* Alerta de faltas (admin) */
+.rk-absence-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  font-size: 15px;
+  color: #f59e0b;
+}
+
+/* Botão "Voltar para Classificação Oficial" */
+.rk-reset-sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rk-reset-sort-btn .rk-glyph {
+  font-size: 13px;
+}
+
+/* Seta de ordenação no cabeçalho */
+.rk-sort-glyph {
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 10px;
+  vertical-align: 0;
+}
+
+/* Legenda */
+.rk-legend-chip {
+  --rk-chip: var(--rk-accent);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  color: var(--rk-chip);
+  background: color-mix(in srgb, var(--rk-chip) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rk-chip) 42%, transparent);
+  border-radius: 3px;
+}
+
+.rk-legend-chip.is-assist {
+  --rk-chip: #3b82f6;
+}
+
+.rk-legend-flame {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* Aviso ao tocar num selo (substitui o alert do navegador) */
+.rk-info-toast {
+  --rk-toast-accent: #d4af37;
+
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 12px 12px 12px 16px;
+  transform: translateX(-50%);
+  background: #0b0b0b;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 3px 0 0 var(--rk-toast-accent),
+    0 16px 40px rgba(0, 0, 0, 0.6);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  animation: rkToastIn 0.22s ease;
+}
+
+.rk-info-toast.type-assist {
+  --rk-toast-accent: #3b82f6;
+}
+
+.rk-info-toast.type-fire {
+  --rk-toast-accent: #f97316;
+}
+
+.rk-info-toast.type-alert {
+  --rk-toast-accent: #f59e0b;
+}
+
+.rk-info-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.rk-info-title {
+  color: var(--rk-toast-accent);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.rk-info-text {
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.rk-info-close {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #8a8f98;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+}
+
+.rk-info-close svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.rk-info-close:hover {
+  color: #ffffff;
+}
+
+@keyframes rkToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+}
+
+/* Tema IDR */
+.theme-idr .rk-lead-chip.is-assist,
+.theme-idr .rk-legend-chip.is-assist {
+  --rk-chip: #1d4ed8;
+}
+
+.theme-idr .rk-lead-chip:hover {
+  box-shadow: none;
+}
+
+.theme-idr .rk-info-toast {
+  --rk-toast-accent: #ffffff;
+  background: #111111;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-info-toast {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   10. MODO EXPORTAÇÃO (botão "Exportar Tabela" / html2canvas)
+   O html2canvas não suporta texto com degradê nem blur/animação:
+   na cópia do print o título vira cor sólida e tudo fica parado.
+   ========================================================================== */
+.is-exporting .page-title {
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  animation: none !important;
+}
+
+.is-exporting .central-column::before {
+  display: none !important;
+}
+
+.is-exporting *,
+.is-exporting *::before,
+.is-exporting *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+.is-exporting table.rk-table tbody tr {
+  opacity: 1 !important;
+}
+
+.theme-idr .is-exporting .page-title {
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}
