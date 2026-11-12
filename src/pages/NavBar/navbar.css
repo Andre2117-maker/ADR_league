@@ -1,38 +1,126 @@
 /* ==========================================================================
-   NAVBAR TOPO
+   NAVBAR — estilo "Classificação Geral"
+   Preto profundo, linhas finas, traço dourado no centro, caixa alta espaçada.
+   O tema IDR só troca as variáveis.
+   ========================================================================== */
+
+:root {
+  --nvb-h: 72px;
+  --nvb-h-scroll: 60px;
+}
+
+.nvb-wrapper,
+.nvb-sidebar,
+.nvb-sidebar-overlay {
+  --nv-bg: rgba(5, 5, 5, 0.86);
+  --nv-bg-solid: #050505;
+  --nv-panel: linear-gradient(180deg, #0f0f0f, #060606);
+  --nv-line: rgba(255, 255, 255, 0.08);
+  --nv-line-strong: rgba(255, 255, 255, 0.16);
+  --nv-fg: #ffffff;
+  --nv-muted: #8a8f98;
+  --nv-head: #6f737b;
+  --nv-accent: #d4af37;
+  --nv-accent-ink: #000000;
+  --nv-accent-soft: rgba(212, 175, 55, 0.08);
+  --nv-accent-grad: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.16),
+    rgba(212, 175, 55, 0) 75%
+  );
+  --nv-glow: rgba(212, 175, 55, 0.4);
+  --nv-danger: #ef4444;
+  --nv-overlay: rgba(0, 0, 0, 0.7);
+}
+
+.theme-idr .nvb-wrapper,
+.theme-idr .nvb-sidebar,
+.theme-idr .nvb-sidebar-overlay {
+  --nv-bg: rgba(255, 255, 255, 0.9);
+  --nv-bg-solid: #ffffff;
+  --nv-panel: linear-gradient(180deg, #ffffff, #fafafa);
+  --nv-line: #e7e7e7;
+  --nv-line-strong: #cfcfcf;
+  --nv-fg: #0a0a0a;
+  --nv-muted: #666666;
+  --nv-head: #9a9a9a;
+  --nv-accent: #000000;
+  --nv-accent-ink: #ffffff;
+  --nv-accent-soft: rgba(0, 0, 0, 0.04);
+  --nv-accent-grad: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.07),
+    rgba(0, 0, 0, 0) 75%
+  );
+  --nv-glow: rgba(0, 0, 0, 0);
+  --nv-danger: #b91c1c;
+  --nv-overlay: rgba(255, 255, 255, 0.55);
+}
+
+/* ==========================================================================
+   1. BARRA DO TOPO
    ========================================================================== */
 .nvb-wrapper {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0; /* Prende a navbar respeitando o scroll */
-  z-index: 9997; /* Z-index menor que a sidebar */
-  transition: all 0.4s ease;
-  padding: 12.5px 0;
-  background: #000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  height: 75px;
+  right: 0;
+  z-index: 9997;
+  height: var(--nvb-h);
   display: flex;
   align-items: center;
+  background: var(--nv-bg);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--nv-line);
+  transition:
+    height 0.35s ease,
+    background 0.35s ease,
+    border-color 0.35s ease;
+}
+
+/* traço dourado no centro da borda */
+.nvb-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: min(420px, 60%);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--nv-accent),
+    transparent
+  );
+  box-shadow: 0 0 12px var(--nv-glow);
+  opacity: 0.55;
+  transition:
+    opacity 0.35s ease,
+    width 0.35s ease;
 }
 
 .nvb-on-scroll {
-  padding: 5px 0;
-  height: 65px;
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  height: var(--nvb-h-scroll);
+  background: color-mix(in srgb, var(--nv-bg-solid) 94%, transparent);
+}
+
+.nvb-on-scroll::after {
+  opacity: 1;
+  width: min(640px, 80%);
 }
 
 .nvb-container {
-  position: relative; /* Importante para a logo ficar exata no meio */
-  width: 95%;
+  position: relative;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
+  padding: 0 clamp(12px, 3vw, 28px);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .nvb-section {
@@ -41,123 +129,275 @@
 }
 
 /* ==========================================================================
-   MENU HAMBÚRGUER E LOGO
+   2. BOTÃO MENU (2 linhas que viram X)
    ========================================================================== */
 .nvb-hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 42px;
+  padding: 0 12px 0 10px;
+  background: transparent;
+  color: var(--nv-fg);
+  border: 1px solid transparent;
+  font: inherit;
   cursor: pointer;
-  padding: 10px;
-  transition: 0.3s;
+  transition: border-color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.nvb-hamburger:hover .line {
-  background-color: #fff;
+.nvb-hamburger:hover {
+  border-color: var(--nv-line-strong);
+}
+
+.nvb-burger-lines {
+  position: relative;
+  width: 24px;
+  height: 12px;
 }
 
 .nvb-hamburger .line {
-  width: 25px;
-  height: 2px;
-  background-color: #d4af37;
-  transition: all 0.3s ease;
-  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  height: 1.5px;
+  background: var(--nv-accent);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.35s ease,
+    top 0.35s ease;
 }
 
-/* Centralização absoluta da Logo para ficar no meio da tela sempre */
+.nvb-hamburger .line:first-child {
+  top: 0;
+  width: 24px;
+}
+
+.nvb-hamburger .line:last-child {
+  top: 10px;
+  width: 15px;
+}
+
+.nvb-hamburger:hover .line:last-child {
+  width: 24px;
+}
+
+.nvb-hamburger.is-open .line:first-child {
+  top: 5px;
+  transform: rotate(45deg);
+}
+
+.nvb-hamburger.is-open .line:last-child {
+  top: 5px;
+  width: 24px;
+  transform: rotate(-45deg);
+}
+
+.nvb-burger-label {
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--nv-muted);
+  transition: color 0.25s ease;
+}
+
+.nvb-hamburger:hover .nvb-burger-label {
+  color: var(--nv-fg);
+}
+
+/* ==========================================================================
+   3. MARCA (centro)
+   ========================================================================== */
 .nvb-brand {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  cursor: pointer;
+  gap: 12px;
+  text-decoration: none;
 }
 
 .nvb-logo-img {
-  width: 40px;
-  height: auto;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px var(--nv-glow));
+  transition:
+    width 0.35s ease,
+    height 0.35s ease;
 }
+
+.nvb-on-scroll .nvb-logo-img {
+  width: 32px;
+  height: 32px;
+}
+
 .nvb-brand-text {
-  color: #fff;
+  display: inline-flex;
+  gap: 8px;
+  color: var(--nv-fg);
+  font-size: 0.82rem;
   font-weight: 900;
-  font-size: 13px;
-  letter-spacing: 3px;
-  margin-top: 2px;
+  font-style: italic;
+  letter-spacing: 4px;
 }
+
 .nvb-highlight {
-  color: #d4af37;
+  color: var(--nv-accent);
 }
 
 /* ==========================================================================
-   BOTÕES DIREITA (ADMIN)
+   4. PESSOINHA (acesso / menu do admin)
    ========================================================================== */
-.nvb-admin-group {
+.nvb-right {
+  position: relative;
+}
+
+.nvb-user-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--nv-fg);
+  border: 1px solid var(--nv-line-strong);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nvb-user-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.nvb-user-btn:hover,
+.nvb-user-btn.is-open {
+  color: var(--nv-accent);
+  border-color: var(--nv-accent);
+  box-shadow: 0 0 16px var(--nv-glow);
+}
+
+.nvb-user-btn.is-admin {
+  color: var(--nv-accent);
+  border-color: color-mix(in srgb, var(--nv-accent) 55%, transparent);
+}
+
+.nvb-user-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--nv-bg-solid);
+}
+
+.nvb-user-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  background: var(--nv-panel);
+  border: 1px solid var(--nv-line);
+  border-top: 1px solid var(--nv-accent);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
+}
+
+.nvb-user-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nvb-user-menu-kicker {
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--nv-line);
+  color: var(--nv-accent);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+}
+
+.nvb-user-menu-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-
-.nvb-admin-badge {
-  background: rgba(212, 175, 55, 0.1);
-  color: #d4af37;
-  padding: 5px 12px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 800;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.nvb-logout-btn {
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 0 16px;
   background: transparent;
-  border: none;
-  color: #ff4d4d;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.nvb-login-btn {
-  background: transparent;
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  color: #d4af37;
-  padding: 6px 20px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 700;
+  color: var(--nv-fg);
+  border: 0;
+  border-bottom: 1px solid var(--nv-line);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  cursor: pointer;
-  transition: 0.3s;
+  text-align: left;
   text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.nvb-login-btn:hover {
-  background: #d4af37;
-  color: #000;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+.nvb-user-menu-item:last-child {
+  border-bottom: 0;
+}
+
+.nvb-user-menu-item:hover {
+  background: var(--nv-accent-grad);
+  box-shadow: inset 2px 0 0 var(--nv-accent);
+}
+
+.nvb-user-menu-item span {
+  color: var(--nv-accent);
+  font-size: 1rem;
+}
+
+.nvb-user-menu-item.is-danger {
+  color: var(--nv-danger);
+}
+
+.nvb-user-menu-item.is-danger:hover {
+  box-shadow: inset 2px 0 0 var(--nv-danger);
 }
 
 /* ==========================================================================
-   SIDEBAR (MENU LATERAL)
+   5. MENU LATERAL
    ========================================================================== */
 .nvb-sidebar-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(
-    4px
-  ); /* Se ainda tiver lag em telemóveis antigos, remova esta linha */
-  -webkit-backdrop-filter: blur(4px);
+  inset: 0;
   z-index: 9998;
+  background: var(--nv-overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s ease;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s;
 }
 
 .nvb-sidebar-overlay.visible {
@@ -168,191 +408,349 @@
 .nvb-sidebar {
   position: fixed;
   top: 0;
-  left: 0; /* Mantém a âncora fixa */
-  transform: translateX(
-    -120%
-  ); /* Esconde fora do ecrã usando a GPU (Sem lag!) */
-  width: 280px;
-  height: 100vh;
-  background: #080808;
-  border-right: 1px solid rgba(212, 175, 55, 0.15);
+  left: 0;
   z-index: 9999;
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.9);
-  /* A transição agora é no 'transform' e não no 'left' */
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: min(320px, 86vw);
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+  background: var(--nv-panel);
+  border-right: 1px solid var(--nv-line);
+  box-shadow: 20px 0 60px rgba(0, 0, 0, 0.6);
+  transform: translateX(-105%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nvb-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -1px;
+  width: 1px;
+  height: 40%;
+  background: linear-gradient(180deg, var(--nv-accent), transparent);
+  opacity: 0.6;
 }
 
 .nvb-sidebar.open {
-  transform: translateX(0); /* Desliza para dentro do ecrã sem travar */
+  transform: translateX(0);
 }
 
 .nvb-sidebar-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 25px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: #111;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 18px;
+  border-bottom: 1px solid var(--nv-line);
+}
+
+.nvb-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nvb-sidebar-brand > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nvb-side-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.nvb-sidebar-kicker {
+  color: var(--nv-accent);
+  font-size: 0.56rem;
+  font-weight: 900;
+  letter-spacing: 3px;
 }
 
 .nvb-sidebar-title {
-  color: #d4af37;
+  color: var(--nv-fg);
+  font-size: 0.8rem;
   font-weight: 900;
-  letter-spacing: 4px;
-  font-size: 1.1rem;
+  font-style: italic;
+  letter-spacing: 3px;
 }
 
 .nvb-sidebar-close {
-  background: none;
-  border: none;
-  color: #666;
-  font-size: 2.2rem;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: transparent;
+  color: var(--nv-muted);
+  border: 1px solid var(--nv-line-strong);
+  font-size: 0.85rem;
   cursor: pointer;
-  line-height: 1;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
 .nvb-sidebar-close:hover {
-  color: #fff;
-  transform: scale(1.1);
+  color: var(--nv-accent);
+  border-color: var(--nv-accent);
 }
 
 .nvb-sidebar-links {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding: 6px 0 16px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.nvb-side-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.nvb-side-section-title {
+  padding: 18px 24px 8px;
+  color: var(--nv-head);
+  font-size: 0.56rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
 
 .nvb-side-link {
-  color: #aaa;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+  color: var(--nv-muted);
+  border-bottom: 1px solid var(--nv-line);
   text-decoration: none;
-  padding: 15px 30px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 2.4px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  border-left: 3px solid transparent;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.nvb-side-section .nvb-side-link:first-of-type,
+.nvb-side-section .nvb-side-item-group:first-of-type {
+  border-top: 1px solid var(--nv-line);
 }
 
 .nvb-side-link:hover {
-  background: rgba(212, 175, 55, 0.05);
-  border-left-color: #d4af37;
-  color: #d4af37;
-  padding-left: 40px; /* Animação de avanço ao passar o mouse */
+  color: var(--nv-fg);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.nvb-side-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.05);
-  margin: 15px 30px;
+.nvb-side-link.active {
+  color: var(--nv-accent);
+  background: var(--nv-accent-grad);
+  box-shadow: inset 3px 0 0 var(--nv-accent);
 }
 
-/* ==========================================================================
-   RESPONSIVIDADE CELULAR
-   ========================================================================== */
-@media (max-width: 600px) {
-  .nvb-login-btn {
-    padding: 6px 12px;
-    font-size: 10px;
-  }
-
-  .nvb-admin-badge {
-    padding: 4px 8px;
-    font-size: 10px;
-  }
-
-  .nvb-logout-btn {
-    font-size: 10px;
-  }
-
-  .nvb-brand-text {
-    font-size: 11px;
-  }
-}
-
-/* ==========================================================================
-   SUBDIVISÕES DA SIDEBAR (ACCORDION)
-   ========================================================================== */
+/* Grupos com submenu */
 .nvb-side-item-group {
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid var(--nv-line);
+}
+
+.nvb-side-item-group .nvb-side-link {
+  border-bottom: 0;
+}
+
+.nvb-side-item-group.is-active > .nvb-side-item-main {
+  box-shadow: inset 3px 0 0 var(--nv-accent);
+}
+
+.nvb-side-item-group.is-active > .nvb-side-item-main .nvb-side-link {
+  color: var(--nv-accent);
 }
 
 .nvb-side-item-main {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 20px; /* Dá um respiro para a setinha */
+  align-items: stretch;
 }
 
-/* O link principal não precisa de padding lateral pois já tem na classe original, 
-   mas garantimos que ele ocupe o espaço */
 .nvb-side-item-main .nvb-side-link {
   flex: 1;
+  box-shadow: none;
 }
 
-/* Botão da setinha (dropdown) */
 .nvb-sub-toggle {
+  width: 52px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  border: none;
-  color: #666;
-  font-size: 0.8rem;
-  padding: 10px;
+  color: var(--nv-muted);
+  border: 0;
+  border-left: 1px solid var(--nv-line);
   cursor: pointer;
-  transition:
-    transform 0.3s ease,
-    color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
-.nvb-sub-toggle:hover {
-  color: #d4af37;
+.nvb-sub-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s ease;
 }
 
+.nvb-sub-toggle:hover,
 .nvb-sub-toggle.active {
-  transform: rotate(-180deg);
-  color: #d4af37;
+  color: var(--nv-accent);
 }
 
-/* Caixa dos submenus (Inicia fechada) */
+.nvb-sub-toggle.active svg {
+  transform: rotate(180deg);
+}
+
+/* Submenu com altura automática (sem limite fixo) */
 .nvb-side-submenu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.2); /* Fundo sutilmente mais escuro */
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
 }
 
 .nvb-side-submenu.open {
-  max-height: 200px; /* Altura suficiente para exibir as abas */
+  grid-template-rows: 1fr;
 }
 
-/* Links das subdivisões */
+.nvb-side-submenu-inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .nvb-sub-link {
-  color: #888;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 24px 0 44px;
+  border-top: 1px solid var(--nv-line);
+  color: var(--nv-muted);
   text-decoration: none;
-  padding: 10px 30px 10px 50px; /* Indentação maior para parecer um sub-item */
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  border-left: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.nvb-sub-link::before {
+  content: "";
+  position: absolute;
+  left: 26px;
+  width: 8px;
+  height: 1px;
+  background: var(--nv-line-strong);
 }
 
 .nvb-sub-link:hover {
-  color: #d4af37;
-  background: rgba(212, 175, 55, 0.05);
-  border-left-color: #d4af37;
-  padding-left: 55px; /* Efeito de deslize ao passar o mouse */
+  color: var(--nv-fg);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.nvb-sub-link.active {
+  color: var(--nv-accent);
+  background: var(--nv-accent-grad);
+}
+
+.nvb-sub-link.active::before {
+  background: var(--nv-accent);
+}
+
+/* Rodapé do menu */
+.nvb-sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--nv-line);
+}
+
+.nvb-side-admin {
+  display: flex;
+  gap: 8px;
+}
+
+.nvb-side-admin-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  color: var(--nv-accent);
+  border: 1px solid var(--nv-accent);
+  text-decoration: none;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.nvb-side-admin-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.nvb-side-admin-btn:hover {
+  background: var(--nv-accent);
+  color: var(--nv-accent-ink);
+}
+
+.nvb-side-logout {
+  min-height: 46px;
+  padding: 0 18px;
+  background: transparent;
+  color: var(--nv-danger);
+  border: 1px solid color-mix(in srgb, var(--nv-danger) 50%, transparent);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.nvb-side-logout:hover {
+  background: var(--nv-danger);
+  color: #fff;
+}
+
+.nvb-side-copy {
+  color: var(--nv-head);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-align: center;
 }
 
 /* ==========================================================================
-   TEMA IDR - SOBREPOSIÇÃO DA NAVBAR E SIDEBAR
+   6. TROCA ADR / IDR (logos e textos)
    ========================================================================== */
 .logo-idr,
 .text-idr {
@@ -368,104 +766,70 @@
 .theme-idr .text-idr {
   display: inline-block !important;
 }
-/* Barra Superior */
-.theme-idr .nvb-wrapper {
-  background: #ffffff !important;
-  border-bottom: 1px solid #e0e0e0 !important;
+
+.theme-idr .nvb-sidebar,
+.theme-idr .nvb-user-menu {
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.08);
 }
 
-.theme-idr .nvb-on-scroll {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-bottom: 1px solid #ccc !important;
+/* ==========================================================================
+   7. CELULAR
+   ========================================================================== */
+@media (max-width: 600px) {
+  :root {
+    --nvb-h: 64px;
+    --nvb-h-scroll: 56px;
+  }
+
+  .nvb-burger-label {
+    display: none;
+  }
+
+  .nvb-hamburger {
+    padding: 0 9px;
+  }
+
+  .nvb-logo-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nvb-brand {
+    gap: 9px;
+  }
+
+  .nvb-brand-text {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    gap: 6px;
+  }
+
+  .nvb-user-btn {
+    width: 40px;
+    height: 40px;
+  }
 }
 
-/* Menu Hambúrguer (Linhas ficam pretas) */
-.theme-idr .nvb-hamburger .line {
-  background-color: #000 !important;
-}
-.theme-idr .nvb-hamburger:hover .line {
-  background-color: #555 !important;
+@media (max-width: 360px) {
+  .nvb-brand-text {
+    display: none;
+  }
 }
 
-/* Logo e Textos */
-.theme-idr .nvb-brand-text,
-.theme-idr .nvb-highlight {
-  color: #000 !important;
+@media (prefers-reduced-motion: reduce) {
+  .nvb-wrapper,
+  .nvb-sidebar,
+  .nvb-sidebar-overlay,
+  .nvb-side-submenu,
+  .nvb-hamburger .line {
+    transition: none;
+  }
 }
 
-/* Botões da Navbar */
-.theme-idr .nvb-admin-badge {
-  background: #f5f5f5 !important;
-  color: #000 !important;
-  border: 1px solid #ccc !important;
-}
-
-.theme-idr .nvb-login-btn {
-  color: #000 !important;
-  border: 1px solid #000 !important;
-}
-
-.theme-idr .nvb-login-btn:hover {
-  background: #000 !important;
-  color: #fff !important;
-  box-shadow: none !important;
-}
-
-/* Sidebar (Menu Lateral) */
-.theme-idr .nvb-sidebar-overlay {
-  background: rgba(255, 255, 255, 0.6) !important; /* Overlay mais claro */
-}
-
-.theme-idr .nvb-sidebar {
-  background: #ffffff !important;
-  border-right: 1px solid #ddd !important;
-  box-shadow: 5px 0 30px rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .nvb-sidebar-header {
-  background: #f9f9f9 !important;
-  border-bottom: 1px solid #eee !important;
-}
-
-.theme-idr .nvb-sidebar-title {
-  color: #000 !important;
-}
-
-.theme-idr .nvb-sidebar-close {
-  color: #555 !important;
-}
-
-.theme-idr .nvb-sidebar-close:hover {
-  color: #000 !important;
-}
-
-/* Links da Sidebar */
-.theme-idr .nvb-side-link,
-.theme-idr .nvb-sub-link {
-  color: #333 !important;
-}
-
-.theme-idr .nvb-side-link:hover,
-.theme-idr .nvb-sub-link:hover {
-  background: #f0f0f0 !important;
-  border-left-color: #000 !important;
-  color: #000 !important;
-}
-
-.theme-idr .nvb-side-divider {
-  background: #eee !important;
-}
-
-/* Setinhas (Accordion) e Submenus */
-.theme-idr .nvb-sub-toggle {
-  color: #555 !important;
-}
-
-.theme-idr .nvb-sub-toggle:hover,
-.theme-idr .nvb-sub-toggle.active {
-  color: #000 !important;
-}
-
-.theme-idr .nvb-side-submenu {
-  background: #fafafa !important;
+.nvb-wrapper button:focus-visible,
+.nvb-wrapper a:focus-visible,
+.nvb-sidebar button:focus-visible,
+.nvb-sidebar a:focus-visible {
+  outline: 1px solid var(--nv-accent);
+  outline-offset: 2px;
 }
