@@ -19,6 +19,71 @@ import BirthdayAlert from "../components/BirthdayAlert";
 import MatchAlert from "../components/matchalert/MatchAlert";
 import ClubExplore from "./ClubExplore/ClubExplore";
 
+/* ==========================================================================
+   EXPORTAÇÃO: o html2canvas só entende cores em rgb/rgba/hex.
+   Cores modernas (color(), oklab(), oklch(), lab(), lch() — inclusive as que
+   o navegador gera a partir de color-mix) quebram o print. Esta função
+   converte tudo para rgba na CÓPIA usada pelo html2canvas.
+   ========================================================================== */
+const MODERN_COLOR_RE =
+  /\b(?:color|oklab|oklch|lab|lch)\((?:[^()]|\([^()]*\))*\)/g;
+
+const COLOR_PROPS = [
+  "color",
+  "background-color",
+  "border-top-color",
+  "border-right-color",
+  "border-bottom-color",
+  "border-left-color",
+  "outline-color",
+  "text-decoration-color",
+  "column-rule-color",
+  "caret-color",
+  "fill",
+  "stroke",
+  "box-shadow",
+  "text-shadow",
+  "background-image",
+];
+
+const sanitizeColorsForCanvas = (doc, root) => {
+  const canvas = doc.createElement("canvas");
+  canvas.width = 1;
+  canvas.height = 1;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return;
+  const cache = new Map();
+
+  // Pinta 1 pixel com a cor e lê de volta em RGBA
+  const toRgba = (value) => {
+    if (cache.has(value)) return cache.get(value);
+    ctx.clearRect(0, 0, 1, 1);
+    ctx.fillStyle = "rgba(0, 0, 0, 0)";
+    ctx.fillStyle = value;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+    const out = `rgba(${r}, ${g}, ${b}, ${(a / 255).toFixed(3)})`;
+    cache.set(value, out);
+    return out;
+  };
+
+  const view = doc.defaultView || window;
+  [root, ...root.querySelectorAll("*")].forEach((el) => {
+    const cs = view.getComputedStyle(el);
+    COLOR_PROPS.forEach((prop) => {
+      const value = cs.getPropertyValue(prop);
+      if (!value || !MODERN_COLOR_RE.test(value)) return;
+      MODERN_COLOR_RE.lastIndex = 0;
+      el.style.setProperty(
+        prop,
+        value.replace(MODERN_COLOR_RE, toRgba),
+        "important",
+      );
+    });
+    MODERN_COLOR_RE.lastIndex = 0;
+  });
+};
+
 function Home({ players, matches, getBestPartner, isAdmin }) {
   const [hoveredPlayer, setHoveredPlayer] = useState(null);
   const navigate = useNavigate();
@@ -228,22 +293,29 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
     // Espera as fontes carregarem para o print não sair com fonte errada
     if (document.fonts?.ready) await document.fonts.ready;
 
-    const canvas = await html2canvas(element, {
-      backgroundColor: isIdr ? "#ffffff" : "#050505",
-      scale: 2,
-      useCORS: true,
-      // O html2canvas não entende texto com degradê (background-clip: text)
-      // nem animações: na cópia usada para o print, liga o "modo exportação"
-      onclone: (clonedDoc) => {
-        const root = clonedDoc.getElementById("tabela-content");
-        if (root) root.classList.add("is-exporting");
-      },
-    });
+    try {
+      const canvas = await html2canvas(element, {
+        backgroundColor: isIdr ? "#ffffff" : "#050505",
+        scale: 2,
+        useCORS: true,
+        // O html2canvas não entende texto com degradê (background-clip: text)
+        // nem animações: na cópia usada para o print, liga o "modo exportação"
+        onclone: (clonedDoc) => {
+          const root = clonedDoc.getElementById("tabela-content");
+          if (!root) return;
+          root.classList.add("is-exporting");
+          sanitizeColorsForCanvas(clonedDoc, root);
+        },
+      });
 
-    const link = document.createElement("a");
-    link.download = isIdr ? "tabela-idr.png" : "tabela-adr.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+      const link = document.createElement("a");
+      link.download = isIdr ? "tabela-idr.png" : "tabela-adr.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (err) {
+      console.error("Erro ao exportar tabela:", err);
+      alert("Não foi possível exportar a tabela. Tente de novo.");
+    }
   };
 
   const getTotalAssists = (playerId) => {
