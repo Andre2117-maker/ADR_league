@@ -416,9 +416,11 @@ function RetroStory({ player, players, matches, season }) {
                     <span className="w">
                       <b>{c.wins}</b>V
                     </span>
-                    <span className="d">
-                      <b>{c.draws}</b>E
-                    </span>
+                    {c.draws > 0 && (
+                      <span className="d">
+                        <b>{c.draws}</b>E
+                      </span>
+                    )}
                     <span className="l">
                       <b>{c.losses}</b>D
                     </span>
@@ -498,12 +500,15 @@ function RetroStory({ player, players, matches, season }) {
                 </b>
                 <span>V</span>
               </div>
-              <div className="d">
-                <b>
-                  <CountUp value={t.draws} active={active} />
-                </b>
-                <span>E</span>
-              </div>
+              {/* No ADR não tem empate (vai pros pênaltis); só aparece se existir */}
+              {t.draws > 0 && (
+                <div className="d">
+                  <b>
+                    <CountUp value={t.draws} active={active} />
+                  </b>
+                  <span>E</span>
+                </div>
+              )}
               <div className="l">
                 <b>
                   <CountUp value={t.losses} active={active} />
@@ -529,9 +534,9 @@ function RetroStory({ player, players, matches, season }) {
                 </div>
               )}
             </div>
-            {t.bestUnbeaten >= 3 && (
+            {t.bestWinStreak >= 3 && (
               <p className="rt-p">
-                Maior sequência sem perder: <b>{t.bestUnbeaten} jogos</b>.
+                Maior sequência de vitórias: <b>{t.bestWinStreak} seguidas</b>.
               </p>
             )}
           </>

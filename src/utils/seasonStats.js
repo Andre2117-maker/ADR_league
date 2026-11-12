@@ -591,7 +591,6 @@ export const computeRecords = (players = [], matches = [], season = null) => {
       });
       const ref = { playerId: id };
       best("winStreak", bestW, ref);
-      best("unbeatenStreak", bestU, ref);
       best("scoringStreak", bestS, ref);
       best("topScorer", goals, ref);
       best("topAssist", assists, ref);
@@ -631,11 +630,6 @@ export const computeRecords = (players = [], matches = [], season = null) => {
     winStreak: {
       label: "Maior sequência de vitórias",
       unit: "vitórias seguidas",
-      group: "Sequências",
-    },
-    unbeatenStreak: {
-      label: "Maior sequência invicta",
-      unit: "jogos sem perder",
       group: "Sequências",
     },
     scoringStreak: {
