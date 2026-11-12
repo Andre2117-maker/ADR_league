@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import FutCard from "./FutCard";
 import { computeRetrospective, seasonsIn } from "../../../utils/seasonStats";
 import { exportNodeImage } from "../../../utils/exportImage";
-import { useClubMode } from "../../../utils/shirtNumber";
+import { useClubMode } from "../../../utils/Shirtnumber";
 import "./futcard.css";
 
 /**
