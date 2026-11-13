@@ -113,6 +113,103 @@ const Icon = ({ name, className = "" }) =>
 const SortMark = ({ active }) =>
   active ? <Icon name="chevron" className="rk-sort-glyph" /> : null;
 
+/* ==========================================================================
+   SOBE / DESCE: compara com a classificação antes do último dia de jogo
+   (mesmas regras da tabela da Home: TREINO + EVENTO oficial,
+    pontos > gols > assistências > nome)
+   ========================================================================== */
+const dayOf = (m) => String(m?.date || "").split("T")[0];
+
+const isRankingMatch = (m) => {
+  const type = String(m.type || "TREINO").toUpperCase();
+  return type === "TREINO" || (type === "EVENTO" && m.isOfficial !== false);
+};
+
+const inList = (list, id) => (list || []).some((x) => String(x) === id);
+
+// Pontos, gols e assistências de cada jogador num conjunto de partidas
+const tallyMatches = (list) => {
+  const t = {};
+  const get = (id) => (t[id] = t[id] || { points: 0, goals: 0, assists: 0 });
+
+  list.forEach((m) => {
+    const goalsA = (m.events || []).filter(
+      (e) =>
+        (e.type === "GOAL" && e.team === "A") ||
+        (e.type === "OWN_GOAL" && e.team === "B"),
+    ).length;
+    const goalsB = (m.events || []).filter(
+      (e) =>
+        (e.type === "GOAL" && e.team === "B") ||
+        (e.type === "OWN_GOAL" && e.team === "A"),
+    ).length;
+    const winner = String(m.penaltiesWinner || m.winner || "").toUpperCase();
+
+    const ids = new Set(
+      [
+        ...(m.teamA?.players || []),
+        ...(m.teamB?.players || []),
+        ...(m.actualParticipantsA || []),
+        ...(m.actualParticipantsB || []),
+      ].map(String),
+    );
+
+    ids.forEach((id) => {
+      const isA =
+        inList(m.teamA?.players, id) || inList(m.actualParticipantsA, id);
+      const side = isA ? "A" : "B";
+      let res;
+      if (winner)
+        res = winner === side ? "W" : "L"; // igual à Home
+      else if (goalsA === goalsB) res = "D";
+      else res = goalsA > goalsB === isA ? "W" : "L";
+      get(id).points += res === "W" ? 3 : res === "D" ? 1 : 0;
+    });
+
+    (m.events || []).forEach((e) => {
+      if (e.type === "GOAL" && e.playerId) get(String(e.playerId)).goals += 1;
+      if (e.type === "GOAL" && e.assistId) get(String(e.assistId)).assists += 1;
+      if (e.type === "ASSIST" && e.playerId)
+        get(String(e.playerId)).assists += 1;
+    });
+  });
+  return t;
+};
+
+// Setinhas empilhadas: 1, 2 ou 3 (acima de 3 mostra o número junto)
+const MoveMark = ({ delta, onClick }) => {
+  if (!delta) return null;
+  const up = delta > 0;
+  const n = Math.min(3, Math.abs(delta));
+  const label = `${up ? "Subiu" : "Caiu"} ${Math.abs(delta)} ${
+    Math.abs(delta) === 1 ? "posição" : "posições"
+  } desde o último treino`;
+  return (
+    <button
+      type="button"
+      className={`rk-move ${up ? "is-up" : "is-down"} n${n}`}
+      title={label}
+      aria-label={label}
+      onClick={(e) => onClick(e, label)}
+    >
+      <svg viewBox={`0 0 10 ${4 + n * 4}`} aria-hidden="true">
+        {Array.from({ length: n }).map((_, i) => (
+          <path
+            key={i}
+            d={up ? `M1 ${6 + i * 4}l4-4 4 4` : `M1 ${2 + i * 4}l4 4 4-4`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        ))}
+      </svg>
+      {Math.abs(delta) > 3 && <span>{Math.abs(delta)}</span>}
+    </button>
+  );
+};
+
 export default function RankingTable({
   sortedPlayers = [],
   getPlayerStats,
@@ -274,6 +371,48 @@ export default function RankingTable({
     return list;
   }, [enrichedPlayers, sortConfig]);
 
+  // 4. SOBE / DESCE: posição antes do último dia de jogo x posição atual
+  const movement = useMemo(() => {
+    const valid = (matches || []).filter((m) => isRankingMatch(m) && m.date);
+    const days = [...new Set(valid.map(dayOf))].sort();
+    if (days.length < 2) return {}; // precisa de pelo menos 2 dias pra comparar
+
+    const lastDay = days[days.length - 1];
+    const before = tallyMatches(valid.filter((m) => dayOf(m) !== lastDay));
+
+    const prev = enrichedPlayers
+      .map((item) => {
+        const p = item.player;
+        const id = String(p.id);
+        const manual = p.statsBySeason?.["2026"] || {};
+        const b = before[id] || { points: 0, goals: 0, assists: 0 };
+        return {
+          id,
+          name: p.name || "",
+          points: b.points,
+          goals: b.goals + Number(manual.goals || 0),
+          assists: b.assists + Number(manual.assists || 0),
+        };
+      })
+      .sort(
+        (a, b) =>
+          b.points - a.points ||
+          b.goals - a.goals ||
+          b.assists - a.assists ||
+          a.name.localeCompare(b.name, "pt-BR"),
+      );
+
+    const prevPos = {};
+    prev.forEach((r, i) => (prevPos[r.id] = i + 1));
+
+    const out = {};
+    enrichedPlayers.forEach((item) => {
+      const id = String(item.player.id);
+      out[id] = prevPos[id] - item.originalRank; // + subiu / - caiu
+    });
+    return out;
+  }, [matches, enrichedPlayers]);
+
   const handleSort = (key) => {
     setSortConfig((prev) => {
       if (prev.key === key) {
@@ -429,17 +568,19 @@ export default function RankingTable({
                   className={rowClass}
                 >
                   <td className="fw-bold sticky-col pin-pos">
-                    {currentPos <= 3 ? (
-                      <img
-                        src={[primeiro, segundo, terceiro][currentPos - 1]}
-                        width="20"
-                        height="20"
-                        className="rk-medal-img"
-                        alt={`${currentPos}º`}
-                      />
-                    ) : (
-                      <span className="rk-pos-num">{currentPos}</span>
-                    )}
+                    <span className="rk-pos-wrap">
+                      {currentPos <= 3 ? (
+                        <img
+                          src={[primeiro, segundo, terceiro][currentPos - 1]}
+                          width="20"
+                          height="20"
+                          className="rk-medal-img"
+                          alt={`${currentPos}º`}
+                        />
+                      ) : (
+                        <span className="rk-pos-num">{currentPos}</span>
+                      )}
+                    </span>
                   </td>
 
                   <td className="player-td-name fw-bold sticky-col pin-name">
@@ -517,6 +658,19 @@ export default function RankingTable({
                           <Icon name="alert" />
                         </button>
                       )}
+                      {/* Setas encostadas na linha da coluna (só na ordem oficial) */}
+                      {sortConfig.key === "rank" && (
+                        <MoveMark
+                          delta={movement[String(p.id)]}
+                          onClick={(e, text) =>
+                            showInfo(e, {
+                              type: movement[String(p.id)] > 0 ? "up" : "down",
+                              title: "Classificação",
+                              text: `${p.name} · ${text.toLowerCase()}`,
+                            })
+                          }
+                        />
+                      )}
                     </div>
                   </td>
 
@@ -589,6 +743,33 @@ export default function RankingTable({
           <div className="legend-item">
             <img src={fogoLaranja} alt="" className="rk-legend-flame" />
             <span>Presença</span>
+          </div>
+          <div className="legend-item">
+            <span className="rk-move is-up n1 is-legend">
+              <svg viewBox="0 0 10 8" aria-hidden="true">
+                <path
+                  d="M1 6l4-4 4 4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="rk-move is-down n1 is-legend">
+              <svg viewBox="0 0 10 8" aria-hidden="true">
+                <path
+                  d="M1 2l4 4 4-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span>Sobe / desce desde o último treino</span>
           </div>
         </div>
       </footer>
