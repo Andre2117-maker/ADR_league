@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./MatchCard.css";
-import LogoIDR from "../../assets/IDR.png";
+import LogoIDR from "../../../assets/IDR.png";
 
 // Importando a moldura de Halloween
 import halloweenMoldura from "../../assets/moldura/halloween.png";

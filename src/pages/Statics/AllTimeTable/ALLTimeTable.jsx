@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { isOfficialMatch, participantsOf } from "../../utils/matchStats";
-import { outcomeFor } from "../../utils/seasonStats";
-import { useClubMode } from "../../utils/Shirtnumber";
+import { isOfficialMatch, participantsOf } from "../../../utils/matchStats";
+import { outcomeFor } from "../../../utils/seasonStats";
+import { useClubMode } from "../../../utils/Shirtnumber";
 import "./alltimetable.css";
 
 const SORTS = [

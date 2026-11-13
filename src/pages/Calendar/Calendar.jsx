@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MatchCard from "../components/calendar/MatchCard";
-import Footer from "../components/Footer";
-import "../styles/calendar.css";
+import MatchCard from "./MatchCard/MatchCard";
+import Footer from "../../components/Footer";
+import "./calendar.css";
 
 function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
   const navigate = useNavigate();

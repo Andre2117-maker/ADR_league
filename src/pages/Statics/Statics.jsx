@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
-import "../styles/Statics/statics.css";
+import { db } from "../../firebase";
+import "./statics.css";
 
-// Componentes originais
-import TopAssistsCard from "../components/TopAssists/TopAssistsCard";
-import TopGoalkeepersCard from "../components/TopGoalkeepers/TopGoalkeepersCard";
-import TopScorersCard from "../components/TopScorers/TopScorersCard";
-import AllTimeTable from "../components/AllTimeTable/ALLTimeTable";
-import Footer from "../components/Footer";
-import ClubRecords from "../components/ClubRecords/ClubRecords";
+import TopAssistsCard from "../../components/TopAssists/TopAssistsCard";
+import TopGoalkeepersCard from "../../components/TopGoalkeepers/TopGoalkeepersCard";
+import TopScorersCard from "../../components/TopScorers/TopScorersCard";
+import AllTimeTable from "./AllTimeTable/ALLTimeTable";
+import Footer from "../../components/Footer";
+import ClubRecords from "./ClubRecords/ClubRecords";
 
 // IMPORTES (Amistosos)
-import FriendlySummary from "../components/Statics/FriendlySummary";
-import { useFriendlyStats } from "../data/useFriendlyStats";
+import FriendlySummary from "./FriendlySummary/FriendlySummary";
+import { useFriendlyStats } from "../../data/useFriendlyStats";
 
 // Regras únicas de estatística (mesmas do dashboard do jogador)
 import {
@@ -24,7 +23,7 @@ import {
   matchYear,
   playerSide,
   countMatchGoals,
-} from "../utils/matchStats";
+} from "../../utils/matchStats";
 
 // Função auxiliar para identificar se o nome do time na tabela é O ADR
 const isADRTeam = (teamName) => {

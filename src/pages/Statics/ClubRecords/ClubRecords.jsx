@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { computeRecords, seasonsIn } from "../../utils/seasonStats";
-import { CURRENT_SEASON } from "../../utils/matchStats";
-import { useClubMode } from "../../utils/Shirtnumber";
+import { computeRecords, seasonsIn } from "../../../utils/seasonStats";
+import { CURRENT_SEASON } from "../../../utils/matchStats";
+import { useClubMode } from "../../../utils/Shirtnumber";
 import "./clubrecords.css";
 
 const firstName = (p) => p?.nickname || String(p?.name || "").split(" ")[0];
