@@ -1,5 +1,8 @@
 import React, { useMemo } from "react";
-import { rankingAroundMatch, isRankingMatch } from "../../utils/rankingHistory";
+import {
+  rankingAroundMatch,
+  isRankingMatch,
+} from "../../../utils/rankingHistory";
 import "./MatchStats.css";
 
 const EMPTY = {
