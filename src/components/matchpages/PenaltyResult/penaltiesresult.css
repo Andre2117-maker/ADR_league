@@ -1,114 +1,393 @@
 /* ==========================================================================
-   ESTILO BASE (MODO ESCURO / DOURADO)
+   PÊNALTIS EM CARDS (mesmo visual da linha do tempo)
+   Substitui todo o penaltiesresult.css antigo
    ========================================================================== */
-.penalties-result-container {
+.pr-wrap,
+.pr-item {
+  --pr-panel: #0b0b0b;
+  --pr-fg: #ffffff;
+  --pr-muted: #7c8088;
+  --pr-line: rgba(255, 255, 255, 0.08);
+  --pr-accent: #d4af37;
+
+  --pr-a-photo: linear-gradient(180deg, #2a2a2a, #161616);
+  --pr-a-band: #121212;
+  --pr-a-band-fg: #ffffff;
+  --pr-a-border: rgba(255, 255, 255, 0.14);
+
+  --pr-b-photo: linear-gradient(180deg, #e4c45a, #9c7d1f);
+  --pr-b-band: #d4af37;
+  --pr-b-band-fg: #0a0a0a;
+  --pr-b-border: #d4af37;
+
+  --pr-goal: #22c55e;
+  --pr-miss: #ef4444;
+}
+
+.theme-idr .pr-wrap,
+.theme-idr .pr-item,
+.pr-wrap.is-idr,
+.pr-wrap.is-idr .pr-item,
+.mt-wrap.is-idr .pr-item {
+  --pr-panel: #ffffff;
+  --pr-fg: #0a0a0a;
+  --pr-muted: #777777;
+  --pr-line: #e6e6e6;
+  --pr-accent: #000000;
+
+  --pr-a-photo: linear-gradient(180deg, #f2f2f2, #dcdcdc);
+  --pr-a-band: #ffffff;
+  --pr-a-band-fg: #0a0a0a;
+  --pr-a-border: #cfcfcf;
+
+  --pr-b-photo: linear-gradient(180deg, #3a3a3a, #111111);
+  --pr-b-band: #000000;
+  --pr-b-band-fg: #ffffff;
+  --pr-b-border: #000000;
+
+  --pr-goal: #0f8a3c;
+  --pr-miss: #c81e1e;
+}
+
+/* ---------- Bloco próprio (quando usado fora da linha do tempo) ---------- */
+.pr-wrap {
+  position: relative;
+  width: 100%;
   margin: 20px 0;
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  padding: 15px;
-  border: 1px solid #333;
+  background: var(--pr-panel);
+  border: 1px solid var(--pr-line);
+  color: var(--pr-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  box-sizing: border-box;
 }
 
-.penalties-title {
-  text-align: center;
-  color: #d4af37;
-  margin-bottom: 10px;
-  margin-top: 0;
+.pr-wrap *,
+.pr-item * {
+  box-sizing: border-box;
 }
 
-.penalties-row {
+.pr-wrap::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--pr-accent),
+    transparent
+  );
+}
+
+.pr-head {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #222;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--pr-line);
 }
 
-.penalties-row:last-child {
-  border-bottom: none;
+.pr-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
 
-.pen-side {
-  flex: 1;
+.pr-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pr-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
-.pen-side.left {
-  text-align: right;
+.pr-score b {
+  color: var(--pr-fg);
+  font-size: 1.3rem;
+  font-style: italic;
+  font-weight: 900;
 }
 
-.pen-side.right {
-  text-align: left;
+.pr-score b.win {
+  color: var(--pr-accent);
 }
 
-.pen-player-name {
-  font-size: 12px;
-  color: #fff;
+.pr-score i {
+  font-style: normal;
 }
 
-.pen-score-detail {
-  font-size: 10px;
-  color: #888;
-}
-
-.pen-icons {
-  margin: 0 15px;
+.pr-strip {
   display: flex;
+  align-items: flex-start;
   gap: 10px;
+  padding: 16px 18px 14px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
-.pen-icon {
-  font-weight: bold;
+/* ---------- Card de cobrança ---------- */
+.pr-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 92px;
+  color: var(--pr-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  scroll-snap-align: start;
+  animation: prIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.icon-goal {
-  color: #44ff44;
+@keyframes prIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
-.icon-miss {
-  color: #ff4444;
+.pr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 118px;
+  overflow: hidden;
+  background: var(--pr-a-photo);
+  border: 1px solid var(--pr-a-border);
+  border-radius: 6px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.icon-pending {
-  color: #555;
+.side-b .pr-card {
+  background: var(--pr-b-photo);
+  border-color: var(--pr-b-border);
 }
 
-/* ==========================================================================
-   TEMA IDR - RESULTADO DOS PÊNALTIS (BLACK & WHITE PREMIUM)
-   ========================================================================== */
-
-.theme-idr .penalties-result-container {
-  background-color: #f9f9f9 !important;
-  border-color: #cccccc !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+.pr-item:hover .pr-card {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
 }
 
-.theme-idr .penalties-title {
-  color: #000000 !important;
-  font-weight: 900 !important;
+/* Cobrança perdida: card apagado */
+.pr-item.is-miss .pr-photo {
+  filter: grayscale(0.85);
+  opacity: 0.7;
 }
 
-.theme-idr .penalties-row {
-  border-bottom-color: #eeeeee !important;
+.pr-item.is-pending .pr-card {
+  opacity: 0.45;
 }
 
-.theme-idr .pen-player-name {
-  color: #111111 !important;
-  font-weight: 700 !important;
+.pr-round {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 3px 7px;
+  background: #000;
+  color: #fff;
+  border-bottom-right-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 900;
 }
 
-.theme-idr .pen-score-detail {
-  color: #666666 !important;
+.pr-photo {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
 }
 
-/* Ajuste fino nas cores de Acerto/Erro para não ficarem "neon" no fundo branco */
-.theme-idr .icon-goal {
-  color: #008a00 !important; /* Verde mais escuro e sólido */
+.pr-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
-.theme-idr .icon-miss {
-  color: #cc0000 !important; /* Vermelho mais escuro e sólido */
+.pr-silhouette {
+  width: 78%;
+  fill: rgba(255, 255, 255, 0.18);
 }
 
-.theme-idr .icon-pending {
-  color: #aaaaaa !important; /* Cinza suave */
+.side-b .pr-silhouette {
+  fill: rgba(0, 0, 0, 0.22);
+}
+
+/* Selo: trave + check / x */
+.pr-badge {
+  position: absolute;
+  right: 4px;
+  top: 64px;
+  z-index: 2;
+  display: flex;
+  padding: 3px 4px;
+  background: #0a0a0a;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  color: var(--pr-goal);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.pr-item.is-miss .pr-badge {
+  color: var(--pr-miss);
+}
+
+.pr-badge svg {
+  display: block;
+  width: 26px;
+  height: auto;
+}
+
+.pr-name {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  overflow: hidden;
+  background: var(--pr-a-band);
+  color: var(--pr-a-band-fg);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.side-b .pr-name {
+  background: var(--pr-b-band);
+  color: var(--pr-b-band-fg);
+}
+
+.pr-label {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pr-item.is-goal .pr-label {
+  color: var(--pr-goal);
+}
+
+.pr-item.is-miss .pr-label {
+  color: var(--pr-miss);
+}
+
+.pr-item.is-pending .pr-label {
+  color: var(--pr-muted);
+}
+
+.pr-sub {
+  margin-top: 2px;
+  color: var(--pr-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ---------- Card "Pênaltis" (abre a disputa) ---------- */
+.pr-marker {
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0 10px,
+      rgba(212, 175, 55, 0.12) 10px 11px
+    ),
+    #f6f3ea;
+  border-color: #f6f3ea;
+  color: #111;
+}
+
+.pr-marker svg {
+  width: 44px;
+  height: auto;
+}
+
+.pr-marker span {
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.theme-idr .pr-marker,
+.pr-wrap.is-idr .pr-marker,
+.mt-wrap.is-idr .pr-marker {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0 10px,
+      rgba(0, 0, 0, 0.07) 10px 11px
+    ),
+    #ffffff;
+  border-color: #000;
+}
+
+.theme-idr .pr-badge,
+.pr-wrap.is-idr .pr-badge,
+.mt-wrap.is-idr .pr-badge {
+  background: #ffffff;
+}
+
+.theme-idr .pr-item.side-a .pr-silhouette,
+.pr-wrap.is-idr .side-a .pr-silhouette,
+.mt-wrap.is-idr .side-a .pr-silhouette {
+  fill: rgba(0, 0, 0, 0.2);
+}
+
+.theme-idr .pr-item.side-b .pr-silhouette,
+.pr-wrap.is-idr .side-b .pr-silhouette,
+.mt-wrap.is-idr .side-b .pr-silhouette {
+  fill: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .pr-item {
+    width: 86px;
+  }
+
+  .pr-card {
+    height: 108px;
+  }
+
+  .pr-badge {
+    top: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-item {
+    animation: none;
+  }
 }

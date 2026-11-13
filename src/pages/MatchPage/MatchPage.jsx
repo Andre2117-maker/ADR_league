@@ -785,6 +785,8 @@ function MatchPage({ matches, players, isAdmin }) {
             teamStats={stats}
             teamAName={match.teamA.name}
             teamBName={match.teamB.name}
+            players={players}
+            matches={matches}
           />
         )}
 

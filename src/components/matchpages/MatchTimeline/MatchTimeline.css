@@ -1,510 +1,592 @@
 /* ==========================================================================
-   TIMELINE DA PARTIDA - VERSÃO AURA
+   LINHA DO TEMPO EM CARDS (estilo transmissão)
+   Substitui todo o MatchTimeline.css antigo
    ========================================================================== */
+.mt-wrap {
+  --mt-bg: #050505;
+  --mt-panel: #0b0b0b;
+  --mt-fg: #ffffff;
+  --mt-muted: #7c8088;
+  --mt-line: rgba(255, 255, 255, 0.08);
+  --mt-accent: #d4af37;
 
-.timeline-scroll-wrapper {
+  /* Card do time A */
+  --mt-a-photo: linear-gradient(180deg, #2a2a2a, #161616);
+  --mt-a-band: #121212;
+  --mt-a-band-fg: #ffffff;
+  --mt-a-border: rgba(255, 255, 255, 0.14);
+
+  /* Card do time B (dourado) */
+  --mt-b-photo: linear-gradient(180deg, #e4c45a, #9c7d1f);
+  --mt-b-band: #d4af37;
+  --mt-b-band-fg: #0a0a0a;
+  --mt-b-border: #d4af37;
+
+  /* Cores dos selos */
+  --mt-goal: #22c55e;
+  --mt-yellow: #facc15;
+  --mt-red: #ef4444;
+  --mt-sub: #22c55e;
+  --mt-gk: #3b82f6;
+  --mt-ball-cut: #0b0b0b;
+
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 1100px;
   margin: 20px auto;
-  max-height: 350px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 14px 12px;
-  background:
-    radial-gradient(
-      60% 40% at 15% 0%,
-      rgba(212, 175, 55, 0.12),
-      transparent 70%
-    ),
-    radial-gradient(
-      60% 40% at 90% 100%,
-      rgba(138, 43, 226, 0.14),
-      transparent 70%
-    ),
-    #0a0a0e;
-  border: 1px solid rgba(212, 175, 55, 0.28);
-  border-radius: 14px;
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.6),
-    0 0 30px rgba(212, 175, 55, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(212, 175, 55, 0.6) transparent;
+  background: var(--mt-panel);
+  border: 1px solid var(--mt-line);
+  color: var(--mt-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  box-sizing: border-box;
 }
 
-.timeline-scroll-wrapper::-webkit-scrollbar {
-  width: 6px;
+.mt-wrap *,
+.mt-wrap *::before,
+.mt-wrap *::after {
+  box-sizing: border-box;
 }
 
-.timeline-scroll-wrapper::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.timeline-scroll-wrapper::-webkit-scrollbar-thumb {
-  background: linear-gradient(#f0d36b, #a8861f);
-  border-radius: 999px;
-}
-
-.match-timeline-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-/* Linha vertical central com brilho dourado */
-.timeline-vertical-line {
+/* Linha dourada no topo */
+.mt-wrap::before {
+  content: "";
   position: absolute;
-  top: 25px;
-  bottom: 25px;
-  left: 50%;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    rgba(212, 175, 55, 0.1),
-    rgba(212, 175, 55, 0.55) 15%,
-    rgba(212, 175, 55, 0.55) 85%,
-    rgba(212, 175, 55, 0.1)
-  );
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-/* ==========================================================================
-   MARCADORES INICIAL / FINAL
-   ========================================================================== */
-.timeline-marker-wrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 15px 0;
-  z-index: 2;
-  position: relative;
-}
-
-.timeline-horizontal-line {
-  flex: 1;
+  top: -1px;
+  left: 0;
+  right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5));
-}
-
-.timeline-marker-wrapper .timeline-horizontal-line:last-child {
-  background: linear-gradient(270deg, transparent, rgba(212, 175, 55, 0.5));
-}
-
-.timeline-marker-center {
-  padding: 8px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #0d0b14;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 999px;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-}
-
-.marker-icon {
-  font-size: 16px;
-  margin-bottom: 2px;
-}
-
-.marker-title {
-  color: #d4af37;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 3px;
-}
-
-.match-end-time {
-  color: #999;
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-/* ==========================================================================
-   LINHAS DE EVENTO
-   ========================================================================== */
-.timeline-event-row {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  transition: background 0.3s ease;
-  animation: tlEventIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-}
-
-.timeline-event-row:hover {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 175, 55, 0.08) 50%,
+    var(--mt-accent),
     transparent
   );
 }
 
-@keyframes tlEventIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-    filter: blur(4px);
-  }
+/* Diagonais de fundo, discretas */
+.mt-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent 0 22px,
+    rgba(255, 255, 255, 0.018) 22px 23px
+  );
 }
 
-.timeline-side {
-  flex: 1;
+/* ---------- Cabeçalho ---------- */
+.mt-head {
+  position: relative;
+  z-index: 1;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--mt-line);
+}
+
+.mt-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.mt-legend {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  color: var(--mt-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
-.timeline-side.left {
-  justify-content: flex-end;
-  padding-right: 15px;
-  text-align: right;
-}
-
-.timeline-side.right {
-  justify-content: flex-start;
-  padding-left: 15px;
-  text-align: left;
-}
-
-/* Ícone central dentro de um orbe de vidro */
-.timeline-center-icon {
-  width: 34px;
-  height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  z-index: 2;
-  background: #0d0b14;
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  border-radius: 50%;
-  box-shadow:
-    0 0 16px rgba(212, 175, 55, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.timeline-event-row:hover .timeline-center-icon {
-  transform: scale(1.12);
-  box-shadow:
-    0 0 24px rgba(212, 175, 55, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.event-icon {
-  font-size: 1.05rem;
-  line-height: 1;
-  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
-}
-
-.own-goal {
-  color: #ff4444;
-  filter: drop-shadow(0 0 6px rgba(255, 68, 68, 0.8));
-}
-
-.own-goal-label {
-  color: #ff5a5a;
-  font-weight: 900;
-}
-
-.yellow-card {
-  color: #ffd700;
-  font-weight: bold;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
-}
-
-.red-card {
-  color: #ff2222;
-  font-weight: bold;
-  filter: drop-shadow(0 0 6px rgba(255, 34, 34, 0.7));
-}
-
-/* Minuto em pílula dourada */
-.timeline-minute {
+.mt-legend i {
   display: inline-block;
-  color: #f0d36b;
-  font-weight: 900;
-  font-size: 12px;
-  padding: 2px 9px;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 999px;
-}
-
-.minute-spacing-left {
+  width: 10px;
+  height: 10px;
   margin-left: 6px;
 }
 
-.minute-spacing-right {
-  margin-right: 6px;
+.mt-legend .dot-a {
+  background: var(--mt-a-band);
+  border: 1px solid var(--mt-a-border);
 }
 
-.player-name {
+.mt-legend .dot-b {
+  background: var(--mt-b-band);
+}
+
+/* ---------- Faixa rolável ---------- */
+.mt-strip-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.mt-strip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 18px 14px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mt-strip::-webkit-scrollbar {
+  height: 5px;
+}
+
+.mt-strip::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+.mt-empty {
+  align-self: center;
+  padding: 0 20px;
+  color: var(--mt-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Setas laterais */
+.mt-nav {
+  position: absolute;
+  top: 16px;
+  bottom: 50px;
+  z-index: 3;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  color: var(--mt-fg);
+  cursor: pointer;
+}
+
+.mt-nav svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mt-nav.left {
+  left: 0;
+  background: linear-gradient(90deg, var(--mt-panel) 40%, transparent);
+}
+
+.mt-nav.right {
+  right: 0;
+  background: linear-gradient(270deg, var(--mt-panel) 40%, transparent);
+}
+
+.mt-nav:hover {
+  color: var(--mt-accent);
+}
+
+/* ---------- Item (card + legenda embaixo) ---------- */
+.mt-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 104px;
+  scroll-snap-align: start;
+  animation: mtIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mt-item.is-wide {
+  width: 176px;
+}
+
+@keyframes mtIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.mt-card {
+  position: relative;
+  width: 100%;
+  height: 118px;
+  overflow: hidden;
+  border: 1px solid var(--mt-a-border);
+  border-radius: 6px;
+  background: var(--mt-a-photo);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.side-b .mt-card {
+  border-color: var(--mt-b-border);
+  background: var(--mt-b-photo);
+}
+
+.mt-item:hover .mt-card {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+}
+
+/* Minuto no canto */
+.mt-minute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 3px 7px;
+  background: #000;
   color: #fff;
-  font-weight: 800;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
+  border-bottom-right-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+/* Fotos */
+.mt-photos {
+  display: flex;
+  height: 94px;
+}
+
+.mt-photo {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.is-double .mt-photo + .mt-photo {
+  border-left: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.mt-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.mt-silhouette {
+  width: 78%;
+  height: auto;
+  fill: rgba(255, 255, 255, 0.18);
+}
+
+.side-b .mt-silhouette {
+  fill: rgba(0, 0, 0, 0.22);
+}
+
+/* Selo do evento (canto inferior direito da foto) */
+.mt-badge {
+  position: absolute;
+  right: 6px;
+  top: 64px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.mt-badge svg {
+  width: 17px;
+  height: 17px;
+}
+
+.is-double .mt-badge {
+  left: 50%;
+  right: auto;
+  top: 34px;
+  transform: translateX(-50%);
+}
+
+.badge-goal {
+  color: var(--mt-goal);
+}
+
+.badge-own-goal {
+  color: var(--mt-red);
+}
+
+.badge-yellow {
+  color: var(--mt-yellow);
+}
+
+.badge-red {
+  color: var(--mt-red);
+}
+
+.badge-sub {
+  color: var(--mt-sub);
+}
+
+.badge-sub-injury {
+  color: var(--mt-red);
+}
+
+.badge-gk {
+  color: var(--mt-gk);
+}
+
+/* Faixa com o(s) nome(s) */
+.mt-names {
+  display: flex;
+  height: 24px;
+  background: var(--mt-a-band);
+  color: var(--mt-a-band-fg);
+}
+
+.side-b .mt-names {
+  background: var(--mt-b-band);
+  color: var(--mt-b-band-fg);
+}
+
+.mt-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  overflow: hidden;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mt-name.is-out {
+  opacity: 0.7;
+}
+
+.mt-name.is-out + .mt-name.is-in {
+  border-left: 1px solid rgba(127, 127, 127, 0.35);
+}
+
+/* Legenda embaixo do card */
+.mt-label {
+  margin-top: 8px;
+  color: var(--mt-fg);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mt-sub {
+  max-width: 100%;
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--mt-muted);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.kind-goal .mt-label {
+  color: var(--mt-goal);
+}
+
+.kind-own-goal .mt-label,
+.kind-red .mt-label {
+  color: var(--mt-red);
+}
+
+.kind-yellow .mt-label {
+  color: var(--mt-yellow);
+}
+
+.kind-gk .mt-label {
+  color: var(--mt-gk);
+}
+
+/* ---------- Cards de Início / Fim ---------- */
+.mt-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0 10px,
+      rgba(212, 175, 55, 0.12) 10px 11px
+    ),
+    #f6f3ea;
+  border-color: #f6f3ea;
+  color: #111;
+}
+
+.mt-marker-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.mt-marker-label {
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
-.timeline-assist {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.55);
-  font-weight: 400;
-  margin: 0 5px;
-  text-transform: none;
-}
-
-/* ==========================================================================
-   SUBSTITUIÇÕES
-   ========================================================================== */
-.sub-box {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 5px 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-}
-
-.sub-box.left {
-  align-items: flex-end;
-}
-
-.sub-box.right {
-  align-items: flex-start;
-}
-
-.sub-item-row {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.sub-injury {
-  color: #ff4444;
-  font-size: 12px;
-}
-
-.sub-out {
-  color: #ff5a5a;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.sub-in {
-  color: #4dff7a;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-/* ==========================================================================
-   MARCADORES DE MINUTAGEM (5 EM 5 MIN)
-   ========================================================================== */
-.timeline-time-marker {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: 8px 0;
-  z-index: 2;
-}
-
-.marker-badge {
-  background: #0d0b14;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 10px;
+.kind-marker .mt-sub {
+  color: var(--mt-fg);
+  font-size: 0.72rem;
   font-weight: 900;
-  letter-spacing: 1px;
-  padding: 3px 0;
-  width: 40px;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
+  line-height: 1.3;
+  white-space: normal;
+}
+
+/* ==========================================================================
+   TEMA IDR (preto e branco)
+   ========================================================================== */
+.mt-wrap.is-idr,
+.theme-idr .mt-wrap {
+  --mt-panel: #ffffff;
+  --mt-fg: #0a0a0a;
+  --mt-muted: #777777;
+  --mt-line: #e6e6e6;
+  --mt-accent: #000000;
+
+  --mt-a-photo: linear-gradient(180deg, #f2f2f2, #dcdcdc);
+  --mt-a-band: #ffffff;
+  --mt-a-band-fg: #0a0a0a;
+  --mt-a-border: #cfcfcf;
+
+  --mt-b-photo: linear-gradient(180deg, #3a3a3a, #111111);
+  --mt-b-band: #000000;
+  --mt-b-band-fg: #ffffff;
+  --mt-b-border: #000000;
+
+  --mt-goal: #0f8a3c;
+  --mt-yellow: #b38900;
+  --mt-red: #c81e1e;
+  --mt-sub: #0f8a3c;
+  --mt-gk: #1d4ed8;
+}
+
+.mt-wrap.is-idr::after,
+.theme-idr .mt-wrap::after {
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent 0 22px,
+    rgba(0, 0, 0, 0.025) 22px 23px
+  );
+}
+
+.mt-wrap.is-idr .side-a .mt-silhouette,
+.theme-idr .mt-wrap .side-a .mt-silhouette {
+  fill: rgba(0, 0, 0, 0.2);
+}
+
+.mt-wrap.is-idr .side-b .mt-silhouette,
+.theme-idr .mt-wrap .side-b .mt-silhouette {
+  fill: rgba(255, 255, 255, 0.2);
+}
+
+.mt-wrap.is-idr .mt-marker,
+.theme-idr .mt-wrap .mt-marker {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0 10px,
+      rgba(0, 0, 0, 0.07) 10px 11px
+    ),
+    #ffffff;
+  border-color: #000;
+}
+
+.mt-wrap.is-idr .mt-badge,
+.theme-idr .mt-wrap .mt-badge {
+  background: #ffffff;
+  --mt-ball-cut: #ffffff;
+}
+
+.mt-wrap.is-idr .mt-strip,
+.theme-idr .mt-wrap .mt-strip {
+  scrollbar-color: rgba(0, 0, 0, 0.4) transparent;
+}
+
+/* ==========================================================================
+   CELULAR
+   ========================================================================== */
+@media (max-width: 768px) {
+  .mt-wrap {
+    margin: 14px auto;
+  }
+
+  .mt-head {
+    padding: 12px 14px;
+  }
+
+  .mt-strip {
+    gap: 8px;
+    padding: 14px 14px 12px;
+    scroll-padding: 14px;
+  }
+
+  .mt-nav {
+    display: none;
+  }
+
+  .mt-item {
+    width: 92px;
+  }
+
+  .mt-item.is-wide {
+    width: 156px;
+  }
+
+  .mt-card {
+    height: 108px;
+  }
+
+  .mt-photos {
+    height: 84px;
+  }
+
+  .mt-badge {
+    top: 56px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .is-double .mt-badge {
+    top: 30px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .timeline-event-row {
+  .mt-item {
     animation: none;
   }
-}
-
-@media (max-width: 768px) {
-  .timeline-scroll-wrapper {
-    border-radius: 12px;
-    padding: 12px 8px;
-  }
-  .timeline-event-item {
-    font-size: 0.75rem;
-  }
-  .player-name {
-    font-size: 0.8rem;
-  }
-  .timeline-assist {
-    font-size: 0.6rem;
-    margin-left: -10px;
-  }
-  .timeline-minute {
-    padding: 2px 7px;
-    font-size: 11px;
-  }
-}
-
-/* ==========================================================================
-   TEMA IDR - TIMELINE (P&B PREMIUM)
-   ========================================================================== */
-.theme-idr .timeline-scroll-wrapper {
-  background: linear-gradient(160deg, #ffffff, #f0f0f0) !important;
-  border: 1px solid #ccc !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06) !important;
-  scrollbar-color: #000 transparent !important;
-}
-
-.theme-idr .timeline-scroll-wrapper::-webkit-scrollbar-thumb {
-  background: #000 !important;
-}
-
-.theme-idr .match-timeline-container {
-  color: #111 !important;
-}
-
-.theme-idr .timeline-vertical-line {
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.08),
-    rgba(0, 0, 0, 0.3) 15%,
-    rgba(0, 0, 0, 0.3) 85%,
-    rgba(0, 0, 0, 0.08)
-  ) !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .timeline-horizontal-line {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 0, 0, 0.3)
-  ) !important;
-}
-
-.theme-idr .timeline-marker-wrapper .timeline-horizontal-line:last-child {
-  background: linear-gradient(
-    270deg,
-    transparent,
-    rgba(0, 0, 0, 0.3)
-  ) !important;
-}
-
-.theme-idr .timeline-marker-center {
-  background: #ffffff !important;
-  border-color: #000 !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .marker-title {
-  color: #000 !important;
-}
-
-.theme-idr .match-end-time {
-  color: #666 !important;
-}
-
-.theme-idr .timeline-event-row:hover {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 0, 0, 0.04) 50%,
-    transparent
-  ) !important;
-}
-
-.theme-idr .timeline-center-icon {
-  background: #ffffff !important;
-  border-color: #000 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
-}
-
-.theme-idr .timeline-event-item,
-.theme-idr .player-name {
-  color: #000 !important;
-}
-
-.theme-idr .event-icon {
-  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2)) !important;
-}
-
-.theme-idr .timeline-assist {
-  color: #666 !important;
-}
-
-.theme-idr .timeline-minute {
-  color: #000 !important;
-  background: rgba(0, 0, 0, 0.05) !important;
-  border-color: rgba(0, 0, 0, 0.25) !important;
-}
-
-.theme-idr .sub-box {
-  background: rgba(0, 0, 0, 0.03) !important;
-  border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-idr .sub-in {
-  color: #0a9a3a !important;
-}
-
-.theme-idr .marker-badge {
-  background: #ffffff !important;
-  color: rgba(0, 0, 0, 0.45) !important;
-  border-color: rgba(0, 0, 0, 0.18) !important;
-}
-/* ==========================================================================
-   TROCA DE GOLEIRO NA LINHA DO TEMPO
-   Cole no FINAL do MatchTimeline.css
-   ========================================================================== */
-.gk-change-box {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 2px;
-  line-height: 1.2;
-}
-
-.gk-change-box.left {
-  align-items: flex-end;
-  text-align: right;
-}
-
-.gk-change-box.right {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.gk-change-label {
-  color: #3b82f6;
-  font-size: 0.62rem;
-  font-weight: 900;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-}
-
-.event-icon.gk-change {
-  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.45));
-}
-
-/* Tema IDR */
-.theme-idr .gk-change-label {
-  color: #1d4ed8;
-}
-
-.theme-idr .event-icon.gk-change {
-  filter: none;
 }

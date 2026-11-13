@@ -1,133 +1,412 @@
+/* ==========================================================================
+   ESTATÍSTICAS DA PARTIDA + CLASSIFICAÇÃO APÓS O JOGO
+   Substitui todo o MatchStats.css antigo
+   ========================================================================== */
 .team-stats-card {
-  background: rgba(15, 15, 15, 0.95);
-  border: 1px solid #222;
-  border-radius: 12px;
-  padding: 25px 30px;
-  margin: 0 auto 40px auto;
+  --ms-panel: #0b0b0b;
+  --ms-fg: #ffffff;
+  --ms-text: #c9cbd0;
+  --ms-muted: #7c8088;
+  --ms-line: rgba(255, 255, 255, 0.08);
+  --ms-line-strong: rgba(255, 255, 255, 0.14);
+  --ms-accent: #d4af37;
+  --ms-accent-soft: rgba(212, 175, 55, 0.08);
+  --ms-accent-fg: #000000;
+  --ms-up: #22c55e;
+  --ms-down: #ef4444;
+
+  position: relative;
   width: 95%;
   max-width: 600px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  margin: 0 auto 40px;
+  padding: 0;
+  background: var(--ms-panel);
+  border: 1px solid var(--ms-line);
+  border-radius: 0;
+  color: var(--ms-fg);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  box-sizing: border-box;
 }
 
-.stats-header-text {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 15px;
+.team-stats-card * {
+  box-sizing: border-box;
 }
+
+.team-stats-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ms-accent),
+    transparent
+  );
+}
+
+.theme-idr .team-stats-card,
+.team-stats-card.is-idr {
+  --ms-panel: #ffffff;
+  --ms-fg: #0a0a0a;
+  --ms-text: #333333;
+  --ms-muted: #777777;
+  --ms-line: #e8e8e8;
+  --ms-line-strong: #d0d0d0;
+  --ms-accent: #000000;
+  --ms-accent-soft: rgba(0, 0, 0, 0.04);
+  --ms-accent-fg: #ffffff;
+  --ms-up: #0f8a3c;
+  --ms-down: #c81e1e;
+}
+
+/* ---------- Cabeçalho ---------- */
+.stats-header-text {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ms-line);
+}
+
 .team-name-a,
 .team-name-b {
-  font-size: 13px;
+  overflow: hidden;
+  color: var(--ms-fg);
+  font-size: 0.82rem;
   font-weight: 900;
-  color: #fff;
+  font-style: italic;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  width: 30%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.team-name-a {
-  text-align: left;
-}
+
 .team-name-b {
   text-align: right;
 }
+
 .stats-title-center {
-  font-size: 11px;
-  color: #aaa;
-  font-weight: 600;
+  color: var(--ms-muted);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   text-align: center;
-  width: 40%;
 }
 
+/* ---------- Linhas de estatística ---------- */
 .stats-body {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  padding: 20px;
 }
-.text-stat-row {
-  display: flex;
+
+.stat-line {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
   align-items: center;
-  justify-content: space-between;
-}
-.stat-col {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-.stat-col.left {
-  justify-content: flex-start;
-}
-.stat-col.center {
-  justify-content: center;
-}
-.stat-col.right {
-  justify-content: flex-end;
 }
 
 .stat-label-text {
-  color: #bbb;
-  font-size: 12px;
-  font-weight: 600;
+  color: var(--ms-muted);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.stat-val {
+  justify-self: start;
+  min-width: 34px;
+  padding: 3px 8px;
+  color: var(--ms-fg);
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: 900;
+  font-style: italic;
+  text-align: center;
+}
+
+.stat-line .stat-val:last-child {
+  justify-self: end;
+}
+
+.stat-val.highlight-winner {
+  background: var(--ms-accent);
+  color: var(--ms-accent-fg);
+}
+
+/* Barra dividida (estilo posse de bola) */
+.stat-bar {
+  display: flex;
+  gap: 3px;
+  height: 4px;
+  margin-top: 8px;
+}
+
+.stat-bar.is-empty {
+  height: 1px;
+  background: var(--ms-line);
+}
+
+.stat-bar span {
+  flex-basis: 0;
+  height: 100%;
+  background: var(--ms-line-strong);
+  transition: flex-grow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stat-bar span.on {
+  background: var(--ms-accent);
+}
+
+/* ---------- Classificação após a partida ---------- */
+.ms-standings {
+  border-top: 1px solid var(--ms-line);
+}
+
+.ms-stand-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 16px 20px 12px;
+}
+
+.ms-stand-title {
+  color: var(--ms-accent);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
 }
-.stat-val {
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 20px;
-  min-width: 40px;
-  text-align: center;
-  border: 1px solid transparent;
+
+.ms-stand-sub {
+  color: var(--ms-muted);
+  font-size: 0.66rem;
 }
-.stat-val.highlight-winner {
-  background: #d4af37;
-  color: #000;
+
+.ms-stand-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--ms-line);
+}
+
+.ms-stand-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ms-stand-list.left {
+  border-right: 1px solid var(--ms-line);
+}
+
+.ms-stand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--ms-line);
+}
+
+.ms-stand:last-child {
+  border-bottom: 0;
+}
+
+/* Lado de quem venceu ganha a barrinha dourada */
+.ms-stand.res-W::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--ms-accent);
+}
+
+.ms-stand-list.left .ms-stand.res-W::before {
+  left: 0;
+}
+
+.ms-stand-list.right .ms-stand.res-W::before {
+  right: 0;
+}
+
+.ms-stand.res-W {
+  background: linear-gradient(90deg, var(--ms-accent-soft), transparent);
+}
+
+.ms-stand-list.right .ms-stand.res-W {
+  background: linear-gradient(270deg, var(--ms-accent-soft), transparent);
+}
+
+/* Lado direito espelhado */
+.ms-stand-list.right .ms-stand {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.ms-pos {
+  flex-shrink: 0;
+  width: 30px;
+  color: var(--ms-fg);
+  font-size: 1.05rem;
   font-weight: 900;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
-  border-color: #f1c40f;
+  font-style: italic;
+  text-align: center;
 }
 
-/* ==========================================================================
-   TEMA IDR - CARTÃO DE ESTATÍSTICAS DA PARTIDA (P&B PREMIUM)
-   ========================================================================== */
-
-/* Cartão Principal */
-.theme-idr .team-stats-card {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+.ms-pos small {
+  font-size: 0.6rem;
+  vertical-align: top;
 }
 
-/* Cabeçalho do Cartão */
-.theme-idr .stats-header-text {
-  border-bottom-color: #eee !important;
+.ms-photo {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border: 1px solid var(--ms-line-strong);
 }
 
-.theme-idr .team-name-a,
-.theme-idr .team-name-b {
-  color: #000 !important;
+.ms-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
-.theme-idr .stats-title-center {
-  color: #666 !important;
+.ms-who {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
-/* Corpo e Valores */
-.theme-idr .stat-label-text {
-  color: #555 !important;
+.ms-name {
+  overflow: hidden;
+  font-size: 0.74rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.theme-idr .stat-val {
-  color: #000 !important;
+.ms-gain {
+  color: var(--ms-muted);
+  font-size: 0.6rem;
+  font-weight: 700;
 }
 
-/* Destaque de Vencedor / Estatística Vencedora no IDR */
-.theme-idr .stat-val.highlight-winner {
-  background: #000 !important;
-  color: #fff !important;
-  font-weight: 900 !important;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2) !important;
-  border-color: #000 !important;
+.res-W .ms-gain {
+  color: var(--ms-up);
+}
+
+/* Setas */
+.ms-move {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 26px;
+  justify-content: center;
+  font-size: 0.62rem;
+  font-weight: 900;
+}
+
+.ms-move svg {
+  width: 10px;
+  height: auto;
+}
+
+.ms-move.is-up {
+  color: var(--ms-up);
+}
+
+.ms-move.is-down {
+  color: var(--ms-down);
+}
+
+.ms-move.is-same {
+  color: var(--ms-muted);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  .team-stats-card {
+    width: 100%;
+  }
+
+  /* Título em cima, nomes dos times embaixo (não corta o nome) */
+  .stats-header-text {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "title title"
+      "a b";
+    row-gap: 8px;
+    padding: 14px;
+  }
+
+  .stats-title-center {
+    grid-area: title;
+  }
+
+  .team-name-a {
+    grid-area: a;
+  }
+
+  .team-name-b {
+    grid-area: b;
+  }
+
+  .stats-body {
+    padding: 16px 14px;
+  }
+
+  .ms-stand {
+    gap: 6px;
+    padding: 7px 8px;
+  }
+
+  .ms-pos {
+    width: 24px;
+    font-size: 0.92rem;
+  }
+
+  .ms-photo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .ms-name {
+    font-size: 0.66rem;
+  }
+
+  .ms-move {
+    min-width: 20px;
+  }
+}
+
+.ms-stand-note {
+  margin: 0;
+  padding: 14px 20px;
+  border-top: 1px solid var(--ms-line);
+  color: var(--ms-muted);
+  font-size: 0.72rem;
+  text-align: center;
 }

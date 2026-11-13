@@ -1,262 +1,433 @@
-import React, { useMemo } from "react";
-import { PenaltiesResult } from "../PenaltyResult/PenaltyResult";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { PenaltiesResult, buildKicks } from "../PenaltyResult/PenaltyResult";
 import "./MatchTimeline.css";
 
-const TimelineMarker = ({ icon, title, subtitle, customClass = "" }) => (
-  <div className="timeline-marker-wrapper">
-    <div className="timeline-horizontal-line"></div>
-    <div className="timeline-marker-center">
-      <span className="marker-icon">{icon}</span>
-      <span className="marker-title">{title}</span>
-      {subtitle && (
-        <span className={`match-end-time ${customClass}`}>{subtitle}</span>
-      )}
+/* ==========================================================================
+   ÍCONES (SVG, sem emoji)
+   ========================================================================== */
+const BallIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="9.4" fill="currentColor" />
+    <g fill="var(--mt-ball-cut, #0b0b0b)">
+      <path d="M12 8.6l3.25 2.36-1.24 3.82H9.99l-1.24-3.82z" />
+      <path d="M12 2.6l2.4 1.9-.5 2H10.1l-.5-2z" />
+      <path d="M21.4 9.6l-.5 3-1.9.7-1.3-1.7.8-2.7z" />
+      <path d="M17.3 20.4l-2.9.5-.9-1.7 1.5-1.6 2.6.5z" />
+      <path d="M6.7 20.4l2.9.5.9-1.7-1.5-1.6-2.6.5z" />
+      <path d="M2.6 9.6l.5 3 1.9.7 1.3-1.7-.8-2.7z" />
+    </g>
+  </svg>
+);
+
+const CardIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <rect
+      x="6.5"
+      y="3"
+      width="11"
+      height="16"
+      rx="1.6"
+      transform="rotate(10 12 11)"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const SwapIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 9h12l-3.5-3.5" />
+    <path d="M19 15H7l3.5 3.5" />
+  </svg>
+);
+
+const GloveIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+    <path d="M8.2 3.4c.8 0 1.4.6 1.4 1.4v4.3h.6V3.6c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v5.5h.6V4.4c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v5.8h.6V6.6c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v7.2c0 3.3-2.7 6-6 6h-1.5c-2 0-3.8-1-4.9-2.6L4 12.6c-.5-.7-.3-1.6.4-2.1.6-.4 1.5-.3 2 .3l.4.5V4.8c0-.8.6-1.4 1.4-1.4z" />
+    <rect x="8.5" y="19.6" width="8.6" height="2.4" rx=".6" />
+  </svg>
+);
+
+const WhistleIcon = () => (
+  <svg
+    viewBox="0 0 48 48"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M17 17h22v7H27" />
+    <circle cx="17" cy="26" r="9" />
+    <circle cx="17" cy="26" r="2.5" fill="currentColor" stroke="none" />
+    <path d="M10 13l-3-4M17 11V6M24 13l3-4" />
+    <path d="M9 41h22m-5-4 5 4-5 4" />
+  </svg>
+);
+
+const FlagIcon = () => (
+  <svg
+    viewBox="0 0 48 48"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 43V6" />
+    <path d="M12 8h24l-5 7 5 7H12" />
+    <path d="M18 8v14M24 8v14M30 8v14" strokeWidth="1.4" opacity=".5" />
+  </svg>
+);
+
+const CrossIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+    <path d="M9.5 3h5v6.5H21v5h-6.5V21h-5v-6.5H3v-5h6.5z" />
+  </svg>
+);
+
+const Chevron = ({ dir }) => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
+  </svg>
+);
+
+/* Silhueta para quem não tem foto (convidados, externos) */
+const Silhouette = () => (
+  <svg className="mt-silhouette" viewBox="0 0 80 80" aria-hidden="true">
+    <circle cx="40" cy="30" r="15" />
+    <path d="M12 80c2-17 13-27 28-27s26 10 28 27z" />
+  </svg>
+);
+
+/* ==========================================================================
+   CARD DE EVENTO
+   ========================================================================== */
+const Photo = ({ src }) => (
+  <span className="mt-photo">
+    {src ? <img src={src} alt="" loading="lazy" /> : <Silhouette />}
+  </span>
+);
+
+const EventCard = ({
+  side,
+  minute,
+  kind,
+  label,
+  sub,
+  photos,
+  names,
+  badge,
+}) => (
+  <div
+    className={`mt-item side-${side} kind-${kind} ${photos.length > 1 ? "is-wide" : ""}`}
+  >
+    <div className={`mt-card ${photos.length > 1 ? "is-double" : ""}`}>
+      {minute && <span className="mt-minute">{minute}'</span>}
+
+      <div className="mt-photos">
+        {photos.map((src, i) => (
+          <Photo key={i} src={src} />
+        ))}
+      </div>
+
+      {badge && <span className={`mt-badge badge-${kind}`}>{badge}</span>}
+
+      <div className="mt-names">
+        {names.map((n, i) => (
+          <span
+            key={i}
+            className={`mt-name ${names.length > 1 ? (i === 0 ? "is-out" : "is-in") : ""}`}
+          >
+            {n}
+          </span>
+        ))}
+      </div>
     </div>
-    <div className="timeline-horizontal-line"></div>
+
+    <span className="mt-label">{label}</span>
+    <span className="mt-sub">{sub || " "}</span>
   </div>
 );
 
-const MatchTimeline = ({ events, players, match }) => {
-  const getPlayerName = (id, externalName) => {
-    if (id === "EXTERNO" || id === "OPONENTE_EXTERNO") {
-      return externalName || "Jogador Externo";
-    }
-    return players.find((p) => String(p.id) === String(id))?.name || "Jogador";
+const MarkerCard = ({ icon, label, sub }) => (
+  <div className="mt-item kind-marker">
+    <div className="mt-card mt-marker">
+      <span className="mt-marker-icon">{icon}</span>
+      <span className="mt-marker-label">{label}</span>
+    </div>
+    <span className="mt-label">&nbsp;</span>
+    <span className="mt-sub">{sub || " "}</span>
+  </div>
+);
+
+/* ==========================================================================
+   TIMELINE
+   ========================================================================== */
+const parseMinute = (m) => parseFloat(String(m ?? "").replace("+", ".")) || 0;
+
+const shortName = (n) => {
+  const parts = String(n || "")
+    .trim()
+    .split(/\s+/);
+  return parts.length > 1
+    ? `${parts[0]} ${parts[parts.length - 1][0]}.`
+    : parts[0] || "";
+};
+
+const MatchTimeline = ({ events, players = [], match = {}, mode }) => {
+  const scrollRef = useRef(null);
+  const [edges, setEdges] = useState({ left: false, right: false });
+
+  const isIdr = mode
+    ? mode === "idr"
+    : typeof document !== "undefined" &&
+      document.body.classList.contains("theme-idr");
+
+  const findPlayer = (id) => players.find((p) => String(p.id) === String(id));
+  const nameOf = (id, externalName) => {
+    if (!id || id === "EXTERNO" || id === "OPONENTE_EXTERNO")
+      return externalName || "Externo";
+    const p = findPlayer(id);
+    return p ? p.nickname || shortName(p.name) : externalName || "Jogador";
+  };
+  const photoOf = (id) => {
+    const p = findPlayer(id);
+    if (!p) return null;
+    return (isIdr ? p.photoIDR1 || p.photo : p.photo) || null;
   };
 
-  const renderEvent = (e, index) => {
-    const isTeamA = e.team === "A";
-    const stableKey = e.id || `${e.type}-${index}-${e.team}`;
-    const isSub = e.type === "SUB";
+  const ordered = useMemo(
+    () =>
+      (events || [])
+        .map((e, i) => ({ ...e, _i: i, _m: parseMinute(e.minute) }))
+        .sort((a, b) => a._m - b._m || a._i - b._i),
+    [events],
+  );
 
-    let icon = null;
-    let extraLabel = null;
-    let name = "";
-    let assist = null;
-
-    let isInjured = false;
-    let playerOut = "";
-    let playerIn = "";
-
-    const minuteElement = e.minute ? (
-      <span className="timeline-minute">{e.minute}</span>
-    ) : null;
-
-    // TROCA DE GOLEIRO: quem entra no gol (jogador do elenco ou nome externo)
-    if (e.type === "GK_CHANGE") {
-      const gkName = getPlayerName(e.playerInId, e.externalName);
-      const gkBlock = (
-        <div className={`gk-change-box ${isTeamA ? "left" : "right"}`}>
-          <span className="player-name">{gkName}</span>
-          <small className="gk-change-label">assume o gol</small>
-        </div>
-      );
-
-      return (
-        <div key={stableKey} className="timeline-event-row is-gk-change">
-          <div className="timeline-side left">
-            {isTeamA && (
-              <>
-                {gkBlock}
-                {minuteElement && (
-                  <span className="minute-spacing-left">{minuteElement}</span>
-                )}
-              </>
-            )}
-          </div>
-
-          <div className="timeline-center-icon">
-            <span className="event-icon gk-change" title="Troca de goleiro">
-              🧤
-            </span>
-          </div>
-
-          <div className="timeline-side right">
-            {!isTeamA && (
-              <>
-                {minuteElement && (
-                  <span className="minute-spacing-right">{minuteElement}</span>
-                )}
-                {gkBlock}
-              </>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    if (isSub) {
-      isInjured = e.reason === "Lesão" || e.reason === "Machucado";
-      playerOut = getPlayerName(e.playerOutId);
-      playerIn = getPlayerName(e.playerInId);
-      icon = <span className="event-icon">🔄</span>;
-    } else {
-      const isOwnGoal = e.type === "OWN_GOAL";
-      name = getPlayerName(e.playerId, e.externalName);
-      assist =
-        e.assistId && !isOwnGoal ? (
-          <span className="timeline-assist">
-            [{getPlayerName(e.assistId, e.externalAssistName)}]
-          </span>
-        ) : null;
-
-      switch (e.type) {
-        case "GOAL":
-          icon = <span className="event-icon">⚽</span>;
-          break;
-        case "OWN_GOAL":
-          icon = <span className="event-icon own-goal">⚽</span>;
-          extraLabel = <small className="own-goal-label">(GC)</small>;
-          break;
-        case "YELLOW":
-          icon = <span className="event-icon yellow-card">🟨</span>;
-          break;
-        case "RED":
-          icon = <span className="event-icon red-card">🟥</span>;
-          break;
-        default:
-          icon = <span className="event-icon">•</span>;
-      }
-    }
-
-    return (
-      <div key={stableKey} className="timeline-event-row">
-        {/* LADO ESQUERDO (TIME A) */}
-        <div className="timeline-side left">
-          {isTeamA && !isSub && (
-            <>
-              {assist} {extraLabel} <span className="player-name">{name}</span>
-              {minuteElement && (
-                <span className="minute-spacing-left">{minuteElement}</span>
-              )}
-            </>
-          )}
-
-          {isTeamA && isSub && (
-            <>
-              <div className="sub-box left">
-                <div className="sub-item-row">
-                  {isInjured && <span className="sub-injury">➕</span>}
-                  <span className="sub-out">⬇️ {playerOut}</span>
-                </div>
-                <span className="sub-in">⬆️ {playerIn}</span>
-              </div>
-              {minuteElement && (
-                <span className="minute-spacing-left">{minuteElement}</span>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* CENTRO (ÍCONES) */}
-        <div className="timeline-center-icon">{icon}</div>
-
-        {/* LADO DIREITO (TIME B) */}
-        <div className="timeline-side right">
-          {!isTeamA && !isSub && (
-            <>
-              {minuteElement && (
-                <span className="minute-spacing-right">{minuteElement}</span>
-              )}
-              <span className="player-name">{name}</span> {extraLabel} {assist}
-            </>
-          )}
-
-          {!isTeamA && isSub && (
-            <>
-              {minuteElement && (
-                <span className="minute-spacing-right">{minuteElement}</span>
-              )}
-              <div className="sub-box right">
-                <div className="sub-item-row">
-                  <span className="sub-out">⬇️ {playerOut}</span>
-                  {isInjured && <span className="sub-injury">➕</span>}
-                </div>
-                <span className="sub-in">⬆️ {playerIn}</span>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  const unifiedTimeline = useMemo(() => {
-    const validEvents = events || [];
-
-    const parseMinute = (minStr) => {
-      if (!minStr) return 0;
-      const str = String(minStr).replace("+", ".");
-      return parseFloat(str) || 0;
-    };
-
-    let maxMin = 0;
-
-    const parsedEvents = validEvents.map((e, index) => {
-      const m = parseMinute(e.minute);
-      if (m > maxMin) maxMin = m;
-      return { ...e, isEvent: true, sortValue: m, originalIndex: index };
+  // Placar ao vivo (para o card final)
+  const score = useMemo(() => {
+    let a = 0;
+    let b = 0;
+    (events || []).forEach((e) => {
+      if (e.type === "GOAL") e.team === "A" ? a++ : b++;
+      if (e.type === "OWN_GOAL") e.team === "A" ? b++ : a++;
     });
-
-    const markers = [];
-    if (maxMin > 0) {
-      const lastMarker = Math.ceil(maxMin / 5) * 5;
-      for (let i = 5; i <= lastMarker; i += 5) {
-        markers.push({ isMarker: true, minute: String(i), sortValue: i });
-      }
-    }
-
-    const unified = [...parsedEvents, ...markers];
-
-    unified.sort((a, b) => {
-      if (a.sortValue === b.sortValue) {
-        if (a.isMarker && !b.isMarker) return -1;
-        if (!a.isMarker && b.isMarker) return 1;
-        return a.originalIndex - b.originalIndex;
-      }
-      return a.sortValue - b.sortValue;
-    });
-
-    return unified;
+    return { a, b };
   }, [events]);
 
+  const renderEvent = (e) => {
+    const side = e.team === "B" ? "b" : "a";
+    const key = e.id || `${e.type}-${e._i}`;
+    const minute = e.minute ? String(e.minute) : null;
+
+    switch (e.type) {
+      case "GOAL":
+        return (
+          <EventCard
+            key={key}
+            side={side}
+            minute={minute}
+            kind="goal"
+            label="Gol!"
+            sub={
+              e.assistId
+                ? `assist. ${nameOf(e.assistId, e.externalAssistName)}`
+                : null
+            }
+            photos={[photoOf(e.playerId)]}
+            names={[nameOf(e.playerId, e.externalName)]}
+            badge={<BallIcon />}
+          />
+        );
+      case "OWN_GOAL":
+        return (
+          <EventCard
+            key={key}
+            side={side}
+            minute={minute}
+            kind="own-goal"
+            label="Gol contra"
+            photos={[photoOf(e.playerId)]}
+            names={[nameOf(e.playerId, e.externalName)]}
+            badge={<BallIcon />}
+          />
+        );
+      case "YELLOW":
+        return (
+          <EventCard
+            key={key}
+            side={side}
+            minute={minute}
+            kind="yellow"
+            label="Amarelo"
+            photos={[photoOf(e.playerId)]}
+            names={[nameOf(e.playerId, e.externalName)]}
+            badge={<CardIcon />}
+          />
+        );
+      case "RED":
+        return (
+          <EventCard
+            key={key}
+            side={side}
+            minute={minute}
+            kind="red"
+            label="Vermelho"
+            photos={[photoOf(e.playerId)]}
+            names={[nameOf(e.playerId, e.externalName)]}
+            badge={<CardIcon />}
+          />
+        );
+      case "SUB": {
+        const injured = e.reason === "Lesão" || e.reason === "Machucado";
+        return (
+          <EventCard
+            key={key}
+            side={side}
+            minute={minute}
+            kind={injured ? "sub-injury" : "sub"}
+            label="Substituição"
+            sub={injured ? "por lesão" : null}
+            photos={[photoOf(e.playerOutId), photoOf(e.playerInId)]}
+            names={[nameOf(e.playerOutId), nameOf(e.playerInId)]}
+            badge={injured ? <CrossIcon /> : <SwapIcon />}
+          />
+        );
+      }
+      case "GK_CHANGE":
+        return (
+          <EventCard
+            key={key}
+            side={side}
+            minute={minute}
+            kind="gk"
+            label="No gol"
+            sub="troca de goleiro"
+            photos={[photoOf(e.playerInId)]}
+            names={[nameOf(e.playerInId, e.externalName)]}
+            badge={<GloveIcon />}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  /* Setas de rolagem (desktop) */
+  const updateEdges = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setEdges({
+      left: el.scrollLeft > 4,
+      right: el.scrollLeft + el.clientWidth < el.scrollWidth - 4,
+    });
+  };
+
+  useEffect(() => {
+    updateEdges();
+    const el = scrollRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(updateEdges);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ordered.length]);
+
+  const scrollBy = (dir) => {
+    const el = scrollRef.current;
+    if (el)
+      el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  const pens = buildKicks(match);
+  const hasPenalties = pens.kicks.length > 0;
+  const teamA = match?.teamA?.name || "Time A";
+  const teamB = match?.teamB?.name || "Time B";
+
   return (
-    <div className="timeline-scroll-wrapper">
-      <div className="match-timeline-container">
-        {/* Linha vertical central */}
-        <div className="timeline-vertical-line"></div>
+    <section
+      className={`mt-wrap ${isIdr ? "is-idr" : ""}`}
+      aria-label="Linha do tempo da partida"
+    >
+      <header className="mt-head">
+        <span className="mt-title">Linha do tempo</span>
+        <span className="mt-legend">
+          <i className="dot-a" /> {teamA}
+          <i className="dot-b" /> {teamB}
+        </span>
+      </header>
 
-        {/* --- MARCADOR: PONTAPÉ INICIAL --- */}
-        <TimelineMarker icon="⏱️" title="PONTAPÉ INICIAL" />
-
-        {/* --- LISTA UNIFICADA --- */}
-        {unifiedTimeline.map((item, index) => {
-          if (item.isMarker) {
-            return (
-              <div
-                key={`marker-${item.minute}-${index}`}
-                className="timeline-time-marker"
-              >
-                <div className="marker-badge">{item.minute}'</div>
-              </div>
-            );
-          }
-          return renderEvent(item, index);
-        })}
-
-        {/* BLOCO DE PÊNALTIS */}
-        {(match.penalties?.A?.length > 0 || match.penalties?.B?.length > 0) && (
-          <PenaltiesResult draft={match} players={players} />
+      <div className="mt-strip-wrap">
+        {edges.left && (
+          <button
+            type="button"
+            className="mt-nav left"
+            onClick={() => scrollBy(-1)}
+            aria-label="Voltar"
+          >
+            <Chevron dir="left" />
+          </button>
         )}
 
-        {/* --- MARCADOR: FIM DA PARTIDA --- */}
-        <TimelineMarker
-          icon="⏱️"
-          title="FIM DA PARTIDA"
-          customClass="tempo-fim-partida"
-        />
+        <div className="mt-strip" ref={scrollRef} onScroll={updateEdges}>
+          <MarkerCard icon={<WhistleIcon />} label="Início" />
+
+          {ordered.map(renderEvent)}
+
+          {ordered.length === 0 && (
+            <div className="mt-empty">Nenhum lance registrado.</div>
+          )}
+
+          {/* Pênaltis entram na mesma faixa, cobrança por cobrança */}
+          {hasPenalties && (
+            <PenaltiesResult
+              draft={match}
+              players={players}
+              mode={isIdr ? "idr" : "adr"}
+              inline
+            />
+          )}
+
+          <MarkerCard
+            icon={<FlagIcon />}
+            label="Fim de jogo"
+            sub={
+              hasPenalties
+                ? `${score.a} x ${score.b} · pên. ${pens.scoreA} x ${pens.scoreB}`
+                : `${score.a} x ${score.b}`
+            }
+          />
+        </div>
+
+        {edges.right && (
+          <button
+            type="button"
+            className="mt-nav right"
+            onClick={() => scrollBy(1)}
+            aria-label="Avançar"
+          >
+            <Chevron dir="right" />
+          </button>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 
