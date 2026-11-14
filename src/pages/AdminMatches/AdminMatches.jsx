@@ -55,9 +55,15 @@ import LogoADR from "../../assets/logo.png";
 
 import "./adminmatches.css";
 
-function AdminMatches({ players, isAdmin, matchToEdit, setMatchToEdit }) {
+function AdminMatches({
+  players,
+  isAdmin,
+  matchToEdit: matchToEditProp,
+  setMatchToEdit,
+}) {
   const navigate = useNavigate();
   const location = useLocation();
+  const matchToEdit = matchToEditProp || location.state?.matchToEdit || null;
   const clubMode = useClubMode();
 
   /* ---------- ESTADO ---------- */

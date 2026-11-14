@@ -304,6 +304,7 @@ function App() {
                 matches={matches}
                 players={players}
                 isAdmin={isAdmin}
+                setMatchToEdit={setMatchToEdit}
               />
             }
           />

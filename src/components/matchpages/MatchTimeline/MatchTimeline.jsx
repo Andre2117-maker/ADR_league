@@ -5,20 +5,41 @@ import "./MatchTimeline.css";
 /* ==========================================================================
    ÍCONES (SVG, sem emoji)
    ========================================================================== */
-const BallIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <circle cx="12" cy="12" r="9.4" fill="currentColor" />
-    <g fill="var(--mt-ball-cut, #0b0b0b)">
-      <path d="M12 8.6l3.25 2.36-1.24 3.82H9.99l-1.24-3.82z" />
-      <path d="M12 2.6l2.4 1.9-.5 2H10.1l-.5-2z" />
-      <path d="M21.4 9.6l-.5 3-1.9.7-1.3-1.7.8-2.7z" />
-      <path d="M17.3 20.4l-2.9.5-.9-1.7 1.5-1.6 2.6.5z" />
-      <path d="M6.7 20.4l2.9.5.9-1.7-1.5-1.6-2.6.5z" />
-      <path d="M2.6 9.6l.5 3 1.9.7 1.3-1.7-.8-2.7z" />
-    </g>
-  </svg>
-);
-
+const BallIcon = () => {
+  // Bola clássica: branca com gomos pretos (id único para o recorte)
+  const clip = `ball-${React.useId().replace(/:/g, "")}`;
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <clipPath id={clip}>
+          <circle cx="12" cy="12" r="9.1" />
+        </clipPath>
+      </defs>
+      <circle
+        cx="12"
+        cy="12"
+        r="10.4"
+        fill="#ffffff"
+        stroke="#111111"
+        strokeWidth="0.8"
+      />
+      <g clipPath={`url(#${clip})`} fill="#111111">
+        <polygon points="12.00,8.60 15.23,10.95 14.00,14.75 10.00,14.75 8.77,10.95" />
+        <polygon points="12.00,5.40 8.58,2.91 9.88,-1.11 14.12,-1.11 15.42,2.91" />
+        <polygon points="18.28,9.96 19.58,5.94 23.82,5.94 25.12,9.96 21.70,12.45" />
+        <polygon points="15.88,17.34 20.11,17.34 21.42,21.36 18.00,23.85 14.57,21.36" />
+        <polygon points="8.12,17.34 9.43,21.36 6.00,23.85 2.58,21.36 3.89,17.34" />
+        <polygon points="5.72,9.96 2.30,12.45 -1.12,9.96 0.18,5.94 4.42,5.94" />
+      </g>
+      <path
+        d="M12.00 8.60L12.00 5.40 M15.23 10.95L18.28 9.96 M14.00 14.75L15.88 17.34 M10.00 14.75L8.12 17.34 M8.77 10.95L5.72 9.96"
+        stroke="#111111"
+        strokeWidth="0.7"
+        fill="none"
+      />
+    </svg>
+  );
+};
 const CardIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <rect

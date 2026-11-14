@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { FORMATIONS_DATA } from "../../../data/formationsConfig";
+import {
+  PitchStage,
+  FormationSelect,
+  ViewSwitch,
+  formationShort,
+  useVertical,
+  startersCount,
+} from "./PitchStage";
+import Lineups from "./Lineups";
 import "./DualField.css";
 
+/* ==========================================================================
+   CAMPO 3D COM OS DOIS TIMES (treino / evento)
+   - Computador: campo deitado em perspectiva (fino no fundo, largo na frente)
+   - Celular: "Os dois" (campo em pé) ou um time por vez (meio campo dele)
+   ========================================================================== */
 export default function DualField({
   match,
   teamsToRender,
@@ -14,87 +27,145 @@ export default function DualField({
   setFormB,
   getActiveSlots,
   renderSlot,
+  players = [],
+  is3D = true,
+  onToggle3D,
 }) {
+  const vertical = useVertical();
+  const [mobileView, setMobileView] = useState(isAdmin ? "A" : "both");
+  const solo = vertical && mobileView !== "both";
+  const layoutKey = !vertical ? "horizontal" : solo ? "solo" : "vertical";
+
+  const [tA, tB] = teamsToRender;
+  const shown = solo
+    ? teamsToRender.filter((t) => t.k === mobileView)
+    : teamsToRender;
+
+  const saveFormation = async (k, value) => {
+    try {
+      if (k === "A") {
+        setFormA(value);
+        await updateDoc(doc(db, "matches", match.id), { formationA: value });
+      } else {
+        setFormB(value);
+        await updateDoc(doc(db, "matches", match.id), { formationB: value });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const teamLogo = (k) => (k === "A" ? match?.teamA?.logo : match?.teamB?.logo);
+
+  const TeamTag = ({ t, align, noSelect = false }) =>
+    t ? (
+      <div className={`pf-team pf-team-${align} side-${t.k.toLowerCase()}`}>
+        {teamLogo(t.k) && (
+          <img className="pf-logo" src={teamLogo(t.k)} alt="" />
+        )}
+        <div className="pf-team-text">
+          <span className="pf-team-name">{t.n}</span>
+          <span className="pf-team-form">{formationShort(t.f)}</span>
+        </div>
+        {isAdmin && !noSelect && (
+          <FormationSelect
+            value={t.k === "A" ? formA : formB}
+            onChange={(v) => saveFormation(t.k, v)}
+            size={startersCount(match, t.k)}
+          />
+        )}
+      </div>
+    ) : null;
+
   return (
-    <div className="dual-fields-layout">
-      {teamsToRender.map((t) => (
-        <div key={t.k} className="field-section">
-          <div className="field-header">
-            <h3 className="field-team-title">{t.n}</h3>
-            {isAdmin && (
-              <div className="formation-select-wrapper">
-                <select
-                  className="formation-dropdown"
-                  value={t.k === "A" ? formA : formB}
-                  onChange={async (e) => {
-                    const newFormation = e.target.value;
-                    try {
-                      if (t.k === "A") {
-                        setFormA(newFormation);
-                        await updateDoc(doc(db, "matches", match.id), {
-                          formationA: newFormation,
-                        });
-                      } else {
-                        setFormB(newFormation);
-                        await updateDoc(doc(db, "matches", match.id), {
-                          formationB: newFormation,
-                        });
-                      }
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                >
-                  <optgroup label="FUT 4">
-                    {Object.keys(FORMATIONS_DATA.FUT4 || {}).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT4[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="FUT 5">
-                    {Object.keys(FORMATIONS_DATA.FUT5 || {}).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT5[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="FUT 6">
-                    {Object.keys(FORMATIONS_DATA.FUT6 || {}).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT6[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="FUT 7">
-                    {Object.keys(FORMATIONS_DATA.FUT7 || {}).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT7[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="FUT 8">
-                    {Object.keys(FORMATIONS_DATA.FUT8 || {}).map((k) => (
-                      <option key={k} value={k}>
-                        {FORMATIONS_DATA.FUT8[k].label}
-                      </option>
-                    ))}
-                  </optgroup>
-                </select>
-              </div>
+    <div
+      className={`pf-wrap layout-${layoutKey} ${is3D ? "is-3d" : "is-flat"} ${vertical ? (solo ? "is-solo" : "is-both") : ""}`}
+    >
+      {vertical && (
+        <div className="pf-switch" role="tablist">
+          {tA && (
+            <button
+              type="button"
+              className={mobileView === "A" ? "on" : ""}
+              onClick={() => setMobileView("A")}
+            >
+              {tA.n}
+            </button>
+          )}
+          <button
+            type="button"
+            className={mobileView === "both" ? "on" : ""}
+            onClick={() => setMobileView("both")}
+          >
+            Os dois
+          </button>
+          {tB && (
+            <button
+              type="button"
+              className={mobileView === "B" ? "on" : ""}
+              onClick={() => setMobileView("B")}
+            >
+              {tB.n}
+            </button>
+          )}
+        </div>
+      )}
+
+      {vertical &&
+        (solo ? (
+          <TeamTag
+            t={teamsToRender.find((t) => t.k === mobileView)}
+            align="top"
+          />
+        ) : (
+          <TeamTag t={tB} align="top" noSelect />
+        ))}
+
+      <PitchStage
+        layoutKey={layoutKey}
+        is3D={is3D}
+        half={solo}
+        solo={solo}
+        teams={shown.map((t) => ({
+          k: t.k,
+          slots: getActiveSlots(t.f),
+          ids: t.p,
+        }))}
+        renderSlot={renderSlot}
+      >
+        {!vertical && (
+          <div className="pf-tools">
+            <ViewSwitch is3D={is3D} onToggle3D={onToggle3D} />
+          </div>
+        )}
+      </PitchStage>
+
+      {vertical ? (
+        <>
+          {!solo && <TeamTag t={tA} align="bottom" noSelect />}
+          <div className="pf-mobile-tools">
+            <ViewSwitch is3D={is3D} onToggle3D={onToggle3D} />
+            {!solo && isAdmin && (
+              <span className="pf-hint">
+                Para escalar, escolha um dos times acima.
+              </span>
             )}
           </div>
-          <div className="pitch-canvas">
-            <div className="field-lines">
-              <div className="c-circle"></div>
-              <div className="c-line"></div>
-              <div className="b-top"></div>
-              <div className="b-bottom"></div>
-            </div>
-            {getActiveSlots(t.f).map((s) => renderSlot(s, t.k, t.p))}
-          </div>
+        </>
+      ) : (
+        <div className="pf-bar">
+          <TeamTag t={tA} align="left" />
+          <TeamTag t={tB} align="right" />
         </div>
-      ))}
+      )}
+
+      {/* TITULARES E RESERVAS */}
+      <Lineups
+        match={match}
+        players={players}
+        teams={teamsToRender}
+        getActiveSlots={getActiveSlots}
+      />
     </div>
   );
 }

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { db } from "../../firebase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import "./matchpage.css";
 import "./friendlytabs.css";
+import "./matchpage-extras.css";
 
 import { calculateMatchStats } from "../../components/matchpages/matchUtils";
 import { createEmptyFriendlyGame } from "../../components/matchpages/FriendlyGame/friendlyGamesUtils";
@@ -17,7 +18,113 @@ import FriendlyGamesTabs from "../../components/matchpages/FriendlyGame/Friendly
 import FriendlyGameField from "../../components/matchpages/FriendlyGame/FriendlyGameField";
 import Footer from "../../components/Footer";
 
-function MatchPage({ matches, players, isAdmin }) {
+/* Ícones (SVG no lugar dos emojis) */
+const BallIco = () => {
+  // Bola clássica: branca com gomos pretos (id único para o recorte)
+  const clip = `ball-${React.useId().replace(/:/g, "")}`;
+  return (
+    <svg className="mp-ico" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <clipPath id={clip}>
+          <circle cx="12" cy="12" r="9.1" />
+        </clipPath>
+      </defs>
+      <circle
+        cx="12"
+        cy="12"
+        r="10.4"
+        fill="#ffffff"
+        stroke="#111111"
+        strokeWidth="0.8"
+      />
+      <g clipPath={`url(#${clip})`} fill="#111111">
+        <polygon points="12.00,8.60 15.23,10.95 14.00,14.75 10.00,14.75 8.77,10.95" />
+        <polygon points="12.00,5.40 8.58,2.91 9.88,-1.11 14.12,-1.11 15.42,2.91" />
+        <polygon points="18.28,9.96 19.58,5.94 23.82,5.94 25.12,9.96 21.70,12.45" />
+        <polygon points="15.88,17.34 20.11,17.34 21.42,21.36 18.00,23.85 14.57,21.36" />
+        <polygon points="8.12,17.34 9.43,21.36 6.00,23.85 2.58,21.36 3.89,17.34" />
+        <polygon points="5.72,9.96 2.30,12.45 -1.12,9.96 0.18,5.94 4.42,5.94" />
+      </g>
+      <path
+        d="M12.00 8.60L12.00 5.40 M15.23 10.95L18.28 9.96 M14.00 14.75L15.88 17.34 M10.00 14.75L8.12 17.34 M8.77 10.95L5.72 9.96"
+        stroke="#111111"
+        strokeWidth="0.7"
+        fill="none"
+      />
+    </svg>
+  );
+};
+const BootIco = () => (
+  <svg
+    className="mp-ico"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    fill="currentColor"
+  >
+    <path d="M4.6 5.6h5.4l.9 3.8 6.4 2.3c2 .8 3.5 2.4 3.5 4.1v1.4H4.1c-.8 0-1.4-.6-1.4-1.4v-2.3c0-1.1.5-2 1.1-2.8z" />
+    <path d="M5 18.4h2.2v1.8H5zM9.8 18.4H12v1.8H9.8zM14.6 18.4h2.2v1.8h-2.2z" />
+  </svg>
+);
+const GloveIco = () => (
+  <svg
+    className="mp-ico"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    fill="currentColor"
+  >
+    <path d="M8.2 3.4c.8 0 1.4.6 1.4 1.4v4.3h.6V3.6c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v5.5h.6V4.4c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v5.8h.6V6.6c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v7.2c0 3.3-2.7 6-6 6h-1.5c-2 0-3.8-1-4.9-2.6L4 12.6c-.5-.7-.3-1.6.4-2.1.6-.4 1.5-.3 2 .3l.4.5V4.8c0-.8.6-1.4 1.4-1.4z" />
+  </svg>
+);
+const CloseIco = () => (
+  <svg
+    className="mp-ico"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    strokeLinecap="round"
+  >
+    <path d="M6 6l12 12M18 6L6 18" />
+  </svg>
+);
+
+/* Atalhos de teclado da página da partida */
+const SHORTCUTS = [
+  ["1", "Escalações"],
+  ["2", "Estatísticas"],
+  ["T", "Abrir / fechar a linha do tempo"],
+  ["V", "Campo em 3D ou plano"],
+  ["S", "Ver como o jogo terminou (vira as substituições)"],
+  ["E", "Editar a partida (admin)"],
+  ["←  →", "Partida anterior / próxima"],
+  ["Esc", "Fechar avisos e janelas"],
+  ["?", "Mostrar estes atalhos"],
+];
+
+const matchSortKey = (m) =>
+  `${String(m.date || "").slice(0, 10)}|${String(m.order ?? 0).padStart(4, "0")}|${String(
+    m.createdAt?.seconds ?? 0,
+  ).padStart(12, "0")}`;
+
+const readPref = (key, fallback) => {
+  try {
+    const v = window.localStorage.getItem(key);
+    return v === null ? fallback : v === "1";
+  } catch {
+    return fallback;
+  }
+};
+
+const savePref = (key, value) => {
+  try {
+    window.localStorage.setItem(key, value ? "1" : "0");
+  } catch {
+    /* sem armazenamento: só não lembra */
+  }
+};
+
+function MatchPage({ matches, players, isAdmin, setMatchToEdit }) {
   const { id } = useParams();
   const match = matches.find((m) => String(m.id) === String(id));
 
@@ -41,6 +148,90 @@ function MatchPage({ matches, players, isAdmin }) {
     window.addEventListener("click", handleOutsideClick);
     return () => window.removeEventListener("click", handleOutsideClick);
   }, []);
+
+  /* ---------- Visão 3D, virar substituições, ajuda ---------- */
+  const navigate = useNavigate();
+  const [is3D, setIs3D] = useState(() => readPref("mp-3d", true));
+  const [flipAll, setFlipAll] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+
+  const toggle3D = () =>
+    setIs3D((v) => {
+      savePref("mp-3d", !v);
+      return !v;
+    });
+
+  /* Editar a partida: abre o painel de partidas já com ela carregada */
+  const editMatch = () => {
+    const current = (matches || []).find((m) => String(m.id) === String(id));
+    if (!current) return;
+    if (setMatchToEdit) setMatchToEdit(current);
+    // createdAt fica de fora: a data do Firebase não passa inteira pela navegação
+    // eslint-disable-next-line no-unused-vars
+    const { createdAt, ...forEdit } = current;
+    navigate("/admin-matches", { state: { matchToEdit: forEdit } });
+  };
+
+  /* Partida anterior / próxima (mesma ordem do histórico) */
+  const { prevMatch, nextMatch } = useMemo(() => {
+    const list = [...(matches || [])].sort((a, b) =>
+      matchSortKey(a).localeCompare(matchSortKey(b)),
+    );
+    const i = list.findIndex((m) => String(m.id) === String(id));
+    return {
+      prevMatch: i > 0 ? list[i - 1] : null,
+      nextMatch: i >= 0 && i < list.length - 1 ? list[i + 1] : null,
+    };
+  }, [matches, id]);
+
+  // Ao trocar de partida, volta para o começo e fecha tudo
+  useEffect(() => {
+    setFlipAll(false);
+    setActivePopover(null);
+    setSelectedGameIndex(0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
+  /* Atalhos de teclado */
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const tag = String(e.target?.tagName || "").toLowerCase();
+      if (
+        ["input", "select", "textarea"].includes(tag) ||
+        e.target?.isContentEditable
+      )
+        return;
+
+      const k = e.key;
+      if (k === "Escape") {
+        setActivePopover(null);
+        setShowHelp(false);
+        return;
+      }
+      if (k === "?") {
+        setShowHelp((v) => !v);
+        return;
+      }
+      if (k === "1") setMainTab("ESCALACOES");
+      else if (k === "2") setMainTab("ESTATISTICAS");
+      else if (k === "t" || k === "T") setIsTimelineExpanded((v) => !v);
+      else if (k === "v" || k === "V") toggle3D();
+      else if (k === "s" || k === "S") {
+        setMainTab("ESCALACOES");
+        setFlipAll((v) => !v);
+      } else if ((k === "e" || k === "E") && isAdmin) editMatch();
+      else if (k === "ArrowLeft" && prevMatch)
+        navigate(`/match/${prevMatch.id}`);
+      else if (k === "ArrowRight" && nextMatch)
+        navigate(`/match/${nextMatch.id}`);
+      else return;
+      e.preventDefault();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prevMatch, nextMatch, isAdmin, matches, id]);
 
   if (match && match.formationA !== prevDbFormA) {
     setPrevDbFormA(match.formationA);
@@ -151,7 +342,7 @@ function MatchPage({ matches, players, isAdmin }) {
 
     return Object.entries(scorersMap).map(([name, count]) => (
       <span key={name} className="scorer-item">
-        ⚽ {name} {count > 1 ? `(${count})` : ""}
+        <BallIco /> {name} {count > 1 ? `(${count})` : ""}
       </span>
     ));
   };
@@ -203,8 +394,21 @@ function MatchPage({ matches, players, isAdmin }) {
   const handleEscalar = async (teamKey, slotId, pId) => {
     try {
       if (isFriendly) {
-        const updated = [...match.friendlyGames];
-        updated[selectedGameIndex].tactical[slotId] = pId;
+        const updated = [...(match.friendlyGames || [])];
+        if (!updated[selectedGameIndex]) {
+          updated[selectedGameIndex] = {
+            name: `JOGO ${selectedGameIndex + 1}`,
+            formation: "5_JOG_2-1-1",
+            tactical: {},
+          };
+        }
+        updated[selectedGameIndex] = {
+          ...updated[selectedGameIndex],
+          tactical: {
+            ...(updated[selectedGameIndex].tactical || {}),
+            [slotId]: pId,
+          },
+        };
         await updateDoc(doc(db, "matches", match.id), {
           friendlyGames: updated,
         });
@@ -355,7 +559,9 @@ function MatchPage({ matches, players, isAdmin }) {
         <div className="player-badges-right">
           {goals > 0 && (
             <div className="pro-badge badge-goal" title={`${goals} Gol(s)`}>
-              <span className="pro-badge-icon">⚽</span>
+              <span className="pro-badge-icon">
+                <BallIco />
+              </span>
               {goals > 1 && <span className="pro-badge-count">{goals}</span>}
             </div>
           )}
@@ -365,7 +571,9 @@ function MatchPage({ matches, players, isAdmin }) {
               className="pro-badge badge-assist"
               title={`${assists} Assistência(s)`}
             >
-              <span className="pro-badge-icon">👟</span>
+              <span className="pro-badge-icon">
+                <BootIco />
+              </span>
               {assists > 1 && (
                 <span className="pro-badge-count">{assists}</span>
               )}
@@ -397,7 +605,7 @@ function MatchPage({ matches, players, isAdmin }) {
 
               <span className={`pro-tooltip ${isYellowOpen ? "visible" : ""}`}>
                 <strong className="pro-tooltip-head yellow">
-                  🟨 CARTÃO AMARELO
+                  CARTÃO AMARELO
                 </strong>
                 <span>{yellowReasons || "Motivo não especificado"}</span>
               </span>
@@ -427,7 +635,7 @@ function MatchPage({ matches, players, isAdmin }) {
 
               <span className={`pro-tooltip ${isRedOpen ? "visible" : ""}`}>
                 <strong className="pro-tooltip-head red">
-                  🟥 CARTÃO VERMELHO
+                  CARTÃO VERMELHO
                 </strong>
                 <span>{redReasons || "Motivo não especificado"}</span>
               </span>
@@ -456,7 +664,7 @@ function MatchPage({ matches, players, isAdmin }) {
           {/* LUVA DE GOLEIRO (Mostra se for o Goleiro do banco OU estiver no slot GK) */}
           {showGlove && (
             <div className="pro-role-badge gk" title="Goleiro da Equipe">
-              🧤
+              <GloveIco />
             </div>
           )}
           {subType === "out" && (
@@ -494,7 +702,7 @@ function MatchPage({ matches, players, isAdmin }) {
             >
               <img src="/lesao.png" alt="Lesão" className="injury-icon-img" />
               <span className={`pro-tooltip ${isInjuryOpen ? "visible" : ""}`}>
-                <strong className="pro-tooltip-head injury">✚ LESÃO</strong>
+                <strong className="pro-tooltip-head injury">LESÃO</strong>
                 <span>{subReason || "Saiu por lesão"}</span>
               </span>
             </button>
@@ -596,10 +804,10 @@ function MatchPage({ matches, players, isAdmin }) {
     return (
       <div
         key={slot.id}
-        className={`tactical-slot ${
+        className={`tactical-slot ${slot.className || ""} ${
           hasOpenPopoverInSlot ? "slot-popover-active" : ""
         }`}
-        style={{ left: slot.x, top: slot.y }}
+        style={{ left: slot.x, top: slot.y, ...(slot.style || {}) }}
       >
         {gkFlip ? (
           <div
@@ -656,7 +864,7 @@ function MatchPage({ matches, players, isAdmin }) {
               slot.role === "GK" ? "is-gk-slot" : ""
             }`}
           >
-            {slot.role === "GK" ? "🧤" : "?"}
+            {slot.role === "GK" ? <GloveIco /> : "?"}
           </div>
         )}
 
@@ -667,7 +875,7 @@ function MatchPage({ matches, players, isAdmin }) {
             onChange={(e) => handleEscalar(teamKey, slot.id, e.target.value)}
           >
             <option value="">
-              {slot.role === "GK" ? "🧤 Escalar Goleiro..." : "Escalar..."}
+              {slot.role === "GK" ? "Escalar goleiro..." : "Escalar..."}
             </option>
             {sortedOptionIds.map((pId) => {
               const playerInfo = players.find(
@@ -676,9 +884,7 @@ function MatchPage({ matches, players, isAdmin }) {
               const isThisGK = String(pId) === String(savedGkId);
               const isThisCap = String(pId) === String(savedCapId);
 
-              const prefixBadges = [isThisGK ? "🧤" : "", isThisCap ? "©️" : ""]
-                .filter(Boolean)
-                .join(" ");
+              const prefixBadges = "";
 
               const suffixTags = [
                 isThisGK ? "[GOL]" : "",
@@ -735,7 +941,40 @@ function MatchPage({ matches, players, isAdmin }) {
   ];
 
   return (
-    <div className="match-view-wrapper" id="capture-area">
+    <div
+      className={`match-view-wrapper ${flipAll ? "flip-all" : ""}`}
+      id="capture-area"
+    >
+      {showHelp && (
+        <div className="mp-help-overlay" onClick={() => setShowHelp(false)}>
+          <div
+            className="mp-help"
+            role="dialog"
+            aria-label="Atalhos de teclado"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <header>
+              <span>Atalhos de teclado</span>
+              <button
+                type="button"
+                onClick={() => setShowHelp(false)}
+                aria-label="Fechar"
+              >
+                <CloseIco />
+              </button>
+            </header>
+            <ul>
+              {SHORTCUTS.map(([key, label]) => (
+                <li key={key}>
+                  <kbd>{key}</kbd>
+                  <span>{label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
       {/* 1. Componente Extraído do Banner */}
       <MatchBanner
         match={match}
@@ -760,6 +999,98 @@ function MatchPage({ matches, players, isAdmin }) {
           />
         </div>
       )}
+
+      {/* NAVEGAÇÃO ENTRE PARTIDAS + ATALHOS */}
+      <nav className="mp-nav" aria-label="Navegar entre partidas">
+        {prevMatch ? (
+          <Link
+            to={`/match/${prevMatch.id}`}
+            className="mp-nav-btn prev"
+            title="Partida anterior (←)"
+          >
+            <span className="mp-nav-arrow" aria-hidden="true">
+              ‹
+            </span>
+            <span className="mp-nav-text">
+              <small>Anterior</small>
+              <b>
+                {String(prevMatch.date || "")
+                  .slice(0, 10)
+                  .split("-")
+                  .reverse()
+                  .join("/")}
+              </b>
+            </span>
+          </Link>
+        ) : (
+          <span className="mp-nav-btn is-off" />
+        )}
+
+        <div className="mp-nav-mid">
+          <button
+            type="button"
+            className={`mp-chip ${flipAll ? "on" : ""}`}
+            onClick={() => {
+              setMainTab("ESCALACOES");
+              setFlipAll((v) => !v);
+            }}
+            title="Vira os cards de substituição (S)"
+          >
+            {flipAll ? "Escalação inicial" : "Como terminou"}
+          </button>
+          {isAdmin && (
+            <button
+              type="button"
+              className="mp-chip mp-edit"
+              onClick={editMatch}
+              title="Editar partida (E)"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="mp-ico">
+                <path
+                  d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Editar partida
+            </button>
+          )}
+          <button
+            type="button"
+            className="mp-chip mp-keys"
+            onClick={() => setShowHelp(true)}
+            title="Atalhos de teclado (?)"
+          >
+            Atalhos
+          </button>
+        </div>
+
+        {nextMatch ? (
+          <Link
+            to={`/match/${nextMatch.id}`}
+            className="mp-nav-btn next"
+            title="Próxima partida (→)"
+          >
+            <span className="mp-nav-text">
+              <small>Próxima</small>
+              <b>
+                {String(nextMatch.date || "")
+                  .slice(0, 10)
+                  .split("-")
+                  .reverse()
+                  .join("/")}
+              </b>
+            </span>
+            <span className="mp-nav-arrow" aria-hidden="true">
+              ›
+            </span>
+          </Link>
+        ) : (
+          <span className="mp-nav-btn is-off" />
+        )}
+      </nav>
 
       {/* 3. Menu de Abas */}
       <div className="psg-tabs-menu">
@@ -811,6 +1142,8 @@ function MatchPage({ matches, players, isAdmin }) {
                 renderSlot={renderSlot}
                 isAdmin={isAdmin}
                 onFormationChange={handleFriendlyFormationChange}
+                is3D={is3D}
+                onToggle3D={toggle3D}
               />
             ) : (
               <DualField
@@ -823,6 +1156,9 @@ function MatchPage({ matches, players, isAdmin }) {
                 setFormB={setFormB}
                 getActiveSlots={getActiveSlots}
                 renderSlot={renderSlot}
+                players={players}
+                is3D={is3D}
+                onToggle3D={toggle3D}
               />
             )}
           </>
@@ -847,7 +1183,7 @@ function MatchPage({ matches, players, isAdmin }) {
             className="toast-close-btn"
             onClick={() => setActivePopover(null)}
           >
-            ✕
+            <CloseIco />
           </button>
         </div>
       )}

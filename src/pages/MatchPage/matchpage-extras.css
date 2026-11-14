@@ -1,0 +1,336 @@
+/* ==========================================================================
+   EXTRAS DA PÁGINA DA PARTIDA
+   navegação entre partidas, atalhos, "como terminou" e ícones SVG
+   ========================================================================== */
+
+/* ---------- Ícones SVG (no lugar dos emojis) ---------- */
+.mp-ico {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.14em;
+}
+
+.scorer-item .mp-ico {
+  margin-right: 3px;
+  color: #ffffff;
+}
+
+.pro-badge-icon .mp-ico {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+}
+
+.pro-badge.badge-assist .pro-badge-icon {
+  color: #38bdf8;
+}
+
+.pro-role-badge.gk .mp-ico {
+  width: 14px;
+  height: 14px;
+  color: #60a5fa;
+}
+
+.empty-slot-marker .mp-ico {
+  width: 24px;
+  height: 24px;
+}
+
+.toast-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-close-btn .mp-ico {
+  width: 14px;
+  height: 14px;
+}
+
+.theme-idr .scorer-item .mp-ico {
+  color: #000000;
+}
+
+.theme-idr .pro-role-badge.gk .mp-ico {
+  color: #1d4ed8;
+}
+
+/* ---------- Barra: anterior | botões | próxima ---------- */
+.mp-nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 1180px;
+  margin: 14px auto 4px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.mp-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0b0b0b;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.mp-nav-btn.prev {
+  justify-self: start;
+}
+
+.mp-nav-btn.next {
+  justify-self: end;
+  text-align: right;
+}
+
+.mp-nav-btn.is-off {
+  visibility: hidden;
+}
+
+.mp-nav-btn:hover {
+  border-color: #d4af37;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.08), #0b0b0b);
+}
+
+.mp-nav-arrow {
+  color: #d4af37;
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.mp-nav-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.mp-nav-text small {
+  color: #7c8088;
+  font-size: 0.55rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.mp-nav-text b {
+  font-size: 0.78rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+.mp-nav-mid {
+  display: flex;
+  gap: 6px;
+}
+
+.mp-chip {
+  min-height: 34px;
+  padding: 0 12px;
+  background: transparent;
+  color: #7c8088;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font: inherit;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.mp-chip:hover {
+  color: #ffffff;
+}
+
+.mp-chip.on {
+  color: #d4af37;
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* ---------- "Como terminou": vira todos os cards de substituição ---------- */
+.flip-all .sub-flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* ---------- Janela de atalhos ---------- */
+.mp-help-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  animation: mpFade 0.2s ease;
+}
+
+.mp-help {
+  width: 100%;
+  max-width: 420px;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #d4af37;
+  color: #ffffff;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  animation: mpUp 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mp-help header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.mp-help header button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  color: #7c8088;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+}
+
+.mp-help ul {
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.mp-help li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  color: #c9cbd0;
+}
+
+.mp-help kbd {
+  flex-shrink: 0;
+  min-width: 46px;
+  padding: 4px 8px;
+  background: #151515;
+  color: #d4af37;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom-width: 3px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+@keyframes mpFade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mpUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ---------- Tema IDR ---------- */
+.theme-idr .mp-nav-btn,
+.theme-idr .mp-help {
+  background: #ffffff;
+  color: #0a0a0a;
+  border-color: #e0e0e0;
+}
+
+.theme-idr .mp-help {
+  border-top-color: #000;
+}
+
+.theme-idr .mp-nav-arrow,
+.theme-idr .mp-help kbd {
+  color: #000000;
+}
+
+.theme-idr .mp-help kbd {
+  background: #f4f4f4;
+  border-color: #cfcfcf;
+}
+
+.theme-idr .mp-help li {
+  color: #333;
+}
+
+.theme-idr .mp-chip.on {
+  color: #000;
+  border-color: #000;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.theme-idr .mp-nav-btn:hover {
+  border-color: #000;
+  background: #fafafa;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 760px) {
+  .mp-nav {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 10px;
+  }
+
+  .mp-nav-mid {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: center;
+  }
+
+  /* Sem teclado no celular: some o botão de atalhos */
+  .mp-keys {
+    display: none;
+  }
+
+  .mp-nav-btn {
+    min-height: 40px;
+    padding: 0 10px;
+  }
+}
+
+@media (hover: none) {
+  .mp-keys {
+    display: none;
+  }
+}
