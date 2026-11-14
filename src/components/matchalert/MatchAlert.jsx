@@ -130,6 +130,10 @@ const MatchBanner = ({ isAdmin }) => {
   const [isIdrTheme, setIsIdrTheme] = useState(false);
   const [expandedNewsImage, setExpandedNewsImage] = useState(null);
   const [readingNews, setReadingNews] = useState(null);
+  // Edição: id do aviso que está sendo editado (null = criando um novo)
+  const [editingId, setEditingId] = useState(null);
+  const skipFooterReset = useRef(false);
+  const adminPanelRef = useRef(null);
 
   // Fecha a imagem ampliada / o leitor de notícia ao pressionar ESC.
   useEffect(() => {
@@ -230,6 +234,11 @@ const MatchBanner = ({ isAdmin }) => {
       NOTICIA:
         "PLANTÃO DO ADR • COMUNICADO OFICIAL DA DIRETORIA • FIQUE POR DENTRO •",
     };
+    // Ao abrir um aviso para editar, mantém o letreiro que ele já tinha
+    if (skipFooterReset.current) {
+      skipFooterReset.current = false;
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       footerText: defaultFooters[bannerType] || defaultFooters.TREINO,
@@ -358,19 +367,62 @@ const MatchBanner = ({ isAdmin }) => {
       return alert("Digite o título da arrecadação (ex: Novas Camisas)!");
     }
     try {
-      await addDoc(collection(db, "banners"), {
-        ...formData,
-        type: bannerType,
-        title: bannerType,
-        createdAt: new Date(),
-      });
+      if (editingId) {
+        // Atualiza o aviso existente (mantém a data de criação e a posição)
+        // eslint-disable-next-line no-unused-vars
+        const { id, createdAt, ...fields } = formData;
+        await updateDoc(doc(db, "banners", editingId), {
+          ...fields,
+          type: bannerType,
+          title: bannerType,
+          updatedAt: new Date(),
+        });
+      } else {
+        await addDoc(collection(db, "banners"), {
+          ...formData,
+          type: bannerType,
+          title: bannerType,
+          createdAt: new Date(),
+        });
+        setActive(0);
+      }
       setFormData(initialFormState);
+      setEditingId(null);
       setShowAdmin(false);
-      setActive(0);
     } catch (err) {
       console.error("Erro ao salvar banner:", err);
       alert("Erro ao publicar no site.");
     }
+  };
+
+  // Abre o painel já preenchido com o aviso escolhido
+  const startEdit = (item) => {
+    const type = (item.type || "TREINO").toUpperCase();
+    if (type !== bannerType) skipFooterReset.current = true;
+    setBannerType(type);
+    setFormData({
+      ...initialFormState,
+      ...item,
+      teamA: { ...initialFormState.teamA, ...(item.teamA || {}) },
+      teamB: { ...initialFormState.teamB, ...(item.teamB || {}) },
+    });
+    setEditingId(item.id);
+    setShowAdmin(true);
+    setPaused(true);
+    setTimeout(
+      () =>
+        adminPanelRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        }),
+      50,
+    );
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setFormData(initialFormState);
+    setShowAdmin(false);
   };
 
   const deleteBanner = async (id) => {
@@ -429,7 +481,7 @@ const MatchBanner = ({ isAdmin }) => {
         <button
           type="button"
           className="admin-toggle-btn"
-          onClick={() => setShowAdmin(!showAdmin)}
+          onClick={() => (showAdmin ? cancelEdit() : setShowAdmin(true))}
         >
           {showAdmin
             ? "✕ FECHAR CENTRAL DE AVISOS"
@@ -439,7 +491,23 @@ const MatchBanner = ({ isAdmin }) => {
 
       {/* ==================== PAINEL DO ADMINISTRADOR ==================== */}
       {showAdmin && (
-        <div className="admin-internal-panel">
+        <div className="admin-internal-panel" ref={adminPanelRef}>
+          {editingId && (
+            <div className="admin-editing-bar">
+              <span>
+                Editando:{" "}
+                <b>
+                  {formData.newsHeadline ||
+                    formData.goalTitle ||
+                    formData.teamB?.name ||
+                    bannerType}
+                </b>
+              </span>
+              <button type="button" onClick={cancelEdit}>
+                Cancelar edição
+              </button>
+            </div>
+          )}
           <div className="admin-type-selector-bar">
             {[
               { id: "TREINO", label: "⚽ Treino" },
@@ -658,13 +726,28 @@ const MatchBanner = ({ isAdmin }) => {
                     <label>
                       {isConverting
                         ? "Comprimindo foto..."
-                        : "📸 Foto da Notícia (Opcional)"}
+                        : formData.newsImage
+                          ? "📸 Trocar foto da notícia"
+                          : "📸 Foto da Notícia (Opcional)"}
                     </label>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleFile(e, "NEWS")}
                     />
+                    {formData.newsImage && (
+                      <div className="admin-news-preview">
+                        <img src={formData.newsImage} alt="" />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setFormData((prev) => ({ ...prev, newsImage: "" }))
+                          }
+                        >
+                          Remover foto
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </>
@@ -686,7 +769,11 @@ const MatchBanner = ({ isAdmin }) => {
               onClick={addBanner}
               disabled={isConverting}
             >
-              {isConverting ? "PROCESSANDO IMAGEM..." : "PUBLICAR NO SITE"}
+              {isConverting
+                ? "PROCESSANDO IMAGEM..."
+                : editingId
+                  ? "SALVAR ALTERAÇÕES"
+                  : "PUBLICAR NO SITE"}
             </button>
           </div>
         </div>
@@ -984,6 +1071,20 @@ const MatchBanner = ({ isAdmin }) => {
                       {isAdmin && (
                         <button
                           type="button"
+                          className="edit-btn"
+                          onClick={() => startEdit(item)}
+                          title="Editar este aviso"
+                          aria-label="Editar este aviso"
+                        >
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4" />
+                          </svg>
+                        </button>
+                      )}
+
+                      {isAdmin && (
+                        <button
+                          type="button"
                           className="del-btn"
                           onClick={() => deleteBanner(item.id)}
                           title="Excluir este banner"
@@ -1051,6 +1152,19 @@ const MatchBanner = ({ isAdmin }) => {
               <span className="news-tag-pill">
                 📰 {readingNews.newsCategory || "OFICIAL"}
               </span>
+              {isAdmin && (
+                <button
+                  type="button"
+                  className="news-reader-edit"
+                  onClick={() => {
+                    const item = readingNews;
+                    setReadingNews(null);
+                    startEdit(item);
+                  }}
+                >
+                  Editar notícia
+                </button>
+              )}
               <button
                 type="button"
                 className="news-reader-close"

@@ -1253,3 +1253,126 @@
     animation: none;
   }
 }
+/* ==========================================================================
+   EDITAR AVISO (cole no FIM do matchalert.css)
+   ========================================================================== */
+.edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 46px; /* ao lado do botão de excluir */
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.edit-btn:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* Faixa "Editando: ..." no topo do painel */
+.admin-editing-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: rgba(212, 175, 55, 0.08);
+  border-left: 3px solid #d4af37;
+  color: #c9cbd0;
+  font-size: 0.8rem;
+}
+
+.admin-editing-bar b {
+  color: #fff;
+}
+
+.admin-editing-bar button,
+.admin-news-preview button,
+.news-reader-edit {
+  padding: 6px 12px;
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-editing-bar button:hover,
+.admin-news-preview button:hover,
+.news-reader-edit:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* Prévia da foto atual da notícia no formulário */
+.admin-news-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-news-preview img {
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.news-reader-edit {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+/* Tema IDR */
+.theme-idr .edit-btn,
+.theme-idr .admin-editing-bar button,
+.theme-idr .admin-news-preview button,
+.theme-idr .news-reader-edit {
+  color: #000;
+  border-color: #000;
+}
+
+.theme-idr .edit-btn:hover,
+.theme-idr .admin-editing-bar button:hover,
+.theme-idr .admin-news-preview button:hover,
+.theme-idr .news-reader-edit:hover {
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .admin-editing-bar {
+  background: rgba(0, 0, 0, 0.04);
+  border-left-color: #000;
+  color: #444;
+}
+
+.theme-idr .admin-editing-bar b {
+  color: #000;
+}

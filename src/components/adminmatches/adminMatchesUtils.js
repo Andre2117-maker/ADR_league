@@ -15,7 +15,7 @@ export const MATCH_TYPES = [
 export const EVENT_THEMES = [
   { id: "NATAL", label: "🎄 Natal" },
   { id: "HALLOWEEN", label: "🎃 Halloween" },
-  { id: "ANIVERSARIO_ADR", label: "👑 Aniversário d'O ADR" },
+  { id: "ANIVERSARIO_ADR", label: "👑 Aniversário do ADR" },
   { id: "CONFRATERNIZACAO", label: "🥳 Confraternização" },
   { id: "OUTRO", label: "✨ Outro" },
 ];
@@ -152,8 +152,16 @@ export const countGoals = (events = []) => {
   let a = 0;
   let b = 0;
   events.forEach((e) => {
-    if ((e.team === "A" && e.type === "GOAL") || (e.team === "B" && e.type === "OWN_GOAL")) a += 1;
-    if ((e.team === "B" && e.type === "GOAL") || (e.team === "A" && e.type === "OWN_GOAL")) b += 1;
+    if (
+      (e.team === "A" && e.type === "GOAL") ||
+      (e.team === "B" && e.type === "OWN_GOAL")
+    )
+      a += 1;
+    if (
+      (e.team === "B" && e.type === "GOAL") ||
+      (e.team === "A" && e.type === "OWN_GOAL")
+    )
+      b += 1;
   });
   return { a, b };
 };
@@ -166,7 +174,13 @@ export const penaltyGoals = (penalties, side) =>
 export const penaltyResult = penResult;
 
 /** Retorna { winner: "A"|"B"|null, how: "normal"|"golden"|"penalties"|null } */
-export const computeWinner = ({ goalsA, goalsB, goldenGoalWinner, pensA, pensB }) => {
+export const computeWinner = ({
+  goalsA,
+  goalsB,
+  goldenGoalWinner,
+  pensA,
+  pensB,
+}) => {
   if (goldenGoalWinner) return { winner: goldenGoalWinner, how: "golden" };
   if (goalsA > goalsB) return { winner: "A", how: "normal" };
   if (goalsB > goalsA) return { winner: "B", how: "normal" };

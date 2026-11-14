@@ -146,7 +146,7 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
       {/* ==================== FICHA TÉCNICA ==================== */}
       <div className="profile-info-list">
         <div className="info-item">
-          <span className="info-label">🏆 Títulos d'O ADR</span>
+          <span className="info-label">🏆 Títulos do ADR</span>
           <strong className="info-value">{player.titlesADR || 0}</strong>
         </div>
         <div className="info-item">
@@ -225,7 +225,7 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
       <div className="profile-footer">
         <p>Temporada {new Date().getFullYear()}</p>
         <div className="badge-adr">
-          <span className="text-adr">ATLETA D'O ADR</span>
+          <span className="text-adr">ATLETA DO ADR</span>
           <span className="text-idr1">ATLETA IDR</span>
         </div>
       </div>
