@@ -753,7 +753,8 @@
    6. TROCA ADR / IDR (logos e textos)
    ========================================================================== */
 .logo-idr,
-.text-idr {
+.text-idr,
+.logo-classic {
   display: none;
 }
 
@@ -765,6 +766,20 @@
 .theme-idr .logo-idr,
 .theme-idr .text-idr {
   display: inline-block !important;
+}
+
+/* Tema Classic: troca só o escudo (o texto continua ADR) */
+.theme-classic .logo-adr {
+  display: none !important;
+}
+
+.theme-classic .logo-classic {
+  display: inline-block !important;
+}
+
+/* o escudo roxo/vermelho pede um brilho rosado em vez do dourado */
+.theme-classic .nvb-logo-img.logo-classic {
+  filter: drop-shadow(0 0 10px rgba(236, 68, 112, 0.45));
 }
 
 .theme-idr .nvb-sidebar,

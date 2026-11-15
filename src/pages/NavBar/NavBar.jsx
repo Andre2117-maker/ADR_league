@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import logoIdr from "../../assets/IDR.png";
+
+/* Escudo do tema Classic (fica em public/logo-classic.png) */
+const logoClassic = "/logo-classic.png";
 import "./navbar.css";
 
 /* Ícone de pessoa (traço fino, herda a cor) */
@@ -160,6 +163,11 @@ function Navbar({ isAdmin, logout }) {
               alt="IDR League"
               className="nvb-logo-img logo-idr"
             />
+            <img
+              src={logoClassic}
+              alt="ADR Classic"
+              className="nvb-logo-img logo-classic"
+            />
             <span className="nvb-brand-text">
               <span className="text-adr">ADR</span>
               <span className="text-idr">IDR</span>
@@ -234,6 +242,11 @@ function Navbar({ isAdmin, logout }) {
           <div className="nvb-sidebar-brand">
             <img src={logo} alt="" className="nvb-side-logo logo-adr" />
             <img src={logoIdr} alt="" className="nvb-side-logo logo-idr" />
+            <img
+              src={logoClassic}
+              alt=""
+              className="nvb-side-logo logo-classic"
+            />
             <div>
               <span className="nvb-sidebar-kicker">MENU</span>
               <span className="nvb-sidebar-title">

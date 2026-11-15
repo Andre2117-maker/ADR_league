@@ -1,0 +1,3580 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+/* ==========================================================================
+   TEMA CLASSIC — cores do primeiro escudo oficial do ADR
+   (degradê roxo -> vermelho, letras em ameixa escura)
+
+   Como funciona: o <body> recebe a classe "theme-classic" e este arquivo
+   troca o dourado pelo rosa/vermelho do escudo nos componentes do site.
+   Importe UMA vez (main.jsx ou App.jsx), depois dos outros CSS.
+   ========================================================================== */
+body.theme-classic {
+  --cl-purple: #7b3aa8;
+  --cl-magenta: #b8307a;
+  --cl-red: #e3263a;
+  --cl-accent: #ec4470; /* cor de destaque (texto, bordas, brilho) */
+  --cl-accent-strong: #ff5a7e;
+  --cl-ink: #2a1d2f; /* cor das letras do escudo */
+  --cl-grad: linear-gradient(90deg, #7b3aa8 0%, #b8307a 50%, #e3263a 100%);
+  --cl-bg: #0c0710;
+  --cl-panel: #150c19;
+
+  background-color: var(--cl-bg) !important;
+}
+
+/* Fundo das páginas com um leve brilho roxo/vermelho */
+body.theme-classic::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 40% at 0% 0%,
+      rgba(123, 58, 168, 0.18),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 40% at 100% 100%,
+      rgba(227, 38, 58, 0.14),
+      transparent 70%
+    );
+}
+
+/* ==========================================================================
+   1. VARIÁVEIS DOS COMPONENTES (troca o dourado de cada um)
+   ========================================================================== */
+.theme-classic .aw-card {
+  --aw-accent: var(--cl-accent);
+  --aw-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .schedule-container {
+  --bd-accent: var(--cl-accent);
+  --bd-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .camp-page-wrapper {
+  --cp-accent: var(--cl-accent);
+  --cp-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .pf-wrap {
+  --pf-accent: var(--cl-accent);
+  --pf-accent-soft: rgba(232, 65, 107, 0.08);
+  --pf-team-a: var(--cl-accent);
+}
+
+.theme-classic .sponsors-footer {
+  --ft-accent: var(--cl-accent);
+  --ft-glow: rgba(232, 65, 107, 0.14);
+}
+
+.theme-classic .hall-vertical-container {
+  --hf-accent: var(--cl-accent);
+  --hf-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .history-carousel-wrapper {
+  --hc-accent: var(--cl-accent);
+  --hc-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .cx-section {
+  --cx-accent: var(--cl-accent);
+  --cx-accent-grad: linear-gradient(
+    90deg,
+    rgba(232, 65, 107, 0.14),
+    rgba(232, 65, 107, 0) 75%
+  );
+  --cx-glow: rgba(232, 65, 107, 0.4);
+}
+
+.theme-classic .banners-wrapper {
+  --mw-accent: var(--cl-accent);
+}
+
+.theme-classic .match-banner-container {
+  --mb-accent: var(--cl-accent);
+  --mb-accent-glow: rgba(232, 65, 107, 0.18);
+}
+
+.theme-classic .team-stats-card {
+  --ms-accent: var(--cl-accent);
+  --ms-accent-soft: rgba(232, 65, 107, 0.08);
+}
+
+.theme-classic .nvb-wrapper,
+.theme-classic .nvb-sidebar,
+.theme-classic .nvb-sidebar-overlay {
+  --nv-accent: var(--cl-accent);
+  --nv-accent-soft: rgba(232, 65, 107, 0.08);
+  --nv-accent-grad: linear-gradient(
+    90deg,
+    rgba(232, 65, 107, 0.16),
+    rgba(232, 65, 107, 0) 75%
+  );
+  --nv-glow: rgba(232, 65, 107, 0.4);
+}
+
+.theme-classic .alltime-container {
+  --at-accent: var(--cl-accent);
+  --at-accent-soft: rgba(232, 65, 107, 0.07);
+  --at-accent-glow: rgba(232, 65, 107, 0.35);
+}
+
+.theme-classic .cr-section {
+  --cr-accent: var(--cl-accent);
+  --cr-accent-soft: rgba(232, 65, 107, 0.08);
+}
+
+.theme-classic .h2h-section {
+  --h2h-accent: var(--cl-accent);
+  --h2h-a: var(--cl-accent);
+  --h2h-glow: rgba(232, 65, 107, 0.35);
+}
+
+.theme-classic .rt-page {
+  --rt-accent: var(--cl-accent);
+  --rt-accent-grad: linear-gradient(
+    90deg,
+    rgba(232, 65, 107, 0.14),
+    rgba(232, 65, 107, 0) 75%
+  );
+}
+
+.theme-classic .rt-story {
+  --rt-tone: var(--cl-accent);
+  --rt-tone-glow: rgba(232, 65, 107, 0.35);
+}
+
+.theme-classic .adm-main-layout {
+  --pn-accent: var(--cl-accent);
+  --pn-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .central-column {
+  --rk-accent: var(--cl-accent);
+  --rk-glow: rgba(232, 65, 107, 0.4);
+}
+
+.theme-classic .rk-lead-chip,
+.theme-classic .rk-legend-chip {
+  --rk-chip: var(--cl-accent);
+  --rk-chip-bg: rgba(232, 65, 107, 0.13);
+  --rk-chip-bg-hover: rgba(232, 65, 107, 0.24);
+  --rk-chip-line: rgba(232, 65, 107, 0.42);
+  --rk-chip-glow: rgba(232, 65, 107, 0.45);
+}
+
+.theme-classic .rk-info-toast {
+  --rk-toast-accent: var(--cl-accent);
+}
+
+body.theme-classic {
+  --radar-cor: var(--cl-accent);
+}
+
+.theme-classic .info-card,
+.theme-classic .player-profile-card,
+.theme-classic .empty-state-card {
+  --sp-accent: var(--cl-accent);
+  --sp-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .statics-container {
+  --st-accent: var(--cl-accent);
+  --st-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .mt-wrap {
+  --mt-accent: var(--cl-accent);
+  --mt-b-band: var(--cl-accent);
+  --mt-b-border: var(--cl-accent);
+}
+
+.theme-classic .pr-wrap,
+.theme-classic .pr-item {
+  --pr-accent: var(--cl-accent);
+  --pr-b-band: var(--cl-accent);
+  --pr-b-border: var(--cl-accent);
+}
+
+.theme-classic .gk-card {
+  --gk-accent: var(--cl-accent);
+  --gk-glow: rgba(232, 65, 107, 0.16);
+}
+
+.theme-classic .ts-card {
+  --ts-accent: var(--cl-accent);
+  --ts-glow: rgba(232, 65, 107, 0.16);
+}
+
+/* ==========================================================================
+   2. TODAS AS TELAS: troca automática do dourado escrito direto no CSS
+   (gerado a partir dos seus arquivos de estilo: cada cor dourada vira o
+    tom equivalente do escudo — escuro = ameixa, médio = rosa, claro = rosa claro.
+    Cartas e medalhas "ouro" continuam douradas, porque ali é o nível.)
+   ========================================================================== */
+
+.theme-classic .bday-card {
+  border: 1.5px solid rgba(236, 68, 112, 0.45);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(236, 68, 112, 0.22);
+}
+
+.theme-classic .bday-glow-effect {
+  background: radial-gradient(
+    circle,
+    rgba(236, 68, 112, 0.25) 0%,
+    transparent 70%
+  );
+}
+
+.theme-classic .bday-player-img {
+  border: 3px solid #ec4470;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.8),
+    0 0 16px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .bday-kicker {
+  color: #ec4470;
+}
+
+.theme-classic .bday-title .highlight {
+  background: linear-gradient(180deg, #ff8aa5 0%, #ec4470 55%, #5a1f4a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .bday-btn {
+  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
+  box-shadow: 0 8px 22px rgba(236, 68, 112, 0.35);
+  color: #000000;
+}
+
+.theme-classic .bday-btn:hover {
+  box-shadow: 0 12px 28px rgba(236, 68, 112, 0.55);
+}
+
+body.theme-classic {
+  --gold-light: #ff8aa5;
+  --gold-main: #ff8aa5;
+  --gold-dark: #b8307a;
+  --gold-border: #ec4470;
+  --history-gold: #ec4470;
+  --history-gold-soft: rgba(236, 68, 112, 0.12);
+  --premium-gold: #ec4470;
+  --premium-gold-bright: #ff8aa5;
+  --radar-cor: #ec4470;
+  --gold: #ec4470;
+}
+
+.theme-classic .size-btn.active {
+  background: linear-gradient(135deg, #ff8aa5 0%, #b8307a 100%);
+  border: 1px solid #ec4470;
+  box-shadow: 0 5px 20px rgba(184, 48, 122, 0.4);
+  color: #3b2800;
+}
+
+.theme-classic .schedule-container {
+  --bd-accent: #ec4470;
+  --bd-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .transparency-page::before {
+  background:
+    radial-gradient(
+      40% 35% at 15% 20%,
+      rgba(236, 68, 112, 0.2),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 30% at 85% 15%,
+      rgba(120, 80, 255, 0.14),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 60% 90%,
+      rgba(236, 68, 112, 0.12),
+      transparent 70%
+    );
+}
+
+.theme-classic .admin-box {
+  background:
+    radial-gradient(
+      60% 30% at 50% 0%,
+      rgba(236, 68, 112, 0.08),
+      transparent 70%
+    ),
+    rgba(10, 10, 12, 0.72);
+  border: 1px solid rgba(236, 68, 112, 0.25);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(236, 68, 112, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.theme-classic .admin-box h3 {
+  background: linear-gradient(180deg, #ffffff 30%, #ec4470 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .tp-hero::after {
+  background: linear-gradient(
+    90deg,
+    #ec4470,
+    rgba(236, 68, 112, 0.15) 40%,
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .tp-title {
+  background: linear-gradient(100deg, #fff 0%, #fff 35%, #ec4470 55%, #fff 75%);
+  filter: drop-shadow(0 0 22px rgba(236, 68, 112, 0.25));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .tp-export-btn {
+  background: rgba(236, 68, 112, 0.08);
+  color: #ec4470;
+  border: 1px solid rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .tp-export-btn:hover:not(:disabled) {
+  background: #ec4470;
+  box-shadow: 0 0 26px rgba(236, 68, 112, 0.55);
+  color: #000;
+}
+
+.theme-classic .tp-card::before {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+}
+
+.theme-classic .tp-card:hover {
+  border-color: rgba(236, 68, 112, 0.6);
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.22),
+    0 18px 36px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .tp-card.balance {
+  border-color: rgba(236, 68, 112, 0.4);
+  box-shadow:
+    0 0 30px rgba(236, 68, 112, 0.15),
+    0 14px 30px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.theme-classic .tp-panel-title {
+  color: #ec4470;
+}
+
+.theme-classic .admin-form-transparency {
+  background: linear-gradient(
+    160deg,
+    rgba(236, 68, 112, 0.06),
+    rgba(255, 255, 255, 0.015)
+  );
+  border: 1px solid rgba(236, 68, 112, 0.22);
+}
+
+.theme-classic .admin-form-transparency input:focus,
+.theme-classic .admin-form-transparency select:focus {
+  border-color: #ec4470;
+  background: rgba(236, 68, 112, 0.06);
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.25);
+}
+
+.theme-classic .save-btn {
+  background: linear-gradient(135deg, #ff8aa5 0%, #ec4470 50%, #b8307a 100%);
+  box-shadow: 0 0 24px rgba(236, 68, 112, 0.35);
+  color: #000;
+}
+
+.theme-classic .save-btn:hover:not(:disabled) {
+  box-shadow: 0 0 36px rgba(236, 68, 112, 0.65);
+}
+
+.theme-classic .transparency-list {
+  border-top: 1px solid rgba(236, 68, 112, 0.18);
+}
+
+.theme-classic .tp-tab.active {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.12);
+  border-color: rgba(236, 68, 112, 0.6);
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .tp-select:focus,
+.theme-classic .tp-search:focus {
+  border-color: #ec4470;
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.25);
+}
+
+.theme-classic .t-month-header h4 {
+  color: #ec4470;
+}
+
+.theme-classic .t-item:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  border-color: rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .t-item:hover .t-icon {
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .qty-tag {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.12);
+  border: 1px solid rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .edit-btn:hover {
+  background: #ec4470;
+  border-color: #ec4470;
+  color: #000;
+}
+
+.theme-classic .btn-transparency-nav {
+  border: 1px solid rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .btn-transparency-nav.active-tab {
+  background: linear-gradient(135deg, #ec4470, #b8307a);
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.4);
+  color: #000;
+}
+
+.theme-classic .hall-admin-form {
+  border: 1px dashed #ec4470;
+}
+
+.theme-classic .hall-group {
+  border-left: 2px solid #ec4470;
+}
+
+.theme-classic .year-label {
+  color: #ec4470;
+}
+
+.theme-classic .export-btn {
+  color: #ec4470;
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .export-btn:hover {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .sponsor-divider {
+  background: linear-gradient(to right, transparent, #ec4470, transparent);
+}
+
+.theme-classic .mtc-banner-container {
+  --mtc-accent: #ec4470;
+  --mtc-accent-bright: #ff8aa5;
+  --mtc-accent-glow: rgba(236, 68, 112, 0.22);
+  --mtc-score-bg: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
+}
+
+.theme-classic .mtc-special-tag {
+  background: rgba(236, 68, 112, 0.15);
+  border: 1px solid rgba(236, 68, 112, 0.45);
+  color: #ec4470;
+}
+
+.theme-classic .fav-pos-minimal-kicker strong {
+  color: #ec4470;
+}
+
+.theme-classic .fav-pos-pitch-wrapper {
+  background: radial-gradient(
+    circle at center,
+    rgba(236, 68, 112, 0.04) 0%,
+    transparent 75%
+  );
+}
+
+.theme-classic .blinking-dot.main-dot {
+  background-color: #ec4470;
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.6);
+  animation-name: pulse-adr-gold-cl;
+}
+
+.theme-classic .blinking-dot::after {
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .blinking-dot::before {
+  border-color: #ec4470 transparent transparent transparent;
+}
+
+.theme-classic .fav-pos-cell-val {
+  color: #ec4470;
+}
+
+.theme-classic .badge-goal {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.08);
+  border-color: rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .partner-card {
+  --pa-gold: #b8307a;
+}
+
+.theme-classic .ppg-player-page {
+  --ppb-red: #ec4470;
+}
+
+.theme-classic .ppg-player-banner {
+  background:
+    radial-gradient(
+      ellipse at 75% 55%,
+      rgba(236, 68, 112, 0.16),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 15% 80%,
+      rgba(236, 68, 112, 0.09),
+      transparent 55%
+    ),
+    linear-gradient(120deg, #050505 0%, #141414 55%, #080808 100%) !important;
+}
+
+.theme-classic .ppg-banner-bgnumber {
+  color: #ec4470;
+  filter: drop-shadow(0 0 35px rgba(236, 68, 112, 0.13));
+}
+
+.theme-classic .ppg-banner-role {
+  color: #ec4470;
+}
+
+.theme-classic .ppg-banner-details {
+  border-color: rgba(236, 68, 112, 0.2);
+  background: rgba(236, 68, 112, 0.035);
+}
+
+.theme-classic .ppg-detail-item {
+  border-color: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .ppg-detail-value {
+  color: #ec4470;
+}
+
+.theme-classic .career-item::before {
+  background: #ec4470;
+  box-shadow: 0 0 12px rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .psd-dashboard {
+  --psd-accent: #ec4470;
+}
+
+.theme-classic .psd-rule-status-badge.status-risk {
+  color: #ec4470;
+}
+
+.theme-classic .rs-container {
+  --rs-accent: #ec4470;
+}
+
+.theme-classic .central-column {
+  --rk-accent: #ec4470;
+  --rk-glow: rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .rk-absence-btn {
+  color: #ec4470;
+}
+
+.theme-classic .rk-info-toast {
+  --rk-toast-accent: #ec4470;
+}
+
+.theme-classic .rk-info-toast.type-alert {
+  --rk-toast-accent: #ec4470;
+}
+
+.theme-classic .sponsors-footer {
+  --ft-accent: #ec4470;
+  --ft-glow: rgba(236, 68, 112, 0.14);
+}
+
+.theme-classic .history-carousel-wrapper {
+  --hc-accent: #ec4470;
+  --hc-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .preview-card-glass {
+  border: 1px solid rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .tv-scoreboard {
+  background: linear-gradient(to bottom, rgba(236, 68, 112, 0.1), transparent);
+}
+
+.theme-classic .logo-wrapper {
+  border: 1px solid rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .logo-placeholder {
+  color: #ec4470;
+}
+
+.theme-classic .score-numbers {
+  color: #ec4470;
+  text-shadow: 0 0 20px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .section-label {
+  color: #ec4470;
+}
+
+.theme-classic .event-card-mini:active {
+  border-color: #ec4470;
+}
+
+.theme-classic .captain-badge {
+  background: rgba(236, 68, 112, 0.15);
+  color: #ec4470;
+  border: 1px solid rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .adm-main-layout {
+  --pn-accent: #ec4470;
+  --pn-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .adm-card {
+  border: 1px solid rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .adm-kicker {
+  color: #ec4470;
+}
+
+.theme-classic .adm-main-title span {
+  color: #ec4470;
+}
+
+.theme-classic .adm-ovr-preview-box {
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .adm-ovr-num {
+  color: #ec4470;
+}
+
+.theme-classic .adm-title {
+  color: #ec4470;
+}
+
+.theme-classic .adm-status-toggle input {
+  accent-color: #ec4470;
+}
+
+.theme-classic .adm-status-dot {
+  background: #ec4470;
+}
+
+.theme-classic .adm-input-group input:focus,
+.theme-classic .adm-select-field:focus,
+.theme-classic .adm-ach-title:focus,
+.theme-classic .adm-ach-icon:focus {
+  border-color: #ec4470;
+}
+
+.theme-classic .adm-pos-selected-summary strong {
+  color: #ec4470;
+}
+
+.theme-classic .adm-pos-pill.active {
+  color: #ec4470;
+  border-color: #ec4470;
+  background: rgba(236, 68, 112, 0.1);
+}
+
+.theme-classic .pos-main-star {
+  color: #ec4470;
+}
+
+.theme-classic .adm-manual-totals-strip {
+  border-left: 3px solid #ec4470;
+}
+
+.theme-classic .adm-manual-totals-strip strong {
+  color: #ec4470;
+}
+
+.theme-classic .adm-skill-num-input {
+  color: #ec4470;
+}
+
+.theme-classic .adm-skill-item input[type="range"] {
+  accent-color: #ec4470;
+}
+
+.theme-classic .adm-skill-bar-fill {
+  background: #ec4470;
+}
+
+.theme-classic .adm-reset-skills-btn {
+  border: 1px solid #ec4470;
+  color: #ec4470;
+}
+
+.theme-classic .adm-emoji-btn.selected {
+  border-color: #ec4470;
+  background: rgba(236, 68, 112, 0.1);
+}
+
+.theme-classic .adm-btn-add {
+  border: 1px solid #ec4470;
+  color: #ec4470;
+}
+
+.theme-classic .adm-btn-save {
+  border: 1px solid #ec4470;
+  background: #ec4470;
+  color: #090909;
+}
+
+.theme-classic .adm-btn-save:hover {
+  background: #ff8aa5;
+}
+
+.theme-classic .pf-wrap {
+  --pf-accent: #ec4470;
+  --pf-accent-soft: rgba(236, 68, 112, 0.08);
+  --pf-team-a: #ec4470;
+}
+
+.theme-classic .friendly-pitch {
+  box-shadow:
+    0 0 0 1px rgba(236, 68, 112, 0.45),
+    0 0 40px rgba(236, 68, 112, 0.22),
+    0 20px 50px rgba(0, 0, 0, 0.7) !important;
+}
+
+@media (min-width: 900px) {
+  .theme-classic .friendly-pitch {
+    box-shadow:
+      0 0 0 1px rgba(236, 68, 112, 0.45),
+      0 0 50px rgba(236, 68, 112, 0.25),
+      10px -10px 30px rgba(0, 0, 0, 0.8) !important;
+  }
+}
+
+.theme-classic .psg-vertical-lineup-container::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(236, 68, 112, 0.16),
+    transparent 70%
+  );
+}
+
+.theme-classic .psg-vertical-title {
+  background: linear-gradient(100deg, #fff 0%, #fff 35%, #ec4470 55%, #fff 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.theme-classic .psg-vertical-title::after {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.8);
+}
+
+.theme-classic .team-header-side img {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+    drop-shadow(0 0 16px rgba(236, 68, 112, 0.25));
+}
+
+.theme-classic .th-form {
+  color: #ec4470;
+}
+
+.theme-classic .psg-v-row:hover {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(236, 68, 112, 0.09) 50%,
+    transparent
+  );
+  border-color: rgba(236, 68, 112, 0.18);
+}
+
+.theme-classic .psg-v-photo {
+  border: 2px solid rgba(236, 68, 112, 0.55);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.6),
+    0 0 18px rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .psg-v-row:hover .psg-v-photo {
+  border-color: #ec4470;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.7),
+    0 0 28px rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .psg-v-num {
+  text-shadow: 0 0 14px rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .psg-v-pos {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.1);
+  border: 1px solid rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .psg-vertical-subtitle::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(236, 68, 112, 0.6),
+    transparent
+  );
+}
+
+.theme-classic .v-badge small {
+  color: #ec4470;
+}
+
+.theme-classic .v-badge.goal {
+  border-color: #ec4470;
+  box-shadow: 0 0 12px rgba(236, 68, 112, 0.55);
+}
+
+.theme-classic .v-badge.captain {
+  background: linear-gradient(135deg, #ec4470, #b8307a);
+  box-shadow: 0 0 12px rgba(236, 68, 112, 0.7);
+  color: #000000;
+}
+
+.theme-classic .psg-match-banner::before {
+  background:
+    radial-gradient(
+      35% 40% at 15% 30%,
+      rgba(236, 68, 112, 0.25),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 40% at 85% 25%,
+      rgba(138, 43, 226, 0.28),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 40% at 55% 100%,
+      rgba(236, 68, 112, 0.14),
+      transparent 70%
+    );
+}
+
+.theme-classic .psg-match-banner::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ec4470 30%,
+    #ff8aa5 50%,
+    #ec4470 70%,
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.8);
+}
+
+.theme-classic .psg-match-banner .psg-status {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470 55%, #b8307a);
+  box-shadow: 0 0 24px rgba(236, 68, 112, 0.45);
+  color: #000;
+}
+
+.theme-classic .psg-match-banner .psg-logo {
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 0 16px rgba(236, 68, 112, 0.22));
+}
+
+.theme-classic .psg-match-banner .psg-score-num.is-leading {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.14);
+  border-color: rgba(236, 68, 112, 0.65);
+  text-shadow: 0 0 18px rgba(236, 68, 112, 0.8);
+  box-shadow: 0 0 26px rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .psg-match-banner .pen-team.pen-winner {
+  color: #ff8aa5;
+  text-shadow: 0 0 14px rgba(236, 68, 112, 0.7);
+}
+
+.theme-classic .psg-match-banner .golden-goal-pill {
+  background: rgba(236, 68, 112, 0.14);
+  border: 1px solid #ec4470;
+  color: #ec4470;
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .psg-match-banner .golden-goal-pill:hover {
+  background: rgba(236, 68, 112, 0.25);
+  box-shadow: 0 0 30px rgba(236, 68, 112, 0.55);
+}
+
+.theme-classic .psg-match-banner .golden-goal-info {
+  border: 1px solid rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .psg-match-banner .golden-goal-info strong.gold {
+  color: #ec4470;
+}
+
+.theme-classic .psg-match-banner .psg-timeline-toggle {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.06);
+  border: 1px solid rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .psg-match-banner .psg-timeline-toggle:hover {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470);
+  border-color: #ec4470;
+  box-shadow: 0 0 28px rgba(236, 68, 112, 0.55);
+  color: #000;
+}
+
+.theme-classic .team-stats-card {
+  --ms-accent: #ec4470;
+  --ms-accent-soft: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .mt-wrap {
+  --mt-accent: #ec4470;
+  --mt-b-photo: linear-gradient(180deg, #ec4470, #b8307a);
+  --mt-b-band: #ec4470;
+  --mt-b-border: #ec4470;
+}
+
+.theme-classic .mt-strip {
+  scrollbar-color: rgba(236, 68, 112, 0.5) transparent;
+}
+
+.theme-classic .mt-strip::-webkit-scrollbar-thumb {
+  background: rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .mt-marker {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0 10px,
+      rgba(236, 68, 112, 0.12) 10px 11px
+    ),
+    #f6f3ea;
+  color: #111;
+}
+
+.theme-classic .pr-wrap,
+.theme-classic .pr-item {
+  --pr-accent: #ec4470;
+  --pr-b-photo: linear-gradient(180deg, #ec4470, #b8307a);
+  --pr-b-band: #ec4470;
+  --pr-b-border: #ec4470;
+}
+
+.theme-classic .pr-marker {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent 0 10px,
+      rgba(236, 68, 112, 0.12) 10px 11px
+    ),
+    #f6f3ea;
+  color: #111;
+}
+
+.theme-classic .psg-tabs-menu button.active {
+  color: #ec4470;
+}
+
+.theme-classic .psg-tabs-menu button.active::after {
+  background-color: #ec4470;
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .c-line {
+  background: #ec4470;
+}
+
+.theme-classic .c-circle {
+  border: 2px solid #ec4470;
+}
+
+.theme-classic .b-top,
+.theme-classic .b-bottom {
+  border: 2px solid #ec4470;
+}
+
+.theme-classic .player-card-label {
+  border: 1px solid rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .p-card-num {
+  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
+  color: #000000;
+}
+
+.theme-classic .empty-slot-marker {
+  border: 2px dashed rgba(236, 68, 112, 0.4);
+  color: #ec4470;
+}
+
+.theme-classic .slot-selector {
+  color: #ec4470;
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .pro-badge {
+  border: 1.5px solid #ec4470;
+}
+
+.theme-classic .pro-badge-count {
+  color: #ec4470;
+}
+
+.theme-classic .pro-role-badge {
+  border: 1.5px solid #ec4470;
+}
+
+.theme-classic .pro-card-badge:hover .card-3d-rect,
+.theme-classic .pro-card-badge.is-open .card-3d-rect {
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.7);
+}
+
+.theme-classic .pro-tooltip {
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .mobile-card-reason-toast {
+  border: 1px solid rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .toast-left-indicator {
+  background: #ec4470;
+}
+
+.theme-classic .toast-kicker {
+  color: #ec4470;
+}
+
+.theme-classic .player-tactical.is-mvp::after {
+  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
+  box-shadow: 0 4px 12px rgba(236, 68, 112, 0.55);
+  animation-name: shine-cl;
+  color: #000;
+}
+
+.theme-classic .player-tactical.is-mvp::before {
+  background: radial-gradient(
+    circle,
+    rgba(236, 68, 112, 0.45) 0%,
+    rgba(236, 68, 112, 0.18) 45%,
+    transparent 75%
+  );
+}
+
+.theme-classic .player-tactical.is-mvp .player-img {
+  border: 2.5px solid #ec4470;
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .player-tactical.is-mvp .player-card-label {
+  border: 1.5px solid #ec4470;
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .am-root {
+  --am-accent: #ec4470;
+  --am-accent-soft: rgba(236, 68, 112, 0.12);
+}
+
+.theme-classic .am-config {
+  border-top: 1px solid rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .am-warn {
+  background: rgba(236, 68, 112, 0.08);
+  border: 1px solid rgba(236, 68, 112, 0.35);
+  color: var(--am-warn);
+}
+
+.theme-classic .am-restore {
+  border: 1px solid rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .am-toast {
+  box-shadow:
+    inset 3px 0 0 #ec4470,
+    0 14px 34px rgba(0, 0, 0, 0.6);
+}
+
+.theme-classic .aw-card {
+  --aw-accent: #ec4470;
+  --aw-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .camp-page-wrapper {
+  --cp-accent: #ec4470;
+  --cp-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .hall-vertical-container {
+  --hf-accent: #ec4470;
+  --hf-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .hall-select-link {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ec4470' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.theme-classic .banners-wrapper {
+  --mw-accent: #ec4470;
+}
+
+.theme-classic .match-banner-container {
+  --mb-accent: #ec4470;
+  --mb-accent-bright: #ff8aa5;
+  --mb-accent-glow: rgba(236, 68, 112, 0.18);
+}
+
+.theme-classic .fundraiser-progress-fill {
+  background: linear-gradient(90deg, #ec4470 0%, var(--mb-accent) 100%);
+}
+
+.theme-classic .info-card,
+.theme-classic .player-profile-card,
+.theme-classic .empty-state-card {
+  --sp-accent: #ec4470;
+  --sp-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .statics-container {
+  --st-accent: #ec4470;
+  --st-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .sub-modal-content {
+  border: 1px solid rgba(236, 68, 112, 0.2);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(236, 68, 112, 0.05);
+}
+
+.theme-classic .sub-modal-content h3 {
+  color: #ec4470;
+}
+
+.theme-classic .sub-label-reason {
+  color: #ec4470;
+}
+
+.theme-classic .sub-select:focus {
+  border-color: #ec4470;
+  box-shadow: 0 0 12px rgba(236, 68, 112, 0.25);
+}
+
+.theme-classic .sub-btn-confirm {
+  background-color: #ec4470;
+  box-shadow: 0 4px 10px rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .sub-btn-confirm:hover {
+  background-color: #b8307a;
+  box-shadow: 0 6px 15px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .gk-card {
+  --gk-accent: #ec4470;
+  --gk-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .ts-card {
+  --ts-accent: #ec4470;
+  --ts-glow: rgba(236, 68, 112, 0.16);
+}
+
+.theme-classic .am-root,
+.theme-classic .amx-overlay {
+  --am-accent: #ec4470;
+  --am-accent-2: #ff8aa5;
+  --am-accent-soft: rgba(236, 68, 112, 0.08);
+  --am-accent-grad: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.14),
+    rgba(236, 68, 112, 0) 70%
+  );
+  --am-glow: rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .amt-item.t-GOAL.side-B {
+  background: linear-gradient(
+    270deg,
+    rgba(236, 68, 112, 0.14),
+    rgba(236, 68, 112, 0) 70%
+  );
+}
+
+.theme-classic .am-toast button {
+  color: #ec4470;
+}
+
+.theme-classic .nvb-wrapper,
+.theme-classic .nvb-sidebar,
+.theme-classic .nvb-sidebar-overlay {
+  --nv-accent: #ec4470;
+  --nv-accent-soft: rgba(236, 68, 112, 0.08);
+  --nv-accent-grad: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.16),
+    rgba(236, 68, 112, 0) 75%
+  );
+  --nv-glow: rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .rk-lead-chip,
+.theme-classic .rk-legend-chip {
+  --rk-chip: #ec4470;
+  --rk-chip-bg: rgba(236, 68, 112, 0.13);
+  --rk-chip-bg-hover: rgba(236, 68, 112, 0.24);
+  --rk-chip-line: rgba(236, 68, 112, 0.42);
+  --rk-chip-glow: rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .cx-section {
+  --cx-accent: #ec4470;
+  --cx-accent-grad: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.14),
+    rgba(236, 68, 112, 0) 75%
+  );
+  --cx-glow: rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .news-reader {
+  border-top: 1px solid #ec4470;
+}
+
+.theme-classic .news-reader-head .news-tag-pill {
+  border-color: #ec4470;
+  color: #ec4470;
+}
+
+.theme-classic .news-reader-close:hover {
+  color: #ec4470;
+  border-color: #ec4470;
+}
+
+@media (min-width: 769px) {
+  .theme-classic .news-reader {
+    border-top-color: #ec4470;
+  }
+}
+
+.theme-classic .edit-btn {
+  color: #ec4470;
+  border: 1px solid rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .admin-editing-bar {
+  background: rgba(236, 68, 112, 0.08);
+  border-left: 3px solid #ec4470;
+  color: #c9cbd0;
+}
+
+.theme-classic .admin-editing-bar button,
+.theme-classic .admin-news-preview button,
+.theme-classic .news-reader-edit {
+  color: #ec4470;
+  border: 1px solid rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .admin-editing-bar button:hover,
+.theme-classic .admin-news-preview button:hover,
+.theme-classic .news-reader-edit:hover {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .alltime-container {
+  --at-accent: #ec4470;
+  --at-accent-soft: rgba(236, 68, 112, 0.07);
+  --at-accent-glow: rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .cr-section {
+  --cr-accent: #ec4470;
+  --cr-accent-soft: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .fcs-open {
+  color: #ec4470;
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .fcs-open:hover {
+  background: #ec4470;
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.4);
+  color: #000;
+}
+
+.theme-classic .fcs-modal {
+  border-top: 1px solid #ec4470;
+}
+
+.theme-classic .fcs-x:hover {
+  color: #ec4470;
+  border-color: #ec4470;
+}
+
+.theme-classic .fcs-seasons button.on {
+  color: #ec4470;
+  box-shadow: inset 0 -2px 0 #ec4470;
+}
+
+.theme-classic .fcs-download {
+  background: #ec4470;
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.35);
+  color: #000;
+}
+
+.theme-classic .ppg-retro-link:hover {
+  color: #ec4470;
+  border-color: #ec4470;
+}
+
+.theme-classic .h2h-section {
+  --h2h-accent: #ec4470;
+  --h2h-a: #ec4470;
+  --h2h-glow: rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .rt-page {
+  --rt-accent: #ec4470;
+  --rt-accent-grad: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.14),
+    rgba(236, 68, 112, 0) 75%
+  );
+}
+
+.theme-classic .rt-story {
+  --rt-tone: #ec4470;
+  --rt-tone-glow: rgba(236, 68, 112, 0.35);
+}
+
+@media (min-width: 700px) {
+  .theme-classic .rt-story-overlay {
+    background:
+      radial-gradient(
+        60% 60% at 50% 50%,
+        rgba(236, 68, 112, 0.08),
+        transparent 70%
+      ),
+      #000;
+  }
+}
+
+.theme-classic .rt-btn-main {
+  background: #ec4470;
+  border-color: #ec4470;
+  box-shadow: 0 0 24px rgba(236, 68, 112, 0.35);
+  color: #000;
+}
+
+.theme-classic .pf-stage {
+  background:
+    radial-gradient(
+      120% 60% at 50% 0%,
+      rgba(236, 68, 112, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(90% 70% at 50% 100%, rgba(0, 0, 0, 0.6), transparent 70%),
+    linear-gradient(180deg, #050505 0%, #0b0d0c 55%, #050505 100%);
+}
+
+.theme-classic .fgt-tab.on {
+  border-color: #ec4470;
+  background: linear-gradient(180deg, rgba(236, 68, 112, 0.1), #0b0b0b);
+}
+
+.theme-classic .fgt-tab.on::after {
+  background: #ec4470;
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .fgt-tab.on .fgt-tab-btn small {
+  color: #ec4470;
+}
+
+.theme-classic .fgt-add {
+  color: #ec4470;
+  border: 1px dashed rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .fgt-add:hover {
+  background: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .mp-nav-btn:hover {
+  border-color: #ec4470;
+  background: linear-gradient(90deg, rgba(236, 68, 112, 0.08), #0b0b0b);
+}
+
+.theme-classic .mp-nav-arrow {
+  color: #ec4470;
+}
+
+.theme-classic .mp-chip.on {
+  color: #ec4470;
+  border-color: #ec4470;
+  background: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .mp-help {
+  border-top: 1px solid #ec4470;
+}
+
+.theme-classic .mp-help kbd {
+  color: #ec4470;
+}
+
+.theme-classic .mp-chip.mp-edit {
+  color: #ec4470;
+  border-color: rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .mp-chip.mp-edit:hover {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .gd-open {
+  color: #ec4470;
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .gd-open:hover:not(:disabled) {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .gd-modal {
+  border-top: 1px solid #ec4470;
+}
+
+.theme-classic .gd-download {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .gd-layouts button.on {
+  color: #ec4470;
+  border-color: #ec4470;
+  background: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .gd-photo-tools > button {
+  color: #ec4470;
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .gd-range input {
+  accent-color: #ec4470;
+}
+
+.theme-classic .gd-check input {
+  accent-color: #ec4470;
+}
+
+.theme-classic .gd-photo.is-empty {
+  background: linear-gradient(
+    90deg,
+    #5a1f4a 0%,
+    #b8307a 30%,
+    #ff8aa5 50%,
+    #b8307a 70%,
+    #5a1f4a 100%
+  );
+}
+
+.theme-classic .gd-card {
+  background: linear-gradient(180deg, #ff8aa5 0%, #c9c3bb 100%);
+}
+
+.theme-classic .pf-switch button.on {
+  background: rgba(236, 68, 112, 0.08);
+  color: var(--pf-accent);
+}
+
+.theme-classic .about-wrapper::before {
+  background:
+    radial-gradient(
+      40% 35% at 15% 20%,
+      rgba(236, 68, 112, 0.2),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 30% at 85% 15%,
+      rgba(120, 80, 255, 0.15),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 60% 90%,
+      rgba(236, 68, 112, 0.12),
+      transparent 70%
+    );
+}
+
+.theme-classic .back-btn-about {
+  color: #ec4470;
+  border: 1px solid #ec4470;
+}
+
+.theme-classic .back-btn-about:hover {
+  background: #ec4470;
+  box-shadow: 0 0 24px rgba(236, 68, 112, 0.5);
+  color: #000;
+}
+
+.theme-classic .hero-kicker {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.08);
+  border: 1px solid rgba(236, 68, 112, 0.4);
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .gold-text {
+  background: linear-gradient(
+    100deg,
+    #ff8aa5 0%,
+    #ec4470 40%,
+    #fff 55%,
+    #ec4470 70%,
+    #ff8aa5 100%
+  );
+  filter: drop-shadow(0 0 22px rgba(236, 68, 112, 0.4));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.theme-classic .hero-line {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+  box-shadow: 0 0 16px rgba(236, 68, 112, 0.8);
+}
+
+.theme-classic .about-section {
+  border-left: 4px solid #ec4470;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.5),
+    -8px 0 30px rgba(236, 68, 112, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.theme-classic .section-title {
+  background: linear-gradient(100deg, #ff8aa5, #ec4470 60%, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.theme-classic .section-title::after {
+  background: #ec4470;
+  box-shadow: 0 0 12px rgba(236, 68, 112, 0.9);
+}
+
+.theme-classic .logo-container {
+  border: 2px solid rgba(236, 68, 112, 0.25);
+}
+
+.theme-classic .logo-timeline-item:hover .logo-container {
+  border-color: #ec4470;
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.4),
+    0 14px 30px rgba(0, 0, 0, 0.6);
+}
+
+.theme-classic .logo-year {
+  color: #ec4470;
+}
+
+.theme-classic .timeline-connector {
+  background: linear-gradient(90deg, #ec4470, transparent);
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .vision-card {
+  background:
+    radial-gradient(
+      70% 60% at 50% 0%,
+      rgba(236, 68, 112, 0.18),
+      transparent 70%
+    ),
+    linear-gradient(160deg, #17171c, #0c0c0f);
+  border: 1px solid rgba(236, 68, 112, 0.55);
+  box-shadow:
+    0 0 50px rgba(236, 68, 112, 0.18),
+    0 22px 50px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.theme-classic .vision-title {
+  background: linear-gradient(100deg, #ff8aa5, #fff 50%, #ec4470);
+  filter: drop-shadow(0 0 18px rgba(236, 68, 112, 0.3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .vision-quote {
+  color: #ec4470;
+  text-shadow: 0 0 14px rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .value-card::before {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+}
+
+.theme-classic .value-card:hover {
+  border-color: rgba(236, 68, 112, 0.6);
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.22),
+    0 18px 34px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .value-icon {
+  background: rgba(236, 68, 112, 0.1);
+  border: 1px solid rgba(236, 68, 112, 0.4);
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.25);
+}
+
+.theme-classic .value-title {
+  color: #ec4470;
+}
+
+.theme-classic .kit-card:hover {
+  border-color: rgba(236, 68, 112, 0.65);
+  box-shadow:
+    0 0 40px rgba(236, 68, 112, 0.25),
+    0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.theme-classic .kit-image-wrapper::before {
+  background: radial-gradient(
+    circle,
+    rgba(236, 68, 112, 0.35),
+    transparent 70%
+  );
+}
+
+.theme-classic .kit-season {
+  color: #ec4470;
+}
+
+.theme-classic .primordial-card:hover {
+  border-color: rgba(236, 68, 112, 0.65);
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.25),
+    0 18px 34px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .primordial-avatar {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470 50%, #b8307a);
+  border: 2px solid rgba(236, 68, 112, 0.6);
+  box-shadow:
+    0 0 22px rgba(236, 68, 112, 0.3),
+    inset 0 0 10px rgba(0, 0, 0, 0.3);
+  color: #000;
+}
+
+.theme-classic .primordial-card:hover .primordial-avatar {
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.6),
+    inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.theme-classic .primordial-edit-toggle {
+  background: rgba(236, 68, 112, 0.08);
+  color: #ec4470;
+  border: 1px solid rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .primordial-edit-toggle:hover {
+  background: rgba(236, 68, 112, 0.2);
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .primordial-editor {
+  border: 1px dashed rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .pe-label {
+  color: #ec4470;
+}
+
+.theme-classic .pe-switch:hover {
+  border-color: #ec4470;
+}
+
+.theme-classic .pe-input:focus {
+  border-color: #ec4470;
+  box-shadow: 0 0 16px rgba(236, 68, 112, 0.25);
+}
+
+.theme-classic .pe-save {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470 55%, #b8307a);
+  box-shadow: 0 0 24px rgba(236, 68, 112, 0.35);
+  color: #000;
+}
+
+.theme-classic .pe-save:hover:not(:disabled) {
+  box-shadow: 0 0 36px rgba(236, 68, 112, 0.65);
+}
+
+.theme-classic .gold-link {
+  color: #ec4470;
+  border-bottom: 1px solid rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .gold-link:hover {
+  color: #ff8aa5;
+  border-bottom-color: #ff8aa5;
+  text-shadow: 0 0 14px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .mascote-card:hover {
+  border-color: rgba(236, 68, 112, 0.65);
+  box-shadow:
+    0 0 40px rgba(236, 68, 112, 0.25),
+    0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.theme-classic .mascote-image-wrapper::before {
+  background: radial-gradient(circle, rgba(236, 68, 112, 0.3), transparent 70%);
+}
+
+.theme-classic .mascote-desc {
+  color: #ec4470;
+}
+
+.theme-classic .stat-card::before {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+}
+
+.theme-classic .stat-card:hover {
+  border-color: rgba(236, 68, 112, 0.6);
+  box-shadow:
+    0 0 30px rgba(236, 68, 112, 0.22),
+    0 16px 30px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .stat-value {
+  background: linear-gradient(180deg, #fff, #ec4470);
+  filter: drop-shadow(0 0 14px rgba(236, 68, 112, 0.3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .founder-card:hover {
+  border-color: rgba(236, 68, 112, 0.65);
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.25),
+    0 18px 34px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .founder-card:hover .primordial-avatar {
+  box-shadow:
+    0 0 34px rgba(236, 68, 112, 0.6),
+    inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.theme-classic .founder-role {
+  color: #ec4470;
+}
+
+.theme-classic .milestones::before {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #ec4470 12%,
+    #ec4470 88%,
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .milestone-dot {
+  background: #ec4470;
+  box-shadow:
+    0 0 0 2px #ec4470,
+    0 0 20px rgba(236, 68, 112, 0.8);
+}
+
+.theme-classic .milestone:hover .milestone-card {
+  border-color: rgba(236, 68, 112, 0.6);
+  box-shadow:
+    0 0 30px rgba(236, 68, 112, 0.2),
+    0 16px 30px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .milestone-year {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.1);
+  border: 1px solid rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .trophy-card {
+  background:
+    radial-gradient(
+      80% 60% at 50% 0%,
+      rgba(236, 68, 112, 0.2),
+      transparent 70%
+    ),
+    linear-gradient(160deg, #17171c, #0c0c0f);
+  border: 1px solid rgba(236, 68, 112, 0.45);
+  box-shadow:
+    0 0 30px rgba(236, 68, 112, 0.12),
+    0 14px 30px rgba(0, 0, 0, 0.5);
+}
+
+.theme-classic .trophy-card:hover {
+  box-shadow:
+    0 0 44px rgba(236, 68, 112, 0.35),
+    0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.theme-classic .trophy-icon {
+  filter: drop-shadow(0 0 16px rgba(236, 68, 112, 0.7));
+}
+
+.theme-classic .trophy-season {
+  color: #ec4470;
+}
+
+.theme-classic .about-cta {
+  background:
+    radial-gradient(
+      70% 70% at 50% 100%,
+      rgba(236, 68, 112, 0.2),
+      transparent 70%
+    ),
+    linear-gradient(160deg, #17171c, #0c0c0f);
+  border: 1px solid rgba(236, 68, 112, 0.4);
+  box-shadow:
+    0 0 40px rgba(236, 68, 112, 0.12),
+    0 20px 44px rgba(0, 0, 0, 0.55);
+}
+
+.theme-classic .cta-title {
+  background: linear-gradient(100deg, #ff8aa5, #fff 50%, #ec4470);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .cta-btn {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.06);
+  border: 1px solid rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .cta-btn:hover {
+  background: rgba(236, 68, 112, 0.18);
+  box-shadow: 0 0 26px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .cta-btn.primary {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470 55%, #b8307a);
+  box-shadow: 0 0 26px rgba(236, 68, 112, 0.4);
+  color: #000;
+}
+
+.theme-classic .cta-btn.primary:hover {
+  box-shadow: 0 0 40px rgba(236, 68, 112, 0.7);
+}
+
+.theme-classic .psg-match-card.psg-event-card .psg-comp-text {
+  color: #ec4470 !important;
+}
+
+.theme-classic .psg-page-container::before {
+  background:
+    radial-gradient(
+      40% 35% at 15% 25%,
+      rgba(236, 68, 112, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 30% at 85% 15%,
+      rgba(120, 80, 255, 0.16),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 65% 90%,
+      rgba(236, 68, 112, 0.14),
+      transparent 70%
+    );
+}
+
+.theme-classic .psg-header::after {
+  background: linear-gradient(
+    90deg,
+    #ec4470,
+    rgba(236, 68, 112, 0.15) 40%,
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .psg-season-title {
+  background: linear-gradient(100deg, #fff 0%, #fff 35%, #ec4470 55%, #fff 75%);
+  filter: drop-shadow(0 0 22px rgba(236, 68, 112, 0.25));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.theme-classic .psg-add-btn {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470 55%, #b8307a);
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.4);
+  color: #000000;
+}
+
+.theme-classic .psg-add-btn:hover {
+  box-shadow: 0 0 34px rgba(236, 68, 112, 0.7);
+}
+
+.theme-classic .psg-month-nav span.active {
+  color: #ec4470;
+  background: rgba(236, 68, 112, 0.12);
+  border-color: rgba(236, 68, 112, 0.6);
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .psg-comp-nav span.active {
+  background: #ec4470;
+  border-color: #ec4470;
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.55);
+  color: #000000;
+}
+
+.theme-classic .psg-month-title small b {
+  color: #ec4470;
+}
+
+.theme-classic .psg-match-card:hover {
+  border-color: rgba(236, 68, 112, 0.65);
+  box-shadow:
+    0 0 38px rgba(236, 68, 112, 0.28),
+    0 22px 44px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.theme-classic .psg-card-top::before {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+}
+
+.theme-classic .psg-match-card:hover .psg-team-score {
+  background: rgba(236, 68, 112, 0.15);
+  border-color: rgba(236, 68, 112, 0.6);
+  text-shadow: 0 0 14px rgba(236, 68, 112, 0.8);
+}
+
+.theme-classic .psg-penalty-score {
+  color: #ec4470;
+}
+
+.theme-classic .psg-match-center-btn:hover {
+  background: linear-gradient(135deg, #ff8aa5, #ec4470);
+  color: #000000;
+}
+
+.theme-classic .psg-admin-actions button:hover {
+  background: rgba(236, 68, 112, 0.25);
+  border-color: #ec4470;
+}
+
+.theme-classic .camp-admin-container {
+  --ca-gold: #ec4470;
+}
+
+.theme-classic .camp-admin-gold-line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(236, 68, 112, 0.65),
+    transparent
+  );
+}
+
+.theme-classic .camp-tournament-tab.active {
+  background: linear-gradient(
+    180deg,
+    rgba(236, 68, 112, 0.14) 0%,
+    #070709 100%
+  );
+}
+
+.theme-classic .camp-btn-outline-gold {
+  background: rgba(236, 68, 112, 0.08);
+  border-color: rgba(236, 68, 112, 0.45);
+  color: var(--ca-gold);
+}
+
+.theme-classic .camp-btn-save:hover:not(:disabled) {
+  box-shadow: 0 0 24px rgba(236, 68, 112, 0.28);
+}
+
+.theme-classic .camp-admin-group-card.is-selected-group {
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.12);
+}
+
+.theme-classic .camp-group-count {
+  background: rgba(236, 68, 112, 0.14);
+  border: 1px solid rgba(236, 68, 112, 0.35);
+  color: var(--ca-gold);
+}
+
+.theme-classic .btn-move-team:hover {
+  border-color: rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .camp-groups-layout {
+  --camp-accent: #ec4470;
+  --camp-accent-soft: rgba(236, 68, 112, 0.11);
+  --camp-qualified: #ec4470;
+  --camp-qualified-soft: rgba(236, 68, 112, 0.12);
+}
+
+.theme-classic .bkt-outer-wrapper {
+  --bkt-gold: #ec4470;
+  --bkt-gold-soft: rgba(236, 68, 112, 0.14);
+}
+
+.theme-classic .bkt-mob-pill.active {
+  background: linear-gradient(
+    180deg,
+    rgba(236, 68, 112, 0.14) 0%,
+    #070709 100%
+  );
+  color: #ffffff;
+}
+
+.theme-classic .bkt-col-header::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(236, 68, 112, 0.45),
+    transparent
+  );
+}
+
+.theme-classic .bkt-header-final {
+  border-color: rgba(236, 68, 112, 0.4);
+  background:
+    radial-gradient(
+      80% 100% at 50% 0%,
+      rgba(236, 68, 112, 0.14),
+      transparent 75%
+    ),
+    #08080a;
+}
+
+.theme-classic .bkt-round-col.has-next-col .bkt-pair.pair-active::before {
+  box-shadow: 0 0 8px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .bkt-card.bkt-card-highlighted {
+  box-shadow: 0 0 22px rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .bkt-card.bkt-card-dirty {
+  border-color: rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .bkt-card.bkt-card-final {
+  border-color: rgba(236, 68, 112, 0.55);
+}
+
+.theme-classic .bkt-tool-btn:hover,
+.theme-classic .bkt-tool-btn.active {
+  background: rgba(236, 68, 112, 0.1);
+  color: var(--bkt-gold);
+}
+
+.theme-classic .bkt-team-row.is-hovered-team {
+  background: rgba(236, 68, 112, 0.14) !important;
+}
+
+.theme-classic .bkt-team-row.is-winner {
+  background: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.12) 0%,
+    rgba(8, 8, 10, 0.95) 100%
+  );
+}
+
+.theme-classic .bkt-team-row.is-winner .bkt-team-indicator {
+  box-shadow: 0 0 8px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .bkt-trophy-pedestal::before {
+  background: radial-gradient(
+    circle,
+    rgba(236, 68, 112, 0.25) 0%,
+    transparent 70%
+  );
+}
+
+.theme-classic .bkt-champion-banner {
+  border-top: 1px solid rgba(236, 68, 112, 0.4);
+  background:
+    radial-gradient(
+      90% 100% at 50% 0%,
+      rgba(236, 68, 112, 0.22),
+      transparent 80%
+    ),
+    #060608;
+}
+
+.theme-classic .bkt-btn-save.is-dirty {
+  background: rgba(236, 68, 112, 0.16);
+  color: var(--bkt-gold);
+}
+
+.theme-classic .bkt-link-drawer {
+  border-top: 1px dashed rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .mre-card {
+  --mre-accent: #ec4470;
+  --mre-accent-soft: rgba(236, 68, 112, 0.1);
+  --mre-winner: #ec4470;
+}
+
+.theme-classic .mre-btn-details:hover:not(:disabled) {
+  background: #ec4470;
+  border-color: #ec4470;
+}
+
+.theme-classic .elenco-psg-wrapper::before {
+  background:
+    radial-gradient(
+      40% 35% at 20% 25%,
+      rgba(236, 68, 112, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 30% at 80% 20%,
+      rgba(120, 80, 255, 0.16),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 60% 85%,
+      rgba(236, 68, 112, 0.14),
+      transparent 70%
+    );
+}
+
+.theme-classic .elenco-page-header::after {
+  background: linear-gradient(
+    90deg,
+    #ec4470,
+    rgba(236, 68, 112, 0.15) 40%,
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .elenco-page-title {
+  background: linear-gradient(100deg, #fff 0%, #fff 35%, #ec4470 55%, #fff 75%);
+  filter: drop-shadow(0 0 22px rgba(236, 68, 112, 0.25));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.theme-classic .elenco-count b {
+  color: #ec4470;
+}
+
+.theme-classic .elenco-dropdown select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ec4470' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  border: 1px solid rgba(236, 68, 112, 0.35);
+  color: #ec4470;
+}
+
+.theme-classic .elenco-dropdown select:hover,
+.theme-classic .elenco-dropdown select:focus {
+  border-color: #ec4470;
+  background-color: rgba(236, 68, 112, 0.1);
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .psg-card::before {
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(236, 68, 112, 0.55),
+    transparent 65%
+  );
+}
+
+.theme-classic .psg-card:hover .psg-card-bg {
+  background: linear-gradient(
+    155deg,
+    rgba(236, 68, 112, 0.18),
+    rgba(255, 255, 255, 0.02) 60%
+  );
+  border-color: rgba(236, 68, 112, 0.7);
+  box-shadow:
+    0 0 35px rgba(236, 68, 112, 0.3),
+    0 18px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.theme-classic .psg-card:hover .psg-player-img {
+  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.75))
+    drop-shadow(0 0 14px rgba(236, 68, 112, 0.35));
+}
+
+.theme-classic .psg-card:hover .psg-number {
+  color: #ec4470;
+  -webkit-text-stroke: 1.5px #ec4470;
+  text-shadow: 0 0 22px rgba(236, 68, 112, 0.75);
+}
+
+.theme-classic .badge-title {
+  background: rgba(236, 68, 112, 0.15);
+  border: 1px solid rgba(236, 68, 112, 0.6);
+  color: #ff8aa5;
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.35);
+}
+
+.theme-classic .elenco-loading-screen {
+  color: #ec4470;
+}
+
+.theme-classic .spinner {
+  border: 4px solid rgba(236, 68, 112, 0.2);
+  border-top-color: #ec4470;
+  box-shadow: 0 0 25px rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .local-tab-btn.active {
+  color: #ec4470;
+  border-bottom-color: #ec4470;
+}
+
+.theme-classic .local-hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 5, 0.9) 0%,
+    rgba(236, 68, 112, 0.2) 50%,
+    rgba(5, 5, 5, 0.9) 100%
+  );
+}
+
+.theme-classic .btn-saiba-mais:hover {
+  color: #ec4470;
+}
+
+.theme-classic .admin-edit-bar {
+  background: rgba(236, 68, 112, 0.1);
+}
+
+.theme-classic .btn-admin-edit {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .btn-admin-edit:hover {
+  background: #ec4470;
+}
+
+.theme-classic .local-loading-screen {
+  color: #ec4470;
+}
+
+.theme-classic .adm-login-card {
+  border: 1px solid rgba(236, 68, 112, 0.2);
+}
+
+.theme-classic .adm-login-icon {
+  filter: drop-shadow(0 0 10px rgba(236, 68, 112, 0.3));
+}
+
+.theme-classic .adm-login-input:focus {
+  border-color: #ec4470;
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.15);
+}
+
+.theme-classic .adm-login-btn-primary {
+  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
+  color: #000;
+}
+
+.theme-classic .adm-login-btn-primary:hover {
+  box-shadow: 0 8px 20px rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .adm-login-btn-back:hover {
+  color: #ec4470;
+}
+
+.theme-classic .ppg-btn-edit {
+  background: rgba(236, 68, 112, 0.1);
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.2);
+  color: var(--gold);
+}
+
+.theme-classic .ppg-tag-goal {
+  border: 1px solid rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .ppg-tag-goal:hover {
+  background: rgba(236, 68, 112, 0.1);
+  box-shadow: 0 5px 15px rgba(236, 68, 112, 0.15);
+  color: #fff;
+}
+
+.theme-classic .ppg-tag-goal span,
+.theme-classic .ppg-tag-goal i {
+  filter: drop-shadow(0 0 5px rgba(236, 68, 112, 0.5));
+}
+
+.theme-classic .custom-radar-shape,
+.theme-classic .custom-radar-shape path {
+  fill: #ec4470;
+  stroke: #ec4470;
+}
+
+.theme-classic .ppg-skill-cell-val {
+  color: #ec4470;
+}
+
+.theme-classic .page-container1 {
+  background-image:
+    radial-gradient(
+      ellipse 80% 45% at 50% -10%,
+      rgba(236, 68, 112, 0.16) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(236, 68, 112, 0.05) 0%,
+      transparent 50%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 26v8M26 30h8' stroke='rgba(236, 68, 112,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+.theme-classic .rules-kicker {
+  color: #ec4470;
+}
+
+.theme-classic .page-title1 {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fdf6d6 38%,
+    #ec4470 78%,
+    #5a1f4a 100%
+  );
+  filter: drop-shadow(0 10px 30px rgba(236, 68, 112, 0.22));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.theme-classic .rules-hero-line {
+  background: linear-gradient(90deg, transparent, #ec4470, transparent);
+}
+
+.theme-classic .rules-hero-line::after {
+  color: #ec4470;
+}
+
+.theme-classic .rules-search-box {
+  border: 1px solid rgba(236, 68, 112, 0.28) !important;
+}
+
+.theme-classic .rules-search-box:focus-within {
+  border-color: #ec4470 !important;
+  box-shadow: 0 0 20px rgba(236, 68, 112, 0.15) !important;
+}
+
+.theme-classic .search-clear-btn {
+  color: #ec4470;
+}
+
+.theme-classic .mode-switch-btn.active {
+  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
+  box-shadow: 0 4px 12px rgba(236, 68, 112, 0.3);
+  color: #000000;
+}
+
+.theme-classic .pdf-download-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(236, 68, 112, 0.15) 0%,
+    rgba(15, 15, 15, 0.9) 100%
+  );
+  color: #ff8aa5;
+  border: 1px solid rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .pdf-download-btn:hover {
+  background: linear-gradient(135deg, #ff8aa5 0%, #b8307a 100%);
+  border-color: #ff8aa5;
+  box-shadow: 0 14px 30px rgba(236, 68, 112, 0.35);
+  color: #000000;
+}
+
+.theme-classic .toc-label {
+  color: #ec4470;
+}
+
+.theme-classic .toc-pill:hover {
+  border-color: #ec4470;
+  color: #ff8aa5;
+  background: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .rules-paper {
+  border: 1px solid rgba(236, 68, 112, 0.28);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.85),
+    0 0 60px rgba(236, 68, 112, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.theme-classic .rules-paper::after {
+  border: 1px solid rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .rules-paper::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ec4470,
+    transparent
+  ) !important;
+}
+
+.theme-classic .rules-header {
+  border-bottom: 1px solid rgba(236, 68, 112, 0.18);
+}
+
+.theme-classic .doc-stamp {
+  background: linear-gradient(135deg, #ff8aa5 0%, #b8307a 100%);
+  box-shadow: 0 4px 15px rgba(236, 68, 112, 0.25);
+  color: #000000;
+}
+
+.theme-classic .saving-badge {
+  color: #ec4470;
+}
+
+.theme-classic .rule-section {
+  color: #ff8aa5;
+}
+
+.theme-classic .rule-section::after {
+  background: linear-gradient(90deg, rgba(236, 68, 112, 0.4), transparent);
+}
+
+.theme-classic .sec-number-badge {
+  color: #ec4470;
+  border: 1px solid rgba(236, 68, 112, 0.45);
+  background: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .sec-title-text {
+  color: #ff8aa5;
+}
+
+.theme-classic .rule-item {
+  border-left: 1px solid rgba(236, 68, 112, 0.18);
+}
+
+.theme-classic .rule-item:hover {
+  border-left: 2px solid #ec4470;
+  background: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.06) 0%,
+    transparent 100%
+  );
+  color: #ffffff;
+}
+
+.theme-classic .rule-bullet-dot {
+  background: #ec4470;
+  box-shadow: 0 0 8px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .copy-rule-hint {
+  color: #ec4470;
+}
+
+.theme-classic .quick-chip {
+  border: 1px solid rgba(236, 68, 112, 0.25);
+  color: #ff8aa5;
+}
+
+.theme-classic .quick-chip:hover {
+  background: #ec4470;
+  color: #000;
+}
+
+.theme-classic .rules-textarea {
+  border: 1px solid rgba(236, 68, 112, 0.3);
+}
+
+.theme-classic .rules-textarea:focus {
+  border-color: #ec4470;
+  box-shadow: 0 0 25px rgba(236, 68, 112, 0.12);
+}
+
+.theme-classic .rules-footer {
+  border-top: 1px solid rgba(236, 68, 112, 0.15);
+}
+
+.theme-classic .saving-status.blink {
+  color: #ec4470;
+}
+
+.theme-classic .friendly-summary-card h2 {
+  color: #b8307a;
+}
+
+.theme-classic .friendly-best-campaign {
+  background: rgba(184, 48, 122, 0.1);
+  border-left: 4px solid #b8307a;
+}
+
+.theme-classic .best-value {
+  color: #b8307a;
+}
+
+.theme-classic .titulos-hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 5, 0.9) 0%,
+    rgba(236, 68, 112, 0.3) 50%,
+    rgba(5, 5, 5, 0.9) 100%
+  );
+}
+
+.theme-classic .titulos-desc strong {
+  color: #ec4470;
+}
+
+.theme-classic .trofeu-anos {
+  color: #ec4470;
+}
+
+@keyframes pulse-adr-gold-cl {
+  0% {
+    box-shadow: 0 0 0 0 rgba(236, 68, 112, 0.75);
+  }
+  70% {
+    box-shadow: 0 0 0 11px rgba(236, 68, 112, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(236, 68, 112, 0);
+  }
+}
+
+@keyframes shine-cl {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px #ec4470);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px #ec4470);
+  }
+}
+
+/* ==========================================================================
+   3. AJUSTES FINOS (vêm depois para ter a palavra final)
+   ========================================================================== */
+/* Times no campo: A com o degradê do escudo, B continua branco */
+.theme-classic .mt-wrap {
+  --mt-b-photo: linear-gradient(180deg, #b8307a, #5a1f4a);
+  --mt-b-band: #e3263a;
+  --mt-b-band-fg: #ffffff;
+  --mt-b-border: #e3263a;
+}
+
+.theme-classic .pr-wrap,
+.theme-classic .pr-item {
+  --pr-b-photo: linear-gradient(180deg, #b8307a, #5a1f4a);
+  --pr-b-band: #e3263a;
+  --pr-b-band-fg: #ffffff;
+  --pr-b-border: #e3263a;
+}
+
+/* Gramado 3D com estádio ameixa */
+.theme-classic .pf-stage {
+  background:
+    radial-gradient(
+      120% 60% at 50% 0%,
+      rgba(184, 48, 122, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(90% 70% at 50% 100%, rgba(0, 0, 0, 0.6), transparent 70%),
+    linear-gradient(180deg, #0a0610 0%, #120a14 55%, #0a0610 100%);
+}
+
+/* ==========================================================================
+   3b. PÁGINA DA PARTIDA (cores que estavam fixas em dourado)
+   ========================================================================== */
+.theme-classic .match-view-wrapper {
+  background-color: var(--cl-bg);
+}
+
+.theme-classic .psg-tabs-menu {
+  background: #0a0610;
+  border-bottom-color: rgba(236, 68, 112, 0.18);
+}
+
+.theme-classic .psg-tabs-menu button.active {
+  color: var(--cl-accent);
+}
+
+.theme-classic .psg-tabs-menu button.active::after {
+  background: var(--cl-grad);
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .p-card-num {
+  background: var(--cl-grad);
+  color: #ffffff;
+}
+
+/* Time B no campo continua com o número em branco: letra escura */
+.theme-classic .pf-players .pf-on-pitch.side-b .p-card-num {
+  background: linear-gradient(135deg, #ffffff 0%, #c9c3cf 100%);
+  color: #2a1d2f;
+}
+
+.theme-classic .player-card-label {
+  background: #120a15;
+  border-color: rgba(236, 68, 112, 0.4);
+}
+
+.theme-classic .pro-badge {
+  border-color: var(--cl-accent);
+}
+
+.theme-classic .pro-badge-count {
+  color: var(--cl-accent-strong);
+}
+
+.theme-classic .pro-role-badge {
+  border-color: var(--cl-accent);
+}
+
+.theme-classic .slot-selector {
+  color: var(--cl-accent);
+  border-color: var(--cl-accent);
+}
+
+.theme-classic .empty-slot-marker {
+  color: var(--cl-accent);
+  border-color: rgba(236, 68, 112, 0.45);
+}
+
+.theme-classic .pro-tooltip,
+.theme-classic .mobile-card-reason-toast {
+  border-color: var(--cl-accent);
+}
+
+.theme-classic .toast-kicker {
+  color: var(--cl-accent);
+}
+
+/* MVP com o degradê do escudo */
+.theme-classic .player-tactical.is-mvp::after {
+  background: var(--cl-grad);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(236, 68, 112, 0.55);
+  animation: none;
+}
+
+.theme-classic .player-tactical.is-mvp::before {
+  background: radial-gradient(
+    circle,
+    rgba(236, 68, 112, 0.45) 0%,
+    rgba(123, 58, 168, 0.18) 45%,
+    transparent 75%
+  );
+}
+
+.theme-classic .player-tactical.is-mvp .player-img {
+  border-color: var(--cl-accent);
+  box-shadow: 0 0 18px rgba(236, 68, 112, 0.6);
+}
+
+.theme-classic .player-tactical.is-mvp .player-card-label {
+  border-color: var(--cl-accent);
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.4);
+}
+
+/* Barra de navegação, atalhos e editar */
+.theme-classic .mp-nav-btn {
+  background: var(--cl-panel);
+}
+
+.theme-classic .mp-nav-btn:hover {
+  border-color: var(--cl-accent);
+  background: linear-gradient(90deg, rgba(236, 68, 112, 0.1), var(--cl-panel));
+}
+
+.theme-classic .mp-nav-arrow,
+.theme-classic .mp-help kbd {
+  color: var(--cl-accent);
+}
+
+.theme-classic .mp-chip.on,
+.theme-classic .mp-chip.mp-edit {
+  color: var(--cl-accent);
+  border-color: var(--cl-accent);
+  background: rgba(236, 68, 112, 0.08);
+}
+
+.theme-classic .mp-chip.mp-edit:hover {
+  background: var(--cl-grad);
+  color: #fff;
+}
+
+.theme-classic .mp-help {
+  background: var(--cl-panel);
+  border-top-color: var(--cl-accent);
+}
+
+/* Abas dos jogos de amistoso/campeonato */
+.theme-classic .fgt-tab {
+  background: var(--cl-panel);
+}
+
+.theme-classic .fgt-tab.on {
+  border-color: var(--cl-accent);
+  background: linear-gradient(
+    180deg,
+    rgba(236, 68, 112, 0.12),
+    var(--cl-panel)
+  );
+}
+
+.theme-classic .fgt-tab.on::after {
+  background: var(--cl-grad);
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.5);
+}
+
+.theme-classic .fgt-tab.on .fgt-tab-btn small,
+.theme-classic .fgt-add {
+  color: var(--cl-accent);
+}
+
+.theme-classic .fgt-add {
+  border-color: rgba(236, 68, 112, 0.5);
+}
+
+/* ==========================================================================
+   3c. CARD DO JOGADOR: o selo do escudo fica no degradê
+   ========================================================================== */
+.theme-classic .fc-club-badge {
+  background: radial-gradient(circle at 50% 35%, #3a2440 0%, #1a0f1e 75%);
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 2px rgba(236, 68, 112, 0.45);
+}
+
+/* Barras de rolagem */
+.theme-classic ::-webkit-scrollbar-thumb {
+  background: linear-gradient(#b8307a, #e3263a);
+}
+
+/* ==========================================================================
+   3d. CORES ESCRITAS NO JSX (style={{...}})
+   O CSS não muda o valor do inline, mas pode vencê-lo com !important.
+   Os níveis de Lendas ("Centenário de Ouro") continuam dourados de propósito.
+   ========================================================================== */
+.theme-classic .psg-team-score small[style*="212, 175, 55"],
+.theme-classic h4[style*="color: rgb(212, 175, 55)"] {
+  color: #ec4470 !important;
+}
+.theme-classic .ppg-card[style*="212, 175, 55, 0.05"] {
+  background: rgba(236, 68, 112, 0.05) !important;
+}
+.theme-classic .ppg-card [style*="212, 175, 55, 0.1"] {
+  background: rgba(236, 68, 112, 0.1) !important;
+}
+
+/* ==========================================================================
+   4. ESTILO RETRÔ "FIGURINHA" (o mesmo do carrossel do elenco, no site todo)
+   - títulos em Anton itálico com sombra deslocada vermelho/roxo
+   - cartões com moldura dupla (rosa por dentro, roxo por fora)
+   - botões em degradê com "degrau" embaixo, que afundam ao clicar
+   - abas ativas em degradê
+   - textura de listras diagonais bem leve na página
+   ========================================================================== */
+
+/* Textura de listras por cima do fundo (não pega clique) */
+body.theme-classic::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    -55deg,
+    rgba(255, 255, 255, 0.018) 0 2px,
+    transparent 2px 22px
+  );
+}
+
+/* ---------- 4a. Títulos grandes das páginas ---------- */
+body.theme-classic .page-title,
+body.theme-classic .page-title1,
+body.theme-classic .elenco-page-title,
+body.theme-classic .history-main-title,
+body.theme-classic .adr-history-title,
+body.theme-classic .schedule-title,
+body.theme-classic .rs-title,
+body.theme-classic .psd-title,
+body.theme-classic .hero-title,
+body.theme-classic .cta-title,
+body.theme-classic .psg-season-title,
+body.theme-classic .camp-title,
+body.theme-classic .camp-admin-title,
+body.theme-classic .cx-title,
+body.theme-classic .hall-title,
+body.theme-classic .adm-login-title,
+body.theme-classic .rt-hero-title,
+body.theme-classic .alltime-title,
+body.theme-classic .cr-title,
+body.theme-classic .tp-title,
+body.theme-classic .titulos-hero-text,
+body.theme-classic .titulos-total,
+body.theme-classic .bday-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: 0.06em !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  filter: none !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+
+/* Palavras destacadas dentro dos títulos (ex.: o "ADR" de "Elenco ADR") */
+body.theme-classic .gold-text,
+body.theme-classic .page-title span,
+body.theme-classic .elenco-page-title span,
+body.theme-classic .hero-title span {
+  background: linear-gradient(90deg, #c27be8, #ff5a7e 55%, #ff8a5a) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #ec4470 !important;
+  filter: none !important;
+  text-shadow: none !important;
+  padding-right: 0.08em;
+}
+
+/* Linhas embaixo dos títulos viram a tira de três cores */
+body.theme-classic .hero-line,
+body.theme-classic .rules-hero-line,
+body.theme-classic .sqd-underline {
+  height: 5px !important;
+  border-radius: 0 !important;
+  transform: skewX(-24deg);
+  box-shadow: none !important;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33.3%,
+    #b8307a 33.3% 66.6%,
+    #e3263a 66.6% 100%
+  ) !important;
+}
+body.theme-classic .rules-hero-line::after {
+  display: none;
+}
+
+/* ---------- 4b. Títulos de seção e de cartão ---------- */
+body.theme-classic .section-title,
+body.theme-classic .ppg-card-title,
+body.theme-classic .psd-section-title,
+body.theme-classic .partner-section-title,
+body.theme-classic .cr-group-title,
+body.theme-classic .camp-group-title,
+body.theme-classic .bkt-col-title,
+body.theme-classic .bracket-round-title,
+body.theme-classic .editions-list-title,
+body.theme-classic .vision-title,
+body.theme-classic .value-title,
+body.theme-classic .milestone-title,
+body.theme-classic .trophy-title,
+body.theme-classic .tp-panel-title,
+body.theme-classic .cx-card-title,
+body.theme-classic .fav-pos-minimal-title,
+body.theme-classic .ppg-skills-minimal-title,
+body.theme-classic .psd-absence-title,
+body.theme-classic .psg-month-title,
+body.theme-classic .zigzag-title,
+body.theme-classic .trofeu-info h3,
+body.theme-classic .rule-section {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  letter-spacing: 0.06em !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  filter: none !important;
+  text-shadow: 0.06em 0.06em 0 #b8307a !important;
+}
+body.theme-classic .rule-section .sec-title-text {
+  color: #ffffff !important;
+}
+
+/* ---------- 4c. Cartões: moldura dupla de figurinha ---------- */
+body.theme-classic .info-card,
+body.theme-classic .history-card,
+body.theme-classic .partner-card,
+body.theme-classic .ppg-card,
+body.theme-classic .psg-match-card,
+body.theme-classic .psg-event-card,
+body.theme-classic .camp-group-card,
+body.theme-classic .bkt-card,
+body.theme-classic .cx-card,
+body.theme-classic .cr-card,
+body.theme-classic .friendly-summary-card,
+body.theme-classic .best-campaign-card,
+body.theme-classic .camp-highlight-card,
+body.theme-classic .edition-history-card,
+body.theme-classic .kpi-stats-card,
+body.theme-classic .vision-card,
+body.theme-classic .value-card,
+body.theme-classic .stat-card,
+body.theme-classic .founder-card,
+body.theme-classic .trophy-card,
+body.theme-classic .kit-card,
+body.theme-classic .mascote-card,
+body.theme-classic .milestone-card,
+body.theme-classic .primordial-card,
+body.theme-classic .schedule-card,
+body.theme-classic .tp-card,
+body.theme-classic .adm-login-card,
+body.theme-classic .mtc-score-card,
+body.theme-classic .team-stats-card,
+body.theme-classic .gk-card,
+body.theme-classic .player-profile-card,
+body.theme-classic .config-wrapper,
+body.theme-classic .rules-paper,
+body.theme-classic .trofeu-img-box {
+  border: 2px solid rgba(255, 138, 165, 0.55) !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px rgba(123, 58, 168, 0.85),
+    0 16px 34px rgba(0, 0, 0, 0.55) !important;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+body.theme-classic .info-card:hover,
+body.theme-classic .history-card:hover,
+body.theme-classic .partner-card:hover,
+body.theme-classic .psg-match-card:hover,
+body.theme-classic .psg-event-card:hover,
+body.theme-classic .cx-card:hover,
+body.theme-classic .cr-card:hover,
+body.theme-classic .vision-card:hover,
+body.theme-classic .value-card:hover,
+body.theme-classic .stat-card:hover,
+body.theme-classic .founder-card:hover,
+body.theme-classic .trophy-card:hover,
+body.theme-classic .kit-card:hover,
+body.theme-classic .mascote-card:hover,
+body.theme-classic .milestone-card:hover,
+body.theme-classic .mtc-score-card:hover,
+body.theme-classic .edition-history-card:hover {
+  border-color: #ff8aa5 !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px #ec4470,
+    0 20px 42px rgba(236, 68, 112, 0.3) !important;
+}
+
+/* ---------- 4d. Botões principais: degradê com degrau ---------- */
+body.theme-classic .bday-btn,
+body.theme-classic .export-btn,
+body.theme-classic .tp-export-btn,
+body.theme-classic .mtc-details-btn,
+body.theme-classic .cta-btn,
+body.theme-classic .psg-add-btn,
+body.theme-classic .psg-match-center-btn,
+body.theme-classic .camp-btn,
+body.theme-classic .camp-edit-btn,
+body.theme-classic .pdf-download-btn,
+body.theme-classic .rt-btn,
+body.theme-classic .add-game-btn,
+body.theme-classic .nvb-side-admin-btn {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  font-style: italic;
+  text-shadow: 1px 1px 0 #5a1f4a;
+  box-shadow:
+    0 4px 0 #5a1f4a,
+    0 10px 20px rgba(0, 0, 0, 0.4) !important;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease !important;
+}
+
+body.theme-classic .bday-btn:hover,
+body.theme-classic .export-btn:hover,
+body.theme-classic .tp-export-btn:hover,
+body.theme-classic .mtc-details-btn:hover,
+body.theme-classic .cta-btn:hover,
+body.theme-classic .psg-add-btn:hover,
+body.theme-classic .psg-match-center-btn:hover,
+body.theme-classic .camp-btn:hover,
+body.theme-classic .camp-edit-btn:hover,
+body.theme-classic .pdf-download-btn:hover,
+body.theme-classic .rt-btn:hover,
+body.theme-classic .add-game-btn:hover,
+body.theme-classic .nvb-side-admin-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 #5a1f4a,
+    0 14px 24px rgba(236, 68, 112, 0.35) !important;
+}
+
+body.theme-classic .bday-btn:active,
+body.theme-classic .export-btn:active,
+body.theme-classic .tp-export-btn:active,
+body.theme-classic .mtc-details-btn:active,
+body.theme-classic .cta-btn:active,
+body.theme-classic .psg-add-btn:active,
+body.theme-classic .psg-match-center-btn:active,
+body.theme-classic .camp-btn:active,
+body.theme-classic .camp-edit-btn:active,
+body.theme-classic .pdf-download-btn:active,
+body.theme-classic .rt-btn:active,
+body.theme-classic .add-game-btn:active,
+body.theme-classic .nvb-side-admin-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+/* ---------- 4e. Abas e seletores ativos ---------- */
+body.theme-classic .adr-tab-btn.active,
+body.theme-classic .camp-tab-btn.active,
+body.theme-classic .camp-year-btn.active,
+body.theme-classic .camp-tournament-tab.active,
+body.theme-classic .local-tab-btn.active,
+body.theme-classic .fgt-tab-btn.active,
+body.theme-classic .friendly-tab.active,
+body.theme-classic .tp-tab.active,
+body.theme-classic .mode-switch-btn.active,
+body.theme-classic .am-tab.active,
+body.theme-classic .adr-tab-btn.is-active,
+body.theme-classic .camp-tab-btn.is-active,
+body.theme-classic .local-tab-btn.is-active,
+body.theme-classic .friendly-tab.is-active,
+body.theme-classic .tp-tab.is-active {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: transparent !important;
+  font-style: italic;
+  box-shadow: 0 3px 0 #5a1f4a !important;
+}
+
+/* ---------- 4f. Selos pequenos viram adesivo ---------- */
+body.theme-classic .doc-stamp,
+body.theme-classic .sec-number-badge,
+body.theme-classic .rk-leader-badge,
+body.theme-classic .best-edition-badge {
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400 !important;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+  transform: rotate(-4deg);
+}
+
+/* Celular: sombras um pouco menores pra não pesar */
+@media (max-width: 600px) {
+  body.theme-classic .page-title,
+  body.theme-classic .page-title1,
+  body.theme-classic .elenco-page-title,
+  body.theme-classic .hero-title,
+  body.theme-classic .camp-title,
+  body.theme-classic .titulos-hero-text {
+    text-shadow:
+      0.04em 0.04em 0 #e3263a,
+      0.08em 0.08em 0 #7b3aa8 !important;
+  }
+}
+
+/* ---------- 4g. Textos pequenos dentro dos títulos (ex.: "Temporada", "5 partidas") ---------- */
+body.theme-classic .psg-season-title small,
+body.theme-classic .psg-month-title small,
+body.theme-classic .page-title small,
+body.theme-classic .page-title1 small,
+body.theme-classic .camp-title small,
+body.theme-classic .hero-title small {
+  font-family:
+    "Inter",
+    -apple-system,
+    "Segoe UI",
+    sans-serif !important;
+  font-style: normal !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+body.theme-classic .psg-month-title small b {
+  -webkit-text-fill-color: #ec4470 !important;
+  color: #ec4470 !important;
+}
+
+/* ---------- 4h. Escudo do ADR vira o escudo Classic nas imagens ----------
+   Troca qualquer <img> com a logo padrão (/logo.png ou assets/logo...).
+   Fica de fora: o cartão ADR das Configurações e a linha do tempo de escudos do "Sobre". */
+body.theme-classic
+  img[src="/logo.png"]:not(.tc-crest img):not(.about-wrapper img):not(
+    .nvb-wrapper img
+  ):not(.nvb-sidebar img),
+body.theme-classic
+  img[src*="assets/logo"]:not(.tc-crest img):not(.about-wrapper img):not(
+    .nvb-wrapper img
+  ):not(.nvb-sidebar img) {
+  content: url("/logo-classic.png");
+  object-fit: contain;
+}
+
+/* ---------- 4i. Elenco: cada jogador numa figurinha ---------- */
+body.theme-classic .psg-card-bg {
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 6px !important;
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255, 138, 165, 0.45),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(165deg, #7b3aa8 0%, #b8307a 55%, #e3263a 100%) !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px #7b3aa8,
+    0 18px 40px rgba(0, 0, 0, 0.6) !important;
+}
+body.theme-classic .psg-card:hover .psg-card-bg {
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255, 170, 190, 0.55),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.09) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(165deg, #8d48bd 0%, #cc3a8a 55%, #f0344a 100%) !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px #ec4470,
+    0 22px 46px rgba(236, 68, 112, 0.35) !important;
+}
+/* escudo em marca d'água dentro da figurinha */
+body.theme-classic .psg-card-bg::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 150px;
+  height: 170px;
+  transform: translate(-50%, -50%) skewX(8deg) rotate(-8deg);
+  background: url("/logo-classic.png") center / contain no-repeat;
+  opacity: 0.16;
+  filter: grayscale(1) brightness(2.2);
+  pointer-events: none;
+}
+/* número = adesivo, nome = faixa com sombra deslocada */
+body.theme-classic .psg-number {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  color: #ffffff !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+body.theme-classic .psg-card:hover .psg-number {
+  color: #ffffff !important;
+  -webkit-text-stroke: 0 !important;
+}
+body.theme-classic .psg-lastname {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  text-shadow:
+    2px 2px 0 #e3263a,
+    4px 4px 0 #7b3aa8;
+}
+body.theme-classic .psg-firstname {
+  color: #ff8aa5;
+}
+
+/* ---------- 4j. Histórico de partidas (lista): faixa lateral em vez de moldura ---------- */
+body.theme-classic .adr-match-card:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(184, 48, 122, 0.14),
+    transparent 60%
+  ) !important;
+  border-left-color: #e3263a !important;
+  box-shadow: inset 3px 0 0 #b8307a !important;
+}
+
+/* ---------- 4k. Página do jogador: botões "Card do jogador" e "Minha retrospectiva" ---------- */
+body.theme-classic .fcs-open,
+body.theme-classic .ppg-retro-link {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  font-style: italic;
+  text-shadow: 1px 1px 0 #5a1f4a;
+  box-shadow:
+    0 4px 0 #5a1f4a,
+    0 10px 20px rgba(0, 0, 0, 0.4) !important;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease !important;
+}
+body.theme-classic .ppg-retro-link {
+  background: #1d1222 !important;
+  box-shadow:
+    inset 0 0 0 2px #b8307a,
+    0 4px 0 #5a1f4a !important;
+}
+body.theme-classic .fcs-open:hover,
+body.theme-classic .ppg-retro-link:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+body.theme-classic .fcs-open:active,
+body.theme-classic .ppg-retro-link:active {
+  transform: translateY(3px);
+}
+
+/* ---------- 4l. Rodapé / patrocinadores ---------- */
+body.theme-classic .footer-label::after {
+  height: 4px !important;
+  transform: skewX(-24deg);
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33.3%,
+    #b8307a 33.3% 66.6%,
+    #e3263a 66.6% 100%
+  ) !important;
+  opacity: 0.9;
+}
+body.theme-classic .sponsors-display {
+  background: rgba(184, 48, 122, 0.25) !important;
+  border-color: rgba(184, 48, 122, 0.25) !important;
+}
+/* todos os patrocinadores com o mesmo fundo listrado */
+body.theme-classic .sponsor-item,
+body.theme-classic .sponsor-item.master {
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(184, 48, 122, 0.16),
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.03) 0 10px,
+      transparent 10px 22px
+    ),
+    #110a14 !important;
+  box-shadow: none !important;
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease !important;
+}
+body.theme-classic .sponsor-item:hover,
+body.theme-classic .sponsor-item.master:hover {
+  background:
+    radial-gradient(
+      80% 80% at 50% 0%,
+      rgba(236, 68, 112, 0.32),
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.045) 0 10px,
+      transparent 10px 22px
+    ),
+    #1a0f1e !important;
+  box-shadow: inset 0 0 0 2px #ec4470 !important;
+}
+/* logos em cinza; no hover ficam rosa (em vez da cor original) */
+body.theme-classic .sponsor-item img {
+  filter: grayscale(1) brightness(1.1) !important;
+  opacity: 0.6 !important;
+}
+body.theme-classic .sponsor-item:hover img {
+  filter: grayscale(1) brightness(0.7) sepia(1) saturate(9) hue-rotate(308deg)
+    brightness(1.35) drop-shadow(0 0 12px rgba(236, 68, 112, 0.45)) !important;
+  opacity: 1 !important;
+}
+body.theme-classic .sponsor-tag {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+body.theme-classic .sponsor-item:hover .sponsor-tag {
+  color: #ec4470 !important;
+}
+body.theme-classic .sponsor-item.master .sponsor-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff !important;
+  border-radius: 3px;
+  transform: rotate(-3deg);
+}
+body.theme-classic .footer-watermark {
+  background: linear-gradient(
+    165deg,
+    rgba(123, 58, 168, 0.22),
+    rgba(227, 38, 58, 0.12)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+}
+body.theme-classic .footer-motto {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #ffffff !important;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .social-link,
+body.theme-classic .footer-top-btn {
+  border-color: #b8307a !important;
+  border-radius: 6px;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+body.theme-classic .social-link:hover,
+body.theme-classic .footer-top-btn:hover {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* ---------- 4m. Hall Histórico ---------- */
+body.theme-classic .hall-admin-card,
+body.theme-classic .hall-item {
+  border: 2px solid rgba(255, 138, 165, 0.45) !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px rgba(123, 58, 168, 0.75),
+    0 14px 30px rgba(0, 0, 0, 0.5) !important;
+}
+body.theme-classic .hall-item:hover {
+  border-color: #ff8aa5 !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px #ec4470,
+    0 18px 38px rgba(236, 68, 112, 0.3) !important;
+}
+body.theme-classic .hall-item.retired {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 0 0 3px #1d1222,
+    0 0 0 5px rgba(255, 255, 255, 0.08) !important;
+}
+body.theme-classic .hall-admin-card h3 {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .hall-admin-form button:not(.btn-cancel) {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  font-style: italic;
+  box-shadow:
+    0 4px 0 #5a1f4a,
+    0 10px 20px rgba(0, 0, 0, 0.4) !important;
+}
+body.theme-classic .hall-admin-form button:not(.btn-cancel):hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+body.theme-classic .hall-admin-form button:not(.btn-cancel):active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+body.theme-classic .hall-admin-form input,
+body.theme-classic .hall-select-link,
+body.theme-classic .hall-search {
+  border-radius: 6px !important;
+}
+body.theme-classic .hall-filter.is-active,
+body.theme-classic .hall-filter.active {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  font-style: italic;
+  box-shadow: 0 3px 0 #5a1f4a !important;
+}
+body.theme-classic .year-label {
+  -webkit-text-stroke: 0 !important;
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: 0.04em !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+body.theme-classic .hall-year-row::after {
+  height: 4px !important;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8,
+    #b8307a 40%,
+    #e3263a 60%,
+    transparent
+  ) !important;
+  opacity: 0.7;
+}
+body.theme-classic .hall-status.is-on {
+  border-radius: 3px;
+}
+
+/* ---------- 4n. Fundo do site: sai a grade de "+", entra brilho do escudo ----------
+   As listras diagonais finas vêm do body::before (seção 4). */
+body.theme-classic,
+body.theme-classic .main-wrapper,
+body.theme-classic .about-wrapper,
+body.theme-classic .elenco-psg-wrapper,
+body.theme-classic .match-view-wrapper,
+body.theme-classic .page-container1,
+body.theme-classic .psg-page-container,
+body.theme-classic .titulos-psg-wrapper {
+  background-color: #0b0710 !important;
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(184, 48, 122, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 100% 100%,
+      rgba(123, 58, 168, 0.16),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 0% 60%,
+      rgba(227, 38, 58, 0.08),
+      transparent 70%
+    ) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* "+" desenhados por pseudo-elementos (retrospectiva e admin de partidas) */
+body.theme-classic .rt-story::before,
+body.theme-classic .am-root::after {
+  background-image: none !important;
+}
+
+/* seta dos selects em rosa */
+body.theme-classic .hall-select-link {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ec4470' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}

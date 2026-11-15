@@ -38,22 +38,19 @@ import Elenco from "./pages/Elenco/Elenco.jsx";
 import Configuracao from "./pages/Configuracao/Configuracao.jsx";
 import Retrospectiva from "./pages/Retrospectiva/Retrospectiva.jsx";
 
+import { applyTheme, getSavedTheme } from "./utils/theme";
+
 import "./styles/global.css";
+import "./styles/theme-classic.css"; // tema Classic (sempre depois dos outros CSS)
+
+// Aplica o tema salvo antes da primeira tela (sem piscar o tema errado)
+applyTheme(getSavedTheme());
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [matchToEdit, setMatchToEdit] = useState(null);
   const [players, setPlayers] = useState([]);
   const [matches, setMatches] = useState([]);
-
-  useEffect(() => {
-    const temaSalvo = localStorage.getItem("app-theme");
-    if (temaSalvo === "IDR") {
-      document.body.classList.add("theme-idr");
-    } else {
-      document.body.classList.remove("theme-idr");
-    }
-  }, []);
 
   useEffect(() => {
     const q = query(collection(db, "players"), orderBy("name", "asc"));
@@ -183,13 +180,6 @@ function App() {
 
           <Route path="/altar-adr" element={<Altar />} />
 
-          {/* Rota de Erro 404 */}
-
-          <Route
-            path="*"
-            element={<div className="loading">Página não encontrada</div>}
-          />
-
           {/* ROTA PERFIL DO JOGADOR */}
 
           <Route
@@ -234,6 +224,8 @@ function App() {
               <AdminMatches
                 players={players}
                 isAdmin={isAdmin}
+                matchToEdit={matchToEdit}
+                setMatchToEdit={setMatchToEdit}
                 matches={matches}
               />
             }
@@ -282,16 +274,11 @@ function App() {
           <Route path="/elenco" element={<Elenco />} />
 
           <Route
-            path="/dream-team"
-            element={<DreamTeam players={players} matches={matches} />}
-          />
-
-          <Route
             path="/campeonato"
             element={
               <Campeonato
-                matches="{matches}"
-                players="{players}"
+                matches={matches}
+                players={players}
                 isAdmin={isAdmin}
               />
             }
@@ -310,6 +297,12 @@ function App() {
           />
 
           <Route path="/configuracoes" element={<Configuracao />} />
+
+          {/* Rota de Erro 404 (por último, para ficar claro que pega o resto) */}
+          <Route
+            path="*"
+            element={<div className="loading">Página não encontrada</div>}
+          />
         </Routes>
       </div>
     </BrowserRouter>

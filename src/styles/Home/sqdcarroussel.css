@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Stalinist+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Bungee&family=Stalinist+One&display=swap");
 
 /* ==========================================
    CONTAINER PRINCIPAL (MODO O ADR: ÔNIX & OURO)
@@ -364,5 +364,256 @@
   100% {
     transform: scale(1);
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+  }
+}
+
+/* ==========================================================================
+   TEMA ADR CLASSIC - ELENCO (FIGURINHA RETRÔ DO PRIMEIRO ESCUDO)
+   Fundo listrado roxo → magenta → vermelho, escudo em marca d'água,
+   número em adesivo e nome numa faixa com sombra deslocada.
+   ========================================================================== */
+body.theme-classic .sqd-container-full {
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 0%,
+      rgba(184, 48, 122, 0.28),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 50% 100%,
+      rgba(123, 58, 168, 0.18),
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.022) 0 2px,
+      transparent 2px 22px
+    ),
+    #120a16;
+}
+
+/* Cabeçalho */
+body.theme-classic .sqd-title {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 2.9rem;
+  letter-spacing: 3px;
+  color: #fff;
+  text-shadow: 3px 3px 0 #5a1f4a;
+}
+
+body.theme-classic .sqd-highlight {
+  background: linear-gradient(90deg, #c27be8, #ff5a7e 55%, #ff8a5a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ec4470;
+  text-shadow: none;
+  padding-right: 6px;
+}
+
+body.theme-classic .sqd-underline {
+  width: 132px;
+  height: 6px;
+  border-radius: 0;
+  transform: skewX(-24deg);
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33.3%,
+    #b8307a 33.3% 66.6%,
+    #e3263a 66.6% 100%
+  );
+}
+
+/* Card */
+body.theme-classic .sqd-player-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+}
+
+body.theme-classic .sqd-photo-area {
+  border-radius: 8px;
+  border: 2px solid #ff8aa5;
+  background:
+    radial-gradient(
+      circle at 50% 32%,
+      rgba(255, 138, 165, 0.45),
+      transparent 58%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(165deg, #7b3aa8 0%, #b8307a 55%, #e3263a 100%);
+  box-shadow:
+    0 0 0 4px #1d1222,
+    0 0 0 6px #7b3aa8,
+    0 18px 40px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.35s ease;
+}
+
+body.theme-classic .sqd-player-card:hover .sqd-photo-area {
+  box-shadow:
+    0 0 0 4px #1d1222,
+    0 0 0 6px #ec4470,
+    0 22px 46px rgba(236, 68, 112, 0.35);
+}
+
+/* Escudo em marca d'água atrás do jogador */
+body.theme-classic .sqd-photo-area::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: 230px;
+  height: 260px;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  background: url("/logo-classic.png") center / contain no-repeat;
+  opacity: 0.16;
+  filter: grayscale(1) brightness(2.2);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Etiqueta vertical na lateral */
+body.theme-classic .sqd-photo-area::after {
+  content: "ADR · CLASSIC";
+  position: absolute;
+  left: 9px;
+  top: 104px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: "Anton", sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  pointer-events: none;
+}
+
+body.theme-classic .sqd-player-img {
+  position: relative;
+  z-index: 1;
+}
+
+body.theme-classic .sqd-placeholder {
+  position: relative;
+  z-index: 1;
+}
+
+/* Número: adesivo redondo inclinado */
+body.theme-classic .sqd-photo-area .player-number-badge {
+  top: 14px;
+  right: 14px;
+  min-width: 56px;
+  height: 56px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 3px solid #fff;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  font-family: "Anton", sans-serif;
+  font-size: 30px;
+  line-height: 1;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  text-shadow: 2px 2px 0 #5a1f4a;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+  transform: rotate(-8deg);
+}
+
+/* Selo All Star com brilho rosado */
+body.theme-classic .sqd-badge-icon {
+  filter: drop-shadow(0 0 8px rgba(236, 68, 112, 0.6));
+  animation: pulseBadgeClassic 2s infinite ease-in-out;
+}
+
+/* Faixa do nome */
+body.theme-classic .sqd-card-overlay {
+  height: 74px;
+  padding-bottom: 12px;
+  background:
+    linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a) top / 100% 4px no-repeat,
+    linear-gradient(to top, #1d1222 0%, rgba(29, 18, 34, 0.94) 100%);
+}
+
+body.theme-classic .sqd-name {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 2.15rem;
+  letter-spacing: 1.5px;
+  line-height: 1;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  filter: none;
+  text-shadow:
+    3px 3px 0 #e3263a,
+    6px 6px 0 #7b3aa8;
+}
+
+/* Botões */
+body.theme-classic .sqd-nav-btn {
+  width: 54px;
+  height: 46px;
+  border-radius: 6px;
+  border: 0;
+  color: #fff;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  transform: skewX(-10deg);
+  box-shadow:
+    0 4px 0 #5a1f4a,
+    0 10px 20px rgba(0, 0, 0, 0.45);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+body.theme-classic .sqd-nav-btn:hover {
+  background: linear-gradient(135deg, #8d48bd, #cc3a8a 55%, #f0344a);
+  color: #fff;
+  transform: skewX(-10deg) translateY(-2px);
+  box-shadow:
+    0 6px 0 #5a1f4a,
+    0 14px 24px rgba(236, 68, 112, 0.35);
+}
+
+body.theme-classic .sqd-nav-btn:active {
+  transform: skewX(-10deg) translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .sqd-title {
+    font-size: 2.2rem;
+  }
+  body.theme-classic .sqd-photo-area .player-number-badge {
+    min-width: 52px;
+    height: 52px;
+    font-size: 28px;
+  }
+}
+
+@keyframes pulseBadgeClassic {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(236, 68, 112, 0.6));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(236, 68, 112, 0.9));
   }
 }
