@@ -1,0 +1,671 @@
+/* ==========================================================================
+   GIRO DO DIA (pôster para baixar/compartilhar)
+   O pôster usa só cores/gradientes simples para sair igual na imagem.
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Open+Sans:wght@600;700;800&display=swap");
+
+/* ---------- Botão ---------- */
+.gd-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 16px;
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.gd-open svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gd-open:hover:not(:disabled) {
+  background: #d4af37;
+  color: #000;
+}
+
+.gd-open:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.theme-idr .gd-open {
+  color: #000;
+  border-color: #000;
+}
+
+.theme-idr .gd-open:hover:not(:disabled) {
+  background: #000;
+  color: #fff;
+}
+
+.theme-classic .gd-open {
+  color: #ec4470;
+  border-color: #ec4470;
+}
+
+/* ---------- Janela ---------- */
+.gd-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 24px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.gd-modal {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 16px 18px;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #d4af37;
+  color: #fff;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.gd-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 -16px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.gd-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  color: #8a8f98;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+}
+
+.gd-x svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.gd-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.gd-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gd-controls label span {
+  color: #7c8088;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.gd-controls select,
+.gd-title-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 10px;
+  background: #151515;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.gd-title-input {
+  grid-column: 1 / -1;
+}
+
+/* Prévia: o pôster tem 540px; em telas menores ele é reduzido só na tela */
+.gd-preview {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: #1a1a1a;
+  padding: 10px 0;
+}
+
+.gd-scaler {
+  width: 540px;
+  flex-shrink: 0;
+  transform-origin: top center;
+}
+
+/* Na hora de gerar a imagem, a cópia não pode estar reduzida */
+.gd-scaler:has(.is-exporting) {
+  transform: none !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .gd-scaler {
+    transform: scale(0.62);
+    margin-bottom: calc(var(--gd-h, 700px) * -0.38);
+  }
+}
+
+@media (max-width: 400px) {
+  .gd-scaler {
+    transform: scale(0.56);
+    margin-bottom: calc(var(--gd-h, 700px) * -0.44);
+  }
+}
+
+.gd-download {
+  min-height: 50px;
+  background: #d4af37;
+  color: #000;
+  border: 0;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  cursor: pointer;
+}
+
+.gd-download:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.gd-msg {
+  margin: 0;
+  color: #22c55e;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.theme-classic .gd-download {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+  color: #fff;
+}
+
+/* ---------- Layout e foto (controles) ---------- */
+.gd-layouts {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.gd-layouts button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  background: #151515;
+  color: #8a8f98;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: inherit;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.gd-layouts button.on {
+  color: #d4af37;
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* Mini desenho de cada layout */
+.gd-lay-ico {
+  position: relative;
+  width: 30px;
+  height: 36px;
+  border: 1px solid currentColor;
+}
+
+.gd-lay-ico i {
+  position: absolute;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.ico-bottom i:nth-child(1) {
+  left: 3px;
+  top: 3px;
+  width: 10px;
+  height: 5px;
+}
+.ico-bottom i:nth-child(2) {
+  right: 3px;
+  top: 3px;
+  width: 10px;
+  height: 5px;
+}
+.ico-bottom i:nth-child(3) {
+  left: 3px;
+  right: 3px;
+  top: 12px;
+  bottom: 3px;
+  opacity: 0.35;
+}
+
+.ico-side i:nth-child(1) {
+  left: 3px;
+  top: 3px;
+  width: 10px;
+  bottom: 3px;
+  background: repeating-linear-gradient(
+    currentColor 0 5px,
+    transparent 5px 8px
+  );
+  opacity: 0.7;
+}
+.ico-side i:nth-child(2) {
+  right: 3px;
+  top: 3px;
+  width: 12px;
+  bottom: 3px;
+  opacity: 0.35;
+}
+.ico-side i:nth-child(3) {
+  display: none;
+}
+
+.ico-topside i:nth-child(1) {
+  left: 3px;
+  top: 3px;
+  width: 10px;
+  height: 5px;
+}
+.ico-topside i:nth-child(2) {
+  right: 3px;
+  top: 3px;
+  width: 10px;
+  height: 5px;
+}
+.ico-topside i:nth-child(3) {
+  right: 3px;
+  top: 11px;
+  width: 12px;
+  bottom: 3px;
+  opacity: 0.35;
+}
+.ico-topside::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 11px;
+  bottom: 3px;
+  width: 10px;
+  background: repeating-linear-gradient(
+    currentColor 0 5px,
+    transparent 5px 8px
+  );
+  opacity: 0.7;
+}
+
+.gd-photo-tools {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.gd-photo-tools > button {
+  min-height: 36px;
+  padding: 0 14px;
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  font: inherit;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.gd-photo-tools > button.ghost {
+  color: #8a8f98;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.gd-range,
+.gd-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #8a8f98;
+  font-size: 0.7rem;
+}
+
+.gd-range input {
+  width: 110px;
+  accent-color: #d4af37;
+}
+
+.gd-check input {
+  accent-color: #d4af37;
+}
+
+/* ==========================================================================
+   O PÔSTER (o que vira imagem) — 540 x 675 (sai 1080 x 1350, formato do Instagram)
+   ========================================================================== */
+.gd-poster {
+  display: flex;
+  flex-direction: column;
+  width: 540px;
+  min-height: 675px;
+  padding: 16px 24px 18px;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: "Open Sans", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.gd-poster * {
+  box-sizing: border-box;
+}
+
+.gd-rule {
+  display: block;
+  flex-shrink: 0;
+  height: 2px;
+  margin: 9px 0;
+  background: #b9b9b9;
+}
+
+.gd-rule-end {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.gd-title {
+  margin: 2px 0 0;
+  font-family: "Abril Fatface", "Bodoni Moda", Georgia, serif;
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.gd-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.gd-brand span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.gd-date {
+  color: #777;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.gd-diamond {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #18c93a;
+  transform: rotate(45deg);
+}
+
+/* Área dos jogos + foto: ocupa todo o resto do pôster */
+.gd-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: 8px;
+}
+
+.gd-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px;
+}
+
+.gd-row.single {
+  grid-template-columns: minmax(0, 222px);
+  justify-content: center;
+}
+
+/* Foto embaixo */
+.layout-bottom .gd-photo {
+  flex: 1;
+  min-height: 170px;
+  margin-top: 4px;
+}
+
+/* Coluna + foto ao lado */
+.gd-split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 222px minmax(0, 1fr);
+  gap: 18px;
+  min-height: 0;
+}
+
+.gd-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gd-column .gd-rule {
+  margin: 7px 0;
+}
+
+.gd-split .gd-photo {
+  min-height: 100%;
+}
+
+/* A foto do dia */
+.gd-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #e9e4dc;
+}
+
+.gd-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Sem foto: cartão dourado com o escudo */
+.gd-photo.is-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    #7a5a16 0%,
+    #c79a2a 30%,
+    #f4cf62 50%,
+    #c79a2a 70%,
+    #7a5a16 100%
+  );
+}
+
+.gd-photo.is-empty .gd-photo-logo {
+  position: static;
+  width: 46%;
+  height: auto;
+  max-height: 60%;
+  object-fit: contain;
+}
+
+/* ---------- Card de uma partida: lados cor de areia, centro prateado ---------- */
+.gd-card {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  height: 64px;
+  overflow: hidden;
+  border: 2px solid #b5aea5;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f3e8d4 0%, #c9c3bb 100%);
+}
+
+.gd-face {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gd-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.gd-face img.is-logo {
+  width: 74%;
+  height: 74%;
+  margin: auto;
+  object-fit: contain;
+}
+
+.gd-noface {
+  width: 60%;
+  height: 70%;
+  border-radius: 50% 50% 0 0;
+  background: #bdb6ad;
+}
+
+.gd-center {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #a6a6a6 0%, #d9d9d9 45%, #ffffff 100%);
+}
+
+.gd-label {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  color: #333;
+  font-size: 9px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.gd-score {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.gd-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 38px;
+}
+
+.gd-side b {
+  color: #0a0a0a;
+  font-size: 29px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Quem fez os gols (bem pequeno, embaixo do número) */
+.gd-side small {
+  max-width: 44px;
+  margin-top: 1px;
+  overflow: hidden;
+  color: #3a3a3a;
+  font-size: 5.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.gd-score i {
+  width: 2px;
+  height: 29px;
+  background: #222;
+}
+
+.gd-pen {
+  position: absolute;
+  bottom: 1px;
+  color: #111;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.gd-empty {
+  flex: 1;
+  margin: 30px 0;
+  color: #777;
+  text-align: center;
+}

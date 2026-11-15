@@ -2,9 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MatchCard from "./MatchCard/MatchCard";
 import Footer from "../../components/Footer";
+import DaySummaryExport from "../../components/DaySummary/DaySummaryExport";
 import "./calendar.css";
 
-function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
+function Calendar({
+  matches,
+  isAdmin,
+  setMatchToEdit,
+  onDeleteMatch,
+  players,
+}) {
   const navigate = useNavigate();
   const localDate = new Date();
   const currentMonthIndex = localDate.getMonth();
@@ -164,6 +171,8 @@ function Calendar({ matches, isAdmin, setMatchToEdit, onDeleteMatch }) {
             <b>{filteredMatches.length}</b>{" "}
             {filteredMatches.length === 1 ? "partida" : "partidas"}
           </small>
+
+          <DaySummaryExport matches={matches} players={players} />
         </h2>
 
         {/* Grid de Cards (key reinicia a animação ao trocar filtros) */}
