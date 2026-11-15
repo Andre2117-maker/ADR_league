@@ -172,7 +172,13 @@ function Calendar({
             {filteredMatches.length === 1 ? "partida" : "partidas"}
           </small>
 
-          <DaySummaryExport matches={matches} players={players} />
+          {isAdmin && (
+            <DaySummaryExport
+              matches={matches}
+              players={players}
+              isAdmin={isAdmin}
+            />
+          )}
         </h2>
 
         {/* Grid de Cards (key reinicia a animação ao trocar filtros) */}

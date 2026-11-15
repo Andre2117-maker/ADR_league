@@ -187,14 +187,14 @@
 @media (max-width: 600px) {
   .gd-scaler {
     transform: scale(0.62);
-    margin-bottom: calc(var(--gd-h, 700px) * -0.38);
+    margin-bottom: calc(720px * -0.38);
   }
 }
 
 @media (max-width: 400px) {
   .gd-scaler {
     transform: scale(0.56);
-    margin-bottom: calc(var(--gd-h, 700px) * -0.44);
+    margin-bottom: calc(720px * -0.44);
   }
 }
 
@@ -213,6 +213,18 @@
 .gd-download:disabled {
   opacity: 0.5;
   cursor: wait;
+}
+
+.gd-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #8a8f98;
+  font-size: 0.68rem;
+  font-style: italic;
+}
+
+.gd-note:empty {
+  display: none;
 }
 
 .gd-msg {
@@ -394,13 +406,14 @@
 }
 
 /* ==========================================================================
-   O PÔSTER (o que vira imagem) — 540 x 675 (sai 1080 x 1350, formato do Instagram)
+   O PÔSTER (o que vira imagem) — 540 x 720 (sai 1080 x 1440, 3:4)
    ========================================================================== */
 .gd-poster {
   display: flex;
   flex-direction: column;
   width: 540px;
-  min-height: 675px;
+  height: 720px;
+  overflow: hidden;
   padding: 16px 24px 18px;
   background: #ffffff;
   color: #0a0a0a;
@@ -465,13 +478,53 @@
   transform: rotate(45deg);
 }
 
-/* Área dos jogos + foto: ocupa todo o resto do pôster */
+/* Área dos jogos + foto: ocupa todo o resto do pôster (altura fixa) */
+.gd-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .gd-body {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding-top: 8px;
+}
+
+/* Cada fileira de placares; a linha cinza fica embaixo dela */
+.gd-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 9px 0;
+  border-bottom: 2px solid #b9b9b9;
+}
+
+.gd-slot:last-child {
+  border-bottom: 0;
+}
+
+/* Placares enchem o pôster: dividem o espaço por igual */
+.is-even > .gd-slot {
+  flex: 1;
+}
+
+/* Sobrou espaço: placares no tamanho natural e a foto preenche o resto */
+.with-photo > .gd-slot {
+  flex: none;
+}
+
+.with-photo > .gd-photo {
+  flex: 1;
+  margin-top: 9px;
+}
+
+/* Nem tudo reduzido coube: linhas mais justas */
+.is-tight > .gd-slot {
+  padding: 4px 0;
 }
 
 .gd-row {
@@ -485,13 +538,6 @@
   justify-content: center;
 }
 
-/* Foto embaixo */
-.layout-bottom .gd-photo {
-  flex: 1;
-  min-height: 170px;
-  margin-top: 4px;
-}
-
 /* Coluna + foto ao lado */
 .gd-split {
   flex: 1;
@@ -499,16 +545,30 @@
   grid-template-columns: 222px minmax(0, 1fr);
   gap: 18px;
   min-height: 0;
+  padding-top: 9px;
+}
+
+.gd-slot.is-fixed {
+  flex: none;
 }
 
 .gd-column {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  min-height: 0;
 }
 
-.gd-column .gd-rule {
-  margin: 7px 0;
+.gd-column > .gd-slot {
+  flex: 1;
+  padding: 7px 0;
+}
+
+.gd-column > .gd-slot:first-child {
+  padding-top: 0;
+}
+
+.gd-column > .gd-slot:last-child {
+  padding-bottom: 0;
 }
 
 .gd-split .gd-photo {
@@ -661,6 +721,44 @@
   color: #111;
   font-size: 8px;
   font-weight: 800;
+}
+
+/* ---------- Placar reduzido (os últimos, quando não cabe) ---------- */
+.gd-card.is-mini {
+  height: 42px;
+  border-width: 1.5px;
+  border-radius: 6px;
+}
+
+.gd-card.is-mini .gd-label {
+  top: 1px;
+  font-size: 6.5px;
+}
+
+.gd-card.is-mini .gd-score {
+  margin-top: 6px;
+  gap: 4px;
+}
+
+.gd-card.is-mini .gd-side {
+  width: 28px;
+}
+
+.gd-card.is-mini .gd-side b {
+  font-size: 19px;
+}
+
+.gd-card.is-mini .gd-side small {
+  display: none;
+}
+
+.gd-card.is-mini .gd-score i {
+  height: 19px;
+}
+
+.gd-card.is-mini .gd-pen {
+  bottom: 0;
+  font-size: 6px;
 }
 
 .gd-empty {

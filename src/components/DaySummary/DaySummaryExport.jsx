@@ -1,18 +1,24 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { exportNodeImage } from "../../utils/exportImage";
 import "./daysummary.css";
 
 /* ==========================================================================
-   "GIRO DO DIA": resumo das partidas de um dia como imagem (4:5, 1080x1350)
-   Layouts (a foto ocupa sempre o espaço que sobra):
-   - bottom : jogos em 2 colunas e a foto embaixo
-   - side   : jogos numa coluna e a foto ao lado
-   - topside: 1º e último jogo em cima, o resto numa coluna e a foto ao lado
-   - auto   : escolhe pelo número de jogos
+   "GIRO DO DIA": resumo das partidas de um dia como imagem — 1080 x 1440 (3:4)
+   O pôster tem tamanho fixo (540 x 720 na tela, exportado em 2x).
 
-   Uso no Calendar:
-     <DaySummaryExport matches={matches} players={players} date="2026-11-15" />
+   Como os jogos são distribuídos:
+   - Se os placares enchem o pôster, eles se dividem por igual (sem foto).
+   - Se sobra espaço (poucos jogos), a foto entra para preencher o vazio:
+       bottom : jogos em 2 colunas e a foto embaixo
+       side   : jogos numa coluna e a foto ao lado
+       topside: 1º e último jogo em cima, o resto numa coluna e a foto ao lado
+       auto   : 2 colunas + foto embaixo (só quando sobra espaço)
+   - Se não couber, os DOIS ÚLTIMOS jogos viram placares menores
+     (depois os 4 últimos, e assim por diante). Os outros mantêm o tamanho.
+
+   Só aparece para admin:
+     {isAdmin && <DaySummaryExport matches={matches} players={players} isAdmin={isAdmin} />}
    ========================================================================== */
 
 const dayOf = (m) => {
@@ -88,12 +94,45 @@ const LAYOUTS = [
   { id: "topside", label: "2 em cima + foto" },
 ];
 
-const autoLayout = (n) => (n <= 3 ? "bottom" : n <= 5 ? "side" : "topside");
+/* Medidas do pôster (px na tela; a imagem sai em 2x) */
+const CARD_H = 64; // placar normal
+const MINI_H = 42; // placar reduzido (os últimos, quando não cabe)
+const GAP = 20; // linha entre fileiras (2px + 9px de cada lado)
+const GAP_COL = 16; // linha entre placares na coluna ao lado da foto
+const PHOTO_MIN = 120; // só põe foto se sobrar pelo menos isso
+
+const stackH = (rowsFull, rowsMini, gap = GAP) =>
+  rowsFull * CARD_H + rowsMini * MINI_H + Math.max(0, rowsFull + rowsMini - 1) * gap;
+
+const colH = (n) => n * CARD_H + Math.max(0, n - 1) * GAP_COL;
+
+/* Grade de 2 colunas: quantos jogos ficam no tamanho normal.
+   Ordem de tentativa: tudo normal → linhas mais justas → 2 últimos menores
+   → (justas) → 4 últimos menores → ... */
+const GAP_TIGHT = 10;
+const planGrid = (n, avail) => {
+  for (let mini = 0; mini < n + 2; mini += 2) {
+    const m = Math.min(mini, n);
+    const normal = n - m;
+    for (const gap of [GAP, GAP_TIGHT]) {
+      if (stackH(Math.ceil(normal / 2), Math.ceil(m / 2), gap) <= avail)
+        return { normal, tight: gap === GAP_TIGHT };
+    }
+  }
+  return { normal: 0, tight: true };
+};
+
+const pairs = (arr) => {
+  const out = [];
+  for (let i = 0; i < arr.length; i += 2) out.push(arr.slice(i, i + 2));
+  return out;
+};
 
 export default function DaySummaryExport({
   matches = [],
   players = [],
   date,
+  isAdmin = false,
   buttonLabel = "Exportar giro do dia",
 }) {
   const [open, setOpen] = useState(false);
@@ -155,8 +194,6 @@ export default function DaySummaryExport({
       ? `GIRO DO ${ORDINAIS[seasonDayNumber] || `${seasonDayNumber}º`} DIA`
       : `GIRO DO DIA ${day ? Number(day.slice(8, 10)) : ""}`;
   const title = titleMode === "custom" ? customTitle || autoTitle : autoTitle;
-  const layout =
-    layoutChoice === "auto" ? autoLayout(dayMatches.length) : layoutChoice;
 
   // Libera a foto da memória ao trocar/fechar
   useEffect(() => () => photo && URL.revokeObjectURL(photo), [photo]);
@@ -181,14 +218,14 @@ export default function DaySummaryExport({
     };
   }, [open]);
 
-  // Altura do pôster (prévia reduzida no celular)
-  const [posterH, setPosterH] = useState(675);
-  useEffect(() => {
-    const el = posterRef.current;
-    if (!open || !el) return undefined;
-    const ro = new ResizeObserver(() => setPosterH(el.offsetHeight));
-    ro.observe(el);
-    return () => ro.disconnect();
+  // Espaço livre para os jogos (depende do tamanho do título)
+  const areaRef = useRef(null);
+  const [avail, setAvail] = useState(500);
+  useLayoutEffect(() => {
+    const el = areaRef.current;
+    if (!open || !el) return;
+    const h = el.clientHeight;
+    if (h && Math.abs(h - avail) > 1) setAvail(h);
   });
 
   const handleExport = async () => {
@@ -228,7 +265,7 @@ export default function DaySummaryExport({
       .join(", ");
   };
 
-  const MatchCard = ({ m, n }) => {
+  const MatchCard = ({ m, n, mini = false }) => {
     const s = scoreOf(m);
     const pen = penaltiesOf(m);
     const left = faceOf(m.teamA, byId);
@@ -240,7 +277,7 @@ export default function DaySummaryExport({
     const scB = showScorers ? scorersOf(m, "B") : "";
 
     return (
-      <div className="gd-card">
+      <div className={`gd-card ${mini ? "is-mini" : ""}`}>
         <div className="gd-face">
           {left ? (
             <img src={left.src} alt="" />
@@ -297,59 +334,80 @@ export default function DaySummaryExport({
     </div>
   );
 
-  const titleSize = title.length > 22 ? 62 : title.length > 16 ? 74 : 86;
   const list = dayMatches.map((m, i) => ({ m, n: i + 1 }));
+  const total = list.length;
+  // Dia com muitos jogos (13+): título numa linha só, para sobrar espaço aos placares
+  const titleSize =
+    total > 12 ? 46 : title.length > 22 ? 62 : title.length > 16 ? 74 : 86;
 
-  /* ---------- Conteúdo de cada layout ---------- */
+  /* ---------- Escolhe a distribuição ---------- */
+  const fitsSide = total >= 1 && colH(total) <= avail;
+  const fitsTopside =
+    total >= 3 && CARD_H + GAP + colH(total - 2) <= avail;
+
+  let mode = "grid";
+  if (layoutChoice === "side" && fitsSide) mode = "side";
+  if (layoutChoice === "topside" && fitsTopside) mode = "topside";
+  const fellBack = layoutChoice !== "auto" && layoutChoice !== "bottom" && mode === "grid";
+
+  const grid = planGrid(total, avail);
+  const normalItems = list.slice(0, grid.normal);
+  const miniItems = list.slice(grid.normal);
+  const gridRows = [
+    ...pairs(normalItems).map((r) => ({ items: r, mini: false })),
+    ...pairs(miniItems).map((r) => ({ items: r, mini: true })),
+  ];
+  const usedH = stackH(
+    Math.ceil(normalItems.length / 2),
+    Math.ceil(miniItems.length / 2),
+    grid.tight ? GAP_TIGHT : GAP,
+  );
+  // Foto só entra se sobrar espaço de verdade
+  const gridPhoto =
+    miniItems.length === 0 && !grid.tight && avail - usedH - GAP >= PHOTO_MIN;
+
+  const Row = ({ items, mini }) => (
+    <div className={`gd-row ${items.length === 1 ? "single" : ""}`}>
+      {items.map(({ m, n }) => (
+        <MatchCard key={m.id || n} m={m} n={n} mini={mini} />
+      ))}
+    </div>
+  );
+
   let body;
-  if (layout === "bottom") {
-    const rows = [];
-    for (let i = 0; i < list.length; i += 2) rows.push(list.slice(i, i + 2));
-    body = (
-      <div className="gd-body layout-bottom">
-        {rows.map((row, r) => (
-          <React.Fragment key={r}>
-            <div className={`gd-row ${row.length === 1 ? "single" : ""}`}>
-              {row.map(({ m, n }) => (
-                <MatchCard key={m.id || n} m={m} n={n} />
-              ))}
-            </div>
-            <span className="gd-rule" />
-          </React.Fragment>
-        ))}
-        <PhotoBox />
-      </div>
-    );
-  } else {
-    // side / topside
-    const top =
-      layout === "topside" && list.length >= 3
-        ? [list[0], list[list.length - 1]]
-        : [];
+  if (mode === "side" || mode === "topside") {
+    const top = mode === "topside" ? [list[0], list[total - 1]] : [];
     const column = top.length ? list.slice(1, -1) : list;
     body = (
-      <div className={`gd-body layout-${layout}`}>
+      <div className={`gd-body layout-${mode}`}>
         {top.length > 0 && (
-          <>
-            <div className="gd-row">
-              {top.map(({ m, n }) => (
-                <MatchCard key={m.id || n} m={m} n={n} />
-              ))}
-            </div>
-            <span className="gd-rule" />
-          </>
+          <div className="gd-slot is-fixed">
+            <Row items={top} />
+          </div>
         )}
         <div className="gd-split">
           <div className="gd-column">
-            {column.map(({ m, n }, i) => (
-              <React.Fragment key={m.id || n}>
+            {column.map(({ m, n }) => (
+              <div className="gd-slot" key={m.id || n}>
                 <MatchCard m={m} n={n} />
-                {i < column.length - 1 && <span className="gd-rule" />}
-              </React.Fragment>
+              </div>
             ))}
           </div>
           <PhotoBox />
         </div>
+      </div>
+    );
+  } else {
+    body = (
+      <div
+        className={`gd-body layout-grid ${gridPhoto ? "with-photo" : "is-even"} ${grid.tight ? "is-tight" : ""}`}
+      >
+        {gridRows.map((r, i) => (
+          <div className={`gd-slot ${r.mini ? "is-mini" : ""}`} key={i}>
+            <Row items={r.items} mini={r.mini} />
+          </div>
+        ))}
+        {gridPhoto && <PhotoBox />}
       </div>
     );
   }
@@ -425,7 +483,7 @@ export default function DaySummaryExport({
                     onClick={() => setLayoutChoice(l.id)}
                   >
                     <span
-                      className={`gd-lay-ico ico-${l.id === "auto" ? autoLayout(dayMatches.length) : l.id}`}
+                      className={`gd-lay-ico ico-${l.id === "auto" ? "bottom" : l.id}`}
                       aria-hidden="true"
                     >
                       <i />
@@ -436,6 +494,18 @@ export default function DaySummaryExport({
                   </button>
                 ))}
               </div>
+
+              {total > 0 && (fellBack || miniItems.length > 0 || (mode === "grid" && !gridPhoto)) && (
+                <p className="gd-note">
+                  {miniItems.length > 0
+                    ? `Não coube tudo: os ${miniItems.length} últimos jogos ficaram menores.`
+                    : fellBack
+                      ? "Esse layout não coube com tantos jogos; usei a grade."
+                      : mode === "grid"
+                        ? "Os jogos preenchem o pôster, então a foto não entra."
+                        : ""}
+                </p>
+              )}
 
               {/* Foto */}
               <div className="gd-photo-tools">
@@ -483,7 +553,7 @@ export default function DaySummaryExport({
 
             {/* PRÉVIA (é exatamente o que vira imagem) */}
             <div className="gd-preview">
-              <div className="gd-scaler" style={{ "--gd-h": `${posterH}px` }}>
+              <div className="gd-scaler">
                 <div className="gd-poster" ref={posterRef}>
                   <span className="gd-rule" />
                   <h1 className="gd-title" style={{ fontSize: titleSize }}>
@@ -501,11 +571,13 @@ export default function DaySummaryExport({
                   </div>
                   <span className="gd-rule" />
 
-                  {dayMatches.length ? (
-                    body
-                  ) : (
-                    <p className="gd-empty">Nenhuma partida neste dia.</p>
-                  )}
+                  <div className="gd-area" ref={areaRef}>
+                    {dayMatches.length ? (
+                      body
+                    ) : (
+                      <p className="gd-empty">Nenhuma partida neste dia.</p>
+                    )}
+                  </div>
 
                   <span className="gd-rule gd-rule-end" />
                 </div>
@@ -526,6 +598,9 @@ export default function DaySummaryExport({
         document.body,
       )
     : null;
+
+  // Só admin exporta
+  if (!isAdmin) return null;
 
   return (
     <>
