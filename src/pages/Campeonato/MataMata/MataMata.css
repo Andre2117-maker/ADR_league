@@ -925,3 +925,213 @@
   color: #050505;
   text-transform: uppercase;
 }
+
+/* ==========================================================================
+   10. IDR — ESTILO JORNAL
+   ========================================================================== */
+.theme-idr .bkt-outer-wrapper {
+  --bkt-gold: #000000;
+  --bkt-line-strong: #000000;
+}
+
+.theme-idr .bkt-col-header {
+  background: #fff !important;
+  border: 0 !important;
+  border-top: 5px solid #000 !important;
+  border-bottom: 1px solid #000 !important;
+}
+
+.theme-idr .bkt-col-header::after {
+  display: none;
+}
+
+.theme-idr .bkt-col-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+.theme-idr .bkt-card {
+  border: 1.5px solid #000 !important;
+  box-shadow: 5px 5px 0 #d6d6d0 !important;
+}
+
+.theme-idr .bkt-card.bkt-card-final {
+  border-width: 3px !important;
+}
+
+.theme-idr .bkt-champion-banner {
+  background: #000 !important;
+  border-top: 0 !important;
+}
+
+.theme-idr .bkt-champ-label,
+.theme-idr .bkt-champ-team {
+  color: #fff !important;
+}
+
+.theme-idr .bkt-trophy-pedestal::before {
+  display: none;
+}
+
+.theme-idr .bkt-trophy-img {
+  filter: grayscale(1) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.2));
+}
+
+/* ==========================================================================
+   11. ADR CLASSIC — CHAVEAMENTO RETRÔ
+   ========================================================================== */
+body.theme-classic .bkt-outer-wrapper {
+  --bkt-bg: #0b0710;
+  --bkt-card-bg: #1d1222;
+  --bkt-header-bg: #170e1b;
+  --bkt-line: rgba(255, 138, 165, 0.2);
+  --bkt-line-strong: rgba(255, 138, 165, 0.35);
+  --bkt-gold: #ec4470;
+  --bkt-gold-soft: rgba(236, 68, 112, 0.16);
+  --bkt-muted: #b79bb8;
+}
+
+body.theme-classic .bkt-admin-hint-bar {
+  background: #170e1b;
+  border-left: 4px solid #ec4470;
+  color: #cdb7cf;
+}
+
+body.theme-classic .bkt-col-header {
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8 !important;
+}
+
+body.theme-classic .bkt-col-header::after {
+  display: none;
+}
+
+body.theme-classic .bkt-col-kicker {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+body.theme-classic .bkt-col-title,
+body.theme-classic .bkt-header-final .bkt-col-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 1.15rem;
+  letter-spacing: 0.06em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow: 2px 2px 0 #120a16 !important;
+}
+
+body.theme-classic .bkt-card {
+  border: 2px solid rgba(255, 138, 165, 0.55) !important;
+  border-radius: 8px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.85),
+    0 14px 30px rgba(0, 0, 0, 0.55) !important;
+}
+
+body.theme-classic .bkt-card.bkt-card-highlighted,
+body.theme-classic .bkt-card.bkt-card-final {
+  border-color: #fff !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 18px 38px rgba(236, 68, 112, 0.3) !important;
+}
+
+body.theme-classic .bkt-team-row.is-winner {
+  background: linear-gradient(90deg, rgba(236, 68, 112, 0.18), transparent 80%);
+}
+
+body.theme-classic .bkt-team-row.is-winner .bkt-team-indicator {
+  background: #ec4470;
+}
+
+body.theme-classic .bkt-score-pill {
+  border-radius: 4px;
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+}
+
+body.theme-classic .bkt-score-pill.score-win {
+  color: #fff !important;
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  border-color: transparent !important;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .bkt-round-col.has-next-col .bkt-pair.pair-active::after {
+  border-color: #ec4470;
+}
+
+body.theme-classic .bkt-round-col.has-next-col .bkt-pair.pair-active::before {
+  background: #ec4470;
+  box-shadow: 0 0 8px rgba(236, 68, 112, 0.5);
+}
+
+body.theme-classic .bkt-trophy-pedestal::before {
+  background: radial-gradient(circle, rgba(236, 68, 112, 0.35) 0%, transparent 70%);
+}
+
+body.theme-classic .bkt-champion-banner {
+  border-top: 3px solid #120a16 !important;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+}
+
+body.theme-classic .bkt-champ-label {
+  color: #fff !important;
+  font-style: italic;
+}
+
+body.theme-classic .bkt-champ-team {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: #fff !important;
+  text-shadow:
+    2px 2px 0 #e3263a,
+    4px 4px 0 #120a16;
+}
+
+body.theme-classic .bkt-mob-pill.active {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+body.theme-classic .bkt-btn-details {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 4px;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .bkt-card-header,
+body.theme-classic .bkt-card-footer {
+  background: #170e1b !important;
+}
+
+body.theme-classic .bkt-team-row {
+  background: #1d1222;
+}
+
+body.theme-classic .bkt-score-pill,
+body.theme-classic .bkt-score-input {
+  background: #140c18;
+  border-color: rgba(255, 138, 165, 0.3);
+  color: #fff;
+}

@@ -658,3 +658,181 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   IDR — ESTILO JORNAL (régua grossa, título pesado, posições invertidas)
+   ========================================================================== */
+.theme-idr .camp-group-card {
+  border: 0;
+  border-top: 6px solid #000;
+  border-bottom: 2px solid #000;
+  border-radius: 0;
+}
+
+.theme-idr .camp-group-header {
+  background: #fff;
+  border-bottom: 2px solid #000;
+}
+
+.theme-idr .camp-group-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: -0.3px;
+  color: #000;
+}
+
+.theme-idr .group-tag {
+  color: #000;
+}
+
+.theme-idr .camp-table thead th {
+  background: #fff;
+  color: #000;
+  border-bottom: 1px solid #000;
+}
+
+.theme-idr .group-click-hint {
+  border-color: #000;
+  border-radius: 0;
+  color: #000;
+  background: #fff;
+}
+
+.theme-idr .camp-group-footer {
+  background: #fff;
+  border-top: 1px solid #000;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — GRUPOS COMO FIGURINHAS
+   ========================================================================== */
+body.theme-classic .camp-groups-layout {
+  --camp-bg: #140c18;
+  --camp-card: #1d1222;
+  --camp-card-soft: #241529;
+  --camp-header: #170e1b;
+  --camp-border: rgba(255, 138, 165, 0.25);
+  --camp-border-soft: rgba(255, 138, 165, 0.12);
+  --camp-text: #ffffff;
+  --camp-muted: #b79bb8;
+  --camp-subtle: #8c6f8e;
+  --camp-accent: #ec4470;
+  --camp-accent-soft: rgba(236, 68, 112, 0.14);
+  --camp-qualified: #ec4470;
+  --camp-qualified-soft: rgba(236, 68, 112, 0.16);
+  --camp-shadow: 0 16px 34px rgba(0, 0, 0, 0.55);
+  gap: 30px;
+}
+
+body.theme-classic .camp-group-card {
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 18px 36px rgba(0, 0, 0, 0.55) !important;
+}
+
+body.theme-classic .camp-group-card:hover {
+  border-color: #fff !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 22px 44px rgba(236, 68, 112, 0.3) !important;
+}
+
+body.theme-classic .camp-group-header {
+  background:
+    radial-gradient(circle at 15% 50%, rgba(255, 138, 165, 0.4), transparent 50%),
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 3px solid #120a16;
+}
+
+body.theme-classic .group-tag {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+body.theme-classic .camp-group-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  font-size: 1.7rem;
+  letter-spacing: 0.05em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow:
+    2px 2px 0 #e3263a,
+    4px 4px 0 #120a16 !important;
+}
+
+body.theme-classic .group-click-hint {
+  background: rgba(18, 10, 22, 0.55);
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  font-style: italic;
+}
+
+body.theme-classic .camp-table thead th {
+  font-style: italic;
+  color: #ff8aa5;
+}
+
+body.theme-classic .pos-badge {
+  border-radius: 50%;
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+}
+
+body.theme-classic .camp-tr.is-qualified .pos-badge {
+  color: #fff;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 2px solid #fff;
+  transform: rotate(-6deg);
+}
+
+body.theme-classic .camp-tr.is-qualified td.td-team {
+  box-shadow: inset 4px 0 0 #ec4470;
+}
+
+body.theme-classic .pts-pill {
+  color: #fff;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 0;
+  border-radius: 4px;
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .matches-dropdown {
+  border-left: 4px solid transparent;
+  border-image: linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a) 1;
+  background: #140c18;
+}
+
+body.theme-classic .dropdown-badge {
+  color: #fff;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 0;
+}
+
+body.theme-classic .camp-match-item {
+  border-radius: 6px;
+}
+
+body.theme-classic .camp-group-footer {
+  background: #170e1b;
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  body.theme-classic .camp-group-title {
+    font-size: 1.3rem;
+  }
+}

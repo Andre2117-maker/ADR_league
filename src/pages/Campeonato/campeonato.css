@@ -1,22 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
-   CAMPEONATO — MINIMALISTA + AURA
-   Linhas finas, cantos retos, brilho dourado sutil.
-   As variáveis --cp-* ficam em .camp-page-wrapper e são herdadas pelos
-   componentes filhos (FaseGrupos, MataMata, AdminConfig). O tema IDR só
-   redefine as variáveis (seção 7).
+   CAMPEONATO — uma cara para cada tema
+   ADR     : noite de gala — preto, linhas finas e ouro metálico
+   IDR     : jornal esportivo — branco, preto, réguas grossas e letra pesada
+   CLASSIC : figurinha retrô — listras roxo → vermelho, adesivos, Anton
+   As variáveis --cp-* são herdadas por FaseGrupos, MataMata e AdminConfig.
    ========================================================================== */
 
 /* ==========================================================================
-   1. ESTRUTURA GLOBAL E FUNDO
+   1. ESTRUTURA GLOBAL E FUNDO (ADR)
    ========================================================================== */
 .camp-page-wrapper {
-  --cp-bg: #050505;
+  --cp-bg: #070707;
   --cp-page: #030303;
-  --cp-hover: #0d0d0d;
+  --cp-hover: #0f0f0f;
   --cp-line: #2b2b2b;
   --cp-fg: #ffffff;
   --cp-muted: #7a7a7a;
   --cp-accent: #d4af37;
+  --cp-accent-2: #f3d97a;
   --cp-on-accent: #000000;
   --cp-glow: rgba(212, 175, 55, 0.16);
   --cp-ok: #00c853;
@@ -37,12 +40,17 @@
     sans-serif;
   background-image:
     radial-gradient(70% 38% at 50% 0%, var(--cp-glow), transparent 70%),
-    radial-gradient(
-      40% 25% at 92% 16%,
-      rgba(130, 90, 255, 0.07),
-      transparent 70%
-    );
+    radial-gradient(40% 25% at 92% 16%, rgba(130, 90, 255, 0.06), transparent 70%);
   background-repeat: no-repeat;
+  box-sizing: border-box;
+}
+
+.camp-page-wrapper svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 @keyframes cpShine {
@@ -57,9 +65,7 @@
 @keyframes cpFadeIn {
   from {
     opacity: 0;
-  }
-  to {
-    opacity: 1;
+    transform: translateY(8px);
   }
 }
 
@@ -93,15 +99,65 @@
 }
 
 /* ==========================================================================
-   2. CABEÇALHO HERO
+   2. CABEÇALHO HERO (ADR: placa de gala com cantoneiras douradas)
    ========================================================================== */
 .camp-header {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 980px;
+  margin-bottom: 26px;
   text-align: center;
-  margin-bottom: 30px;
+}
+
+.camp-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 26px;
+  width: 100%;
+  padding: 30px 34px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(60% 120% at 0% 50%, var(--cp-glow), transparent 70%),
+    linear-gradient(160deg, #0d0d0f 0%, #060606 100%);
+  border: 1px solid color-mix(in srgb, var(--cp-accent) 28%, transparent);
+  animation: cpFadeIn 0.6s ease both;
+}
+
+/* traço de luz no topo */
+.camp-hero::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cp-accent), transparent);
+}
+
+.camp-hero-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--cp-accent);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.camp-hero-corner.tl {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+}
+
+.camp-hero-corner.br {
+  right: 8px;
+  bottom: 8px;
+  border-width: 0 1px 1px 0;
 }
 
 .camp-logo-glow {
@@ -109,7 +165,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 16px;
 }
 
 .camp-logo-glow::before {
@@ -124,39 +179,48 @@
 .camp-logo {
   position: relative;
   z-index: 1;
-  width: 80px;
+  width: 84px;
   height: auto;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
   transition: transform 0.3s ease;
 }
 
 .camp-logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.05) rotate(-3deg);
+}
+
+.camp-hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  text-align: left;
 }
 
 .camp-subtitle {
-  margin-bottom: 12px;
-  font-size: 0.64rem;
+  margin-bottom: 10px;
+  font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: var(--cp-muted);
+  color: var(--cp-accent);
 }
 
 .camp-title {
   margin: 0;
-  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-size: clamp(1.7rem, 4.6vw, 2.9rem);
   font-weight: 900;
   font-style: italic;
-  letter-spacing: 4px;
-  line-height: 1.1;
+  letter-spacing: 3px;
+  line-height: 1.05;
   text-transform: uppercase;
-  text-shadow: none;
+  overflow-wrap: anywhere;
   background: linear-gradient(
     100deg,
-    var(--cp-fg) 35%,
-    var(--cp-accent) 50%,
-    var(--cp-fg) 65%
+    var(--cp-fg) 30%,
+    var(--cp-accent-2) 45%,
+    var(--cp-accent) 52%,
+    var(--cp-fg) 68%
   );
   background-size: 250% 100%;
   -webkit-background-clip: text;
@@ -168,30 +232,40 @@
 
 .camp-edition {
   margin: 10px 0 0;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+.camp-hero-trophy {
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
   color: var(--cp-accent);
+  opacity: 0.85;
+}
+
+.camp-hero-trophy svg {
+  width: 72px;
+  height: 72px;
+  stroke-width: 1.1;
+  filter: drop-shadow(0 0 14px var(--cp-glow));
 }
 
 .camp-header-divider {
-  width: min(320px, 70%);
-  height: 1px;
-  margin-top: 18px;
-  border-radius: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--cp-accent),
-    transparent
-  );
+  display: none;
 }
 
 /* ---------- edição rápida do nome (admin) ---------- */
 .camp-edit-btn {
-  margin-top: 16px;
-  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 14px;
   background: transparent;
   border: 1px solid var(--cp-line);
   border-radius: 0;
@@ -203,6 +277,11 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.camp-edit-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 .camp-edit-btn:hover {
@@ -289,30 +368,33 @@
 }
 
 /* ---------- resumo da temporada ---------- */
+.camp-summary-block {
+  width: min(980px, 100%);
+  margin-bottom: 34px;
+  animation: cpFadeIn 0.6s 0.1s ease both;
+}
+
 .camp-summary {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 1px;
-  width: min(640px, 100%);
-  margin-bottom: 34px;
   background: var(--cp-line);
   border: 1px solid var(--cp-line);
-  animation: cpFadeIn 0.6s ease both;
 }
 
 .camp-summary > div {
   flex: 1 1 100px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  padding: 14px 8px;
+  gap: 6px;
+  padding: 16px 8px;
   background: var(--cp-bg);
 }
 
 .camp-summary strong {
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   font-weight: 900;
   line-height: 1;
   color: var(--cp-accent);
@@ -328,6 +410,47 @@
   color: var(--cp-muted);
 }
 
+.camp-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px 14px;
+  background: var(--cp-bg);
+  border: 1px solid var(--cp-line);
+  border-top: 0;
+}
+
+.camp-progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cp-muted);
+}
+
+.camp-progress-label b {
+  font-size: 0.8rem;
+  color: var(--cp-accent);
+  letter-spacing: 1px;
+}
+
+.camp-progress-track {
+  height: 3px;
+  background: var(--cp-line);
+  overflow: hidden;
+}
+
+.camp-progress-track i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cp-accent) 40%, transparent), var(--cp-accent));
+  box-shadow: 0 0 10px var(--cp-accent);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 /* ==========================================================================
    3. BARRA DE CONTROLES (ANOS E ABAS)
    ========================================================================== */
@@ -335,7 +458,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   width: 100%;
   max-width: 1300px;
   margin-bottom: 40px;
@@ -378,8 +501,8 @@
 .camp-year-btn .year-dot {
   width: 6px;
   height: 6px;
-  border-radius: 0;
   background: var(--cp-line);
+  transform: rotate(45deg);
   transition: all 0.25s ease;
 }
 
@@ -410,8 +533,6 @@
 .camp-year-btn:hover {
   background: var(--cp-hover);
   color: var(--cp-fg);
-  transform: none;
-  border-color: var(--cp-line);
 }
 
 .camp-year-btn.active {
@@ -440,16 +561,15 @@
 /* ---------- abas ---------- */
 .camp-tabs {
   display: inline-flex;
-  gap: 0;
-  padding: 0;
-  background: transparent;
   border: 1px solid var(--cp-line);
-  border-radius: 0;
-  box-shadow: none;
 }
 
 .camp-tab-btn {
-  padding: 12px 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 26px;
   background: transparent;
   border: none;
   border-right: 1px solid var(--cp-line);
@@ -466,6 +586,12 @@
     color 0.2s ease;
 }
 
+.camp-tab-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
 .camp-tab-btn:last-child {
   border-right: none;
 }
@@ -476,21 +602,19 @@
 }
 
 .camp-tab-btn.active {
-  background: var(--cp-accent);
+  background: linear-gradient(135deg, var(--cp-accent-2), var(--cp-accent) 60%);
   color: var(--cp-on-accent);
   box-shadow: 0 0 18px var(--cp-glow);
 }
 
 .camp-tab-admin {
   color: var(--cp-accent);
-  border: none;
   border-left: 1px dashed var(--cp-line);
 }
 
 .camp-tab-admin.active {
   background: var(--cp-fg);
   color: var(--cp-bg);
-  border-left-style: solid;
   box-shadow: none;
 }
 
@@ -500,6 +624,7 @@
   justify-content: center;
   width: 100%;
   max-width: 1400px;
+  animation: cpFadeIn 0.5s ease both;
 }
 
 /* ==========================================================================
@@ -699,23 +824,43 @@
     padding: 95px 12px 50px;
   }
 
-  .camp-logo {
-    width: 64px;
+  .camp-hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 16px;
+    padding: 22px 18px;
   }
+
+  .camp-hero-trophy {
+    display: none;
+  }
+
+  .camp-logo {
+    width: 60px;
+  }
+
+  .camp-logo-glow::before {
+    width: 90px;
+    height: 90px;
+  }
+
   .camp-subtitle {
-    font-size: 0.58rem;
+    font-size: 0.54rem;
     letter-spacing: 3px;
   }
+
   .camp-title {
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
+  }
+
+  .camp-summary strong {
+    font-size: 1.35rem;
   }
 
   .camp-controls-bar {
-    gap: 16px;
+    gap: 14px;
     margin-bottom: 30px;
   }
 
-  /* anos deslizam na horizontal */
   .camp-years-container {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -734,7 +879,6 @@
     padding: 9px 16px;
   }
 
-  /* abas dividem a largura */
   .camp-tabs {
     width: 100%;
     display: flex;
@@ -742,8 +886,10 @@
 
   .camp-tab-btn {
     flex: 1;
-    padding: 12px 6px;
-    font-size: 0.64rem;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 4px;
+    font-size: 0.6rem;
     letter-spacing: 1px;
     text-align: center;
     white-space: nowrap;
@@ -753,45 +899,511 @@
 @media (prefers-reduced-motion: reduce) {
   .camp-title {
     animation: none;
-    background: none;
-    -webkit-text-fill-color: var(--cp-fg);
-    color: var(--cp-fg);
   }
-  .camp-summary {
+  .camp-hero,
+  .camp-summary-block,
+  .camp-content-area {
     animation: none;
   }
 }
 
 /* ==========================================================================
-   6. (reservado)
-   ========================================================================== */
-
-/* ==========================================================================
-   7. TEMA IDR (só troca as variáveis)
+   6. TEMA IDR — JORNAL ESPORTIVO
+   Branco, preto, régua grossa no topo, letra pesada e sem brilho.
    ========================================================================== */
 .theme-idr .camp-page-wrapper {
   --cp-bg: #ffffff;
-  --cp-page: #f6f6f4;
-  --cp-hover: #f5f5f5;
-  --cp-line: #d9d9d9;
+  --cp-page: #f4f4f1;
+  --cp-hover: #f0f0ec;
+  --cp-line: #d6d6d0;
   --cp-fg: #000000;
-  --cp-muted: #777777;
+  --cp-muted: #6b6b6b;
   --cp-accent: #000000;
+  --cp-accent-2: #000000;
   --cp-on-accent: #ffffff;
-  --cp-glow: rgba(0, 0, 0, 0.06);
-  --cp-ok: #008a00;
-  --cp-bad: #cc0000;
+  --cp-glow: rgba(0, 0, 0, 0);
+  --cp-ok: #0a7a2f;
+  --cp-bad: #c40000;
 
-  background-image: radial-gradient(
-    70% 38% at 50% 0%,
-    rgba(0, 0, 0, 0.04),
-    transparent 70%
-  );
+  background-image: none;
+}
+
+.theme-idr .camp-hero {
+  background: #ffffff;
+  border: 0;
+  border-top: 8px solid #000;
+  border-bottom: 2px solid #000;
+  box-shadow: 0 1px 0 #000, 0 14px 30px rgba(0, 0, 0, 0.05);
+}
+
+.theme-idr .camp-hero::before {
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #000;
+}
+
+.theme-idr .camp-hero-corner {
+  display: none;
+}
+
+.theme-idr .camp-logo-glow::before {
+  display: none;
 }
 
 .theme-idr .camp-logo {
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+  filter: grayscale(1) contrast(1.1);
 }
-.theme-idr .camp-summary strong {
+
+.theme-idr .camp-subtitle {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #000;
+  color: #fff;
+  letter-spacing: 3px;
+}
+
+.theme-idr .camp-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 0.95;
+  background: none;
+  -webkit-text-fill-color: #000;
+  color: #000;
+  animation: none;
   text-shadow: none;
+  filter: none;
+}
+
+.theme-idr .camp-edition {
+  color: #333;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-transform: none;
+  font-size: 0.9rem;
+}
+
+.theme-idr .camp-hero-trophy {
+  color: #000;
+  opacity: 1;
+  border-left: 2px solid #000;
+  padding-left: 22px;
+  width: auto;
+}
+
+.theme-idr .camp-hero-trophy svg {
+  filter: none;
+  stroke-width: 1.4;
+}
+
+.theme-idr .camp-summary {
+  background: transparent;
+  border: 0;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  gap: 0;
+}
+
+.theme-idr .camp-summary > div {
+  background: transparent;
+  border-right: 1px solid #000;
+  padding: 18px 8px 14px;
+}
+
+.theme-idr .camp-summary > div:last-child {
+  border-right: 0;
+}
+
+.theme-idr .camp-summary strong {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 2.1rem;
+  color: #000;
+  text-shadow: none;
+}
+
+.theme-idr .camp-summary span {
+  color: #000;
+}
+
+.theme-idr .camp-progress {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #000;
+  padding: 10px 0 12px;
+}
+
+.theme-idr .camp-progress-label,
+.theme-idr .camp-progress-label b {
+  color: #000;
+}
+
+.theme-idr .camp-progress-track {
+  height: 6px;
+  background: repeating-linear-gradient(90deg, #ddd 0 6px, transparent 6px 8px);
+}
+
+.theme-idr .camp-progress-track i {
+  background: #000;
+  box-shadow: none;
+}
+
+.theme-idr .camp-years-container {
+  border: 0;
+  gap: 8px;
+}
+
+.theme-idr .camp-year-btn {
+  border: 1.5px solid #000;
+  color: #000;
+  background: #fff;
+}
+
+.theme-idr .camp-year-btn:last-child {
+  border-right: 1.5px solid #000;
+}
+
+.theme-idr .camp-year-btn.active {
+  background: #000;
+  color: #fff;
+  box-shadow: 4px 4px 0 #bdbdb6;
+}
+
+.theme-idr .camp-year-btn.active .year-name {
+  color: #cfcfcf;
+}
+
+.theme-idr .camp-year-btn.active .year-dot {
+  background: #fff;
+  box-shadow: none;
+}
+
+.theme-idr .camp-year-add {
+  border-style: dashed;
+}
+
+.theme-idr .camp-tabs {
+  border: 0;
+  border-bottom: 2px solid #000;
+}
+
+.theme-idr .camp-tab-btn {
+  border-right: 0;
+  color: #777;
+  box-shadow: inset 0 -4px 0 transparent;
+}
+
+.theme-idr .camp-tab-btn:hover {
+  background: transparent;
+  color: #000;
+}
+
+.theme-idr .camp-tab-btn.active {
+  background: transparent;
+  color: #000;
+  box-shadow: inset 0 -5px 0 #000;
+}
+
+.theme-idr .camp-tab-admin {
+  border-left: 0;
+  color: #000;
+}
+
+.theme-idr .camp-tab-admin.active {
+  background: #000;
+  color: #fff;
+}
+
+/* ==========================================================================
+   7. TEMA ADR CLASSIC — FIGURINHA RETRÔ
+   ========================================================================== */
+body.theme-classic .camp-page-wrapper {
+  --cp-bg: #1d1222;
+  --cp-page: #0b0710;
+  --cp-hover: #241529;
+  --cp-line: rgba(255, 138, 165, 0.2);
+  --cp-fg: #ffffff;
+  --cp-muted: #b79bb8;
+  --cp-accent: #ec4470;
+  --cp-accent-2: #ff8aa5;
+  --cp-on-accent: #ffffff;
+  --cp-glow: rgba(236, 68, 112, 0.22);
+  --cp-grad: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+
+  background-color: #0b0710 !important;
+  background-image:
+    radial-gradient(70% 38% at 50% 0%, rgba(184, 48, 122, 0.25), transparent 70%) !important;
+}
+
+body.theme-classic .camp-hero {
+  border: 2px solid #ff8aa5;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 12% 50%, rgba(255, 138, 165, 0.45), transparent 45%),
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8 0%, #b8307a 55%, #e3263a 100%);
+  box-shadow:
+    0 0 0 4px #120a16,
+    0 0 0 6px #7b3aa8,
+    0 22px 46px rgba(0, 0, 0, 0.6);
+}
+
+body.theme-classic .camp-hero::before {
+  top: auto;
+  bottom: 12px;
+  left: auto;
+  right: 18px;
+  width: auto;
+  height: auto;
+  content: "ADR · CLASSIC";
+  background: none;
+  font-family: "Anton", "Impact", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+body.theme-classic .camp-hero-corner {
+  display: none;
+}
+
+body.theme-classic .camp-logo-glow {
+  padding: 8px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 6px 0 #5a1f4a, 0 12px 24px rgba(0, 0, 0, 0.4);
+  transform: rotate(-6deg);
+}
+
+body.theme-classic .camp-logo-glow::before {
+  display: none;
+}
+
+body.theme-classic .camp-logo {
+  width: 74px;
+  filter: none;
+}
+
+body.theme-classic .camp-subtitle {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #120a16;
+  color: #ff8aa5;
+  border-radius: 3px;
+  font-style: italic;
+  letter-spacing: 3px;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .camp-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: 0.05em !important;
+  line-height: 1 !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  animation: none !important;
+  filter: none !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16 !important;
+}
+
+body.theme-classic .camp-edition {
+  color: #fff;
+  opacity: 0.85;
+  font-style: italic;
+}
+
+body.theme-classic .camp-hero-trophy {
+  color: #fff;
+  opacity: 0.9;
+  transform: rotate(8deg);
+}
+
+body.theme-classic .camp-hero-trophy svg {
+  stroke-width: 1.4;
+  filter: drop-shadow(3px 3px 0 #5a1f4a);
+}
+
+body.theme-classic .camp-edit-btn {
+  border: 0;
+  border-radius: 6px;
+  background: var(--cp-grad) !important;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+body.theme-classic .camp-edit-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+/* números como adesivos */
+body.theme-classic .camp-summary {
+  background: transparent;
+  border: 0;
+  gap: 14px;
+}
+
+body.theme-classic .camp-summary > div {
+  border: 2px solid #ff8aa5;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.04) 0 10px, transparent 10px 22px),
+    #1d1222;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+  transform: rotate(-1.5deg);
+}
+
+body.theme-classic .camp-summary > div:nth-child(even) {
+  transform: rotate(1.5deg);
+}
+
+body.theme-classic .camp-summary strong {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 2.1rem;
+  color: #fff;
+  text-shadow:
+    2px 2px 0 #e3263a,
+    4px 4px 0 #7b3aa8;
+}
+
+body.theme-classic .camp-summary span {
+  color: #ff8aa5;
+  font-style: italic;
+}
+
+body.theme-classic .camp-progress {
+  margin-top: 16px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+body.theme-classic .camp-progress-label b {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+
+body.theme-classic .camp-progress-track {
+  height: 10px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.06) 0 6px, transparent 6px 12px), #1d1222;
+  border: 1px solid rgba(255, 138, 165, 0.3);
+  transform: skewX(-18deg);
+}
+
+body.theme-classic .camp-progress-track i {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+  box-shadow: none;
+}
+
+/* temporadas viram adesivos soltos */
+body.theme-classic .camp-years-container {
+  border: 0;
+  gap: 10px;
+}
+
+body.theme-classic .camp-year-btn {
+  border: 2px solid rgba(255, 138, 165, 0.35);
+  border-radius: 6px;
+  background: #1d1222;
+  color: var(--cp-muted);
+}
+
+body.theme-classic .camp-year-btn:last-child {
+  border-right: 2px solid rgba(255, 138, 165, 0.35);
+}
+
+body.theme-classic .camp-year-btn.active {
+  background: var(--cp-grad) !important;
+  color: #fff !important;
+  border-color: #fff;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .camp-year-btn.active .year-text b {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+body.theme-classic .camp-year-btn.active .year-name {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.theme-classic .camp-year-btn.active .year-dot {
+  background: #fff;
+  box-shadow: none;
+}
+
+body.theme-classic .camp-year-add {
+  border-style: dashed !important;
+  color: #ff8aa5;
+}
+
+/* abas em botões com degrau */
+body.theme-classic .camp-tabs {
+  border: 0;
+  gap: 10px;
+}
+
+body.theme-classic .camp-tab-btn {
+  border: 2px solid rgba(255, 138, 165, 0.35);
+  border-radius: 6px;
+  background: #1d1222;
+  color: var(--cp-muted);
+  font-style: italic;
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .camp-tab-btn:last-child {
+  border-right: 2px solid rgba(255, 138, 165, 0.35);
+}
+
+body.theme-classic .camp-tab-btn.active {
+  background: var(--cp-grad) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+  text-shadow: 1px 1px 0 #5a1f4a;
+}
+
+body.theme-classic .camp-tab-btn:active {
+  transform: translateY(3px);
+}
+
+body.theme-classic .camp-tab-admin {
+  border-style: dashed;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .camp-summary {
+    gap: 10px;
+  }
+  body.theme-classic .camp-summary > div {
+    flex-basis: calc(50% - 10px);
+  }
+  body.theme-classic .camp-tabs {
+    gap: 6px;
+  }
+  body.theme-classic .camp-hero::before {
+    display: none;
+  }
 }

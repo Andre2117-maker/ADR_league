@@ -9,6 +9,38 @@ import FaseGrupos from "./FaseGrupos/FaseGrupos";
 import AdminConfig from "./ADMINCONFIG/AdminConfig";
 import MataMata from "./MataMata/MataMata";
 
+/* Ícones (SVG, herdam a cor) */
+const IcoTrophy = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M7 4h10v5a5 5 0 0 1-10 0z" />
+    <path d="M7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5" />
+    <path d="M12 14v3.5M8.5 20.5h7M9.5 17.5h5v3h-5z" />
+  </svg>
+);
+const IcoGroups = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="3.5" y="4" width="17" height="16" rx="1.5" />
+    <path d="M3.5 9h17M3.5 14.5h17M9.5 9v11" />
+  </svg>
+);
+const IcoBracket = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 5h5v5H3M3 14h5v5H3M8 7.5h3v9H8M11 12h4M15 9.5h6v5h-6z" />
+  </svg>
+);
+const IcoGear = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" />
+  </svg>
+);
+const IcoPen = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 20l1-4.5L15.5 5 19 8.5 8.5 19z" />
+    <path d="M13.5 7l3.5 3.5" />
+  </svg>
+);
+
 export default function Campeonato({ isAdmin }) {
   const [partidas, setPartidas] = useState([]);
   const [configs, setConfigs] = useState({});
@@ -265,18 +297,30 @@ export default function Campeonato({ isAdmin }) {
     <div className="camp-page-wrapper">
       {/* CABEÇALHO HERO */}
       <header className="camp-header">
-        <div className="camp-logo-glow">
-          <img src={LogoADR} alt="Logo O ADR" className="camp-logo" />
+        <div className="camp-hero">
+          <span className="camp-hero-corner tl" aria-hidden="true" />
+          <span className="camp-hero-corner br" aria-hidden="true" />
+
+          <div className="camp-logo-glow">
+            <img src={LogoADR} alt="Logo O ADR" className="camp-logo" />
+          </div>
+
+          <div className="camp-hero-text">
+            <span className="camp-subtitle">
+              Temporada {selectedYear} · Hub oficial
+            </span>
+            <h1 className="camp-title">
+              {configAtual?.nome || "Campeonatos do ADR"}
+            </h1>
+            {configAtual?.subtitulo && (
+              <p className="camp-edition">{configAtual.subtitulo}</p>
+            )}
+          </div>
+
+          <span className="camp-hero-trophy" aria-hidden="true">
+            <IcoTrophy />
+          </span>
         </div>
-        <span className="camp-subtitle">
-          TEMPORADA {selectedYear} • HUB OFICIAL
-        </span>
-        <h1 className="camp-title">
-          {configAtual?.nome || "CAMPEONATOS DO ADR"}
-        </h1>
-        {configAtual?.subtitulo && (
-          <p className="camp-edition">{configAtual.subtitulo}</p>
-        )}
         <div className="camp-header-divider"></div>
 
         {/* Edição rápida do nome (só admin) */}
@@ -286,7 +330,7 @@ export default function Campeonato({ isAdmin }) {
             className="camp-edit-btn"
             onClick={startEditMeta}
           >
-            ✎ Editar nome da competição
+            <IcoPen /> Editar nome da competição
           </button>
         )}
 
@@ -335,26 +379,38 @@ export default function Campeonato({ isAdmin }) {
 
       {/* RESUMO DA TEMPORADA */}
       {resumo.total > 0 && (
-        <div className="camp-summary">
-          <div>
-            <strong>{resumo.total}</strong>
-            <span>Jogos</span>
-          </div>
-          <div>
-            <strong>{resumo.feitos}</strong>
-            <span>Realizados</span>
-          </div>
-          <div>
-            <strong>{resumo.gols}</strong>
-            <span>Gols</span>
-          </div>
-          {resumo.grupos > 0 && (
+        <section className="camp-summary-block" aria-label="Resumo da temporada">
+          <div className="camp-summary">
             <div>
-              <strong>{resumo.grupos}</strong>
-              <span>Grupos</span>
+              <strong>{resumo.total}</strong>
+              <span>Jogos</span>
             </div>
-          )}
-        </div>
+            <div>
+              <strong>{resumo.feitos}</strong>
+              <span>Realizados</span>
+            </div>
+            <div>
+              <strong>{resumo.gols}</strong>
+              <span>Gols</span>
+            </div>
+            {resumo.grupos > 0 && (
+              <div>
+                <strong>{resumo.grupos}</strong>
+                <span>Grupos</span>
+              </div>
+            )}
+          </div>
+
+          <div className="camp-progress">
+            <div className="camp-progress-label">
+              <span>Andamento da temporada</span>
+              <b>{Math.round((resumo.feitos / resumo.total) * 100)}%</b>
+            </div>
+            <div className="camp-progress-track">
+              <i style={{ width: `${(resumo.feitos / resumo.total) * 100}%` }} />
+            </div>
+          </div>
+        </section>
       )}
 
       {/* PAINEL DE CONTROLES (ANOS + ABAS) */}
@@ -395,13 +451,15 @@ export default function Campeonato({ isAdmin }) {
             className={`camp-tab-btn ${activeTab === "GRUPOS" ? "active" : ""}`}
             onClick={() => setActiveTab("GRUPOS")}
           >
-            Fase de Grupos
+            <IcoGroups />
+            <span>Fase de Grupos</span>
           </button>
           <button
             className={`camp-tab-btn ${activeTab === "MATAMATA" ? "active" : ""}`}
             onClick={() => setActiveTab("MATAMATA")}
           >
-            Mata-Mata
+            <IcoBracket />
+            <span>Mata-Mata</span>
           </button>
 
           {isAdmin && (
@@ -411,7 +469,8 @@ export default function Campeonato({ isAdmin }) {
               }`}
               onClick={() => setActiveTab("CONFIG")}
             >
-              ⚙️ Configurar
+              <IcoGear />
+              <span>Configurar</span>
             </button>
           )}
         </div>
