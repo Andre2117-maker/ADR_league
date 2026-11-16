@@ -84,6 +84,7 @@ const Altar = () => {
               <li>Mora atualmente na Argentina</li>
               <li>Precisou de 14 pontos para passar</li>
               <li>Joga pelo time de e-sports do ADR</li>
+              <li>Tirou 100 de 100 no teste de autismo</li>
             </ul>
           </div>
 

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
    SCOUT PANEL + MINI-RANKINGS — MINIMALISTA + AURA
    Linhas finas, cantos retos, brilho dourado sutil.
@@ -611,4 +613,272 @@
 .theme-idr .text-idr1 {
   display: inline-block !important;
   color: #ffffff !important;
+}
+
+/* ==========================================================================
+   ÍCONES (SVG no lugar dos emojis)
+   ========================================================================== */
+.sp-ico,
+.empty-state-icon svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -2px;
+  flex-shrink: 0;
+}
+
+.empty-state-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.3;
+  color: var(--sp-accent);
+}
+
+.info-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.profile-view-full-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   IDR — FICHA DE JORNAL
+   ========================================================================== */
+.theme-idr .player-profile-card,
+.theme-idr .info-card,
+.theme-idr .empty-state-card {
+  border: 2px solid #000 !important;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+
+.theme-idr .player-profile-card::before,
+.theme-idr .info-card::before {
+  display: none;
+}
+
+.theme-idr .profile-name {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background: none;
+  -webkit-text-fill-color: #000;
+  color: #000;
+  animation: none;
+}
+
+.theme-idr .profile-ovr-badge {
+  background: #000;
+  color: #fff;
+  border-radius: 0;
+}
+
+.theme-idr .ovr-num,
+.theme-idr .ovr-label {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+.theme-idr .stat-box {
+  border-color: #000;
+}
+
+.theme-idr .stat-box.highlight {
+  background: #000;
+}
+
+.theme-idr .stat-box.highlight .stat-val,
+.theme-idr .stat-box.highlight .stat-lab {
+  color: #fff;
+}
+
+.theme-idr .stat-val,
+.theme-idr .ovr-num {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .info-card h3 {
+  background: #000;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  animation: none;
+}
+
+.theme-idr .profile-view-full-btn {
+  background: #000;
+  color: #fff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — FICHA DE FIGURINHA
+   ========================================================================== */
+body.theme-classic {
+  --radar-cor: #ec4470;
+  --radar-grid: rgba(255, 138, 165, 0.2);
+  --radar-text: #e6cfe8;
+}
+
+body.theme-classic .info-card,
+body.theme-classic .player-profile-card,
+body.theme-classic .empty-state-card {
+  --sp-bg: #1d1222;
+  --sp-hover: #241529;
+  --sp-line: rgba(255, 138, 165, 0.18);
+  --sp-fg: #ffffff;
+  --sp-muted: #b79bb8;
+  --sp-accent: #ec4470;
+  --sp-on-accent: #ffffff;
+  --sp-glow: rgba(236, 68, 112, 0.2);
+  background: #1d1222 !important;
+  border: 2px solid rgba(255, 138, 165, 0.55) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.85),
+    0 16px 34px rgba(0, 0, 0, 0.55) !important;
+  overflow: hidden;
+}
+
+body.theme-classic .info-card::before,
+body.theme-classic .player-profile-card::before {
+  display: none;
+}
+
+/* topo da ficha listrado */
+body.theme-classic .profile-header {
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(255, 138, 165, 0.4),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(165deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 3px solid #120a16;
+}
+
+body.theme-classic .profile-avatar {
+  border: 3px solid #fff !important;
+  border-radius: 10px !important;
+  transform: rotate(-3deg);
+  box-shadow: 0 6px 0 #5a1f4a !important;
+}
+
+body.theme-classic .profile-ovr-badge {
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  border: 2px solid #fff !important;
+  border-radius: 6px !important;
+  transform: rotate(6deg);
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+body.theme-classic .ovr-num {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+body.theme-classic .ovr-label {
+  color: #fff !important;
+}
+
+body.theme-classic .profile-name {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  letter-spacing: 0.05em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  animation: none !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16 !important;
+}
+
+body.theme-classic .profile-pos-tag {
+  background: #120a16 !important;
+  color: #ff8aa5 !important;
+  border: 0 !important;
+  border-radius: 3px;
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .stat-box {
+  border: 2px solid rgba(255, 138, 165, 0.35) !important;
+  border-radius: 6px;
+  background: #140c18 !important;
+}
+
+body.theme-classic .stat-box.highlight {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border-color: #fff !important;
+}
+
+body.theme-classic .stat-val {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: #fff !important;
+  text-shadow: 2px 2px 0 #5a1f4a !important;
+}
+
+body.theme-classic .info-card h3 {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  letter-spacing: 0.08em !important;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  animation: none !important;
+  text-shadow: 2px 2px 0 #120a16 !important;
+}
+
+body.theme-classic .skill-mini-pill {
+  border-radius: 6px;
+}
+
+body.theme-classic .profile-view-full-btn {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+body.theme-classic .profile-view-full-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+body.theme-classic .badge-adr {
+  font-style: italic;
 }

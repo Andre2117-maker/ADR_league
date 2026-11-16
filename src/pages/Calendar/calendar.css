@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
    CALENDÁRIO - VERSÃO AURA
    ========================================================================== */
@@ -820,4 +822,370 @@
   color: #666 !important;
   border-color: #ccc !important;
   background: rgba(255, 255, 255, 0.5) !important;
+}
+
+
+/* ==========================================================================
+   ÍCONES DO CARD (SVG no lugar dos emojis)
+   ========================================================================== */
+.psg-match-card svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -2px;
+}
+
+.psg-admin-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.psg-admin-actions button.is-danger:hover {
+  color: #ff5252;
+  border-color: #ff5252;
+}
+
+.psg-comp-text svg {
+  margin-right: 6px;
+}
+
+.psg-venue {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   TEMA IDR — AGENDA DE JORNAL
+   Régua grossa, letra pesada, cartões com borda preta e sombra em bloco.
+   ========================================================================== */
+.theme-idr .psg-page-container {
+  background-image: none !important;
+}
+
+.theme-idr .psg-season-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -2px;
+}
+
+.theme-idr .psg-header::after {
+  height: 0 !important;
+  border-top: 6px solid #000;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .psg-month-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.theme-idr .psg-month-nav span {
+  border-radius: 0;
+}
+
+.theme-idr .psg-month-nav span.active {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: 4px 4px 0 #cfcfc8 !important;
+}
+
+.theme-idr .psg-comp-nav span {
+  transform: none;
+  border-radius: 0;
+  border: 1.5px solid #000 !important;
+}
+
+.theme-idr .psg-comp-nav span.active {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.theme-idr .psg-match-card {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+
+.theme-idr .psg-match-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 9px 9px 0 #000 !important;
+}
+
+.theme-idr .psg-card-top {
+  border-radius: 0 !important;
+  border-bottom: 2px solid #000 !important;
+}
+
+.theme-idr .psg-card-top::before,
+.theme-idr .psg-card-top::after {
+  display: none;
+}
+
+.theme-idr .psg-comp-text {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #000;
+  color: #fff !important;
+}
+
+.theme-idr .psg-team-logo {
+  filter: grayscale(1) !important;
+}
+
+.theme-idr .psg-team-score {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  border-radius: 0 !important;
+  border: 1.5px solid #000 !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.theme-idr .psg-match-card:hover .psg-team-score {
+  background: #000 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+.theme-idr .psg-match-center-btn {
+  border-radius: 0 !important;
+  border-top: 2px solid #000 !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.theme-idr .psg-match-center-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.theme-idr .psg-admin-actions button {
+  border-radius: 0 !important;
+  border: 1.5px solid #000 !important;
+}
+
+/* ==========================================================================
+   TEMA ADR CLASSIC — AGENDA DE FIGURINHAS
+   Ano gigante em Anton, meses em adesivos, cada partida é uma figurinha.
+   ========================================================================== */
+body.theme-classic .psg-page-container {
+  background-color: #0b0710 !important;
+  background-image: none !important;
+}
+
+body.theme-classic .psg-page-container::before {
+  background:
+    radial-gradient(40% 35% at 15% 25%, rgba(123, 58, 168, 0.25), transparent 70%),
+    radial-gradient(40% 35% at 85% 70%, rgba(227, 38, 58, 0.18), transparent 70%) !important;
+}
+
+body.theme-classic .psg-header::after {
+  height: 5px !important;
+  width: 160px !important;
+  transform: skewX(-24deg);
+  background: linear-gradient(90deg, #7b3aa8 0 33.3%, #b8307a 33.3% 66.6%, #e3263a 66.6% 100%) !important;
+  box-shadow: none !important;
+}
+
+body.theme-classic .psg-season-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.03em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  animation: none !important;
+  filter: none !important;
+  text-shadow:
+    0.04em 0.04em 0 #e3263a,
+    0.08em 0.08em 0 #7b3aa8 !important;
+}
+
+body.theme-classic .psg-month-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.04em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+
+body.theme-classic .gd-open {
+  border-radius: 6px;
+  font-style: italic;
+}
+
+body.theme-classic .gd-open:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* meses e competições em adesivos */
+body.theme-classic .psg-month-nav span {
+  border-radius: 6px;
+  font-style: italic;
+}
+
+body.theme-classic .psg-month-nav span.active {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+  transform: rotate(-3deg);
+}
+
+body.theme-classic .psg-comp-nav span {
+  border-radius: 6px;
+  background: #1d1222;
+  border: 2px solid rgba(255, 138, 165, 0.3);
+  box-shadow: 0 3px 0 #120a16;
+}
+
+body.theme-classic .psg-comp-nav span.active {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+/* a figurinha da partida */
+body.theme-classic .psg-match-card:not(.psg-event-card) {
+  background: #1d1222 !important;
+  backdrop-filter: none;
+  border: 2px solid rgba(255, 138, 165, 0.6) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 18px 36px rgba(0, 0, 0, 0.55) !important;
+}
+
+body.theme-classic .psg-match-card:not(.psg-event-card):hover {
+  transform: translateY(-8px) rotate(-1deg);
+  border-color: #fff !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 24px 46px rgba(236, 68, 112, 0.3) !important;
+}
+
+body.theme-classic .psg-match-card:not(.psg-event-card) .psg-card-top {
+  border-radius: 8px 8px 0 0;
+  border-bottom: 3px solid #120a16;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+}
+
+body.theme-classic .psg-card-top::before {
+  display: none;
+}
+
+body.theme-classic .psg-match-card:not(.psg-event-card) .psg-comp-text {
+  display: inline-block;
+  padding: 3px 9px;
+  background: #120a16;
+  color: #ff8aa5 !important;
+  border-radius: 3px;
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .psg-watermark-image {
+  opacity: 0.18;
+  filter: grayscale(1) brightness(2.2);
+}
+
+body.theme-classic .psg-team-name {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+
+body.theme-classic .psg-team-score {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  border-radius: 6px;
+  background: #120a16 !important;
+  border: 2px solid rgba(255, 138, 165, 0.4) !important;
+  color: #fff !important;
+}
+
+body.theme-classic .psg-match-card:hover .psg-team-score {
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  border-color: #fff !important;
+  text-shadow: none !important;
+}
+
+body.theme-classic .psg-penalty-score {
+  color: #ff8aa5 !important;
+}
+
+body.theme-classic .psg-date {
+  font-style: italic;
+}
+
+body.theme-classic .psg-venue {
+  color: #b79bb8;
+}
+
+body.theme-classic .psg-venue svg {
+  color: #ec4470;
+}
+
+body.theme-classic .psg-match-card:not(.psg-event-card) .psg-match-center-btn {
+  margin: 0 14px 16px;
+  padding: 12px;
+  border: 0;
+  border-radius: 6px !important;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  font-style: italic;
+  text-shadow: 1px 1px 0 #5a1f4a;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+body.theme-classic .psg-match-card:not(.psg-event-card) .psg-match-center-btn:hover {
+  filter: brightness(1.12);
+  letter-spacing: 3px;
+}
+
+body.theme-classic .psg-match-card:not(.psg-event-card) .psg-match-center-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+body.theme-classic .psg-admin-actions button {
+  background: rgba(18, 10, 22, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+}
+
+body.theme-classic .psg-admin-actions button:hover {
+  background: #ec4470;
+  border-color: #fff;
+}
+
+body.theme-classic .psg-add-btn {
+  border-radius: 6px !important;
+  font-style: italic;
 }

@@ -1,82 +1,156 @@
-.friendly-summary-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+/* ==========================================================================
+   AMISTOSOS — resumo (mesmo estilo dos outros painéis da página)
+   Herda --st-* do .statics-container (ADR / IDR / Classic).
+   ========================================================================== */
+.fs-card {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 10px;
+  background: var(--st-bg);
+  border: 1px solid var(--st-line);
+  color: var(--st-fg);
+  box-sizing: border-box;
 }
 
-.friendly-summary-card h2 {
-  color: #e2b317;
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
+.fs-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--st-accent), transparent);
+}
+
+.fs-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--st-line);
+}
+
+.fs-kicker {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  color: var(--st-muted);
 }
 
-.friendly-stats-grid {
+.fs-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--st-fg);
+}
+
+.fs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.friendly-stat-item {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  border-radius: 8px;
+.fs-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  padding: 20px 8px;
+  border-right: 1px solid var(--st-line);
+  transition: background 0.2s ease;
 }
 
-.stat-label {
-  font-size: 0.85rem;
-  color: #aaa;
+.fs-item:last-child {
+  border-right: 0;
+}
+
+.fs-item:hover {
+  background: var(--st-hover);
+}
+
+.fs-item strong {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--st-fg);
+}
+
+.fs-item span {
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  color: var(--st-muted);
 }
 
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: bold;
+.fs-item.is-for strong,
+.fs-item.is-pos strong {
+  color: var(--st-win);
 }
 
-.goals-made {
-  color: #4caf50;
-}
-.goals-conceded {
-  color: #f44336;
-}
-.positive {
-  color: #00e676;
-}
-.negative {
-  color: #ff1744;
+.fs-item.is-against strong,
+.fs-item.is-neg strong {
+  color: var(--st-loss);
 }
 
-.friendly-best-campaign {
-  background: rgba(226, 179, 23, 0.1);
-  border-left: 4px solid #e2b317;
-  padding: 12px 20px;
-  border-radius: 0 8px 8px 0;
+.fs-best {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 14px;
   flex-wrap: wrap;
-  gap: 10px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--st-line);
+  background: linear-gradient(90deg, var(--st-glow), transparent 70%);
 }
 
-.best-label {
-  font-weight: bold;
-  color: #fff;
+.fs-best-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--st-accent);
 }
 
-.best-value {
-  font-weight: bold;
-  color: #e2b317;
-  font-size: 1.1rem;
+.fs-best-label svg,
+.camp-card-kicker svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.fs-best-value {
+  font-size: 0.95rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 1px;
+  color: var(--st-fg);
+}
+
+@media (max-width: 640px) {
+  .fs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fs-item:nth-child(2) {
+    border-right: 0;
+  }
+  .fs-item:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--st-line);
+  }
+  .fs-item strong {
+    font-size: 1.6rem;
+  }
 }

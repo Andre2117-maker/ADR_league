@@ -1,7 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import confetti from "canvas-confetti";
-import "../styles/BirthdayAlert.css";
+import "./BirthdayAlert.css";
+
+/* Coroa desenhada (no lugar do emoji) */
+const CrownIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3.5 8 8 11.5l4-6.5 4 6.5L20.5 8l-1.8 10H5.3z" />
+    <path d="M5.5 21h13" />
+    <circle cx="12" cy="14.5" r="1.2" />
+  </svg>
+);
+
+/* Cores do confete de acordo com o tema do site */
+const confettiColors = () => {
+  const b = document.body.classList;
+  if (b.contains("theme-idr")) return ["#000000", "#ffffff", "#9a9a9a"];
+  if (b.contains("theme-classic"))
+    return ["#7b3aa8", "#b8307a", "#e3263a", "#ff8aa5", "#ffffff"];
+  return ["#d4af37", "#ffffff", "#ffd700", "#10b981"];
+};
+
+const clubName = () =>
+  document.body.classList.contains("theme-idr") ? "IDR" : "O ADR";
 
 const BirthdayAlert = ({ players }) => {
   const [birthdayPlayer, setBirthdayPlayer] = useState(null);
@@ -33,7 +54,7 @@ const BirthdayAlert = ({ players }) => {
 
   const triggerConfetti = () => {
     const end = Date.now() + 5 * 1000;
-    const colors = ["#d4af37", "#ffffff", "#ffd700", "#10b981"];
+    const colors = confettiColors();
 
     (function frame() {
       confetti({
@@ -41,14 +62,14 @@ const BirthdayAlert = ({ players }) => {
         angle: 60,
         spread: 70,
         origin: { x: 0, y: 0.65 },
-        colors: colors,
+        colors,
       });
       confetti({
         particleCount: 5,
         angle: 120,
         spread: 70,
         origin: { x: 1, y: 0.65 },
-        colors: colors,
+        colors,
       });
 
       if (Date.now() < end) {
@@ -68,6 +89,8 @@ const BirthdayAlert = ({ players }) => {
         >
           <motion.div
             className="bday-card"
+            role="dialog"
+            aria-label="Aniversariante do dia"
             initial={{ scale: 0.8, y: 30, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -82,11 +105,11 @@ const BirthdayAlert = ({ players }) => {
                 className="bday-player-img"
               />
               <span className="bday-crown" title="Aniversariante do Dia">
-                👑
+                <CrownIcon />
               </span>
             </div>
 
-            <span className="bday-kicker">PARABÉNS OFICIAL • O ADR</span>
+            <span className="bday-kicker">PARABÉNS OFICIAL · {clubName()}</span>
             <h2 className="bday-title">
               HOJE É DIA DE <span className="highlight">FESTA!</span>
             </h2>
@@ -102,7 +125,7 @@ const BirthdayAlert = ({ players }) => {
               onClick={() => setBirthdayPlayer(null)}
               className="bday-btn"
             >
-              VAMO, CRAQUE! ⚽
+              VAMO, CRAQUE!
             </button>
           </motion.div>
         </motion.div>

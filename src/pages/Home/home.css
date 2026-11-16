@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* =====================================================
    ESTRUTURA PRINCIPAL (WRAPPERS)
 ===================================================== */
@@ -216,6 +218,10 @@
 }
 
 .export-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   width: 100%;
   padding: 12px;
   background: #1a1a1a;
@@ -482,4 +488,142 @@
     #000,
     transparent
   ) !important;
+}
+
+
+.export-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ==========================================================================
+   IDR — EDIÇÃO DE JORNAL (sem cruzes, régua grossa, sombra em bloco)
+   ========================================================================== */
+.theme-idr .main-wrapper {
+  background-image: none !important;
+  background-color: #f4f4f1 !important;
+}
+
+.theme-idr .export-btn {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  letter-spacing: 2px;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+
+.theme-idr .export-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 #d6d6d0;
+}
+
+.theme-idr .btn-transparency-nav {
+  border-radius: 0 !important;
+  border: 1.5px solid #000 !important;
+}
+
+.theme-idr .btn-transparency-nav.active-tab {
+  box-shadow: 4px 4px 0 #cfcfc8 !important;
+}
+
+.theme-idr .year-label {
+  font-family: "Archivo Black", "Inter", sans-serif;
+}
+
+.theme-idr .hall-group {
+  border-left-width: 5px !important;
+}
+
+.theme-idr .sponsor-divider {
+  height: 0;
+  border-top: 4px solid #000 !important;
+  border-bottom: 1px solid #000 !important;
+  padding-bottom: 2px;
+  background: none !important;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — CAPA DO ÁLBUM
+   Fundo ameixa com brilhos do escudo, botões com degrau, Anton.
+   ========================================================================== */
+body.theme-classic .main-wrapper {
+  background-color: #0b0710 !important;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(184, 48, 122, 0.22), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(123, 58, 168, 0.16), transparent 70%) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+body.theme-classic .export-btn {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0 #5a1f4a;
+  box-shadow: 0 5px 0 #5a1f4a, 0 12px 24px rgba(0, 0, 0, 0.4) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease !important;
+}
+
+body.theme-classic .export-btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
+body.theme-classic .export-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+body.theme-classic .btn-transparency-nav {
+  background: #1d1222 !important;
+  border: 2px solid rgba(255, 138, 165, 0.35) !important;
+  border-radius: 8px !important;
+  color: #e6cfe8 !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .btn-transparency-nav.active-tab {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .hall-admin-form {
+  background: #1d1222 !important;
+  border: 2px dashed rgba(255, 138, 165, 0.45) !important;
+  border-radius: 10px !important;
+}
+
+body.theme-classic .hall-admin-form input {
+  background: #140c18 !important;
+  border-color: rgba(255, 138, 165, 0.3) !important;
+  border-radius: 6px !important;
+}
+
+body.theme-classic .hall-group {
+  border-left: 5px solid transparent !important;
+  border-image: linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a) 1 !important;
+}
+
+body.theme-classic .sponsor-divider {
+  width: 160px;
+  height: 5px;
+  transform: skewX(-24deg);
+  background: linear-gradient(90deg, #7b3aa8 0 33.3%, #b8307a 33.3% 66.6%, #e3263a 66.6% 100%) !important;
+}
+
+/* no print da tabela, sem inclinações (o html2canvas não gosta de transform) */
+body.theme-classic .is-exporting * {
+  transform: none !important;
 }

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Anton&family=Archivo+Black&display=swap");
 
 .banners-wrapper {
   --mw-bg: #050505;
@@ -1375,4 +1375,397 @@
 
 .theme-idr .admin-editing-bar b {
   color: #000;
+}
+
+
+/* ==========================================================================
+   ÍCONES (SVG no lugar dos emojis)
+   ========================================================================== */
+.banners-wrapper .mw-ico,
+.news-reader .mw-ico,
+.news-image-lightbox .mw-ico {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -3px;
+  flex-shrink: 0;
+}
+
+.admin-toggle-btn,
+.admin-type-pill,
+.pix-copy-btn,
+.admin-quick-edit-btn,
+.banner-location,
+.banner-countdown,
+.news-read-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mb-arrow .mw-ico,
+.news-image-lightbox-close .mw-ico {
+  width: 18px;
+  height: 18px;
+}
+
+.news-reader-close,
+.del-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   IDR — MANCHETE DE JORNAL
+   ========================================================================== */
+.theme-idr .match-banner-container {
+  border: 2px solid #000 !important;
+  box-shadow: 8px 8px 0 #d6d6d0 !important;
+}
+
+.theme-idr .match-banner-container::before {
+  display: none;
+}
+
+.theme-idr .banner-datetime,
+.theme-idr .fundraiser-title,
+.theme-idr .news-headline,
+.theme-idr .banner-team-name,
+.theme-idr .news-reader-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.theme-idr .banner-logo,
+.theme-idr .banner-logo-center {
+  filter: grayscale(1) contrast(1.05);
+}
+
+.theme-idr .banner-countdown {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .fundraiser-percent-circle {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .news-tag-pill {
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .news-reader {
+  border: 2px solid #000;
+  border-top-width: 8px;
+}
+
+.theme-idr .mb-arrow {
+  border: 2px solid #000;
+}
+
+.theme-idr .mb-dot.is-active {
+  box-shadow: none;
+}
+
+.theme-idr .admin-toggle-btn,
+.theme-idr .confirm-btn {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — CARTAZ DE FIGURINHA
+   Moldura dupla, topo listrado na cor do aviso, Anton com sombra.
+   ========================================================================== */
+body.theme-classic .banners-wrapper {
+  --mw-bg: #1d1222;
+  --mw-hover: #241529;
+  --mw-line: rgba(255, 138, 165, 0.25);
+  --mw-fg: #ffffff;
+  --mw-muted: #b79bb8;
+  --mw-accent: #ec4470;
+  --mw-on-accent: #ffffff;
+}
+
+body.theme-classic .match-banner-container {
+  --mb-accent: #ec4470;
+  --mb-accent-bright: #ff8aa5;
+  --mb-accent-glow: rgba(236, 68, 112, 0.22);
+  --mb-surface: #1d1222;
+  --mb-line: rgba(255, 138, 165, 0.25);
+  --mb-fg: #ffffff;
+  --mb-muted: #b79bb8;
+  --mb-badge-text: #ffffff;
+
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 12px !important;
+  background:
+    radial-gradient(70% 55% at 50% 0%, var(--mb-accent-glow), transparent 70%),
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.025) 0 12px, transparent 12px 26px),
+    #1d1222 !important;
+  box-shadow:
+    0 0 0 4px #120a16,
+    0 0 0 6px #7b3aa8,
+    0 22px 46px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* cada tipo mantém sua cor, só que mais "retrô" */
+body.theme-classic .match-banner-container.type-amistoso {
+  --mb-accent: #5aa2ff;
+  --mb-accent-bright: #a8ccff;
+  --mb-accent-glow: rgba(90, 162, 255, 0.2);
+}
+
+body.theme-classic .match-banner-container.type-campeonato {
+  --mb-accent: #c27be8;
+  --mb-accent-bright: #e2b8ff;
+  --mb-accent-glow: rgba(194, 123, 232, 0.24);
+}
+
+body.theme-classic .match-banner-container.type-arrecadacao {
+  --mb-accent: #3ee08a;
+  --mb-accent-bright: #9ff0c4;
+  --mb-accent-glow: rgba(62, 224, 138, 0.18);
+  --mb-badge-text: #120a16;
+}
+
+body.theme-classic .match-banner-container::before {
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+}
+
+/* etiqueta do tipo vira adesivo */
+body.theme-classic .banner-badge {
+  top: 10px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--mb-accent), color-mix(in srgb, var(--mb-accent) 60%, #120a16));
+  font-style: italic;
+  transform: translateX(-50%) rotate(-2deg);
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .banner-content,
+body.theme-classic .banner-fundraiser-content,
+body.theme-classic .banner-news-content {
+  padding-top: 64px;
+}
+
+body.theme-classic .banner-datetime,
+body.theme-classic .banner-team-name,
+body.theme-classic .fundraiser-title,
+body.theme-classic .news-headline,
+body.theme-classic .news-reader-title {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  text-shadow:
+    2px 2px 0 var(--mb-accent, #e3263a),
+    4px 4px 0 #120a16;
+}
+
+body.theme-classic .banner-datetime {
+  font-size: 1.8rem;
+}
+
+body.theme-classic .banner-logo,
+body.theme-classic .banner-logo-center {
+  filter: drop-shadow(4px 4px 0 #120a16);
+}
+
+body.theme-classic .banner-countdown {
+  border-width: 2px;
+  border-radius: 6px;
+  background: #120a16;
+  font-style: italic;
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .fundraiser-percent-circle {
+  border: 2px solid #fff;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--mb-accent), color-mix(in srgb, var(--mb-accent) 55%, #120a16));
+  transform: rotate(-3deg);
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .percent-big {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 1.9rem;
+  color: #fff;
+}
+
+body.theme-classic .percent-sub {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.theme-classic .fundraiser-progress-track {
+  height: 12px;
+  border-radius: 4px;
+  transform: skewX(-18deg);
+  background: repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.05) 0 6px, transparent 6px 12px), #120a16;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.theme-classic .fundraiser-progress-fill {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, var(--mb-accent));
+}
+
+body.theme-classic .pix-copy-btn,
+body.theme-classic .news-read-more,
+body.theme-classic .confirm-btn,
+body.theme-classic .admin-toggle-btn {
+  border: 0;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .pix-copy-btn:active,
+body.theme-classic .news-read-more:active,
+body.theme-classic .confirm-btn:active,
+body.theme-classic .admin-toggle-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+body.theme-classic .news-tag-pill {
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .news-image-box {
+  border: 3px solid #fff;
+  border-radius: 8px;
+  transform: rotate(-1.5deg);
+  box-shadow: 0 0 0 3px #b8307a, 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+body.theme-classic .banner-footer {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+  color: #fff;
+  font-style: italic;
+}
+
+body.theme-classic .edit-btn,
+body.theme-classic .del-btn {
+  background: rgba(18, 10, 22, 0.7);
+  border-radius: 5px;
+}
+
+body.theme-classic .edit-btn {
+  color: #ff8aa5;
+  border-color: rgba(255, 138, 165, 0.6);
+}
+
+body.theme-classic .edit-btn:hover {
+  background: #ec4470;
+  color: #fff;
+}
+
+body.theme-classic .mb-arrow {
+  border-radius: 6px;
+  border: 2px solid rgba(255, 138, 165, 0.4);
+}
+
+body.theme-classic .mb-dot {
+  transform: skewX(-20deg);
+}
+
+body.theme-classic .mb-dot.is-active {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+  box-shadow: none;
+}
+
+/* painel do admin e leitor de notícia */
+body.theme-classic .admin-internal-panel {
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 10px;
+}
+
+body.theme-classic .admin-type-selector-bar {
+  border: 0;
+  gap: 6px;
+}
+
+body.theme-classic .admin-type-pill {
+  border: 2px solid rgba(255, 138, 165, 0.3);
+  border-radius: 6px;
+}
+
+body.theme-classic .admin-type-pill.active {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: transparent;
+  box-shadow: 0 3px 0 #5a1f4a;
+  font-style: italic;
+}
+
+body.theme-classic .admin-grid input,
+body.theme-classic .admin-grid select,
+body.theme-classic .admin-textarea {
+  border-radius: 6px;
+}
+
+body.theme-classic .admin-editing-bar {
+  background: rgba(236, 68, 112, 0.1);
+  border-left-color: #ec4470;
+}
+
+body.theme-classic .admin-editing-bar button,
+body.theme-classic .admin-news-preview button,
+body.theme-classic .news-reader-edit {
+  color: #ff8aa5;
+  border-color: rgba(255, 138, 165, 0.5);
+  border-radius: 5px;
+}
+
+body.theme-classic .news-reader {
+  background: #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 0 0 4px #120a16, 0 0 0 6px #7b3aa8;
+}
+
+body.theme-classic .news-reader-head {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 3px solid #120a16;
+}
+
+body.theme-classic .news-reader-close {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+}
+
+body.theme-classic .news-reader-text {
+  color: #e6cfe8;
+}
+
+@media (min-width: 769px) {
+  body.theme-classic .news-reader {
+    border-radius: 12px;
+  }
 }

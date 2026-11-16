@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* =====================================================
    CALENDÁRIO DE ANIVERSÁRIOS — MINIMALISTA + AURA
    Linhas finas, cantos retos, brilho dourado sutil.
@@ -507,4 +509,233 @@
 
 .theme-idr .schedule-card.is-birthday-today {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================================
+   ÍCONES (SVG no lugar dos emojis)
+   ===================================================== */
+.bd-ico {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.bday-date,
+.bday-countdown-pill,
+.bday-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-arrow .bd-ico {
+  width: 18px;
+  height: 18px;
+}
+
+/* =====================================================
+   6. IDR — AGENDA DE JORNAL
+   ===================================================== */
+.theme-idr .schedule-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.theme-idr .schedule-title span {
+  padding: 0 8px;
+  background: #000;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  animation: none;
+}
+
+.theme-idr .schedule-underline {
+  height: 0;
+  border-top: 5px solid #000;
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+  background: none;
+}
+
+.theme-idr .schedule-card {
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+
+.theme-idr .schedule-card::before {
+  display: none;
+}
+
+.theme-idr .bday-player-name {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .bday-avatar-img {
+  border: 2px solid #000;
+}
+
+/* =====================================================
+   7. ADR CLASSIC — FIGURINHAS DE ANIVERSÁRIO
+   ===================================================== */
+body.theme-classic .schedule-container {
+  --bd-bg: #1d1222;
+  --bd-hover: #241529;
+  --bd-line: rgba(255, 138, 165, 0.2);
+  --bd-fg: #ffffff;
+  --bd-muted: #b79bb8;
+  --bd-accent: #ec4470;
+  --bd-on-accent: #ffffff;
+  --bd-glow: rgba(236, 68, 112, 0.22);
+}
+
+body.theme-classic .schedule-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-size: clamp(1.9rem, 5vw, 2.8rem) !important;
+  letter-spacing: 0.05em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+
+body.theme-classic .schedule-title span {
+  background: none;
+  -webkit-text-fill-color: #ff8aa5;
+  color: #ff8aa5;
+  animation: none;
+}
+
+body.theme-classic .schedule-underline {
+  width: 132px;
+  height: 5px;
+  transform: skewX(-24deg);
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33.3%,
+    #b8307a 33.3% 66.6%,
+    #e3263a 66.6% 100%
+  );
+}
+
+body.theme-classic .schedule-card {
+  border: 2px solid rgba(255, 138, 165, 0.55);
+  border-radius: 10px;
+  background: #1d1222;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.85),
+    0 16px 32px rgba(0, 0, 0, 0.55);
+}
+
+body.theme-classic .schedule-card::before {
+  display: none;
+}
+
+body.theme-classic .schedule-card:hover {
+  border-color: #fff;
+  transform: translateY(-4px) rotate(-0.8deg);
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 20px 40px rgba(236, 68, 112, 0.3);
+}
+
+/* aniversariante de hoje: figurinha brilhante listrada */
+body.theme-classic .schedule-card.is-birthday-today {
+  border-color: #fff;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(255, 138, 165, 0.35),
+      transparent 50%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(130deg, #7b3aa8, #b8307a 55%, #e3263a);
+}
+
+body.theme-classic .schedule-card.is-birthday-today::after {
+  display: none;
+}
+
+body.theme-classic .schedule-card.is-birthday-today .bday-text,
+body.theme-classic .schedule-card.is-birthday-today .bday-tag,
+body.theme-classic .schedule-card.is-birthday-today .bday-date {
+  color: #fff;
+}
+
+body.theme-classic .bday-countdown-pill {
+  border-radius: 4px;
+  font-style: italic;
+}
+
+body.theme-classic .bday-countdown-pill.today {
+  background: #fff;
+  color: #b8307a;
+  border-color: #fff;
+  transform: rotate(-3deg);
+  box-shadow: 0 3px 0 #5a1f4a;
+  animation: none;
+}
+
+body.theme-classic .bday-avatar-img {
+  border: 2px solid #fff;
+  border-radius: 8px;
+  transform: rotate(-4deg);
+  box-shadow: 0 0 0 2px #b8307a;
+}
+
+body.theme-classic .bday-shirt-num {
+  border-radius: 4px;
+  border-color: #fff;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  transform: rotate(6deg);
+}
+
+body.theme-classic .bday-player-name {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+
+body.theme-classic .bday-pos-badge {
+  border-radius: 4px;
+  background: #120a16;
+  border-color: rgba(255, 138, 165, 0.5);
+  color: #ff8aa5;
+  font-style: italic;
+}
+
+body.theme-classic .nav-arrow {
+  border-radius: 6px;
+  border: 2px solid rgba(255, 138, 165, 0.4);
+}
+
+body.theme-classic .dot {
+  transform: skewX(-20deg);
+}
+
+body.theme-classic .dot.active {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+  box-shadow: none;
 }

@@ -371,3 +371,22 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
   color: #111 !important;
 }
+/* ==========================================================================
+   EXCEÇÕES DO RESET: títulos que ficam em faixa preta no IDR
+   (o reset acima pinta todo h2/h3 de preto)
+   ========================================================================== */
+.theme-idr .aw-card .aw-title,
+.theme-idr .ts-card .ts-title,
+.theme-idr .ta-card .ta-title,
+.theme-idr .gk-card .gk-title,
+.theme-idr .info-card h3,
+.theme-idr .stat-header h2 {
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  background: #000000 !important;
+}
+
+/* o topo do Paredões já é preto: o título fica sem fundo próprio */
+.theme-idr .gk-card .gk-card-top .gk-title {
+  background: none !important;
+}

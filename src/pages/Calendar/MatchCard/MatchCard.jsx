@@ -5,6 +5,21 @@ import LogoIDR from "../../../assets/IDR.png";
 // Importando a moldura de Halloween
 import halloweenMoldura from "../../../assets/moldura/halloween.png";
 
+/* Ícones (SVG, herdam a cor) */
+const Ico = ({ d }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d={d} />
+  </svg>
+);
+const ICO = {
+  up: "M6 15l6-6 6 6",
+  down: "M6 9l6 6 6-6",
+  edit: "M4 20l1-4.5L15.5 5 19 8.5 8.5 19zM13.5 7l3.5 3.5",
+  trash: "M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5",
+  pin: "M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11zM12 12.3a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6z",
+  star: "M12 3.5l2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9z",
+};
+
 const MatchCard = ({
   match,
   isAdmin,
@@ -140,21 +155,23 @@ const MatchCard = ({
             <>
               <button
                 title="Subir Ordem"
+                aria-label="Subir ordem"
                 onClick={(e) => {
                   e.stopPropagation();
                   onSwapOrder(match, "UP");
                 }}
               >
-                ▼
+                <Ico d={ICO.up} />
               </button>
               <button
                 title="Descer Ordem"
+                aria-label="Descer ordem"
                 onClick={(e) => {
                   e.stopPropagation();
                   onSwapOrder(match, "DOWN");
                 }}
               >
-                ▲
+                <Ico d={ICO.down} />
               </button>
             </>
           )}
@@ -163,16 +180,21 @@ const MatchCard = ({
               e.stopPropagation();
               onEdit(match);
             }}
+            title="Editar"
+            aria-label="Editar partida"
           >
-            ✏️
+            <Ico d={ICO.edit} />
           </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
               onDelete(match.id);
             }}
+            title="Excluir"
+            aria-label="Excluir partida"
+            className="is-danger"
           >
-            🗑️
+            <Ico d={ICO.trash} />
           </button>
         </div>
       )}
@@ -182,7 +204,7 @@ const MatchCard = ({
         <span className="psg-comp-text">
           {isEvent ? (
             <>
-              🎃
+              <Ico d={ICO.star} />
               {match.eventType ? `${formatEventSubtype(match.eventType)}` : ""}
             </>
           ) : (
@@ -223,7 +245,7 @@ const MatchCard = ({
               <span>
                 {scoreA}
                 {isTie && (
-                  <small style={{ marginLeft: "5px", color: "#d4af37" }}>
+                  <small className="psg-penalty-score">
                     (
                     {match.penaltiesScoreA != null &&
                     match.penaltiesScoreA !== ""
@@ -254,7 +276,7 @@ const MatchCard = ({
               <span>
                 {scoreB}
                 {isTie && (
-                  <small style={{ marginLeft: "5px", color: "#d4af37" }}>
+                  <small className="psg-penalty-score">
                     (
                     {match.penaltiesScoreB != null &&
                     match.penaltiesScoreB !== ""
@@ -277,7 +299,7 @@ const MatchCard = ({
           {formatCardDate(match.date)} {match.time ? match.time : ""}
         </p>
         <p className="psg-venue">
-          📍 {match.venue || match.location || "Local a definir"}
+          <Ico d={ICO.pin} /> {match.venue || match.location || "Local a definir"}
         </p>
       </div>
 

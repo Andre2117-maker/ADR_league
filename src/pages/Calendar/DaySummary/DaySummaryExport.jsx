@@ -1,6 +1,12 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
-import { exportNodeImage } from "../../utils/exportImage";
+import { exportNodeImage } from "../../../utils/exportImage";
 import "./daysummary.css";
 
 /* ==========================================================================
@@ -102,7 +108,9 @@ const GAP_COL = 16; // linha entre placares na coluna ao lado da foto
 const PHOTO_MIN = 120; // só põe foto se sobrar pelo menos isso
 
 const stackH = (rowsFull, rowsMini, gap = GAP) =>
-  rowsFull * CARD_H + rowsMini * MINI_H + Math.max(0, rowsFull + rowsMini - 1) * gap;
+  rowsFull * CARD_H +
+  rowsMini * MINI_H +
+  Math.max(0, rowsFull + rowsMini - 1) * gap;
 
 const colH = (n) => n * CARD_H + Math.max(0, n - 1) * GAP_COL;
 
@@ -342,13 +350,13 @@ export default function DaySummaryExport({
 
   /* ---------- Escolhe a distribuição ---------- */
   const fitsSide = total >= 1 && colH(total) <= avail;
-  const fitsTopside =
-    total >= 3 && CARD_H + GAP + colH(total - 2) <= avail;
+  const fitsTopside = total >= 3 && CARD_H + GAP + colH(total - 2) <= avail;
 
   let mode = "grid";
   if (layoutChoice === "side" && fitsSide) mode = "side";
   if (layoutChoice === "topside" && fitsTopside) mode = "topside";
-  const fellBack = layoutChoice !== "auto" && layoutChoice !== "bottom" && mode === "grid";
+  const fellBack =
+    layoutChoice !== "auto" && layoutChoice !== "bottom" && mode === "grid";
 
   const grid = planGrid(total, avail);
   const normalItems = list.slice(0, grid.normal);
@@ -495,17 +503,20 @@ export default function DaySummaryExport({
                 ))}
               </div>
 
-              {total > 0 && (fellBack || miniItems.length > 0 || (mode === "grid" && !gridPhoto)) && (
-                <p className="gd-note">
-                  {miniItems.length > 0
-                    ? `Não coube tudo: os ${miniItems.length} últimos jogos ficaram menores.`
-                    : fellBack
-                      ? "Esse layout não coube com tantos jogos; usei a grade."
-                      : mode === "grid"
-                        ? "Os jogos preenchem o pôster, então a foto não entra."
-                        : ""}
-                </p>
-              )}
+              {total > 0 &&
+                (fellBack ||
+                  miniItems.length > 0 ||
+                  (mode === "grid" && !gridPhoto)) && (
+                  <p className="gd-note">
+                    {miniItems.length > 0
+                      ? `Não coube tudo: os ${miniItems.length} últimos jogos ficaram menores.`
+                      : fellBack
+                        ? "Esse layout não coube com tantos jogos; usei a grade."
+                        : mode === "grid"
+                          ? "Os jogos preenchem o pôster, então a foto não entra."
+                          : ""}
+                  </p>
+                )}
 
               {/* Foto */}
               <div className="gd-photo-tools">

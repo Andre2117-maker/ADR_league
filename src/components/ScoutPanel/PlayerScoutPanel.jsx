@@ -89,7 +89,7 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
   if (!player || !scoutMetrics) {
     return (
       <div className="empty-state-card">
-        <div className="empty-state-icon">🎯</div>
+        <div className="empty-state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="0.9" /></svg></div>
         <h4>SCOUT INDIVIDUAL</h4>
         <p>
           Passe o mouse sobre um atleta na tabela para inspecionar o seu perfil
@@ -146,15 +146,15 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
       {/* ==================== FICHA TÉCNICA ==================== */}
       <div className="profile-info-list">
         <div className="info-item">
-          <span className="info-label">🏆 Títulos do ADR</span>
+          <span className="info-label"><svg className="sp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 14v3.5M8.5 20.5h7" /></svg> Títulos do ADR</span>
           <strong className="info-value">{player.titlesADR || 0}</strong>
         </div>
         <div className="info-item">
-          <span className="info-label">🤝 Melhor Parceiro</span>
+          <span className="info-label"><svg className="sp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5M16 10.5a3 3 0 1 0 0-6M18 14.8c2 .7 3.2 2.5 3.5 5.2" /></svg> Melhor parceiro</span>
           <strong className="info-value">{bestPartner || "Nenhum"}</strong>
         </div>
         <div className="info-item">
-          <span className="info-label">🦶 Perna Dominante</span>
+          <span className="info-label"><svg className="sp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3.5c2.5 0 3.5 2.5 3.5 6v3.5c2.5.3 6 1.3 8 2.8 1.4 1 .9 4.2-1.5 4.2H7.5c-2 0-3-1.3-3-3.3V8.5c0-3 1.2-5 3.5-5z" /></svg> Perna dominante</span>
           <strong className="info-value">
             {player.strongFoot || "Indefinida"}
           </strong>
@@ -219,7 +219,7 @@ export default function PlayerScoutPanel({ player, stats, bestPartner }) {
         className="profile-view-full-btn"
         onClick={() => navigate(`/player/${player.id}`)}
       >
-        VER PERFIL COMPLETO ❯
+        VER PERFIL COMPLETO <svg className="sp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
       </button>
 
       <div className="profile-footer">

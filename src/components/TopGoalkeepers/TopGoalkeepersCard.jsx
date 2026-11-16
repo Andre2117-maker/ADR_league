@@ -124,13 +124,22 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
       {showInfo && (
         <div className="gk-info-popover">
           <div className="gk-info-popover-header">
-            <strong>📖 Entenda as Estatísticas</strong>
+            <strong>Entenda as estatísticas</strong>
             <button
               type="button"
               className="gk-info-close"
               onClick={() => setShowInfo(false)}
+              aria-label="Fechar"
             >
-              ✕
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                />
+              </svg>
             </button>
           </div>
           <ul className="gk-info-list">
@@ -158,7 +167,7 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
           </ul>
           <div className="gk-info-rule-box">
             <strong>
-              ⚖️ Regra de Justiça & Corte ({dynamicMinGames} Jogos):
+              Regra de justiça e corte ({dynamicMinGames} jogos):
             </strong>
             <p>
               Para evitar que alguém jogue apenas 1 ou 2 partidas e lidere com

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { db } from "../firebase";
+import { db } from "../../../firebase";
 import {
   collection,
   addDoc,
@@ -11,8 +11,8 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import "../styles/Home/admin-transparency.css";
-import Footer from "../components/Footer";
+import "./admin-transparency.css";
+import Footer from "../../../components/Footer";
 
 // ==========================================
 // CATEGORIAS (ícone + nome) POR TIPO

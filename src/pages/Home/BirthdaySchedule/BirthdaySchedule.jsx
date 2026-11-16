@@ -1,6 +1,22 @@
 import React, { useState, useMemo } from "react";
-import "../styles/Home/BirthdaySchedule.css";
-import { getShirtNumber, useClubMode } from "../utils/Shirtnumber";
+import "./BirthdaySchedule.css";
+import { getShirtNumber, useClubMode } from "../../../utils/Shirtnumber";
+
+/* Ícones desenhados (no lugar dos emojis) */
+const BD_ICO = {
+  cal: "M4 6h16v14H4zM4 10h16M8 3.5v4M16 3.5v4",
+  cake: "M4 20h16v-7H4zM4 15.5c2 1.3 4 1.3 5.3 0 1.4 1.3 4 1.3 5.4 0 1.3 1.3 3.3 1.3 5.3 0M8 13V10M12 13V10M16 13V10M8 7.5v.5M12 7.5v.5M16 7.5v.5",
+  hourglass: "M7 3.5h10M7 20.5h10M8 3.5c0 4.5 4 5.5 4 8.5s-4 4-4 8.5M16 3.5c0 4.5-4 5.5-4 8.5s4 4 4 8.5",
+  party: "M4 20l4.5-12L16 15.5zM14 4l.5 2M18 6l-2 1M20 11l-2 .5M11 5.5c1.5 1 2 2.5 1.5 4",
+  balloon: "M12 3a5.5 6.5 0 1 0 0 13 5.5 6.5 0 0 0 0-13zM12 16l-1 2h2zM12 18c0 2-2 2-1.5 3.5",
+  left: "M15 5l-7 7 7 7",
+  right: "M9 5l7 7-7 7",
+};
+const BdIco = ({ n }) => (
+  <svg className="bd-ico" viewBox="0 0 24 24" aria-hidden="true">
+    <path d={BD_ICO[n]} />
+  </svg>
+);
 
 const BirthdaySchedule = ({ players = [] }) => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -121,7 +137,9 @@ const BirthdaySchedule = ({ players = [] }) => {
             >
               {/* TOPO DO CARD: DATA + BADGE DE CONTAGEM REGRESSIVA */}
               <div className="card-header">
-                <span className="bday-date">📅 {player.formattedDate}</span>
+                <span className="bday-date">
+                  <BdIco n="cal" /> {player.formattedDate}
+                </span>
 
                 <span
                   className={`bday-countdown-pill ${
@@ -132,11 +150,17 @@ const BirthdaySchedule = ({ players = [] }) => {
                         : ""
                   }`}
                 >
-                  {player.isToday
-                    ? "🎂 É HOJE!"
-                    : player.isTomorrow
-                      ? "⏳ É AMANHÃ!"
-                      : `Faltam ${player.daysUntil} dias`}
+                  {player.isToday ? (
+                    <>
+                      <BdIco n="cake" /> É HOJE!
+                    </>
+                  ) : player.isTomorrow ? (
+                    <>
+                      <BdIco n="hourglass" /> É AMANHÃ!
+                    </>
+                  ) : (
+                    `Faltam ${player.daysUntil} dias`
+                  )}
                 </span>
               </div>
 
@@ -157,7 +181,7 @@ const BirthdaySchedule = ({ players = [] }) => {
                   <h3 className="bday-player-name">{player.name}</h3>
                   <p className="bday-text">
                     {player.isToday
-                      ? "🎉 Parabéns pelo seu dia, craque!"
+                      ? "Parabéns pelo seu dia, craque!"
                       : player.turningAge
                         ? `Completa ${player.turningAge} anos`
                         : "Aniversariante do Elenco"}
@@ -169,7 +193,16 @@ const BirthdaySchedule = ({ players = [] }) => {
               <div className="bday-card-footer">
                 <span className="bday-pos-badge">{primaryPos}</span>
                 <span className="bday-tag">
-                  {player.isToday ? "🥳 Dia de Festa no ADR" : "🎈 Aniversário"}
+                  {player.isToday ? (
+                    <>
+                      <BdIco n="party" /> Dia de festa no{" "}
+                      {clubMode === "idr" ? "IDR" : "ADR"}
+                    </>
+                  ) : (
+                    <>
+                      <BdIco n="balloon" /> Aniversário
+                    </>
+                  )}
                 </span>
               </div>
             </div>
@@ -187,7 +220,7 @@ const BirthdaySchedule = ({ players = [] }) => {
               onClick={() => changePage("prev")}
               aria-label="Anterior"
             >
-              ‹
+              <BdIco n="left" />
             </button>
 
             <div className="pagination-dots">
@@ -208,7 +241,7 @@ const BirthdaySchedule = ({ players = [] }) => {
               onClick={() => changePage("next")}
               aria-label="Próximo"
             >
-              ›
+              <BdIco n="right" />
             </button>
           </div>
         </div>

@@ -141,7 +141,9 @@ function RetroPicker({ players, matches, season, seasons, setSeason }) {
                   </small>
                 </span>
                 <span className="rt-player-go" aria-hidden="true">
-                  ›
+                  <svg viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7" />
+                  </svg>
                 </span>
               </Link>
             );
@@ -628,7 +630,7 @@ function RetroStory({ player, players, matches, season }) {
     try {
       const slug = String(name)
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-zA-Z0-9]+/g, "-")
         .toLowerCase();
       const res = await exportNodeImage(cardRef.current, {
@@ -680,7 +682,9 @@ function RetroStory({ player, players, matches, season }) {
             onClick={() => navigate(`/retrospectiva?temporada=${season}`)}
             aria-label="Fechar"
           >
-            ✕
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
           </button>
         </div>
 

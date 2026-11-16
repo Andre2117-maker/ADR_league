@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import {
   collection,
   addDoc,
@@ -11,8 +11,34 @@ import {
   orderBy,
   getDocs,
 } from "firebase/firestore";
-import LogoIDR from "../../assets/IDR.png";
+import LogoIDR from "../../../assets/IDR.png";
 import "./matchalert.css";
+
+/* Ícones desenhados (no lugar dos emojis) */
+const ICO = {
+  ball: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7",
+  stop: "M8.5 3h7L21 8.5v7L15.5 21h-7L3 15.5v-7zM8.5 12h7",
+  close: "M6 6l12 12M18 6L6 18",
+  megaphone: "M3.5 10v4h3l6.5 4V6L6.5 10zM16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11",
+  handshake: "M3 12l4-4 4 2 3-2 4 1 3 3M7 8l-4 4 5 5 2-1 2 2 2-1 2 1 3-4M10 16l2-2M12 18l2-2",
+  trophy: "M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 14v3.5M8.5 20.5h7",
+  coins: "M12 4c4 0 7 1.3 7 3s-3 3-7 3-7-1.3-7-3 3-3 7-3zM5 7v5c0 1.7 3 3 7 3s7-1.3 7-3V7M5 12v5c0 1.7 3 3 7 3s7-1.3 7-3v-5",
+  news: "M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2M7 9h7M7 12.5h7M7 16h4",
+  pin: "M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11zM12 12.3a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6z",
+  shield: "M12 2.8 4.5 5.6v5.8c0 4.8 3.2 8.4 7.5 9.8 4.3-1.4 7.5-5 7.5-9.8V5.6z",
+  tag: "M3.5 12.5V4h8.5l8.5 8.5-8.5 8.5zM8 8.3a.6.6 0 1 0 0 .1",
+  camera: "M4 7.5h3.5L9 5h6l1.5 2.5H20v11H4zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z",
+  check: "M5 12.5l4.5 4.5L19 7.5",
+  copy: "M8 8h11v12H8zM5 16V4h11",
+  edit: "M4 20l1-4.5L15.5 5 19 8.5 8.5 19zM13.5 7l3.5 3.5",
+  left: "M15 5l-7 7 7 7",
+  right: "M9 5l7 7-7 7",
+};
+const Ico = ({ n, className = "mw-ico" }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={ICO[n]} />
+  </svg>
+);
 
 const ADR_LOGO_DEFAULT = "/logo.png";
 
@@ -59,10 +85,10 @@ const Countdown = ({ targetDate, targetTime }) => {
 
       if (distance < 0) {
         if (distance > -(2 * 60 * 60 * 1000)) {
-          setTimeLeft("⚽ BOLA ROLANDO • EM ANDAMENTO");
+          setTimeLeft("BOLA ROLANDO · EM ANDAMENTO");
           setStatusClass("is-live");
         } else {
-          setTimeLeft("🛑 PARTIDA ENCERRADA");
+          setTimeLeft("PARTIDA ENCERRADA");
           setStatusClass("is-ended");
         }
         return;
@@ -88,7 +114,13 @@ const Countdown = ({ targetDate, targetTime }) => {
   }, [targetDate, targetTime]);
 
   if (!timeLeft) return null;
-  return <div className={`banner-countdown ${statusClass}`}>{timeLeft}</div>;
+  return (
+    <div className={`banner-countdown ${statusClass}`}>
+      {statusClass === "is-live" && <Ico n="ball" />}
+      {statusClass === "is-ended" && <Ico n="stop" />}
+      {timeLeft}
+    </div>
+  );
 };
 
 // Texto da notícia cortado em poucas linhas + botão "Ler mais" (só aparece se cortar)
@@ -113,7 +145,7 @@ const NewsBody = ({ text, onReadMore }) => {
       </p>
       {overflows && (
         <button type="button" className="news-read-more" onClick={onReadMore}>
-          Ler mais <span aria-hidden="true">›</span>
+          Ler mais <Ico n="right" />
         </button>
       )}
     </>
@@ -483,9 +515,15 @@ const MatchBanner = ({ isAdmin }) => {
           className="admin-toggle-btn"
           onClick={() => (showAdmin ? cancelEdit() : setShowAdmin(true))}
         >
-          {showAdmin
-            ? "✕ FECHAR CENTRAL DE AVISOS"
-            : "📢 CRIAR BANNER / NOTÍCIA / VAQUINHA"}
+          {showAdmin ? (
+            <>
+              <Ico n="close" /> FECHAR CENTRAL DE AVISOS
+            </>
+          ) : (
+            <>
+              <Ico n="megaphone" /> CRIAR BANNER / NOTÍCIA / VAQUINHA
+            </>
+          )}
         </button>
       )}
 
@@ -510,11 +548,11 @@ const MatchBanner = ({ isAdmin }) => {
           )}
           <div className="admin-type-selector-bar">
             {[
-              { id: "TREINO", label: "⚽ Treino" },
-              { id: "AMISTOSO", label: "🤝 Amistoso" },
-              { id: "CAMPEONATO", label: "🏆 Campeonato" },
-              { id: "ARRECADACAO", label: "💰 Vaquinha / Camisas" },
-              { id: "NOTICIA", label: "📰 Notícia / Aviso" },
+              { id: "TREINO", label: "Treino", ico: "ball" },
+              { id: "AMISTOSO", label: "Amistoso", ico: "handshake" },
+              { id: "CAMPEONATO", label: "Campeonato", ico: "trophy" },
+              { id: "ARRECADACAO", label: "Vaquinha / Camisas", ico: "coins" },
+              { id: "NOTICIA", label: "Notícia / Aviso", ico: "news" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -524,6 +562,7 @@ const MatchBanner = ({ isAdmin }) => {
                 }`}
                 onClick={() => setBannerType(tab.id)}
               >
+                <Ico n={tab.ico} />
                 {tab.label}
               </button>
             ))}
@@ -573,7 +612,7 @@ const MatchBanner = ({ isAdmin }) => {
                   }}
                 >
                   <option value="" disabled>
-                    📍 Selecione o local da partida...
+                    Selecione o local da partida...
                   </option>
                   {savedVenues.map((venue, idx) => (
                     <option key={idx} value={venue}>
@@ -582,7 +621,7 @@ const MatchBanner = ({ isAdmin }) => {
                   ))}
                   <option
                     value="ADD_NEW"
-                    style={{ fontWeight: "bold", color: "#d4af37" }}
+                    style={{ fontWeight: "bold" }}
                   >
                     + Adicionar novo local...
                   </option>
@@ -606,7 +645,7 @@ const MatchBanner = ({ isAdmin }) => {
                       <label>
                         {isConverting
                           ? "Comprimindo escudo..."
-                          : "🛡️ Escudo Adversário"}
+                          : "Escudo do adversário"}
                       </label>
                       <input
                         type="file"
@@ -615,7 +654,7 @@ const MatchBanner = ({ isAdmin }) => {
                       />
                     </div>
                     <div className="upload-col">
-                      <label>🏷️ Nome do Adversário</label>
+                      <label>Nome do adversário</label>
                       <input
                         type="text"
                         placeholder="Ex: Rato de Campo FC"
@@ -698,11 +737,11 @@ const MatchBanner = ({ isAdmin }) => {
                     setFormData({ ...formData, newsCategory: e.target.value })
                   }
                 >
-                  <option value="DIRETORIA">📋 COMUNICADO DA DIRETORIA</option>
-                  <option value="URGENTE">🚨 PLANTÃO URGENTE</option>
-                  <option value="UNIFORMES">👕 NOVOS UNIFORMES</option>
-                  <option value="RESENHA">🔥 DESTAQUE DA RODADA</option>
-                  <option value="MERCADO">🤝 MERCADO DA BOLA</option>
+                  <option value="DIRETORIA">COMUNICADO DA DIRETORIA</option>
+                  <option value="URGENTE">PLANTÃO URGENTE</option>
+                  <option value="UNIFORMES">NOVOS UNIFORMES</option>
+                  <option value="RESENHA">DESTAQUE DA RODADA</option>
+                  <option value="MERCADO">MERCADO DA BOLA</option>
                 </select>
                 <input
                   type="text"
@@ -727,8 +766,8 @@ const MatchBanner = ({ isAdmin }) => {
                       {isConverting
                         ? "Comprimindo foto..."
                         : formData.newsImage
-                          ? "📸 Trocar foto da notícia"
-                          : "📸 Foto da Notícia (Opcional)"}
+                          ? "Trocar foto da notícia"
+                          : "Foto da notícia (opcional)"}
                     </label>
                     <input
                       type="file"
@@ -829,8 +868,8 @@ const MatchBanner = ({ isAdmin }) => {
                   CAMPEONATO: item.championshipPhase
                     ? `CAMPEONATO • ${item.championshipPhase}`
                     : "CAMPEONATO",
-                  ARRECADACAO: "💰 META & ARRECADAÇÃO",
-                  NOTICIA: `📰 ${item.newsCategory || "COMUNICADO"}`,
+                  ARRECADACAO: "META & ARRECADAÇÃO",
+                  NOTICIA: item.newsCategory || "COMUNICADO",
                 };
 
                 const marqueeText =
@@ -916,9 +955,15 @@ const MatchBanner = ({ isAdmin }) => {
                                     handleCopyPix(item.pixKey, item.id)
                                   }
                                 >
-                                  {copiedId === item.id
-                                    ? "✅ CHAVE PIX COPIADA!"
-                                    : `💠 COPIAR PIX: ${item.pixKey}`}
+                                  {copiedId === item.id ? (
+                                    <>
+                                      <Ico n="check" /> CHAVE PIX COPIADA!
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Ico n="copy" /> COPIAR PIX: {item.pixKey}
+                                    </>
+                                  )}
                                 </button>
                               )}
                               {isAdmin && (
@@ -929,7 +974,7 @@ const MatchBanner = ({ isAdmin }) => {
                                     handleQuickUpdateFundraiser(item)
                                   }
                                 >
-                                  ✏️ Atualizar Valor / %
+                                  <Ico n="edit" /> Atualizar valor / %
                                 </button>
                               )}
                             </div>
@@ -1008,7 +1053,7 @@ const MatchBanner = ({ isAdmin }) => {
                             />
                             {item.location && (
                               <div className="banner-location">
-                                📍 {item.location}
+                                <Ico n="pin" /> {item.location}
                               </div>
                             )}
                           </div>
@@ -1046,7 +1091,7 @@ const MatchBanner = ({ isAdmin }) => {
                               </div>
                               {item.location && (
                                 <div className="banner-location">
-                                  📍 {item.location}
+                                  <Ico n="pin" /> {item.location}
                                 </div>
                               )}
                               <Countdown
@@ -1088,8 +1133,9 @@ const MatchBanner = ({ isAdmin }) => {
                           className="del-btn"
                           onClick={() => deleteBanner(item.id)}
                           title="Excluir este banner"
+                          aria-label="Excluir este banner"
                         >
-                          ✕
+                          <Ico n="close" />
                         </button>
                       )}
                     </div>
@@ -1107,7 +1153,7 @@ const MatchBanner = ({ isAdmin }) => {
                 onClick={() => goTo(safeActive - 1)}
                 aria-label="Alerta anterior"
               >
-                ‹
+                <Ico n="left" />
               </button>
               <div className="mb-dots">
                 {banners.map((b, i) => (
@@ -1129,7 +1175,7 @@ const MatchBanner = ({ isAdmin }) => {
                 onClick={() => goTo(safeActive + 1)}
                 aria-label="Próximo alerta"
               >
-                ›
+                <Ico n="right" />
               </button>
             </div>
           )}
@@ -1150,7 +1196,7 @@ const MatchBanner = ({ isAdmin }) => {
           >
             <header className="news-reader-head">
               <span className="news-tag-pill">
-                📰 {readingNews.newsCategory || "OFICIAL"}
+                {readingNews.newsCategory || "OFICIAL"}
               </span>
               {isAdmin && (
                 <button
@@ -1171,7 +1217,7 @@ const MatchBanner = ({ isAdmin }) => {
                 onClick={() => setReadingNews(null)}
                 aria-label="Fechar notícia"
               >
-                ✕
+                <Ico n="close" />
               </button>
             </header>
 
@@ -1215,7 +1261,7 @@ const MatchBanner = ({ isAdmin }) => {
             onClick={() => setExpandedNewsImage(null)}
             aria-label="Fechar imagem ampliada"
           >
-            ×
+            <Ico n="close" />
           </button>
           <img
             src={expandedNewsImage.src}

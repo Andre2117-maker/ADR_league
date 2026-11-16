@@ -13,7 +13,7 @@ import {
 
 import { getBestPartner, calculateStandings } from "./utils/statsLogic";
 
-import Home from "./pages/Home.jsx";
+import Home from "./pages/Home/Home.jsx";
 import AdminLogin from "./pages/Login/AdminLogin.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
 import AdminMatches from "./pages/AdminMatches/AdminMatches.jsx";
@@ -22,14 +22,14 @@ import Calendar from "./pages/Calendar/Calendar.jsx";
 import Navbar from "./pages/NavBar/NavBar.jsx";
 import PlayerPage from "./pages/Playerpage/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage/MatchPage.jsx";
-import AdminTransparency from "./pages/AdminTransparency.jsx";
+import AdminTransparency from "./pages/Home/AdminTransparency/AdminTransparency.jsx";
 import HallHistorico from "./pages/HallHistorico/HallHistorico.jsx";
 import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
 import Altar from "./components/Easter Egg/Altar.jsx";
 import Statics from "./pages/Statics/Statics.jsx";
 import AboutPage from "./pages/AboutUs/AboutPage.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
-import Legends from "./pages/Legends.jsx";
+import Legends from "./pages/Home/Legends/Legends.jsx";
 import DreamTeam from "./pages/DreamTeam.jsx";
 import Campeonato from "./pages/Campeonato/Campeonato.jsx";
 import Titulos from "./pages/Titulos/Titulos.jsx";

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
    RETROSPECTIVA — escolha do jogador + stories
    ========================================================================== */
@@ -216,8 +218,19 @@
 }
 
 .rt-player-go {
+  display: inline-flex;
   color: var(--rt-accent);
-  font-size: 1.4rem;
+}
+
+.rt-player-go svg,
+.rt-close svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .rt-empty {
@@ -262,12 +275,22 @@
   transition: background 0.6s ease;
 }
 
-/* padrão de "+" no fundo */
+/* linhas finas de "placa de gala" no fundo */
 .rt-story::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 25v10M25 30h10' stroke='%23ffffff' stroke-opacity='.07' stroke-width='1'/%3E%3C/svg%3E");
+  inset: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(var(--rt-tone), var(--rt-tone)) left top / 18px 1px
+      no-repeat,
+    linear-gradient(var(--rt-tone), var(--rt-tone)) left top / 1px 18px
+      no-repeat,
+    linear-gradient(var(--rt-tone), var(--rt-tone)) right bottom / 18px 1px
+      no-repeat,
+    linear-gradient(var(--rt-tone), var(--rt-tone)) right bottom / 1px 18px
+      no-repeat;
+  opacity: 0.8;
   pointer-events: none;
 }
 
@@ -401,6 +424,9 @@
 }
 
 .rt-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
   flex-shrink: 0;
@@ -838,4 +864,658 @@
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.72rem;
   line-height: 1.4;
+}
+
+/* ==========================================================================
+   TEMA IDR — REVISTA ESPORTIVA EM PRETO E BRANCO
+   Papel claro, réguas pretas, números gigantes em letra pesada.
+   As "cores" de cada slide viram só preto.
+   ========================================================================== */
+.theme-idr .rt-hero::after {
+  height: 3px;
+  background: #000;
+}
+
+.theme-idr .rt-kicker {
+  padding: 4px 8px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .rt-hero-title {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.theme-idr .rt-seasons {
+  border: 2px solid #000;
+}
+
+.theme-idr .rt-seasons button.on {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.theme-idr .rt-search {
+  background: #fff;
+  border: 2px solid #000;
+}
+
+.theme-idr .rt-grid {
+  border-top: 3px solid #000;
+}
+
+.theme-idr .rt-player:hover {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.theme-idr .rt-player:hover small,
+.theme-idr .rt-player:hover .rt-player-go {
+  color: #fff;
+}
+
+/* stories */
+.theme-idr .rt-story-overlay {
+  background: #e9e9e4;
+  color: #000;
+}
+
+.theme-idr .rt-story {
+  --rt-tone: #000000;
+  --rt-tone-glow: rgba(0, 0, 0, 0);
+  background: #f6f6f2;
+}
+
+.theme-idr .rt-story::before {
+  inset: 0;
+  border: 0;
+  opacity: 1;
+  background:
+    linear-gradient(#000, #000) left 0 top 64px / 100% 3px no-repeat,
+    linear-gradient(#000, #000) left 0 top 69px / 100% 1px no-repeat;
+}
+
+@media (min-width: 700px) {
+  .theme-idr .rt-story-overlay {
+    background: #e9e9e4;
+  }
+  .theme-idr .rt-story {
+    border: 2px solid #000;
+    box-shadow: 12px 12px 0 #c9c9c2;
+  }
+}
+
+.theme-idr .rt-bar {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.theme-idr .rt-bar-fill {
+  background: #000;
+}
+
+.theme-idr .rt-top-who img {
+  border: 2px solid #000;
+  filter: grayscale(1);
+}
+
+.theme-idr .rt-top-who small {
+  color: #555;
+}
+
+.theme-idr .rt-close {
+  color: #000;
+  border: 2px solid #000;
+}
+
+.theme-idr .rt-k {
+  padding: 4px 9px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .rt-h {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  color: #000;
+}
+
+.theme-idr .rt-p,
+.theme-idr .rt-date {
+  color: #333;
+}
+
+.theme-idr .rt-p b {
+  color: #000;
+  background: linear-gradient(transparent 60%, #d9d9d2 60%);
+}
+
+.theme-idr .rt-big,
+.theme-idr .rt-big-blue,
+.theme-idr .rt-score b {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -4px;
+  color: #000;
+  text-shadow: 6px 6px 0 #d0d0c8;
+}
+
+.theme-idr .rt-big-blue {
+  color: transparent;
+  -webkit-text-stroke: 2px #000;
+}
+
+.theme-idr .rt-unit {
+  color: #000;
+  border-top: 2px solid #000;
+  padding-top: 6px;
+}
+
+.theme-idr .rt-facts {
+  border: 0;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.theme-idr .rt-facts > div {
+  border-right: 1px solid #000;
+}
+
+.theme-idr .rt-facts span,
+.theme-idr .rt-wdl span {
+  color: #444;
+}
+
+.theme-idr .rt-avatar {
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0 #c9c9c2;
+}
+
+.theme-idr .rt-avatar img {
+  filter: grayscale(1) contrast(1.05);
+}
+
+.theme-idr .rt-wdl b,
+.theme-idr .rt-comp-wdl b {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.theme-idr .rt-wdl .w b,
+.theme-idr .rt-comp-wdl .w b {
+  color: #000;
+}
+
+.theme-idr .rt-wdl .d b,
+.theme-idr .rt-comp-wdl .d b {
+  color: #888;
+}
+
+.theme-idr .rt-wdl .l b,
+.theme-idr .rt-comp-wdl .l b {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #000;
+}
+
+.theme-idr .rt-comp {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d0d0c8;
+}
+
+.theme-idr .rt-comp::before {
+  display: none;
+}
+
+.theme-idr .rt-comp-head span {
+  color: #000;
+}
+
+.theme-idr .rt-comp-head b,
+.theme-idr .rt-comp-wdl span,
+.theme-idr .rt-comp-stats,
+.theme-idr .rt-comp-opp {
+  color: #444;
+}
+
+.theme-idr .rt-comp-stats {
+  border-top-color: #000;
+}
+
+.theme-idr .rt-comp-stats b {
+  color: #000;
+}
+
+.theme-idr .rt-btn {
+  color: #000;
+  border: 2px solid #000;
+}
+
+.theme-idr .rt-btn-main {
+  background: #000;
+  color: #fff;
+  box-shadow: 6px 6px 0 #c9c9c2;
+}
+
+.theme-idr .rt-msg {
+  color: #000;
+}
+
+.theme-idr .rt-paused {
+  background: #000;
+  color: #fff;
+  border: 0;
+}
+
+/* ==========================================================================
+   TEMA ADR CLASSIC — STORIES DE FIGURINHA RETRÔ
+   Fundo listrado roxo → vermelho tingido pela cor do slide,
+   números em Anton com sombra deslocada, fatos em adesivos.
+   ========================================================================== */
+body.theme-classic .rt-page {
+  --rt-fg: #ffffff;
+  --rt-muted: #b79bb8;
+  --rt-line: rgba(255, 138, 165, 0.16);
+  --rt-line-strong: rgba(255, 138, 165, 0.3);
+  --rt-accent: #ec4470;
+  --rt-accent-grad: linear-gradient(
+    90deg,
+    rgba(236, 68, 112, 0.18),
+    transparent 75%
+  );
+  --rt-panel: #140c18;
+}
+
+body.theme-classic .rt-hero::after {
+  height: 5px;
+  width: 132px;
+  transform: translateX(-50%) skewX(-24deg);
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33.3%,
+    #b8307a 33.3% 66.6%,
+    #e3263a 66.6% 100%
+  );
+}
+
+body.theme-classic .rt-kicker {
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  border-radius: 3px;
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .rt-hero-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+
+body.theme-classic .rt-hero-title b {
+  -webkit-text-fill-color: #ff8aa5 !important;
+  color: #ff8aa5 !important;
+}
+
+body.theme-classic .rt-seasons {
+  border: 0;
+  gap: 8px;
+}
+
+body.theme-classic .rt-seasons button {
+  border: 2px solid rgba(255, 138, 165, 0.35);
+  border-radius: 6px;
+  background: #1d1222;
+}
+
+body.theme-classic .rt-seasons button:last-child {
+  border-right: 2px solid rgba(255, 138, 165, 0.35);
+}
+
+body.theme-classic .rt-seasons button.on {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 0 #5a1f4a;
+  font-style: italic;
+}
+
+body.theme-classic .rt-search {
+  background: #1d1222;
+  border: 2px solid rgba(255, 138, 165, 0.35);
+  border-radius: 6px;
+}
+
+/* lista de jogadores: cada um vira uma figurinha pequena */
+body.theme-classic .rt-grid {
+  gap: 14px;
+  border: 0;
+  background: transparent;
+}
+
+body.theme-classic .rt-player {
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 8px;
+  background: #1d1222;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.8);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+body.theme-classic .rt-player:hover {
+  background: #241529;
+  border-color: #fff;
+  transform: translateY(-3px) rotate(-0.6deg);
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 14px 26px rgba(236, 68, 112, 0.25);
+}
+
+body.theme-classic .rt-player-photo {
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.08) 0 6px,
+      transparent 6px 12px
+    ),
+    linear-gradient(165deg, #7b3aa8, #b8307a 55%, #e3263a);
+  transform: rotate(-4deg);
+}
+
+body.theme-classic .rt-player-info strong {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+
+/* stories */
+body.theme-classic .rt-story-overlay {
+  background: #0b0710;
+}
+
+body.theme-classic .rt-story {
+  --rt-tone: #ec4470;
+  --rt-tone-glow: rgba(236, 68, 112, 0.45);
+  background:
+    radial-gradient(70% 40% at 50% 38%, var(--rt-tone-glow), transparent 70%),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.05) 0 14px,
+      transparent 14px 30px
+    ),
+    linear-gradient(165deg, #3a1d52 0%, #4a1838 55%, #4d1420 100%) !important;
+}
+
+body.theme-classic .rt-story.tone-green {
+  --rt-tone: #3ee08a;
+  --rt-tone-glow: rgba(62, 224, 138, 0.3);
+}
+body.theme-classic .rt-story.tone-blue {
+  --rt-tone: #5aa2ff;
+  --rt-tone-glow: rgba(90, 162, 255, 0.32);
+}
+body.theme-classic .rt-story.tone-purple {
+  --rt-tone: #c27be8;
+  --rt-tone-glow: rgba(194, 123, 232, 0.4);
+}
+body.theme-classic .rt-story.tone-red {
+  --rt-tone: #ff5a5a;
+  --rt-tone-glow: rgba(255, 90, 90, 0.35);
+}
+
+/* moldura dupla de figurinha por dentro */
+body.theme-classic .rt-story::before {
+  inset: 10px;
+  border: 2px solid rgba(255, 138, 165, 0.7);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 3px rgba(18, 10, 22, 0.5),
+    inset 0 0 0 5px rgba(123, 58, 168, 0.6);
+  background: none;
+  background-image: none !important;
+  opacity: 1;
+}
+
+@media (min-width: 700px) {
+  body.theme-classic .rt-story-overlay {
+    background:
+      radial-gradient(
+        60% 60% at 50% 50%,
+        rgba(184, 48, 122, 0.18),
+        transparent 70%
+      ),
+      #0b0710 !important;
+  }
+  body.theme-classic .rt-story {
+    border: 0;
+    border-radius: 14px;
+    box-shadow:
+      0 0 0 4px #120a16,
+      0 0 0 6px #7b3aa8,
+      0 30px 90px rgba(0, 0, 0, 0.7);
+  }
+}
+
+body.theme-classic .rt-bars {
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-top: calc(22px + env(safe-area-inset-top));
+}
+
+body.theme-classic .rt-bar {
+  height: 4px;
+  border-radius: 2px;
+  transform: skewX(-20deg);
+}
+
+body.theme-classic .rt-bar-fill {
+  background: linear-gradient(90deg, #ff8aa5, #fff);
+}
+
+body.theme-classic .rt-top {
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+body.theme-classic .rt-top-who img {
+  border: 2px solid #fff;
+  border-radius: 6px;
+  transform: rotate(-4deg);
+}
+
+body.theme-classic .rt-close {
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+}
+
+body.theme-classic .rt-k {
+  padding: 5px 11px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 2px solid #fff;
+  border-radius: 4px;
+  color: #fff;
+  font-style: italic;
+  transform: rotate(-3deg);
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .rt-h {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16;
+}
+
+body.theme-classic .rt-big,
+body.theme-classic .rt-big-blue,
+body.theme-classic .rt-score b,
+body.theme-classic .rt-wdl b {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 var(--rt-tone),
+    0.1em 0.1em 0 #120a16;
+}
+
+body.theme-classic .rt-big-blue {
+  text-shadow:
+    0.05em 0.05em 0 #5aa2ff,
+    0.1em 0.1em 0 #120a16;
+}
+
+body.theme-classic .rt-wdl .w b {
+  text-shadow:
+    0.05em 0.05em 0 #22c55e,
+    0.1em 0.1em 0 #120a16;
+}
+body.theme-classic .rt-wdl .d b {
+  text-shadow:
+    0.05em 0.05em 0 #9ca3af,
+    0.1em 0.1em 0 #120a16;
+}
+body.theme-classic .rt-wdl .l b {
+  text-shadow:
+    0.05em 0.05em 0 #ef4444,
+    0.1em 0.1em 0 #120a16;
+}
+
+body.theme-classic .rt-unit {
+  font-style: italic;
+  color: #ff8aa5;
+}
+
+/* fatos viram adesivos soltos */
+body.theme-classic .rt-facts {
+  gap: 10px;
+  border: 0;
+}
+
+body.theme-classic .rt-facts > div {
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: #1d1222;
+  box-shadow: 0 4px 0 #120a16;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .rt-facts > div:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+body.theme-classic .rt-facts > div:last-child {
+  border-right: 2px solid #fff;
+}
+
+body.theme-classic .rt-facts b {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: #fff;
+}
+
+body.theme-classic .rt-facts span {
+  color: #ff8aa5;
+}
+
+/* avatar como figurinha */
+body.theme-classic .rt-avatar {
+  border: 3px solid #fff;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.08) 0 10px,
+      transparent 10px 22px
+    ),
+    linear-gradient(165deg, #7b3aa8, #b8307a 55%, #e3263a);
+  box-shadow:
+    0 0 0 4px #120a16,
+    0 0 0 6px var(--rt-tone),
+    0 18px 36px rgba(0, 0, 0, 0.5);
+  transform: rotate(-3deg);
+}
+
+body.theme-classic .rt-p b {
+  color: #fff;
+  background: linear-gradient(transparent 58%, rgba(236, 68, 112, 0.55) 58%);
+}
+
+body.theme-classic .rt-comp {
+  border: 2px solid rgba(255, 138, 165, 0.6);
+  border-radius: 8px;
+  background: rgba(18, 10, 22, 0.7);
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.8);
+}
+
+body.theme-classic .rt-comp::before {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  border-radius: 6px 0 0 6px;
+  background: linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a);
+  box-shadow: none;
+}
+
+body.theme-classic .rt-comp-wdl b {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+}
+
+body.theme-classic .rt-btn {
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  font-style: italic;
+}
+
+body.theme-classic .rt-btn-main {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow:
+    0 5px 0 #5a1f4a,
+    0 12px 24px rgba(0, 0, 0, 0.4) !important;
+  text-shadow: 1px 1px 0 #5a1f4a;
+}
+
+body.theme-classic .rt-btn-main:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+body.theme-classic .rt-paused {
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  transform: translateX(-50%) rotate(-3deg);
 }

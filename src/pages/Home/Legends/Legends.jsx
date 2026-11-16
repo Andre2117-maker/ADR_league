@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Home/legends.css";
-import Footer from "../components/Footer";
+import "./legends.css";
+import Footer from "../../../components/Footer";
 
 /* ==========================================================================
    ÍCONES (SVG, herdam a cor do nível)
@@ -44,10 +44,34 @@ const LockIcon = () => (
 
 /* Níveis: a cor é do nível (diamante, platina, ouro, prata) e fica igual nos 3 temas */
 const MILESTONES = [
-  { goals: 200, key: "diamond", title: "Lenda Suprema", color: "#5ee7f2", Icon: DiamondIcon },
-  { goals: 150, key: "platinum", title: "Imortal da ADR", color: "#dcdde3", Icon: ShieldIcon },
-  { goals: 100, key: "gold", title: "Centenário de Ouro", color: "#e6c157", Icon: CrownIcon },
-  { goals: 50, key: "silver", title: "Artilheiro de Elite", color: "#b9bec7", Icon: TargetIcon },
+  {
+    goals: 200,
+    key: "diamond",
+    title: "Lenda Suprema",
+    color: "#5ee7f2",
+    Icon: DiamondIcon,
+  },
+  {
+    goals: 150,
+    key: "platinum",
+    title: "Imortal da ADR",
+    color: "#dcdde3",
+    Icon: ShieldIcon,
+  },
+  {
+    goals: 100,
+    key: "gold",
+    title: "Centenário de Ouro",
+    color: "#e6c157",
+    Icon: CrownIcon,
+  },
+  {
+    goals: 50,
+    key: "silver",
+    title: "Artilheiro de Elite",
+    color: "#b9bec7",
+    Icon: TargetIcon,
+  },
 ];
 
 const Legends = ({ playersWithStats }) => {
@@ -76,7 +100,9 @@ const Legends = ({ playersWithStats }) => {
       <header className="legends-header">
         <span className="legends-kicker">ADR · Galeria dos artilheiros</span>
         <h1 className="legends-main-title">Hall da Fama</h1>
-        <p className="legends-subtitle">Os maiores artilheiros da história do ADR</p>
+        <p className="legends-subtitle">
+          Os maiores artilheiros da história do ADR
+        </p>
 
         {legendPlayers.length > 0 && (
           <div className="legends-summary">
@@ -118,7 +144,9 @@ const Legends = ({ playersWithStats }) => {
                   {locked ? <LockIcon /> : <m.Icon />}
                 </span>
                 <div className="milestone-text">
-                  <span className="milestone-mark">Marca de {m.goals}+ gols</span>
+                  <span className="milestone-mark">
+                    Marca de {m.goals}+ gols
+                  </span>
                   <h2 className="milestone-name">{m.title}</h2>
                 </div>
                 <span className="milestone-count">
@@ -133,7 +161,10 @@ const Legends = ({ playersWithStats }) => {
                   {inTier.map((p) => {
                     const goals = p.goals || 0;
                     const pct = next
-                      ? Math.min(100, ((goals - m.goals) / (next.goals - m.goals)) * 100)
+                      ? Math.min(
+                          100,
+                          ((goals - m.goals) / (next.goals - m.goals)) * 100,
+                        )
                       : 100;
                     const missing = next ? next.goals - goals : 0;
 
@@ -148,7 +179,11 @@ const Legends = ({ playersWithStats }) => {
 
                         <span className="legend-photo-wrapper">
                           {p.photo ? (
-                            <img src={p.photo} alt={p.name} className="legend-img" />
+                            <img
+                              src={p.photo}
+                              alt={p.name}
+                              className="legend-img"
+                            />
                           ) : (
                             <span className="legend-img legend-initial">
                               {p.name.charAt(0)}
@@ -161,14 +196,18 @@ const Legends = ({ playersWithStats }) => {
                         </span>
 
                         <span className="legend-name">{p.name}</span>
-                        {p.isAnonymous && <span className="legend-status">Inativo</span>}
+                        {p.isAnonymous && (
+                          <span className="legend-status">Inativo</span>
+                        )}
 
                         <span className="legend-progress">
                           <span className="legend-progress-bar">
                             <i style={{ width: `${pct}%` }} />
                           </span>
                           <span className="legend-progress-label">
-                            {next ? `Faltam ${missing} para ${next.title}` : "Nível máximo"}
+                            {next
+                              ? `Faltam ${missing} para ${next.title}`
+                              : "Nível máximo"}
                           </span>
                         </span>
                       </button>
@@ -182,7 +221,10 @@ const Legends = ({ playersWithStats }) => {
 
         {legendPlayers.length === 0 && (
           <div className="no-legends">
-            <p>Ainda não há jogadores com 50+ gols. A história está sendo escrita.</p>
+            <p>
+              Ainda não há jogadores com 50+ gols. A história está sendo
+              escrita.
+            </p>
           </div>
         )}
       </div>

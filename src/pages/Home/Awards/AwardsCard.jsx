@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../../firebase"; // ajuste o caminho se necessário
+import { db } from "../../../firebase"; // ajuste o caminho se necessário
 import "./awards.css";
 
 /* ==========================================================
@@ -10,6 +10,55 @@ import "./awards.css";
    - Ano sem documento usa SEED (2025) ou o modelo padrão.
    - Só quem recebe `isAdmin` vê os botões de editar.
    ========================================================== */
+
+/* Ícones desenhados (no lugar dos emojis). Ícone salvo no banco = a chave. */
+const ICONS = {
+  trophy: "M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 14v3.5M8.5 20.5h7M9.5 17.5h5v3h-5z",
+  glove: "M7 21v-4.5L4.5 12c-.8-1.4.9-2.7 2-1.6L8 12V5.5a1.3 1.3 0 0 1 2.6 0V10V4a1.3 1.3 0 0 1 2.6 0v6V5a1.3 1.3 0 0 1 2.6 0v5.5V7.5a1.3 1.3 0 0 1 2.6 0V15c0 2.5-1.3 4-3 4.8V21z",
+  fire: "M12 3c1.5 3 4.5 4.6 4.5 8.6a4.5 4.5 0 0 1-9 0c0-2 1-3.3 2-4.2.2 1.4 1 2.3 2 2.6-.6-2.4.1-4.6.5-7zM10 17.5a2 2 0 0 0 4 0c0-1.2-1-1.9-2-3.2-1 1.3-2 2-2 3.2z",
+  ball: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7",
+  target: "M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17zM12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zM12 11.2a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6z",
+  medal: "M8.5 3h7l-1.8 5.5h-3.4zM12 9a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zM12 12.3l.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2-1.45-1.4 2-.3z",
+  star: "M12 3.5l2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9z",
+  shield: "M12 2.8 4.5 5.6v5.8c0 4.8 3.2 8.4 7.5 9.8 4.3-1.4 7.5-5 7.5-9.8V5.6zM8.6 12l2.4 2.4 4.6-4.8",
+  boot: "M4 6.5h6l1 4.5c3 .3 7 1.3 8.5 3.3.8 1.1.3 3.2-1.5 3.2H5.5c-1 0-1.5-.6-1.5-1.5zM4 13h7M7 17v2M11 17v2M15 17v2",
+  crown: "M3.5 8 8 11.5l4-6.5 4 6.5L20.5 8l-1.8 10H5.3zM5.5 21h13",
+  edit: "M4 20l1-4.5L15.5 5 19 8.5 8.5 19zM13.5 7l3.5 3.5",
+  up: "M6 15l6-6 6 6",
+  down: "M6 9l6 6 6-6",
+};
+const ICON_LABEL = {
+  trophy: "Troféu",
+  glove: "Luva",
+  fire: "Fogo",
+  ball: "Bola",
+  target: "Alvo",
+  medal: "Medalha",
+  star: "Estrela",
+  shield: "Escudo",
+  boot: "Chuteira",
+  crown: "Coroa",
+};
+/* Prêmios antigos salvos com emoji continuam funcionando */
+const EMOJI_TO_KEY = {
+  "🏆": "trophy",
+  "🧤": "glove",
+  "🔥": "fire",
+  "⚽": "ball",
+  "🎯": "target",
+  "🏅": "medal",
+  "⭐": "star",
+  "🛡️": "shield",
+  "👟": "boot",
+  "👑": "crown",
+};
+const iconKey = (v) => (ICONS[v] ? v : EMOJI_TO_KEY[v] || "medal");
+
+const Icon = ({ name, className }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={ICONS[iconKey(name)]} />
+  </svg>
+);
 
 const PALETTE = [
   "#d4af37",
@@ -25,14 +74,14 @@ const makeId = () => Math.random().toString(36).slice(2, 9);
 
 // Modelo de um ano novo (vencedores em branco = "A definir")
 const DEFAULT_TEMPLATE = () => [
-  { id: "mvp", title: "MVP da Temporada", icon: "🏆", color: "#d4af37" },
-  { id: "gk", title: "Paredão do Ano", icon: "🧤", color: "#4caf50" },
-  { id: "puskas", title: "Puskás ADR", icon: "🔥", color: "#ff9800" },
-  { id: "scorer", title: "Artilheiro", icon: "⚽", color: "#e53935" },
+  { id: "mvp", title: "MVP da Temporada", icon: "trophy", color: "#d4af37" },
+  { id: "gk", title: "Paredão do Ano", icon: "glove", color: "#4caf50" },
+  { id: "puskas", title: "Puskás ADR", icon: "fire", color: "#ff9800" },
+  { id: "scorer", title: "Artilheiro", icon: "ball", color: "#e53935" },
   {
     id: "assist",
     title: "Líder de Assistências",
-    icon: "🎯",
+    icon: "target",
     color: "#2196f3",
   },
 ];
@@ -43,21 +92,21 @@ const SEED = {
     {
       id: "mvp",
       title: "MVP da Temporada",
-      icon: "🏆",
+      icon: "trophy",
       color: "#d4af37",
       winner: "Davi",
     },
     {
       id: "gk",
       title: "Paredão do Ano",
-      icon: "🧤",
+      icon: "glove",
       color: "#4caf50",
       winner: "Thaiane",
     },
     {
       id: "puskas",
       title: "Puskás ADR",
-      icon: "🔥",
+      icon: "fire",
       color: "#ff9800",
       winner: "Renzo",
     },
@@ -67,7 +116,7 @@ const SEED = {
 const norm = (s) =>
   String(s || "")
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .trim();
 
@@ -146,7 +195,8 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
   };
 
   /* ---------- edição (admin) ---------- */
-  const startEdit = () => setDraft(itemsFor(year).map((it) => ({ ...it })));
+  const startEdit = () =>
+    setDraft(itemsFor(year).map((it) => ({ ...it, icon: iconKey(it.icon) })));
   const cancelEdit = () => setDraft(null);
 
   const patch = (id, changes) =>
@@ -166,7 +216,7 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
       {
         id: makeId(),
         title: "",
-        icon: "🏅",
+        icon: "medal",
         color: PALETTE[d.length % PALETTE.length],
         winner: "",
         playerId: "",
@@ -192,7 +242,7 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
       .map((it) => ({
         id: it.id,
         title: it.title.trim(),
-        icon: it.icon || "🏅",
+        icon: iconKey(it.icon),
         color: it.color || PALETTE[0],
         winner: (it.winner || "").trim(),
         playerId: it.playerId || "",
@@ -232,7 +282,10 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
   return (
     <div className="aw-card">
       <div className="aw-head">
-        <h3 className="aw-title">⭐ Hall da Fama</h3>
+        <h3 className="aw-title">
+          <Icon name="star" className="aw-title-ico" />
+          Hall da Fama
+        </h3>
 
         <div className="aw-years" role="tablist" aria-label="Temporada">
           {years.map((y) => (
@@ -270,7 +323,8 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
 
         {isAdmin && !editing && (
           <button type="button" className="aw-admin-btn" onClick={startEdit}>
-            ✎ Editar prêmios
+            <Icon name="edit" className="aw-ico" />
+            Editar prêmios
           </button>
         )}
       </div>
@@ -293,13 +347,21 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
               style={{ "--award-color": it.color }}
             >
               <div className="aw-edit-row">
-                <input
+                <span className="aw-in-icon-preview" aria-hidden="true">
+                  <Icon name={it.icon} />
+                </span>
+                <select
                   className="aw-in aw-in-icon"
-                  value={it.icon}
-                  maxLength={4}
+                  value={iconKey(it.icon)}
                   onChange={(e) => patch(it.id, { icon: e.target.value })}
                   aria-label="Ícone"
-                />
+                >
+                  {Object.keys(ICON_LABEL).map((k) => (
+                    <option key={k} value={k}>
+                      {ICON_LABEL[k]}
+                    </option>
+                  ))}
+                </select>
                 <input
                   className="aw-in aw-in-title"
                   value={it.title}
@@ -338,7 +400,7 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
                   disabled={idx === 0}
                   aria-label="Subir"
                 >
-                  ↑
+                  <Icon name="up" className="aw-ico" />
                 </button>
                 <button
                   type="button"
@@ -346,7 +408,7 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
                   disabled={idx === draft.length - 1}
                   aria-label="Descer"
                 >
-                  ↓
+                  <Icon name="down" className="aw-ico" />
                 </button>
                 <button
                   type="button"
@@ -399,7 +461,9 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
                 style={{ "--award-color": it.color, "--i": idx }}
                 onClick={clickable ? () => onSelectPlayer(player) : undefined}
               >
-                <span className="aw-icon-bg">{it.icon}</span>
+                <span className="aw-icon-bg">
+                  <Icon name={it.icon} />
+                </span>
 
                 {player?.photo && (
                   <img
@@ -419,7 +483,7 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
 
                 {wins > 1 && (
                   <span className="aw-wins" title="Prêmios no Hall da Fama">
-                    🏅 {wins}x
+                    <Icon name="medal" className="aw-ico" /> {wins}x
                   </span>
                 )}
               </div>

@@ -211,12 +211,12 @@ export default function Statics({ players = [], matches = [] }) {
         ed.ultimoConfronto = `Final: O ADR ${evalResult.scoreStr} ${evalResult.opponentName}`;
         if (evalResult.outcome === "W") {
           ed.highestStageWeight = 6;
-          ed.stageLabel = "🏆 Campeão";
+          ed.stageLabel = "Campeão";
           ed.stageBadgeClass = "stage-champion";
         } else {
           ed.highestStageWeight = Math.max(ed.highestStageWeight, 5);
           if (ed.highestStageWeight === 5) {
-            ed.stageLabel = "🥈 Vice-Campeão (Finalista)";
+            ed.stageLabel = "Vice-Campeão";
             ed.stageBadgeClass = "stage-runnerup";
           }
         }
@@ -435,7 +435,12 @@ export default function Statics({ players = [], matches = [] }) {
             {/* Card Principal: Melhor Campanha */}
             <div className="camp-highlight-card best-campaign-card">
               <span className="camp-card-kicker">
-                🏅 MELHOR CAMPANHA DO ADR
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.5 3h7l-1.8 5.5h-3.4z" />
+                  <circle cx="12" cy="14.5" r="5.5" />
+                  <path d="m12 11.8.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2-1.45-1.4 2-.3z" />
+                </svg>
+                Melhor campanha do ADR
               </span>
               <div className="best-campaign-main">
                 <strong className="best-stage-text">

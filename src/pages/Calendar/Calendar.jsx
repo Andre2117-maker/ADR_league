@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MatchCard from "./MatchCard/MatchCard";
 import Footer from "../../components/Footer";
-import DaySummaryExport from "../../components/DaySummary/DaySummaryExport";
+import DaySummaryExport from "./DaySummary/DaySummaryExport";
 import "./calendar.css";
 
 function Calendar({

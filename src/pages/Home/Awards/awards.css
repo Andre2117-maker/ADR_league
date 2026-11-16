@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================
    COMPONENT: AWARDS CARD (PREFIX: aw-) — MINIMALISTA + AURA
    Linhas finas, cantos retos, brilho sutil no topo.
@@ -201,9 +203,9 @@
 .aw-icon-bg {
   position: absolute;
   right: 10px;
-  bottom: -8px;
-  font-size: 46px;
-  opacity: 0.08;
+  bottom: -10px;
+  color: var(--award-color);
+  opacity: 0.16;
   transform: rotate(-12deg);
   pointer-events: none;
 }
@@ -511,4 +513,302 @@
 
 .theme-idr .aw-edit-item {
   --award-color: #000000 !important;
+}
+
+/* ==========================================================
+   ÍCONES DESENHADOS
+   ========================================================== */
+.aw-card svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.aw-icon-bg svg {
+  width: 58px;
+  height: 58px;
+  stroke-width: 1.3;
+}
+
+.aw-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aw-title-ico {
+  width: 15px;
+  height: 15px;
+  color: var(--aw-accent);
+  flex-shrink: 0;
+}
+
+.aw-ico {
+  width: 12px;
+  height: 12px;
+  vertical-align: -2px;
+}
+
+.aw-admin-btn,
+.aw-wins {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.aw-in-icon-preview {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  color: var(--award-color);
+  border: 1px solid var(--aw-line);
+}
+
+.aw-in-icon-preview svg {
+  width: 20px;
+  height: 20px;
+}
+
+.aw-in-icon {
+  flex: 0 0 110px;
+  text-align: left;
+}
+
+/* ==========================================================
+   IDR — QUADRO DE HONRA DE JORNAL
+   ========================================================== */
+.theme-idr .aw-card {
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+
+.theme-idr .aw-card::before {
+  display: none;
+}
+
+.theme-idr .aw-head {
+  background: #000;
+  border-bottom: 0;
+}
+
+.theme-idr .aw-title {
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #000000;
+  animation: none;
+}
+
+.theme-idr .aw-title-ico {
+  color: #fff;
+}
+
+.theme-idr .aw-years {
+  border-color: #fff;
+}
+
+.theme-idr .aw-year {
+  color: #bbb;
+  border-right-color: #444;
+}
+
+.theme-idr .aw-year.is-active {
+  background: #fff;
+  color: #000;
+}
+
+.theme-idr .aw-winner-name {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .aw-avatar {
+  filter: grayscale(1);
+  border: 2px solid #000;
+}
+
+.theme-idr .aw-item::before {
+  width: 5px;
+}
+
+.theme-idr .aw-wins {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* ==========================================================
+   ADR CLASSIC — ÁLBUM DE PREMIAÇÃO
+   Cada prêmio vira uma figurinha na cor do próprio prêmio.
+   ========================================================== */
+body.theme-classic .aw-card {
+  --aw-bg: #1d1222;
+  --aw-hover: #241529;
+  --aw-line: rgba(255, 138, 165, 0.18);
+  --aw-fg: #ffffff;
+  --aw-muted: #b79bb8;
+  --aw-accent: #ec4470;
+  --aw-glow: rgba(236, 68, 112, 0.2);
+  background: #1d1222 !important;
+  border: 2px solid rgba(255, 138, 165, 0.55) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.85),
+    0 16px 34px rgba(0, 0, 0, 0.55) !important;
+}
+
+body.theme-classic .aw-card::before {
+  display: none;
+}
+
+body.theme-classic .aw-head {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 3px solid #120a16;
+}
+
+body.theme-classic .aw-title {
+  font-family: "Anton", "Impact", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  font-size: 1.1rem !important;
+  letter-spacing: 0.08em !important;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  animation: none !important;
+  text-shadow: 2px 2px 0 #120a16 !important;
+}
+
+body.theme-classic .aw-title-ico {
+  color: #fff;
+}
+
+body.theme-classic .aw-years {
+  border: 0;
+  gap: 5px;
+}
+
+body.theme-classic .aw-year {
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  color: #fff;
+  background: rgba(18, 10, 22, 0.45);
+}
+
+body.theme-classic .aw-year:last-child {
+  border-right: 1.5px solid rgba(255, 255, 255, 0.45);
+}
+
+body.theme-classic .aw-year.is-active {
+  background: #fff;
+  color: #b8307a;
+  border-color: #fff;
+  font-style: italic;
+  transform: rotate(-3deg);
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+/* prêmios: faixa na cor do prêmio + nome em Anton */
+body.theme-classic .aw-grid {
+  gap: 10px;
+  padding: 12px;
+}
+
+body.theme-classic .aw-item {
+  border: 2px solid color-mix(in srgb, var(--award-color) 70%, #fff);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.04) 0 10px,
+      transparent 10px 22px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--award-color) 28%, #1d1222),
+      #1d1222 70%
+    );
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .aw-item:nth-child(odd) {
+  transform: rotate(-0.6deg);
+}
+
+body.theme-classic .aw-item:nth-child(even) {
+  transform: rotate(0.6deg);
+}
+
+body.theme-classic .aw-item::before {
+  width: 6px;
+  box-shadow: none;
+}
+
+body.theme-classic .aw-item.is-link:hover {
+  transform: translateY(-2px) rotate(0deg);
+  border-color: #fff;
+}
+
+body.theme-classic .aw-icon-bg {
+  opacity: 0.3;
+}
+
+body.theme-classic .aw-avatar {
+  border: 2px solid #fff;
+  border-radius: 6px;
+  transform: rotate(-4deg);
+  box-shadow: 0 0 0 2px var(--award-color);
+}
+
+body.theme-classic .aw-award-title {
+  font-style: italic;
+  color: #fff;
+  opacity: 0.85;
+}
+
+body.theme-classic .aw-winner-name {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  text-shadow:
+    2px 2px 0 var(--award-color),
+    4px 4px 0 #120a16;
+}
+
+body.theme-classic .aw-item.is-pending .aw-winner-name {
+  font-family: inherit;
+  font-style: italic;
+  text-shadow: none;
+}
+
+body.theme-classic .aw-wins {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  transform: rotate(-4deg);
+}
+
+body.theme-classic .aw-admin-btn,
+body.theme-classic .aw-edit-tools button,
+body.theme-classic .aw-in {
+  border-radius: 6px;
+}
+
+body.theme-classic .aw-btn-save {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 0;
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 0 #5a1f4a;
 }

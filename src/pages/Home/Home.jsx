@@ -1,24 +1,23 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
-import "../styles/Home/home.css";
+import "./home.css";
 
 // Componentes
-import MatchesCarousel from "../components/MatchesCarousel";
-import SquadCarousel from "../components/SquadCarousel";
-import RankingTable from "../components/RankingTable";
-import PlayerScoutPanel from "../components/ScoutPanel/PlayerScoutPanel";
-import TopGoalkeepersCard from "../components/TopGoalkeepers/TopGoalkeepersCard";
-import TopScorersCard from "../components/TopScorers/TopScorersCard";
-import TopAssistsCard from "../components/TopAssists/TopAssistsCard";
-import AwardsCard from "../components/Awards/AwardsCard";
-import BirthdaySchedule from "../components/BirthdaySchedule";
-import HistoryCarousel from "../components/HistoryCarousel";
-import Footer from "../components/Footer";
-import BirthdayAlert from "../components/BirthdayAlert";
-import MatchAlert from "../components/matchalert/MatchAlert";
-import ClubExplore from "./ClubExplore/ClubExplore";
-import HeadToHead from "../components/HeadToHead/HeadToHead";
+import MatchesCarousel from "./MatchesCarousel/MatchesCarousel";
+import SquadCarousel from "./SquadCarousel/SquadCarousel";
+import RankingTable from "../../components/RankingTable";
+import PlayerScoutPanel from "../../components/ScoutPanel/PlayerScoutPanel";
+import TopGoalkeepersCard from "../../components/TopGoalkeepers/TopGoalkeepersCard";
+import TopScorersCard from "../../components/TopScorers/TopScorersCard";
+import TopAssistsCard from "../../components/TopAssists/TopAssistsCard";
+import AwardsCard from "./Awards/AwardsCard";
+import BirthdaySchedule from "./BirthdaySchedule/BirthdaySchedule";
+import Footer from "../../components/Footer";
+import BirthdayAlert from "./BirthdayAlert/BirthdayAlert";
+import MatchAlert from "./matchalert/MatchAlert";
+import ClubExplore from "../ClubExplore/ClubExplore";
+import HeadToHead from "../../components/HeadToHead/HeadToHead";
 
 /* ==========================================================================
    EXPORTAÇÃO: o html2canvas só entende cores em rgb/rgba/hex.
@@ -290,13 +289,14 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
     if (!element) return;
 
     const isIdr = Boolean(document.querySelector(".theme-idr"));
+    const isClassic = document.body.classList.contains("theme-classic");
 
     // Espera as fontes carregarem para o print não sair com fonte errada
     if (document.fonts?.ready) await document.fonts.ready;
 
     try {
       const canvas = await html2canvas(element, {
-        backgroundColor: isIdr ? "#ffffff" : "#050505",
+        backgroundColor: isIdr ? "#ffffff" : isClassic ? "#1d1222" : "#050505",
         scale: 2,
         useCORS: true,
         // O html2canvas não entende texto com degradê (background-clip: text)
@@ -310,7 +310,11 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
       });
 
       const link = document.createElement("a");
-      link.download = isIdr ? "tabela-idr.png" : "tabela-adr.png";
+      link.download = isIdr
+        ? "tabela-idr.png"
+        : isClassic
+          ? "tabela-adr-classic.png"
+          : "tabela-adr.png";
       link.href = canvas.toDataURL("image/png");
       link.click();
     } catch (err) {
@@ -359,6 +363,9 @@ function Home({ players, matches, getBestPartner, isAdmin }) {
       <div className="home-layout">
         <aside className="side-cards">
           <button className="export-btn" onClick={exportTabela}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v3h16v-3" />
+            </svg>
             Exportar tabela
           </button>
           <TopScorersCard players={sortedByGoals} limit={3} />

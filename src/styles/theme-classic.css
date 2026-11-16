@@ -2744,26 +2744,19 @@ body.theme-classic::before {
 /* ---------- 4a. Títulos grandes das páginas ---------- */
 body.theme-classic .page-title,
 body.theme-classic .page-title1,
-body.theme-classic .elenco-page-title,
 body.theme-classic .history-main-title,
 body.theme-classic .adr-history-title,
-body.theme-classic .schedule-title,
 body.theme-classic .rs-title,
 body.theme-classic .psd-title,
 body.theme-classic .hero-title,
 body.theme-classic .cta-title,
-body.theme-classic .psg-season-title,
 body.theme-classic .camp-admin-title,
 body.theme-classic .cx-title,
 body.theme-classic .hall-title,
 body.theme-classic .adm-login-title,
-body.theme-classic .rt-hero-title,
-body.theme-classic .alltime-title,
-body.theme-classic .cr-title,
 body.theme-classic .tp-title,
 body.theme-classic .titulos-hero-text,
-body.theme-classic .titulos-total,
-body.theme-classic .bday-title {
+body.theme-classic .titulos-total {
   font-family: "Anton", "Impact", sans-serif !important;
   font-weight: 400 !important;
   font-style: italic !important;
@@ -2818,9 +2811,7 @@ body.theme-classic .section-title,
 body.theme-classic .ppg-card-title,
 body.theme-classic .psd-section-title,
 body.theme-classic .partner-section-title,
-body.theme-classic .cr-group-title,
 body.theme-classic .bracket-round-title,
-body.theme-classic .editions-list-title,
 body.theme-classic .vision-title,
 body.theme-classic .value-title,
 body.theme-classic .milestone-title,
@@ -2830,7 +2821,6 @@ body.theme-classic .cx-card-title,
 body.theme-classic .fav-pos-minimal-title,
 body.theme-classic .ppg-skills-minimal-title,
 body.theme-classic .psd-absence-title,
-body.theme-classic .psg-month-title,
 body.theme-classic .zigzag-title,
 body.theme-classic .trofeu-info h3,
 body.theme-classic .rule-section {
@@ -2851,19 +2841,10 @@ body.theme-classic .rule-section .sec-title-text {
 }
 
 /* ---------- 4c. Cartões: moldura dupla de figurinha ---------- */
-body.theme-classic .info-card,
 body.theme-classic .history-card,
 body.theme-classic .partner-card,
 body.theme-classic .ppg-card,
-body.theme-classic .psg-match-card,
-body.theme-classic .psg-event-card,
 body.theme-classic .cx-card,
-body.theme-classic .cr-card,
-body.theme-classic .friendly-summary-card,
-body.theme-classic .best-campaign-card,
-body.theme-classic .camp-highlight-card,
-body.theme-classic .edition-history-card,
-body.theme-classic .kpi-stats-card,
 body.theme-classic .vision-card,
 body.theme-classic .value-card,
 body.theme-classic .stat-card,
@@ -2873,13 +2854,10 @@ body.theme-classic .kit-card,
 body.theme-classic .mascote-card,
 body.theme-classic .milestone-card,
 body.theme-classic .primordial-card,
-body.theme-classic .schedule-card,
 body.theme-classic .tp-card,
 body.theme-classic .adm-login-card,
 body.theme-classic .mtc-score-card,
 body.theme-classic .team-stats-card,
-body.theme-classic .gk-card,
-body.theme-classic .player-profile-card,
 body.theme-classic .config-wrapper,
 body.theme-classic .rules-paper,
 body.theme-classic .trofeu-img-box {
@@ -2893,13 +2871,9 @@ body.theme-classic .trofeu-img-box {
     transform 0.3s ease;
 }
 
-body.theme-classic .info-card:hover,
 body.theme-classic .history-card:hover,
 body.theme-classic .partner-card:hover,
-body.theme-classic .psg-match-card:hover,
-body.theme-classic .psg-event-card:hover,
 body.theme-classic .cx-card:hover,
-body.theme-classic .cr-card:hover,
 body.theme-classic .vision-card:hover,
 body.theme-classic .value-card:hover,
 body.theme-classic .stat-card:hover,
@@ -2908,8 +2882,7 @@ body.theme-classic .trophy-card:hover,
 body.theme-classic .kit-card:hover,
 body.theme-classic .mascote-card:hover,
 body.theme-classic .milestone-card:hover,
-body.theme-classic .mtc-score-card:hover,
-body.theme-classic .edition-history-card:hover {
+body.theme-classic .mtc-score-card:hover {
   border-color: #ff8aa5 !important;
   box-shadow:
     0 0 0 3px #1d1222,
@@ -2918,16 +2891,12 @@ body.theme-classic .edition-history-card:hover {
 }
 
 /* ---------- 4d. Botões principais: degradê com degrau ---------- */
-body.theme-classic .bday-btn,
-body.theme-classic .export-btn,
 body.theme-classic .tp-export-btn,
 body.theme-classic .mtc-details-btn,
 body.theme-classic .cta-btn,
 body.theme-classic .psg-add-btn,
-body.theme-classic .psg-match-center-btn,
 body.theme-classic .camp-btn,
 body.theme-classic .pdf-download-btn,
-body.theme-classic .rt-btn,
 body.theme-classic .add-game-btn,
 body.theme-classic .nvb-side-admin-btn {
   background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
@@ -2946,16 +2915,12 @@ body.theme-classic .nvb-side-admin-btn {
     filter 0.15s ease !important;
 }
 
-body.theme-classic .bday-btn:hover,
-body.theme-classic .export-btn:hover,
 body.theme-classic .tp-export-btn:hover,
 body.theme-classic .mtc-details-btn:hover,
 body.theme-classic .cta-btn:hover,
 body.theme-classic .psg-add-btn:hover,
-body.theme-classic .psg-match-center-btn:hover,
 body.theme-classic .camp-btn:hover,
 body.theme-classic .pdf-download-btn:hover,
-body.theme-classic .rt-btn:hover,
 body.theme-classic .add-game-btn:hover,
 body.theme-classic .nvb-side-admin-btn:hover {
   filter: brightness(1.12);
@@ -2965,16 +2930,12 @@ body.theme-classic .nvb-side-admin-btn:hover {
     0 14px 24px rgba(236, 68, 112, 0.35) !important;
 }
 
-body.theme-classic .bday-btn:active,
-body.theme-classic .export-btn:active,
 body.theme-classic .tp-export-btn:active,
 body.theme-classic .mtc-details-btn:active,
 body.theme-classic .cta-btn:active,
 body.theme-classic .psg-add-btn:active,
-body.theme-classic .psg-match-center-btn:active,
 body.theme-classic .camp-btn:active,
 body.theme-classic .pdf-download-btn:active,
-body.theme-classic .rt-btn:active,
 body.theme-classic .add-game-btn:active,
 body.theme-classic .nvb-side-admin-btn:active {
   transform: translateY(3px);
@@ -3005,8 +2966,7 @@ body.theme-classic .tp-tab.is-active {
 /* ---------- 4f. Selos pequenos viram adesivo ---------- */
 body.theme-classic .doc-stamp,
 body.theme-classic .sec-number-badge,
-body.theme-classic .rk-leader-badge,
-body.theme-classic .best-edition-badge {
+body.theme-classic .rk-leader-badge {
   background: linear-gradient(135deg, #e3263a, #b8307a) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
@@ -3023,8 +2983,7 @@ body.theme-classic .best-edition-badge {
 @media (max-width: 600px) {
   body.theme-classic .page-title,
   body.theme-classic .page-title1,
-  body.theme-classic .elenco-page-title,
-  body.theme-classic .hero-title,
+    body.theme-classic .hero-title,
     body.theme-classic .titulos-hero-text {
     text-shadow:
       0.04em 0.04em 0 #e3263a,
@@ -3057,71 +3016,6 @@ body.theme-classic img[src="/logo.png"]:not(.tc-crest img):not(.about-wrapper im
 body.theme-classic img[src*="assets/logo"]:not(.tc-crest img):not(.about-wrapper img):not(.nvb-wrapper img):not(.nvb-sidebar img) {
   content: url("/logo-classic.png");
   object-fit: contain;
-}
-
-/* ---------- 4i. Elenco: cada jogador numa figurinha ---------- */
-body.theme-classic .psg-card-bg {
-  border: 2px solid #ff8aa5 !important;
-  border-radius: 6px !important;
-  background:
-    radial-gradient(circle at 50% 30%, rgba(255, 138, 165, 0.45), transparent 60%),
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
-    linear-gradient(165deg, #7b3aa8 0%, #b8307a 55%, #e3263a 100%) !important;
-  box-shadow:
-    0 0 0 3px #1d1222,
-    0 0 0 5px #7b3aa8,
-    0 18px 40px rgba(0, 0, 0, 0.6) !important;
-}
-body.theme-classic .psg-card:hover .psg-card-bg {
-  background:
-    radial-gradient(circle at 50% 30%, rgba(255, 170, 190, 0.55), transparent 60%),
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.09) 0 12px, transparent 12px 26px),
-    linear-gradient(165deg, #8d48bd 0%, #cc3a8a 55%, #f0344a 100%) !important;
-  box-shadow:
-    0 0 0 3px #1d1222,
-    0 0 0 5px #ec4470,
-    0 22px 46px rgba(236, 68, 112, 0.35) !important;
-}
-/* escudo em marca d'água dentro da figurinha */
-body.theme-classic .psg-card-bg::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  width: 150px;
-  height: 170px;
-  transform: translate(-50%, -50%) skewX(8deg) rotate(-8deg);
-  background: url("/logo-classic.png") center / contain no-repeat;
-  opacity: 0.16;
-  filter: grayscale(1) brightness(2.2);
-  pointer-events: none;
-}
-/* número = adesivo, nome = faixa com sombra deslocada */
-body.theme-classic .psg-number {
-  font-family: "Anton", "Impact", sans-serif;
-  font-weight: 400;
-  color: #ffffff !important;
-  -webkit-text-stroke: 0 !important;
-  text-shadow:
-    0.05em 0.05em 0 #e3263a,
-    0.1em 0.1em 0 #7b3aa8 !important;
-}
-body.theme-classic .psg-card:hover .psg-number {
-  color: #ffffff !important;
-  -webkit-text-stroke: 0 !important;
-}
-body.theme-classic .psg-lastname {
-  font-family: "Anton", "Impact", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-  font-size: 1.6rem;
-  letter-spacing: 0.04em;
-  text-shadow:
-    2px 2px 0 #e3263a,
-    4px 4px 0 #7b3aa8;
-}
-body.theme-classic .psg-firstname {
-  color: #ff8aa5;
 }
 
 /* ---------- 4j. Histórico de partidas (lista): faixa lateral em vez de moldura ---------- */

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import LogoADR from "../assets/logo.png";
-import "../styles/Home/matchescarroussel.css";
-import bannerHallo from "../../public/banner/BannerHallo.png";
+import LogoADR from "../../../assets/logo.png";
+import "./matchescarroussel.css";
+import bannerHallo from "../../../../public/banner/BannerHallo.png";
 
 function MatchesCarousel({ matches = [], players = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
