@@ -114,16 +114,40 @@ const SortMark = ({ active }) =>
   active ? <Icon name="chevron" className="rk-sort-glyph" /> : null;
 
 /* ==========================================================================
-   SOBE / DESCE: compara com a classificação antes do último dia de jogo
+   SOBE / DESCE: o que o ÚLTIMO DIA DE TREINO mudou na tabela
+   Compara a classificação antes desse dia com a classificação ao fim dele
    (mesmas regras da tabela da Home: TREINO + EVENTO oficial,
     pontos > gols > assistências > nome)
    ========================================================================== */
-const dayOf = (m) => String(m?.date || "").split("T")[0];
+
+// Dia da partida como "AAAA-MM-DD", aceitando "2026-11-14", "2026-11-14T19:00",
+// "14/11/2026" e Timestamp do Firestore (assim a ordem dos dias fica certa)
+const dayOf = (m) => {
+  const d = m?.date;
+  if (!d) return "";
+  if (typeof d === "string") {
+    const iso = d.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (iso) return iso[0];
+    const br = d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (br)
+      return `${br[3]}-${br[2].padStart(2, "0")}-${br[1].padStart(2, "0")}`;
+  }
+  const dt =
+    typeof d?.toDate === "function"
+      ? d.toDate()
+      : d?.seconds
+        ? new Date(d.seconds * 1000)
+        : new Date(d);
+  if (Number.isNaN(dt.getTime())) return "";
+  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+};
 
 const isRankingMatch = (m) => {
   const type = String(m.type || "TREINO").toUpperCase();
   return type === "TREINO" || (type === "EVENTO" && m.isOfficial !== false);
 };
+
+const isTraining = (m) => String(m.type || "TREINO").toUpperCase() === "TREINO";
 
 const inList = (list, id) => (list || []).some((x) => String(x) === id);
 
@@ -183,7 +207,7 @@ const MoveMark = ({ delta, onClick }) => {
   const n = Math.min(3, Math.abs(delta));
   const label = `${up ? "Subiu" : "Caiu"} ${Math.abs(delta)} ${
     Math.abs(delta) === 1 ? "posição" : "posições"
-  } desde o último treino`;
+  } no último dia de treino`;
   return (
     <button
       type="button"
@@ -371,44 +395,53 @@ export default function RankingTable({
     return list;
   }, [enrichedPlayers, sortConfig]);
 
-  // 4. SOBE / DESCE: posição antes do último dia de jogo x posição atual
+  // 4. SOBE / DESCE: classificação antes do último dia de treino x ao fim dele
   const movement = useMemo(() => {
-    const valid = (matches || []).filter((m) => isRankingMatch(m) && m.date);
-    const days = [...new Set(valid.map(dayOf))].sort();
-    if (days.length < 2) return {}; // precisa de pelo menos 2 dias pra comparar
+    const valid = (matches || []).filter((m) => isRankingMatch(m) && dayOf(m));
 
-    const lastDay = days[days.length - 1];
-    const before = tallyMatches(valid.filter((m) => dayOf(m) !== lastDay));
+    // último dia em que teve TREINO (eventos sozinhos não contam como "dia de treino")
+    const trainingDays = [
+      ...new Set(valid.filter(isTraining).map(dayOf)),
+    ].sort();
+    if (trainingDays.length < 2) return {}; // precisa de um treino anterior pra comparar
+    const lastDay = trainingDays[trainingDays.length - 1];
 
-    const prev = enrichedPlayers
-      .map((item) => {
-        const p = item.player;
-        const id = String(p.id);
-        const manual = p.statsBySeason?.["2026"] || {};
-        const b = before[id] || { points: 0, goals: 0, assists: 0 };
-        return {
-          id,
-          name: p.name || "",
-          points: b.points,
-          goals: b.goals + Number(manual.goals || 0),
-          assists: b.assists + Number(manual.assists || 0),
-        };
-      })
-      .sort(
-        (a, b) =>
-          b.points - a.points ||
-          b.goals - a.goals ||
-          b.assists - a.assists ||
-          a.name.localeCompare(b.name, "pt-BR"),
-      );
+    const rankFrom = (list) => {
+      const tally = tallyMatches(list);
+      const pos = {};
+      enrichedPlayers
+        .map((item) => {
+          const p = item.player;
+          const id = String(p.id);
+          const manual = p.statsBySeason?.["2026"] || {};
+          const t = tally[id] || { points: 0, goals: 0, assists: 0 };
+          return {
+            id,
+            name: p.name || "",
+            points: t.points,
+            goals: t.goals + Number(manual.goals || 0),
+            assists: t.assists + Number(manual.assists || 0),
+          };
+        })
+        .sort(
+          (a, b) =>
+            b.points - a.points ||
+            b.goals - a.goals ||
+            b.assists - a.assists ||
+            a.name.localeCompare(b.name, "pt-BR"),
+        )
+        .forEach((r, i) => (pos[r.id] = i + 1));
+      return pos;
+    };
 
-    const prevPos = {};
-    prev.forEach((r, i) => (prevPos[r.id] = i + 1));
+    // antes do dia x ao fim do dia (os dois lados com a mesma conta)
+    const before = rankFrom(valid.filter((m) => dayOf(m) < lastDay));
+    const after = rankFrom(valid.filter((m) => dayOf(m) <= lastDay));
 
     const out = {};
     enrichedPlayers.forEach((item) => {
       const id = String(item.player.id);
-      out[id] = prevPos[id] - item.originalRank; // + subiu / - caiu
+      out[id] = before[id] - after[id]; // + subiu / - caiu
     });
     return out;
   }, [matches, enrichedPlayers]);
@@ -769,7 +802,7 @@ export default function RankingTable({
                 />
               </svg>
             </span>
-            <span>Sobe / desce desde o último treino</span>
+            <span>Sobe / desce no último dia de treino</span>
           </div>
         </div>
       </footer>

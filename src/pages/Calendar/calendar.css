@@ -824,7 +824,6 @@
   background: rgba(255, 255, 255, 0.5) !important;
 }
 
-
 /* ==========================================================================
    ÍCONES DO CARD (SVG no lugar dos emojis)
    ========================================================================== */
@@ -987,15 +986,28 @@ body.theme-classic .psg-page-container {
 
 body.theme-classic .psg-page-container::before {
   background:
-    radial-gradient(40% 35% at 15% 25%, rgba(123, 58, 168, 0.25), transparent 70%),
-    radial-gradient(40% 35% at 85% 70%, rgba(227, 38, 58, 0.18), transparent 70%) !important;
+    radial-gradient(
+      40% 35% at 15% 25%,
+      rgba(123, 58, 168, 0.25),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 35% at 85% 70%,
+      rgba(227, 38, 58, 0.18),
+      transparent 70%
+    ) !important;
 }
 
 body.theme-classic .psg-header::after {
   height: 5px !important;
   width: 160px !important;
   transform: skewX(-24deg);
-  background: linear-gradient(90deg, #7b3aa8 0 33.3%, #b8307a 33.3% 66.6%, #e3263a 66.6% 100%) !important;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33.3%,
+    #b8307a 33.3% 66.6%,
+    #e3263a 66.6% 100%
+  ) !important;
   box-shadow: none !important;
 }
 
@@ -1089,7 +1101,11 @@ body.theme-classic .psg-match-card:not(.psg-event-card) .psg-card-top {
   border-radius: 8px 8px 0 0;
   border-bottom: 3px solid #120a16;
   background:
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
     linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
 }
 
@@ -1164,12 +1180,16 @@ body.theme-classic .psg-match-card:not(.psg-event-card) .psg-match-center-btn {
   box-shadow: 0 4px 0 #5a1f4a !important;
 }
 
-body.theme-classic .psg-match-card:not(.psg-event-card) .psg-match-center-btn:hover {
+body.theme-classic
+  .psg-match-card:not(.psg-event-card)
+  .psg-match-center-btn:hover {
   filter: brightness(1.12);
   letter-spacing: 3px;
 }
 
-body.theme-classic .psg-match-card:not(.psg-event-card) .psg-match-center-btn:active {
+body.theme-classic
+  .psg-match-card:not(.psg-event-card)
+  .psg-match-center-btn:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 #5a1f4a !important;
 }
@@ -1188,4 +1208,14 @@ body.theme-classic .psg-admin-actions button:hover {
 body.theme-classic .psg-add-btn {
   border-radius: 6px !important;
   font-style: italic;
+}
+/* Pênaltis continuam visíveis quando o placar inverte no hover */
+.theme-idr .psg-match-card:hover .psg-penalty-score {
+  color: #ffffff !important;
+  opacity: 0.85;
+}
+
+/* mesmo cuidado no Classic (placar fica em degradê no hover) */
+body.theme-classic .psg-match-card:hover .psg-penalty-score {
+  color: #ffffff !important;
 }

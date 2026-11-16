@@ -513,3 +513,27 @@ a.at-player:hover .at-name {
     font-size: 0.86rem;
   }
 }
+/* ==========================================================================
+   CORREÇÃO: o quadro nunca passa da largura da tela.
+   Só a tabela rola para o lado, dentro dele.
+   ========================================================================== */
+.alltime-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+.alltime-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .alltime-header,
+  .alltime-sorts {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}

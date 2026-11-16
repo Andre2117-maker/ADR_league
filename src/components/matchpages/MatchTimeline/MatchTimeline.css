@@ -590,3 +590,17 @@
     animation: none;
   }
 }
+.mt-wrap.is-idr .mt-badge.badge-yellow svg rect,
+.theme-idr .mt-wrap .mt-badge.badge-yellow svg rect {
+  fill: #facc15 !important;
+  stroke: #7a5c00 !important;
+  stroke-width: 1.2;
+}
+
+/* cartão vermelho também, para não acontecer o mesmo */
+.mt-wrap.is-idr .mt-badge.badge-red svg rect,
+.theme-idr .mt-wrap .mt-badge.badge-red svg rect {
+  fill: #ef4444 !important;
+  stroke: #7f1414 !important;
+  stroke-width: 1.2;
+}
