@@ -4,6 +4,34 @@ import LogoADR from "../../../assets/logo.png";
 import "./matchescarroussel.css";
 import bannerHallo from "../../../../public/banner/BannerHallo.png";
 
+
+/* Ícones desenhados (no lugar dos emojis) */
+const MTC_ICO = {
+  pin: "M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11zM12 12.3a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6z",
+  bolt: "M13 2.5 5 13.5h6l-1 8 8-11h-6z",
+  ball: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7",
+  left: "M15 5l-7 7 7 7",
+  right: "M9 5l7 7-7 7",
+  star: "M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z",
+  whistle: "M9 19a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM13.5 11.5 21 9v5l-6.5 1M9 9V6",
+  handshake: "M3 11l4-4 4 2 3-2 7 4M7 7v6l4 4 3-1 4-3M3 11v4l3 2M11 17l-2-2",
+  trophy:
+    "M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3 3 0 0 0 8 10.5M16 6h3v1.5a3 3 0 0 1-3 3M12 13v4M8.5 20h7M10 17h4",
+};
+const MtcIco = ({ n, className = "" }) => (
+  <svg className={`mtc-ico ${className}`} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={MTC_ICO[n]} />
+  </svg>
+);
+
+/* ícone que acompanha cada tipo de partida */
+const TYPE_ICON = {
+  TREINO: "whistle",
+  AMISTOSO: "handshake",
+  CAMPEONATO: "trophy",
+  EVENTO: "star",
+};
+
 function MatchesCarousel({ matches = [], players = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -64,7 +92,7 @@ function MatchesCarousel({ matches = [], players = [] }) {
     TREINO: "TREINO OFICIAL",
     AMISTOSO: "AMISTOSO",
     CAMPEONATO: "CAMPEONATO",
-    EVENTO: `🎃 ${formatEventSubtype(match.eventType)}`,
+    EVENTO: formatEventSubtype(match.eventType),
   };
 
   // Identifica o subtipo do evento (ex: "halloween") e define o banner correspondente
@@ -185,7 +213,7 @@ function MatchesCarousel({ matches = [], players = [] }) {
             onClick={prevMatch}
             aria-label="Partida anterior"
           >
-            ❮
+            <MtcIco n="left" />
           </button>
           <button
             type="button"
@@ -193,7 +221,7 @@ function MatchesCarousel({ matches = [], players = [] }) {
             onClick={nextMatch}
             aria-label="Próxima partida"
           >
-            ❯
+            <MtcIco n="right" />
           </button>
         </>
       )}
@@ -203,17 +231,21 @@ function MatchesCarousel({ matches = [], players = [] }) {
         <header className="mtc-banner-header">
           <div className="mtc-header-left">
             <span className="mtc-type-pill">
+              <MtcIco n={TYPE_ICON[rawType] || "whistle"} />
               {typeLabelMap[rawType] || rawType}
             </span>
             <span className="mtc-venue-top">
-              📍 {match.venue || "ARENA O ADR"}
+              <MtcIco n="pin" />
+              {match.venue || "ARENA O ADR"}
               {match.championshipPhase && ` • ${match.championshipPhase}`}
             </span>
           </div>
 
           <div className="mtc-header-right">
             {match.goldenGoalWinner && (
-              <span className="mtc-special-tag">⚡ GOL DE OURO</span>
+              <span className="mtc-special-tag">
+                <MtcIco n="bolt" /> GOL DE OURO
+              </span>
             )}
             <span className="mtc-match-date">{formatDate(match.date)}</span>
           </div>
@@ -239,7 +271,8 @@ function MatchesCarousel({ matches = [], players = [] }) {
                     key={i}
                     className={`mtc-scorer-chip ${s.isOG ? "is-og" : ""}`}
                   >
-                    ⚽ {s.name}
+                    <MtcIco n="ball" />
+                    {s.name}
                     {s.count > 1 && <strong> ({s.count}x)</strong>}
                     {s.isOG && <em> (GC)</em>}
                   </span>
@@ -272,7 +305,7 @@ function MatchesCarousel({ matches = [], players = [] }) {
               className="mtc-details-btn"
               onClick={() => navigate(`/match/${match.id}`)}
             >
-              VER COMPLETO ❯
+              VER COMPLETO <MtcIco n="right" />
             </button>
           </div>
 
@@ -294,7 +327,8 @@ function MatchesCarousel({ matches = [], players = [] }) {
                     key={i}
                     className={`mtc-scorer-chip ${s.isOG ? "is-og" : ""}`}
                   >
-                    ⚽ {s.name}
+                    <MtcIco n="ball" />
+                    {s.name}
                     {s.count > 1 && <strong> ({s.count}x)</strong>}
                     {s.isOG && <em> (GC)</em>}
                   </span>

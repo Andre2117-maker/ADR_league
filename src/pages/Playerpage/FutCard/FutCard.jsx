@@ -4,6 +4,9 @@ import LogoADR from "../../../assets/logo.png";
 import LogoIDR from "../../../assets/IDR.png";
 import "./futcard.css";
 
+// escudo do ADR Classic (o mesmo da navbar, na pasta public)
+const LOGO_CLASSIC = "/logo-classic.png";
+
 /* Habilidades na ordem do site (mesmas chaves do admin do jogador) */
 export const CARD_SKILLS = [
   { key: "velocidade", label: "VEL" },
@@ -187,7 +190,7 @@ const TrophyIcon = () => (
 
 /**
  * Card do jogador no estilo "carta de game".
- * props: player, mode ("adr" | "idr"), season, stats ({games, goals, assists}),
+ * props: player, mode ("adr" | "idr" | "classic"), season, stats ({games, goals, assists}),
  *        gkShare (0-1), titles (número de títulos, opcional)
  */
 const FutCard = forwardRef(function FutCard(
@@ -199,6 +202,7 @@ const FutCard = forwardRef(function FutCard(
   const ovr = playerOvr(player);
   const tier = cardTier(ovr);
   const isIdr = mode === "idr";
+  const isClassic = mode === "classic";
   const photo =
     (isIdr ? player.photoIDR1 || player.photo : player.photo) ||
     "/players/default.png";
@@ -211,7 +215,9 @@ const FutCard = forwardRef(function FutCard(
   return (
     <div
       ref={ref}
-      className={`fc-card tier-${tier.id} ${isIdr ? "is-idr" : ""} ${className}`}
+      className={`fc-card tier-${tier.id} ${isIdr ? "is-idr" : ""} ${
+        isClassic ? "is-classic" : ""
+      } ${className}`}
       aria-label={`Card de ${player.name}: OVR ${ovr}`}
     >
       <div className="fc-frame" />
@@ -229,7 +235,11 @@ const FutCard = forwardRef(function FutCard(
           <Flag code={flag} />
 
           <span className="fc-club-badge">
-            <img className="fc-club" src={isIdr ? LogoIDR : LogoADR} alt="" />
+            <img
+              className="fc-club"
+              src={isIdr ? LogoIDR : isClassic ? LOGO_CLASSIC : LogoADR}
+              alt=""
+            />
           </span>
 
           <span className="fc-trophies" title={`${trophies} títulos`}>

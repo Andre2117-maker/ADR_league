@@ -2,32 +2,36 @@ import { useEffect, useState } from "react";
 
 /**
  * Número da camisa conforme o modo do clube.
- * - ADR  -> player.number
- * - IDR  -> player.numberIDR (se vazio, cai no número do ADR)
+ * - ADR         -> player.number
+ * - IDR         -> player.numberIDR     (se vazio, cai no número do ADR)
+ * - ADR Classic -> player.numberClassic (se vazio, cai no número do ADR)
  */
 export const getShirtNumber = (player, mode = "adr", fallback = "00") => {
   if (!player) return fallback;
 
-  const adr = player.number;
-  const idr = player.numberIDR;
   const isEmpty = (v) => v === undefined || v === null || v === "";
+  const m = String(mode).toLowerCase();
 
-  if (String(mode).toLowerCase() === "idr" && !isEmpty(idr)) return idr;
-  return isEmpty(adr) ? fallback : adr;
+  if (m === "idr" && !isEmpty(player.numberIDR)) return player.numberIDR;
+  if (m === "classic" && !isEmpty(player.numberClassic))
+    return player.numberClassic;
+  return isEmpty(player.number) ? fallback : player.number;
 };
 
 /**
- * Detecta o modo pela classe `theme-idr` no <html>/<body>.
- * Se você já tem um context/hook de modo, ignore este e passe `mode` por prop.
+ * Detecta o modo pelas classes do tema no <html>/<body>:
+ *   theme-idr -> "idr" | theme-classic -> "classic" | nenhum -> "adr"
+ * Quem só compara com "idr" continua funcionando igual
+ * (o Classic é tratado como ADR nas fotos, só o número muda).
  */
 const detectMode = () => {
   if (typeof document === "undefined") return "adr";
-  const has = (el) => el?.classList?.contains("theme-idr");
-  return has(document.documentElement) ||
-    has(document.body) ||
-    document.querySelector(".theme-idr")
-    ? "idr"
-    : "adr";
+  const has = (cls) =>
+    document.documentElement?.classList?.contains(cls) ||
+    document.body?.classList?.contains(cls);
+  if (has("theme-idr") || document.querySelector(".theme-idr")) return "idr";
+  if (has("theme-classic")) return "classic";
+  return "adr";
 };
 
 export const useClubMode = () => {

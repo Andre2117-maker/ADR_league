@@ -691,3 +691,93 @@
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   CARD NO ADR CLASSIC — "FIGURINHA RETRÔ"
+   degradê roxo → magenta → vermelho, listras e letras brancas
+   ========================================================================== */
+.fc-card.is-classic {
+  --fc-a: #c27be8;
+  --fc-b: #b8307a;
+  --fc-c: #4a1240;
+  --fc-ink: #ffffff;
+  --fc-ink-soft: rgba(255, 255, 255, 0.78);
+  --fc-line: rgba(255, 255, 255, 0.45);
+  --fc-glow: rgba(236, 68, 112, 0.5);
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    radial-gradient(120% 70% at 30% 0%, rgba(194, 123, 232, 0.9) 0%, transparent 60%),
+    linear-gradient(160deg, #7b3aa8 0%, #b8307a 50%, #e3263a 100%);
+}
+.fc-card.is-classic.tier-silver,
+.fc-card.is-classic.tier-bronze {
+  --fc-glow: rgba(123, 58, 168, 0.45);
+}
+.fc-card.is-classic.tier-icon {
+  --fc-ink: #ffd1dc;
+  --fc-ink-soft: rgba(255, 209, 220, 0.75);
+  --fc-line: rgba(255, 138, 165, 0.55);
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.04) 0 12px, transparent 12px 26px),
+    linear-gradient(160deg, #2a1534 0%, #120a16 60%, #000 100%);
+}
+.fc-card.is-classic .fc-frame {
+  border: 2px solid rgba(255, 255, 255, 0.75);
+}
+.fc-card.is-classic .fc-ovr,
+.fc-card.is-classic .fc-name {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16;
+}
+.fc-card.is-classic .fc-name {
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Botões e janela do card por tema ---------- */
+.theme-idr .fcs-open {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .ppg-retro-link {
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .ppg-retro-link:hover {
+  background: #000;
+  color: #fff;
+}
+body.theme-classic .fcs-overlay .fcs-modal {
+  background: #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 30px 60px rgba(0, 0, 0, 0.6);
+}
+body.theme-classic .fcs-seasons button.on {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #ff8aa5;
+  color: #fff;
+}
+body.theme-classic .fcs-download {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 999px;
+  color: #fff;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+/* botão de fechar (agora um ícone desenhado) */
+.fcs-x svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}

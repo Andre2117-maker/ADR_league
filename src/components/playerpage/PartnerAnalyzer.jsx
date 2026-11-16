@@ -1,6 +1,24 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/Playerpage/partneranalyzer.css";
 
+/* Ícones desenhados (no lugar dos emojis) */
+const PA_ICO = {
+  duo: "M8.5 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM16 11a3 3 0 1 0 0-6M2.5 20c.4-3.6 2.9-6 6-6s5.6 2.4 6 6M16.5 14c2.6.3 4.6 2.6 5 6",
+  up: "M4 17l6-6 4 4 6-7M14 8h6v6",
+  skull:
+    "M12 3a7.5 7.5 0 0 0-7.5 7.5c0 2.6 1.3 4.4 3 5.5V20h9v-4c1.7-1.1 3-2.9 3-5.5A7.5 7.5 0 0 0 12 3zM9 11.5a1.3 1.3 0 1 0 0 .1M15 11.5a1.3 1.3 0 1 0 0 .1M10.5 20v-2.5M13.5 20v-2.5",
+  search: "M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zM16 16l5 5",
+  swords: "M4 4l10 10M4 4h4M4 4v4M20 4 10 14M20 4h-4M20 4v4M7 17l-3 3M17 17l3 3M13 13l4 4M11 13l-4 4",
+  target:
+    "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zM12 12.8a.8.8 0 1 0 0-1.6.8.8 0 0 0 0 1.6z",
+  ball: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7",
+};
+const PaIco = ({ n }) => (
+  <svg className="pa-ico" viewBox="0 0 24 24" aria-hidden="true">
+    <path d={PA_ICO[n]} />
+  </svg>
+);
+
 // Função blindada para descobrir o time vencedor ("A", "B" ou "D")
 const getMatchWinner = (m) => {
   const mType = String(m.type || "TREINO").toUpperCase();
@@ -339,7 +357,9 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
         <span className="partner-kicker">
           QUÍMICA & CONFRONTO DIRETO DE {p1Short.toUpperCase()}
         </span>
-        <h3 className="ppg-card-title">🤝 Analisador de Parceria</h3>
+        <h3 className="ppg-card-title">
+          <PaIco n="duo" /> Analisador de parceria
+        </h3>
       </div>
 
       {/* ==================== RADAR AUTOMÁTICO DE DESTAQUES ==================== */}
@@ -363,7 +383,7 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
                 title={`Melhor dupla de ${p1Short}`}
               >
                 <span className="spot-tag">
-                  🤝 MELHOR DUPLA DE {p1Short.toUpperCase()}
+                  <PaIco n="duo" /> MELHOR DUPLA DE {p1Short.toUpperCase()}
                 </span>
                 <strong className="spot-name">
                   {autoHighlights.bestPartner.player.name}
@@ -391,7 +411,7 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
                 title={`${p1Short} tem saldo positivo de vitórias contra ${autoHighlights.biggestCustomer.player.name}`}
               >
                 <span className="spot-tag">
-                  🟢 FREGUÊS DE {p1Short.toUpperCase()}
+                  <PaIco n="up" /> FREGUÊS DE {p1Short.toUpperCase()}
                 </span>
                 <strong className="spot-name">
                   {autoHighlights.biggestCustomer.player.name}
@@ -419,7 +439,7 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
                 title={`${autoHighlights.biggestNemesis.player.name} tem mais vitórias contra ${p1Short}`}
               >
                 <span className="spot-tag">
-                  💀 CARRASCO DE {p1Short.toUpperCase()}
+                  <PaIco n="skull" /> CARRASCO DE {p1Short.toUpperCase()}
                 </span>
                 <strong className="spot-name">
                   {autoHighlights.biggestNemesis.player.name}
@@ -441,7 +461,7 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
           onChange={(e) => setPartnerId(e.target.value)}
         >
           <option value="">
-            🔍 Selecionar atleta para comparar com {p1Short}...
+            Selecionar atleta para comparar com {p1Short}...
           </option>
           {otherPlayers.map((p) => (
             <option key={p.id} value={p.id}>
@@ -485,8 +505,8 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
           <div className="partner-section">
             <div className="partner-section-head">
               <h4 className="partner-section-title">
-                🤝 {p1Short.toUpperCase()} & {p2Short.toUpperCase()} NO MESMO
-                TIME
+                <PaIco n="duo" /> {p1Short.toUpperCase()} &{" "}
+                {p2Short.toUpperCase()} NO MESMO TIME
               </h4>
               {stats.lastFiveTogether.length > 0 && (
                 <div className="partner-mini-form" title="Últimos jogos juntos">
@@ -524,13 +544,13 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
               <div className="partner-synergy-breakdown">
                 <div className="synergy-pill">
                   <span>
-                    🎯 Passes de {p1Short} p/ gol de {p2Short}:
+                    <PaIco n="target" /> Passes de {p1Short} p/ gol de {p2Short}:
                   </span>
                   <strong>{stats.p1AssistedP2}</strong>
                 </div>
                 <div className="synergy-pill">
                   <span>
-                    ⚽ Passes de {p2Short} p/ gol de {p1Short}:
+                    <PaIco n="ball" /> Passes de {p2Short} p/ gol de {p1Short}:
                   </span>
                   <strong>{stats.p2AssistedP1}</strong>
                 </div>
@@ -539,12 +559,12 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
 
             <div className="partner-verdict">
               {stats.totalTogether === 0
-                ? `🆕 ${p1Short.toUpperCase()} E ${p2Short.toUpperCase()} AINDA NÃO JOGARAM NO MESMO TIME`
+                ? `${p1Short.toUpperCase()} E ${p2Short.toUpperCase()} AINDA NÃO JOGARAM NO MESMO TIME`
                 : stats.winRate >= 70
-                  ? `🔥 DUPLA DINÂMICA • ${p1Short.toUpperCase()} & ${p2Short.toUpperCase()} TÊM ENTROSAMENTO DE ELITE`
+                  ? `DUPLA DINÂMICA • ${p1Short.toUpperCase()} & ${p2Short.toUpperCase()} TÊM ENTROSAMENTO DE ELITE`
                   : stats.winRate >= 50
-                    ? `✅ BOA QUÍMICA • PARCERIA POSITIVA ENTRE ${p1Short.toUpperCase()} E ${p2Short.toUpperCase()}`
-                    : `⚠️ QUÍMICA BAIXA • ${p1Short.toUpperCase()} E ${p2Short.toUpperCase()} PRECISAM AJUSTAR A TÁTICA`}
+                    ? `BOA QUÍMICA • PARCERIA POSITIVA ENTRE ${p1Short.toUpperCase()} E ${p2Short.toUpperCase()}`
+                    : `QUÍMICA BAIXA • ${p1Short.toUpperCase()} E ${p2Short.toUpperCase()} PRECISAM AJUSTAR A TÁTICA`}
             </div>
           </div>
 
@@ -558,7 +578,7 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
           {/* BLOCO 2: EM TIMES OPOSTOS (RIVALIDADE) */}
           <div className="partner-section">
             <h4 className="partner-section-title">
-              ⚔️ {p1Short.toUpperCase()} CONTRA {p2Short.toUpperCase()}
+              <PaIco n="swords" /> {p1Short.toUpperCase()} CONTRA {p2Short.toUpperCase()}
             </h4>
 
             <div className="partner-grid-row">
@@ -587,10 +607,10 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
                   </span>
                   <span className="tug-status-txt">
                     {stats.p1WinsAgainst > stats.p2WinsAgainst
-                      ? `😎 ${p2Short} é freguês de ${p1Short}`
+                      ? `${p2Short} é freguês de ${p1Short}`
                       : stats.p2WinsAgainst > stats.p1WinsAgainst
-                        ? `💀 ${p2Short} é carrasco de ${p1Short}`
-                        : `⚖️ Empate entre ${p1Short} e ${p2Short}`}
+                        ? `${p2Short} é carrasco de ${p1Short}`
+                        : `Empate entre ${p1Short} e ${p2Short}`}
                   </span>
                   <span className="tug-loss-txt">
                     {100 - stats.p1DominancePct}% {p2Short}
@@ -608,7 +628,9 @@ const PartnerAnalyzer = ({ currentPlayer, allPlayers = [], matches = [] }) => {
         </div>
       ) : (
         <div className="partner-empty">
-          <span className="partner-empty-icon">🔍</span>
+          <span className="partner-empty-icon">
+            <PaIco n="search" />
+          </span>
           <p>
             Clique em um dos destaques acima ou selecione um atleta na lista
             para comparar a química e o histórico de confrontos com{" "}

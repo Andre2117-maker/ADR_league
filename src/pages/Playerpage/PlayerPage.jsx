@@ -22,6 +22,8 @@ import FavoritePositionField from "../../components/playerpage/FavoritePositionF
 import { calculateLiveRanking } from "../../data/rankingCalculator";
 import { playerSide, matchType } from "../../utils/matchStats";
 import FutCardShare from "./FutCard/FutCardShare";
+import { AchIcon } from "../../components/playerpage/achIcons";
+import { useClubMode } from "../../utils/Shirtnumber";
 
 function PlayerPage({
   playersWithStats, // Recebe a lista completa para encontrar o player pelo ID
@@ -38,6 +40,7 @@ function PlayerPage({
   const [isEditing, setIsEditing] = useState(false);
   const [careerDates, setCareerDates] = useState(null);
   const topRef = useRef(null);
+  const clubMode = useClubMode();
   const sortedCalculatedPlayers = calculateLiveRanking(
     playersWithStats,
     matches,
@@ -90,16 +93,9 @@ function PlayerPage({
   // Se os dados ainda não carregaram ou o ID é inválido, exibe um loading
   if (!player) {
     return (
-      <div
-        className="ppg-screen-wrapper"
-        style={{ color: "#fff", textAlign: "center", padding: "100px 20px" }}
-      >
+      <div className="ppg-screen-wrapper ppg-loading">
         <h2>Buscando atleta...</h2>
-        <button
-          onClick={() => navigate("/")}
-          className="ppg-btn-edit"
-          style={{ marginTop: "20px" }}
-        >
+        <button onClick={() => navigate("/")} className="ppg-btn-edit">
           Voltar para Home
         </button>
       </div>
@@ -208,166 +204,70 @@ function PlayerPage({
                     matches,
                   );
 
+                  const status = isOut
+                    ? "is-out"
+                    : missedCount > 0
+                      ? "is-warn"
+                      : "is-ok";
+
+                  // último treino em que ele jogou (DD/MM/AAAA)
+                  const lastPlayed = playerMatches.length
+                    ? [...playerMatches]
+                        .map((m) => m.date)
+                        .filter(Boolean)
+                        .sort()
+                        .pop()
+                    : null;
+                  const lastPlayedLabel = lastPlayed
+                    ? lastPlayed.split("-").reverse().join("/")
+                    : "Sem registros";
+
                   return (
-                    <div
-                      className="ppg-card"
-                      style={{
-                        border: isOut
-                          ? "1px solid #ff4d4d"
-                          : "1px dashed var(--gold)",
-                        background: isOut
-                          ? "rgba(255, 77, 77, 0.05)"
-                          : "rgba(212, 175, 55, 0.05)",
-                        padding: "15px",
-                        marginBottom: "15px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          marginBottom: "12px",
-                          alignItems: "center",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: "10px",
-                            fontWeight: "900",
-                            color: "var(--gold)",
-                            background: "rgba(212, 175, 55, 0.1)",
-                            padding: "2px 8px",
-                            borderRadius: "4px",
-                          }}
-                        >
-                          🛡️ CONTROLE DE SEQUÊNCIA
+                    <div className={`ppg-card ppg-streak-card ${status}`}>
+                      <div className="ppg-streak-head">
+                        <span className="ppg-streak-tag">
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z" />
+                          </svg>
+                          Controle de sequência
                         </span>
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: isOut
-                              ? "#ff4d4d"
-                              : missedCount > 0
-                                ? "#ffcc00"
-                                : "#00ff7f",
-                            fontWeight: "900",
-                          }}
-                        >
-                          {missedCount}/3 FALTAS SEGUIDAS
+                        <span className="ppg-streak-count">
+                          {missedCount}/3 faltas seguidas
                         </span>
                       </div>
 
-                      {/* Barra de Progresso de Faltas (Visual) */}
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "4px",
-                          marginBottom: "15px",
-                        }}
-                      >
+                      <div className="ppg-streak-bar" aria-hidden="true">
                         {[1, 2, 3].map((i) => (
-                          <div
+                          <span
                             key={i}
-                            style={{
-                              flex: 1,
-                              height: "4px",
-                              borderRadius: "2px",
-                              background:
-                                i <= missedCount
-                                  ? isOut
-                                    ? "#ff4d4d"
-                                    : "#ffcc00"
-                                  : "rgba(255,255,255,0.1)",
-                            }}
+                            className={i <= missedCount ? "is-filled" : ""}
                           />
                         ))}
                       </div>
 
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "6px",
-                          fontSize: "12px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span style={{ color: "#888" }}>Status Atual:</span>
-                          <span
-                            style={{
-                              fontWeight: "800",
-                              color: isOut ? "#ff4d4d" : "#fff",
-                            }}
-                          >
+                      <dl className="ppg-streak-rows">
+                        <div>
+                          <dt>Status atual</dt>
+                          <dd className="ppg-streak-status">
                             {isOut
-                              ? "REMOVER DA TABELA"
+                              ? "Remover da tabela"
                               : missedCount > 0
-                                ? "EM ALERTA"
-                                : "ATIVO"}
-                          </span>
+                                ? "Em alerta"
+                                : "Ativo"}
+                          </dd>
                         </div>
-
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <span style={{ color: "#888" }}>
-                            Último Treino Realizado:
-                          </span>
-                          <span style={{ fontWeight: "700", color: "#fff" }}>
-                            {playerMatches.length > 0
-                              ? (() => {
-                                  // Ordena para pegar o mais recente
-                                  const sorted = [...playerMatches].sort(
-                                    (a, b) => {
-                                      const [y1, m1, d1] = a.date
-                                        .split("-")
-                                        .map(Number);
-                                      const [y2, m2, d2] = b.date
-                                        .split("-")
-                                        .map(Number);
-                                      return (
-                                        new Date(y2, m2 - 1, d2, 12) -
-                                        new Date(y1, m1 - 1, d1, 12)
-                                      );
-                                    },
-                                  );
-
-                                  // Pega a data "YYYY-MM-DD" e inverte para "DD/MM/YYYY"
-                                  const lastDate = sorted[0].date;
-                                  const [y, m, d] = lastDate.split("-");
-                                  return `${d}/${m}/${y}`;
-                                })()
-                              : "Sem registros"}
-                          </span>
+                        <div>
+                          <dt>Último treino realizado</dt>
+                          <dd>{lastPlayedLabel}</dd>
                         </div>
-                      </div>
+                      </dl>
 
                       {isOut && (
-                        <div
-                          style={{
-                            marginTop: "12px",
-                            background: "rgba(255, 77, 77, 0.2)",
-                            color: "#ff4d4d",
-                            fontSize: "10px",
-                            fontWeight: "900",
-                            padding: "10px",
-                            borderRadius: "6px",
-                            textAlign: "center",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          JOGADOR FALTOU AOS ÚLTIMOS 3 TREINOS.
+                        <p className="ppg-streak-alert">
+                          Jogador faltou aos últimos 3 treinos.
                           <br />
-                          PASSAR PARA ANÔNIMO.
-                        </div>
+                          Passar para anônimo.
+                        </p>
                       )}
                     </div>
                   );
@@ -402,11 +302,17 @@ function PlayerPage({
                           A: player.skills?.[k] || 0,
                         }))}
                       >
-                        <PolarGrid stroke="rgba(255,255,255,0.08)" />
+                        <PolarGrid
+                          stroke={
+                            clubMode === "idr"
+                              ? "rgba(0,0,0,0.15)"
+                              : "rgba(255,255,255,0.08)"
+                          }
+                        />
                         <PolarAngleAxis
                           dataKey="subject"
                           tick={{
-                            fill: "#ffffff",
+                            fill: clubMode === "idr" ? "#000000" : "#ffffff",
                             fontSize: 10,
                             fontWeight: 700,
                           }}
@@ -465,18 +371,16 @@ function PlayerPage({
 
               <div className="ppg-card">
                 <h3 className="ppg-card-title">Conquistas na Carreira</h3>
-                <div
-                  className="ppg-achievements-list"
-                  style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
-                >
+                <div className="ppg-achievements-list">
                   {player.achievements?.length > 0 ? (
                     player.achievements.map((a, i) => (
                       <div key={i} className="ppg-tag-goal">
-                        {a.icon} {a.title}
+                        <AchIcon icon={a.icon} />
+                        <span className="ppg-ach-title">{a.title}</span>
                       </div>
                     ))
                   ) : (
-                    <span style={{ color: "#555", fontSize: "12px" }}>
+                    <span className="ppg-ach-empty">
                       Nenhuma conquista registrada.
                     </span>
                   )}

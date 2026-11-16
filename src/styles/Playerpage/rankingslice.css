@@ -130,3 +130,96 @@
 
   box-shadow: none !important;
 }
+
+/* ==========================================================================
+   IDR — "JORNAL": título em tarja, o jogador vira faixa preta
+   ========================================================================== */
+.theme-idr .rs-container {
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+.theme-idr .rs-title {
+  background: #000;
+  color: #fff;
+  border-bottom: 0;
+}
+.theme-idr .rs-row.active {
+  background: #f1f1ee;
+  box-shadow: inset 6px 0 0 #000;
+}
+.theme-idr .rs-row.active::before {
+  display: none;
+}
+.theme-idr .rs-row.active .rs-pos,
+.theme-idr .rs-row.active .rs-name {
+  color: #000;
+}
+.theme-idr .rs-row.active .rs-pts {
+  padding: 2px 8px;
+  background: #000;
+  color: #fff;
+}
+.theme-idr .rs-pts,
+.theme-idr .rs-row.active .rs-name {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "FIGURINHA": moldura dupla, faixa listrada no título,
+   o jogador vira um adesivo em degradê
+   ========================================================================== */
+body.theme-classic .rs-container {
+  --rs-bg: #1d1222;
+  --rs-hover: #2a1830;
+  --rs-line: rgba(255, 138, 165, 0.16);
+  --rs-fg: #ffffff;
+  --rs-muted: #c9a3c4;
+  --rs-accent: #ff8aa5;
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8 !important;
+}
+body.theme-classic .rs-title {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+body.theme-classic .rs-pos {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+body.theme-classic .rs-row.active {
+  margin: 6px 8px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #b8307a, #e3263a);
+  transform: rotate(-1deg);
+  box-shadow: 3px 4px 0 #120a16;
+}
+body.theme-classic .rs-row.active::before {
+  display: none;
+}
+body.theme-classic .rs-row.active .rs-pos,
+body.theme-classic .rs-row.active .rs-pts,
+body.theme-classic .rs-row.active .rs-separator {
+  color: #fff;
+}
+body.theme-classic .rs-row.active .rs-name {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+body.theme-classic .rs-pts {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+}

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
 /* ==========================================================================
    LINHA DO JOGADOR — MINIMALISTA + AURA
    Usa as variáveis --pn-* definidas em .adm-main-layout (panel.css).
@@ -6,10 +7,9 @@
 .adm-tr {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(210px, 1.3fr) 150px minmax(190px, 1.1fr) minmax(
-      300px,
-      2fr
-    ) 170px;
+  grid-template-columns:
+    minmax(210px, 1.3fr) 150px minmax(190px, 1.1fr) minmax(300px, 2fr)
+    170px;
   gap: 16px;
   align-items: center;
   margin: 0;
@@ -453,9 +453,182 @@
 }
 
 /* ==========================================================================
-   TEMA IDR: nada a fazer aqui, só as variáveis de panel.css mudam
+   TEMA IDR — "JORNAL"
    ========================================================================== */
 .theme-idr .adm-input-role option {
   background: #fff;
   color: #000;
+}
+
+/* ícones nos botões */
+.adm-btn-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.adm-btn-anon,
+.adm-btn-delete {
+  color: var(--pn-fg);
+}
+.adm-btn-anon .adm-ico,
+.adm-btn-delete .adm-ico {
+  width: 16px;
+  height: 16px;
+}
+.adm-btn-delete:hover {
+  color: var(--pn-bad);
+}
+
+.theme-idr .adm-tr:hover {
+  background: #f1f1ee;
+}
+.theme-idr .adm-avatar-wrapper {
+  border: 2px solid #000;
+  border-radius: 0;
+}
+
+.theme-idr .adm-player-name-text {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .adm-total-badge {
+  border: 2px solid #000;
+  border-radius: 0;
+}
+.theme-idr .anon-tag,
+.theme-idr .adm-photo-tag {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+.theme-idr .adm-btn-edit,
+.theme-idr .adm-btn-anon,
+.theme-idr .adm-btn-delete {
+  border: 2px solid #000;
+  color: #000;
+}
+.theme-idr .adm-btn-edit:hover,
+.theme-idr .adm-btn-anon.active {
+  background: #000;
+  color: #fff;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+.theme-idr .adm-btn-delete:hover {
+  background: #cc0000;
+  border-color: #cc0000;
+  color: #fff;
+}
+.theme-idr .adm-pending-tags span {
+  border: 1px solid #000;
+  color: #000;
+  background: #fff;
+}
+.theme-idr .adm-photo-tag {
+  width: fit-content;
+  padding: 2px 5px;
+}
+.theme-idr .adm-input-role,
+.theme-idr .adm-input-gender {
+  border-color: #000;
+}
+
+/* ==========================================================================
+   TEMA ADR CLASSIC — "FIGURINHA"
+   ========================================================================== */
+body.theme-classic .adm-tr:hover {
+  background: linear-gradient(90deg, rgba(184, 48, 122, 0.18), transparent 70%);
+}
+body.theme-classic .adm-tr:hover::before {
+  background: linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a);
+}
+body.theme-classic .adm-avatar-wrapper {
+  border: 3px solid #fff;
+  border-radius: 10px;
+  transform: rotate(-4deg);
+  box-shadow:
+    0 0 0 2px #b8307a,
+    3px 4px 0 #120a16;
+  background: linear-gradient(135deg, #7b3aa8, #e3263a);
+}
+body.theme-classic .adm-tr:hover .adm-avatar-wrapper {
+  transform: rotate(2deg) scale(1.05);
+}
+body.theme-classic .adm-player-name-text {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+body.theme-classic .anon-tag {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  transform: rotate(-3deg);
+}
+body.theme-classic .adm-pending-tags span {
+  border: 1px solid rgba(255, 138, 165, 0.6);
+  border-radius: 4px;
+  color: #ff8aa5;
+}
+body.theme-classic .adm-total-badge {
+  border: 2px solid #ff8aa5;
+  border-radius: 10px;
+  background: #120a16;
+}
+body.theme-classic .adm-value {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+}
+body.theme-classic .adm-input-role,
+body.theme-classic .adm-photo-url-input {
+  border-color: rgba(255, 138, 165, 0.4);
+}
+body.theme-classic .adm-input-role option {
+  background: #1d1222;
+  color: #fff;
+}
+body.theme-classic .adm-photo-thumb {
+  border: 2px solid #fff;
+  border-radius: 6px;
+}
+body.theme-classic .adm-photo-tag {
+  color: #ff8aa5;
+}
+body.theme-classic .adm-btn-edit {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .adm-btn-edit:hover {
+  background: linear-gradient(120deg, #8d47bd, #cc3a8a 55%, #f23447);
+  border-color: #fff;
+  color: #fff;
+}
+body.theme-classic .adm-btn-edit:active,
+body.theme-classic .adm-btn-anon:active,
+body.theme-classic .adm-btn-delete:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .adm-btn-anon,
+body.theme-classic .adm-btn-delete {
+  border: 2px solid rgba(255, 138, 165, 0.5);
+  border-radius: 50%;
+  background: #120a16;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .adm-btn-anon.active {
+  background: #fff;
+  border-color: #fff;
+  color: #b8307a;
+}
+body.theme-classic .adm-btn-delete:hover {
+  background: #e3263a;
+  border-color: #fff;
+  color: #fff;
 }

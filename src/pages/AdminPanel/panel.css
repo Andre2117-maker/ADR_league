@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
 /* ==========================================================================
    PAINEL ADMIN — MINIMALISTA + AURA
    Linhas finas, cantos retos, brilho dourado sutil.
@@ -453,6 +454,23 @@ body {
   .adm-summary {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* no celular o formulário quebra em 2 linhas em vez de vazar da tela */
+  .adm-toolbar > * {
+    min-width: 0;
+  }
+  .adm-add-form,
+  .adm-search-form {
+    flex-wrap: wrap;
+  }
+  .adm-input-new-player {
+    flex: 1 1 100%;
+  }
+  .adm-select-gender,
+  .adm-btn-add-confirm {
+    flex: 1 1 0;
+    min-width: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -465,7 +483,7 @@ body {
 }
 
 /* ==========================================================================
-   TEMA IDR (só troca as variáveis)
+   TEMA IDR — "JORNAL": fundo papel, réguas pretas grossas, sombras em bloco
    ========================================================================== */
 .theme-idr .adm-main-layout {
   --pn-bg: #ffffff;
@@ -485,4 +503,276 @@ body {
 .theme-idr .adm-select-gender option {
   background: #fff;
   color: #000;
+}
+
+/* ícones desenhados (substituem os emojis) */
+.adm-ico {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.2em;
+}
+.adm-nav-left button,
+.adm-tools-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.adm-tools summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- IDR ---------- */
+.theme-idr .adm-main-layout {
+  background: #f6f6f4;
+}
+.theme-idr .adm-header-nav {
+  border: 2px solid #000;
+  border-top: 8px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .adm-header-nav::before {
+  left: 0;
+  right: 0;
+  top: 3px;
+  height: 1px;
+  background: #000;
+  opacity: 1;
+}
+.theme-idr .adm-title-main {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  color: #000;
+}
+.theme-idr .adm-title-highlight {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  animation: none;
+  background: #000;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  padding: 2px 8px;
+  margin-left: 4px;
+}
+.theme-idr .adm-nav-left button {
+  border: 2px solid #000;
+  color: #000;
+}
+.theme-idr .adm-nav-left button:hover {
+  background: #000;
+  color: #fff;
+}
+.theme-idr .adm-btn-matches {
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+.theme-idr .adm-summary {
+  gap: 10px;
+  border: none;
+  background: transparent;
+}
+.theme-idr .adm-summary-cell {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .adm-summary-num {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  color: #000;
+}
+.theme-idr .adm-summary-cell.is-active {
+  background: #000;
+  box-shadow: 4px 4px 0 #9a9a9a;
+}
+.theme-idr .adm-summary-cell.is-active .adm-summary-num,
+.theme-idr .adm-summary-cell.is-active .adm-summary-label {
+  color: #fff;
+}
+.theme-idr .adm-summary-cell.is-warn .adm-summary-num {
+  color: #000;
+  text-decoration: underline 3px;
+}
+.theme-idr .adm-input-new-player,
+.theme-idr .adm-select-gender {
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
+}
+.theme-idr .adm-btn-add-confirm {
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+.theme-idr .adm-table {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .adm-thead-fake-pc {
+  background: #000;
+  color: #fff;
+  border-bottom: none;
+}
+.theme-idr .adm-tools {
+  border: 2px solid #000;
+  border-top: 5px solid #000;
+  background: #fff;
+}
+
+/* ==========================================================================
+   TEMA ADR CLASSIC — "FIGURINHA RETRÔ": roxo → magenta → vermelho
+   ========================================================================== */
+body.theme-classic .adm-main-layout {
+  --pn-bg: #1d1222;
+  --pn-page: #0b0710;
+  --pn-hover: #2a1830;
+  --pn-line: rgba(255, 138, 165, 0.2);
+  --pn-fg: #ffffff;
+  --pn-muted: #c9a3c4;
+  --pn-accent: #ec4470;
+  --pn-on-accent: #ffffff;
+  --pn-glow: rgba(236, 68, 112, 0.22);
+  --pn-ok: #3ee08f;
+  --pn-bad: #ff4d5e;
+  --pn-warn: #ffc23d;
+}
+body.theme-classic .adm-header-nav {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  box-shadow: 0 0 0 3px #120a16, 0 0 0 5px #7b3aa8, 0 14px 30px rgba(0, 0, 0, 0.45);
+}
+body.theme-classic .adm-header-nav::before {
+  display: none;
+}
+body.theme-classic .adm-title-main {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  color: #fff;
+  text-shadow: 0.05em 0.05em 0 #e3263a, 0.1em 0.1em 0 #120a16;
+}
+body.theme-classic .adm-title-highlight {
+  font-weight: 400;
+  animation: none;
+  background: none;
+  -webkit-text-fill-color: #ffd1dc;
+  color: #ffd1dc;
+}
+body.theme-classic .adm-nav-left button {
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(18, 10, 22, 0.35);
+}
+body.theme-classic .adm-nav-left button:hover {
+  background: #120a16;
+  border-color: #fff;
+}
+body.theme-classic .adm-btn-matches {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #b8307a !important;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .adm-btn-matches:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .adm-summary {
+  gap: 12px;
+  border: none;
+  background: transparent;
+}
+body.theme-classic .adm-summary-cell {
+  background: #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 12px;
+  box-shadow: 0 0 0 3px #120a16, 0 0 0 5px #7b3aa8;
+}
+body.theme-classic .adm-summary-num {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  text-shadow: 0.05em 0.05em 0 #e3263a, 0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .adm-summary-cell.is-active {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border-color: #fff;
+  transform: rotate(-2deg);
+}
+body.theme-classic .adm-summary-cell.is-active .adm-summary-label {
+  color: #fff;
+}
+body.theme-classic .adm-summary-cell.is-warn .adm-summary-num {
+  color: #ffc23d;
+}
+body.theme-classic .adm-input-new-player,
+body.theme-classic .adm-select-gender {
+  background: #120a16;
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 10px;
+}
+body.theme-classic .adm-input-new-player:focus,
+body.theme-classic .adm-select-gender:focus {
+  border-color: #ff8aa5;
+}
+body.theme-classic .adm-select-gender option {
+  background: #1d1222;
+  color: #fff;
+}
+body.theme-classic .adm-btn-add-confirm {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .adm-btn-add-confirm:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .adm-table {
+  background: #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 0 3px #120a16, 0 0 0 5px #7b3aa8;
+}
+body.theme-classic .adm-thead-fake-pc {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  border-bottom: 2px solid #ff8aa5;
+}
+body.theme-classic .adm-tools {
+  background: #1d1222;
+  border: 2px dashed rgba(255, 138, 165, 0.5);
+  border-radius: 12px;
+}
+body.theme-classic .adm-tools summary {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #ffd1dc;
+}
+body.theme-classic .adm-tools-actions button {
+  border-radius: 999px;
 }

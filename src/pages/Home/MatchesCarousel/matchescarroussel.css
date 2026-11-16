@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
    1. VARIÁVEIS DE TEMA DO CARROSSEL (SISTEMA ADAPTATIVO ADR & IDR)
    ========================================================================== */
@@ -650,5 +652,405 @@
 
   .mtc-dot.active {
     width: 18px;
+  }
+}
+
+
+/* ==========================================================================
+   9. ÍCONES (no lugar dos emojis)
+   ========================================================================== */
+.mtc-ico {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.15em;
+}
+.mtc-type-pill,
+.mtc-venue-top,
+.mtc-special-tag,
+.mtc-details-btn,
+.mtc-scorer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.mtc-arrow .mtc-ico {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.6;
+}
+.mtc-scorer-chip .mtc-ico {
+  width: 11px;
+  height: 11px;
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   10. IDR — "JORNAL"
+   papel pontilhado, régua grossa na cor do tipo de partida, caixas
+   retas com borda preta e sombra em bloco.
+   Treino = preto · Amistoso = azul · Campeonato = roxo · Evento = laranja
+   ========================================================================== */
+.theme-idr .mtc-banner-container {
+  --mtc-score-bg: #000000;
+  background:
+    radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1.4px) 0 0 / 8px 8px,
+    linear-gradient(180deg, #ffffff 0%, #f4f4f0 100%);
+  border-top: 8px solid var(--mtc-accent);
+  border-bottom: 2px solid #000;
+  box-shadow: inset 0 3px 0 #fff, inset 0 4px 0 #000;
+}
+.theme-idr .mtc-banner-container.mtc-type-amistoso {
+  --mtc-score-bg: #1d4ed8;
+}
+.theme-idr .mtc-banner-container.mtc-type-campeonato {
+  --mtc-score-bg: #7e22ce;
+}
+.theme-idr .mtc-banner-container.mtc-type-evento,
+.theme-idr .mtc-banner-container.mtc-event-halloween {
+  --mtc-score-bg: #ea580c;
+}
+.theme-idr .mtc-ambient-glow {
+  display: none;
+}
+.theme-idr .mtc-banner-header {
+  border-bottom: 3px solid #000;
+  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+  padding-bottom: 12px;
+}
+.theme-idr .mtc-type-pill {
+  border-radius: 0;
+  background: var(--mtc-accent);
+  color: #fff;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  box-shadow: 3px 3px 0 #000;
+}
+.theme-idr .mtc-venue-top {
+  color: #000;
+}
+.theme-idr .mtc-match-date {
+  padding: 3px 8px;
+  border: 2px solid #000;
+  color: #000;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .mtc-special-tag {
+  border-radius: 0;
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+.theme-idr .mtc-logo-halo {
+  border-radius: 0;
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .mtc-team-box:hover .mtc-logo-halo {
+  border-color: #000;
+  box-shadow: 6px 6px 0 var(--mtc-accent);
+}
+.theme-idr .mtc-team-name-large {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  color: #000;
+}
+.theme-idr .mtc-scorer-chip {
+  border-radius: 0;
+  border: 1.5px solid #000;
+  color: #000;
+}
+.theme-idr .mtc-scorer-chip .mtc-ico {
+  color: var(--mtc-accent);
+  opacity: 1;
+}
+.theme-idr .mtc-score-card {
+  border-radius: 0;
+  border: 2px solid #000;
+  box-shadow: 8px 8px 0 #d6d6d0;
+}
+.theme-idr .mtc-big-num {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .mtc-details-btn {
+  border-radius: 0;
+  border: 2px solid #000;
+  color: #000;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .mtc-details-btn:hover {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  transform: none;
+  box-shadow: 4px 4px 0 var(--mtc-accent);
+}
+.theme-idr .mtc-arrow {
+  border-radius: 0;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+.theme-idr .mtc-dot {
+  border-radius: 0;
+}
+.theme-idr .mtc-dot.active {
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   11. ADR CLASSIC — "FIGURINHA RETRÔ"
+   cada tipo de partida ganha o seu próprio degradê de três cores:
+   Treino     = roxo → magenta → vermelho (as cores do escudo)
+   Amistoso   = azul → celeste → turquesa
+   Campeonato = dourado → laranja → magenta
+   Evento     = laranja abóbora → roxo escuro (com detalhe verde-limão)
+   ========================================================================== */
+body.theme-classic .mtc-banner-container {
+  --mc-1: #7b3aa8;
+  --mc-2: #b8307a;
+  --mc-3: #e3263a;
+  --mc-ink: #ffd1dc;
+  --mtc-text-main: #ffffff;
+  --mtc-text-muted: #c9a3c4;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.025) 0 14px, transparent 14px 30px),
+    radial-gradient(ellipse 60% 70% at 50% 0%, color-mix(in srgb, var(--mc-2) 32%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 60% at 0% 100%, color-mix(in srgb, var(--mc-1) 30%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 60% at 100% 100%, color-mix(in srgb, var(--mc-3) 22%, transparent), transparent 70%),
+    #120a16;
+  border-bottom: 6px solid transparent;
+  border-image: linear-gradient(90deg, var(--mc-1), var(--mc-2), var(--mc-3)) 1;
+}
+body.theme-classic .mtc-banner-container.mtc-type-amistoso {
+  --mc-1: #1f4fbf;
+  --mc-2: #2f8fd8;
+  --mc-3: #36c9d6;
+  --mc-ink: #c9ecff;
+}
+body.theme-classic .mtc-banner-container.mtc-type-campeonato {
+  --mc-1: #f2b53a;
+  --mc-2: #f0752e;
+  --mc-3: #c8307a;
+  --mc-ink: #ffe3a8;
+}
+body.theme-classic .mtc-banner-container.mtc-type-evento,
+body.theme-classic .mtc-banner-container.mtc-event-halloween {
+  --mc-1: #ff8a00;
+  --mc-2: #d9480f;
+  --mc-3: #5b1f7a;
+  --mc-ink: #c6ff4d;
+}
+body.theme-classic .mtc-banner-container::before {
+  opacity: 0.18;
+}
+body.theme-classic .mtc-ambient-glow {
+  display: none;
+}
+body.theme-classic .mtc-banner-header {
+  border-bottom: 2px dashed color-mix(in srgb, var(--mc-ink) 35%, transparent);
+}
+body.theme-classic .mtc-type-pill {
+  padding: 5px 14px;
+  background: linear-gradient(120deg, var(--mc-1), var(--mc-2) 55%, var(--mc-3));
+  border: 2px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Anton", "Impact", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+  transform: rotate(-3deg);
+  box-shadow: 3px 3px 0 #000;
+}
+body.theme-classic .mtc-venue-top {
+  color: var(--mc-ink);
+}
+body.theme-classic .mtc-match-date {
+  padding: 3px 10px;
+  background: #fff;
+  border-radius: 6px;
+  color: #120a16;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  transform: rotate(2deg);
+  box-shadow: 2px 2px 0 var(--mc-2);
+}
+body.theme-classic .mtc-special-tag {
+  background: #120a16;
+  border: 2px solid var(--mc-ink);
+  color: var(--mc-ink);
+  border-radius: 6px;
+  transform: rotate(-2deg);
+}
+body.theme-classic .mtc-logo-halo {
+  border-radius: 16px;
+  border: 3px solid #fff;
+  background: linear-gradient(140deg, var(--mc-1), var(--mc-2) 55%, var(--mc-3));
+  box-shadow: 5px 6px 0 #000;
+  transform: rotate(-5deg);
+}
+body.theme-classic .team-b .mtc-logo-halo {
+  transform: rotate(5deg);
+}
+body.theme-classic .mtc-team-box:hover .mtc-logo-halo {
+  border-color: #fff;
+  transform: rotate(0) translateY(-4px) scale(1.04);
+}
+body.theme-classic .mtc-team-name-large {
+  font-family: "Anton", "Impact", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  padding-right: 0.15em;
+  text-shadow:
+    0.05em 0.05em 0 var(--mc-3),
+    0.1em 0.1em 0 #000;
+}
+body.theme-classic .mtc-scorer-chip {
+  background: #120a16;
+  border: 2px solid color-mix(in srgb, var(--mc-2) 70%, #fff);
+  color: #fff;
+  font-style: italic;
+}
+body.theme-classic .mtc-scorer-chip:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+body.theme-classic .mtc-scorer-chip:nth-child(even) {
+  transform: rotate(2deg);
+}
+body.theme-classic .mtc-scorer-chip .mtc-ico,
+body.theme-classic .mtc-scorer-chip strong {
+  color: var(--mc-ink);
+  opacity: 1;
+}
+body.theme-classic .mtc-score-card {
+  padding: 12px 34px;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, var(--mc-1), var(--mc-2) 55%, var(--mc-3));
+  border: 3px solid #fff;
+  border-radius: 16px;
+  transform: rotate(-2deg);
+  box-shadow:
+    0 0 0 3px #000,
+    8px 9px 0 #000;
+}
+body.theme-classic .mtc-big-num {
+  font-family: "Anton", "Impact", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 4rem;
+  color: #fff;
+  padding-right: 0.12em;
+  text-shadow: 0.05em 0.05em 0 #000;
+}
+body.theme-classic .mtc-vs-divider {
+  color: rgba(255, 255, 255, 0.75);
+}
+body.theme-classic .mtc-penalties-bar {
+  color: #fff;
+  border-top-color: rgba(255, 255, 255, 0.45);
+}
+body.theme-classic .mtc-details-btn {
+  background: #fff;
+  border: 2px solid #fff;
+  color: var(--mc-2);
+  font-style: italic;
+  box-shadow: 0 4px 0 #000;
+}
+body.theme-classic .mtc-details-btn:hover {
+  background: #fff;
+  color: var(--mc-3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #000;
+}
+body.theme-classic .mtc-details-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #000;
+}
+body.theme-classic .mtc-arrow {
+  background: #120a16;
+  border: 2px solid #fff;
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+}
+body.theme-classic .mtc-arrow:hover {
+  background: linear-gradient(135deg, var(--mc-1), var(--mc-3));
+  border-color: #fff;
+  color: #fff;
+}
+body.theme-classic .mtc-dot {
+  background: rgba(255, 255, 255, 0.25);
+}
+body.theme-classic .mtc-dot.active {
+  background: linear-gradient(90deg, var(--mc-1), var(--mc-2), var(--mc-3));
+  box-shadow: 0 0 0 2px #000;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .mtc-team-name-large {
+    font-size: 1.1rem;
+  }
+  body.theme-classic .mtc-big-num {
+    font-size: 2.1rem;
+  }
+  body.theme-classic .mtc-score-card {
+    padding: 8px 14px;
+    border-radius: 12px;
+    box-shadow:
+      0 0 0 2px #000,
+      5px 6px 0 #000;
+  }
+  body.theme-classic .mtc-logo-halo {
+    border-width: 2px;
+    box-shadow: 3px 4px 0 #000;
+  }
+  .theme-idr .mtc-logo-halo {
+    box-shadow: 4px 4px 0 #d6d6d0;
+  }
+  .theme-idr .mtc-score-card {
+    box-shadow: 5px 5px 0 #d6d6d0;
+  }
+}
+
+/* No celular as setas desciam por cima dos escudos: agora ficam
+   embaixo, nas pontas da linha das bolinhas (o arrastar continua valendo) */
+@media (max-width: 768px) {
+  .mtc-banner-container {
+    padding-bottom: 52px;
+  }
+  .mtc-arrow,
+  .mtc-arrow:hover {
+    top: auto;
+    bottom: 8px;
+    transform: none;
+    width: 30px;
+    height: 30px;
+  }
+  .mtc-arrow.left {
+    left: 12px;
+  }
+  .mtc-arrow.right {
+    right: 12px;
+  }
+  .mtc-dots {
+    bottom: 19px;
+    width: calc(100% - 100px);
+  }
+  .mtc-arrow .mtc-ico {
+    width: 14px;
+    height: 14px;
   }
 }

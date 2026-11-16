@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/playeradmin.css";
+import { AchIcon, ACH_ICON_KEYS, ACH_ICON_LABELS } from "./achIcons";
 
 const ALL_POSITIONS = [
   "GOL",
@@ -17,18 +18,7 @@ const ALL_POSITIONS = [
   "ATA",
 ];
 
-const QUICK_ICONS = [
-  "🏆",
-  "🥇",
-  "🥈",
-  "⚽",
-  "🎯",
-  "🧤",
-  "👑",
-  "🔥",
-  "⭐",
-  "🛡️",
-];
+const QUICK_ICONS = ACH_ICON_KEYS;
 
 const PlayerAdminMode = ({
   player,
@@ -60,7 +50,7 @@ const PlayerAdminMode = ({
 
   const [selectedYear, setSelectedYear] = useState("2026");
   const [newAch, setNewAch] = useState({
-    icon: "🏆",
+    icon: "trophy",
     title: "",
   });
 
@@ -161,7 +151,7 @@ const PlayerAdminMode = ({
     const updated = [
       ...(formData.achievements || []),
       {
-        icon: newAch.icon || "🏆",
+        icon: newAch.icon || "trophy",
         title: newAch.title.trim(),
       },
     ];
@@ -172,7 +162,7 @@ const PlayerAdminMode = ({
     });
 
     setNewAch({
-      icon: "🏆",
+      icon: "trophy",
       title: "",
     });
   };
@@ -216,6 +206,13 @@ const PlayerAdminMode = ({
         formData.numberIDR !== undefined &&
         formData.numberIDR !== null
           ? Number(formData.numberIDR)
+          : "",
+
+      numberClassic:
+        formData.numberClassic !== "" &&
+        formData.numberClassic !== undefined &&
+        formData.numberClassic !== null
+          ? Number(formData.numberClassic)
           : "",
 
       // NOVOS CAMPOS
@@ -307,8 +304,8 @@ const PlayerAdminMode = ({
 
               <span>
                 {formData.isAnonymous
-                  ? "🕵️ Oculto / Anônimo (Fora da Tabela)"
-                  : "✅ Ativo na Tabela Oficial"}
+                  ? "Oculto / Anônimo (fora da tabela)"
+                  : "Ativo na tabela oficial"}
               </span>
             </label>
           </div>
@@ -330,7 +327,7 @@ const PlayerAdminMode = ({
             </div>
 
             <div className="adm-input-group">
-              <label>👕 Nº da Camisa (ADR)</label>
+              <label>Nº da camisa (ADR)</label>
               <input
                 type="number"
                 min="0"
@@ -346,7 +343,7 @@ const PlayerAdminMode = ({
             </div>
 
             <div className="adm-input-group">
-              <label>👕 Nº da Camisa (IDR)</label>
+              <label>Nº da camisa (IDR)</label>
               <input
                 type="number"
                 min="0"
@@ -355,6 +352,22 @@ const PlayerAdminMode = ({
                   setFormData({
                     ...formData,
                     numberIDR: e.target.value,
+                  })
+                }
+                placeholder="Vazio = usa o número do ADR"
+              />
+            </div>
+
+            <div className="adm-input-group">
+              <label>Nº da camisa (ADR Classic)</label>
+              <input
+                type="number"
+                min="0"
+                value={formData.numberClassic ?? ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    numberClassic: e.target.value,
                   })
                 }
                 placeholder="Vazio = usa o número do ADR"
@@ -399,14 +412,14 @@ const PlayerAdminMode = ({
                   })
                 }
               >
-                <option value="Destro">🦶 Destro</option>
-                <option value="Canhoto">🦶 Canhoto</option>
-                <option value="Ambidestro">⚡ Ambidestro</option>
+                <option value="Destro">Destro</option>
+                <option value="Canhoto">Canhoto</option>
+                <option value="Ambidestro">Ambidestro</option>
               </select>
             </div>
 
             <div className="adm-input-group">
-              <label>🏆 Títulos do ADR</label>
+              <label>Títulos do ADR</label>
               <input
                 type="number"
                 min="0"
@@ -422,7 +435,7 @@ const PlayerAdminMode = ({
 
             {/* NOVO CAMPO: PAÍS */}
             <div className="adm-input-group">
-              <label>🌎 País</label>
+              <label>País</label>
               <input
                 type="text"
                 value={formData.country || ""}
@@ -438,7 +451,7 @@ const PlayerAdminMode = ({
 
             {/* NOVO CAMPO: ALTURA */}
             <div className="adm-input-group">
-              <label>📏 Altura (cm)</label>
+              <label>Altura (cm)</label>
               <input
                 type="number"
                 min="1"
@@ -487,7 +500,9 @@ const PlayerAdminMode = ({
                     }`}
                   >
                     <span className="pos-code">{pos}</span>
-                    {isPrimary && <span className="pos-main-star">★</span>}
+                    {isPrimary && <span className="pos-main-star">
+                        <AchIcon icon="star" />
+                      </span>}
                   </button>
                 );
               })}
@@ -511,15 +526,15 @@ const PlayerAdminMode = ({
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
             >
-              <option value="2026">📅 TEMPORADA 2026</option>
-              <option value="2025">📅 TEMPORADA 2025</option>
-              <option value="2024">📅 TEMPORADA 2024</option>
+              <option value="2026">TEMPORADA 2026</option>
+              <option value="2025">TEMPORADA 2025</option>
+              <option value="2024">TEMPORADA 2024</option>
             </select>
           </div>
 
           <div className="adm-grid-stats">
             <div className="adm-input-group stat-card-input">
-              <label>⚽ Gols Manuais ({selectedYear})</label>
+              <label>Gols manuais ({selectedYear})</label>
               <input
                 type="number"
                 min="0"
@@ -529,7 +544,7 @@ const PlayerAdminMode = ({
             </div>
 
             <div className="adm-input-group stat-card-input">
-              <label>🎯 Assists Manuais ({selectedYear})</label>
+              <label>Assists manuais ({selectedYear})</label>
               <input
                 type="number"
                 min="0"
@@ -539,7 +554,7 @@ const PlayerAdminMode = ({
             </div>
 
             <div className="adm-input-group stat-card-input">
-              <label>🏟️ Jogos Manuais ({selectedYear})</label>
+              <label>Jogos manuais ({selectedYear})</label>
               <input
                 type="number"
                 min="0"
@@ -647,24 +662,18 @@ const PlayerAdminMode = ({
                   newAch.icon === ic ? "selected" : ""
                 }`}
                 onClick={() => setNewAch({ ...newAch, icon: ic })}
+                title={ACH_ICON_LABELS[ic]}
+                aria-label={ACH_ICON_LABELS[ic]}
               >
-                {ic}
+                <AchIcon icon={ic} />
               </button>
             ))}
           </div>
 
           <div className="adm-ach-inputs">
-            <input
-              className="adm-ach-icon"
-              value={newAch.icon}
-              onChange={(e) =>
-                setNewAch({
-                  ...newAch,
-                  icon: e.target.value,
-                })
-              }
-              placeholder="🏆"
-            />
+            <span className="adm-ach-icon" title="Ícone escolhido">
+              <AchIcon icon={newAch.icon} />
+            </span>
 
             <input
               className="adm-ach-title"
@@ -693,7 +702,9 @@ const PlayerAdminMode = ({
               formData.achievements.map((ach, idx) => (
                 <div key={idx} className="adm-ach-item">
                   <div className="adm-ach-info">
-                    <span className="adm-ach-badge-icon">{ach.icon}</span>
+                    <span className="adm-ach-badge-icon">
+                      <AchIcon icon={ach.icon} />
+                    </span>
 
                     <span className="adm-ach-badge-text">{ach.title}</span>
                   </div>
@@ -703,8 +714,11 @@ const PlayerAdminMode = ({
                     className="adm-ach-del"
                     onClick={() => removeAchievement(idx)}
                     title="Remover conquista"
+                    aria-label="Remover conquista"
                   >
-                    ✕
+                    <svg className="ach-ico" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M6 6l12 12M18 6 6 18" />
+                    </svg>
                   </button>
                 </div>
               ))
@@ -723,7 +737,7 @@ const PlayerAdminMode = ({
           </button>
 
           <button type="button" className="adm-btn-save" onClick={handleSave}>
-            💾 SALVAR ALTERAÇÕES
+            SALVAR ALTERAÇÕES
           </button>
         </footer>
       </div>

@@ -537,3 +537,374 @@ a.at-player:hover .at-name {
     box-sizing: border-box;
   }
 }
+/* ==========================================================================
+   VERSÕES IDR E CLASSIC DO RANKING HISTÓRICO (ALL TIME)
+   Cole no FIM do alltimetable.css.
+   (ganham das regras antigas de All Time que estão no statics.css)
+   ========================================================================== */
+
+/* ---------------------------------------------------------------
+   IDR — "JORNAL"
+   --------------------------------------------------------------- */
+.theme-idr .alltime-container {
+  --at-panel: #ffffff;
+  --at-head: #000000;
+  --at-sticky: #ffffff;
+  --at-fg: #000000;
+  --at-text: #111111;
+  --at-line: #e2e2de;
+  --at-line-strong: #000000;
+  --at-accent-soft: #f1f1ee;
+
+  border: 2px solid #000 !important;
+  border-top: 8px solid #000 !important;
+  box-shadow: 8px 8px 0 #d6d6d0 !important;
+}
+
+.theme-idr .alltime-container .alltime-header {
+  border-bottom: 0;
+  padding-bottom: 16px;
+  box-shadow:
+    inset 0 -1px 0 #000,
+    inset 0 -4px 0 #fff,
+    inset 0 -7px 0 #000; /* régua dupla */
+}
+
+.theme-idr .alltime-container .alltime-kicker {
+  align-self: flex-start;
+  padding: 3px 8px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .alltime-container .alltime-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.45rem;
+  letter-spacing: -0.5px;
+  color: #000;
+}
+
+.theme-idr .alltime-container .alltime-sort {
+  border: 2px solid #000;
+  color: #000;
+}
+
+.theme-idr .alltime-container .alltime-sort:hover {
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+/* cabeçalho em tarja preta; a coluna escolhida vira "recorte" branco */
+.theme-idr .alltime-container .alltime-table th {
+  color: #fff;
+  border-bottom: 0;
+}
+
+.theme-idr .alltime-container .alltime-table th.col-name,
+.theme-idr .alltime-container .alltime-table th.col-pos {
+  color: #fff !important;
+}
+
+.theme-idr .alltime-container .alltime-table th.highlight-col {
+  background: #fff;
+  color: #000 !important;
+  box-shadow:
+    inset 0 -4px 0 #000,
+    inset 2px 0 0 #000,
+    inset -2px 0 0 #000;
+}
+
+.theme-idr .alltime-container .alltime-table td.highlight-col {
+  color: #000 !important;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  box-shadow:
+    inset 2px 0 0 #000,
+    inset -2px 0 0 #000;
+}
+
+.theme-idr .alltime-container .col-pos,
+.theme-idr .alltime-container .col-name {
+  font-style: normal;
+}
+
+.theme-idr .alltime-container .alltime-table td.col-pos {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  color: #000;
+}
+
+.theme-idr .alltime-container .at-name {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+}
+
+.theme-idr .alltime-container .at-photo {
+  border: 2px solid #000;
+}
+
+/* pódio: faixa preta grossa; 3º listrado */
+.theme-idr
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(-n + 3)
+  td.col-pos {
+  color: #000;
+}
+
+.theme-idr
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(1)
+  td:first-child,
+.theme-idr
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(2)
+  td:first-child {
+  box-shadow: inset 6px 0 0 #000;
+}
+
+.theme-idr
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(3)
+  td:first-child {
+  box-shadow: inset 6px 0 0 #9a9a9a;
+}
+
+.theme-idr .alltime-container .alltime-table tbody tr:nth-child(1) td.col-pos {
+  background: #000;
+  color: #fff;
+  font-size: 1.1rem;
+  text-shadow: none;
+}
+
+.theme-idr .alltime-container .alltime-more {
+  border: 2px solid #000;
+  color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+.theme-idr .alltime-container .alltime-more:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------
+   CLASSIC — "FIGURINHA RETRÔ"
+   --------------------------------------------------------------- */
+body.theme-classic .alltime-container {
+  --at-panel: #1d1222;
+  --at-head: #120a16;
+  --at-sticky: #1d1222;
+  --at-text: #f1dbe9;
+  --at-muted: #c9a3c4;
+  --at-line: rgba(255, 138, 165, 0.12);
+  --at-line-strong: rgba(255, 138, 165, 0.4);
+  --at-accent: #ec4470;
+  --at-accent-soft: rgba(236, 68, 112, 0.12);
+  --at-win: #3ee08f;
+  --at-loss: #ff4d5e;
+
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 18px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* faixa listrada roxo → vermelho no topo */
+body.theme-classic .alltime-container .alltime-header {
+  padding: 20px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+
+body.theme-classic .alltime-container .alltime-kicker {
+  align-self: flex-start;
+  padding: 3px 10px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .alltime-container .alltime-title {
+  font-size: 1.6rem;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16 !important;
+}
+
+body.theme-classic .alltime-container .alltime-sort {
+  background: rgba(18, 10, 22, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  color: #fff;
+}
+
+body.theme-classic .alltime-container .alltime-sort:hover {
+  border-color: #fff;
+  background: rgba(18, 10, 22, 0.65);
+}
+
+body.theme-classic .alltime-container .alltime-sort.is-active {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #b8307a !important;
+  box-shadow: 0 3px 0 #5a1f4a !important;
+}
+
+body.theme-classic .alltime-container .alltime-table th {
+  color: #ffd1dc;
+  border-bottom: 2px solid rgba(255, 138, 165, 0.4);
+}
+
+body.theme-classic .alltime-container .alltime-table th.highlight-col {
+  background: linear-gradient(
+    180deg,
+    rgba(236, 68, 112, 0.4),
+    rgba(236, 68, 112, 0.12)
+  );
+  color: #fff !important;
+  box-shadow: inset 0 -3px 0 #ff8aa5;
+}
+
+body.theme-classic .alltime-container .alltime-table td.highlight-col {
+  color: #fff !important;
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+
+body.theme-classic .alltime-container .alltime-table td.col-pos {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+body.theme-classic .alltime-container .at-name {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+}
+
+body.theme-classic .alltime-container a.at-player:hover .at-name {
+  color: #ffd1dc;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+
+body.theme-classic .alltime-container .at-photo {
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 6px;
+}
+
+/* pódio: faixa tricolor e posição em adesivo */
+body.theme-classic
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(-n + 3)
+  td:first-child {
+  box-shadow: inset 4px 0 0 #ec4470;
+}
+
+body.theme-classic .alltime-container .alltime-table tbody tr:nth-child(1) td {
+  background-image: linear-gradient(
+    rgba(236, 68, 112, 0.14),
+    rgba(236, 68, 112, 0.14)
+  );
+}
+
+body.theme-classic
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(1)
+  td.col-pos {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  font-size: 1.25rem;
+  text-shadow: 2px 2px 0 #5a1f4a;
+  box-shadow: none;
+}
+
+body.theme-classic
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(2)
+  td.col-pos {
+  color: #ffd1dc;
+}
+
+body.theme-classic
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(3)
+  td.col-pos {
+  color: #ff8aa5;
+}
+
+body.theme-classic
+  .alltime-container
+  .alltime-table
+  tbody
+  tr:nth-child(1)
+  .at-photo {
+  border-color: #fff;
+  transform: rotate(-5deg);
+  box-shadow: 2px 3px 0 #120a16;
+}
+
+body.theme-classic .alltime-container .alltime-foot {
+  border-top: 2px solid rgba(255, 138, 165, 0.25);
+}
+
+body.theme-classic .alltime-container .alltime-more {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 999px;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .alltime-container .alltime-more:hover {
+  filter: brightness(1.1);
+  color: #fff;
+}
+
+body.theme-classic .alltime-container .alltime-more:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+@media (max-width: 768px) {
+  .theme-idr .alltime-container {
+    box-shadow: 5px 5px 0 #d6d6d0 !important;
+  }
+  body.theme-classic .alltime-container .alltime-title {
+    font-size: 1.35rem;
+  }
+}

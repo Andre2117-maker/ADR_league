@@ -15,7 +15,7 @@ import { getBestPartner, calculateStandings } from "./utils/statsLogic";
 
 import Home from "./pages/Home/Home.jsx";
 import AdminLogin from "./pages/Login/AdminLogin.jsx";
-import AdminPanel from "./pages/AdminPanel.jsx";
+import AdminPanel from "./pages/AdminPanel/AdminPanel.jsx";
 import AdminMatches from "./pages/AdminMatches/AdminMatches.jsx";
 import Regras from "./pages/Rules/Regras.jsx";
 import Calendar from "./pages/Calendar/Calendar.jsx";
@@ -23,7 +23,7 @@ import Navbar from "./pages/NavBar/NavBar.jsx";
 import PlayerPage from "./pages/Playerpage/PlayerPage.jsx";
 import MatchPage from "./pages/MatchPage/MatchPage.jsx";
 import AdminTransparency from "./pages/Home/AdminTransparency/AdminTransparency.jsx";
-import HallHistorico from "./pages/HallHistorico/HallHistorico.jsx";
+import HallHistorico from "./pages/Home/HallHistorico/HallHistorico.jsx";
 import SecretQuiz from "./components/Easter Egg/SecretQuiz.jsx";
 import Altar from "./components/Easter Egg/Altar.jsx";
 import Statics from "./pages/Statics/Statics.jsx";

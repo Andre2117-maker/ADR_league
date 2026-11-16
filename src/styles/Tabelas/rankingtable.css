@@ -1104,3 +1104,361 @@ table.rk-table tbody tr:hover .rk-player-name-text {
     animation: none !important;
   }
 }
+/* ==========================================================================
+   12. VERSÕES IDR E CLASSIC DA CLASSIFICAÇÃO GERAL
+   Cole no FIM do rankingtable.css (depois da seção 11, das setas).
+   ========================================================================== */
+
+/* ---------------------------------------------------------------
+   IDR — "JORNAL": papel branco, réguas pretas grossas,
+   cabeçalho em tarja preta, sombra em bloco, sem brilho
+   --------------------------------------------------------------- */
+.theme-idr .central-column {
+  --rk-bg: #ffffff;
+  --rk-head: #000000;
+  --rk-hover: #f1f1ee;
+  --rk-line: #000000;
+  --rk-line-soft: #e2e2de;
+
+  border: 2px solid #000;
+  border-top: 8px solid #000;
+  box-shadow: 8px 8px 0 #d6d6d0 !important;
+}
+
+.theme-idr .central-column::before {
+  display: none;
+}
+
+.theme-idr .rk-kicker {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #000;
+  color: #fff;
+  letter-spacing: 3px;
+}
+
+.theme-idr .rk-title-wrap .page-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.5px !important;
+  background: none !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000 !important;
+  animation: none !important;
+}
+
+/* régua dupla embaixo do título */
+.theme-idr .rk-header-area::after {
+  height: 0;
+  border-top: 3px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none;
+}
+
+.theme-idr .rk-reset-sort-btn {
+  border: 2px solid #000;
+  color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+/* cabeçalho da tabela: tarja preta */
+.theme-idr table.rk-table {
+  border: 2px solid #000;
+}
+
+.theme-idr table.rk-table thead th,
+.theme-idr table.rk-table thead th.sticky-col {
+  background: #000 !important;
+  color: #fff;
+  border-bottom: 0;
+}
+
+.theme-idr table.rk-table thead th.sortable-th:hover {
+  background: #222 !important;
+  color: #fff;
+}
+
+.theme-idr table.rk-table thead th.active-sort {
+  background: #fff !important;
+  color: #000;
+  border-bottom: 0 !important;
+  box-shadow: inset 0 -4px 0 #000;
+}
+
+.theme-idr .pin-name {
+  border-right: 2px solid #000;
+}
+
+/* líder em papel cinza */
+.theme-idr table.rk-table tbody tr:nth-child(1) td {
+  background-color: #f1f1ee !important;
+}
+
+/* faixa lateral: preta no top 3, listrada na lanterna */
+.theme-idr tr.destaque-top3 td.pin-pos::before {
+  width: 5px;
+  background: #000;
+}
+
+.theme-idr tr.destaque-ultimo td.pin-pos::before {
+  width: 5px;
+  background: repeating-linear-gradient(-45deg, #000 0 3px, #fff 3px 6px);
+}
+
+.theme-idr .rk-medal-img {
+  filter: grayscale(1) contrast(1.2);
+}
+
+.theme-idr .rk-pos-num {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  color: #000;
+}
+
+.theme-idr .rk-player-name-text {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.theme-idr .rk-pts-cell {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400 !important;
+  color: #000 !important;
+  font-size: 1.05rem !important;
+}
+
+/* últimas 5: quadradinhos com contorno preto */
+.theme-idr .form-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  border: 1.5px solid #000;
+}
+
+.theme-idr .form-dot.D {
+  background: #fff;
+}
+
+/* ---------------------------------------------------------------
+   CLASSIC — "FIGURINHA RETRÔ": moldura dupla, faixa listrada
+   roxo → magenta → vermelho, números em Anton
+   --------------------------------------------------------------- */
+body.theme-classic .central-column {
+  --rk-bg: #1d1222;
+  --rk-head: #120a16;
+  --rk-hover: #2a1830;
+  --rk-line: rgba(255, 138, 165, 0.35);
+  --rk-line-soft: rgba(255, 138, 165, 0.12);
+  --rk-fg: #ffffff;
+  --rk-muted: #c9a3c4;
+  --rk-accent: #ec4470;
+  --rk-glow: rgba(236, 68, 112, 0.35);
+  --rk-win: #3ee08f;
+  --rk-loss: #ff4d5e;
+
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 18px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.theme-classic .central-column::before {
+  display: none;
+}
+
+/* faixa listrada atrás do título, de ponta a ponta */
+body.theme-classic .rk-header-area {
+  margin: -28px -24px 0;
+  padding: 26px 24px 26px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+
+body.theme-classic .rk-header-area::after {
+  display: none;
+}
+
+body.theme-classic .rk-kicker {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  letter-spacing: 3px;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .rk-title-wrap .page-title {
+  animation: none !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16 !important;
+}
+
+body.theme-classic .rk-reset-sort-btn {
+  background: #fff;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  color: #b8307a;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .rk-reset-sort-btn:hover {
+  background: #fff;
+  color: #e3263a;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .rk-reset-sort-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+body.theme-classic .table-responsive {
+  margin: 0 -24px;
+  width: calc(100% + 48px) !important;
+}
+
+body.theme-classic table.rk-table thead th {
+  color: #ffd1dc;
+  border-bottom: 2px solid rgba(255, 138, 165, 0.45);
+}
+
+body.theme-classic table.rk-table thead th.active-sort {
+  background: linear-gradient(
+    180deg,
+    rgba(236, 68, 112, 0.35),
+    rgba(236, 68, 112, 0.1)
+  ) !important;
+  color: #fff;
+  border-bottom: 3px solid #ff8aa5 !important;
+  box-shadow: none;
+}
+
+/* líder com leve brilho rosa */
+body.theme-classic table.rk-table tbody tr:nth-child(1) td {
+  background-color: #2a1530 !important;
+}
+
+/* faixa lateral: tricolor no top 3, vermelha na lanterna */
+body.theme-classic tr.destaque-top3 td.pin-pos::before {
+  width: 4px;
+  background: linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a);
+  box-shadow: 0 0 10px rgba(236, 68, 112, 0.6);
+}
+
+body.theme-classic tr.destaque-ultimo td.pin-pos::before {
+  width: 4px;
+  background: repeating-linear-gradient(-45deg, #e3263a 0 4px, #120a16 4px 8px);
+  box-shadow: none;
+}
+
+/* medalhas em tom rosa */
+body.theme-classic .rk-medal-img {
+  filter: grayscale(1) brightness(0.8) sepia(1) saturate(7) hue-rotate(300deg)
+    brightness(1.3) drop-shadow(2px 2px 0 #120a16);
+}
+
+body.theme-classic .rk-pos-num {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #c9a3c4;
+}
+
+body.theme-classic .rk-player-name-text {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400 !important;
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.theme-classic table.rk-table tbody tr:hover .rk-player-name-text {
+  letter-spacing: 0.06em;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+
+body.theme-classic .rk-pts-cell {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400 !important;
+  font-size: 1.2rem !important;
+  color: #fff !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+
+/* últimas 5: adesivos arredondados com contorno escuro */
+body.theme-classic .form-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  border: 2px solid #120a16;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+body.theme-classic .form-dot:nth-child(odd) {
+  transform: rotate(-6deg);
+}
+
+body.theme-classic .form-dot:hover {
+  transform: scale(1.35) rotate(0deg);
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .rk-header-area {
+    margin: -18px -10px 0;
+    padding: 22px 10px;
+  }
+  body.theme-classic .table-responsive {
+    margin: 0 -10px;
+    width: calc(100% + 20px) !important;
+  }
+}
+
+/* legenda (Prêmios / Punição) combinando com as faixas laterais de cada tema */
+.theme-idr .legend-group:first-child .legend-item:nth-child(1) .legend-color {
+  background: #000 !important;
+}
+.theme-idr .legend-group:first-child .legend-item:nth-child(2) .legend-color {
+  background: repeating-linear-gradient(
+    -45deg,
+    #000 0 3px,
+    #fff 3px 6px
+  ) !important;
+  outline: 1px solid #000;
+}
+body.theme-classic
+  .legend-group:first-child
+  .legend-item:nth-child(1)
+  .legend-color {
+  background: linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a) !important;
+}
+body.theme-classic
+  .legend-group:first-child
+  .legend-item:nth-child(2)
+  .legend-color {
+  background: repeating-linear-gradient(
+    -45deg,
+    #e3263a 0 3px,
+    #120a16 3px 6px
+  ) !important;
+}

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* =========================================
    PLAYER BANNER - ESTILO PSG
 ========================================= */
@@ -675,4 +677,285 @@
 
 .theme-idr .ppg-banner-photo {
   filter: drop-shadow(0 10px 35px rgba(0, 0, 0, 0.15));
+}
+
+/* =========================================
+   IDR — "CAPA DE JORNAL"
+   número vazado em traço preto, nome em letra pesada,
+   ficha técnica com bordas grossas e sombra em bloco
+========================================= */
+.theme-idr .ppg-player-banner {
+  background:
+    radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1.4px) 0 0 / 7px 7px,
+    linear-gradient(180deg, #ffffff 0%, #f1f1ee 100%) !important;
+  border-bottom: 8px solid #000;
+}
+
+.theme-idr .ppg-player-banner::after {
+  /* régua fina logo acima da grossa */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 1px;
+  background: #000;
+  z-index: 5;
+}
+
+.theme-idr .ppg-banner-bgnumber {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 4px #000;
+  opacity: 0.9;
+}
+
+.theme-idr .ppg-banner-photo {
+  filter: grayscale(1) contrast(1.15)
+    drop-shadow(12px 12px 0 rgba(0, 0, 0, 0.12));
+}
+
+.theme-idr .ppg-banner-role {
+  padding: 4px 10px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .ppg-firstname {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #000;
+  color: #fff;
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.theme-idr .ppg-lastname {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: #000;
+}
+
+.theme-idr .ppg-banner-position {
+  display: inline-block;
+  padding-top: 10px;
+  border-top: 3px solid #000;
+  color: #000;
+  letter-spacing: 3px;
+}
+
+.theme-idr .ppg-banner-overlay {
+  background: none;
+}
+
+.theme-idr .ppg-player-extras {
+  background: #f6f6f4;
+}
+
+.theme-idr .ppg-banner-details {
+  gap: 12px;
+  border: 0;
+  background: transparent;
+}
+
+.theme-idr .ppg-detail-item {
+  background: #fff;
+  border: 2px solid #000 !important;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+
+.theme-idr .ppg-detail-label {
+  color: #000;
+}
+
+.theme-idr .ppg-detail-value {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+.theme-idr .career-item::before {
+  width: 6px;
+}
+
+.theme-idr .career-value {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+/* =========================================
+   ADR CLASSIC — "FIGURINHA RETRÔ"
+   número em degradê roxo → vermelho com sombra deslocada,
+   nome em Anton, ficha técnica em adesivos
+========================================= */
+body.theme-classic .ppg-player-page,
+body.theme-classic .ppg-player-extras {
+  background: #0b0710;
+}
+
+body.theme-classic .ppg-player-banner {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.025) 0 14px,
+      transparent 14px 30px
+    ),
+    radial-gradient(
+      ellipse at 72% 45%,
+      rgba(184, 48, 122, 0.38),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse at 12% 85%,
+      rgba(123, 58, 168, 0.35),
+      transparent 55%
+    ),
+    linear-gradient(120deg, #120a16 0%, #1d1222 55%, #0b0710 100%) !important;
+  border-bottom: 6px solid transparent;
+  border-image: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a) 1;
+}
+
+body.theme-classic .ppg-banner-bgnumber {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  background: linear-gradient(160deg, #7b3aa8 10%, #b8307a 50%, #e3263a 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0.95;
+  filter: drop-shadow(0.03em 0.03em 0 #120a16);
+  /* O degradê só é pintado dentro da caixa do texto. Como o número é
+     inclinado, o último algarismo "sai" da caixa pela direita e era cortado.
+     Esse respiro à direita aumenta a caixa sem mudar a posição do número. */
+  padding: 0.04em 0.18em 0 0.04em;
+  margin-left: -0.04em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+body.theme-classic .ppg-banner-photo {
+  filter: drop-shadow(10px 10px 0 rgba(18, 10, 22, 0.7));
+}
+
+body.theme-classic .ppg-banner-role {
+  padding: 4px 12px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .ppg-firstname {
+  display: inline-block;
+  padding: 4px 14px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 3px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  transform: rotate(-3deg);
+  box-shadow: 4px 4px 0 #120a16;
+}
+
+body.theme-classic .ppg-lastname {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+
+body.theme-classic .ppg-banner-position {
+  color: #ff8aa5;
+  letter-spacing: 3px;
+}
+
+body.theme-classic .ppg-banner-overlay {
+  background: linear-gradient(to top, rgba(11, 7, 16, 0.85), transparent 35%);
+}
+
+body.theme-classic .ppg-banner-details {
+  gap: 14px;
+  border: 0;
+  background: transparent;
+}
+
+body.theme-classic .ppg-detail-item {
+  background: #1d1222;
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+}
+
+body.theme-classic .ppg-detail-item:nth-child(even) {
+  transform: rotate(0.6deg);
+}
+
+body.theme-classic .ppg-detail-item:nth-child(odd) {
+  transform: rotate(-0.6deg);
+}
+
+body.theme-classic .ppg-detail-label,
+body.theme-classic .career-label {
+  color: #ff8aa5;
+}
+
+body.theme-classic .ppg-detail-value {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 24px;
+  color: #fff;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+
+body.theme-classic .career-item {
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  transform: rotate(-2deg);
+  box-shadow: 3px 3px 0 #120a16;
+}
+
+body.theme-classic .career-item::before {
+  display: none;
+}
+
+body.theme-classic .career-label {
+  color: #ffd1dc;
+}
+
+body.theme-classic .career-value {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .theme-idr .ppg-banner-bgnumber {
+    -webkit-text-stroke: 3px #000;
+  }
+  .theme-idr .ppg-banner-details,
+  body.theme-classic .ppg-banner-details {
+    gap: 10px;
+  }
 }

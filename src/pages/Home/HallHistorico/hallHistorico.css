@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* =====================================================
    MEMORIAL (HALL HISTÓRICO) — MINIMALISTA + AURA
    Linhas finas, cantos retos, brilho dourado sutil.
@@ -542,10 +544,10 @@
   object-fit: cover;
   display: block;
 }
-
 .hall-item.retired .hall-avatar img {
   filter: grayscale(1);
 }
+
 .hall-item:hover .hall-avatar img {
   filter: none;
 }
@@ -752,6 +754,10 @@
   .hall-summary {
     grid-template-columns: repeat(3, 1fr);
   }
+  /* 5 números em 3 colunas: o último ocupa o buraco que sobrava */
+  .hall-summary > div:last-child {
+    grid-column: span 2;
+  }
 
   .hall-toolbar {
     flex-direction: column;
@@ -787,8 +793,47 @@
   }
 }
 
+/* ícones desenhados (no lugar dos emojis) */
+.hall-ico {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.linked-badge {
+  display: inline-flex;
+}
+.linked-badge .hall-ico {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+.hall-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.hall-tag .hall-ico {
+  width: 11px;
+  height: 11px;
+}
+.btn-edit .hall-ico,
+.btn-del .hall-ico {
+  width: 15px;
+  height: 15px;
+}
+.hall-admin-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* =====================================================
-   TEMA IDR (só troca as variáveis)
+   TEMA IDR — "JORNAL": papel, réguas pretas grossas,
+   sombras em bloco, fotos em preto e branco
    ===================================================== */
 .theme-idr .hall-vertical-container {
   --hf-bg: #ffffff;
@@ -814,4 +859,525 @@
 
 .theme-idr .hall-summary strong {
   text-shadow: none;
+}
+
+.theme-idr .hall-vertical-container::before {
+  display: none;
+}
+.theme-idr .hall-header {
+  padding: 18px 0 20px;
+  border-top: 8px solid #000;
+  border-bottom: 1px solid #000;
+}
+.theme-idr .hall-kicker {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #000;
+  color: #fff;
+  letter-spacing: 3px;
+}
+.theme-idr .hall-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  animation: none;
+  background: none;
+  -webkit-text-fill-color: #000;
+  color: #000;
+}
+.theme-idr .hall-title::after {
+  width: 100%;
+  height: 0;
+  margin-top: 14px;
+  border-top: 3px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none;
+}
+.theme-idr .hall-subtitle {
+  font-style: italic;
+  color: #333;
+}
+.theme-idr .hall-summary {
+  gap: 10px;
+  background: transparent;
+  border: none;
+}
+.theme-idr .hall-summary > div {
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+.theme-idr .hall-summary strong {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  color: #000;
+}
+.theme-idr .hall-admin-card {
+  background: #fff;
+  border: 2px solid #000;
+  border-top: 6px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .hall-admin-form input,
+.theme-idr .hall-select-link,
+.theme-idr .hall-search {
+  border: 2px solid #000;
+}
+.theme-idr .hall-admin-form button:not(.btn-cancel) {
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .hall-filters {
+  border: 2px solid #000;
+}
+.theme-idr .hall-filter {
+  border-right: 2px solid #000;
+  color: #000;
+}
+.theme-idr .hall-filter.is-active {
+  background: #000;
+  color: #fff;
+}
+.theme-idr .year-label {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -1px;
+  -webkit-text-stroke: 0;
+  color: #000;
+}
+.theme-idr .hall-year-row::after {
+  height: 0;
+  border-top: 5px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none;
+}
+.theme-idr .hall-year-count {
+  padding: 3px 8px;
+  background: #000;
+  color: #fff;
+}
+.theme-idr .hall-item {
+  border: 2px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.theme-idr .hall-item:hover {
+  background: #fff;
+  border-color: #000;
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 #000;
+}
+.theme-idr .hall-item.active,
+.theme-idr .hall-item.retired {
+  border-left: 2px solid #000;
+}
+.theme-idr .hall-item::before {
+  width: 6px;
+  background: #000;
+  box-shadow: none;
+}
+.theme-idr .hall-item.retired::before {
+  background: repeating-linear-gradient(-45deg, #000 0 3px, #fff 3px 6px);
+}
+.theme-idr .hall-item-main {
+  padding-left: 24px;
+}
+.theme-idr .hall-avatar {
+  border: 2px solid #000;
+  background: #f1f1ee;
+  color: #000;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .player-name {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+.theme-idr .player-nickname {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #333;
+}
+.theme-idr .player-dates,
+.theme-idr .hall-tenure,
+.theme-idr .hall-pos,
+.theme-idr .hall-shirt {
+  border-color: #000;
+  color: #000;
+}
+.theme-idr .hall-status.is-on,
+.theme-idr .hall-tag.is-gold {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+.theme-idr .hall-status.is-off {
+  border-color: #000;
+  color: #000;
+  text-decoration: line-through;
+}
+.theme-idr .hall-career {
+  background: #000;
+  border-top: 2px solid #000;
+}
+.theme-idr .hall-career strong {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .btn-edit,
+.theme-idr .btn-del {
+  border: 2px solid #000;
+  color: #000;
+}
+.theme-idr .btn-edit:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+.theme-idr .btn-del:hover {
+  background: #cc0000;
+  color: #fff;
+  border-color: #cc0000;
+}
+
+/* =====================================================
+   TEMA ADR CLASSIC — "FIGURINHA RETRÔ"
+   roxo → magenta → vermelho, moldura dupla, adesivos
+   ===================================================== */
+body.theme-classic .hall-vertical-container {
+  --hf-bg: #1d1222;
+  --hf-hover: #26162d;
+  --hf-line: rgba(255, 138, 165, 0.22);
+  --hf-fg: #ffffff;
+  --hf-muted: #c9a3c4;
+  --hf-accent: #ec4470;
+  --hf-on-accent: #ffffff;
+  --hf-glow: rgba(236, 68, 112, 0.22);
+  --hf-ok: #3ee08f;
+  --hf-bad: #ff4d5e;
+}
+body.theme-classic .hall-vertical-container::before {
+  background:
+    radial-gradient(
+      50% 60% at 35% 30%,
+      rgba(184, 48, 122, 0.25),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 50% at 70% 50%,
+      rgba(123, 58, 168, 0.2),
+      transparent 70%
+    );
+}
+body.theme-classic .hall-kicker {
+  display: inline-block;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  letter-spacing: 3px;
+  transform: rotate(-2deg);
+  box-shadow: 3px 3px 0 #120a16;
+}
+body.theme-classic .hall-title {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  animation: none;
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .hall-title::after {
+  width: min(260px, 60%);
+  height: 6px;
+  margin-top: 20px;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33%,
+    #b8307a 33% 66%,
+    #e3263a 66%
+  );
+  transform: skewX(-20deg);
+}
+body.theme-classic .hall-summary {
+  gap: 12px;
+  background: transparent;
+  border: none;
+}
+body.theme-classic .hall-summary > div {
+  border: 2px solid #ff8aa5;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+}
+body.theme-classic .hall-summary strong {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.9rem;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .hall-admin-card {
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+}
+body.theme-classic .hall-admin-card h3 {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .hall-admin-form {
+  border: 0;
+}
+body.theme-classic .hall-admin-form input,
+body.theme-classic .hall-select-link,
+body.theme-classic .hall-search {
+  background-color: #120a16;
+  border: 2px solid rgba(255, 138, 165, 0.4);
+  border-radius: 10px;
+}
+body.theme-classic .hall-select-link {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ff8aa5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+body.theme-classic .hall-select-link option {
+  background: #1d1222;
+  color: #fff;
+}
+body.theme-classic .hall-admin-form button:not(.btn-cancel) {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 10px;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .hall-admin-form button:not(.btn-cancel):active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .hall-admin-form .btn-cancel {
+  border-radius: 10px;
+}
+body.theme-classic .hall-filters {
+  gap: 6px;
+  border: none;
+}
+body.theme-classic .hall-filter {
+  border: 2px solid rgba(255, 138, 165, 0.4);
+  border-radius: 999px;
+}
+body.theme-classic .hall-filter:last-child {
+  border-right: 2px solid rgba(255, 138, 165, 0.4);
+}
+body.theme-classic .hall-filter.is-active {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #ff8aa5;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+body.theme-classic .hall-group {
+  border-left: 0;
+}
+body.theme-classic .year-label {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  -webkit-text-stroke: 0;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .hall-year-row::after {
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8,
+    #b8307a 40%,
+    #e3263a 65%,
+    transparent
+  );
+  transform: skewX(-20deg);
+}
+body.theme-classic .hall-year-count {
+  padding: 3px 9px;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  transform: rotate(2deg);
+}
+body.theme-classic .hall-items-grid {
+  gap: 20px;
+}
+body.theme-classic .hall-item {
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.03) 0 12px,
+      transparent 12px 26px
+    ),
+    #1d1222;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+body.theme-classic .hall-item.active,
+body.theme-classic .hall-item.retired {
+  border-left: 2px solid #ff8aa5;
+}
+body.theme-classic .hall-item:hover {
+  border-color: #fff;
+  transform: translateY(-3px) rotate(-0.4deg);
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 16px 30px rgba(236, 68, 112, 0.28);
+}
+body.theme-classic .hall-item.retired {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px rgba(123, 58, 168, 0.45);
+}
+body.theme-classic .hall-item::before {
+  display: none;
+}
+body.theme-classic .hall-avatar {
+  width: 64px;
+  height: 64px;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.7rem;
+  transform: rotate(-4deg);
+  box-shadow:
+    0 0 0 2px #b8307a,
+    3px 4px 0 #120a16;
+}
+body.theme-classic .hall-item:hover .hall-avatar {
+  border-color: #fff;
+  transform: rotate(2deg) scale(1.05);
+  box-shadow:
+    0 0 0 2px #ec4470,
+    3px 4px 0 #120a16;
+}
+body.theme-classic .player-name {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+body.theme-classic .player-name.clickable-link:hover {
+  color: #ffd1dc;
+}
+body.theme-classic .linked-badge,
+body.theme-classic .player-nickname {
+  color: #ff8aa5;
+}
+body.theme-classic .player-dates,
+body.theme-classic .hall-tenure,
+body.theme-classic .hall-pos,
+body.theme-classic .hall-shirt {
+  border-color: rgba(255, 138, 165, 0.35);
+  border-radius: 5px;
+}
+body.theme-classic .hall-status,
+body.theme-classic .hall-tag {
+  border-radius: 5px;
+}
+body.theme-classic .hall-status.is-on {
+  background: #3ee08f;
+  border-color: #fff;
+  color: #0b0710;
+  transform: rotate(-2deg);
+}
+body.theme-classic .hall-tag.is-gold {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 1px solid #fff;
+  color: #fff;
+}
+body.theme-classic .hall-career {
+  margin: 0 12px 12px;
+  gap: 0;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+}
+body.theme-classic .hall-career > div,
+body.theme-classic .hall-item:hover .hall-career > div {
+  background: transparent;
+}
+body.theme-classic .hall-career strong {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.2rem;
+  text-shadow: 2px 2px 0 #5a1f4a;
+}
+body.theme-classic .hall-career span {
+  color: #ffd1dc;
+}
+body.theme-classic .btn-edit,
+body.theme-classic .btn-del {
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 50%;
+  background: #120a16;
+  color: #fff;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+body.theme-classic .btn-edit:hover {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a);
+  border-color: #fff;
+  color: #fff;
+}
+body.theme-classic .btn-del:hover {
+  background: #e3263a;
+  border-color: #fff;
+  color: #fff;
 }

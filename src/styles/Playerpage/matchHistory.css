@@ -772,3 +772,248 @@
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   ÍCONES DOS SELOS (no lugar dos emojis)
+   ========================================================================== */
+.mh-ico {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mh-ico-card {
+  fill: currentColor;
+  stroke: none;
+}
+.mh-ico-bolt {
+  fill: currentColor;
+  stroke: none;
+}
+.adr-match-chevron .mh-ico {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==========================================================================
+   IDR — "JORNAL"
+   ========================================================================== */
+.theme-idr .adr-history-container {
+  border: 2px solid #000 !important;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+.theme-idr .adr-history-header {
+  border-bottom: 5px solid #000 !important;
+  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+}
+.theme-idr .adr-history-kicker {
+  align-self: flex-start;
+  padding: 2px 8px;
+  background: #000;
+  color: #fff !important;
+}
+.theme-idr .adr-history-title {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: -0.3px;
+}
+.theme-idr .adr-history-tabs {
+  border: 2px solid #000 !important;
+}
+.theme-idr .adr-tab-btn {
+  border-right: 2px solid #000 !important;
+}
+.theme-idr .adr-tab-btn:last-child {
+  border-right: 0 !important;
+}
+.theme-idr .adr-match-card.result-win {
+  border-left: 6px solid #000 !important;
+}
+.theme-idr .adr-match-card.result-loss {
+  border-left: 6px solid transparent !important;
+  background-image: repeating-linear-gradient(-45deg, #000 0 3px, #fff 3px 6px) !important;
+  background-size: 6px 100% !important;
+  background-repeat: no-repeat !important;
+  background-origin: border-box !important;
+}
+.theme-idr .adr-match-card.result-draw {
+  border-left: 6px solid #9a9a9a !important;
+}
+.theme-idr .adr-status-indicator.win {
+  background: #000 !important;
+  border: 2px solid #000 !important;
+  color: #fff !important;
+}
+.theme-idr .adr-status-indicator.loss {
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  color: #000 !important;
+}
+.theme-idr .adr-match-score {
+  background: #000 !important;
+  border: 0 !important;
+}
+.theme-idr .adr-match-score .score-num {
+  color: #fff !important;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .adr-match-score .score-num:not(.my-team-score) {
+  color: #8a8a8a !important;
+}
+.theme-idr .adr-match-score .score-divider {
+  color: #fff !important;
+}
+.theme-idr .badge-tag {
+  background: #fff !important;
+  border: 1.5px solid #000 !important;
+  color: #000 !important;
+}
+.theme-idr .badge-golden {
+  background: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .badge-yellow .mh-ico-card {
+  color: #facc15;
+  stroke: #000;
+  stroke-width: 1.5;
+}
+.theme-idr .badge-red .mh-ico-card {
+  color: #e11d2e;
+  stroke: #000;
+  stroke-width: 1.5;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "FIGURINHA RETRÔ"
+   ========================================================================== */
+body.theme-classic .adr-history-container {
+  --history-bg: #1d1222;
+  --history-surface: #1d1222;
+  --history-border: rgba(255, 138, 165, 0.3);
+  --history-border-soft: rgba(255, 138, 165, 0.12);
+  --history-muted: #c9a3c4;
+  --history-gold: #ff8aa5;
+  --history-gold-soft: rgba(236, 68, 112, 0.14);
+  --history-green: #3ee08f;
+  --history-red: #ff4d5e;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 16px 34px rgba(0, 0, 0, 0.5);
+}
+body.theme-classic .adr-history-header {
+  margin: 0;
+  padding: 18px 20px;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+body.theme-classic .adr-history-kicker {
+  align-self: flex-start;
+  padding: 2px 9px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  transform: rotate(-2deg);
+}
+body.theme-classic .adr-history-title {
+  font-size: 1.5rem;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #120a16 !important;
+}
+body.theme-classic .adr-history-tabs {
+  gap: 6px;
+  border: 0;
+}
+body.theme-classic .adr-tab-btn {
+  background: rgba(18, 10, 22, 0.45);
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  color: #fff;
+}
+body.theme-classic .adr-tab-btn:last-child {
+  border-right: 2px solid rgba(255, 255, 255, 0.55);
+}
+body.theme-classic .adr-tab-btn.active {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #b8307a !important;
+  -webkit-text-fill-color: #b8307a;
+  font-style: italic;
+  box-shadow: 0 3px 0 #5a1f4a !important;
+}
+body.theme-classic .adr-tab-btn.active .adr-tab-count {
+  background: #b8307a;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+body.theme-classic .adr-history-list {
+  padding: 6px 12px 12px;
+  border: 0;
+}
+body.theme-classic .adr-match-card {
+  background: transparent;
+}
+body.theme-classic .adr-status-indicator {
+  border: 2px solid #fff !important;
+  border-radius: 6px;
+  color: #fff !important;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  box-shadow: 2px 2px 0 #120a16;
+}
+body.theme-classic .adr-status-indicator.win {
+  background: #19a866 !important;
+  transform: rotate(-5deg);
+}
+body.theme-classic .adr-status-indicator.loss {
+  background: #e3263a !important;
+  transform: rotate(4deg);
+}
+body.theme-classic .adr-status-indicator.draw {
+  background: #7b6a80 !important;
+}
+body.theme-classic .adr-match-score {
+  background: #120a16 !important;
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 8px !important;
+}
+body.theme-classic .adr-match-score .score-num {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.15rem;
+}
+body.theme-classic .adr-match-score .score-num.my-team-score {
+  color: #fff;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .badge-tag {
+  border-radius: 6px;
+}
+body.theme-classic .badge-goal {
+  color: #ffd1dc;
+  background: rgba(236, 68, 112, 0.14);
+  border-color: rgba(255, 138, 165, 0.5);
+}
+body.theme-classic .badge-golden {
+  color: #fff;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border-color: #fff;
+}
+body.theme-classic .adr-match-chevron {
+  color: #ff8aa5;
+}

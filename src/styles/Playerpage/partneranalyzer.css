@@ -938,3 +938,275 @@
     max-width: 46%;
   }
 }
+
+/* ==========================================================================
+   ÍCONES (no lugar dos emojis)
+   ========================================================================== */
+.pa-ico {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.18em;
+}
+.partner-card .ppg-card-title,
+.spot-tag,
+.partner-section-title,
+.synergy-pill span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.spot-tag {
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.partner-empty-icon .pa-ico {
+  width: 28px;
+  height: 28px;
+}
+
+/* ==========================================================================
+   IDR — "JORNAL"
+   ========================================================================== */
+.theme-idr .partner-card {
+  border: 2px solid #000 !important;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+.theme-idr .partner-card .partner-header-top {
+  border-bottom: 5px solid #000;
+  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+}
+.theme-idr .partner-card .ppg-card-title {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.theme-idr .auto-spot-chip {
+  border-right: 2px solid #000 !important;
+}
+.theme-idr .auto-spot-chip:last-child {
+  border-right: 0 !important;
+}
+.theme-idr .auto-spot-chip.active,
+.theme-idr .auto-spot-chip:hover {
+  background: #000 !important;
+  box-shadow: none !important;
+}
+.theme-idr .auto-spot-chip.active *,
+.theme-idr .auto-spot-chip:hover * {
+  color: #fff !important;
+}
+.theme-idr .spot-name {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .partner-selector select {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+}
+.theme-idr .partner-versus-banner {
+  border: 2px solid #000 !important;
+  background: #fff !important;
+}
+.theme-idr .p-vs-avatar {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+}
+.theme-idr .p-vs-avatar img {
+  filter: grayscale(1);
+}
+.theme-idr .p-vs-badge {
+  background: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .p-vs-name {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .partner-section-title {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .p-stat-val {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .partner-stat-box.highlight {
+  background: #000 !important;
+}
+.theme-idr .partner-stat-box.highlight .p-stat-val,
+.theme-idr .partner-stat-box.highlight .p-stat-label,
+.theme-idr .partner-stat-box.highlight .p-stat-sub {
+  color: #fff !important;
+}
+.theme-idr .partner-verdict {
+  background: #000 !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+.theme-idr .rivalry-tug-track {
+  height: 10px;
+  border: 2px solid #000;
+  background: repeating-linear-gradient(-45deg, #000 0 3px, #fff 3px 6px) !important;
+}
+.theme-idr .rivalry-tug-fill-win {
+  background: #000 !important;
+}
+.theme-idr .partner-empty {
+  border: 2px dashed #000 !important;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "FIGURINHA RETRÔ"
+   ========================================================================== */
+body.theme-classic .partner-card {
+  --pa-bg: #1d1222;
+  --pa-panel: #1d1222;
+  --pa-panel-soft: #2a1830;
+  --pa-border: rgba(255, 138, 165, 0.3);
+  --pa-border-soft: rgba(255, 138, 165, 0.14);
+  --pa-muted: #c9a3c4;
+  --pa-gold: #ff8aa5;
+  --pa-green: #3ee08f;
+  --pa-red: #ff4d5e;
+  border-radius: 14px;
+}
+body.theme-classic .partner-card .partner-header-top {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+body.theme-classic .partner-kicker {
+  color: #ffd1dc;
+}
+body.theme-classic .auto-spot-chip {
+  background: #1d1222;
+}
+body.theme-classic .auto-spot-chip.active,
+body.theme-classic .auto-spot-chip:hover {
+  background: linear-gradient(160deg, rgba(184, 48, 122, 0.35), rgba(123, 58, 168, 0.25)) !important;
+  box-shadow: inset 0 -3px 0 #ff8aa5 !important;
+}
+body.theme-classic .spot-name {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+body.theme-classic .partner-selector select {
+  background-color: #120a16 !important;
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 999px !important;
+}
+body.theme-classic .partner-selector select option {
+  background: #1d1222;
+}
+body.theme-classic .partner-versus-banner {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.05) 0 12px, transparent 12px 26px),
+    #120a16;
+  border: 2px solid #ff8aa5;
+  border-radius: 12px;
+}
+body.theme-classic .p-vs-avatar {
+  border: 3px solid #fff;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7b3aa8, #e3263a);
+  color: #fff;
+  transform: rotate(-5deg);
+  box-shadow: 2px 3px 0 #000;
+}
+body.theme-classic .p-vs-athlete:last-child .p-vs-avatar {
+  transform: rotate(5deg);
+}
+body.theme-classic .p-vs-name {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.95rem;
+}
+body.theme-classic .p-vs-badge {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  transform: rotate(-4deg);
+}
+body.theme-classic .partner-section-title {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+body.theme-classic .partner-grid-row {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 138, 165, 0.35);
+}
+body.theme-classic .p-stat-val {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.7rem;
+  color: #fff;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+body.theme-classic .partner-stat-box.highlight {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  box-shadow: none;
+}
+body.theme-classic .partner-stat-box.highlight .p-stat-val {
+  text-shadow: 2px 2px 0 #5a1f4a;
+}
+body.theme-classic .partner-stat-box.highlight .p-stat-label,
+body.theme-classic .partner-stat-box.highlight .p-stat-sub {
+  color: #ffd1dc;
+}
+body.theme-classic .partner-stat-box.rivalry-win .p-stat-val {
+  color: #3ee08f;
+}
+body.theme-classic .partner-stat-box.rivalry-loss .p-stat-val {
+  color: #ff4d5e;
+}
+body.theme-classic .synergy-pill {
+  border-radius: 8px;
+}
+body.theme-classic .partner-verdict {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-style: italic;
+  transform: rotate(-0.6deg);
+  box-shadow: 3px 3px 0 #120a16;
+}
+body.theme-classic .rivalry-tug-track {
+  height: 10px;
+  border: 2px solid #120a16;
+  border-radius: 999px;
+  background: #e3263a;
+}
+body.theme-classic .rivalry-tug-fill-win {
+  background: linear-gradient(90deg, #19a866, #3ee08f);
+}
+body.theme-classic .partner-empty {
+  border: 2px dashed rgba(255, 138, 165, 0.45);
+  border-radius: 10px;
+}

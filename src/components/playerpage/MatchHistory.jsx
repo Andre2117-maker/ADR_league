@@ -7,6 +7,23 @@ import LogoADR from "../../assets/logo.png";
 import "../../styles/Playerpage/matchHistory.css";
 import { playerSide, playerGkLine } from "../../utils/matchStats";
 
+/* Ícones desenhados (no lugar dos emojis) */
+const MH_ICO = {
+  ball: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7",
+  boot: "M4 6h6v5l9 3a2 2 0 0 1 1.5 2V18H4zM4 14.5h16.5M8 18v2M12 18v2M16 18v2",
+  glove:
+    "M7 21v-5L4.5 12.5a1.6 1.6 0 0 1 2.5-2L8 11.5V5a1.5 1.5 0 0 1 3 0v5V3.5a1.5 1.5 0 0 1 3 0V10V5a1.5 1.5 0 0 1 3 0v6V7.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-3 5.2V21",
+  shield: "M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z",
+  bolt: "M13 2.5 5 13.5h6l-1 8 8-11h-6z",
+  card: "M7 3.5h10v17H7z",
+  chevron: "M9 5l7 7-7 7",
+};
+const MhIco = ({ n }) => (
+  <svg className={`mh-ico mh-ico-${n}`} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={MH_ICO[n]} />
+  </svg>
+);
+
 // Função oficial de resultado d'O ADR (Garante ZERO empate em TREINO)
 
 export const resolveADRMatchOutcome = (m, isTeamA) => {
@@ -297,8 +314,8 @@ const MatchHistory = ({ matches = [], player }) => {
               String(m.teamB?.goalkeeperId) === pIdStr;
             const gkLabel =
               gkEntry && !isStarterGk
-                ? `🧤 GK${gkEntry.minute ? ` ${gkEntry.minute}` : ""}`
-                : "🧤 GK";
+                ? `GK${gkEntry.minute ? ` ${gkEntry.minute}` : ""}`
+                : "GK";
             const gkTitle = isGoalkeeper
               ? `${
                   gkEntry && !isStarterGk
@@ -402,21 +419,25 @@ const MatchHistory = ({ matches = [], player }) => {
                         className="badge-tag badge-golden"
                         title="Decidido no Gol de Ouro"
                       >
-                        ⚡ Ouro
+                        <MhIco n="bolt" /> Ouro
                       </span>
                     )}
 
                     {pG > 0 && (
-                      <span className="badge-tag badge-goal">⚽ +{pG}</span>
+                      <span className="badge-tag badge-goal">
+                        <MhIco n="ball" /> +{pG}
+                      </span>
                     )}
 
                     {pA > 0 && (
-                      <span className="badge-tag badge-assist">👟 +{pA}</span>
+                      <span className="badge-tag badge-assist">
+                        <MhIco n="boot" /> +{pA}
+                      </span>
                     )}
 
                     {isGoalkeeper && (
                       <span className="badge-tag badge-gk" title={gkTitle}>
-                        {gkLabel}
+                        <MhIco n="glove" /> {gkLabel}
                       </span>
                     )}
 
@@ -425,20 +446,26 @@ const MatchHistory = ({ matches = [], player }) => {
                         className="badge-tag badge-cs"
                         title="Clean Sheet (Sem sofrer gols)"
                       >
-                        🛡️ SG
+                        <MhIco n="shield" /> SG
                       </span>
                     )}
 
                     {pY > 0 && (
-                      <span className="badge-tag badge-yellow">🟨 {pY}</span>
+                      <span className="badge-tag badge-yellow">
+                        <MhIco n="card" /> {pY}
+                      </span>
                     )}
 
                     {pR > 0 && (
-                      <span className="badge-tag badge-red">🟥 {pR}</span>
+                      <span className="badge-tag badge-red">
+                        <MhIco n="card" /> {pR}
+                      </span>
                     )}
                   </div>
 
-                  <span className="adr-match-chevron">❯</span>
+                  <span className="adr-match-chevron">
+                    <MhIco n="chevron" />
+                  </span>
                 </div>
               </div>
             );

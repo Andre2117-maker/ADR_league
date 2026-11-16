@@ -569,3 +569,371 @@
 .theme-idr .ppg-skill-cell-val {
   color: #111111 !important;
 }
+
+/* ==========================================================================
+   NOVOS ELEMENTOS (antes eram estilos escritos direto no JSX)
+   ========================================================================== */
+.ppg-loading {
+  text-align: center;
+  padding: 100px 20px;
+}
+.ppg-loading .ppg-btn-edit {
+  margin: 20px auto 0;
+}
+
+/* ícone das conquistas */
+.ach-ico {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ppg-tag-goal .ach-ico {
+  color: var(--gold);
+  width: 18px;
+  height: 18px;
+}
+.ppg-tag-goal .ppg-ach-title {
+  font-size: inherit;
+  filter: none;
+}
+.ppg-ach-empty {
+  color: #555;
+  font-size: 12px;
+}
+
+/* painel do admin: controle de 3 faltas seguidas */
+.ppg-streak-card {
+  --st-c: #00ff7f;
+  padding: 16px !important;
+  margin-bottom: 15px;
+  border: 1px dashed var(--gold);
+  background: rgba(212, 175, 55, 0.05);
+}
+.ppg-streak-card.is-warn {
+  --st-c: #ffcc00;
+}
+.ppg-streak-card.is-out {
+  --st-c: #ff4d4d;
+  border: 1px solid #ff4d4d;
+  background: rgba(255, 77, 77, 0.05);
+}
+.ppg-streak-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.ppg-streak-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.ppg-streak-tag svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+.ppg-streak-count {
+  color: var(--st-c);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.ppg-streak-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.ppg-streak-bar span {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.ppg-streak-bar span.is-filled {
+  background: var(--st-c);
+}
+.ppg-streak-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+}
+.ppg-streak-rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ppg-streak-rows dt {
+  color: #888;
+}
+.ppg-streak-rows dd {
+  margin: 0;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+}
+.ppg-streak-card.is-out .ppg-streak-status {
+  color: #ff4d4d;
+}
+.ppg-streak-alert {
+  margin: 12px 0 0;
+  padding: 10px;
+  background: rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   IDR — "JORNAL": papel, réguas pretas, bordas grossas, sombra em bloco
+   ========================================================================== */
+.theme-idr .ppg-card {
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+  backdrop-filter: none;
+}
+.theme-idr .ppg-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #000;
+  color: #000;
+}
+.theme-idr .ppg-btn-edit {
+  background: #000 !important;
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  color: #fff !important;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .ppg-skills-minimal-title {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .ppg-skills-minimal-header {
+  padding-bottom: 8px;
+  border-bottom: 5px solid #000;
+  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+  margin-bottom: 16px;
+}
+.theme-idr .ppg-skills-minimal-box {
+  border: 2px solid #000 !important;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .ppg-skills-minimal-grid {
+  border-top: 2px solid #000 !important;
+}
+.theme-idr .ppg-skill-cell-val {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .ppg-skills-minimal-ovr strong {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #000;
+  color: #fff !important;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .ppg-tag-goal {
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 0;
+  color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+.theme-idr .ppg-tag-goal:hover {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  box-shadow: 3px 3px 0 #9a9a9a;
+}
+.theme-idr .ppg-tag-goal .ach-ico,
+.theme-idr .ppg-tag-goal:hover .ach-ico {
+  color: currentColor;
+}
+.theme-idr .ppg-streak-card {
+  --st-c: #000;
+  border: 2px dashed #000 !important;
+}
+.theme-idr .ppg-streak-card.is-warn {
+  --st-c: #b87400;
+}
+.theme-idr .ppg-streak-card.is-out {
+  --st-c: #cc0000;
+  border: 2px solid #cc0000 !important;
+}
+.theme-idr .ppg-streak-tag {
+  background: #000;
+  color: #fff;
+}
+.theme-idr .ppg-streak-bar span {
+  background: #e2e2de;
+}
+.theme-idr .ppg-streak-rows dt {
+  color: #666;
+}
+.theme-idr .ppg-streak-rows dd {
+  color: #000;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "FIGURINHA RETRÔ"
+   ========================================================================== */
+body.theme-classic .ppg-screen-wrapper {
+  background:
+    radial-gradient(ellipse 70% 40% at 100% 0%, rgba(184, 48, 122, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(123, 58, 168, 0.16), transparent 70%),
+    #0b0710;
+}
+body.theme-classic {
+  --gold: #ec4470;
+}
+body.theme-classic .ppg-card {
+  background: #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 16px 34px rgba(0, 0, 0, 0.5);
+  backdrop-filter: none;
+}
+body.theme-classic .ppg-btn-edit {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 999px;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .ppg-btn-edit:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .custom-radar-shape path {
+  fill: #ec4470;
+  stroke: #ff8aa5;
+}
+body.theme-classic .recharts-polar-angle-axis-tick-value {
+  fill: #ffd1dc !important;
+}
+body.theme-classic .ppg-skills-minimal-header {
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  border-bottom: 5px solid transparent;
+  border-image: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a) 1;
+}
+body.theme-classic .ppg-skills-minimal-ovr strong {
+  display: inline-block;
+  padding: 2px 10px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  transform: rotate(-3deg);
+}
+body.theme-classic .ppg-skills-minimal-box {
+  background: #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+}
+body.theme-classic .ppg-skills-minimal-grid {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.06) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-top: 2px solid #ff8aa5;
+}
+body.theme-classic .ppg-skill-minimal-cell {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+body.theme-classic .ppg-skill-cell-label {
+  color: #ffd1dc;
+}
+body.theme-classic .ppg-skill-cell-val {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 #5a1f4a;
+}
+body.theme-classic .ppg-tag-goal {
+  background: #120a16;
+  border: 2px solid #ff8aa5;
+  border-radius: 999px;
+  color: #fff;
+  font-style: italic;
+}
+body.theme-classic .ppg-tag-goal:nth-child(odd) {
+  transform: rotate(-1.5deg);
+}
+body.theme-classic .ppg-tag-goal:nth-child(even) {
+  transform: rotate(1.5deg);
+}
+body.theme-classic .ppg-tag-goal:hover {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #fff;
+  color: #fff;
+  transform: rotate(0) translateY(-3px);
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .ppg-tag-goal .ach-ico {
+  color: #ff8aa5;
+}
+body.theme-classic .ppg-tag-goal:hover .ach-ico {
+  color: #fff;
+}
+body.theme-classic .ppg-streak-card {
+  --st-c: #3ee08f;
+  background: #1d1222;
+  border: 2px dashed rgba(255, 138, 165, 0.6);
+  box-shadow: none;
+}
+body.theme-classic .ppg-streak-card.is-warn {
+  --st-c: #ffc23d;
+}
+body.theme-classic .ppg-streak-card.is-out {
+  --st-c: #ff4d5e;
+  border: 2px solid #ff4d5e;
+}
+body.theme-classic .ppg-streak-tag {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  transform: rotate(-2deg);
+}
+body.theme-classic .ppg-streak-bar span {
+  border-radius: 3px;
+  background: rgba(255, 138, 165, 0.15);
+}
+body.theme-classic .ppg-streak-rows dt {
+  color: #c9a3c4;
+}

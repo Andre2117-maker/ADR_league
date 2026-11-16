@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import {
   collection,
   addDoc,
@@ -12,16 +12,33 @@ import {
   getDocs,
 } from "firebase/firestore";
 import "./hallHistorico.css";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 import { useNavigate } from "react-router-dom";
-import { getShirtNumber, useClubMode } from "../../utils/Shirtnumber";
+import { getShirtNumber, useClubMode } from "../../../utils/Shirtnumber";
 
 const norm = (s) =>
   String(s || "")
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .trim();
+
+/* Ícones desenhados (no lugar dos emojis) */
+const HALL_ICO = {
+  link: "M7 17 17 7M9 7h8v8",
+  trophy:
+    "M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3 3 0 0 0 8 10.5M16 6h3v1.5a3 3 0 0 1-3 3M12 13v4M8.5 20h7M10 17h4",
+  medal:
+    "M8 3l2.5 6M16 3l-2.5 6M12 21a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM12 13.2l1 2 2.1.3-1.5 1.5.4 2.1-2-1-2 1 .4-2.1-1.5-1.5 2.1-.3z",
+  edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4",
+  trash: "M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5",
+  plus: "M12 5v14M5 12h14",
+};
+const HallIco = ({ n }) => (
+  <svg className="hall-ico" viewBox="0 0 24 24" aria-hidden="true">
+    <path d={HALL_ICO[n]} />
+  </svg>
+);
 
 const FILTERS = [
   { id: "all", label: "Todos" },
@@ -295,7 +312,11 @@ const HallHistorico = ({ isAdmin }) => {
                 onClick={() => handlePlayerClick(p.playerId)}
               >
                 {p.nome}
-                {clickable && <small className="linked-badge">↗</small>}
+                {clickable && (
+                  <small className="linked-badge">
+                    <HallIco n="link" />
+                  </small>
+                )}
               </span>
 
               {p.titulo && (
@@ -321,21 +342,35 @@ const HallHistorico = ({ isAdmin }) => {
               {isFounder && <span className="hall-tag is-gold">Fundador</span>}
               {isVeteran && <span className="hall-tag">Veterano</span>}
               {titles > 0 && (
-                <span className="hall-tag is-gold">🏆 {titles}</span>
+                <span className="hall-tag is-gold" title="Títulos">
+                  <HallIco n="trophy" /> {titles}
+                </span>
               )}
               {awards > 0 && (
-                <span className="hall-tag is-gold">🏅 {awards}</span>
+                <span className="hall-tag is-gold" title="Prêmios">
+                  <HallIco n="medal" /> {awards}
+                </span>
               )}
             </div>
           </div>
 
           {isAdmin && (
             <div className="hall-item-actions">
-              <button className="btn-edit" onClick={() => prepararEdicao(p)}>
-                ✎
+              <button
+                className="btn-edit"
+                title="Editar"
+                aria-label="Editar"
+                onClick={() => prepararEdicao(p)}
+              >
+                <HallIco n="edit" />
               </button>
-              <button className="btn-del" onClick={() => removerDoHall(p.id)}>
-                ×
+              <button
+                className="btn-del"
+                title="Remover"
+                aria-label="Remover"
+                onClick={() => removerDoHall(p.id)}
+              >
+                <HallIco n="trash" />
               </button>
             </div>
           )}
@@ -402,7 +437,8 @@ const HallHistorico = ({ isAdmin }) => {
         {isAdmin && (
           <div className="hall-admin-card">
             <h3>
-              {editingId ? "📝 Editando Membro" : "➕ Adicionar novo membro"}
+              <HallIco n={editingId ? "edit" : "plus"} />
+              {editingId ? "Editando membro" : "Adicionar novo membro"}
             </h3>
             <div className="hall-admin-form">
               <input

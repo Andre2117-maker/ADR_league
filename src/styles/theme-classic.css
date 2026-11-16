@@ -2863,7 +2863,6 @@ body.theme-classic .hero-title,
 body.theme-classic .cta-title,
 body.theme-classic .camp-admin-title,
 body.theme-classic .cx-title,
-body.theme-classic .hall-title,
 body.theme-classic .adm-login-title,
 body.theme-classic .tp-title,
 body.theme-classic .titulos-hero-text,
@@ -3054,7 +3053,6 @@ body.theme-classic .nvb-side-admin-btn:active {
 }
 
 /* ---------- 4e. Abas e seletores ativos ---------- */
-body.theme-classic .adr-tab-btn.active,
 body.theme-classic .camp-tournament-tab.active,
 body.theme-classic .local-tab-btn.active,
 body.theme-classic .fgt-tab-btn.active,
@@ -3062,7 +3060,6 @@ body.theme-classic .friendly-tab.active,
 body.theme-classic .tp-tab.active,
 body.theme-classic .mode-switch-btn.active,
 body.theme-classic .am-tab.active,
-body.theme-classic .adr-tab-btn.is-active,
 body.theme-classic .local-tab-btn.is-active,
 body.theme-classic .friendly-tab.is-active,
 body.theme-classic .tp-tab.is-active {
@@ -3291,96 +3288,7 @@ body.theme-classic .footer-top-btn:hover {
   border-color: transparent !important;
 }
 
-/* ---------- 4m. Hall Histórico ---------- */
-body.theme-classic .hall-admin-card,
-body.theme-classic .hall-item {
-  border: 2px solid rgba(255, 138, 165, 0.45) !important;
-  border-radius: 8px !important;
-  box-shadow:
-    0 0 0 3px #1d1222,
-    0 0 0 5px rgba(123, 58, 168, 0.75),
-    0 14px 30px rgba(0, 0, 0, 0.5) !important;
-}
-body.theme-classic .hall-item:hover {
-  border-color: #ff8aa5 !important;
-  box-shadow:
-    0 0 0 3px #1d1222,
-    0 0 0 5px #ec4470,
-    0 18px 38px rgba(236, 68, 112, 0.3) !important;
-}
-body.theme-classic .hall-item.retired {
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  box-shadow:
-    0 0 0 3px #1d1222,
-    0 0 0 5px rgba(255, 255, 255, 0.08) !important;
-}
-body.theme-classic .hall-admin-card h3 {
-  font-family: "Anton", "Impact", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0.08em;
-  text-shadow: 2px 2px 0 #b8307a;
-}
-body.theme-classic .hall-admin-form button:not(.btn-cancel) {
-  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
-  color: #ffffff !important;
-  border: 0 !important;
-  border-radius: 6px !important;
-  font-style: italic;
-  box-shadow:
-    0 4px 0 #5a1f4a,
-    0 10px 20px rgba(0, 0, 0, 0.4) !important;
-}
-body.theme-classic .hall-admin-form button:not(.btn-cancel):hover {
-  filter: brightness(1.12);
-  transform: translateY(-2px);
-}
-body.theme-classic .hall-admin-form button:not(.btn-cancel):active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #5a1f4a !important;
-}
-body.theme-classic .hall-admin-form input,
-body.theme-classic .hall-select-link,
-body.theme-classic .hall-search {
-  border-radius: 6px !important;
-}
-body.theme-classic .hall-filter.is-active,
-body.theme-classic .hall-filter.active {
-  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
-  color: #ffffff !important;
-  border-color: transparent !important;
-  font-style: italic;
-  box-shadow: 0 3px 0 #5a1f4a !important;
-}
-body.theme-classic .year-label {
-  -webkit-text-stroke: 0 !important;
-  font-family: "Anton", "Impact", sans-serif !important;
-  font-weight: 400 !important;
-  font-style: italic !important;
-  letter-spacing: 0.04em !important;
-  background: none !important;
-  -webkit-background-clip: border-box !important;
-  background-clip: border-box !important;
-  -webkit-text-fill-color: #ffffff !important;
-  color: #ffffff !important;
-  text-shadow:
-    0.05em 0.05em 0 #e3263a,
-    0.1em 0.1em 0 #7b3aa8 !important;
-}
-body.theme-classic .hall-year-row::after {
-  height: 4px !important;
-  background: linear-gradient(
-    90deg,
-    #7b3aa8,
-    #b8307a 40%,
-    #e3263a 60%,
-    transparent
-  ) !important;
-  opacity: 0.7;
-}
-body.theme-classic .hall-status.is-on {
-  border-radius: 3px;
-}
+/* ---------- 4m. Hall Histórico: o estilo Classic agora fica no hallHistorico.css ---------- */
 
 /* ---------- 4n. Fundo do site: sai a grade de "+", entra brilho do escudo ----------
    As listras diagonais finas vêm do body::before (seção 4). */
@@ -3420,7 +3328,26 @@ body.theme-classic .am-root::after {
   background-image: none !important;
 }
 
-/* seta dos selects em rosa */
-body.theme-classic .hall-select-link {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ec4470' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+/* ---------- 4o. Texto inclinado dentro de caixa que corta ----------
+   O Anton não tem itálico de verdade: o navegador inclina a letra e a ponta
+   de cima da última letra (e a sombra deslocada) passa da caixa do texto.
+   Onde a caixa corta o que sobra (overflow: hidden / "..."), a última letra
+   saía cortada. Um respiro à direita dá espaço para a inclinação. */
+body.theme-classic .ts-name,
+body.theme-classic .ta-name,
+body.theme-classic .gk-name,
+body.theme-classic .stat-name,
+body.theme-classic .aw-winner-name,
+body.theme-classic .bday-player-name,
+body.theme-classic .psg-lastname,
+body.theme-classic .spot-name,
+body.theme-classic .p-vs-name,
+body.theme-classic .rs-name,
+body.theme-classic .rt-player-info strong,
+body.theme-classic .rk-player-name-text,
+body.theme-classic .at-name,
+body.theme-classic .banner-footer {
+  padding-right: 0.22em !important;
+  padding-left: 0.04em;
+  margin-right: -0.1em;
 }
