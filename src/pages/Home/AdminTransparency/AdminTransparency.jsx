@@ -15,25 +15,57 @@ import "./admin-transparency.css";
 import Footer from "../../../components/Footer";
 
 // ==========================================
+// ÍCONES DESENHADOS (no lugar dos emojis)
+// ==========================================
+const TP_ICO = {
+  card: "M3 6.5h18v11H3zM3 10h18M6.5 14.5h4",
+  duo: "M8.5 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM16 11a3 3 0 1 0 0-6M2.5 20c.4-3.6 2.9-6 6-6s5.6 2.4 6 6M16.5 14c2.6.3 4.6 2.6 5 6",
+  gift: "M4 10h16v10H4zM3 7h18v3H3zM12 7v13M12 7c-1.5-3-5-3.5-5-1.2C7 7 9.5 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 14.5 7 12 7z",
+  ticket:
+    "M3 8a2 2 0 0 0 0 4v4h18v-4a2 2 0 0 1 0-4V4H3zM14 4v2.5M14 9v2M14 13.5V16",
+  shirt:
+    "M8.5 3.5 4 6l1.5 4L8 9v11h8V9l2.5 1L20 6l-4.5-2.5a3.5 3.5 0 0 1-7 0z",
+  plus: "M12 5v14M5 12h14",
+  minus: "M5 12h14",
+  court: "M3 5h18v14H3zM12 5v14M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9h3v6H3M21 9h-3v6h3",
+  ball: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7",
+  flag: "M5 21V4M5 4h11l-2 4 2 4H5",
+  trophy:
+    "M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3 3 0 0 0 8 10.5M16 6h3v1.5a3 3 0 0 1-3 3M12 13v4M8.5 20h7M10 17h4",
+  cheers: "M6 3h6l-.5 7a2.5 2.5 0 0 1-5 0zM9 12.5V20M6.5 20h5M14 6h5l-.4 5a2.1 2.1 0 0 1-4.2 0zM16.5 13v7M14.5 20h4",
+  download: "M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M4 19h16",
+  coins: "M12 4c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 7v5c0 1.7 3.6 3 8 3s8-1.3 8-3V7M4 12v5c0 1.7 3.6 3 8 3s8-1.3 8-3v-5",
+  receipt: "M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6M9 16h3",
+  edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4",
+  trash: "M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5",
+  search: "M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zM16 16l5 5",
+};
+const TpIco = ({ n, className = "tp-ico" }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={TP_ICO[n] || TP_ICO.plus} />
+  </svg>
+);
+
+// ==========================================
 // CATEGORIAS (ícone + nome) POR TIPO
 // ==========================================
 const CATEGORIES = {
   INCOME: [
-    { id: "Mensalidade", icon: "💳" },
-    { id: "Patrocínio", icon: "🤝" },
-    { id: "Doação", icon: "🎁" },
-    { id: "Rifa / Evento", icon: "🎟️" },
-    { id: "Venda de Uniformes", icon: "👕" },
-    { id: "Outros", icon: "➕" },
+    { id: "Mensalidade", icon: "card" },
+    { id: "Patrocínio", icon: "duo" },
+    { id: "Doação", icon: "gift" },
+    { id: "Rifa / Evento", icon: "ticket" },
+    { id: "Venda de Uniformes", icon: "shirt" },
+    { id: "Outros", icon: "plus" },
   ],
   EXPENSE: [
-    { id: "Aluguel de Quadra", icon: "🏟️" },
-    { id: "Uniformes", icon: "👕" },
-    { id: "Material Esportivo", icon: "⚽" },
-    { id: "Arbitragem", icon: "🟨" },
-    { id: "Inscrição / Campeonato", icon: "🏆" },
-    { id: "Confraternização", icon: "🍻" },
-    { id: "Outros", icon: "➖" },
+    { id: "Aluguel de Quadra", icon: "court" },
+    { id: "Uniformes", icon: "shirt" },
+    { id: "Material Esportivo", icon: "ball" },
+    { id: "Arbitragem", icon: "flag" },
+    { id: "Inscrição / Campeonato", icon: "trophy" },
+    { id: "Confraternização", icon: "cheers" },
+    { id: "Outros", icon: "minus" },
   ],
 };
 
@@ -46,7 +78,7 @@ const ALL_CATEGORY_NAMES = [
 
 const getCatIcon = (type, name) =>
   CATEGORIES[type]?.find((c) => c.id === name)?.icon ||
-  (type === "EXPENSE" ? "➖" : "➕");
+  (type === "EXPENSE" ? "minus" : "plus");
 
 const brl = (n) =>
   Number(n || 0).toLocaleString("pt-BR", {
@@ -323,7 +355,7 @@ export default function AdminTransparency({ isAdmin }) {
             onClick={exportCSV}
             disabled={totalFiltradas === 0}
           >
-            ⬇ Exportar CSV
+            <TpIco n="download" /> Exportar CSV
           </button>
         </header>
 
@@ -370,15 +402,17 @@ export default function AdminTransparency({ isAdmin }) {
         {resumo.count > 0 && (
           <section className="tp-breakdown">
             <div className="tp-panel">
-              <h4 className="tp-panel-title">💰 De onde vem o dinheiro</h4>
+              <h4 className="tp-panel-title">
+                <TpIco n="coins" /> De onde vem o dinheiro
+              </h4>
               {resumo.incomeCats.length === 0 && (
                 <p className="no-data">Sem entradas.</p>
               )}
               {resumo.incomeCats.map((c) => (
                 <div key={c.name} className="tp-bar-row">
                   <div className="tp-bar-head">
-                    <span>
-                      {getCatIcon("INCOME", c.name)} {c.name}
+                    <span className="tp-bar-name">
+                      <TpIco n={getCatIcon("INCOME", c.name)} /> {c.name}
                     </span>
                     <span>
                       {brl(c.total)} · {c.pct.toFixed(0)}%
@@ -395,15 +429,17 @@ export default function AdminTransparency({ isAdmin }) {
             </div>
 
             <div className="tp-panel">
-              <h4 className="tp-panel-title">🧾 Para onde vai o dinheiro</h4>
+              <h4 className="tp-panel-title">
+                <TpIco n="receipt" /> Para onde vai o dinheiro
+              </h4>
               {resumo.expenseCats.length === 0 && (
                 <p className="no-data">Sem saídas.</p>
               )}
               {resumo.expenseCats.map((c) => (
                 <div key={c.name} className="tp-bar-row">
                   <div className="tp-bar-head">
-                    <span>
-                      {getCatIcon("EXPENSE", c.name)} {c.name}
+                    <span className="tp-bar-name">
+                      <TpIco n={getCatIcon("EXPENSE", c.name)} /> {c.name}
                     </span>
                     <span>
                       {brl(c.total)} · {c.pct.toFixed(0)}%
@@ -425,7 +461,8 @@ export default function AdminTransparency({ isAdmin }) {
         {isAdmin && (
           <form onSubmit={handleSubmit} className="admin-form-transparency">
             <h3>
-              {editingId ? "📝 Editar Movimentação" : "➕ Nova Movimentação"}
+              <TpIco n={editingId ? "edit" : "plus"} />
+              {editingId ? "Editar movimentação" : "Nova movimentação"}
             </h3>
 
             <div className="f-field f-desc">
@@ -487,7 +524,7 @@ export default function AdminTransparency({ isAdmin }) {
               >
                 {CATEGORIES[tipo].map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.icon} {c.id}
+                    {c.id}
                   </option>
                 ))}
               </select>
@@ -568,12 +605,15 @@ export default function AdminTransparency({ isAdmin }) {
               ))}
             </select>
 
-            <input
-              className="tp-search"
-              placeholder="🔍 Buscar descrição..."
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-            />
+            <label className="tp-search-wrap">
+              <TpIco n="search" />
+              <input
+                className="tp-search"
+                placeholder="Buscar descrição..."
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+              />
+            </label>
           </div>
 
           {transacoes.length === 0 && (
@@ -604,7 +644,9 @@ export default function AdminTransparency({ isAdmin }) {
                 const cat = t.category || "Outros";
                 return (
                   <div key={t.id} className={`t-item ${type.toLowerCase()}`}>
-                    <div className="t-icon">{getCatIcon(type, cat)}</div>
+                    <div className="t-icon">
+                      <TpIco n={getCatIcon(type, cat)} />
+                    </div>
 
                     <div className="t-info">
                       <span className="t-desc">
@@ -627,7 +669,9 @@ export default function AdminTransparency({ isAdmin }) {
                     </div>
 
                     <div className="t-actions">
-                      <span className={v > 0 ? "text-green" : "text-red"}>
+                      <span
+                        className={`t-value ${v > 0 ? "text-green" : "text-red"}`}
+                      >
                         {brl(v)}
                       </span>
 
@@ -636,14 +680,18 @@ export default function AdminTransparency({ isAdmin }) {
                           <button
                             className="edit-btn"
                             onClick={() => startEdit(t)}
+                            title="Editar"
+                            aria-label="Editar"
                           >
-                            ✏️
+                            <TpIco n="edit" />
                           </button>
                           <button
                             className="delete-btn"
                             onClick={() => handleDelete(t.id)}
+                            title="Excluir"
+                            aria-label="Excluir"
                           >
-                            🗑️
+                            <TpIco n="trash" />
                           </button>
                         </div>
                       )}

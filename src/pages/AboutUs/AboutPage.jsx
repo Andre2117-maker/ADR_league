@@ -7,6 +7,26 @@ import Footer from "../../components/Footer";
 import "./aboutpage.css";
 
 // ==========================================
+// ÍCONES DESENHADOS (no lugar dos emojis)
+// ==========================================
+const ABOUT_ICO = {
+  trophy:
+    "M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v1.5A3 3 0 0 0 8 10.5M16 6h3v1.5a3 3 0 0 1-3 3M12 13v4M8.5 20h7M10 17h4",
+  duo: "M8.5 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM16 11a3 3 0 1 0 0-6M2.5 20c.4-3.6 2.9-6 6-6s5.6 2.4 6 6M16.5 14c2.6.3 4.6 2.6 5 6",
+  search: "M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15zM16 16l5 5",
+  scroll:
+    "M7 4h11a2 2 0 0 1 2 2v1h-4M7 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8M7 4a2 2 0 0 1 2 2v12M12 9h4M12 13h4M12 17h2",
+  edit: "M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4",
+  swap: "M4 8h13l-3-3M20 16H7l3 3",
+  close: "M6 6l12 12M18 6 6 18",
+};
+const AbIco = ({ n, className = "about-ico" }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={ABOUT_ICO[n]} />
+  </svg>
+);
+
+// ==========================================
 // CONTEÚDO EDITÁVEL (edite aqui)
 // ==========================================
 const FOUNDING_YEAR = 2023;
@@ -91,22 +111,22 @@ function AboutPage({ players = [], isAdmin }) {
   const values = [
     {
       title: "Excelência",
-      icon: "🏆",
+      icon: "trophy",
       desc: "Busca constante pelo alto nível técnico e organizacional em cada partida.",
     },
     {
       title: "Comunidade",
-      icon: "🤝",
+      icon: "duo",
       desc: "Fortalecimento dos laços entre jogadores, amigos e entusiastas do esporte.",
     },
     {
       title: "Transparência",
-      icon: "🔎",
+      icon: "search",
       desc: "Gestão clara de estatísticas, finanças e regras da liga.",
     },
     {
       title: "História",
-      icon: "📜",
+      icon: "scroll",
       desc: "Respeito à trajetória de cada atleta que veste a camisa do ADR.",
     },
   ];
@@ -448,7 +468,8 @@ function AboutPage({ players = [], isAdmin }) {
               onClick={() => setIsEditing(!isEditing)}
               className={`primordial-edit-toggle ${isEditing ? "active" : ""}`}
             >
-              {isEditing ? "Cancelar Edição" : "✏️ Editar Primeiro Elenco"}
+              <AbIco n={isEditing ? "close" : "edit"} />
+              {isEditing ? "Cancelar edição" : "Editar primeiro elenco"}
             </button>
           )}
 
@@ -467,15 +488,17 @@ function AboutPage({ players = [], isAdmin }) {
                           onClick={() => handleToggleType(idx)}
                           className="pe-switch"
                         >
-                          🔄 Trocar para{" "}
+                          <AbIco n="swap" /> Trocar para{" "}
                           {isManual ? "Jogador do Banco" : "Nome Manual"}
                         </button>
 
                         <button
                           onClick={() => handleRemoveMember(idx)}
                           className="pe-remove"
+                          title="Remover membro"
+                          aria-label="Remover membro"
                         >
-                          ❌
+                          <AbIco n="close" />
                         </button>
                       </div>
                     </div>
@@ -705,7 +728,9 @@ function AboutPage({ players = [], isAdmin }) {
                   className="trophy-card stagger"
                   style={{ "--i": i }}
                 >
-                  <span className="trophy-icon">🏆</span>
+                  <span className="trophy-icon">
+                    <AbIco n="trophy" />
+                  </span>
                   <h3 className="trophy-title">{t.title}</h3>
                   <span className="trophy-season">{t.season}</span>
                   {t.desc && <p className="trophy-desc">{t.desc}</p>}
@@ -738,7 +763,9 @@ function AboutPage({ players = [], isAdmin }) {
               className="value-card stagger"
               style={{ "--i": index }}
             >
-              <span className="value-icon">{v.icon}</span>
+              <span className="value-icon">
+                <AbIco n={v.icon} />
+              </span>
               <h3 className="value-title">{v.title}</h3>
               <p className="value-desc">{v.desc}</p>
             </div>

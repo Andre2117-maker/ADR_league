@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
    PÁGINA SOBRE - VERSÃO AURA
    ========================================================================== */
@@ -1974,4 +1976,874 @@
   background: #000 !important;
   color: #fff !important;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ==========================================================================
+   ÍCONES DESENHADOS (no lugar dos emojis)
+   ========================================================================== */
+.about-ico {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.value-icon {
+  color: #d4af37;
+}
+.value-icon .about-ico {
+  width: 22px;
+  height: 22px;
+}
+.trophy-icon {
+  display: inline-flex;
+  color: #d4af37;
+  font-size: inherit;
+}
+.trophy-icon .about-ico {
+  width: 46px;
+  height: 46px;
+  stroke-width: 1.6;
+}
+.primordial-edit-toggle,
+.pe-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.primordial-edit-toggle {
+  display: flex;
+}
+.pe-remove {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.pe-remove .about-ico {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.4;
+}
+.pe-remove:hover {
+  background: rgba(255, 77, 77, 0.12);
+}
+
+/* ==========================================================================
+   IDR — "EDIÇÃO ESPECIAL DE JORNAL"
+   papel com losangos, réguas pretas grossas, caixas retas com sombra
+   em bloco, letra pesada, capitular no começo dos textos, fotos em P&B
+   ========================================================================== */
+.theme-idr .about-wrapper::before,
+.theme-idr .about-wrapper::after {
+  display: none;
+}
+.theme-idr .back-btn-about {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .hero-kicker {
+  border-radius: 0;
+  background: #000 !important;
+  color: #fff !important;
+  letter-spacing: 4px;
+}
+.theme-idr .hero-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.theme-idr .gold-text {
+  padding: 0 0.18em;
+  background: #000 !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  animation: none;
+}
+.theme-idr .hero-subtitle {
+  color: #000 !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-transform: none;
+}
+.theme-idr .hero-line {
+  width: min(520px, 86%);
+  height: 0;
+  border-top: 6px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 3px;
+  background: none !important;
+}
+.theme-idr .about-section,
+.theme-idr .logos-timeline,
+.theme-idr .value-card,
+.theme-idr .stat-card,
+.theme-idr .kit-card,
+.theme-idr .mascote-card,
+.theme-idr .primordial-card,
+.theme-idr .founder-card,
+.theme-idr .milestone-card,
+.theme-idr .trophy-card {
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+.theme-idr .about-section {
+  border-top: 8px solid #000 !important;
+}
+.theme-idr .about-section.highlight-border {
+  border-top-color: #cc0000 !important;
+  background: #fff !important;
+}
+.theme-idr .value-card:hover,
+.theme-idr .stat-card:hover,
+.theme-idr .kit-card:hover,
+.theme-idr .mascote-card:hover,
+.theme-idr .primordial-card:hover,
+.theme-idr .founder-card:hover,
+.theme-idr .milestone:hover .milestone-card,
+.theme-idr .trophy-card:hover {
+  border-color: #000 !important;
+  box-shadow: 8px 8px 0 #000 !important;
+  transform: translate(-2px, -2px);
+}
+.theme-idr .section-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+}
+.theme-idr .section-title::after {
+  width: 70px;
+  height: 5px;
+}
+/* capitular: primeira letra grande, como abertura de matéria */
+.theme-idr .about-section .section-text:first-of-type::first-letter {
+  float: left;
+  margin: 6px 10px 0 0;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-size: 3.6em;
+  line-height: 0.8;
+  color: #000;
+}
+.theme-idr .logo-container {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #d6d6d0 !important;
+}
+
+.theme-idr .logo-timeline-item:hover .logo-container img {
+  filter: none;
+}
+.theme-idr .timeline-connector {
+  height: 3px;
+  opacity: 1 !important;
+}
+.theme-idr .logo-year {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 6px;
+  background: #000;
+  color: #fff !important;
+}
+/* visão = manchete em fundo preto */
+.theme-idr .vision-card {
+  background: #000 !important;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: 10px 10px 0 #d6d6d0 !important;
+}
+.theme-idr .vision-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+}
+.theme-idr .vision-text {
+  color: #e6e6e6 !important;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.theme-idr .vision-quote {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #fff;
+  color: #000 !important;
+}
+.theme-idr .value-icon,
+.theme-idr .value-icon .about-ico {
+  color: #fff;
+}
+.theme-idr .value-icon {
+  border-radius: 0;
+  background: #000 !important;
+  border-color: #000 !important;
+}
+.theme-idr .value-card::before {
+  display: none;
+}
+.theme-idr .value-title,
+.theme-idr .kit-name,
+.theme-idr .mascote-name,
+.theme-idr .primordial-name,
+.theme-idr .founder-name,
+.theme-idr .milestone-title,
+.theme-idr .trophy-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+.theme-idr .about-wrapper .stat-value {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  background: none !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000;
+}
+.theme-idr .stat-card::before {
+  display: none;
+}
+.theme-idr .stat-card {
+  border-top: 6px solid #000 !important;
+}
+.theme-idr .kit-image-wrapper,
+.theme-idr .mascote-image-wrapper {
+  background:
+    radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1.4px) 0 0 / 7px 7px,
+    #f6f6f4 !important;
+  border-bottom: 2px solid #000;
+}
+.theme-idr .kit-details,
+.theme-idr .mascote-details {
+  border-top: 0 !important;
+}
+.theme-idr .primordial-avatar {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .founder-role {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #000;
+  color: #fff !important;
+}
+.theme-idr .milestones::before {
+  width: 4px;
+  background: #000 !important;
+}
+.theme-idr .milestone-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 0;
+  border: 3px solid #f5f5f5 !important;
+  box-shadow: 0 0 0 2px #000 !important;
+}
+.theme-idr .milestone.left .milestone-dot {
+  right: -9px;
+}
+.theme-idr .milestone.right .milestone-dot {
+  left: -9px;
+}
+.theme-idr .milestone-year {
+  border-radius: 0;
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+.theme-idr .trophy-icon {
+  color: #000;
+}
+.theme-idr .trophy-season {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 2px solid #000;
+  color: #000 !important;
+}
+.theme-idr .about-cta {
+  background: #000 !important;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: 10px 10px 0 #d6d6d0 !important;
+}
+.theme-idr .cta-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+}
+.theme-idr .cta-text {
+  color: #d6d6d6 !important;
+}
+.theme-idr .cta-btn {
+  border-radius: 0;
+  border: 2px solid #fff !important;
+  background: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .cta-btn:hover,
+.theme-idr .cta-btn.primary {
+  background: #fff !important;
+  color: #000 !important;
+  box-shadow: 4px 4px 0 #555 !important;
+}
+.theme-idr .primordial-edit-toggle,
+.theme-idr .pe-save,
+.theme-idr .pe-add,
+.theme-idr .pe-switch,
+.theme-idr .pe-input,
+.theme-idr .primordial-editor,
+.theme-idr .primordial-edit-card {
+  border-radius: 0 !important;
+}
+.theme-idr .primordial-edit-toggle {
+  border-width: 2px !important;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "ÁLBUM DE FIGURINHAS RETRÔ"
+   roxo → magenta → vermelho, moldura dupla, adesivos tortos,
+   Anton com sombra deslocada e botões com degrau
+   ========================================================================== */
+body.theme-classic .about-wrapper::before {
+  background:
+    radial-gradient(
+      40% 35% at 15% 20%,
+      rgba(123, 58, 168, 0.28),
+      transparent 70%
+    ),
+    radial-gradient(
+      35% 30% at 85% 15%,
+      rgba(184, 48, 122, 0.24),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 40% at 60% 90%,
+      rgba(227, 38, 58, 0.16),
+      transparent 70%
+    ) !important;
+}
+body.theme-classic .back-btn-about {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 2px solid #ff8aa5 !important;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+body.theme-classic .back-btn-about:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+body.theme-classic .hero-kicker {
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  border: 2px solid #fff !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-style: italic;
+  transform: rotate(-3deg);
+  box-shadow: 4px 4px 0 #120a16 !important;
+}
+body.theme-classic .hero-title {
+  padding-right: 0.12em;
+}
+body.theme-classic .hero-subtitle {
+  color: #ffd1dc !important;
+}
+
+/* todas as caixas viram figurinhas com moldura dupla */
+body.theme-classic .about-section,
+body.theme-classic .logos-timeline,
+body.theme-classic .value-card,
+body.theme-classic .stat-card,
+body.theme-classic .kit-card,
+body.theme-classic .mascote-card,
+body.theme-classic .primordial-card,
+body.theme-classic .founder-card,
+body.theme-classic .milestone-card,
+body.theme-classic .trophy-card {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.03) 0 12px,
+      transparent 12px 26px
+    ),
+    #1d1222 !important;
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 16px 34px rgba(0, 0, 0, 0.5) !important;
+}
+body.theme-classic .value-card:hover,
+body.theme-classic .stat-card:hover,
+body.theme-classic .kit-card:hover,
+body.theme-classic .mascote-card:hover,
+body.theme-classic .primordial-card:hover,
+body.theme-classic .founder-card:hover,
+body.theme-classic .milestone:hover .milestone-card,
+body.theme-classic .trophy-card:hover {
+  border-color: #fff !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 20px 40px rgba(236, 68, 112, 0.3) !important;
+}
+/* cartas levemente tortas, como coladas à mão */
+body.theme-classic .value-card:nth-child(odd),
+body.theme-classic .stat-card:nth-child(odd),
+body.theme-classic .primordial-card:nth-child(odd),
+body.theme-classic .founder-card:nth-child(odd),
+body.theme-classic .trophy-card:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+body.theme-classic .value-card:nth-child(even),
+body.theme-classic .stat-card:nth-child(even),
+body.theme-classic .primordial-card:nth-child(even),
+body.theme-classic .founder-card:nth-child(even),
+body.theme-classic .trophy-card:nth-child(even) {
+  transform: rotate(1deg);
+}
+body.theme-classic .value-card:hover,
+body.theme-classic .stat-card:hover,
+body.theme-classic .primordial-card:hover,
+body.theme-classic .founder-card:hover,
+body.theme-classic .trophy-card:hover {
+  transform: rotate(0) translateY(-8px);
+}
+
+/* seções de texto: faixa tricolor na lateral */
+body.theme-classic .about-section {
+  border-left: 8px solid transparent !important;
+  border-image: none;
+  background:
+    linear-gradient(180deg, #7b3aa8, #b8307a, #e3263a) left / 8px 100% no-repeat,
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.03) 0 12px,
+      transparent 12px 26px
+    ),
+    #1d1222 !important;
+  background-origin: border-box !important;
+}
+body.theme-classic .about-section.highlight-border {
+  border-color: #ff4d5e !important;
+  background:
+    linear-gradient(180deg, #e3263a, #8a1020) left / 8px 100% no-repeat,
+    linear-gradient(90deg, rgba(227, 38, 58, 0.22), transparent 70%),
+    #1d1222 !important;
+  background-origin: border-box !important;
+}
+body.theme-classic .section-title {
+  padding-right: 0.15em;
+}
+body.theme-classic .section-title::after {
+  width: 90px;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33%,
+    #b8307a 33% 66%,
+    #e3263a 66%
+  ) !important;
+  box-shadow: none !important;
+  transform: skewX(-20deg);
+}
+body.theme-classic .section-title.center::after {
+  transform: translateX(-50%) skewX(-20deg);
+}
+body.theme-classic .section-text {
+  color: rgba(255, 235, 242, 0.85);
+}
+body.theme-classic .section-text strong {
+  color: #ff8aa5;
+}
+body.theme-classic .section-subtitle {
+  color: #c9a3c4;
+}
+
+/* evolução do escudo: cada escudo vira uma figurinha */
+body.theme-classic .logo-container {
+  background: linear-gradient(140deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 3px solid #fff !important;
+  border-radius: 16px !important;
+  box-shadow: 5px 6px 0 #000 !important;
+  transform: rotate(-4deg);
+}
+body.theme-classic .logo-timeline-item:nth-child(even) .logo-container {
+  transform: rotate(4deg);
+}
+body.theme-classic .logo-timeline-item:hover .logo-container {
+  transform: rotate(0) translateY(-8px) scale(1.06);
+}
+body.theme-classic .logo-version {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding-right: 0.15em;
+}
+body.theme-classic .logo-year {
+  color: #ff8aa5 !important;
+}
+body.theme-classic .timeline-connector {
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ff8aa5 0 6px,
+    transparent 6px 11px
+  ) !important;
+  box-shadow: none !important;
+}
+
+/* visão: um grande adesivo listrado */
+body.theme-classic .vision-card {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 14px,
+      transparent 14px 30px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 3px solid #fff !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 0 0 4px #120a16,
+    12px 14px 0 #120a16 !important;
+  transform: rotate(-1deg);
+}
+body.theme-classic .vision-card::after {
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+}
+body.theme-classic .vision-title {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  padding-right: 0.15em;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  filter: none !important;
+  text-shadow: 0.06em 0.06em 0 #120a16;
+}
+body.theme-classic .vision-text {
+  color: #fff !important;
+}
+body.theme-classic .vision-quote {
+  display: inline-block;
+  padding: 5px 14px;
+  background: #fff;
+  border-radius: 6px;
+  color: #b8307a !important;
+  text-shadow: none !important;
+  transform: rotate(-2deg);
+  box-shadow: 3px 3px 0 #120a16;
+}
+
+/* valores */
+body.theme-classic .value-card::before {
+  display: none;
+}
+body.theme-classic .value-icon {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 3px solid #fff !important;
+  border-radius: 14px !important;
+  color: #fff;
+  transform: rotate(-6deg);
+  box-shadow: 3px 4px 0 #120a16 !important;
+}
+body.theme-classic .value-title,
+body.theme-classic .kit-name,
+body.theme-classic .mascote-name,
+body.theme-classic .primordial-name,
+body.theme-classic .founder-name,
+body.theme-classic .milestone-title,
+body.theme-classic .trophy-title {
+  font-family: "Anton", "Impact", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  padding-right: 0.15em;
+  color: #fff !important;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .value-desc,
+body.theme-classic .milestone-desc,
+body.theme-classic .trophy-desc {
+  color: #d9bfd6 !important;
+}
+
+/* faixa de números */
+body.theme-classic .stat-card::before {
+  display: none;
+}
+body.theme-classic .about-wrapper .stat-value {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  padding-right: 0.12em;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff;
+  filter: none !important;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .stat-label {
+  color: #ffd1dc !important;
+}
+
+/* mantos e mascotes */
+body.theme-classic .kit-card,
+body.theme-classic .mascote-card {
+  overflow: hidden;
+}
+body.theme-classic .kit-image-wrapper,
+body.theme-classic .mascote-image-wrapper {
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(236, 68, 112, 0.22),
+      transparent 65%
+    ),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.04) 0 12px,
+      transparent 12px 26px
+    ),
+    #120a16 !important;
+  border-bottom: 2px solid #ff8aa5;
+}
+body.theme-classic .kit-image-wrapper::before,
+body.theme-classic .mascote-image-wrapper::before {
+  background: radial-gradient(
+    circle,
+    rgba(236, 68, 112, 0.45),
+    transparent 70%
+  ) !important;
+}
+body.theme-classic .kit-details,
+body.theme-classic .mascote-details {
+  background: transparent !important;
+  border-top: 0 !important;
+}
+body.theme-classic .kit-season,
+body.theme-classic .mascote-desc,
+body.theme-classic .founder-role {
+  color: #ff8aa5 !important;
+}
+
+/* primeiro elenco e fundadores: foto em figurinha */
+body.theme-classic .primordial-avatar {
+  border-radius: 14px !important;
+  border: 3px solid #fff !important;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  transform: rotate(-5deg);
+  box-shadow: 3px 4px 0 #120a16 !important;
+}
+body.theme-classic .primordial-avatar.has-photo {
+  background: #120a16 !important;
+}
+body.theme-classic .primordial-photo {
+  border-radius: 10px;
+}
+body.theme-classic .primordial-card:hover .primordial-avatar,
+body.theme-classic .founder-card:hover .primordial-avatar {
+  transform: rotate(3deg) scale(1.08);
+  box-shadow: 3px 4px 0 #120a16 !important;
+}
+
+/* linha do tempo: trilho tricolor e pontos em losango */
+body.theme-classic .milestones::before {
+  width: 5px;
+  background: linear-gradient(
+    to bottom,
+    #7b3aa8,
+    #b8307a 50%,
+    #e3263a
+  ) !important;
+  box-shadow: none !important;
+}
+body.theme-classic .milestone-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  border: 3px solid #fff !important;
+  box-shadow: 2px 2px 0 #120a16 !important;
+  transform: rotate(45deg);
+}
+body.theme-classic .milestone.left .milestone-dot {
+  right: -9px;
+}
+body.theme-classic .milestone.right .milestone-dot {
+  left: -9px;
+}
+body.theme-classic .milestone-year {
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  border: 2px solid #fff !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+
+/* sala de troféus */
+body.theme-classic .trophy-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 3px solid #fff;
+  color: #fff;
+  filter: none !important;
+  box-shadow: 4px 4px 0 #120a16;
+}
+body.theme-classic .trophy-icon .about-ico {
+  width: 40px;
+  height: 40px;
+}
+body.theme-classic .trophy-season {
+  padding: 2px 9px;
+  background: #fff;
+  border-radius: 5px;
+  color: #b8307a !important;
+  transform: rotate(-2deg);
+}
+
+/* chamada final: banner listrado com botões de degrau */
+body.theme-classic .about-cta {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 14px,
+      transparent 14px 30px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 3px solid #fff !important;
+  border-radius: 20px !important;
+  box-shadow:
+    0 0 0 4px #120a16,
+    12px 14px 0 #120a16 !important;
+}
+body.theme-classic .cta-title {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  padding-right: 0.15em;
+  background: none !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  text-shadow: 0.06em 0.06em 0 #120a16;
+}
+body.theme-classic .cta-text {
+  color: #fff !important;
+}
+body.theme-classic .cta-btn {
+  background: #120a16 !important;
+  border: 2px solid #fff !important;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #000 !important;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease !important;
+}
+body.theme-classic .cta-btn.primary {
+  background: #fff !important;
+  color: #b8307a !important;
+}
+body.theme-classic .cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #000 !important;
+}
+body.theme-classic .cta-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #000 !important;
+}
+
+/* link e editor do admin */
+body.theme-classic .gold-link {
+  color: #ff8aa5 !important;
+  border-bottom-color: rgba(255, 138, 165, 0.5) !important;
+}
+body.theme-classic .primordial-edit-toggle {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 2px solid #ff8aa5 !important;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+body.theme-classic .primordial-edit-toggle.active {
+  background: #120a16 !important;
+  border-color: #ff4d5e !important;
+  color: #ff4d5e !important;
+}
+body.theme-classic .primordial-editor {
+  background: #1d1222 !important;
+  border: 2px dashed rgba(255, 138, 165, 0.6) !important;
+}
+body.theme-classic .primordial-edit-card {
+  background: #120a16 !important;
+  border-color: rgba(255, 138, 165, 0.25) !important;
+}
+body.theme-classic .pe-label {
+  color: #ff8aa5 !important;
+}
+body.theme-classic .pe-input:focus {
+  border-color: #ff8aa5;
+  box-shadow: 0 0 14px rgba(236, 68, 112, 0.3);
+}
+body.theme-classic .pe-save {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .milestone.left .milestone-dot,
+  body.theme-classic .milestone.right .milestone-dot,
+  .theme-idr .milestone.left .milestone-dot,
+  .theme-idr .milestone.right .milestone-dot {
+    left: 0;
+    right: auto;
+  }
+  body.theme-classic .vision-card,
+  body.theme-classic .about-cta {
+    transform: none;
+    box-shadow:
+      0 0 0 3px #120a16,
+      6px 8px 0 #120a16 !important;
+  }
+  .theme-idr .about-section .section-text:first-of-type::first-letter {
+    font-size: 3em;
+  }
 }

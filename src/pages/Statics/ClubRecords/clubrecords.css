@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* ==========================================================================
    RECORDES DO CLUBE
    ========================================================================== */
@@ -58,7 +60,12 @@
   width: min(320px, 70%);
   height: 1px;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, transparent, var(--cr-accent), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cr-accent),
+    transparent
+  );
 }
 
 .cr-kicker {
@@ -174,7 +181,9 @@
 }
 
 .cr-card:hover {
-  background: linear-gradient(90deg, var(--cr-accent-soft), transparent 70%), var(--cr-panel);
+  background:
+    linear-gradient(90deg, var(--cr-accent-soft), transparent 70%),
+    var(--cr-panel);
 }
 
 .cr-card-top {
@@ -313,5 +322,272 @@
 
   .cr-value {
     font-size: 2rem;
+  }
+}
+
+/* ==========================================================================
+   IDR — "JORNAL": abas com borda grossa, aba ativa em tarja preta,
+   cards com sombra em bloco, números em letra pesada
+   ========================================================================== */
+.theme-idr .cr-head::after {
+  width: min(360px, 80%);
+  height: 0;
+  border-top: 4px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none;
+}
+.theme-idr .cr-kicker {
+  padding: 3px 9px;
+  background: #000;
+  color: #fff;
+}
+.theme-idr .cr-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+.theme-idr .cr-scopes {
+  gap: 8px;
+}
+.theme-idr .cr-scope {
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.2s ease;
+}
+.theme-idr .cr-scope:hover {
+  border-color: #000;
+  background: #f1f1ee;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .cr-scope.is-active {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  box-shadow: 3px 3px 0 #9a9a9a;
+}
+.theme-idr .cr-group-title {
+  color: #000;
+}
+.theme-idr .cr-group-title::after {
+  height: 0;
+  border-top: 3px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none;
+}
+.theme-idr .cr-card {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+.theme-idr .cr-card::before {
+  display: none;
+}
+.theme-idr .cr-card:hover {
+  background: #f9f9f7;
+}
+.theme-idr .cr-value {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+.theme-idr .cr-tie {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+.theme-idr .cr-holders {
+  border-top: 2px solid #000;
+}
+.theme-idr .cr-photo {
+  border: 2px solid #000;
+}
+
+.theme-idr .cr-name {
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "FIGURINHA RETRÔ": abas em pílula, a ativa em degradê
+   com degrau; cards com moldura dupla e números em Anton
+   ========================================================================== */
+body.theme-classic .cr-section {
+  --cr-fg: #ffffff;
+  --cr-muted: #c9a3c4;
+  --cr-line: rgba(255, 138, 165, 0.18);
+  --cr-line-strong: rgba(255, 138, 165, 0.4);
+  --cr-accent: #ec4470;
+  --cr-accent-soft: rgba(236, 68, 112, 0.12);
+  --cr-panel: #1d1222;
+}
+body.theme-classic .cr-head::after {
+  width: 160px;
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    #7b3aa8 0 33%,
+    #b8307a 33% 66%,
+    #e3263a 66%
+  );
+  transform: translateX(-50%) skewX(-20deg);
+}
+body.theme-classic .cr-kicker {
+  padding: 3px 10px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  transform: rotate(-2deg);
+}
+body.theme-classic .cr-title {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  padding-right: 0.15em;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .cr-scopes {
+  gap: 8px;
+}
+body.theme-classic .cr-scope {
+  background: #120a16;
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 999px;
+  color: #ffd1dc;
+  box-shadow: 0 3px 0 #000;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.2s ease;
+}
+body.theme-classic .cr-scope:hover {
+  border-color: #fff;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #000;
+}
+body.theme-classic .cr-scope.is-active {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #ff8aa5;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .cr-scope:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .cr-group-title {
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .cr-group-title::after {
+  height: 4px;
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a, transparent);
+  transform: skewX(-20deg);
+}
+body.theme-classic .cr-grid {
+  gap: 18px;
+}
+body.theme-classic .cr-card {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.03) 0 12px,
+      transparent 12px 26px
+    ),
+    #1d1222;
+  border: 2px solid #ff8aa5;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+body.theme-classic .cr-card::before {
+  display: none;
+}
+body.theme-classic .cr-card:hover {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.05) 0 12px,
+      transparent 12px 26px
+    ),
+    #26162d;
+  border-color: #fff;
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 14px 28px rgba(236, 68, 112, 0.25);
+}
+body.theme-classic .cr-label {
+  color: #ffd1dc;
+}
+body.theme-classic .cr-tie {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  transform: rotate(-3deg);
+}
+body.theme-classic .cr-value {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 2.8rem;
+  padding-right: 0.12em;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .cr-holders {
+  border-top: 2px dashed rgba(255, 138, 165, 0.3);
+}
+body.theme-classic .cr-photo {
+  border: 2px solid #fff;
+  border-radius: 8px;
+  transform: rotate(-4deg);
+  box-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .cr-name {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding-right: 0.2em;
+}
+body.theme-classic .cr-holder-link:hover .cr-name {
+  color: #ffd1dc;
+}
+body.theme-classic .cr-match b {
+  color: #ff8aa5;
+}
+
+@media (max-width: 600px) {
+  body.theme-classic .cr-value {
+    font-size: 2.3rem;
   }
 }

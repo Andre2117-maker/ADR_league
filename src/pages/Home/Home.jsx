@@ -17,7 +17,7 @@ import Footer from "../../components/Footer";
 import BirthdayAlert from "./BirthdayAlert/BirthdayAlert";
 import MatchAlert from "./matchalert/MatchAlert";
 import ClubExplore from "../ClubExplore/ClubExplore";
-import HeadToHead from "../../components/HeadToHead/HeadToHead";
+import HeadToHead from "./HeadToHead/HeadToHead";
 
 /* ==========================================================================
    EXPORTAÇÃO: o html2canvas só entende cores em rgb/rgba/hex.

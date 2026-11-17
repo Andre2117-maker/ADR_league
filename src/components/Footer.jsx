@@ -12,6 +12,10 @@ import masterIdr from "../assets/IDR/Terere.png";
 import patro1Idr from "../assets/IDR/FabianTV.png";
 import patro2Idr from "../assets/IDR/bobbet.png";
 
+// Patrocinadores ADR Classic (só dois: o terceiro quadro some nesse tema)
+import masterclass from "../assets/ADRCLASSIC/Wilson.png";
+import patro1class from "../assets/ADRCLASSIC/Arcoma.png";
+
 const InstagramIcon = () => (
   <svg
     width="20"
@@ -90,6 +94,11 @@ const Footer = () => {
                 alt="Patrocinador Master IDR"
                 className="img-idr"
               />
+              <img
+                src={masterclass}
+                alt="Patrocinador Master ADR Classic"
+                className="img-class"
+              />
             </div>
 
             <div className="sponsor-item">
@@ -100,9 +109,15 @@ const Footer = () => {
                 alt="Patrocinador 1 IDR"
                 className="img-idr"
               />
+              <img
+                src={patro1class}
+                alt="Patrocinador 1 ADR Classic"
+                className="img-class"
+              />
             </div>
 
-            <div className="sponsor-item">
+            {/* sem patrocinador no ADR Classic: esse quadro some nesse tema */}
+            <div className="sponsor-item no-classic">
               <span className="sponsor-tag">Oficial</span>
               <img src={patro2} alt="Patrocinador 2 ADR" className="img-adr" />
               <img

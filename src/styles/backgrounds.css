@@ -1,0 +1,99 @@
+/* ==========================================================================
+   FUNDO GLOBAL DO SITE (um lugar só para as três versões)
+   --------------------------------------------------------------------------
+   Importe UMA vez, depois dos outros CSS (ex.: no main.jsx ou App.jsx):
+       import "./styles/backgrounds.css";
+
+   Como funciona:
+   1. O fundo de cada versão fica no <html> (cobre a página toda):
+        ADR         → preto com os "+"
+        IDR         → papel claro com losangos
+        ADR Classic → roxo escuro com brilho do escudo
+                      (as linhas diagonais já vêm do theme-classic.css)
+   2. As "caixas de página" (o wrapper de cada página) ficam transparentes,
+      então o fundo do body aparece em todas as páginas.
+
+   Página nova com fundo próprio tapando o padrão? É só colocar a classe do
+   wrapper dela na lista PAGE_WRAPPERS abaixo (nos dois lugares).
+   ========================================================================== */
+
+/* O fundo fica no <html> (e não no <body>): o fundo do <html> cobre a
+   página inteira, de cima até embaixo. No body ele parava na altura da
+   tela, porque o global.css deixa o body com height: 100%. */
+
+/* ---------- ADR (padrão) ---------- */
+html {
+  min-height: 100%;
+  background-color: #050505 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.13)'%3E+%3C/text%3E%3C/svg%3E") !important;
+  background-size: 60px 60px !important;
+  background-repeat: repeat !important;
+  background-position: center top !important;
+  background-attachment: fixed !important;
+}
+
+/* o body fica transparente para o fundo do <html> aparecer */
+html body,
+html body.theme-idr,
+html body.theme-classic {
+  background: transparent !important;
+}
+
+/* ---------- IDR ---------- */
+html:has(.theme-idr),
+html.theme-idr {
+  background-color: #f5f5f5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E") !important;
+  background-size: 40px 40px !important;
+}
+
+/* ---------- ADR CLASSIC ---------- */
+html:has(body.theme-classic),
+html.theme-classic {
+  background-color: #0b0710 !important;
+  background-image:
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(184, 48, 122, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 100% 100%,
+      rgba(123, 58, 168, 0.16),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 0% 60%,
+      rgba(227, 38, 58, 0.08),
+      transparent 70%
+    ) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+/* ---------- PAGE_WRAPPERS: caixas de página ficam transparentes ----------
+   A classe aparece 3 vezes de propósito (ex.: .psg-page-container.psg-page-container.psg-page-container):
+   isso dá "peso" suficiente para ganhar das regras de tema de cada página,
+   como ".theme-idr .psg-page-container" e "body.theme-classic .psg-page-container".
+   Para incluir uma página nova, copie uma linha e troque o nome da classe. */
+html body .main-wrapper.main-wrapper.main-wrapper,
+html body .about-wrapper.about-wrapper.about-wrapper,
+html body .statics-container.statics-container.statics-container,
+html body .transparency-page.transparency-page.transparency-page,
+html body .elenco-psg-wrapper.elenco-psg-wrapper.elenco-psg-wrapper,
+html body .match-view-wrapper.match-view-wrapper.match-view-wrapper,
+html body .page-container1.page-container1.page-container1,
+html body .psg-page-container.psg-page-container.psg-page-container,
+html body .titulos-psg-wrapper.titulos-psg-wrapper.titulos-psg-wrapper,
+html body .camp-page-wrapper.camp-page-wrapper.camp-page-wrapper,
+html body .legends-wrapper.legends-wrapper.legends-wrapper,
+html body .local-psg-wrapper.local-psg-wrapper.local-psg-wrapper,
+html body .ppg-screen-wrapper.ppg-screen-wrapper.ppg-screen-wrapper,
+html body .ppg-player-page.ppg-player-page.ppg-player-page,
+html body .ppg-player-extras.ppg-player-extras.ppg-player-extras,
+html body .adm-main-layout.adm-main-layout.adm-main-layout,
+html body .adm-login-page.adm-login-page.adm-login-page {
+  background-color: transparent !important;
+  background-image: none !important;
+}

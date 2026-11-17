@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* =====================================================
    TRANSPARÊNCIA - VERSÃO AURA
    ===================================================== */
@@ -1276,4 +1278,871 @@
   background: #ffe6e6 !important;
   border-color: #cc0000 !important;
   color: #cc0000 !important;
+}
+
+
+/* ==========================================================================
+   ÍCONES DESENHADOS (no lugar dos emojis)
+   ========================================================================== */
+.tp-ico {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.admin-box h3,
+.tp-panel-title,
+.tp-export-btn,
+.tp-bar-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-box h3 .tp-ico {
+  color: #d4af37;
+}
+.t-icon {
+  color: #d4af37;
+}
+.t-icon .tp-ico {
+  width: 22px;
+  height: 22px;
+}
+.t-item.income .t-icon {
+  color: #00ff88;
+}
+.t-item.expense .t-icon {
+  color: #ff6a6a;
+}
+.edit-btn,
+.delete-btn {
+  color: #fff;
+}
+.edit-btn .tp-ico,
+.delete-btn .tp-ico {
+  width: 16px;
+  height: 16px;
+}
+/* busca com lupa desenhada */
+.tp-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+}
+.tp-search-wrap .tp-ico {
+  position: absolute;
+  left: 15px;
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+.tp-search-wrap .tp-search {
+  width: 100%;
+  min-width: 0;
+  padding-left: 40px;
+}
+
+/* ==========================================================================
+   CELULAR — layout novo (antes ficava apertado e quebrado)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .admin-box {
+    width: 100%;
+    margin: 0;
+    padding: 100px 14px 28px !important;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    box-shadow: none;
+  }
+
+  /* cabeçalho em coluna, botão de exportar na largura toda */
+  .tp-hero {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+  }
+  .tp-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+  .tp-subtitle {
+    font-size: 0.66rem;
+    letter-spacing: 1.5px;
+  }
+  .tp-export-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* saldo em destaque na largura toda, o resto em 2 colunas */
+  .tp-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .tp-card {
+    padding: 14px;
+    gap: 4px;
+    border-radius: 14px;
+  }
+  .tp-card.balance {
+    grid-column: 1 / -1;
+    padding: 18px;
+  }
+  .tp-card-label {
+    font-size: 0.58rem;
+    letter-spacing: 1.5px;
+  }
+  .tp-card-value {
+    font-size: 1.15rem;
+    overflow-wrap: anywhere;
+  }
+  .tp-card.balance .tp-card-value {
+    font-size: 1.9rem;
+  }
+  .tp-card-sub {
+    font-size: 0.66rem;
+  }
+
+  .tp-breakdown {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .tp-panel {
+    padding: 16px;
+  }
+  .tp-panel-title {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .tp-bar-head {
+    font-size: 0.74rem;
+  }
+
+  .admin-box h3 {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+
+  /* filtros: abas, categoria e busca, cada um na sua linha */
+  .tp-toolbar {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .tp-tabs {
+    width: 100%;
+  }
+  .tp-tab {
+    flex: 1;
+    padding: 10px 4px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+  .tp-select,
+  .tp-search-wrap {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  /* cabeçalho do mês compacto */
+  .t-month-header {
+    gap: 8px;
+  }
+  .t-month-header h4 {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+  .t-month-totals {
+    gap: 10px;
+    font-size: 0.74rem;
+  }
+
+  /* item: ícone | texto | valor + botões (sem quebrar em várias linhas) */
+  .t-item {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px 12px;
+    padding: 12px;
+    border-radius: 12px;
+    flex-wrap: nowrap;
+  }
+  .t-item:hover {
+    transform: none;
+  }
+  .t-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .t-icon .tp-ico {
+    width: 18px;
+    height: 18px;
+  }
+  .t-desc {
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+  }
+  .t-meta {
+    gap: 6px;
+  }
+  .t-cat-pill {
+    font-size: 0.58rem;
+    padding: 2px 7px;
+  }
+  .t-date,
+  .t-unit {
+    font-size: 0.66rem;
+  }
+  .t-actions {
+    width: auto;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    padding: 0;
+    border-top: 0;
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+  .admin-btns {
+    gap: 6px;
+  }
+  .edit-btn,
+  .delete-btn {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+  }
+
+  .no-data {
+    padding: 26px 14px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ==========================================================================
+   IDR — "BALANÇO PUBLICADO NO JORNAL"
+   caixas retas, réguas pretas, sombra em bloco, números em letra pesada
+   ========================================================================== */
+.theme-idr .transparency-page::before {
+  display: none;
+}
+.theme-idr .admin-box {
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  border-top: 8px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 10px 10px 0 #d6d6d0 !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.theme-idr .admin-box h3 {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.theme-idr .admin-box h3 .tp-ico {
+  color: #000;
+}
+.theme-idr .tp-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  animation: none;
+  background: none !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000;
+}
+.theme-idr .tp-subtitle {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 1px;
+  color: #333 !important;
+}
+.theme-idr .tp-hero::after {
+  height: 0;
+  border-top: 5px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none !important;
+}
+.theme-idr .tp-export-btn {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .tp-card {
+  background: #fff !important;
+  border: 2px solid #000 !important;
+  border-top: 6px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+}
+.theme-idr .tp-card::before {
+  display: none;
+}
+.theme-idr .tp-card.income {
+  border-top-color: #008a00 !important;
+}
+.theme-idr .tp-card.expense {
+  border-top-color: #cc0000 !important;
+}
+.theme-idr .tp-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 #000 !important;
+}
+.theme-idr .tp-card.balance {
+  background: #000 !important;
+}
+.theme-idr .tp-card.balance .tp-card-label,
+.theme-idr .tp-card.balance .tp-card-sub {
+  color: #cfcfcf !important;
+}
+.theme-idr .tp-card.balance .tp-card-value {
+  color: #fff !important;
+}
+.theme-idr .tp-card.balance .tp-card-value.text-red {
+  color: #ff6b6b !important;
+}
+.theme-idr .tp-card-value {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+.theme-idr .tp-panel {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .tp-panel-title {
+  width: 100%;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #000;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+.theme-idr .tp-bar-track {
+  height: 12px;
+  border: 1.5px solid #000;
+  border-radius: 0;
+}
+.theme-idr .tp-bar-fill {
+  border-radius: 0;
+}
+.theme-idr .admin-form-transparency {
+  background: #fff !important;
+  border: 2px dashed #000 !important;
+  border-radius: 0;
+}
+.theme-idr .admin-form-transparency input,
+.theme-idr .admin-form-transparency select,
+.theme-idr .tp-select,
+.theme-idr .tp-search {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+}
+.theme-idr .tp-search-wrap .tp-ico {
+  color: #000;
+}
+.theme-idr .tp-type-toggle {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+}
+.theme-idr .tp-type-toggle button {
+  border-radius: 0;
+}
+.theme-idr .tp-type-toggle button.active.income {
+  background: #008a00 !important;
+  color: #fff !important;
+}
+.theme-idr .tp-type-toggle button.active.expense {
+  background: #cc0000 !important;
+  color: #fff !important;
+}
+.theme-idr .save-btn {
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #d6d6d0 !important;
+}
+.theme-idr .cancel-btn {
+  border-radius: 0;
+  border: 2px solid #000 !important;
+  background: #fff !important;
+}
+.theme-idr .transparency-list {
+  border-top: 0 !important;
+}
+.theme-idr .transparency-list > h3 {
+  width: 100%;
+  padding-bottom: 8px;
+  border-bottom: 5px solid #000;
+  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+}
+.theme-idr .tp-tabs {
+  gap: 0;
+  border: 2px solid #000;
+}
+.theme-idr .tp-tab {
+  border-radius: 0;
+  border: 0 !important;
+  border-right: 2px solid #000 !important;
+  color: #000 !important;
+}
+.theme-idr .tp-tab:last-child {
+  border-right: 0 !important;
+}
+.theme-idr .tp-tab.active {
+  color: #fff !important;
+  box-shadow: none !important;
+}
+.theme-idr .t-month-header {
+  border-bottom: 3px solid #000 !important;
+}
+.theme-idr .t-month-header h4 {
+  padding: 3px 9px;
+  background: #000;
+  color: #fff !important;
+  letter-spacing: 2px;
+}
+.theme-idr .t-month-balance {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+}
+.theme-idr .t-item {
+  border: 2px solid #000 !important;
+  border-left: 6px solid #000 !important;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+.theme-idr .t-item.income {
+  border-left-color: #008a00 !important;
+}
+.theme-idr .t-item.expense {
+  border-left-color: #cc0000 !important;
+}
+.theme-idr .t-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000 !important;
+}
+.theme-idr .t-icon {
+  border-radius: 0;
+  background: #000 !important;
+  border-color: #000 !important;
+  color: #fff;
+}
+.theme-idr .t-desc {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+.theme-idr .t-value {
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+.theme-idr .t-cat-pill,
+.theme-idr .qty-tag {
+  border-radius: 0;
+  border: 1.5px solid #000 !important;
+}
+.theme-idr .edit-btn,
+.theme-idr .delete-btn {
+  border: 2px solid #000 !important;
+  border-radius: 0;
+  color: #000 !important;
+}
+.theme-idr .edit-btn:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+.theme-idr .no-data {
+  border: 2px dashed #000 !important;
+  border-radius: 0;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "ÁLBUM DE FIGURINHAS"
+   moldura dupla, saldo em adesivo listrado, Anton com sombra deslocada,
+   botões com degrau, ícones em figurinha verde (entrada) e vermelha (saída)
+   ========================================================================== */
+body.theme-classic .transparency-page::before {
+  background:
+    radial-gradient(40% 35% at 15% 20%, rgba(123, 58, 168, 0.28), transparent 70%),
+    radial-gradient(35% 30% at 85% 15%, rgba(184, 48, 122, 0.24), transparent 70%),
+    radial-gradient(45% 40% at 60% 90%, rgba(227, 38, 58, 0.14), transparent 70%);
+}
+body.theme-classic .admin-box {
+  background: rgba(29, 18, 34, 0.92);
+  border: 2px solid #ff8aa5;
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 25px 60px rgba(0, 0, 0, 0.6);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.theme-classic .admin-box h3 {
+  font-family: "Anton", "Impact", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  padding-right: 0.15em;
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .admin-box h3 .tp-ico {
+  color: #ff8aa5;
+}
+body.theme-classic .tp-title {
+  padding-right: 0.15em;
+}
+body.theme-classic .tp-subtitle {
+  color: #ffd1dc;
+}
+body.theme-classic .tp-hero::after {
+  width: 200px;
+  height: 6px;
+  background: linear-gradient(90deg, #7b3aa8 0 33%, #b8307a 33% 66%, #e3263a 66%);
+  box-shadow: none;
+  transform: skewX(-20deg);
+}
+body.theme-classic .tp-export-btn {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .tp-export-btn:hover:not(:disabled) {
+  background: linear-gradient(120deg, #8d47bd, #cc3a8a 55%, #f23447);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #5a1f4a;
+}
+body.theme-classic .tp-export-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .tp-card {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.03) 0 12px, transparent 12px 26px),
+    #120a16;
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 16px;
+  box-shadow: 0 6px 0 #000;
+}
+body.theme-classic .tp-card::before {
+  height: 5px;
+  opacity: 1;
+}
+body.theme-classic .tp-card.income::before {
+  background: linear-gradient(90deg, #19a866, #3ee08f);
+}
+body.theme-classic .tp-card.expense::before {
+  background: linear-gradient(90deg, #e3263a, #ff6a7e);
+}
+body.theme-classic .tp-card.count::before {
+  background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
+}
+body.theme-classic .tp-card:hover {
+  border-color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 0 #000;
+}
+/* saldo = figurinha principal */
+body.theme-classic .tp-card.balance {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 3px solid #fff;
+  transform: rotate(-1deg);
+  box-shadow: 6px 7px 0 #000;
+}
+body.theme-classic .tp-card.balance::before {
+  display: none;
+}
+body.theme-classic .tp-card.balance:hover {
+  transform: rotate(0) translateY(-5px);
+}
+body.theme-classic .tp-card.balance .tp-card-label,
+body.theme-classic .tp-card.balance .tp-card-sub {
+  color: rgba(255, 255, 255, 0.85);
+}
+body.theme-classic .tp-card.balance .tp-card-value {
+  color: #fff !important;
+  text-shadow:
+    0.05em 0.05em 0 #120a16 !important;
+}
+body.theme-classic .tp-card-label {
+  color: #ffd1dc;
+}
+body.theme-classic .tp-card-sub {
+  color: #c9a3c4;
+}
+body.theme-classic .tp-card-value {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding-right: 0.12em;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .tp-panel {
+  background: #120a16;
+  border: 2px solid rgba(255, 138, 165, 0.4);
+  border-radius: 16px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+body.theme-classic .tp-panel-title {
+  color: #ffd1dc;
+}
+body.theme-classic .tp-bar-track {
+  height: 12px;
+  border: 2px solid #000;
+  background: rgba(255, 138, 165, 0.12);
+}
+body.theme-classic .tp-bar-fill.income {
+  background: linear-gradient(90deg, #19a866, #3ee08f);
+  box-shadow: none;
+}
+body.theme-classic .tp-bar-fill.expense {
+  background: linear-gradient(90deg, #b8307a, #e3263a, #ff6a7e);
+  box-shadow: none;
+}
+body.theme-classic .tp-bar-name .tp-ico {
+  color: #ff8aa5;
+}
+body.theme-classic .admin-form-transparency {
+  background: #120a16;
+  border: 2px dashed rgba(255, 138, 165, 0.55);
+  border-radius: 18px;
+}
+body.theme-classic .f-field label {
+  color: #ffd1dc;
+}
+body.theme-classic .admin-form-transparency input,
+body.theme-classic .admin-form-transparency select,
+body.theme-classic .tp-select,
+body.theme-classic .tp-search {
+  background: #0b0710;
+  border: 2px solid rgba(255, 138, 165, 0.35);
+}
+body.theme-classic .admin-form-transparency input:focus,
+body.theme-classic .admin-form-transparency select:focus,
+body.theme-classic .tp-select:focus,
+body.theme-classic .tp-search:focus {
+  border-color: #ff8aa5;
+  background: #0b0710;
+  box-shadow: 0 0 16px rgba(236, 68, 112, 0.3);
+}
+body.theme-classic .admin-form-transparency select option,
+body.theme-classic .tp-select option {
+  background: #1d1222;
+}
+body.theme-classic .tp-search-wrap .tp-ico {
+  color: #ff8aa5;
+}
+body.theme-classic .tp-type-toggle {
+  border-radius: 999px;
+  background: #0b0710;
+  border: 2px solid rgba(255, 138, 165, 0.35);
+}
+body.theme-classic .tp-type-toggle button {
+  border-radius: 999px;
+}
+body.theme-classic .tp-type-toggle button.active.income {
+  background: linear-gradient(120deg, #19a866, #3ee08f);
+  color: #0b0710;
+  box-shadow: 0 3px 0 #0b4d2f;
+}
+body.theme-classic .tp-type-toggle button.active.expense {
+  background: linear-gradient(120deg, #b8307a, #e3263a);
+  color: #fff;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+body.theme-classic .save-btn {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+body.theme-classic .save-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #5a1f4a;
+}
+body.theme-classic .save-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+body.theme-classic .cancel-btn {
+  background: #120a16 !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+body.theme-classic .transparency-list {
+  border-top: 2px dashed rgba(255, 138, 165, 0.3);
+}
+body.theme-classic .tp-tab {
+  border: 2px solid rgba(255, 138, 165, 0.35);
+  color: #ffd1dc;
+}
+body.theme-classic .tp-tab:hover {
+  border-color: #fff;
+  color: #fff;
+  background: transparent;
+}
+body.theme-classic .tp-tab.active {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #ff8aa5;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+body.theme-classic .t-month-header {
+  border-bottom: 2px dashed rgba(255, 138, 165, 0.3);
+}
+body.theme-classic .t-month-header h4 {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  padding-right: 0.15em;
+  color: #fff;
+  text-shadow: 2px 2px 0 #b8307a;
+}
+body.theme-classic .t-month-balance {
+  background: #120a16;
+  border: 2px solid rgba(255, 138, 165, 0.4);
+}
+body.theme-classic .t-item {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.025) 0 12px, transparent 12px 26px),
+    #1d1222;
+  border: 2px solid rgba(255, 138, 165, 0.25);
+  border-left: 6px solid #3ee08f;
+  border-radius: 14px;
+}
+body.theme-classic .t-item.expense {
+  border-left-color: #ff4d5e;
+}
+body.theme-classic .t-item:hover {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.04) 0 12px, transparent 12px 26px),
+    #26162d;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 0 #000;
+}
+body.theme-classic .t-icon {
+  border-radius: 12px;
+  border: 2px solid #fff;
+  color: #fff;
+  transform: rotate(-6deg);
+  box-shadow: 2px 3px 0 #000;
+}
+body.theme-classic .t-item.income .t-icon {
+  background: linear-gradient(135deg, #19a866, #36c9d6);
+  color: #fff;
+}
+body.theme-classic .t-item.expense .t-icon {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+}
+body.theme-classic .t-item:hover .t-icon {
+  transform: rotate(4deg) scale(1.08);
+  box-shadow: 2px 3px 0 #000;
+}
+body.theme-classic .t-desc {
+  font-style: italic;
+}
+body.theme-classic .t-value {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  padding-right: 0.12em;
+  letter-spacing: 0.02em;
+}
+body.theme-classic .t-cat-pill {
+  border-radius: 6px;
+  border-color: rgba(255, 138, 165, 0.45);
+  color: #ffd1dc;
+}
+body.theme-classic .qty-tag {
+  color: #fff;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  border-color: #fff;
+}
+body.theme-classic .edit-btn,
+body.theme-classic .delete-btn {
+  border-radius: 50%;
+  background: #120a16;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 3px 0 #000;
+}
+body.theme-classic .edit-btn:hover {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a);
+  border-color: #fff;
+}
+body.theme-classic .delete-btn:hover {
+  background: #e3263a;
+  border-color: #fff;
+}
+body.theme-classic .text-green {
+  color: #3ee08f;
+  text-shadow: none;
+}
+body.theme-classic .text-red {
+  color: #ff4d5e;
+  text-shadow: none;
+}
+body.theme-classic .no-data {
+  border: 2px dashed rgba(255, 138, 165, 0.35);
+  color: #c9a3c4;
+}
+
+@media (max-width: 768px) {
+  .theme-idr .admin-box,
+  body.theme-classic .admin-box {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0;
+    box-shadow: none !important;
+  }
+  body.theme-classic .admin-box {
+    border-top: 3px solid #ff8aa5;
+    border-bottom: 3px solid #ff8aa5;
+  }
+  .theme-idr .tp-card:hover,
+  .theme-idr .t-item:hover,
+  body.theme-classic .tp-card:hover,
+  body.theme-classic .tp-card.balance:hover {
+    transform: none;
+  }
+  body.theme-classic .tp-card.balance {
+    transform: rotate(-0.6deg);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Movimentações ocupa a linha toda (não sobra buraco ao lado) */
+  .tp-card.count {
+    grid-column: 1 / -1;
+  }
+  body.theme-classic .tp-title {
+    font-size: 2.2rem;
+  }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { headToHead, randomRivalPair } from "../../utils/seasonStats";
-import { getShirtNumber, useClubMode } from "../../utils/Shirtnumber";
+import { headToHead, randomRivalPair } from "../../../utils/seasonStats";
+import { getShirtNumber, useClubMode } from "../../../utils/Shirtnumber";
 import "./headtohead.css";
 
 const firstName = (p) => p?.nickname || String(p?.name || "").split(" ")[0];

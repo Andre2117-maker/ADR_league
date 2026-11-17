@@ -42,6 +42,7 @@ import { applyTheme, getSavedTheme } from "./utils/theme";
 
 import "./styles/global.css";
 import "./styles/theme-classic.css"; // tema Classic (sempre depois dos outros CSS)
+import "./styles/backgrounds.css";
 
 // Aplica o tema salvo antes da primeira tela (sem piscar o tema errado)
 applyTheme(getSavedTheme());

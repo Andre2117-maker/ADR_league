@@ -713,11 +713,6 @@
   opacity: 0.9;
 }
 
-.theme-idr .ppg-banner-photo {
-  filter: grayscale(1) contrast(1.15)
-    drop-shadow(12px 12px 0 rgba(0, 0, 0, 0.12));
-}
-
 .theme-idr .ppg-banner-role {
   padding: 4px 10px;
   background: #000;

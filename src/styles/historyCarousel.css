@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 /* =====================================================
    CARROSSEL "NOSSA TRAJETÓRIA" — MINIMALISTA + AURA
    Linhas finas, cantos retos, brilho dourado sutil.
@@ -371,4 +373,191 @@
 }
 .theme-idr .card-title {
   color: #111111;
+}
+
+/* =====================================================
+   IDR — "JORNAL": fotos de arquivo em P&B, legenda
+   em tarja preta, caixas com sombra em bloco
+   ===================================================== */
+.theme-idr .history-carousel-wrapper::before {
+  display: none;
+}
+.theme-idr .history-main-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  animation: none;
+  background: none;
+  -webkit-text-fill-color: #000;
+  color: #000;
+}
+.theme-idr .history-main-title::after {
+  width: min(360px, 80%);
+  height: 0;
+  border-top: 5px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 2px;
+  background: none;
+}
+.theme-idr .history-card {
+  border: 2px solid #000;
+  box-shadow: 8px 8px 0 #d6d6d0;
+}
+.theme-idr .history-card::before {
+  display: none;
+}
+.theme-idr .history-card:hover {
+  border-color: #000;
+  box-shadow: 8px 8px 0 #000;
+}
+.theme-idr .card-bg-img {
+  background-color: #f1f1ee;
+  filter: grayscale(1) contrast(1.08);
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.4s ease;
+}
+.theme-idr .history-card:hover .card-bg-img {
+  filter: none;
+}
+/* legenda de foto de jornal: faixa branca com régua preta em cima */
+.theme-idr .card-overlay {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: #fff;
+  border-top: 4px solid #000;
+  border-bottom: 0;
+}
+.theme-idr .card-year {
+  padding: 4px 10px;
+  background: #000;
+  color: #fff;
+  -webkit-text-stroke: 0;
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0;
+}
+.theme-idr .card-title {
+  color: #000;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.theme-idr .arrow-btn {
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+.theme-idr .arrow-btn:hover {
+  background: #000;
+  color: #fff;
+  box-shadow: 3px 3px 0 #9a9a9a;
+}
+
+/* =====================================================
+   ADR CLASSIC — "FIGURINHA RETRÔ": moldura dupla,
+   ano em Anton com sombra, setas em adesivo redondo
+   ===================================================== */
+body.theme-classic .history-carousel-wrapper {
+  --hc-bg: #1d1222;
+  --hc-line: rgba(255, 138, 165, 0.35);
+  --hc-accent: #ec4470;
+  --hc-glow: rgba(236, 68, 112, 0.22);
+}
+body.theme-classic .history-main-title {
+  padding-right: 0.15em;
+}
+body.theme-classic .history-main-title::after {
+  width: 140px;
+  height: 6px;
+  background: linear-gradient(90deg, #7b3aa8 0 33%, #b8307a 33% 66%, #e3263a 66%);
+  transform: skewX(-20deg);
+}
+body.theme-classic .history-carousel-container {
+  padding: 12px 0 18px;
+}
+body.theme-classic .history-card {
+  border: 2px solid #ff8aa5;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 18px 40px rgba(0, 0, 0, 0.5);
+}
+body.theme-classic .history-card::before {
+  display: none;
+}
+body.theme-classic .history-card:hover {
+  border-color: #fff;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #ec4470,
+    0 22px 44px rgba(236, 68, 112, 0.3);
+}
+body.theme-classic .card-bg-img {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.03) 0 12px, transparent 12px 26px),
+    #120a16;
+}
+body.theme-classic .card-overlay {
+  padding-bottom: 20px;
+  background: linear-gradient(
+    to top,
+    rgba(18, 10, 22, 0.95) 0%,
+    rgba(29, 18, 34, 0.6) 55%,
+    transparent 100%
+  );
+  border-bottom: 5px solid transparent;
+  border-image: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a) 1;
+}
+body.theme-classic .card-year {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 3rem;
+  letter-spacing: 0.04em;
+  padding-right: 0.12em;
+  color: #fff;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+body.theme-classic .card-title {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 3px 10px;
+  background: #fff;
+  border-radius: 6px;
+  color: #b8307a;
+  font-style: italic;
+  transform: rotate(-1.5deg);
+  box-shadow: 3px 3px 0 #120a16;
+}
+body.theme-classic .arrow-btn {
+  border-radius: 50%;
+  background: #120a16;
+  border: 2px solid #fff;
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+}
+body.theme-classic .arrow-btn:hover {
+  background: linear-gradient(135deg, #7b3aa8, #e3263a);
+  border-color: #fff;
+  color: #fff;
+  box-shadow: 3px 3px 0 #000;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .card-year {
+    font-size: 2.2rem;
+  }
+  .theme-idr .card-year {
+    font-size: 1.1rem;
+  }
 }

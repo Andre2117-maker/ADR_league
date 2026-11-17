@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./clubexplore.css";
+import "./clubexplorer.css";
 
 /* Ícones de traço fino (herdam a cor) */
 const ICONS = {
