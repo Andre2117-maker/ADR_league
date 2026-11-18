@@ -1,203 +1,583 @@
-/* src/styles/admin.css */
+/* ==========================================================================
+   LOGIN DO ADMINISTRADOR — ADR (preto e dourado), IDR (jornal) e ADR CLASSIC
+   O fundo da página vem do backgrounds.css (padrão de cada versão).
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
 
-/* Background total da página */
-.adm-login-page {
+.lg-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-  padding: 20px;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --lg-card: rgba(12, 12, 14, 0.82);
+  --lg-border: rgba(212, 175, 55, 0.35);
+  --lg-fg: #ffffff;
+  --lg-muted: #9a9ca3;
+  --lg-accent: #d4af37;
+  --lg-accent-2: #f0d36b;
+  --lg-input: rgba(0, 0, 0, 0.5);
+  --lg-input-border: rgba(255, 255, 255, 0.12);
+  --lg-err: #ff6b6b;
+  --lg-warn: #facc15;
 }
 
-/* Card central com efeito Glassmorphism */
-.adm-login-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  padding: 50px 40px;
-  border-radius: 24px;
+.lg-page * {
+  box-sizing: border-box;
+}
+
+/* ---------- cartão ---------- */
+.lg-card {
+  position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
+  padding: 44px 36px 30px;
   text-align: center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  animation: adm-slide-up 0.5s ease-out;
+  color: var(--lg-fg);
+  background: var(--lg-card);
+  border: 1px solid var(--lg-border);
+  border-radius: 22px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 30px 60px -15px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: lg-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  overflow: hidden;
 }
 
-@keyframes adm-slide-up {
+/* filete dourado no topo */
+.lg-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--lg-accent-2), transparent);
+}
+
+@keyframes lg-in {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 
-.adm-login-icon {
-  font-size: 48px;
-  margin-bottom: 15px;
-  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+.lg-shake {
+  animation: lg-shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
-.adm-login-title {
-  color: #ffffff;
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 10px;
+@keyframes lg-shake {
+  15%, 85% { transform: translateX(-2px); }
+  30%, 70% { transform: translateX(5px); }
+  45%, 55% { transform: translateX(-7px); }
+}
+
+.lg-kicker {
+  display: inline-block;
+  margin-bottom: 22px;
+  color: var(--lg-accent);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ---------- cadeado ---------- */
+.lg-badge {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #000;
+  background: linear-gradient(135deg, var(--lg-accent-2), var(--lg-accent) 55%, #a8861f);
+  box-shadow:
+    0 0 0 6px rgba(212, 175, 55, 0.12),
+    0 12px 30px rgba(212, 175, 55, 0.3);
+  transition: transform 0.4s ease, background 0.4s ease;
+}
+
+.lg-lock {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+}
+
+.lg-lock-shackle {
+  transform-origin: 16.5px 10.5px;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lg-lock.is-open .lg-lock-shackle {
+  transform: translateY(-2.5px) rotate(28deg);
+}
+
+.lg-card.is-ok .lg-badge {
+  transform: scale(1.08);
+  background: linear-gradient(135deg, #6ee7a1, #22c55e);
+  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.15), 0 12px 30px rgba(34, 197, 94, 0.35);
+}
+
+/* ---------- textos ---------- */
+.lg-title {
+  margin: 0 0 8px;
+  color: var(--lg-fg);
+  font-size: 1.75rem;
+  font-weight: 900;
+  font-style: italic;
   letter-spacing: -0.5px;
+  text-transform: uppercase;
 }
 
-.adm-login-subtitle {
-  color: #888;
-  font-size: 14px;
-  margin-bottom: 30px;
+.lg-sub {
+  margin: 0 0 28px;
+  color: var(--lg-muted);
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
-/* Estilo do Input de Senha */
-.adm-login-input {
-  width: 100%;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  color: #fff;
-  font-size: 16px;
-  margin-bottom: 25px;
-  outline: none;
-  transition: all 0.3s ease;
-  text-align: center;
-  letter-spacing: 4px; /* Dá um efeito legal nos pontos da senha */
-}
-
-.adm-login-input:focus {
-  border-color: #d4af37;
-  background: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-}
-
-.adm-login-input::placeholder {
-  letter-spacing: normal;
-  color: #555;
-}
-
-/* Botão Principal Dourado */
-.adm-login-btn-primary {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%);
-  border: none;
-  border-radius: 12px;
-  color: #000;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.lg-label {
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+  color: var(--lg-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
 }
 
-.adm-login-btn-primary:hover {
+/* ---------- campo de senha ---------- */
+.lg-field {
+  position: relative;
+}
+
+.lg-input {
+  width: 100%;
+  height: 54px;
+  padding: 0 52px 0 18px;
+  background: var(--lg-input);
+  border: 1.5px solid var(--lg-input-border);
+  border-radius: 12px;
+  color: var(--lg-fg);
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.lg-input::placeholder {
+  color: var(--lg-muted);
+  opacity: 0.6;
+}
+
+.lg-input:focus {
+  border-color: var(--lg-accent);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+}
+
+.lg-input:disabled {
+  opacity: 0.55;
+}
+
+.lg-field.has-error .lg-input {
+  border-color: var(--lg-err);
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.12);
+}
+
+.lg-eye {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--lg-muted);
+  cursor: pointer;
+}
+
+.lg-eye:hover {
+  color: var(--lg-fg);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lg-ico {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* ---------- avisos ---------- */
+.lg-msgs {
+  min-height: 26px;
+  padding: 8px 2px 4px;
+  text-align: left;
+}
+
+.lg-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.lg-err {
+  color: var(--lg-err);
+}
+
+.lg-caps {
+  color: var(--lg-warn);
+}
+
+.lg-caps .lg-ico {
+  width: 15px;
+  height: 15px;
+}
+
+/* ---------- botões ---------- */
+.lg-btn {
+  width: 100%;
+  height: 54px;
+  margin: 10px 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--lg-accent-2), var(--lg-accent) 55%, #a8861f);
+  color: #000;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+}
+
+.lg-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-  filter: brightness(1.1);
+  box-shadow: 0 10px 24px rgba(212, 175, 55, 0.3);
+  filter: brightness(1.06);
 }
 
-.adm-login-btn-primary:active {
+.lg-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Botão Voltar */
-.adm-login-btn-back {
-  background: transparent;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.3s ease;
-  font-weight: 500;
+.lg-btn:disabled {
+  cursor: default;
+  filter: grayscale(0.4) brightness(0.8);
 }
 
-.adm-login-btn-back:hover {
-  color: #d4af37;
+.lg-card.is-ok .lg-btn {
+  background: linear-gradient(135deg, #6ee7a1, #22c55e);
+  filter: none;
+}
+
+.lg-spin {
+  width: 16px;
+  height: 16px;
+  border: 2.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: lg-spin 0.7s linear infinite;
+}
+
+@keyframes lg-spin {
+  to { transform: rotate(360deg); }
+}
+
+.lg-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--lg-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lg-back:hover {
+  color: var(--lg-accent);
+}
+
+.lg-back .lg-ico {
+  width: 15px;
+  height: 15px;
+}
+
+/* ==========================================================================
+   IDR — "JORNAL": papel branco, régua preta grossa, sombra em bloco
+   ========================================================================== */
+.theme-idr .lg-page {
+  --lg-card: #ffffff;
+  --lg-border: #000000;
+  --lg-fg: #000000;
+  --lg-muted: #555555;
+  --lg-accent: #000000;
+  --lg-input: #ffffff;
+  --lg-input-border: #000000;
+  --lg-err: #c81e1e;
+  --lg-warn: #000000;
+}
+
+.theme-idr .lg-card {
+  border: 2px solid #000;
+  border-top: 8px solid #000;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: 8px 8px 0 #d6d6d0;
+}
+
+.theme-idr .lg-card::before {
+  display: none;
+}
+
+.theme-idr .lg-kicker {
+  padding: 4px 10px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .lg-badge {
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .lg-card.is-ok .lg-badge {
+  background: #000;
+  color: #fff;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .lg-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 -1px 0 #000, inset 0 -4px 0 #fff, inset 0 -7px 0 #000; /* régua dupla */
+}
+
+.theme-idr .lg-input {
+  border-width: 2px;
+  border-radius: 0;
+}
+
+.theme-idr .lg-input:focus {
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .lg-field.has-error .lg-input {
+  box-shadow: none;
+  background-image: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.04) 0 4px, transparent 4px 8px);
+}
+
+.theme-idr .lg-eye {
+  border-radius: 0;
+}
+
+.theme-idr .lg-eye:hover {
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .lg-btn,
+.theme-idr .lg-card.is-ok .lg-btn {
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+
+.theme-idr .lg-btn:hover:not(:disabled) {
+  box-shadow: 7px 7px 0 #d6d6d0;
+  filter: none;
+}
+
+.theme-idr .lg-back:hover {
+  color: #000;
   text-decoration: underline;
 }
 
 /* ==========================================================================
-   TEMA IDR - ADMIN LOGIN (PRETO E BRANCO PREMIUM)
+   ADR CLASSIC — "FIGURINHA RETRÔ": moldura dupla, faixa listrada, Anton
    ========================================================================== */
-
-/* Fundo Total da Página */
-.theme-idr .adm-login-page {
-  background: radial-gradient(
-    circle at center,
-    #ffffff 0%,
-    #e5e5e5 100%
-  ) !important;
+body.theme-classic .lg-page {
+  --lg-card: #1d1222;
+  --lg-border: #ff8aa5;
+  --lg-fg: #ffffff;
+  --lg-muted: #d9b3cf;
+  --lg-accent: #ff5c8a;
+  --lg-input: #120a16;
+  --lg-input-border: rgba(255, 138, 165, 0.55);
+  --lg-err: #ff7a8a;
+  --lg-warn: #ffd166;
 }
 
-/* Card Central (Efeito Vidro Fosco Claro) */
-.theme-idr .adm-login-card {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: #ccc !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+body.theme-classic .lg-card {
+  padding-top: 0;
+  border: 2px solid #ff8aa5;
+  border-radius: 16px;
+  backdrop-filter: none;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 24px 50px rgba(0, 0, 0, 0.55);
 }
 
-/* Ícone */
-.theme-idr .adm-login-icon {
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2)) !important;
+/* faixa listrada no topo do cartão, de ponta a ponta */
+body.theme-classic .lg-card::before {
+  position: static;
+  display: block;
+  height: 92px;
+  margin: 0 -36px -46px;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
 }
 
-/* Textos */
-.theme-idr .adm-login-title {
-  color: #000 !important;
+body.theme-classic .lg-kicker {
+  position: relative;
+  margin: -40px 0 18px;
+  padding: 4px 12px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  transform: rotate(-2deg);
 }
 
-.theme-idr .adm-login-subtitle {
-  color: #666 !important;
+body.theme-classic .lg-badge {
+  position: relative;
+  border-radius: 18px;
+  background: #fff;
+  color: #e3263a;
+  border: 3px solid #120a16;
+  box-shadow: 4px 4px 0 #7b3aa8;
+  transform: rotate(-4deg);
 }
 
-/* Input de Senha */
-.theme-idr .adm-login-input {
-  background: #ffffff !important;
-  border-color: #ccc !important;
-  color: #000 !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+body.theme-classic .lg-card.is-ok .lg-badge {
+  background: #22c55e;
+  color: #fff;
+  transform: rotate(0deg) scale(1.08);
+  box-shadow: 4px 4px 0 #120a16;
 }
 
-.theme-idr .adm-login-input:focus {
-  border-color: #000 !important;
-  background: #ffffff !important;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) !important;
+body.theme-classic .lg-title {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2.1rem;
+  letter-spacing: 1px;
+  padding-right: 0.2em;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
 }
 
-.theme-idr .adm-login-input::placeholder {
-  color: #888 !important;
+body.theme-classic .lg-input:focus {
+  border-color: #ff8aa5;
+  box-shadow: 0 0 0 4px rgba(236, 68, 112, 0.2);
 }
 
-/* Botão Principal */
-.theme-idr .adm-login-btn-primary {
-  background: #000 !important;
-  color: #fff !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+body.theme-classic .lg-btn {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 10px, transparent 10px 22px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border: 2px solid #ff8aa5;
+  border-radius: 999px;
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 5px 0 #5a1f4a;
 }
 
-.theme-idr .adm-login-btn-primary:hover {
-  background: #333 !important; /* Fica um cinza bem escuro ao passar o mouse */
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25) !important;
+body.theme-classic .lg-btn:hover:not(:disabled) {
+  transform: none;
+  box-shadow: 0 5px 0 #5a1f4a;
+  filter: brightness(1.1);
 }
 
-/* Botão Voltar */
-.theme-idr .adm-login-btn-back {
-  color: #555 !important;
+body.theme-classic .lg-btn:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #5a1f4a;
 }
 
-.theme-idr .adm-login-btn-back:hover {
-  color: #000 !important;
-  text-decoration: underline !important;
+body.theme-classic .lg-card.is-ok .lg-btn {
+  background: #22c55e;
+  border-color: #fff;
+  box-shadow: 0 5px 0 #14532d;
+}
+
+body.theme-classic .lg-back:hover {
+  color: #fff;
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 480px) {
+  .lg-card {
+    padding: 36px 22px 24px;
+  }
+  body.theme-classic .lg-card {
+    padding-top: 0;
+  }
+  body.theme-classic .lg-card::before {
+    margin: 0 -22px -46px;
+  }
+  .lg-title {
+    font-size: 1.5rem;
+  }
+  body.theme-classic .lg-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-card,
+  .lg-shake,
+  .lg-lock-shackle {
+    animation: none;
+    transition: none;
+  }
 }

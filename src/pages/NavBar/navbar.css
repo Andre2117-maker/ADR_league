@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
 /* ==========================================================================
    NAVBAR — estilo "Classificação Geral"
    Preto profundo, linhas finas, traço dourado no centro, caixa alta espaçada.
@@ -370,9 +371,14 @@
   box-shadow: inset 2px 0 0 var(--nv-accent);
 }
 
-.nvb-user-menu-item span {
-  color: var(--nv-accent);
-  font-size: 1rem;
+.nvb-user-menu-item svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--nv-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .nvb-user-menu-item.is-danger {
@@ -483,12 +489,24 @@
   width: 38px;
   height: 38px;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   color: var(--nv-muted);
   border: 1px solid var(--nv-line-strong);
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.nvb-sidebar-close svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
 }
 
 .nvb-sidebar-close:hover {
@@ -847,4 +865,485 @@
 .nvb-sidebar a:focus-visible {
   outline: 1px solid var(--nv-accent);
   outline-offset: 2px;
+}
+/* ==========================================================================
+   8. IDR — "JORNAL": papel branco, réguas pretas, tarjas e sombra em bloco
+   ========================================================================== */
+.theme-idr .nvb-wrapper {
+  border-bottom: 3px solid #000;
+  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+}
+
+.theme-idr .nvb-wrapper::after,
+.theme-idr .nvb-sidebar::before {
+  display: none;
+}
+
+.theme-idr .nvb-brand-text {
+  align-items: center;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.theme-idr .nvb-highlight {
+  padding: 3px 7px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .nvb-logo-img {
+  filter: none;
+}
+
+.theme-idr .nvb-hamburger .line {
+  height: 3px;
+}
+
+.theme-idr .nvb-hamburger .line:last-child {
+  top: 9px;
+}
+
+.theme-idr .nvb-hamburger.is-open .line {
+  top: 5px;
+}
+
+.theme-idr .nvb-burger-label {
+  color: #000;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .nvb-hamburger:hover {
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+.theme-idr .nvb-user-btn {
+  border: 2px solid #000;
+  color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+.theme-idr .nvb-user-btn svg {
+  stroke-width: 2;
+}
+
+.theme-idr .nvb-user-btn:hover,
+.theme-idr .nvb-user-btn.is-open,
+.theme-idr .nvb-user-btn.is-admin {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+.theme-idr .nvb-user-dot {
+  box-shadow: 0 0 0 2px #000;
+}
+
+.theme-idr .nvb-user-menu {
+  border: 2px solid #000;
+  border-top: 6px solid #000;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+
+.theme-idr .nvb-user-menu-kicker {
+  align-self: flex-start;
+  margin: 10px 14px 6px;
+  padding: 3px 8px;
+  background: #000;
+  color: #fff;
+  border: 0;
+}
+
+.theme-idr .nvb-user-menu-item {
+  border-top: 1px solid #e2e2de;
+  border-bottom: 0;
+}
+
+.theme-idr .nvb-user-menu-item:hover {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.theme-idr .nvb-user-menu-item:hover svg {
+  stroke: #fff;
+}
+
+.theme-idr .nvb-user-menu-item.is-danger:hover {
+  background: #b91c1c;
+}
+
+/* menu lateral */
+.theme-idr .nvb-sidebar {
+  border-right: 3px solid #000;
+  box-shadow: 8px 0 0 #d6d6d0;
+}
+
+.theme-idr .nvb-sidebar-header {
+  border-bottom: 0;
+  box-shadow: inset 0 -1px 0 #000, inset 0 -4px 0 #fff, inset 0 -7px 0 #000; /* régua dupla */
+  padding-bottom: 22px;
+}
+
+.theme-idr .nvb-sidebar-kicker {
+  align-self: flex-start;
+  padding: 2px 7px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .nvb-sidebar-title {
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+}
+
+.theme-idr .nvb-sidebar-close {
+  border: 2px solid #000;
+  color: #000;
+}
+
+.theme-idr .nvb-sidebar-close:hover {
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .nvb-side-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #000;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .nvb-side-section-title::after {
+  content: "";
+  flex: 1;
+  border-top: 2px solid #000;
+}
+
+.theme-idr .nvb-side-link,
+.theme-idr .nvb-sub-link {
+  color: #222;
+}
+
+.theme-idr .nvb-side-link:hover,
+.theme-idr .nvb-sub-link:hover {
+  color: #000;
+  background: #f1f1ee;
+}
+
+/* página atual: tarja preta */
+.theme-idr .nvb-side-link.active,
+.theme-idr .nvb-sub-link.active,
+.theme-idr .nvb-side-item-group.is-active > .nvb-side-item-main {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.theme-idr .nvb-side-item-group.is-active > .nvb-side-item-main .nvb-side-link,
+.theme-idr .nvb-side-item-group.is-active > .nvb-side-item-main .nvb-sub-toggle {
+  color: #fff;
+  background: transparent;
+}
+
+.theme-idr .nvb-side-item-group.is-active > .nvb-side-item-main .nvb-sub-toggle {
+  border-left-color: rgba(255, 255, 255, 0.25);
+}
+
+.theme-idr .nvb-sub-link.active::before {
+  background: #fff;
+}
+
+.theme-idr .nvb-side-admin-btn {
+  border: 2px solid #000;
+  background: #000;
+  color: #fff;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .nvb-side-admin-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.theme-idr .nvb-side-logout {
+  border: 2px solid #b91c1c;
+}
+
+.theme-idr .nvb-side-copy {
+  color: #000;
+}
+
+/* ==========================================================================
+   9. ADR CLASSIC — "FIGURINHA RETRÔ": faixa tricolor, Anton itálico,
+   adesivos e botões em degrau (texto claro, nada de rosa apagado)
+   ========================================================================== */
+body.theme-classic .nvb-wrapper,
+body.theme-classic .nvb-sidebar,
+body.theme-classic .nvb-sidebar-overlay {
+  --nv-bg: rgba(18, 10, 22, 0.88);
+  --nv-bg-solid: #120a16;
+  --nv-panel: #1d1222;
+  --nv-line: rgba(255, 138, 165, 0.14);
+  --nv-line-strong: rgba(255, 138, 165, 0.45);
+  --nv-fg: #ffffff;
+  --nv-muted: #f1dbe9;
+  --nv-head: #ff8aa5;
+  --nv-accent: #ff5c8a;
+  --nv-accent-ink: #ffffff;
+  --nv-accent-grad: linear-gradient(90deg, rgba(236, 68, 112, 0.32), rgba(236, 68, 112, 0) 80%);
+  --nv-glow: rgba(236, 68, 112, 0.45);
+  --nv-danger: #ff6b7d;
+  --nv-overlay: rgba(11, 7, 16, 0.72);
+}
+
+/* faixa roxo → magenta → vermelho de ponta a ponta embaixo da barra */
+body.theme-classic .nvb-wrapper {
+  border-bottom: 0;
+}
+
+body.theme-classic .nvb-wrapper::after {
+  left: 0;
+  width: 100%;
+  height: 3px;
+  bottom: -3px;
+  transform: none;
+  opacity: 1;
+  background: linear-gradient(90deg, #7b3aa8, #b8307a 50%, #e3263a);
+  box-shadow: 0 2px 12px rgba(236, 68, 112, 0.45);
+}
+
+body.theme-classic .nvb-on-scroll::after {
+  width: 100%;
+}
+
+body.theme-classic .nvb-brand-text {
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+  padding-right: 0.2em;
+  text-shadow: 0.06em 0.06em 0 #7b3aa8;
+}
+
+body.theme-classic .nvb-highlight {
+  color: #fff;
+  text-shadow:
+    0.06em 0.06em 0 #e3263a,
+    0.12em 0.12em 0 #7b3aa8;
+}
+
+body.theme-classic .nvb-hamburger .line {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #ff8aa5, #e3263a);
+}
+
+body.theme-classic .nvb-hamburger .line:last-child {
+  top: 9px;
+}
+
+body.theme-classic .nvb-hamburger.is-open .line {
+  top: 5px;
+}
+
+body.theme-classic .nvb-burger-label {
+  color: #ffd1dc;
+  font-style: italic;
+}
+
+body.theme-classic .nvb-hamburger:hover {
+  border-color: transparent;
+}
+
+body.theme-classic .nvb-user-btn {
+  border: 2px solid #ff8aa5;
+  border-radius: 12px;
+  color: #ffd1dc;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .nvb-user-btn svg {
+  stroke-width: 2;
+}
+
+body.theme-classic .nvb-user-btn:hover,
+body.theme-classic .nvb-user-btn.is-open,
+body.theme-classic .nvb-user-btn.is-admin {
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #ff8aa5;
+  color: #fff;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .nvb-user-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+body.theme-classic .nvb-user-dot {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* menu do admin em moldura dupla */
+body.theme-classic .nvb-user-menu {
+  top: calc(100% + 16px);
+  overflow: hidden;
+  border: 2px solid #ff8aa5;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 20px 40px rgba(0, 0, 0, 0.55);
+}
+
+body.theme-classic .nvb-user-menu-kicker {
+  color: #fff;
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 10px, transparent 10px 22px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+
+body.theme-classic .nvb-user-menu-item {
+  font-style: italic;
+}
+
+/* menu lateral */
+body.theme-classic .nvb-sidebar {
+  border-right: 2px solid #ff8aa5;
+  box-shadow:
+    3px 0 0 #120a16,
+    5px 0 0 #7b3aa8,
+    20px 0 60px rgba(0, 0, 0, 0.6);
+}
+
+body.theme-classic .nvb-sidebar::before {
+  display: none;
+}
+
+body.theme-classic .nvb-sidebar-header {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+
+body.theme-classic .nvb-side-logo.logo-classic {
+  filter: drop-shadow(2px 2px 0 #120a16);
+}
+
+body.theme-classic .nvb-sidebar-kicker {
+  align-self: flex-start;
+  padding: 2px 8px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  transform: rotate(-3deg);
+}
+
+body.theme-classic .nvb-sidebar-title {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 1.15rem;
+  letter-spacing: 1.5px;
+  padding-right: 0.2em;
+  color: #fff;
+  text-shadow: 0.06em 0.06em 0 #120a16;
+}
+
+body.theme-classic .nvb-sidebar-close {
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: rgba(18, 10, 22, 0.35);
+  color: #fff;
+}
+
+body.theme-classic .nvb-sidebar-close:hover {
+  background: #fff;
+  color: #b8307a;
+  border-color: #fff;
+}
+
+body.theme-classic .nvb-side-section-title {
+  font-style: italic;
+  letter-spacing: 3.5px;
+}
+
+body.theme-classic .nvb-side-link,
+body.theme-classic .nvb-sub-link {
+  font-style: italic;
+}
+
+body.theme-classic .nvb-side-link:hover,
+body.theme-classic .nvb-sub-link:hover {
+  color: #fff;
+  background: rgba(255, 138, 165, 0.08);
+}
+
+/* página atual: faixa tricolor + texto branco */
+body.theme-classic .nvb-side-link.active,
+body.theme-classic .nvb-sub-link.active,
+body.theme-classic .nvb-side-item-group.is-active > .nvb-side-item-main .nvb-side-link {
+  color: #fff;
+  background: var(--nv-accent-grad);
+  box-shadow: none;
+}
+
+body.theme-classic .nvb-side-link.active,
+body.theme-classic .nvb-side-item-group.is-active > .nvb-side-item-main {
+  box-shadow: inset 4px 0 0 #e3263a, inset 7px 0 0 #7b3aa8;
+}
+
+body.theme-classic .nvb-sub-link.active::before {
+  background: #ff8aa5;
+}
+
+body.theme-classic .nvb-side-admin-btn {
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+body.theme-classic .nvb-side-admin-btn:hover {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  filter: brightness(1.1);
+}
+
+body.theme-classic .nvb-side-admin-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+body.theme-classic .nvb-side-logout {
+  border: 2px solid var(--nv-danger);
+  border-radius: 999px;
+  font-style: italic;
+}
+
+body.theme-classic .nvb-side-copy {
+  color: #ff8aa5;
+}
+
+@media (max-width: 600px) {
+  body.theme-classic .nvb-brand-text {
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+  }
 }

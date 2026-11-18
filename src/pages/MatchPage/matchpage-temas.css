@@ -1,0 +1,333 @@
+/* ==========================================================================
+   PÁGINA DA PARTIDA — VERSÕES IDR E ADR CLASSIC
+   banner, linha do tempo, estatísticas e escalações
+   (importado depois do matchpage-extras.css)
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
+/* ==========================================================================
+   IDR — "JORNAL": papel branco, réguas pretas, tarjas, sombra em bloco
+   ========================================================================== */
+
+/* ---------- Banner ---------- */
+.theme-idr .match-view-wrapper .psg-match-banner {
+  border-bottom: 8px solid #000;
+  box-shadow: 0 1px 0 #000, 0 4px 0 #fff, 0 5px 0 #000 !important;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner::after {
+  display: none;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .psg-name-score h2 {
+  font-family: "Archivo Black", "Arial Black", sans-serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: -1px !important;
+  text-transform: uppercase;
+  color: #000 !important;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .psg-status {
+  border-radius: 0 !important;
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .psg-score-num {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #fff !important;
+  color: #000 !important;
+  font-family: "Archivo Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  box-shadow: 4px 4px 0 #d6d6d0 !important;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .psg-score-num.is-leading {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .scorer-item {
+  border-radius: 0 !important;
+  border: 1.5px solid #000 !important;
+  background: #fff !important;
+  color: #000 !important;
+  font-weight: 700;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .psg-comp {
+  color: #444 !important;
+}
+
+.theme-idr .match-view-wrapper .psg-match-banner .psg-timeline-toggle {
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 #d6d6d0 !important;
+}
+
+/* ---------- Abas ---------- */
+.theme-idr .match-view-wrapper .psg-tabs-menu button {
+  font-family: "Archivo Black", sans-serif !important;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+}
+
+/* ---------- Linha do tempo, estatísticas, escalações: recorte de jornal ---------- */
+.theme-idr .match-view-wrapper .mt-wrap,
+.theme-idr .match-view-wrapper .team-stats-card,
+.theme-idr .match-view-wrapper .lu-team {
+  border: 2px solid #000 !important;
+  border-top: 6px solid #000 !important;
+  box-shadow: 6px 6px 0 #d6d6d0 !important;
+  border-radius: 0 !important;
+}
+
+.theme-idr .match-view-wrapper .lu-team::before,
+.theme-idr .match-view-wrapper .team-stats-card::before {
+  display: none;
+}
+
+.theme-idr .match-view-wrapper .mt-title,
+.theme-idr .match-view-wrapper .lu-team-name,
+.theme-idr .match-view-wrapper .team-name-a,
+.theme-idr .match-view-wrapper .team-name-b {
+  font-family: "Archivo Black", sans-serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.5px !important;
+  color: #000 !important;
+}
+
+.theme-idr .match-view-wrapper .lu-title {
+  color: #000;
+}
+
+.theme-idr .match-view-wrapper .lu-title::after {
+  height: 0;
+  border-top: 2px solid #000;
+}
+
+.theme-idr .match-view-wrapper .lu-dot {
+  background: #000;
+}
+
+.theme-idr .match-view-wrapper .side-b .lu-dot {
+  background: #fff;
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+
+.theme-idr .match-view-wrapper .stats-title-center {
+  padding: 3px 8px;
+  background: #000;
+  color: #fff !important;
+}
+
+/* ==========================================================================
+   ADR CLASSIC — "FIGURINHA RETRÔ": rosa forte, moldura dupla, Anton itálico
+   (cores clarinhas no lugar do rosa apagado)
+   ========================================================================== */
+
+/* ---------- Banner ---------- */
+body.theme-classic .match-view-wrapper .psg-match-banner {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.045) 0 12px, transparent 12px 26px),
+    linear-gradient(135deg, #3a1840 0%, #1d1222 55%, #120a16 100%) !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner::after {
+  height: 4px;
+  background: linear-gradient(90deg, #7b3aa8, #b8307a 50%, #e3263a) !important;
+  box-shadow: none !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-name-score h2 {
+  font-family: "Anton", sans-serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  letter-spacing: 1px !important;
+  color: #fff !important;
+  padding-right: 0.2em;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8 !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-date {
+  color: #fff !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-comp {
+  color: #ffd1dc !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-status {
+  background: #fff !important;
+  color: #b8307a !important;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-status::before {
+  background: #e3263a;
+}
+
+/* placar em adesivo: branco com número vermelho; quem ganha vira degradê */
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-score-num {
+  background: #fff !important;
+  color: #e3263a !important;
+  border: 2px solid #120a16 !important;
+  border-radius: 10px !important;
+  font-family: "Anton", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  box-shadow: 3px 3px 0 #7b3aa8 !important;
+  text-shadow: none !important;
+  transform: rotate(-3deg);
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-score-num.is-leading {
+  background: linear-gradient(135deg, #e3263a, #b8307a) !important;
+  color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: 3px 3px 0 #120a16, 0 0 0 4px rgba(236, 68, 112, 0.25) !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .scorer-item {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1.5px solid rgba(255, 209, 220, 0.55) !important;
+  color: #fff !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-timeline-toggle {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  border: 2px solid #ff8aa5 !important;
+  color: #fff !important;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+body.theme-classic .match-view-wrapper .psg-match-banner .psg-timeline-toggle:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+/* ---------- Abas ---------- */
+body.theme-classic .match-view-wrapper .psg-tabs-menu button {
+  color: #c9a3c4;
+}
+
+body.theme-classic .match-view-wrapper .psg-tabs-menu button.active {
+  color: #fff !important;
+  font-style: italic;
+}
+
+/* ---------- Molduras duplas ---------- */
+body.theme-classic .match-view-wrapper .mt-wrap,
+body.theme-classic .match-view-wrapper .team-stats-card,
+body.theme-classic .match-view-wrapper .lu-team {
+  border: 2px solid #ff8aa5 !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 14px 30px rgba(0, 0, 0, 0.45) !important;
+  overflow: hidden;
+}
+
+body.theme-classic .match-view-wrapper .lu-team::before,
+body.theme-classic .match-view-wrapper .team-stats-card::before {
+  display: none;
+}
+
+/* cabeçalhos em faixa listrada */
+body.theme-classic .match-view-wrapper .mt-head,
+body.theme-classic .match-view-wrapper .lu-head,
+body.theme-classic .match-view-wrapper .stats-header-text {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-bottom: 2px solid #ff8aa5;
+}
+
+body.theme-classic .match-view-wrapper .mt-title,
+body.theme-classic .match-view-wrapper .lu-team-name,
+body.theme-classic .match-view-wrapper .team-name-a,
+body.theme-classic .match-view-wrapper .team-name-b {
+  font-family: "Anton", sans-serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  letter-spacing: 1px !important;
+  color: #fff !important;
+  padding-right: 0.2em;
+  text-shadow: 0.06em 0.06em 0 #120a16;
+}
+
+body.theme-classic .match-view-wrapper .mt-legend,
+body.theme-classic .match-view-wrapper .stats-title-center {
+  color: #fff !important;
+}
+
+body.theme-classic .match-view-wrapper .lu-dot {
+  background: #fff;
+  border: 2px solid #120a16;
+  transform: rotate(45deg);
+}
+
+/* textos que estavam num rosa/cinza apagado */
+body.theme-classic .match-view-wrapper .pf-wrap,
+body.theme-classic .match-view-wrapper .team-stats-card {
+  --pf-text: #f1dbe9;
+  --pf-muted: #d9b3cf;
+  --ms-text: #f1dbe9;
+  --ms-muted: #d9b3cf;
+  --ms-accent: #ff5c8a;
+}
+
+body.theme-classic .match-view-wrapper .lu-title,
+body.theme-classic .match-view-wrapper .lu-role,
+body.theme-classic .match-view-wrapper .lu-meta,
+body.theme-classic .match-view-wrapper .ms-gain,
+body.theme-classic .match-view-wrapper .ms-stand-sub,
+body.theme-classic .match-view-wrapper .stat-label-text {
+  color: #d9b3cf !important;
+}
+
+body.theme-classic .match-view-wrapper .lu-num,
+body.theme-classic .match-view-wrapper .ms-pos {
+  color: #ffd1dc !important;
+}
+
+body.theme-classic .match-view-wrapper .ms-stand-title {
+  color: #ff8aa5 !important;
+}
+
+body.theme-classic .match-view-wrapper .lu-cap {
+  background: #e3263a !important;
+  color: #fff !important;
+}
+
+/* legenda da linha do tempo: quadradinhos com contorno para aparecer na faixa */
+body.theme-classic .match-view-wrapper .mt-legend .dot-a,
+body.theme-classic .match-view-wrapper .mt-legend .dot-b {
+  border: 2px solid #fff !important;
+  box-shadow: 0 0 0 1px #120a16;
+}
+
+body.theme-classic .match-view-wrapper .mt-legend .dot-a {
+  background: #120a16 !important;
+}
+
+body.theme-classic .match-view-wrapper .mt-legend .dot-b {
+  background: #e3263a !important;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .match-view-wrapper .psg-match-banner .psg-score-num {
+    transform: rotate(-2deg);
+  }
+}

@@ -156,19 +156,7 @@
     transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Foto um pouco "de pé": sombra mais forte embaixo */
-.pf-players .player-img {
-  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.55));
-}
-
-/* Etiqueta do time B em branco (time A continua dourado) */
-.pf-players .pf-on-pitch.side-b .p-card-num {
-  background: linear-gradient(135deg, #ffffff 0%, #bfc3c9 100%);
-}
-
-.pf-players .pf-on-pitch.side-b .player-card-label {
-  border-color: rgba(255, 255, 255, 0.35);
-}
+/* Foto, etiqueta e cores do time B: ver seção 11 do matchpage.css */
 
 /* ---------- Botões sobre o campo (computador) ---------- */
 .pf-tools {

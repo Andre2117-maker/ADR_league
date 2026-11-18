@@ -201,7 +201,10 @@ function Navbar({ isAdmin, logout }) {
                     role="menuitem"
                     onClick={() => setUserMenuOpen(false)}
                   >
-                    Painel <span aria-hidden="true">›</span>
+                    Painel
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M9 6l6 6-6 6" />
+                    </svg>
                   </Link>
                   <button
                     type="button"
@@ -261,7 +264,9 @@ function Navbar({ isAdmin, logout }) {
             onClick={closeSidebar}
             aria-label="Fechar menu"
           >
-            ✕
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
           </button>
         </div>
 

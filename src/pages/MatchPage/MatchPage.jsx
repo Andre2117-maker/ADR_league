@@ -5,6 +5,7 @@ import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import "./matchpage.css";
 import "./friendlytabs.css";
 import "./matchpage-extras.css";
+import "./matchpage-temas.css";
 
 import { calculateMatchStats } from "../../components/matchpages/matchUtils";
 import { createEmptyFriendlyGame } from "../../components/matchpages/FriendlyGame/friendlyGamesUtils";

@@ -979,15 +979,6 @@ body.theme-classic {
   border: 2px solid #ec4470;
 }
 
-.theme-classic .player-card-label {
-  border: 1px solid rgba(236, 68, 112, 0.35);
-}
-
-.theme-classic .p-card-num {
-  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
-  color: #000000;
-}
-
 .theme-classic .empty-slot-marker {
   border: 2px dashed rgba(236, 68, 112, 0.4);
   color: #ec4470;
@@ -996,18 +987,6 @@ body.theme-classic {
 .theme-classic .slot-selector {
   color: #ec4470;
   border: 1px solid #ec4470;
-}
-
-.theme-classic .pro-badge {
-  border: 1.5px solid #ec4470;
-}
-
-.theme-classic .pro-badge-count {
-  color: #ec4470;
-}
-
-.theme-classic .pro-role-badge {
-  border: 1.5px solid #ec4470;
 }
 
 .theme-classic .pro-card-badge:hover .card-3d-rect, .theme-classic .pro-card-badge.is-open .card-3d-rect {
@@ -1028,32 +1007,6 @@ body.theme-classic {
 
 .theme-classic .toast-kicker {
   color: #ec4470;
-}
-
-.theme-classic .player-tactical.is-mvp::after {
-  background: linear-gradient(135deg, #ec4470 0%, #b8307a 100%);
-  box-shadow: 0 4px 12px rgba(236, 68, 112, 0.55);
-  animation-name: shine-cl;
-  color: #000;
-}
-
-.theme-classic .player-tactical.is-mvp::before {
-  background: radial-gradient(
-    circle,
-    rgba(236, 68, 112, 0.45) 0%,
-    rgba(236, 68, 112, 0.18) 45%,
-    transparent 75%
-  );
-}
-
-.theme-classic .player-tactical.is-mvp .player-img {
-  border: 2.5px solid #ec4470;
-  box-shadow: 0 0 18px rgba(236, 68, 112, 0.6);
-}
-
-.theme-classic .player-tactical.is-mvp .player-card-label {
-  border: 1.5px solid #ec4470;
-  box-shadow: 0 0 10px rgba(236, 68, 112, 0.4);
 }
 
 .theme-classic .am-root {
@@ -2548,34 +2501,6 @@ body.theme-classic {
   box-shadow: 0 0 10px rgba(236, 68, 112, 0.6);
 }
 
-.theme-classic .p-card-num {
-  background: var(--cl-grad);
-  color: #ffffff;
-}
-
-/* Time B no campo continua com o número em branco: letra escura */
-.theme-classic .pf-players .pf-on-pitch.side-b .p-card-num {
-  background: linear-gradient(135deg, #ffffff 0%, #c9c3cf 100%);
-  color: #2a1d2f;
-}
-
-.theme-classic .player-card-label {
-  background: #120a15;
-  border-color: rgba(236, 68, 112, 0.4);
-}
-
-.theme-classic .pro-badge {
-  border-color: var(--cl-accent);
-}
-
-.theme-classic .pro-badge-count {
-  color: var(--cl-accent-strong);
-}
-
-.theme-classic .pro-role-badge {
-  border-color: var(--cl-accent);
-}
-
 .theme-classic .slot-selector {
   color: var(--cl-accent);
   border-color: var(--cl-accent);
@@ -2593,28 +2518,6 @@ body.theme-classic {
 
 .theme-classic .toast-kicker {
   color: var(--cl-accent);
-}
-
-/* MVP com o degradê do escudo */
-.theme-classic .player-tactical.is-mvp::after {
-  background: var(--cl-grad);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(236, 68, 112, 0.55);
-  animation: none;
-}
-
-.theme-classic .player-tactical.is-mvp::before {
-  background: radial-gradient(circle, rgba(236, 68, 112, 0.45) 0%, rgba(123, 58, 168, 0.18) 45%, transparent 75%);
-}
-
-.theme-classic .player-tactical.is-mvp .player-img {
-  border-color: var(--cl-accent);
-  box-shadow: 0 0 18px rgba(236, 68, 112, 0.6);
-}
-
-.theme-classic .player-tactical.is-mvp .player-card-label {
-  border-color: var(--cl-accent);
-  box-shadow: 0 0 10px rgba(236, 68, 112, 0.4);
 }
 
 /* Barra de navegação, atalhos e editar */
@@ -2856,8 +2759,7 @@ body.theme-classic .partner-card:hover {
 body.theme-classic .psg-add-btn,
 body.theme-classic .camp-btn,
 body.theme-classic .pdf-download-btn,
-body.theme-classic .add-game-btn,
-body.theme-classic .nvb-side-admin-btn {
+body.theme-classic .add-game-btn {
   background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
@@ -2877,8 +2779,7 @@ body.theme-classic .nvb-side-admin-btn {
 body.theme-classic .psg-add-btn:hover,
 body.theme-classic .camp-btn:hover,
 body.theme-classic .pdf-download-btn:hover,
-body.theme-classic .add-game-btn:hover,
-body.theme-classic .nvb-side-admin-btn:hover {
+body.theme-classic .add-game-btn:hover {
   filter: brightness(1.12);
   transform: translateY(-2px);
   box-shadow:
@@ -2889,8 +2790,7 @@ body.theme-classic .nvb-side-admin-btn:hover {
 body.theme-classic .psg-add-btn:active,
 body.theme-classic .camp-btn:active,
 body.theme-classic .pdf-download-btn:active,
-body.theme-classic .add-game-btn:active,
-body.theme-classic .nvb-side-admin-btn:active {
+body.theme-classic .add-game-btn:active {
   transform: translateY(3px);
   box-shadow: 0 1px 0 #5a1f4a !important;
 }

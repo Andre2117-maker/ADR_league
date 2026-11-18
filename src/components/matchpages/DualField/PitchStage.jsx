@@ -56,10 +56,10 @@ export const slotToMeters = (slots, side, solo) => {
 
 /* Tamanho base dos cards em cada câmera */
 export const CARD_SCALE = {
-  horizontal: 1.15,
-  vertical: 0.68,
-  solo: 0.74,
-  soloWide: 0.86,
+  horizontal: 1.3,
+  vertical: 0.8,
+  solo: 0.86,
+  soloWide: 0.98,
 };
 
 /* Celular */

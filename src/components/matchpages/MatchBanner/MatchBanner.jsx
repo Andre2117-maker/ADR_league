@@ -122,7 +122,11 @@ export default function MatchBanner({
             className="golden-goal-pill"
             onClick={() => setShowGoldenGoalInfo(!showGoldenGoalInfo)}
           >
-            ⚽ Decidido no Gol de Ouro {showGoldenGoalInfo ? "▲" : "▼"}
+            <svg className="mp-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7.5l3.8 2.8-1.5 4.4H9.7l-1.5-4.4zM12 3v4.5M15.8 10.3l4.3-1.6M14.3 14.7l2.6 3.8M9.7 14.7l-2.6 3.8M8.2 10.3 3.9 8.7" />
+            </svg>{" "}
+            Decidido no Gol de Ouro {showGoldenGoalInfo ? "▲" : "▼"}
           </div>
           {showGoldenGoalInfo && (
             <div className="golden-goal-info">
