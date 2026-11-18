@@ -1,0 +1,494 @@
+/* ==========================================================================
+   PÁGINA DA PARTIDA — EVENTOS ESPECIAIS (Halloween, Natal...)
+   A classe .mp-ev-<evento> vai no .match-view-wrapper (EventTheme.jsx).
+   Cada evento só define as cores; o desenho é o mesmo para todos.
+   Funciona por cima das 3 versões (ADR, IDR e Classic).
+   ========================================================================== */
+
+/* ---------- cores de cada evento ---------- */
+.mp-ev {
+  --ev-1: #d4af37; /* cor principal */
+  --ev-2: #8a6d1f; /* segunda cor */
+  --ev-3: #ffffff; /* detalhe (estrela, brilho) */
+  --ev-ink: #ffffff; /* texto em cima das cores */
+  --ev-deep: #050505; /* fundo escuro */
+  --ev-particle: #ffffff;
+}
+
+.mp-ev-halloween {
+  --ev-1: #ff7b00;
+  --ev-2: #6d28d9;
+  --ev-3: #c6ff4d;
+  --ev-ink: #fff4e6;
+  --ev-deep: #0d0612;
+  --ev-particle: #120a16;
+}
+
+.mp-ev-natal {
+  --ev-1: #e11d2e;
+  --ev-2: #15803d;
+  --ev-3: #f2c14e;
+  --ev-ink: #fffaf0;
+  --ev-deep: #080c09;
+  --ev-particle: #ffffff;
+}
+
+/* Classic: Halloween puxa pro rosa/roxo do tema; Natal fica vermelho e verde */
+body.theme-classic .mp-ev-halloween {
+  --ev-1: #ec4470;
+  --ev-2: #7b3aa8;
+  --ev-3: #ffd166;
+  --ev-deep: #120a16;
+}
+
+body.theme-classic .mp-ev-natal {
+  --ev-1: #e3263a;
+  --ev-2: #1f8a4c;
+  --ev-3: #ffe08a;
+  --ev-deep: #120a16;
+}
+
+/* IDR: tudo em preto e branco ("edição especial" do jornal) */
+.theme-idr .mp-ev {
+  --ev-1: #000000;
+  --ev-2: #000000;
+  --ev-3: #ffffff;
+  --ev-ink: #ffffff;
+  --ev-deep: #ffffff;
+  --ev-particle: #000000;
+}
+
+.mp-ev.match-view-wrapper {
+  position: relative;
+}
+
+/* ==========================================================================
+   1. FAIXA "EVENTO ESPECIAL"
+   ========================================================================== */
+.mp-ev-ribbon {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding: 10px 16px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.08) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(110deg, var(--ev-2), var(--ev-1) 50%, var(--ev-2));
+  color: var(--ev-ink);
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.mp-ev-ribbon-kicker,
+.mp-ev-ribbon-tag {
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.mp-ev-ribbon-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.mp-ev-ribbon-title small {
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+.mp-ev-ico {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mp-ev-natal .mp-ev-ribbon-title .mp-ev-ico,
+.mp-ev-halloween .mp-ev-ribbon-title .mp-ev-ico {
+  color: var(--ev-3);
+}
+
+/* ==========================================================================
+   2. BANNER COM A ARTE DO EVENTO
+   ========================================================================== */
+.mp-ev.match-view-wrapper .psg-match-banner {
+  isolation: isolate;
+}
+
+/* a arte (BannerHallo / BannerNatal) entra no lugar do brilho de fundo */
+.mp-ev.match-view-wrapper .psg-match-banner::before {
+  inset: 0 !important;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ev-deep) 55%, transparent),
+      var(--ev-deep) 96%
+    ),
+    var(--mp-ev-banner, none) center / cover no-repeat !important;
+  opacity: 1 !important;
+  filter: none !important;
+  animation: none !important;
+  transform: none !important;
+  z-index: 0;
+}
+
+/* faixa de baixo nas duas cores do evento */
+.mp-ev.match-view-wrapper .psg-match-banner::after {
+  height: 4px !important;
+  background: linear-gradient(
+    90deg,
+    var(--ev-2),
+    var(--ev-1),
+    var(--ev-2)
+  ) !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--ev-1) 60%, transparent) !important;
+}
+
+.mp-ev.match-view-wrapper .psg-match-banner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.mp-ev.match-view-wrapper .psg-match-banner .psg-status {
+  background: var(--ev-1) !important;
+  color: var(--ev-ink) !important;
+  border-color: var(--ev-1) !important;
+}
+
+.mp-ev.match-view-wrapper .psg-match-banner .psg-score-num.is-leading {
+  background: linear-gradient(135deg, var(--ev-1), var(--ev-2)) !important;
+  color: #fff !important;
+  border-color: color-mix(in srgb, var(--ev-3) 70%, transparent) !important;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--ev-1) 45%, transparent) !important;
+}
+
+.mp-ev.match-view-wrapper .psg-match-banner .psg-timeline-toggle {
+  border-color: var(--ev-1) !important;
+}
+
+/* ==========================================================================
+   3. MORCEGOS E NEVE (só em cima do banner)
+   ========================================================================== */
+.mp-ev-sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 520px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.mp-ev-sky span {
+  position: absolute;
+  top: -30px;
+  left: var(--x);
+  animation: mp-ev-fall var(--dur) linear var(--delay) infinite;
+  opacity: 0;
+}
+
+/* neve */
+.mp-ev-sky.is-snow span {
+  width: calc(7px * var(--size));
+  height: calc(7px * var(--size));
+  border-radius: 50%;
+  background: var(--ev-particle);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes mp-ev-fall {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(18px, 260px);
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-10px, 560px);
+    opacity: 0;
+  }
+}
+
+/* morcegos: voam de lado batendo as asas */
+.mp-ev-sky.is-bat span {
+  top: calc(20px + var(--x) * 3);
+  left: -40px;
+  width: calc(26px * var(--size));
+  height: calc(12px * var(--size));
+  background: var(--ev-particle);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 18'%3E%3Cpath d='M20 6c1-2 2-3 2-3l1 3c3-4 8-5 17-4-4 1-6 4-6 8-2-2-5-2-7 1-1-2-3-2-4-1-1-1-3-1-4 1-2-3-5-3-7-1 0-4-2-7-6-8 9-1 14 0 17 4l1-3s1 1 2 3z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 18'%3E%3Cpath d='M20 6c1-2 2-3 2-3l1 3c3-4 8-5 17-4-4 1-6 4-6 8-2-2-5-2-7 1-1-2-3-2-4-1-1-1-3-1-4 1-2-3-5-3-7-1 0-4-2-7-6-8 9-1 14 0 17 4l1-3s1 1 2 3z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  filter: drop-shadow(0 0 1.5px var(--ev-1)) drop-shadow(0 0 6px var(--ev-1));
+  animation:
+    mp-ev-fly calc(var(--dur) * 1.4) linear var(--delay) infinite,
+    mp-ev-flap 0.35s ease-in-out infinite alternate;
+}
+
+.mp-ev-sky.is-bat span:nth-child(n + 9) {
+  display: none; /* 8 morcegos bastam */
+}
+
+@keyframes mp-ev-fly {
+  0% {
+    left: -40px;
+    opacity: 0;
+    translate: 0 0;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  50% {
+    translate: 0 -30px;
+  }
+  92% {
+    opacity: 0.85;
+  }
+  100% {
+    left: calc(100% + 40px);
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+
+@keyframes mp-ev-flap {
+  from {
+    scale: 1 1;
+  }
+  to {
+    scale: 1 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-ev-sky {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   4. ABAS E CAIXAS NAS CORES DO EVENTO
+   ========================================================================== */
+.mp-ev.match-view-wrapper .psg-tabs-menu button.active {
+  color: var(--ev-1) !important;
+  border-color: var(--ev-1) !important;
+  box-shadow: inset 0 -3px 0 var(--ev-1) !important;
+}
+
+.mp-ev.match-view-wrapper .mt-wrap,
+.mp-ev.match-view-wrapper .team-stats-card,
+.mp-ev.match-view-wrapper .lu-team {
+  border-top: 3px solid var(--ev-1) !important;
+}
+
+.mp-ev.match-view-wrapper .pf-wrap {
+  --pf-accent: var(--ev-1);
+}
+
+/* ==========================================================================
+   5. IDR — "EDIÇÃO ESPECIAL": tarja preta, régua dupla, arte em P&B
+   ========================================================================== */
+.theme-idr .mp-ev-ribbon {
+  background: #000;
+  color: #fff;
+  box-shadow:
+    0 3px 0 #fff,
+    0 5px 0 #000;
+}
+
+.theme-idr .mp-ev-ribbon-title {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.theme-idr .mp-ev.match-view-wrapper .psg-match-banner::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), #ffffff 96%),
+    var(--mp-ev-banner, none) center / cover no-repeat !important;
+  filter: grayscale(1) contrast(1.2) !important;
+}
+
+.theme-idr .mp-ev.match-view-wrapper .psg-match-banner::after {
+  box-shadow: none !important;
+}
+
+.theme-idr
+  .mp-ev.match-view-wrapper
+  .psg-match-banner
+  .psg-score-num.is-leading {
+  background: #000 !important;
+  box-shadow: 4px 4px 0 #d6d6d0 !important;
+}
+
+.theme-idr .mp-ev-sky.is-snow span {
+  background: #000;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+.theme-idr .mp-ev-sky.is-bat span {
+  filter: none;
+}
+
+.theme-idr .mp-ev.match-view-wrapper .psg-tabs-menu button.active {
+  color: #fff !important;
+  background: #000 !important;
+  box-shadow: none !important;
+}
+
+.theme-idr .mp-ev.match-view-wrapper .mt-wrap,
+.theme-idr .mp-ev.match-view-wrapper .team-stats-card,
+.theme-idr .mp-ev.match-view-wrapper .lu-team {
+  border-top: 6px solid #000 !important;
+}
+
+/* ==========================================================================
+   6. CLASSIC — figurinha especial: faixa adesivo torta e moldura nas cores do evento
+   ========================================================================== */
+body.theme-classic .mp-ev-ribbon {
+  left: 0;
+  right: 0;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  margin: 0 auto;
+  padding: 8px 22px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 #120a16;
+  transform: rotate(-1.5deg);
+}
+
+body.theme-classic .mp-ev-ribbon-title {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  letter-spacing: 1.5px;
+  padding-right: 0.2em;
+  text-shadow: 2px 2px 0 #120a16;
+}
+
+body.theme-classic
+  .mp-ev.match-view-wrapper
+  .psg-match-banner
+  .psg-name-score
+  h2 {
+  text-shadow:
+    0.05em 0.05em 0 var(--ev-1),
+    0.1em 0.1em 0 var(--ev-2) !important;
+}
+
+body.theme-classic .mp-ev.match-view-wrapper .psg-match-banner .psg-score-num {
+  color: var(--ev-1) !important;
+  box-shadow: 3px 3px 0 var(--ev-2) !important;
+}
+
+body.theme-classic
+  .mp-ev.match-view-wrapper
+  .psg-match-banner
+  .psg-score-num.is-leading {
+  color: #fff !important;
+  box-shadow: 3px 3px 0 #120a16 !important;
+}
+
+body.theme-classic .mp-ev.match-view-wrapper .mt-wrap,
+body.theme-classic .mp-ev.match-view-wrapper .team-stats-card,
+body.theme-classic .mp-ev.match-view-wrapper .lu-team {
+  border: 2px solid var(--ev-1) !important;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px var(--ev-2),
+    0 14px 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+body.theme-classic .mp-ev.match-view-wrapper .mt-head,
+body.theme-classic .mp-ev.match-view-wrapper .lu-head,
+body.theme-classic .mp-ev.match-view-wrapper .stats-header-text {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.08) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, var(--ev-2), var(--ev-1)) !important;
+  border-bottom-color: var(--ev-1) !important;
+}
+
+@media (max-width: 600px) {
+  .mp-ev-ribbon {
+    gap: 2px 10px;
+    padding: 8px 10px;
+  }
+  .mp-ev-ribbon-tag {
+    display: none;
+  }
+  .mp-ev-sky {
+    height: 420px;
+  }
+}
+
+/* "Evento especial" vira "Edição especial" no IDR */
+.mp-ev-k-idr,
+.theme-idr .mp-ev-k-adr {
+  display: none;
+}
+
+.theme-idr .mp-ev-k-idr {
+  display: inline;
+}
+
+/* ==========================================================================
+   7. POSIÇÃO DA FAIXA: logo abaixo do menu fixo, dentro do banner
+   (o banner ganha mais espaço em cima para caber a faixa)
+   ========================================================================== */
+.mp-ev-ribbon {
+  position: absolute;
+  top: calc(var(--nvb-h, 72px) + 10px);
+  left: 0;
+  right: 0;
+}
+
+.mp-ev.match-view-wrapper .psg-match-banner {
+  padding-top: 150px !important;
+}
+
+@media (max-width: 768px) {
+  /* no celular a página sobe 120px por baixo do menu */
+  .mp-ev-ribbon {
+    top: calc(120px + var(--nvb-h, 64px) + 8px);
+  }
+  .mp-ev.match-view-wrapper .psg-match-banner {
+    padding-top: 250px !important;
+  }
+}

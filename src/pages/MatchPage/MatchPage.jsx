@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { db } from "../../firebase";
+import { db } from "../../firebase.js";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import "./matchpage.css";
 import "./friendlytabs.css";
 import "./matchpage-extras.css";
 import "./matchpage-temas.css";
+import "./matchpage-eventos.css";
+import { getEventTheme, EventRibbon, EventSky } from "./EventTheme.jsx";
 
-import { calculateMatchStats } from "../../components/matchpages/matchUtils";
-import { createEmptyFriendlyGame } from "../../components/matchpages/FriendlyGame/friendlyGamesUtils";
-import { FORMATIONS_DATA } from "../../data/formationsConfig";
+import { calculateMatchStats } from "../../components/matchpages/matchUtils.js";
+import { createEmptyFriendlyGame } from "../../components/matchpages/FriendlyGame/friendlyGamesUtils.js";
+import { FORMATIONS_DATA } from "../../data/formationsConfig.js";
 
-import MatchBanner from "../../components/matchpages/MatchBanner/MatchBanner";
-import DualField from "../../components/matchpages/DualField/DualField";
-import MatchStats from "../../components/matchpages/MatchStats/MatchStats";
-import MatchTimeline from "../../components/matchpages/MatchTimeline/MatchTimeline";
-import FriendlyGamesTabs from "../../components/matchpages/FriendlyGame/FriendlyGamesTabs";
-import FriendlyGameField from "../../components/matchpages/FriendlyGame/FriendlyGameField";
-import Footer from "../../components/Footer";
+import MatchBanner from "../../components/matchpages/MatchBanner/MatchBanner.jsx";
+import DualField from "../../components/matchpages/DualField/DualField.jsx";
+import MatchStats from "../../components/matchpages/MatchStats/MatchStats.jsx";
+import MatchTimeline from "../../components/matchpages/MatchTimeline/MatchTimeline.jsx";
+import FriendlyGamesTabs from "../../components/matchpages/FriendlyGame/FriendlyGamesTabs.jsx";
+import FriendlyGameField from "../../components/matchpages/FriendlyGame/FriendlyGameField.jsx";
+import Footer from "../../components/Footer.jsx";
 
 /* Ícones (SVG no lugar dos emojis) */
 const BallIco = () => {
@@ -941,11 +943,22 @@ function MatchPage({ matches, players, isAdmin, setMatchToEdit }) {
     { k: "B", f: formB, n: match.teamB.name, p: match.teamB.players },
   ];
 
+  // tema do evento (Halloween, Natal...) ou null
+  const evTheme = getEventTheme(match);
+
   return (
     <div
-      className={`match-view-wrapper ${flipAll ? "flip-all" : ""}`}
+      className={`match-view-wrapper ${flipAll ? "flip-all" : ""} ${
+        evTheme ? `mp-ev mp-ev-${evTheme.key}` : ""
+      }`}
+      style={
+        evTheme?.banner
+          ? { "--mp-ev-banner": `url(${evTheme.banner})` }
+          : undefined
+      }
       id="capture-area"
     >
+      <EventSky theme={evTheme} />
       {showHelp && (
         <div className="mp-help-overlay" onClick={() => setShowHelp(false)}>
           <div
@@ -975,6 +988,11 @@ function MatchPage({ matches, players, isAdmin, setMatchToEdit }) {
           </div>
         </div>
       )}
+
+      <EventRibbon
+        theme={evTheme}
+        year={String(match.date || "").match(/\d{4}/)?.[0]}
+      />
 
       {/* 1. Componente Extraído do Banner */}
       <MatchBanner
