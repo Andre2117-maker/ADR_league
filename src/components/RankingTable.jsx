@@ -9,6 +9,9 @@ import fogoAzul from "../assets/medalhas/streak/fogoAzul.png";
 import fogoRoxo from "../assets/medalhas/streak/fogoRox.png";
 import fogoVerde from "../assets/medalhas/streak/fogoVer.png";
 
+import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+
 import "../styles/Tabelas/rankingtable.css";
 
 /* ==========================================================================
@@ -149,56 +152,88 @@ const isRankingMatch = (m) => {
 
 const isTraining = (m) => String(m.type || "TREINO").toUpperCase() === "TREINO";
 
-const inList = (list, id) => (list || []).some((x) => String(x) === id);
+// jogador que saiu da tabela (anônimo ou inativo)
+const isHidden = (p) =>
+  p.isAnonymous === true ||
+  p.isActive === false ||
+  p.active === false ||
+  p.inactive === true ||
+  /inativ/i.test(String(p.status || ""));
 
-// Pontos, gols e assistências de cada jogador num conjunto de partidas
-const tallyMatches = (list) => {
-  const t = {};
-  const get = (id) => (t[id] = t[id] || { points: 0, goals: 0, assists: 0 });
+// ---------------------------------------------------------------------------
+// TABELA DE UM MOMENTO: cópia EXATA da conta da Home (getPlayerStats)
+// - jogou se está em teamA/teamB.players ou actualParticipantsA/B
+// - resultado: campo winner (ou penaltiesWinner) primeiro; senão o placar
+// - pontos = V*3 + E; gols/assists + os manuais da temporada
+// ---------------------------------------------------------------------------
+const has = (list, id) => (list || []).some((x) => String(x) === id);
+
+const scoreOf = (m) => {
+  const ev = m.events || [];
+  const a = ev.filter(
+    (e) =>
+      (e.type === "GOAL" && e.team === "A") ||
+      (e.type === "OWN_GOAL" && e.team === "B"),
+  ).length;
+  const b = ev.filter(
+    (e) =>
+      (e.type === "GOAL" && e.team === "B") ||
+      (e.type === "OWN_GOAL" && e.team === "A"),
+  ).length;
+  return [a, b];
+};
+
+// partida com resultado (gol, vencedor marcado...) = foi disputada
+const wasPlayed = (m) =>
+  (m.events || []).length > 0 || Boolean(m.penaltiesWinner || m.winner);
+
+const statsAt = (player, list) => {
+  const id = String(player.id);
+  let goals = 0;
+  let assists = 0;
+  let wins = 0;
+  let draws = 0;
 
   list.forEach((m) => {
-    const goalsA = (m.events || []).filter(
-      (e) =>
-        (e.type === "GOAL" && e.team === "A") ||
-        (e.type === "OWN_GOAL" && e.team === "B"),
-    ).length;
-    const goalsB = (m.events || []).filter(
-      (e) =>
-        (e.type === "GOAL" && e.team === "B") ||
-        (e.type === "OWN_GOAL" && e.team === "A"),
-    ).length;
-    const winner = String(m.penaltiesWinner || m.winner || "").toUpperCase();
-
-    const ids = new Set(
-      [
-        ...(m.teamA?.players || []),
-        ...(m.teamB?.players || []),
-        ...(m.actualParticipantsA || []),
-        ...(m.actualParticipantsB || []),
-      ].map(String),
-    );
-
-    ids.forEach((id) => {
-      const isA =
-        inList(m.teamA?.players, id) || inList(m.actualParticipantsA, id);
-      const side = isA ? "A" : "B";
-      let res;
-      if (winner)
-        res = winner === side ? "W" : "L"; // igual à Home
-      else if (goalsA === goalsB) res = "D";
-      else res = goalsA > goalsB === isA ? "W" : "L";
-      get(id).points += res === "W" ? 3 : res === "D" ? 1 : 0;
-    });
+    const isA = has(m.teamA?.players, id) || has(m.actualParticipantsA, id);
+    const isB = has(m.teamB?.players, id) || has(m.actualParticipantsB, id);
+    if (!isA && !isB) return;
+    const side = isA ? "A" : "B";
 
     (m.events || []).forEach((e) => {
-      if (e.type === "GOAL" && e.playerId) get(String(e.playerId)).goals += 1;
-      if (e.type === "GOAL" && e.assistId) get(String(e.assistId)).assists += 1;
-      if (e.type === "ASSIST" && e.playerId)
-        get(String(e.playerId)).assists += 1;
+      if (e.type === "GOAL" && String(e.playerId) === id) goals++;
+      if (
+        (e.type === "ASSIST" && String(e.playerId) === id) ||
+        (e.type === "GOAL" && String(e.assistId) === id)
+      )
+        assists++;
     });
+
+    const winner = m.penaltiesWinner || m.winner;
+    if (winner) {
+      if (String(winner).toUpperCase() === side) wins++;
+    } else {
+      const [ga, gb] = scoreOf(m);
+      if (ga === gb) draws++;
+      else if ((ga > gb && isA) || (gb > ga && !isA)) wins++;
+    }
   });
-  return t;
+
+  const manual = player.statsBySeason?.["2026"] || {};
+  return {
+    id,
+    name: player.name || "",
+    points: wins * 3 + draws,
+    goals: goals + Number(manual.goals || 0),
+    assists: assists + Number(manual.assists || 0),
+  };
 };
+
+const byTable = (a, b) =>
+  b.points - a.points ||
+  b.goals - a.goals ||
+  b.assists - a.assists ||
+  a.name.localeCompare(b.name, "pt-BR");
 
 // Setinhas empilhadas: 1, 2 ou 3 (acima de 3 mostra o número junto)
 const MoveMark = ({ delta, onClick }) => {
@@ -240,6 +275,7 @@ export default function RankingTable({
   setHoveredPlayer,
   isAdmin,
   matches = [],
+  allPlayers, // opcional: lista com TODOS os jogadores (inclusive inativos), se a Home filtrar antes
 }) {
   const [sortConfig, setSortConfig] = useState({
     key: "rank",
@@ -395,56 +431,147 @@ export default function RankingTable({
     return list;
   }, [enrichedPlayers, sortConfig]);
 
-  // 4. SOBE / DESCE: classificação antes do último dia de treino x ao fim dele
-  const movement = useMemo(() => {
-    const valid = (matches || []).filter((m) => isRankingMatch(m) && dayOf(m));
-
-    // último dia em que teve TREINO (eventos sozinhos não contam como "dia de treino")
-    const trainingDays = [
-      ...new Set(valid.filter(isTraining).map(dayOf)),
+  // 4. SOBE / DESCE
+  // ANTES = a tabela como ela estava no fim do treino anterior (mesma conta da Home,
+  //         só com as partidas até aquele dia e com quem estava na tabela na época).
+  // AGORA = a posição que aparece na tabela.
+  // dias de TREINO que já foram jogados (treino só marcado no calendário não conta)
+  const days = useMemo(() => {
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    const list = [
+      ...new Set(
+        (matches || [])
+          .filter(
+            (m) =>
+              isRankingMatch(m) &&
+              isTraining(m) &&
+              wasPlayed(m) &&
+              dayOf(m) &&
+              dayOf(m) <= todayStr,
+          )
+          .map(dayOf),
+      ),
     ].sort();
-    if (trainingDays.length < 2) return {}; // precisa de um treino anterior pra comparar
-    const lastDay = trainingDays[trainingDays.length - 1];
-
-    const rankFrom = (list) => {
-      const tally = tallyMatches(list);
-      const pos = {};
-      enrichedPlayers
-        .map((item) => {
-          const p = item.player;
-          const id = String(p.id);
-          const manual = p.statsBySeason?.["2026"] || {};
-          const t = tally[id] || { points: 0, goals: 0, assists: 0 };
-          return {
-            id,
-            name: p.name || "",
-            points: t.points,
-            goals: t.goals + Number(manual.goals || 0),
-            assists: t.assists + Number(manual.assists || 0),
-          };
-        })
-        .sort(
-          (a, b) =>
-            b.points - a.points ||
-            b.goals - a.goals ||
-            b.assists - a.assists ||
-            a.name.localeCompare(b.name, "pt-BR"),
-        )
-        .forEach((r, i) => (pos[r.id] = i + 1));
-      return pos;
+    return {
+      list,
+      last: list[list.length - 1] || "",
+      prev: list[list.length - 2] || "",
     };
+  }, [matches]);
 
-    // antes do dia x ao fim do dia (os dois lados com a mesma conta)
-    const before = rankFrom(valid.filter((m) => dayOf(m) < lastDay));
-    const after = rankFrom(valid.filter((m) => dayOf(m) <= lastDay));
+  // FOTO da tabela do treino anterior, guardada no Firebase (rankingSnapshots/AAAA-MM-DD)
+  const [prevSnap, setPrevSnap] = useState(null);
+  useEffect(() => {
+    if (!days.prev) return undefined;
+    let alive = true;
+    getDoc(doc(db, "rankingSnapshots", days.prev))
+      .then((d) => {
+        if (alive)
+          setPrevSnap(d.exists() ? { day: days.prev, ...d.data() } : null);
+      })
+      .catch(() => alive && setPrevSnap(null));
+    return () => {
+      alive = false;
+    };
+  }, [days.prev]);
+
+  // Quando o admin abre a tabela, guarda a FOTO do último treino (posição final de cada um).
+  // Ela é atualizada até chegar o próximo treino; aí vira a "tabela de antes".
+  const savedRef = useRef("");
+  useEffect(() => {
+    if (!isAdmin || !days.last || !enrichedPlayers.length) return;
+    const ids = enrichedPlayers.map((i) => String(i.player.id));
+    const key = `${days.last}|${ids.join(",")}`;
+    if (savedRef.current === key) return;
+    savedRef.current = key;
+    setDoc(doc(db, "rankingSnapshots", days.last), {
+      day: days.last,
+      ids,
+      savedAt: new Date().toISOString(),
+    }).catch((err) => console.warn("[Setas] não salvou a foto da tabela", err));
+  }, [isAdmin, days.last, enrichedPlayers]);
+
+  const movement = useMemo(() => {
+    const valid = (matches || []).filter(isRankingMatch);
+    const trainingDays = days.list;
+    if (trainingDays.length < 2) return { map: {}, day: "", prev: "" };
+
+    const lastDay = days.last;
+    const prevDay = days.prev;
+
+    // 1º: se existe a FOTO da tabela do treino anterior, usa ela (é exata)
+    if (prevSnap && prevSnap.day === prevDay && Array.isArray(prevSnap.ids)) {
+      const out = {};
+      enrichedPlayers.forEach((item) => {
+        const id = String(item.player.id);
+        const pos = prevSnap.ids.indexOf(id);
+        if (pos >= 0) out[id] = pos + 1 - item.originalRank; // + subiu / - caiu
+      });
+      if (isAdmin)
+        console.log(`[Setas] usando a foto salva da tabela de ${prevDay}`);
+      return { map: out, day: lastDay, prev: prevDay };
+    }
+
+    // 2º: sem foto (ainda), monta a tabela de antes com a mesma conta da Home
+    // partidas que já existiam no fim do treino anterior (sem data = antigas)
+    const beforeList = valid.filter((m) => !dayOf(m) || dayOf(m) <= prevDay);
+
+    // quem estava na tabela naquela época: os de hoje + todos os anônimos/inativos
+    // que já tinham jogado até aquele dia (saíram da tabela depois)
+    const shownNow = new Set(enrichedPlayers.map((i) => String(i.player.id)));
+    const pool = (allPlayers || sortedPlayers).filter((p) => {
+      const id = String(p.id);
+      if (shownNow.has(id)) return true;
+      if (!isHidden(p)) return false;
+      return beforeList.some(
+        (m) =>
+          has(m.teamA?.players, id) ||
+          has(m.teamB?.players, id) ||
+          has(m.actualParticipantsA, id) ||
+          has(m.actualParticipantsB, id),
+      );
+    });
+
+    const beforeRows = pool.map((p) => statsAt(p, beforeList)).sort(byTable);
+    const before = {};
+    beforeRows.forEach((r, i) => (before[r.id] = i + 1));
 
     const out = {};
     enrichedPlayers.forEach((item) => {
       const id = String(item.player.id);
-      out[id] = before[id] - after[id]; // + subiu / - caiu
+      if (before[id]) out[id] = before[id] - item.originalRank; // + subiu / - caiu
     });
-    return out;
-  }, [matches, enrichedPlayers]);
+
+    // conferência (só pro admin): F12 > Console
+    if (isAdmin && typeof console !== "undefined") {
+      console.log(
+        `[Setas] tabela de ${prevDay} x agora (último treino: ${lastDay})`,
+      );
+      console.table(
+        beforeRows.map((r) => {
+          const now = enrichedPlayers.find((i) => String(i.player.id) === r.id);
+          return {
+            jogador: r.name,
+            "pos antes": before[r.id],
+            "pts antes": r.points,
+            "pos agora": now ? now.originalRank : "saiu",
+            "pts agora": now ? now.points : "-",
+          };
+        }),
+      );
+    }
+
+    return { map: out, day: lastDay, prev: prevDay };
+  }, [
+    matches,
+    days,
+    prevSnap,
+    enrichedPlayers,
+    allPlayers,
+    sortedPlayers,
+    isAdmin,
+  ]);
 
   const handleSort = (key) => {
     setSortConfig((prev) => {
@@ -694,10 +821,11 @@ export default function RankingTable({
                       {/* Setas encostadas na linha da coluna (só na ordem oficial) */}
                       {sortConfig.key === "rank" && (
                         <MoveMark
-                          delta={movement[String(p.id)]}
+                          delta={movement.map[String(p.id)]}
                           onClick={(e, text) =>
                             showInfo(e, {
-                              type: movement[String(p.id)] > 0 ? "up" : "down",
+                              type:
+                                movement.map[String(p.id)] > 0 ? "up" : "down",
                               title: "Classificação",
                               text: `${p.name} · ${text.toLowerCase()}`,
                             })
@@ -802,7 +930,11 @@ export default function RankingTable({
                 />
               </svg>
             </span>
-            <span>Sobe / desce no último dia de treino</span>
+            <span>
+              Sobe / desce desde o treino anterior
+              {movement.prev &&
+                ` (${movement.prev.split("-").reverse().slice(0, 2).join("/")})`}
+            </span>
           </div>
         </div>
       </footer>

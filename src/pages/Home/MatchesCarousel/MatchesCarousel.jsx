@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import LogoADR from "../../../assets/logo.png";
 import "./matchescarroussel.css";
 import bannerHallo from "../../../../public/banner/BannerHallo.png";
+import bannerNatal from "../../../../public/banner/BannerNatal.png";
+
+/* Banner de fundo de cada tipo de evento (sem tipo = Halloween) */
+const EVENT_BANNERS = {
+  HALLOWEEN: bannerHallo,
+  NATAL: bannerNatal,
+};
 
 
 /* Ícones desenhados (no lugar dos emojis) */
@@ -96,10 +103,10 @@ function MatchesCarousel({ matches = [], players = [] }) {
   };
 
   // Identifica o subtipo do evento (ex: "halloween") e define o banner correspondente
-  const eventSubtype = (match.eventType || "").toLowerCase();
-  const isHalloween =
-    rawType === "EVENTO" &&
-    (!match.eventType || match.eventType.toUpperCase() === "HALLOWEEN");
+  const isEvent = rawType === "EVENTO";
+  const eventKey = String(match.eventType || "HALLOWEEN").toUpperCase();
+  const eventSubtype = isEvent ? eventKey.toLowerCase() : "";
+  const eventBanner = isEvent ? EVENT_BANNERS[eventKey] : null;
 
   // Contagem de gols no tempo normal
   const goalsA =
@@ -195,7 +202,7 @@ function MatchesCarousel({ matches = [], players = [] }) {
         eventSubtype ? `mtc-event-${eventSubtype}` : ""
       }`}
       style={
-        isHalloween ? { "--mtc-event-bg": `url(${bannerHallo})` } : undefined
+        eventBanner ? { "--mtc-event-bg": `url(${eventBanner})` } : undefined
       }
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}

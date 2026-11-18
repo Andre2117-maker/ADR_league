@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./MatchCard.css";
 import LogoIDR from "../../../assets/IDR.png";
 
-// Importando a moldura de Halloween
+// Molduras dos eventos (uma por tipo; sem tipo = Halloween)
 import halloweenMoldura from "../../../assets/moldura/halloween.png";
+import natalMoldura from "../../../assets/moldura/natal.png";
+
+const EVENT_FRAMES = {
+  HALLOWEEN: halloweenMoldura,
+  NATAL: natalMoldura,
+};
 
 /* Ícones (SVG, herdam a cor) */
 const Ico = ({ d }) => (
@@ -119,14 +125,9 @@ const MatchCard = ({
   const teamBName =
     match.teamB?.externalName || match.teamB?.name || "Adversário";
 
-  const getEventMolduraSrc = () => {
-    switch (match.eventType) {
-      case "HALLOWEEN":
-        return halloweenMoldura;
-      default:
-        return halloweenMoldura;
-    }
-  };
+  // tipo do evento em maiúsculas ("NATAL", "HALLOWEEN"...); sem tipo = Halloween
+  const eventKey = String(match.eventType || "HALLOWEEN").toUpperCase();
+  const getEventMolduraSrc = () => EVENT_FRAMES[eventKey] || halloweenMoldura;
 
   const formatEventSubtype = (subType) => {
     if (!subType) return "";
@@ -137,7 +138,11 @@ const MatchCard = ({
   const isEvent = match.type === "EVENTO";
 
   return (
-    <div className={`psg-match-card ${isEvent ? "psg-event-card" : ""}`}>
+    <div
+      className={`psg-match-card ${
+        isEvent ? `psg-event-card psg-event-${eventKey.toLowerCase()}` : ""
+      }`}
+    >
       {/* Camada da Moldura abraçando o lado de fora da borda do card */}
       {isEvent && (
         <div

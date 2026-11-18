@@ -89,3 +89,195 @@
   top: 14px !important;
   right: 16px !important;
 }
+
+/* =========================================================
+   CARD DE EVENTO NAS VERSÕES IDR E ADR CLASSIC
+   (a moldura PNG é a mesma; cada tema muda a cor dela com filtro)
+   ========================================================= */
+
+/* ---------- IDR: "edição especial" de jornal, moldura em preto e branco ---------- */
+.theme-idr .psg-match-card.psg-event-card {
+  background-color: #ffffff !important;
+  box-shadow: 8px 8px 0 #d6d6d0 !important;
+}
+
+.theme-idr .psg-match-card.psg-event-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 11px 11px 0 #000 !important;
+}
+
+.theme-idr .psg-event-frame-overlay {
+  filter: grayscale(1) contrast(1.6) brightness(0.85);
+}
+
+.theme-idr .psg-match-card.psg-event-card .psg-card-top {
+  background: #fff;
+  border-bottom: 0 !important;
+  box-shadow: inset 0 -1px 0 #000, inset 0 -4px 0 #fff, inset 0 -6px 0 #000; /* régua dupla */
+}
+
+.theme-idr .psg-match-card.psg-event-card .psg-comp-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  background: #000;
+  color: #fff !important;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.theme-idr .psg-match-card.psg-event-card .psg-comp-text svg {
+  width: 12px;
+  height: 12px;
+  fill: #fff;
+  stroke: none;
+}
+
+.theme-idr .psg-match-card.psg-event-card .psg-comp-text::before {
+  content: "Edição especial ·";
+  margin-right: 2px;
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 9px;
+  letter-spacing: 2px;
+  opacity: 0.75;
+}
+
+.theme-idr .psg-match-card.psg-event-card .psg-team-name {
+  color: #000;
+}
+
+.theme-idr .psg-match-card.psg-event-card .psg-match-center-btn {
+  border-top: 0 !important;
+  box-shadow: inset 0 2px 0 #000;
+}
+
+/* ---------- CLASSIC: figurinha "rara", moldura em rosa e roxo ---------- */
+body.theme-classic .psg-match-card.psg-event-card {
+  background:
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.025) 0 12px, transparent 12px 26px),
+    #1d1222 !important;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.7),
+    0 0 26px rgba(236, 68, 112, 0.35) !important;
+}
+
+body.theme-classic .psg-match-card.psg-event-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow:
+    0 22px 44px rgba(0, 0, 0, 0.7),
+    0 0 36px rgba(236, 68, 112, 0.55) !important;
+}
+
+/* Halloween: laranja → rosa/magenta do tema */
+body.theme-classic .psg-event-halloween .psg-event-frame-overlay {
+  filter: hue-rotate(-55deg) saturate(1.5) brightness(1.08)
+    drop-shadow(0 0 6px rgba(236, 68, 112, 0.45));
+}
+
+body.theme-classic .psg-match-card.psg-event-card .psg-card-top {
+  background: linear-gradient(180deg, rgba(123, 58, 168, 0.35), transparent);
+  border-bottom: 2px solid rgba(255, 138, 165, 0.35);
+}
+
+/* nome do evento em adesivo branco */
+body.theme-classic .psg-match-card.psg-event-card .psg-comp-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  background: #fff;
+  border: 2px solid #120a16;
+  border-radius: 6px;
+  box-shadow: 3px 3px 0 #7b3aa8;
+  color: #b8307a !important;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+}
+
+body.theme-classic .psg-match-card.psg-event-card .psg-comp-text svg {
+  width: 12px;
+  height: 12px;
+  fill: #e3263a;
+  stroke: none;
+}
+
+body.theme-classic .psg-match-card.psg-event-card .psg-match-center-btn {
+  margin: 0 18px 22px;
+  padding: 12px !important;
+  border: 0;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  color: #fff !important;
+  font-style: italic;
+  text-shadow: 1px 1px 0 #5a1f4a;
+  box-shadow: 0 4px 0 #5a1f4a !important;
+}
+
+body.theme-classic .psg-match-card.psg-event-card .psg-match-center-btn:hover {
+  filter: brightness(1.12);
+}
+
+body.theme-classic .psg-match-card.psg-event-card .psg-match-center-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a !important;
+}
+
+/* =========================================================
+   NATAL — moldura natal.png (vermelho, verde e dourado)
+   ========================================================= */
+.psg-match-card.psg-event-card.psg-event-natal {
+  background-color: #0a0d0b !important;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.85),
+    0 0 18px rgba(225, 29, 46, 0.22),
+    0 0 30px rgba(22, 163, 74, 0.12) !important;
+}
+
+.psg-match-card.psg-event-card.psg-event-natal .psg-comp-text {
+  color: #ff4d5a !important;
+}
+
+.psg-match-card.psg-event-card.psg-event-natal .psg-comp-text svg {
+  fill: #f2c14e;
+  stroke: none;
+}
+
+/* IDR: mesma "edição especial" em preto e branco (regras acima já valem) */
+.theme-idr .psg-match-card.psg-event-card.psg-event-natal {
+  background-color: #ffffff !important;
+  box-shadow: 8px 8px 0 #d6d6d0 !important;
+}
+
+.theme-idr .psg-match-card.psg-event-card.psg-event-natal .psg-comp-text {
+  color: #fff !important;
+}
+
+.theme-idr .psg-match-card.psg-event-card.psg-event-natal .psg-comp-text svg {
+  fill: #fff;
+}
+
+/* CLASSIC: a moldura de Natal já combina (vermelho); só ganha contorno rosado */
+body.theme-classic .psg-event-natal .psg-event-frame-overlay {
+  filter: saturate(1.15) drop-shadow(0 0 6px rgba(236, 68, 112, 0.4));
+}
+
+body.theme-classic .psg-match-card.psg-event-card.psg-event-natal {
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.7),
+    0 0 26px rgba(227, 38, 58, 0.4) !important;
+}
+
+body.theme-classic .psg-match-card.psg-event-card.psg-event-natal .psg-comp-text {
+  color: #e3263a !important;
+  box-shadow: 3px 3px 0 #1f8a4c;
+}
+
+body.theme-classic .psg-match-card.psg-event-card.psg-event-natal .psg-comp-text svg {
+  fill: #f2c14e;
+}

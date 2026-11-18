@@ -1054,3 +1054,36 @@ body.theme-classic .mtc-dot.active {
     height: 14px;
   }
 }
+
+/* ==========================================================================
+   EVENTO DE NATAL (banner BannerNatal.png) — vermelho, verde e dourado
+   ========================================================================== */
+.mtc-banner-container.mtc-type-evento.mtc-event-natal {
+  --mtc-bg-top: #070a07;
+  --mtc-bg-bottom: #160607;
+  --mtc-accent: #e11d2e;
+  --mtc-accent-bright: #ff6b6b;
+  --mtc-accent-glow: rgba(225, 29, 46, 0.3);
+  --mtc-score-bg: linear-gradient(135deg, #e11d2e 0%, #14803c 100%);
+  --mtc-score-text: #ffffff;
+  --mtc-score-divider: rgba(255, 255, 255, 0.38);
+}
+
+/* IDR: papel marfim com vermelho natalino nos destaques */
+.theme-idr .mtc-banner-container.mtc-type-evento.mtc-event-natal {
+  --mtc-bg-top: #ffffff;
+  --mtc-bg-bottom: #fbf6ee;
+  --mtc-accent: #b91c1c;
+  --mtc-accent-bright: #991b1b;
+  --mtc-accent-glow: rgba(185, 28, 28, 0.16);
+  --mtc-score-bg: #b91c1c;
+  --mtc-score-text: #ffffff;
+}
+
+/* CLASSIC: figurinha vermelha e verde com letra dourada */
+body.theme-classic .mtc-banner-container.mtc-type-evento.mtc-event-natal {
+  --mc-1: #e3263a;
+  --mc-2: #b3122a;
+  --mc-3: #1f8a4c;
+  --mc-ink: #ffe08a;
+}

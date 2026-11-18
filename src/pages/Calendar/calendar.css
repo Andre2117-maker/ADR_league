@@ -939,10 +939,6 @@
   color: #fff !important;
 }
 
-.theme-idr .psg-team-logo {
-  filter: grayscale(1) !important;
-}
-
 .theme-idr .psg-team-score {
   font-family: "Archivo Black", "Inter", sans-serif;
   font-weight: 400;
