@@ -220,6 +220,7 @@ function Navbar({ isAdmin, logout }) {
             ) : (
               <Link
                 to="/admin-login"
+                state={{ from: location.pathname + location.search + location.hash }}
                 className="nvb-user-btn"
                 aria-label="Acesso admin"
                 title="Acesso admin"
@@ -355,6 +356,7 @@ function Navbar({ isAdmin, logout }) {
           ) : (
             <Link
               to="/admin-login"
+                state={{ from: location.pathname + location.search + location.hash }}
               className="nvb-side-admin-btn"
               onClick={closeSidebar}
             >

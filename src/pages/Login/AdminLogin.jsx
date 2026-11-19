@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 /* ---------- ícones desenhados (sem emoji) ---------- */
@@ -53,6 +53,16 @@ const saveLock = (v) => {
 
 function AdminLogin({ setIsAdmin }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // página onde a pessoa estava antes de clicar em "Acesso admin"
+  // (vem do NavBar). Se não tiver, volta para a Home.
+  const voltarPara = (() => {
+    const from = location.state?.from;
+    if (typeof from !== "string" || !from.startsWith("/")) return "/";
+    if (from.startsWith("/admin-login")) return "/";
+    return from;
+  })();
   const inputRef = useRef(null);
 
   const [senha, setSenha] = useState("");
@@ -104,7 +114,7 @@ function AdminLogin({ setIsAdmin }) {
         setStatus("ok");
         setTimeout(() => {
           setIsAdmin(true);
-          navigate("/", { replace: true });
+          navigate(voltarPara, { replace: true });
         }, 700);
         return;
       }
@@ -210,8 +220,8 @@ function AdminLogin({ setIsAdmin }) {
                 : "Acessar painel"}
         </button>
 
-        <button type="button" className="lg-back" onClick={() => navigate("/")}>
-          <BackIco /> Voltar para a tabela
+        <button type="button" className="lg-back" onClick={() => navigate(voltarPara)}>
+          <BackIco /> {voltarPara === "/" ? "Voltar para a tabela" : "Voltar"}
         </button>
       </form>
     </div>
