@@ -1,6 +1,21 @@
 import React, { useState, useMemo } from "react";
-import "../../styles/playeradmin.css";
-import { AchIcon, ACH_ICON_KEYS, ACH_ICON_LABELS } from "./achIcons";
+import "./playeradmin.css";
+import {
+  AchIcon,
+  ACH_ICON_KEYS,
+  ACH_ICON_LABELS,
+} from "../../../components/playerpage/achIcons";
+import "../hallLink.css";
+import {
+  useAwards,
+  awardsForPlayer,
+  awardIconToAch,
+  itemsForYear,
+  giveAward,
+  clearAward,
+  isDuplicateOfHall,
+  SEED,
+} from "../../../services/hallAwards";
 
 const ALL_POSITIONS = [
   "GOL",
@@ -53,6 +68,79 @@ const PlayerAdminMode = ({
     icon: "trophy",
     title: "",
   });
+
+  // ---------- Hall da Fama (salva na hora em awards/{ano}) ----------
+  const awardsData = useAwards();
+  const thisYear = new Date().getFullYear();
+  const [toHall, setToHall] = useState(false);
+  const [hallYear, setHallYear] = useState(thisYear);
+  const [hallDetail, setHallDetail] = useState("");
+  const [hallBusy, setHallBusy] = useState(false);
+
+  const hallYears = useMemo(() => {
+    const set = new Set(
+      [
+        ...Object.keys(awardsData),
+        ...Object.keys(SEED),
+        thisYear,
+        thisYear - 1,
+      ].map(Number),
+    );
+    return [...set].sort((a, b) => b - a);
+  }, [awardsData, thisYear]);
+
+  const hallTitles = useMemo(
+    () => itemsForYear(awardsData, hallYear).map((it) => it.title),
+    [awardsData, hallYear],
+  );
+
+  const playerHall = useMemo(
+    () => awardsForPlayer(awardsData, player),
+    [awardsData, player],
+  );
+
+  const addToHall = async () => {
+    if (!newAch.title.trim() || hallBusy) return;
+    setHallBusy(true);
+    try {
+      await giveAward(
+        hallYear,
+        {
+          title: newAch.title.trim(),
+          icon: newAch.icon,
+          detail: hallDetail.trim(),
+        },
+        player,
+      );
+      setNewAch({ icon: "trophy", title: "" });
+      setHallDetail("");
+    } catch (err) {
+      console.error(err);
+      alert(
+        "Não foi possível salvar no Hall da Fama. Verifique as permissões do Firestore.",
+      );
+    } finally {
+      setHallBusy(false);
+    }
+  };
+
+  const removeFromHall = async (a) => {
+    if (
+      !window.confirm(
+        `Tirar "${a.title} ${a.year}" de ${player.name}? Some também do Hall da Fama.`,
+      )
+    )
+      return;
+    setHallBusy(true);
+    try {
+      await clearAward(a.year, a.id);
+    } catch (err) {
+      console.error(err);
+      alert("Não foi possível remover do Hall da Fama.");
+    } finally {
+      setHallBusy(false);
+    }
+  };
 
   // Estatísticas da temporada selecionada
   const currentSeasonStats = formData.statsBySeason?.[selectedYear] || {
@@ -500,9 +588,11 @@ const PlayerAdminMode = ({
                     }`}
                   >
                     <span className="pos-code">{pos}</span>
-                    {isPrimary && <span className="pos-main-star">
+                    {isPrimary && (
+                      <span className="pos-main-star">
                         <AchIcon icon="star" />
-                      </span>}
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -685,22 +775,121 @@ const PlayerAdminMode = ({
                   title: e.target.value,
                 })
               }
-              onKeyDown={(e) => e.key === "Enter" && addAchievement()}
+              onKeyDown={(e) =>
+                e.key === "Enter" && (toHall ? addToHall() : addAchievement())
+              }
+              list={toHall ? "adm-hall-titles" : undefined}
             />
 
             <button
               type="button"
-              onClick={addAchievement}
+              onClick={toHall ? addToHall : addAchievement}
               className="adm-btn-add"
+              disabled={hallBusy}
             >
-              + ADICIONAR
+              {toHall
+                ? hallBusy
+                  ? "SALVANDO..."
+                  : "+ DAR PRÊMIO"
+                : "+ ADICIONAR"}
             </button>
           </div>
 
+          {/* onde a conquista vai: só no jogador ou no Hall da Fama */}
+          <div className="adm-hall-row">
+            <label className="adm-hall-toggle">
+              <input
+                type="checkbox"
+                checked={toHall}
+                onChange={(e) => setToHall(e.target.checked)}
+              />
+              <span>É prêmio do Hall da Fama</span>
+            </label>
+
+            {toHall && (
+              <>
+                <select
+                  className="adm-hall-year"
+                  value={hallYear}
+                  onChange={(e) => setHallYear(Number(e.target.value))}
+                  aria-label="Temporada"
+                >
+                  {hallYears.map((y) => (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="adm-hall-detail"
+                  placeholder="Detalhe (ex: 18 gols)"
+                  value={hallDetail}
+                  onChange={(e) => setHallDetail(e.target.value)}
+                />
+                <datalist id="adm-hall-titles">
+                  {hallTitles.map((t) => (
+                    <option key={t} value={t} />
+                  ))}
+                </datalist>
+                <p className="adm-hall-hint">
+                  Escolha um prêmio que já existe no ano (ex: Artilheiro) ou
+                  digite um novo. Salva na hora e aparece no Hall da Fama.
+                </p>
+              </>
+            )}
+          </div>
+
           <div className="adm-ach-list">
+            {/* prêmios do Hall da Fama: apagar aqui apaga lá também */}
+            {playerHall.map((a) => (
+              <div
+                key={`hall-${a.year}-${a.id}`}
+                className="adm-ach-item is-hall"
+                style={{ "--award-color": a.color }}
+              >
+                <div className="adm-ach-info">
+                  <span className="adm-ach-badge-icon">
+                    <AchIcon icon={awardIconToAch(a.icon)} />
+                  </span>
+                  <span className="adm-ach-badge-text">
+                    {a.title} {a.year}
+                    {a.detail ? ` · ${a.detail}` : ""}
+                  </span>
+                  <span className="adm-hall-tag">Hall da Fama</span>
+                </div>
+
+                <button
+                  type="button"
+                  className="adm-ach-del"
+                  onClick={() => removeFromHall(a)}
+                  disabled={hallBusy}
+                  title="Tirar o prêmio (some do Hall também)"
+                  aria-label="Tirar o prêmio"
+                >
+                  <svg
+                    className="ach-ico"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 6l12 12M18 6 6 18" />
+                  </svg>
+                </button>
+              </div>
+            ))}
+
             {formData.achievements?.length > 0 ? (
               formData.achievements.map((ach, idx) => (
-                <div key={idx} className="adm-ach-item">
+                <div
+                  key={idx}
+                  className={`adm-ach-item ${
+                    isDuplicateOfHall(ach, playerHall) ? "is-duplicate" : ""
+                  }`}
+                  title={
+                    isDuplicateOfHall(ach, playerHall)
+                      ? "Repetida: já aparece pelo Hall da Fama (pode apagar)"
+                      : undefined
+                  }
+                >
                   <div className="adm-ach-info">
                     <span className="adm-ach-badge-icon">
                       <AchIcon icon={ach.icon} />
@@ -716,13 +905,17 @@ const PlayerAdminMode = ({
                     title="Remover conquista"
                     aria-label="Remover conquista"
                   >
-                    <svg className="ach-ico" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg
+                      className="ach-ico"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
                       <path d="M6 6l12 12M18 6 6 18" />
                     </svg>
                   </button>
                 </div>
               ))
-            ) : (
+            ) : playerHall.length ? null : (
               <p className="adm-empty-ach">
                 Nenhuma conquista cadastrada para este atleta.
               </p>

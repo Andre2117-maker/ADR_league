@@ -1,0 +1,145 @@
+/* ==========================================================================
+   PRÊMIOS DO HALL DA FAMA NA PÁGINA DO JOGADOR E NO MODO ADMIN
+   (o --award-color é a cor do prêmio escolhida no Hall)
+   ========================================================================== */
+
+/* ---------- página do jogador ---------- */
+.ppg-tag-goal.is-hall {
+  border-color: var(--award-color, #d4af37);
+  background: color-mix(in srgb, var(--award-color, #d4af37) 12%, transparent);
+  box-shadow: inset 3px 0 0 var(--award-color, #d4af37);
+}
+
+.ppg-tag-goal.is-hall .ach-ico {
+  color: var(--award-color, #d4af37);
+}
+
+.theme-idr .ppg-tag-goal.is-hall {
+  background: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+.theme-idr .ppg-tag-goal.is-hall .ach-ico,
+.theme-idr .ppg-tag-goal.is-hall span {
+  color: #fff !important;
+}
+
+body.theme-classic .ppg-tag-goal.is-hall {
+  background: #fff;
+  border: 2px solid #120a16;
+  color: #120a16;
+  box-shadow: 3px 3px 0 var(--award-color, #7b3aa8);
+}
+
+body.theme-classic .ppg-tag-goal.is-hall .ach-ico {
+  color: var(--award-color, #e3263a);
+}
+
+/* ---------- modo admin ---------- */
+.adm-hall-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin: 10px 0 14px;
+}
+
+.adm-hall-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.adm-hall-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: #d4af37;
+}
+
+.adm-hall-year,
+.adm-hall-detail {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.adm-hall-detail {
+  flex: 1;
+  min-width: 140px;
+}
+
+.adm-hall-hint {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.72rem;
+  opacity: 0.65;
+}
+
+.adm-ach-item.is-hall {
+  border-left: 4px solid var(--award-color, #d4af37) !important;
+}
+
+.adm-hall-tag {
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--award-color, #d4af37);
+  color: #000;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* conquista manual que repete um prêmio do Hall: fica apagadinha */
+.adm-ach-item.is-duplicate {
+  opacity: 0.5;
+  border-style: dashed !important;
+}
+
+.theme-idr .adm-hall-year,
+.theme-idr .adm-hall-detail {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+}
+
+.theme-idr .adm-hall-toggle input {
+  accent-color: #000;
+}
+
+.theme-idr .adm-hall-tag {
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+}
+
+body.theme-classic .adm-hall-year,
+body.theme-classic .adm-hall-detail {
+  border: 2px solid rgba(255, 138, 165, 0.55);
+  background: #120a16;
+  color: #fff;
+}
+
+body.theme-classic .adm-hall-toggle input {
+  accent-color: #ec4470;
+}
+
+body.theme-classic .adm-hall-tag {
+  border: 2px solid #120a16;
+  color: #120a16;
+  transform: rotate(-3deg);
+}

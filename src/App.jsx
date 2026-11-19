@@ -37,6 +37,7 @@ import LocalTreinos from "./pages/LocalTreinos/LocalTreinos.jsx";
 import Elenco from "./pages/Elenco/Elenco.jsx";
 import Configuracao from "./pages/Configuracao/Configuracao.jsx";
 import Retrospectiva from "./pages/Retrospectiva/Retrospectiva.jsx";
+import Temporadas from "./pages/Temporadas/Temporadas.jsx";
 
 import { applyTheme, getSavedTheme } from "./utils/theme";
 
@@ -235,6 +236,17 @@ function App() {
           <Route
             path="/transparency"
             element={<AdminTransparency isAdmin={isAdmin} />}
+          />
+
+          <Route
+            path="/temporadas"
+            element={
+              <Temporadas
+                players={players}
+                matches={matches}
+                isAdmin={isAdmin}
+              />
+            }
           />
 
           <Route

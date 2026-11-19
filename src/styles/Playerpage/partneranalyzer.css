@@ -606,7 +606,7 @@
 
 /* Mantém verde e vermelho nos indicadores */
 .theme-idr .auto-spot-chip.ally .spot-tag {
-  color: #111 !important;
+  color: #7c7b7b !important;
 }
 
 .theme-idr .auto-spot-chip.customer .spot-tag {
@@ -979,7 +979,9 @@
 }
 .theme-idr .partner-card .partner-header-top {
   border-bottom: 5px solid #000;
-  box-shadow: 0 3px 0 #fff, 0 4px 0 #000;
+  box-shadow:
+    0 3px 0 #fff,
+    0 4px 0 #000;
 }
 .theme-idr .partner-card .ppg-card-title {
   font-family: "Archivo Black", sans-serif;
@@ -1055,7 +1057,11 @@
 .theme-idr .rivalry-tug-track {
   height: 10px;
   border: 2px solid #000;
-  background: repeating-linear-gradient(-45deg, #000 0 3px, #fff 3px 6px) !important;
+  background: repeating-linear-gradient(
+    -45deg,
+    #000 0 3px,
+    #fff 3px 6px
+  ) !important;
 }
 .theme-idr .rivalry-tug-fill-win {
   background: #000 !important;
@@ -1081,7 +1087,11 @@ body.theme-classic .partner-card {
 }
 body.theme-classic .partner-card .partner-header-top {
   background:
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
     linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
   border-bottom: 2px solid #ff8aa5;
 }
@@ -1093,7 +1103,11 @@ body.theme-classic .auto-spot-chip {
 }
 body.theme-classic .auto-spot-chip.active,
 body.theme-classic .auto-spot-chip:hover {
-  background: linear-gradient(160deg, rgba(184, 48, 122, 0.35), rgba(123, 58, 168, 0.25)) !important;
+  background: linear-gradient(
+    160deg,
+    rgba(184, 48, 122, 0.35),
+    rgba(123, 58, 168, 0.25)
+  ) !important;
   box-shadow: inset 0 -3px 0 #ff8aa5 !important;
 }
 body.theme-classic .spot-name {
@@ -1114,7 +1128,11 @@ body.theme-classic .partner-selector select option {
 }
 body.theme-classic .partner-versus-banner {
   background:
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.05) 0 12px, transparent 12px 26px),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.05) 0 12px,
+      transparent 12px 26px
+    ),
     #120a16;
   border: 2px solid #ff8aa5;
   border-radius: 12px;
@@ -1168,7 +1186,11 @@ body.theme-classic .p-stat-val {
 }
 body.theme-classic .partner-stat-box.highlight {
   background:
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
     linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
   box-shadow: none;
 }

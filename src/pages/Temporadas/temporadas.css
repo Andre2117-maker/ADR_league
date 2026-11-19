@@ -1,0 +1,664 @@
+/* ==========================================================================
+   OUTRAS TEMPORADAS
+   A tabela usa o visual da Classificação Geral (rankingtable.css).
+   Aqui só as abas, o topo, as regras, os prêmios e a área do admin.
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
+.ss-page {
+  --ss-fg: #ffffff;
+  --ss-muted: #8a8f98;
+  --ss-line: rgba(255, 255, 255, 0.08);
+  --ss-panel: rgba(255, 255, 255, 0.03);
+  --ss-accent: #d4af37;
+  --ss-accent-ink: #000000;
+  --ss-live: #22c55e;
+}
+
+/* ---------- abas ---------- */
+.ss-tabs {
+  display: flex;
+  gap: 10px;
+  margin: 6px 0 22px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.ss-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ss-tab {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 108px;
+  padding: 10px 16px;
+  background: var(--ss-panel);
+  border: 1px solid var(--ss-line);
+  border-radius: 12px;
+  color: var(--ss-muted);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s,
+    transform 0.2s;
+}
+
+.ss-tab:hover {
+  color: var(--ss-fg);
+  border-color: color-mix(in srgb, var(--ss-accent) 50%, transparent);
+}
+
+.ss-tab.is-active {
+  color: var(--ss-accent-ink);
+  background: var(--ss-accent);
+  border-color: var(--ss-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--ss-accent) 30%, transparent);
+}
+
+.ss-tab-year {
+  font-size: 1.35rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+
+.ss-tab-sub {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* ---------- topo da temporada ---------- */
+.ss-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.ss-title {
+  margin: 0;
+  color: var(--ss-fg);
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  padding-right: 0.15em;
+}
+
+.ss-subtitle {
+  margin: 4px 0 10px;
+  color: var(--ss-muted);
+  font-size: 0.85rem;
+}
+
+.ss-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid var(--ss-line);
+  border-radius: 999px;
+  color: var(--ss-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ss-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.ss-status.is-live {
+  color: var(--ss-live);
+}
+
+.ss-status.is-live::before {
+  animation: ss-pulse 1.4s ease-in-out infinite;
+}
+
+.ss-status.is-archived {
+  color: var(--ss-accent);
+}
+
+@keyframes ss-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* campeão */
+.ss-champ {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 12px;
+  align-items: center;
+  padding: 12px 18px;
+  border: 1px solid color-mix(in srgb, var(--ss-accent) 45%, transparent);
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ss-accent) 18%, transparent),
+    transparent
+  );
+  text-decoration: none;
+  color: var(--ss-fg);
+  transition: transform 0.2s;
+}
+
+.ss-champ:hover {
+  transform: translateY(-2px);
+}
+
+.ss-champ-medal {
+  grid-row: 1 / 4;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.ss-champ-label {
+  color: var(--ss-accent);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.ss-champ-name {
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  padding-right: 0.15em;
+}
+
+.ss-champ-stat {
+  color: var(--ss-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.ss-player-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ss-player-link:hover .rk-player-name-text {
+  text-decoration: underline;
+}
+
+.ss-empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--ss-muted);
+}
+
+/* ---------- caixas (regras / prêmios) ---------- */
+.ss-card {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border: 1px solid var(--ss-line);
+  border-radius: 14px;
+  background: var(--ss-panel);
+}
+
+.ss-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.ss-card-title {
+  margin: 0;
+  color: var(--ss-fg);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.ss-rules-list {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: ss-rule;
+  display: grid;
+  gap: 10px;
+}
+
+.ss-rules-list li {
+  position: relative;
+  padding-left: 38px;
+  color: var(--ss-fg);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  counter-increment: ss-rule;
+}
+
+.ss-rules-list li::before {
+  content: counter(ss-rule);
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--ss-accent) 16%, transparent);
+  color: var(--ss-accent);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.ss-rules-edit textarea {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid var(--ss-line);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--ss-fg);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.ss-hint {
+  margin: 6px 0 0;
+  color: var(--ss-muted);
+  font-size: 0.72rem;
+}
+
+/* prêmios */
+.ss-awards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.ss-award {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px solid
+    color-mix(in srgb, var(--award-color, #d4af37) 45%, transparent);
+  border-left: 4px solid var(--award-color, #d4af37);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--award-color, #d4af37) 10%, transparent);
+}
+
+.ss-award-ico {
+  grid-row: 1 / 3;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--award-color, #d4af37);
+}
+
+.ss-award-title {
+  color: var(--ss-muted);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.ss-award-winner {
+  color: var(--ss-fg);
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+/* ---------- admin ---------- */
+.ss-admin {
+  margin-top: 22px;
+  padding: 14px 18px;
+  border: 1px dashed color-mix(in srgb, var(--ss-accent) 45%, transparent);
+  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ss-admin p {
+  margin: 0;
+  flex: 1 1 260px;
+  color: var(--ss-muted);
+  font-size: 0.8rem;
+}
+
+.ss-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ss-admin .ss-actions {
+  margin-top: 0;
+}
+
+.ss-btn {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--ss-accent);
+  border-radius: 10px;
+  background: var(--ss-accent);
+  color: var(--ss-accent-ink);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ss-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ss-btn-ghost {
+  background: transparent;
+  color: var(--ss-accent);
+}
+
+.ss-btn.is-danger {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ==========================================================================
+   IDR — "JORNAL"
+   ========================================================================== */
+.theme-idr .ss-page {
+  --ss-fg: #000000;
+  --ss-muted: #555555;
+  --ss-line: #000000;
+  --ss-panel: #ffffff;
+  --ss-accent: #000000;
+  --ss-accent-ink: #ffffff;
+  --ss-live: #000000;
+}
+
+.theme-idr .ss-tab {
+  border: 2px solid #000;
+  border-radius: 0;
+}
+
+.theme-idr .ss-tab.is-active {
+  transform: none;
+  box-shadow: 4px 4px 0 #d6d6d0;
+}
+
+.theme-idr .ss-tab-year,
+.theme-idr .ss-title,
+.theme-idr .ss-champ-name {
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.theme-idr .ss-status {
+  border: 2px solid #000;
+  border-radius: 0;
+}
+
+.theme-idr .ss-status.is-archived {
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .ss-champ {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 5px 5px 0 #d6d6d0;
+}
+
+.theme-idr .ss-champ-medal {
+  filter: grayscale(1) contrast(1.2);
+}
+
+.theme-idr .ss-card {
+  border: 2px solid #000;
+  border-top: 6px solid #000;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+
+.theme-idr .ss-card-title {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .ss-rules-list li::before {
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+}
+
+.theme-idr .ss-rules-edit textarea {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+}
+
+.theme-idr .ss-award {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+.theme-idr .ss-award-ico {
+  color: #000;
+}
+
+.theme-idr .ss-admin {
+  border: 2px dashed #000;
+  border-radius: 0;
+}
+
+.theme-idr .ss-btn {
+  border-width: 2px;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 #d6d6d0;
+}
+
+/* ==========================================================================
+   CLASSIC — "FIGURINHA RETRÔ"
+   ========================================================================== */
+body.theme-classic .ss-page {
+  --ss-fg: #ffffff;
+  --ss-muted: #d9b3cf;
+  --ss-line: rgba(255, 138, 165, 0.3);
+  --ss-panel: rgba(18, 10, 22, 0.5);
+  --ss-accent: #ff5c8a;
+  --ss-accent-ink: #ffffff;
+  --ss-live: #3ee08f;
+}
+
+body.theme-classic .ss-tab {
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  border-radius: 14px;
+}
+
+body.theme-classic .ss-tab.is-active {
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.08) 0 10px,
+      transparent 10px 22px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  border-color: #fff;
+  transform: rotate(-2deg);
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .ss-tab-year,
+body.theme-classic .ss-title,
+body.theme-classic .ss-champ-name {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding-right: 0.2em;
+}
+
+body.theme-classic .ss-title {
+  font-size: 1.9rem;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+
+body.theme-classic .ss-champ {
+  border: 2px solid #ff8aa5;
+  background: #1d1222;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+  transform: rotate(1.5deg);
+}
+
+body.theme-classic .ss-card {
+  border: 2px solid #ff8aa5;
+  background: #1d1222;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8;
+}
+
+body.theme-classic .ss-card-title {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #fff;
+  border: 2px solid #120a16;
+  border-radius: 6px;
+  color: #b8307a;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .ss-rules-list li::before {
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  border: 2px solid #120a16;
+  transform: rotate(-4deg);
+}
+
+body.theme-classic .ss-rules-edit textarea {
+  border: 2px solid rgba(255, 138, 165, 0.55);
+  background: #120a16;
+}
+
+body.theme-classic .ss-award {
+  background: #fff;
+  border: 2px solid #120a16;
+  box-shadow: 3px 3px 0 var(--award-color, #7b3aa8);
+}
+
+body.theme-classic .ss-award-title {
+  color: #7b3aa8;
+}
+
+body.theme-classic .ss-award-winner {
+  color: #120a16;
+}
+
+body.theme-classic .ss-btn {
+  border: 2px solid #ff8aa5;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .ss-btn-ghost {
+  background: transparent;
+  color: #ffd1dc;
+}
+
+body.theme-classic .ss-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 600px) {
+  .ss-tab {
+    min-width: 92px;
+    padding: 8px 12px;
+  }
+  .ss-champ {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ss-card {
+    padding: 14px;
+  }
+}
+
+/* tabela curta (só gols, como em 2025): cabe na tela sem rolar pro lado */
+.ss-page table.rk-table.ss-table.is-compact {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.ss-page table.rk-table.ss-table.is-compact .pin-name {
+  min-width: 0 !important;
+  width: auto !important;
+}
+
+.ss-page table.rk-table.ss-table.is-compact th:last-child,
+.ss-page table.rk-table.ss-table.is-compact td:last-child {
+  width: 30%;
+  text-align: center;
+}
+
+/* espaço para o menu fixo do topo não cobrir a página */
+.ss-wrapper {
+  min-height: 100vh;
+  padding: calc(var(--nvb-h, 72px) + 32px) 16px 60px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .ss-wrapper {
+    padding: calc(var(--nvb-h, 64px) + 20px) 10px 40px;
+  }
+}

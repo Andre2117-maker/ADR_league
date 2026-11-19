@@ -1,0 +1,333 @@
+/* ==========================================================================
+   SELEÇÃO DO DIA — pôster 640 x 480 (sai 1280 x 960)
+   Mesmo estilo do Giro do dia: papel branco, título Abril Fatface,
+   detalhe verde. Só cores sólidas/gradientes simples (sai igual na imagem).
+   ========================================================================== */
+
+.dt-modal {
+  max-width: 720px;
+}
+
+/* trocar jogadores: grade de selects */
+.dt-swaps {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.dt-swaps label span {
+  font-size: 0.6rem;
+}
+
+/* prévia: o pôster encolhe pela largura da tela */
+.dt-preview {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 8px 0;
+  background: #1a1a1a;
+}
+
+.dt-scaler {
+  width: 640px;
+  flex-shrink: 0;
+  transform-origin: top center;
+}
+
+/* na hora de gerar a imagem, a cópia não pode estar reduzida */
+.dt-scaler:has(.is-exporting) {
+  transform: none !important;
+  margin-bottom: 0 !important;
+}
+
+/* ---------- pôster ---------- */
+.dt-poster {
+  width: 640px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 22px 18px;
+  overflow: hidden;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: "Open Sans", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.dt-poster * {
+  box-sizing: border-box;
+}
+
+.dt-rule {
+  display: block;
+  height: 2px;
+  margin: 7px 0;
+  background: #b9b9b9;
+}
+
+.dt-title {
+  margin: 0;
+  font-family: "Abril Fatface", "Bodoni Moda", Georgia, serif;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dt-brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.dt-brand span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dt-date {
+  color: #777;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.dt-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 18px;
+  margin-top: 4px;
+}
+
+/* ---------- esquerda: elenco dos sonhos ---------- */
+.dt-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.dt-list-title {
+  margin: 4px 0 8px;
+  font-family: "Abril Fatface", Georgia, serif;
+  font-weight: 400;
+  font-size: 21px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.dt-list ol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dt-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.dt-list li:last-child {
+  border-bottom: 0;
+}
+
+.dt-pos {
+  flex-shrink: 0;
+  width: 46px;
+  padding: 4px 0;
+  border-radius: 4px;
+  background: #0a0a0a;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.dt-pos.g-GK {
+  background: #18c93a;
+  color: #000;
+}
+
+.dt-li-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dt-li-text b {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dt-li-text small {
+  margin-top: 1px;
+  color: #6b6b6b;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+
+.dt-rule-text {
+  margin: 8px 0 0;
+  color: #999;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ---------- direita: campo ---------- */
+.dt-pitch {
+  position: relative;
+  min-height: 0;
+  border: 3px solid #0a0a0a;
+  border-radius: 6px;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(180deg, #2f9e4a 0 12.5%, #2a8f43 12.5% 25%);
+}
+
+/* linhas do campo */
+.dt-pitch::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 2px;
+}
+
+.dt-pitch-mid {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.dt-pitch-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dt-pitch-box {
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  height: 46px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+}
+
+.dt-pitch-box.is-top {
+  top: 8px;
+  border-top: 0;
+}
+
+.dt-pitch-box.is-bottom {
+  bottom: 8px;
+  border-bottom: 0;
+}
+
+/* jogador no campo */
+.dt-chip {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+  transform: translate(-50%, -50%);
+}
+
+.dt-face {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: #14351f;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+.dt-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 10%;
+}
+
+.dt-face i {
+  color: #fff;
+  font-style: normal;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.dt-chip-name {
+  max-width: 80px;
+  margin-top: -5px;
+  padding: 2px 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #0a0a0a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* o goleiro ganha o anel verde da marca */
+.dt-chip:first-of-type .dt-face {
+  border-color: #18c93a;
+}
+
+/* botão: mesmo do Giro, só com ícone de campo */
+.dt-open svg {
+  stroke-width: 1.6;
+}
+
+/* os dois botões (Giro do dia + Seleção do dia) lado a lado */
+.cal-export-btns {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dt-modal .gd-title-input,
+.dt-modal .gd-check {
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
+}

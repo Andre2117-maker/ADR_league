@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MatchCard from "./MatchCard/MatchCard";
 import Footer from "../../components/Footer";
 import DaySummaryExport from "./DaySummary/DaySummaryExport";
+import DreamTeamExport from "./DaySummary/DreamTeamExport";
 import "./calendar.css";
 
 function Calendar({
@@ -172,13 +173,21 @@ function Calendar({
             {filteredMatches.length === 1 ? "partida" : "partidas"}
           </small>
 
-          {isAdmin && (
-            <DaySummaryExport
+          <span className="cal-export-btns">
+            {isAdmin && (
+              <DaySummaryExport
+                matches={matches}
+                players={players}
+                isAdmin={isAdmin}
+              />
+            )}
+            {/* Seleção do dia (o próprio componente decide quem vê o botão) */}
+            <DreamTeamExport
               matches={matches}
               players={players}
               isAdmin={isAdmin}
             />
-          )}
+          </span>
         </h2>
 
         {/* Grid de Cards (key reinicia a animação ao trocar filtros) */}

@@ -54,7 +54,7 @@ const MILESTONES = [
   {
     goals: 150,
     key: "platinum",
-    title: "Imortal da ADR",
+    title: "Imortal do ADR",
     color: "#dcdde3",
     Icon: ShieldIcon,
   },

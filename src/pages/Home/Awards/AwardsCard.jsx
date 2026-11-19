@@ -1,10 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "../../../firebase"; // ajuste o caminho se necessário
+import {
+  useAwards,
+  saveYear,
+  SEED,
+  DEFAULT_TEMPLATE,
+  PALETTE,
+  makeId,
+  norm,
+} from "../../../services/hallAwards"; // mesmo nível do firebase.js
 import "./awards.css";
 
 /* ==========================================================
    COMO FUNCIONA
+   - Os dados ficam no services/hallAwards.js, que a página do jogador também usa
+     (prêmio dado/tirado aqui aparece/some lá, e vice-versa)
    - Cada ano é um documento em `awards/{ano}` no Firestore:
        { year: 2026, items: [{ id, title, icon, color, winner, playerId, detail }] }
    - Ano sem documento usa SEED (2025) ou o modelo padrão.
@@ -60,94 +69,15 @@ const Icon = ({ name, className }) => (
   </svg>
 );
 
-const PALETTE = [
-  "#d4af37",
-  "#4caf50",
-  "#ff9800",
-  "#e53935",
-  "#2196f3",
-  "#9c27b0",
-  "#00bcd4",
-];
-
-const makeId = () => Math.random().toString(36).slice(2, 9);
-
-// Modelo de um ano novo (vencedores em branco = "A definir")
-const DEFAULT_TEMPLATE = () => [
-  { id: "mvp", title: "MVP da Temporada", icon: "trophy", color: "#d4af37" },
-  { id: "gk", title: "Paredão do Ano", icon: "glove", color: "#4caf50" },
-  { id: "puskas", title: "Puskás ADR", icon: "fire", color: "#ff9800" },
-  { id: "scorer", title: "Artilheiro", icon: "ball", color: "#e53935" },
-  {
-    id: "assist",
-    title: "Líder de Assistências",
-    icon: "target",
-    color: "#2196f3",
-  },
-];
-
-// Dados que já existiam antes de ir para o banco
-const SEED = {
-  2025: [
-    {
-      id: "mvp",
-      title: "MVP da Temporada",
-      icon: "trophy",
-      color: "#d4af37",
-      winner: "Davi",
-    },
-    {
-      id: "gk",
-      title: "Paredão do Ano",
-      icon: "glove",
-      color: "#4caf50",
-      winner: "Thaiane",
-    },
-    {
-      id: "puskas",
-      title: "Puskás ADR",
-      icon: "fire",
-      color: "#ff9800",
-      winner: "Renzo",
-    },
-  ],
-};
-
-const norm = (s) =>
-  String(s || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim();
-
 function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
   const currentYear = new Date().getFullYear();
 
-  const [data, setData] = useState({}); // { [ano]: items[] } vindo do banco
+  const saved = useAwards(); // { [ano]: items[] } vindo do banco (compartilhado)
+  const [newYears, setNewYears] = useState({}); // anos criados e ainda não salvos
+  const data = useMemo(() => ({ ...newYears, ...saved }), [newYears, saved]);
   const [year, setYear] = useState(currentYear);
   const [draft, setDraft] = useState(null); // null = modo leitura
   const [saving, setSaving] = useState(false);
-
-  /* ---------- carrega do Firestore ---------- */
-  useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const snap = await getDocs(collection(db, "awards"));
-        const loaded = {};
-        snap.forEach((d) => {
-          const v = d.data();
-          if (Array.isArray(v.items)) loaded[d.id] = v.items;
-        });
-        if (alive) setData(loaded);
-      } catch (err) {
-        console.error("Erro ao carregar premiações:", err);
-      }
-    })();
-    return () => {
-      alive = false;
-    };
-  }, []);
 
   const itemsFor = (y) => data[y] || SEED[y] || DEFAULT_TEMPLATE();
 
@@ -251,8 +181,11 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
 
     setSaving(true);
     try {
-      await setDoc(doc(db, "awards", String(year)), { year, items: clean });
-      setData((prev) => ({ ...prev, [year]: clean }));
+      await saveYear(year, clean);
+      setNewYears((prev) => {
+        const { [year]: _, ...rest } = prev;
+        return rest;
+      });
       setDraft(null);
     } catch (err) {
       console.error("Erro ao salvar premiações:", err);
@@ -264,7 +197,7 @@ function AwardsCard({ players = [], onSelectPlayer, isAdmin = false }) {
 
   const addYear = () => {
     const next = Math.max(...years) + 1;
-    setData((prev) => ({ ...prev, [next]: DEFAULT_TEMPLATE() }));
+    setNewYears((prev) => ({ ...prev, [next]: DEFAULT_TEMPLATE() }));
     setYear(next);
     setDraft(DEFAULT_TEMPLATE());
   };

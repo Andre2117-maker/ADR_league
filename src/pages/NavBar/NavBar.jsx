@@ -40,6 +40,7 @@ const MENU = [
       { to: "/calendar", label: "Calendário" },
       { to: "/estatisticas", label: "Estatísticas" },
       { to: "/retrospectiva", label: "Retrospectiva" },
+      { to: "/temporadas", label: "Outras temporadas" },
       { to: "/campeonato", label: "Campeonato" },
       { to: "/titulos", label: "Títulos" },
     ],

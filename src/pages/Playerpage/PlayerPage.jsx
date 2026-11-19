@@ -15,7 +15,7 @@ import RankingSlice from "../../components/playerpage/RankingSlice";
 import PlayerStatsDashboard from "../../components/playerpage/PlayerStatsDashboard";
 import MatchHistory from "../../components/playerpage/MatchHistory";
 import Footer from "../../components/Footer";
-import PlayerAdminMode from "../../components/playerpage/PlayerAdminMode";
+import PlayerAdminMode from "./PlayerAdminMode/PlayerAdminMode";
 import PlayerBanner from "../../components/playerpage/PlayerBanner";
 import PartnerAnalyzer from "../../components/playerpage/PartnerAnalyzer";
 import FavoritePositionField from "../../components/playerpage/FavoritePositionField";
@@ -23,6 +23,13 @@ import { calculateLiveRanking } from "../../data/rankingCalculator";
 import { playerSide, matchType } from "../../utils/matchStats";
 import FutCardShare from "./FutCard/FutCardShare";
 import { AchIcon } from "../../components/playerpage/achIcons";
+import "./hallLink.css";
+import {
+  useAwards,
+  awardsForPlayer,
+  awardIconToAch,
+  isDuplicateOfHall,
+} from "../../services/hallAwards";
 import { useClubMode } from "../../utils/Shirtnumber";
 
 function PlayerPage({
@@ -88,6 +95,21 @@ function PlayerPage({
     // Titulares + quem entrou como substituto (actualParticipants)
     return matches.filter((m) => Boolean(playerSide(m, player.id)));
   }, [player, matches]);
+
+  // --- PRÊMIOS DO HALL DA FAMA (mesmos dados do AwardsCard) ---
+  const awardsData = useAwards();
+  const hallAwards = useMemo(
+    () => awardsForPlayer(awardsData, player),
+    [awardsData, player],
+  );
+  // conquistas manuais, sem repetir o que já veio do Hall
+  const manualAchievements = useMemo(
+    () =>
+      (player?.achievements || []).filter(
+        (a) => !isDuplicateOfHall(a, hallAwards),
+      ),
+    [player, hallAwards],
+  );
 
   // --- VERIFICAÇÃO DE SEGURANÇA ---
   // Se os dados ainda não carregaram ou o ID é inválido, exibe um loading
@@ -372,13 +394,31 @@ function PlayerPage({
               <div className="ppg-card">
                 <h3 className="ppg-card-title">Conquistas na Carreira</h3>
                 <div className="ppg-achievements-list">
-                  {player.achievements?.length > 0 ? (
-                    player.achievements.map((a, i) => (
-                      <div key={i} className="ppg-tag-goal">
-                        <AchIcon icon={a.icon} />
-                        <span className="ppg-ach-title">{a.title}</span>
-                      </div>
-                    ))
+                  {hallAwards.length + manualAchievements.length > 0 ? (
+                    <>
+                      {/* prêmios do Hall da Fama (vêm de awards/{ano}) */}
+                      {hallAwards.map((a) => (
+                        <div
+                          key={`hall-${a.year}-${a.id}`}
+                          className="ppg-tag-goal is-hall"
+                          style={{ "--award-color": a.color }}
+                          title="Prêmio do Hall da Fama"
+                        >
+                          <AchIcon icon={awardIconToAch(a.icon)} />
+                          <span className="ppg-ach-title">
+                            {a.title} {a.year}
+                            {a.detail ? ` · ${a.detail}` : ""}
+                          </span>
+                        </div>
+                      ))}
+                      {/* conquistas digitadas só no jogador */}
+                      {manualAchievements.map((a, i) => (
+                        <div key={i} className="ppg-tag-goal">
+                          <AchIcon icon={a.icon} />
+                          <span className="ppg-ach-title">{a.title}</span>
+                        </div>
+                      ))}
+                    </>
                   ) : (
                     <span className="ppg-ach-empty">
                       Nenhuma conquista registrada.
