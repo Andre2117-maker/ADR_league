@@ -1,12 +1,31 @@
 /* ==========================================================================
-   1. FUNDO E ATMOSFERA (OBSIDIAN & LIQUID GOLD)
+   REGULAMENTO — ADR (preto e dourado), IDR (jornal) e ADR CLASSIC (figurinha)
+   Feito pensando primeiro no celular. O fundo da página vem do backgrounds.css.
    ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
+
 .page-container1 {
-  padding: 135px 20px 100px !important;
+  --rl-fg: #f5f5f7;
+  --rl-text: rgba(255, 255, 255, 0.82);
+  --rl-muted: #8a8f98;
+  --rl-line: rgba(212, 175, 55, 0.18);
+  --rl-accent: #d4af37;
+  --rl-accent-soft: rgba(212, 175, 55, 0.1);
+  --rl-accent-ink: #000000;
+  --rl-paper: linear-gradient(165deg, #0d0d10 0%, #060608 100%);
+  --rl-field: rgba(15, 15, 18, 0.92);
+  --rl-alert-bg: rgba(180, 30, 30, 0.14);
+  --rl-alert-line: #ff4d4d;
+  --rl-alert-fg: #ffd6d6;
+
   width: 100%;
   min-height: 100vh;
-  background-color: #030304;
-  color: #f5f5f7;
+  padding: 120px 20px 90px !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--rl-fg);
   font-family:
     "Inter",
     -apple-system,
@@ -14,60 +33,54 @@
     "Segoe UI",
     Roboto,
     sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+.page-container1 *,
+.page-container1 *::before,
+.page-container1 *::after {
   box-sizing: border-box;
-  /* Luz de palco dourada no topo + textura geométrica ultra sutil */
-  background-image:
-    radial-gradient(
-      ellipse 80% 45% at 50% -10%,
-      rgba(212, 175, 55, 0.16) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      circle at 50% 100%,
-      rgba(212, 175, 55, 0.05) 0%,
-      transparent 50%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 26v8M26 30h8' stroke='rgba(212,175,55,0.06)' stroke-width='1'/%3E%3C/svg%3E");
-  background-size:
-    100% 100%,
-    100% 100%,
-    60px 60px;
-  background-attachment: fixed;
+}
+
+.rl-ico {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* ==========================================================================
-   2. HERO HEADER (TÍTULO METÁLICO DE GALA)
+   1. TÍTULO
    ========================================================================== */
 .rules-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 34px;
   text-align: center;
-  margin-bottom: 42px;
 }
 
 .rules-kicker {
-  font-size: 0.68rem;
+  margin-bottom: 10px;
+  color: var(--rl-accent);
+  font-size: 0.66rem;
   font-weight: 800;
-  letter-spacing: 6px;
-  color: #d4af37;
+  letter-spacing: 5px;
   text-transform: uppercase;
-  margin-bottom: 12px;
-  opacity: 0.85;
 }
 
 .page-title1 {
   width: 100%;
-  margin: 0 0 18px 0;
-  font-size: 2.8rem;
+  margin: 0 0 16px;
+  font-size: clamp(1.7rem, 6vw, 2.8rem);
   font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 6px;
+  line-height: 1.05;
+  letter-spacing: clamp(2px, 0.8vw, 6px);
   text-align: center;
-  /* Degradê Ouro Imperial Espelhado */
+  text-transform: uppercase;
   background: linear-gradient(
     180deg,
     #ffffff 0%,
@@ -78,220 +91,245 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 10px 30px rgba(212, 175, 55, 0.22));
 }
 
 .rules-hero-line {
+  position: relative;
   width: 120px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #d4af37, transparent);
-  position: relative;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--rl-accent),
+    transparent
+  );
 }
 
-/* Diamante central na linha divisória do título */
 .rules-hero-line::after {
-  content: "◆";
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  color: #d4af37;
-  font-size: 0.65rem;
-  background: #030304;
-  padding: 0 10px;
+  width: 7px;
+  height: 7px;
+  background: var(--rl-accent);
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 0 6px #050505;
 }
 
 /* ==========================================================================
-   3. BARRA SUPERIOR (BUSCA & BOTÃO PDF DE LUXO)
+   2. BUSCA, BOTÕES E ÍNDICE
    ========================================================================== */
 .rules-wrapper {
   width: 100%;
   max-width: 920px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
+  gap: 18px;
 }
 
-.pdf-actions,
 .rules-toolbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
-.pdf-actions {
-  justify-content: center;
-}
-
-/* Busca Minimalista Estilo Cristal */
 .rules-search-box {
-  flex: 1;
-  min-width: 260px;
+  flex: 1 1 320px;
   display: flex;
   align-items: center;
-  background: rgba(15, 15, 18, 0.9) !important;
-  border: 1px solid rgba(212, 175, 55, 0.28) !important;
-  border-radius: 100px !important;
-  padding: 0 18px !important;
-  height: 46px !important;
-  box-sizing: border-box !important;
-  transition: all 0.25s ease;
+  gap: 10px;
+  height: 48px;
+  padding: 0 8px 0 16px;
+  background: var(--rl-field);
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 35%, transparent);
+  border-radius: 999px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .rules-search-box:focus-within {
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15) !important;
-}
-
-.rules-search-box input.rules-search-input {
-  flex: 1 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  color: #ffffff !important;
-  font-size: 0.88rem !important;
-  outline: none !important;
-}
-
-.rules-search-box input.rules-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.4) !important;
+  border-color: var(--rl-accent);
+  box-shadow: 0 0 0 4px var(--rl-accent-soft);
 }
 
 .search-icon {
-  font-size: 0.85rem;
-  margin-right: 12px;
-  opacity: 0.6;
+  color: var(--rl-accent);
 }
 
-.rules-search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 0.88rem;
-  letter-spacing: 0.4px;
-  outline: none;
+/* !important: o global.css / tema IDR dão borda e fundo a todos os inputs */
+.page-container1 .rules-search-box input.rules-search-input,
+.theme-idr .page-container1 .rules-search-box input.rules-search-input,
+body.theme-classic .page-container1 .rules-search-box input.rules-search-input {
+  flex: 1 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--rl-fg) !important;
+  -webkit-text-fill-color: var(--rl-fg) !important;
+  font-size: 16px !important; /* 16px: o iPhone não dá zoom ao tocar */
 }
 
-.rules-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+.page-container1 .rules-search-box input.rules-search-input::placeholder {
+  color: var(--rl-muted) !important;
+  -webkit-text-fill-color: var(--rl-muted) !important;
+  opacity: 1 !important;
 }
 
 .search-clear-btn {
-  background: transparent;
-  border: none;
-  color: #d4af37;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--rl-accent-soft);
+  color: var(--rl-accent);
   cursor: pointer;
-  font-size: 0.85rem;
-  padding: 4px;
 }
 
-/* Botões Admin e PDF */
 .rules-toolbar-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin-left: auto;
+  gap: 10px;
 }
 
 .admin-mode-switch {
   display: inline-flex;
-  background: #0a0a0c;
   padding: 4px;
-  border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: #0a0a0c;
 }
 
 .mode-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
   background: transparent;
-  border: none;
-  color: #777;
-  padding: 8px 16px;
-  border-radius: 100px;
-  font-size: 0.74rem;
+  color: var(--rl-muted);
+  font: inherit;
+  font-size: 0.72rem;
   font-weight: 800;
-  text-transform: uppercase;
   letter-spacing: 1px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.25s ease;
+}
+
+.mode-switch-btn .rl-ico {
+  width: 14px;
+  height: 14px;
 }
 
 .mode-switch-btn.active {
   background: linear-gradient(135deg, #e5c158 0%, #b8860b 100%);
-  color: #000000;
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  color: #000;
 }
 
 .pdf-download-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  height: 46px;
-  padding: 0 28px;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 45%, transparent);
+  border-radius: 14px;
   background: linear-gradient(
     135deg,
-    rgba(212, 175, 55, 0.15) 0%,
-    rgba(15, 15, 15, 0.9) 100%
+    rgba(212, 175, 55, 0.14),
+    rgba(15, 15, 15, 0.9)
   );
   color: #f3d478;
-  border-radius: 100px;
-  text-decoration: none;
+  font-size: 0.74rem;
   font-weight: 800;
-  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-decoration: none;
   text-transform: uppercase;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+
+.pdf-download-btn .rl-ico {
+  width: 20px;
+  height: 20px;
+}
+
+.pdf-btn-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.pdf-btn-text small {
+  font-size: 0.56rem;
   letter-spacing: 2px;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0.7;
 }
 
 .pdf-download-btn:hover {
   background: linear-gradient(135deg, #f3d478 0%, #c59b27 100%);
-  color: #000000;
-  border-color: #fff3b0;
+  color: #000;
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(212, 175, 55, 0.35);
 }
 
-/* Índice de Capítulos Minimalista */
+.rules-search-count {
+  margin: -6px 0 0;
+  color: var(--rl-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Índice: uma linha que rola para o lado e fica presa embaixo do menu */
 .rules-toc-bar {
+  position: sticky;
+  top: calc(var(--nvb-h-scroll, 60px) + 6px);
+  z-index: 20;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  padding: 12px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  flex-wrap: wrap;
+  padding: 8px 10px;
+  border: 1px solid var(--rl-line);
+  border-radius: 14px;
+  background: color-mix(in srgb, #050505 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .toc-label {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #d4af37;
   flex-shrink: 0;
+  color: var(--rl-accent);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .toc-pills-scroll {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap; /* Faz os botões quebrarem de linha suavemente sem cortar no canto */
-  overflow: visible;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  mask-image: linear-gradient(90deg, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
 }
 
 .toc-pills-scroll::-webkit-scrollbar {
@@ -299,674 +337,955 @@
 }
 
 .toc-pill {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #bbb;
-  padding: 6px 14px;
-  border-radius: 100px;
-  font-size: 0.72rem;
+  flex-shrink: 0;
+  padding: 7px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #c9c9c9;
+  font: inherit;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .toc-pill:hover {
-  border-color: #d4af37;
+  border-color: var(--rl-accent);
   color: #f3d478;
-  background: rgba(212, 175, 55, 0.08);
 }
 
 /* ==========================================================================
-   4. O MONÓLITO DO REGULAMENTO (FOLHA DE ÔNIX E OURO)
+   3. O DOCUMENTO
    ========================================================================== */
 .rules-paper {
-  width: 100%;
-  box-sizing: border-box;
   position: relative;
-  background: linear-gradient(165deg, #0d0d10 0%, #060608 100%);
-  padding: 64px 72px;
-  border-radius: 24px;
-  /* Borda externa dourada sutil + moldura interna tipo certificado de luxo */
-  border: 1px solid rgba(212, 175, 55, 0.28);
-  box-shadow:
-    0 40px 80px rgba(0, 0, 0, 0.85),
-    0 0 60px rgba(212, 175, 55, 0.05),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  width: 100%;
+  padding: 52px 60px;
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 28%, transparent);
+  border-radius: 22px;
+  background: var(--rl-paper);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
 }
 
-/* Moldura interna fina (efeito editorial de gala) */
 .rules-paper::after {
   content: "";
   position: absolute;
   inset: 12px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.08);
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 8%, transparent);
+  border-radius: 14px;
   pointer-events: none;
 }
 
-/* Feixe de luz dourada no topo do documento */
-.rules-paper::before {
-  top: 0 !important;
-  left: 15% !important;
-  right: 15% !important;
-  height: 1px !important;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #d4af37,
-    transparent
-  ) !important;
-  box-shadow: none !important;
-}
-
-/* Cabeçalho do Documento (Selo Oficial) */
 .rules-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-  padding-bottom: 28px;
-  margin-bottom: 42px;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px 14px;
+  margin-bottom: 34px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rl-line);
 }
 
-.rules-header-left {
+.rules-header-left,
+.rules-header-right {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  gap: 8px 12px;
 }
 
 .doc-stamp {
-  font-weight: 900;
-  font-size: 0.72rem;
-  letter-spacing: 3px;
-  color: #000000;
-  background: linear-gradient(135deg, #f5dc82 0%, #c59b27 100%);
-  padding: 6px 14px;
-  text-transform: uppercase;
+  padding: 6px 12px;
   border-radius: 4px;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
-}
-
-.doc-sub {
-  font-size: 0.75rem;
-  color: #777;
-  font-weight: 700;
+  background: linear-gradient(135deg, #f5dc82 0%, #c59b27 100%);
+  color: #000;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  letter-spacing: 2px;
 }
 
-.rules-header-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.doc-sub,
+.doc-date {
+  color: var(--rl-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .saving-badge {
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--rl-accent);
+  font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #d4af37;
 }
 
-.doc-date {
-  font-size: 0.75rem;
-  color: #777;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
+.saving-badge .rl-ico {
+  width: 13px;
+  height: 13px;
 }
 
-/* ==========================================================================
-   5. CONTEÚDO EDITORIAL (CAPÍTULOS E ARTIGOS)
-   ========================================================================== */
+.saving-badge.is-saving {
+  animation: rl-blink 1s infinite;
+}
+
+@keyframes rl-blink {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---------- texto ---------- */
 .rules-content {
   position: relative;
   z-index: 1;
-  line-height: 1.85;
-  text-align: left;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 .rule-spacer {
-  height: 14px;
+  height: 10px;
 }
 
-/* Títulos de Seção / Capítulos */
 .rule-section {
-  scroll-margin-top: 110px;
+  scroll-margin-top: 130px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: 44px;
-  margin-bottom: 18px;
-  font-weight: 900;
-  font-size: 1.15rem;
+  gap: 12px;
+  margin: 38px 0 14px;
   color: #f3d478;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.25;
   text-transform: uppercase;
-  letter-spacing: 2.5px;
 }
 
 .rule-section:first-child {
   margin-top: 0;
 }
 
-/* Linha elegante que se estende à direita do título do capítulo */
 .rule-section::after {
   content: "";
   flex: 1;
+  min-width: 20px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--rl-accent) 45%, transparent),
+    transparent
+  );
 }
 
 .sec-number-badge {
-  font-size: 0.75rem;
-  font-weight: 900;
-  color: #d4af37;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  background: rgba(212, 175, 55, 0.08);
-  padding: 3px 9px;
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 45%, transparent);
   border-radius: 4px;
+  background: var(--rl-accent-soft);
+  color: var(--rl-accent);
+  font-size: 0.72rem;
   letter-spacing: 1px;
 }
 
 .sec-title-text {
-  color: #f3d478;
+  min-width: 0;
 }
 
-/* Artigos e Regras Individuais (Sem caixas cinzas pesadas!) */
 .rule-item {
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 10px 16px 10px 22px;
+  gap: 12px;
   margin: 2px 0;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 1.02rem;
-  font-weight: 400;
-  border-left: 1px solid rgba(212, 175, 55, 0.18);
+  padding: 9px 14px 9px 18px;
+  border-left: 2px solid color-mix(in srgb, var(--rl-accent) 20%, transparent);
   border-radius: 0 8px 8px 0;
-  transition: all 0.25s ease;
+  color: var(--rl-text);
+  font-size: 1rem;
   cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.rule-item:hover {
-  color: #ffffff;
-  border-left: 2px solid #d4af37;
-  background: linear-gradient(
-    90deg,
-    rgba(212, 175, 55, 0.06) 0%,
-    transparent 100%
-  );
-  padding-left: 26px;
+.rule-item:hover,
+.rule-item:active {
+  border-left-color: var(--rl-accent);
+  background: linear-gradient(90deg, var(--rl-accent-soft), transparent);
+  color: var(--rl-fg);
 }
 
-/* Transforma a bolinha comum em um Diamante Dourado de Luxo */
 .rule-bullet-dot {
-  width: 5px;
-  height: 5px;
-  background: #d4af37;
-  transform: rotate(45deg);
-  margin-top: 11px;
   flex-shrink: 0;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  width: 6px;
+  height: 6px;
+  margin-top: 0.62em;
+  background: var(--rl-accent);
+  transform: rotate(45deg);
 }
 
 .rule-item-text {
   flex: 1;
+  min-width: 0;
 }
 
 .copy-rule-hint {
-  font-size: 0.7rem;
-  color: #d4af37;
-  opacity: 0;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: opacity 0.2s ease;
   align-self: center;
+  color: var(--rl-accent);
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
 .rule-item:hover .copy-rule-hint {
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 .copy-rule-hint.copied {
-  opacity: 1 !important;
-  color: #00e676;
-  font-weight: 800;
+  opacity: 1;
+  color: #22c55e;
 }
 
-/* Caixa de Alerta / Penalidade (Carmim Escuro e Ouro) */
+.rl-mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--rl-accent);
+  color: var(--rl-accent-ink);
+}
+
 .rule-alert-box {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 18px 0;
-  padding: 16px 22px;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 14px 18px;
+  border: 1px solid color-mix(in srgb, var(--rl-alert-line) 30%, transparent);
+  border-left: 4px solid var(--rl-alert-line);
   border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    rgba(180, 30, 30, 0.14) 0%,
-    rgba(180, 30, 30, 0.02) 100%
-  );
-  border: 1px solid rgba(255, 90, 90, 0.25);
-  border-left: 3px solid #ff4d4d;
-  color: #ffd6d6;
+  background: linear-gradient(90deg, var(--rl-alert-bg), transparent);
+  color: var(--rl-alert-fg);
   font-size: 0.96rem;
-  font-weight: 500;
+  line-height: 1.55;
 }
 
-/* ==========================================================================
-   6. EDITOR DO ADMIN & RODAPÉ DO DOCUMENTO
-   ========================================================================== */
+.alert-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  color: var(--rl-alert-line);
+}
+
+.rules-empty-search {
+  padding: 30px 0;
+  text-align: center;
+  color: var(--rl-muted);
+}
+
+.clear-search-pill {
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: 1px solid var(--rl-accent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--rl-accent);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ---------- editor do admin ---------- */
 .rules-editor-container {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .editor-quick-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .quick-bar-label {
-  font-size: 0.7rem;
+  color: var(--rl-muted);
+  font-size: 0.68rem;
   font-weight: 800;
-  color: #777;
-  text-transform: uppercase;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .quick-chip {
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 30%, transparent);
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(212, 175, 55, 0.25);
   color: #f3d478;
-  padding: 6px 14px;
-  border-radius: 100px;
+  font: inherit;
   font-size: 0.72rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .quick-chip:hover {
-  background: #d4af37;
+  background: var(--rl-accent);
   color: #000;
+}
+
+.quick-chip.alert-chip {
+  border-color: color-mix(in srgb, var(--rl-alert-line) 50%, transparent);
+  color: var(--rl-alert-fg);
 }
 
 .rules-textarea {
   width: 100%;
-  min-height: 520px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #f5f5f7;
-  padding: 24px;
+  min-height: 60vh;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--rl-accent) 30%, transparent);
   border-radius: 14px;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--rl-fg);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.7;
   outline: none;
-  font-family: inherit;
-  font-size: 1.02rem;
-  line-height: 1.8;
   resize: vertical;
-  box-sizing: border-box;
 }
 
 .rules-textarea:focus {
-  border-color: #d4af37;
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.12);
+  border-color: var(--rl-accent);
 }
 
-/* Rodapé Interno */
+/* ---------- rodapé do documento ---------- */
 .rules-footer {
-  margin-top: 50px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(212, 175, 55, 0.15);
-  font-size: 0.72rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #666;
-  text-align: center;
   position: relative;
   z-index: 1;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rl-line);
+  color: var(--rl-muted);
+  font-size: 0.66rem;
+  letter-spacing: 1.5px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .footer-seal {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 6px 12px;
 }
 
-.saving-status.blink {
-  color: #d4af37;
-  animation: blink 1s infinite;
+.footer-seal span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0.4;
+/* aviso "regra copiada" (no celular não tem hover) */
+.rules-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(22px + env(safe-area-inset-bottom));
+  z-index: 9000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: #111;
+  border: 1px solid var(--rl-accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transform: translateX(-50%);
+  animation: rl-toast 0.25s ease;
+}
+
+.rules-toast .rl-ico {
+  color: #22c55e;
+}
+
+@keyframes rl-toast {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
   }
 }
 
 /* ==========================================================================
-   7. RESPONSIVIDADE CELULAR (MOBILE LUXURY)
+   4. CELULAR
    ========================================================================== */
 @media (max-width: 768px) {
   .page-container1 {
-    padding: 110px 14px 60px !important;
+    padding: 92px 12px 60px !important;
   }
 
-  .page-title1 {
-    font-size: 1.75rem;
-    letter-spacing: 3px;
+  .rules-hero {
+    margin-bottom: 22px;
   }
 
   .rules-kicker {
-    font-size: 0.58rem;
-    letter-spacing: 3.5px;
+    font-size: 0.56rem;
+    letter-spacing: 3px;
   }
 
-  .rules-toolbar {
-    flex-direction: column;
-    align-items: stretch;
+  .rules-wrapper {
+    gap: 14px;
   }
 
+  /* busca em cima, ocupando tudo */
+  .rules-search-box {
+    flex-basis: 100%;
+  }
+
+  /* modo do admin + os dois PDFs lado a lado */
   .rules-toolbar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
-    justify-content: space-between;
+  }
+
+  .admin-mode-switch {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
+
+  .mode-switch-btn {
+    flex: 1;
+    justify-content: center;
   }
 
   .pdf-download-btn {
-    width: 100%;
-    font-size: 0.74rem;
-    letter-spacing: 1.5px;
+    justify-content: flex-start;
+    min-height: 54px;
+    padding: 0 12px;
+    font-size: 0.66rem;
+    letter-spacing: 0.5px;
+  }
+
+  .rules-toc-bar {
+    top: calc(var(--nvb-h-scroll, 56px) + 4px);
+    padding: 6px 8px;
+    border-radius: 12px;
+  }
+
+  .toc-label {
+    display: none;
   }
 
   .rules-paper {
-    padding: 34px 20px;
-    border-radius: 18px;
+    padding: 22px 14px 18px;
+    border-radius: 16px;
   }
 
   .rules-paper::after {
-    inset: 6px;
-    border-radius: 13px;
+    display: none;
   }
 
   .rules-header {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-    padding-bottom: 20px;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
   }
 
-  .rules-header-left,
-  .rules-header-right {
-    flex-direction: column;
-    gap: 6px;
+  .doc-sub {
+    display: none;
   }
 
   .rule-section {
-    font-size: 0.98rem;
-    letter-spacing: 1.5px;
-    margin-top: 32px;
+    gap: 10px;
+    margin-top: 28px;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+
+  .rule-section::after {
+    display: none;
   }
 
   .rule-item {
-    font-size: 0.94rem;
-    padding: 8px 10px 8px 14px;
+    gap: 10px;
+    padding: 8px 6px 8px 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .copy-rule-hint {
     display: none;
   }
+
+  .rule-alert-box {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .rules-textarea {
+    min-height: 65vh;
+    padding: 14px;
+    font-size: 15px;
+  }
 }
 
 /* ==========================================================================
-   8. TEMA IDR - MARFIM & ÔNIX (MONOCROMÁTICO DE ALTA COSTURA - CORRIGIDO)
+   5. IDR — "JORNAL": papel branco, régua preta, tarjas, sombra em bloco
    ========================================================================== */
 .theme-idr .page-container1 {
-  background-color: #f6f6f4 !important;
-  color: #111111 !important;
-  /* CORRIGIDO: Adicionado o background-size de 40px para repetir o padrão de losangos corretamente */
-  background-image:
-    radial-gradient(
-      ellipse 80% 40% at 50% 0%,
-      rgba(0, 0, 0, 0.03) 0%,
-      transparent 70%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.06)'/%3E%3C/svg%3E") !important;
-  background-size:
-    100% 100%,
-    40px 40px !important;
-  background-repeat: no-repeat, repeat !important;
-  background-attachment: fixed !important;
+  --rl-fg: #000000;
+  --rl-text: #1a1a1a;
+  --rl-muted: #555555;
+  --rl-line: #000000;
+  --rl-accent: #000000;
+  --rl-accent-soft: rgba(0, 0, 0, 0.06);
+  --rl-accent-ink: #ffffff;
+  --rl-paper: #ffffff;
+  --rl-field: #ffffff;
+  --rl-alert-bg: #fdf2f2;
+  --rl-alert-line: #b91c1c;
+  --rl-alert-fg: #7f1d1d;
 }
 
 .theme-idr .rules-kicker {
-  color: #444444 !important;
-  opacity: 1 !important;
+  padding: 4px 10px;
+  background: #000;
+  color: #fff;
+  letter-spacing: 3px;
 }
 
 .theme-idr .page-title1 {
-  background: none !important;
-  -webkit-text-fill-color: #000000 !important;
-  color: #000000 !important;
-  filter: none !important;
-  text-shadow: none !important;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  background: none;
+  -webkit-text-fill-color: #000;
+  color: #000;
 }
 
 .theme-idr .rules-hero-line {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #000000,
-    transparent
-  ) !important;
+  width: 100%;
+  height: 0;
+  border-top: 4px solid #000;
+  border-bottom: 1px solid #000;
+  padding-top: 3px;
+  background: none;
 }
 
 .theme-idr .rules-hero-line::after {
-  color: #000000 !important;
-  background: #f6f6f4 !important;
+  display: none;
 }
 
-/* Barra de Busca IDR (Garante leitura clara) */
 .theme-idr .rules-search-box {
-  background: #ffffff !important;
-  border-color: #b0b0a8 !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+  border: 2px solid #000;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #d6d6d0;
 }
 
-.theme-idr .search-icon {
-  color: #333333 !important;
-  opacity: 1 !important;
-}
-
-.theme-idr .rules-search-box input.rules-search-input {
-  background: transparent !important;
-  color: #000000 !important;
-  -webkit-text-fill-color: #000000 !important;
-}
-
-.theme-idr .rules-search-box input.rules-search-input::placeholder {
-  color: #666666 !important;
-  -webkit-text-fill-color: #666666 !important;
-  opacity: 1 !important;
+.theme-idr .rules-search-box:focus-within {
+  box-shadow: 4px 4px 0 #000;
 }
 
 .theme-idr .search-clear-btn {
-  color: #000000 !important;
-  background: rgba(0, 0, 0, 0.06) !important;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
 }
 
-/* Modo Switch Admin IDR */
 .theme-idr .admin-mode-switch {
-  background: #e2e2dc !important;
-  border-color: #bcbcc4 !important;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
 }
 
 .theme-idr .mode-switch-btn {
-  color: #444444 !important;
+  border-radius: 0;
+  color: #000;
 }
 
 .theme-idr .mode-switch-btn.active {
-  background: #000000 !important;
-  color: #ffffff !important;
+  background: #000;
+  color: #fff;
 }
 
-/* Botão PDF IDR */
 .theme-idr .pdf-download-btn {
-  background: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+  box-shadow: 4px 4px 0 #d6d6d0;
 }
 
 .theme-idr .pdf-download-btn:hover {
-  background: #222222 !important;
-  color: #ffffff !important;
+  background: #fff;
+  color: #000;
 }
 
-/* Índice de Capítulos IDR */
-.theme-idr .toc-label {
-  color: #444444 !important;
+.theme-idr .rules-toc-bar {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .theme-idr .toc-pill {
-  border-color: #cccccc !important;
-  color: #333333 !important;
-  background: rgba(0, 0, 0, 0.02) !important;
+  border: 1.5px solid #000;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
 }
 
 .theme-idr .toc-pill:hover {
-  border-color: #000000 !important;
-  color: #000000 !important;
-  background: rgba(0, 0, 0, 0.05) !important;
+  background: #000;
+  color: #fff;
 }
 
-/* O Documento Principal IDR (Papel Marfim) */
 .theme-idr .rules-paper {
-  background: #ffffff !important;
-  border: 1px solid #d0d0c8 !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08) !important;
-  color: #111111 !important;
-}
-
-.theme-idr .rules-paper::before {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #000000,
-    transparent
-  ) !important;
-  box-shadow: none !important;
+  border: 2px solid #000;
+  border-top: 8px solid #000;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #d6d6d0;
 }
 
 .theme-idr .rules-paper::after {
-  border-color: rgba(0, 0, 0, 0.08) !important;
+  display: none;
 }
 
 .theme-idr .rules-header {
-  border-bottom-color: #e0e0d8 !important;
+  border-bottom: 0;
+  box-shadow:
+    inset 0 -1px 0 #000,
+    inset 0 -4px 0 #fff,
+    inset 0 -7px 0 #000; /* régua dupla */
 }
 
 .theme-idr .doc-stamp {
-  background: #000000 !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
 }
 
-.theme-idr .doc-sub,
-.theme-idr .doc-date,
-.theme-idr .saving-badge {
-  color: #555555 !important;
-}
-
-/* Capítulos e Textos IDR */
 .theme-idr .rule-section {
-  border-bottom-color: #d0d0c8 !important;
+  color: #000;
+  font-family: "Archivo Black", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.theme-idr .rule-section::after {
+  height: 0;
+  border-top: 2px solid #000;
+  background: none;
 }
 
 .theme-idr .sec-number-badge {
-  background: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-}
-
-.theme-idr .sec-title-text {
-  color: #000000 !important;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
 }
 
 .theme-idr .rule-item {
-  color: #222222 !important;
-  border-left-color: #c0c0b8 !important;
-  background: rgba(0, 0, 0, 0.01) !important;
+  border-left-color: #cfcfc8;
+  border-radius: 0;
 }
 
-.theme-idr .rule-item:hover {
-  color: #000000 !important;
-  border-left-color: #000000 !important;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.04) 0%,
-    transparent 100%
-  ) !important;
+.theme-idr .rule-item:hover,
+.theme-idr .rule-item:active {
+  border-left-color: #000;
+  background: #f1f1ee;
 }
 
-.theme-idr .rule-bullet-dot {
-  background: #000000 !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .copy-rule-hint {
-  color: #444444 !important;
-}
-
-/* Caixa de Alerta IDR */
 .theme-idr .rule-alert-box {
-  background: #fdf2f2 !important;
-  border-color: #fca5a5 !important;
-  border-left-color: #dc2626 !important;
-  color: #991b1b !important;
-}
-
-/* Editor Admin IDR */
-.theme-idr .editor-quick-bar {
-  background: #f0f0ea !important;
-  border-color: #d0d0c8 !important;
-}
-
-.theme-idr .quick-bar-label {
-  color: #555555 !important;
+  border: 2px solid #000;
+  border-left: 8px solid #b91c1c;
+  border-radius: 0;
+  background: #fff;
 }
 
 .theme-idr .quick-chip {
-  background: #ffffff !important;
-  border-color: #b8b8b0 !important;
-  color: #111111 !important;
+  border: 1.5px solid #000;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
 }
 
 .theme-idr .quick-chip:hover {
-  background: #000000 !important;
-  color: #ffffff !important;
+  background: #000;
+  color: #fff;
 }
 
 .theme-idr .rules-textarea {
-  background: #fafaf8 !important;
-  color: #000000 !important;
-  -webkit-text-fill-color: #000000 !important;
-  border-color: #b0b0a8 !important;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fafaf8;
+  -webkit-text-fill-color: #000;
 }
 
-.theme-idr .rules-footer {
-  border-top-color: #e0e0d8 !important;
-  color: #666666 !important;
+.theme-idr .rules-toast {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+  box-shadow: 4px 4px 0 #000;
+}
+
+/* ==========================================================================
+   6. ADR CLASSIC — "FIGURINHA RETRÔ"
+   ========================================================================== */
+body.theme-classic .page-container1 {
+  --rl-fg: #ffffff;
+  --rl-text: #f1dbe9;
+  --rl-muted: #d9b3cf;
+  --rl-line: rgba(255, 138, 165, 0.35);
+  --rl-accent: #ff5c8a;
+  --rl-accent-soft: rgba(236, 68, 112, 0.14);
+  --rl-accent-ink: #ffffff;
+  --rl-paper: #1d1222;
+  --rl-field: #120a16;
+  --rl-alert-bg: rgba(227, 38, 58, 0.18);
+  --rl-alert-line: #ff4d5e;
+  --rl-alert-fg: #ffd1dc;
+}
+
+body.theme-classic .rules-kicker {
+  padding: 4px 12px;
+  background: #120a16;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: #fff;
+  letter-spacing: 3px;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .page-title1 {
+  padding-right: 0.15em;
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 1px;
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  text-shadow:
+    0.05em 0.05em 0 #e3263a,
+    0.1em 0.1em 0 #7b3aa8;
+}
+
+body.theme-classic .rules-hero-line {
+  width: 150px;
+  height: 5px;
+  background: linear-gradient(90deg, #7b3aa8, #b8307a 50%, #e3263a);
+  transform: skewX(-20deg);
+}
+
+body.theme-classic .rules-hero-line::after {
+  display: none;
+}
+
+body.theme-classic .rules-search-box {
+  border: 2px solid rgba(255, 138, 165, 0.6);
+}
+
+body.theme-classic .admin-mode-switch {
+  border: 2px solid rgba(255, 138, 165, 0.45);
+  background: #120a16;
+}
+
+body.theme-classic .mode-switch-btn.active {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+}
+
+body.theme-classic .pdf-download-btn {
+  border: 2px solid #ff8aa5;
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 10px,
+      transparent 10px 22px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #fff;
+  font-style: italic;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .pdf-download-btn:hover {
+  transform: none;
+  filter: brightness(1.1);
+}
+
+body.theme-classic .pdf-download-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #5a1f4a;
+}
+
+body.theme-classic .rules-toc-bar {
+  border: 2px solid rgba(255, 138, 165, 0.5);
+  background: rgba(18, 10, 22, 0.92);
+}
+
+body.theme-classic .toc-pill {
+  border: 1.5px solid rgba(255, 138, 165, 0.45);
+  color: #ffd1dc;
+  font-style: italic;
+}
+
+body.theme-classic .toc-pill:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #b8307a;
+}
+
+body.theme-classic .rules-paper {
+  border: 2px solid #ff8aa5;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 3px #120a16,
+    0 0 0 5px #7b3aa8,
+    0 24px 50px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+body.theme-classic .rules-paper::after {
+  display: none;
+}
+
+/* faixa listrada no topo do documento */
+body.theme-classic .rules-header {
+  margin: -52px -60px 30px;
+  padding: 18px 60px;
+  border-bottom: 2px solid #ff8aa5;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      rgba(255, 255, 255, 0.07) 0 12px,
+      transparent 12px 26px
+    ),
+    linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+}
+
+body.theme-classic .doc-stamp {
+  border: 2px solid #120a16;
+  border-radius: 6px;
+  background: #fff;
+  color: #b8307a;
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .doc-sub,
+body.theme-classic .doc-date,
+body.theme-classic .saving-badge {
+  color: #fff;
+}
+
+body.theme-classic .rule-section {
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: 1px;
+  padding-right: 0.2em;
+  text-shadow: 0.06em 0.06em 0 #b8307a;
+}
+
+body.theme-classic .rule-section::after {
+  height: 4px;
+  background: linear-gradient(90deg, #7b3aa8, #b8307a 50%, #e3263a);
+  transform: skewX(-20deg);
+  opacity: 0.6;
+}
+
+body.theme-classic .sec-number-badge {
+  border: 2px solid #120a16;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #fff;
+  font-family: "Anton", sans-serif;
+  font-style: normal;
+  font-size: 0.9rem;
+  text-shadow: none;
+  transform: rotate(-4deg);
+  box-shadow: 2px 2px 0 #7b3aa8;
+}
+
+body.theme-classic .rule-item {
+  border-left-color: rgba(255, 138, 165, 0.3);
+}
+
+body.theme-classic .rule-bullet-dot {
+  background: #ff8aa5;
+}
+
+body.theme-classic .rule-alert-box {
+  border: 2px solid #ff4d5e;
+  border-left-width: 6px;
+}
+
+body.theme-classic .quick-chip {
+  border: 1.5px solid rgba(255, 138, 165, 0.5);
+  color: #ffd1dc;
+}
+
+body.theme-classic .rules-textarea {
+  border: 2px solid rgba(255, 138, 165, 0.5);
+  background: #120a16;
+}
+
+body.theme-classic .rules-toast {
+  border: 2px solid #fff;
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a);
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+body.theme-classic .rules-toast .rl-ico {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  body.theme-classic .rules-header {
+    margin: -22px -14px 20px;
+    padding: 14px;
+  }
+
+  body.theme-classic .rule-section {
+    font-size: 1.15rem;
+  }
+
+  .theme-idr .rules-paper {
+    box-shadow: 5px 5px 0 #d6d6d0;
+  }
+}
+
+/* computador: os capítulos quebram em mais de uma linha (todos à vista, sem rolar) */
+@media (min-width: 769px) {
+  .rules-toc-bar {
+    align-items: flex-start;
+  }
+
+  .toc-label {
+    padding-top: 9px;
+  }
+
+  .toc-pills-scroll {
+    flex-wrap: wrap;
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }

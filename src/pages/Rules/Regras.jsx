@@ -4,6 +4,41 @@ import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import "./rules.css";
 import Footer from "../../components/Footer";
 
+/* Ícones desenhados (no lugar dos emojis) */
+const ICO = {
+  search: "M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.8-4.8",
+  x: "M6 6l12 12M18 6 6 18",
+  eye: "M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
+  edit: "M4 20l1-4.5L15.5 5 19 8.5 8.5 19zM13.5 7l3.5 3.5",
+  book: "M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7h8M8 10.5h6",
+  vote: "M4 13l3-8h10l3 8M4 13h16v7H4zM9 9l2 2 4-4",
+  alert: "M12 3.5 2.5 20h19zM12 10v4.5M12 17.2v.3",
+  copy: "M8 8h11v12H8zM5 16V4h11",
+  check: "M5 12.5l4.5 4.5L19 7.5",
+  clock: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2",
+  scale:
+    "M12 4v16M7 20h10M5 7h14M5 7l-2.5 6a3 3 0 0 0 5 0zM19 7l-2.5 6a3 3 0 0 0 5 0z",
+};
+const Ico = ({ n, className = "rl-ico" }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    <path d={ICO[n]} />
+  </svg>
+);
+
+/* destaca o termo buscado dentro do texto */
+const highlight = (text, term) => {
+  if (!term) return text;
+  const i = text.toLowerCase().indexOf(term.toLowerCase());
+  if (i < 0) return text;
+  return (
+    <>
+      {text.slice(0, i)}
+      <mark className="rl-mark">{text.slice(i, i + term.length)}</mark>
+      {text.slice(i + term.length)}
+    </>
+  );
+};
+
 function Regras({ isAdmin }) {
   const [textoRemoto, setTextoRemoto] = useState("Carregando regulamento...");
   const [textoLocal, setTextoLocal] = useState("");
@@ -39,7 +74,7 @@ function Regras({ isAdmin }) {
           setIsLoaded(true);
         }
       } else {
-        const fallback = "⚽ Regras em branco...";
+        const fallback = "Regras em branco...";
         setTextoRemoto(fallback);
         if (!isLoaded) {
           setTextoLocal(fallback);
@@ -95,7 +130,9 @@ function Regras({ isAdmin }) {
         /^IMPORTANTE:/i.test(trimmed) ||
         /^PUNI[ÇC][ÃA]O:/i.test(trimmed)
       ) {
-        const cleanAlert = trimmed.replace(/^!\s*/, "");
+        const cleanAlert = trimmed
+          .replace(/^!\s*/, "")
+          .replace(/^\u26A0\uFE0F?\s*/, "");
         return {
           type: "alert",
           text: cleanAlert,
@@ -127,7 +164,12 @@ function Regras({ isAdmin }) {
 
       if (isMarkdownHeader || isNumberedHeader || isAllCapsHeader) {
         sectionCounter++;
-        const cleanTitle = trimmed.replace(/^#+\s*/, "");
+        // tira o "#" e o "1." do começo (o número já aparece no selo)
+        const cleanTitle = trimmed
+          .replace(/^#+\s*/, "")
+          .replace(/\p{Extended_Pictographic}\uFE0F?/gu, "") // sem emoji nos títulos
+          .trim()
+          .replace(/^\d+[.)]\s+/, "");
         return {
           type: "section",
           text: cleanTitle,
@@ -174,7 +216,7 @@ function Regras({ isAdmin }) {
 
   // Copia uma regra específica para mandar no WhatsApp do time
   const handleCopyRule = (text, idx) => {
-    navigator.clipboard?.writeText(`📖 Regulamento O ADR: "${text}"`);
+    navigator.clipboard?.writeText(`Regulamento O ADR: "${text}"`);
     setCopiedIndex(idx);
     setTimeout(() => setCopiedIndex(null), 1800);
   };
@@ -222,11 +264,11 @@ function Regras({ isAdmin }) {
             {/* Campo de Busca Instantânea */}
             {(!isAdmin || !isEditMode) && (
               <div className="rules-search-box">
-                <span className="search-icon">🔍</span>
+                <Ico n="search" className="rl-ico search-icon" />
                 <input
                   type="text"
                   className="rules-search-input"
-                  placeholder="Buscar regra (ex: atraso, goleiro, falta, camisa)..."
+                  placeholder="Buscar regra (ex: atraso, goleiro)"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -236,8 +278,9 @@ function Regras({ isAdmin }) {
                     className="search-clear-btn"
                     onClick={() => setSearchTerm("")}
                     title="Limpar busca"
+                    aria-label="Limpar busca"
                   >
-                    ✕
+                    <Ico n="x" />
                   </button>
                 )}
               </div>
@@ -252,14 +295,14 @@ function Regras({ isAdmin }) {
                     className={`mode-switch-btn ${!isEditMode ? "active" : ""}`}
                     onClick={() => setIsEditMode(false)}
                   >
-                    👁️ Leitura
+                    <Ico n="eye" /> Leitura
                   </button>
                   <button
                     type="button"
                     className={`mode-switch-btn ${isEditMode ? "active" : ""}`}
                     onClick={() => setIsEditMode(true)}
                   >
-                    ✏️ Editar
+                    <Ico n="edit" /> Editar
                   </button>
                 </div>
               )}
@@ -271,7 +314,11 @@ function Regras({ isAdmin }) {
                 rel="noopener noreferrer"
                 className="pdf-download-btn"
               >
-                📖 Livro de Regras (PDF)
+                <Ico n="book" />
+                <span className="pdf-btn-text">
+                  Livro de regras
+                  <small>PDF</small>
+                </span>
               </a>
               <a
                 href="/docs/Codigo Eleitoral ADR 2027.pdf"
@@ -279,17 +326,29 @@ function Regras({ isAdmin }) {
                 rel="noopener noreferrer"
                 className="pdf-download-btn"
               >
-                📖 CODIGO ELEITORAL (PDF)
+                <Ico n="vote" />
+                <span className="pdf-btn-text">
+                  Código eleitoral
+                  <small>PDF</small>
+                </span>
               </a>
             </div>
           </div>
+
+          {searchTerm.trim() && (!isAdmin || !isEditMode) && (
+            <p className="rules-search-count">
+              {filteredBlocks.length}{" "}
+              {filteredBlocks.length === 1 ? "resultado" : "resultados"} para "
+              {searchTerm.trim()}"
+            </p>
+          )}
 
           {/* ==================== ÍNDICE RÁPIDO DE CAPÍTULOS ==================== */}
           {(!isAdmin || !isEditMode) &&
             !searchTerm &&
             sectionsIndex.length > 1 && (
               <nav className="rules-toc-bar" aria-label="Índice do Regulamento">
-                <span className="toc-label">Ir para:</span>
+                <span className="toc-label">Ir para</span>
                 <div className="toc-pills-scroll">
                   {sectionsIndex.map((sec) => (
                     <button
@@ -323,7 +382,8 @@ function Regras({ isAdmin }) {
                       isSaving ? "is-saving" : "is-synced"
                     }`}
                   >
-                    {isSaving ? "⏳ Salvando..." : "✓ Sincronizado"}
+                    <Ico n={isSaving ? "clock" : "check"} />
+                    {isSaving ? "Salvando..." : "Sincronizado"}
                   </span>
                 )}
                 <div className="doc-date">Atualizado: {formattedDate}</div>
@@ -402,7 +462,9 @@ function Regras({ isAdmin }) {
                           <span className="sec-number-badge">
                             {String(block.sectionNumber).padStart(2, "0")}
                           </span>
-                          <span className="sec-title-text">{block.text}</span>
+                          <span className="sec-title-text">
+                            {highlight(block.text, searchTerm.trim())}
+                          </span>
                         </div>
                       );
                     }
@@ -410,8 +472,10 @@ function Regras({ isAdmin }) {
                     if (block.type === "alert") {
                       return (
                         <div key={block.index} className="rule-alert-box">
-                          <span className="alert-icon">⚠️</span>
-                          <div className="alert-text">{block.text}</div>
+                          <Ico n="alert" className="rl-ico alert-icon" />
+                          <div className="alert-text">
+                            {highlight(block.text, searchTerm.trim())}
+                          </div>
                         </div>
                       );
                     }
@@ -428,13 +492,17 @@ function Regras({ isAdmin }) {
                         {block.isBullet && (
                           <span className="rule-bullet-dot"></span>
                         )}
-                        <span className="rule-item-text">{block.text}</span>
+                        <span className="rule-item-text">
+                          {highlight(block.text, searchTerm.trim())}
+                        </span>
                         <span
                           className={`copy-rule-hint ${
                             copiedIndex === block.index ? "copied" : ""
                           }`}
                         >
-                          {copiedIndex === block.index ? "✓ Copiado!" : "📋"}
+                          <Ico
+                            n={copiedIndex === block.index ? "check" : "copy"}
+                          />
                         </span>
                       </div>
                     );
@@ -446,14 +514,22 @@ function Regras({ isAdmin }) {
             {/* Rodapé do Documento */}
             <div className="rules-footer">
               <div className="footer-seal">
-                <span>⚖️ Documento Oficial Registrado — O ADR</span>
+                <span>
+                  <Ico n="scale" /> Documento oficial registrado · O ADR
+                </span>
                 <span className="footer-dot">•</span>
-                <span>Dica: Clique em qualquer regra para copiá-la</span>
+                <span>Toque em qualquer regra para copiar</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {copiedIndex !== null && (
+        <div className="rules-toast" role="status">
+          <Ico n="check" /> Regra copiada
+        </div>
+      )}
       <Footer />
     </div>
   );
