@@ -45,6 +45,7 @@ import "./styles/global.css";
 import "./styles/theme-classic.css";
 import "./styles/theme-aero.css";
 import "./styles/aero-tabela.css";
+import "./styles/aero-extras.css";
 import "./styles/backgrounds.css";
 
 // Aplica o tema salvo antes da primeira tela (sem piscar o tema errado)

@@ -1,0 +1,506 @@
+/* ==========================================================================
+   ADR AERO — EXTRAS: "EXPLORE O CLUBE" E SCOUT PANEL
+   Importe no App.jsx DEPOIS do aero-tabela.css:
+       import "./styles/aero-extras.css";
+   Usa as peças do aero-tabela.css (--tb-*). Só vale com o tema secreto.
+
+   Obs.: nada aqui usa backdrop-filter nas caixas grandes. Ele faz o
+   navegador prender os avisos "fixos" dentro da caixa (foi o que jogava o
+   aviso da bola/chuteira pro fim da tabela).
+   ========================================================================== */
+
+/* ==========================================================================
+   1. EXPLORE O CLUBE (Hall Histórico / Transparência / Legends na Home)
+   Cada atalho vira uma janela de vidro com cantoneiras; o ícone fica numa
+   bolha e o "Acessar" vira um botão de gel no mouse.
+   ========================================================================== */
+body.theme-aero .cx-section {
+  --cx-fg: #ffffff;
+  --cx-muted: rgba(215, 242, 255, 0.85);
+  --cx-head: rgba(215, 242, 255, 0.85);
+  --cx-line: rgba(255, 255, 255, 0.3);
+  --cx-line-strong: rgba(255, 255, 255, 0.6);
+  --cx-accent: #8fe3ff;
+  --cx-glow: rgba(143, 227, 255, 0.45);
+}
+
+body.theme-aero .cx-head::after {
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+  box-shadow: none;
+}
+
+body.theme-aero .cx-kicker {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 50, 100, 0.6);
+}
+
+body.theme-aero .cx-title {
+  font-style: normal;
+  text-shadow: 0 3px 12px rgba(0, 50, 100, 0.45);
+}
+
+/* os 3 atalhos separados, cada um uma janela de vidro */
+body.theme-aero .cx-grid {
+  gap: 14px;
+  border: 0;
+  background: transparent;
+}
+
+body.theme-aero .cx-card,
+body.theme-aero .cx-card:last-child {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 16px 34px rgba(0, 30, 70, 0.32);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+body.theme-aero .cx-card:hover,
+body.theme-aero .cx-card:focus-visible {
+  border-color: #ffffff;
+  background:
+    var(--tb-pontas),
+    radial-gradient(90% 60% at 50% 0%, rgba(143, 227, 255, 0.32), transparent 70%),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+  box-shadow:
+    0 0 0 4px rgba(143, 227, 255, 0.22),
+    0 22px 42px rgba(0, 30, 70, 0.38);
+  transform: translateY(-5px);
+}
+
+body.theme-aero .cx-num {
+  color: rgba(225, 245, 255, 0.85);
+  font-style: normal;
+}
+
+/* ícone dentro de uma bolha */
+body.theme-aero .cx-icon {
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.75) 0 7%, rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle at 50% 50%, rgba(143, 227, 255, 0.08) 55%, rgba(143, 227, 255, 0.4) 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(0, 30, 70, 0.3);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+body.theme-aero .cx-card:hover .cx-icon {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 5px rgba(143, 227, 255, 0.22), 0 8px 18px rgba(0, 30, 70, 0.35);
+  transform: scale(1.08);
+}
+
+body.theme-aero .cx-card-title {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 40, 80, 0.4);
+}
+
+/* "Acessar ›": onda em cima; no mouse, a seta acende num losango de gel */
+body.theme-aero .cx-go {
+  border-top: 0;
+  padding-top: 14px;
+  background: var(--tb-wave) left top / 60px 10px repeat-x;
+  color: #ffffff;
+}
+
+body.theme-aero .cx-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  clip-path: var(--tb-losango);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+body.theme-aero .cx-card:hover .cx-go {
+  color: #ffffff;
+}
+
+body.theme-aero .cx-card:hover .cx-arrow {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+}
+
+/* ==========================================================================
+   2. SCOUT PANEL (painel do jogador ao lado da tabela da Home)
+   ========================================================================== */
+
+/* cores do gráfico de radar (o recharts lê estas variáveis) */
+body.theme-aero {
+  --radar-cor: #8fe3ff;
+  --radar-grid: rgba(255, 255, 255, 0.28);
+  --radar-text: #ffffff;
+}
+
+body.theme-aero .player-profile-card,
+body.theme-aero .empty-state-card,
+body.theme-aero .info-card {
+  --sp-bg: var(--tb-row);
+  --sp-hover: var(--tb-row-hover);
+  --sp-line: rgba(255, 255, 255, 0.3);
+  --sp-fg: #ffffff;
+  --sp-muted: rgba(215, 242, 255, 0.85);
+  --sp-accent: #8fe3ff;
+  --sp-on-accent: #03355c;
+  --sp-glow: rgba(143, 227, 255, 0.35);
+  --sp-silver: #e3edf5;
+  --sp-bronze: #f0b98a;
+}
+
+/* o cartão: janela de vidro com cantoneiras */
+body.theme-aero .player-profile-card,
+body.theme-aero .player-profile-card.ppg-glow-gold {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.35) !important;
+}
+
+/* cantoneiras por cima das barras claras */
+body.theme-aero .player-profile-card::before {
+  inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  z-index: 3;
+  opacity: 1;
+  background: var(--tb-pontas);
+  pointer-events: none;
+}
+
+/* topo: luz de água atrás da foto e onda embaixo */
+body.theme-aero .profile-header {
+  border-bottom: 0;
+  background:
+    var(--tb-wave) center bottom / 60px 10px repeat-x,
+    radial-gradient(70% 70% at 50% 20%, rgba(143, 227, 255, 0.3), transparent 70%);
+  padding-bottom: 20px;
+}
+
+/* foto dentro de uma bolha */
+body.theme-aero .profile-avatar {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: rgba(143, 227, 255, 0.25);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.14),
+    0 0 30px rgba(143, 227, 255, 0.55);
+}
+
+body.theme-aero .profile-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.6) 0 7%, rgba(255, 255, 255, 0) 24%);
+  pointer-events: none;
+}
+
+body.theme-aero .profile-avatar-img {
+  border-radius: 50%;
+}
+
+/* OVR: placa de gel com os cantos cortados */
+body.theme-aero .profile-ovr-badge {
+  z-index: 2;
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.6);
+  box-shadow: none;
+}
+
+body.theme-aero .profile-name {
+  color: #ffffff;
+  font-style: normal;
+  text-shadow: 0 2px 10px rgba(0, 40, 80, 0.45);
+}
+
+body.theme-aero .profile-pos-tag {
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  padding: 4px 12px;
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+/* 3 números: placas de vidro com vão */
+body.theme-aero .profile-main-stats {
+  gap: 4px;
+  padding: 4px;
+  border-bottom: 0;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .stat-box,
+body.theme-aero .stat-box.highlight {
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .stat-box:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+}
+
+body.theme-aero .stat-box.highlight {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tb-pts);
+}
+
+body.theme-aero .stat-val,
+body.theme-aero .stat-box.highlight .stat-val {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.8);
+}
+
+body.theme-aero .stat-lab {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+/* ficha técnica: faixas de vidro */
+body.theme-aero .profile-info-list {
+  border-bottom: 0;
+}
+
+body.theme-aero .info-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+body.theme-aero .info-label {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .info-label .sp-ico {
+  color: #8fe3ff;
+}
+
+body.theme-aero .info-value {
+  color: #ffffff;
+}
+
+/* radar: barra de título de vidro claro */
+body.theme-aero .profile-radar-section {
+  border-bottom: 0;
+}
+
+body.theme-aero .radar-header-bar {
+  background: var(--tb-head);
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.theme-aero .radar-chart-box {
+  background: radial-gradient(circle at 50% 50%, rgba(143, 227, 255, 0.14), transparent 65%);
+}
+
+body.theme-aero .radar-skills-mini-grid {
+  gap: 3px;
+  padding: 3px;
+  border-top: 0;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .skill-mini-pill {
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .skill-mini-pill:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+}
+
+body.theme-aero .skill-mini-key {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .skill-mini-val {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(143, 227, 255, 0.8);
+}
+
+/* botão "ver perfil completo" em gel */
+body.theme-aero .profile-view-full-btn {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: none !important;
+}
+
+body.theme-aero .profile-view-full-btn:hover {
+  filter: brightness(1.08);
+}
+
+body.theme-aero .profile-footer {
+  border-top: 0;
+  background: var(--tb-wave) center top / 60px 10px repeat-x;
+}
+
+body.theme-aero .profile-footer p {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .badge-adr {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+/* quando nenhum jogador está escolhido */
+body.theme-aero .empty-state-card {
+  border: 1px dashed rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    rgba(3, 42, 77, 0.45) !important;
+  color: rgba(225, 245, 255, 0.9);
+}
+
+body.theme-aero .empty-state-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.7) 0 7%, rgba(255, 255, 255, 0) 24%),
+    rgba(143, 227, 255, 0.2);
+  color: #ffffff;
+}
+
+body.theme-aero .empty-state-icon svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+body.theme-aero .empty-state-card h4 {
+  color: #ffffff;
+}
+
+/* mini-rankings antigos (info-card), se ainda aparecerem */
+body.theme-aero .info-card {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+}
+
+body.theme-aero .info-card h3 {
+  border-bottom: 0;
+  background: var(--tb-head);
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #05406f;
+  color: #05406f;
+  animation: none;
+}
+
+body.theme-aero .rank {
+  clip-path: var(--tb-losango);
+  border: 0 !important;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+body.theme-aero .r1 {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+body.theme-aero .r2 {
+  background: linear-gradient(180deg, #ffffff 0%, #e6eef4 50%, #b9c7d3 52%, #8fa3b4 100%);
+  color: #24384a;
+}
+
+body.theme-aero .r3 {
+  background: linear-gradient(180deg, #ffe7d2 0%, #f0b98a 50%, #d08a52 52%, #a8642d 100%);
+  color: #3d2410;
+}
+
+/* barra "MAPA DE ATRIBUTOS" um pouco mais alta */
+body.theme-aero .radar-header-bar {
+  padding: 8px 12px;
+}
+
+/* ==========================================================================
+   3. ÍCONES DO SCOUT PANEL — VALE EM TODOS OS TEMAS
+   Os ícones SVG novos (classe sp-ico) não tinham tamanho no scoutpanel.css
+   e apareciam gigantes e pretos. Aqui eles ficam do tamanho da letra e
+   pegam a cor do texto.
+   ========================================================================== */
+.player-profile-card .sp-ico,
+.empty-state-card .sp-ico {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.18em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.player-profile-card .info-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.player-profile-card .profile-view-full-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.empty-state-icon svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}

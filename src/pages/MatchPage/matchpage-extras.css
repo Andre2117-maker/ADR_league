@@ -334,3 +334,48 @@
     display: none;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (ícones da página da partida)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .pro-badge.badge-assist .pro-badge-icon {
+  color: #ffffff;
+}
+
+body.theme-aero .pro-role-badge.gk .mp-ico {
+  color: #c9f3ff;
+}
+
+/* partida anterior / próxima: placas de vidro que acendem em gel */
+body.theme-aero .mp-nav-btn {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%),
+    rgba(5, 63, 112, 0.6) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .mp-nav-btn:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+}
+
+body.theme-aero .mp-nav-arrow {
+  color: #8fe3ff;
+}
+
+body.theme-aero .mp-nav-btn:hover .mp-nav-arrow,
+body.theme-aero .mp-nav-btn:hover .mp-nav-text small {
+  color: #ffffff;
+}
+
+body.theme-aero .mp-nav-text small {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .mp-nav-text b {
+  font-style: normal;
+}

@@ -223,3 +223,66 @@ body.theme-classic .rs-pts {
   font-weight: 400;
   font-size: 1.05rem;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (pedaço da classificação)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .rs-container {
+  --rs-bg: var(--tb-row);
+  --rs-hover: var(--tb-row-hover);
+  --rs-line: rgba(255, 255, 255, 0.3);
+  --rs-fg: #ffffff;
+  --rs-muted: rgba(215, 242, 255, 0.82);
+  --rs-accent: #8fe3ff;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32) !important;
+}
+
+body.theme-aero .rs-title {
+  background: var(--tb-head);
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-bottom: 0;
+}
+
+body.theme-aero .rs-row {
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+body.theme-aero .rs-row:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+}
+
+/* a linha do próprio jogador acende */
+body.theme-aero .rs-row.active {
+  background:
+    linear-gradient(90deg, rgba(143, 227, 255, 0.35), transparent 85%),
+    var(--tb-shine),
+    var(--tb-row-hover);
+  box-shadow: inset 4px 0 0 #8fe3ff;
+}
+
+body.theme-aero .rs-row.active .rs-pos {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+}
+
+body.theme-aero .rs-pts {
+  color: #ffffff;
+}

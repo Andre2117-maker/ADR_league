@@ -155,3 +155,55 @@
   color: #000;
   border-color: #999;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (abas dos amistosos)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .fgt-tab {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%);
+}
+
+body.theme-aero .fgt-tab.on {
+  border-color: #ffffff;
+  background: var(--tb-gel);
+}
+
+body.theme-aero .fgt-tab.on::after {
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .fgt-tab-btn,
+body.theme-aero .fgt-tab-btn small {
+  color: rgba(225, 245, 255, 0.85) !important;
+}
+
+body.theme-aero .fgt-tab.on .fgt-tab-btn,
+body.theme-aero .fgt-tab.on .fgt-tab-btn small {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .fgt-remove {
+  border-left-color: rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .fgt-remove:hover {
+  color: #ffa0a0 !important;
+}
+
+body.theme-aero .fgt-add {
+  border: 1px dashed rgba(255, 255, 255, 0.7) !important;
+  border-radius: 0 !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .fgt-add:hover {
+  border-style: solid !important;
+  background: var(--tb-gel) !important;
+}

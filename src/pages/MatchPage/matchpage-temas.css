@@ -331,3 +331,18 @@ body.theme-classic .match-view-wrapper .mt-legend .dot-b {
     transform: rotate(-2deg);
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (cores das duas equipes)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+/* Equipe A = azul do mar; Equipe B = vidro claro com texto azul-escuro */
+body.theme-aero .match-view-wrapper .lu-dot {
+  background: #17aee9;
+  box-shadow: 0 0 8px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .match-view-wrapper .side-b .lu-dot {
+  background: #ffffff;
+}

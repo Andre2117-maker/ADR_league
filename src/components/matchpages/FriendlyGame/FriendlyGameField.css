@@ -143,3 +143,28 @@
     font-size: 0.54rem;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (campo do amistoso)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .fr-game {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+}
+
+body.theme-aero .fr-game-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .fr-opp-banner {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  background: rgba(3, 42, 77, 0.6);
+  color: rgba(225, 245, 255, 0.85);
+}

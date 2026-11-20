@@ -707,3 +707,151 @@
     transition: none;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (campo 3D e escalações)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+/* grama verde brilhante (bem "papel de parede do Windows") */
+body.theme-aero .pf-wrap {
+  --pf-grass-a: #3cc46b;
+  --pf-grass-b: #31b25e;
+  --pf-apron: #1f9d55;
+  --pf-line: rgba(255, 255, 255, 0.9);
+  --pf-bg: transparent;
+  --pf-panel: #07497f;
+  --pf-fg: #ffffff;
+  --pf-text: #e6f9ff;
+  --pf-muted: rgba(215, 242, 255, 0.82);
+  --pf-border: rgba(255, 255, 255, 0.3);
+  --pf-border-strong: rgba(255, 255, 255, 0.55);
+  --pf-accent: #8fe3ff;
+  --pf-accent-soft: rgba(143, 227, 255, 0.16);
+  --pf-team-a: #17aee9;
+  --pf-team-b: #ffffff;
+  --pf-up: #7dffb0;
+  --pf-down: #ffa0a0;
+}
+
+body.theme-aero .pf-stage {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.16), 0 18px 40px rgba(0, 30, 70, 0.4);
+}
+
+/* botões de vista (2D/3D, A/B): placas de vidro, a escolhida em gel */
+body.theme-aero .pf-viewswitch button,
+body.theme-aero .pf-switch button {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .pf-viewswitch button.on,
+body.theme-aero .pf-switch button.on {
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .pf-select {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background-color: #074a80 !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .pf-team {
+  border-radius: 0;
+}
+
+/* escalações: janelas de vidro com barra clara no título */
+body.theme-aero .lu-team {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+}
+
+body.theme-aero .lu-team::before {
+  background: #17aee9;
+}
+
+body.theme-aero .lu-team.side-b::before {
+  background: #ffffff;
+}
+
+body.theme-aero .lu-head {
+  background: var(--tb-head);
+  border-bottom: 0;
+}
+
+body.theme-aero .lu-team-name {
+  color: #05406f;
+  font-style: normal;
+}
+
+body.theme-aero .lu-title {
+  color: #ffffff;
+}
+
+body.theme-aero .lu-title::after {
+  height: 10px;
+  background: var(--tb-wave) left center / 60px 10px repeat-x;
+}
+
+body.theme-aero .lu-row .lu-link:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+}
+
+body.theme-aero .lu-row .lu-link:hover::before {
+  background: #8fe3ff;
+}
+
+body.theme-aero .lu-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+}
+
+body.theme-aero .lu-photo {
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  overflow: hidden;
+}
+
+body.theme-aero .lu-cap {
+  border-radius: 0;
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .lu-b,
+body.theme-aero .lu-card {
+  border-radius: 0;
+}
+
+/* "estádio" atrás do gramado: céu azul em cima, água embaixo */
+body.theme-aero .pf-stage {
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(255, 255, 255, 0.35), transparent 60%),
+    linear-gradient(180deg, #6fd4f5 0%, #1a9ad8 50%, #0b6fae 100%);
+}
+
+body.theme-aero .pf-stage::before {
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+
+body.theme-aero .pf-viewswitch {
+  background: rgba(3, 42, 77, 0.55);
+}

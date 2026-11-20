@@ -143,3 +143,17 @@ body.theme-classic .adm-hall-tag {
   color: #120a16;
   transform: rotate(-3deg);
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (conquistas que levam ao Hall)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .ppg-tag-goal.is-hall {
+  border-color: rgba(255, 255, 255, 0.5);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--award-color, #8fe3ff) 30%, transparent), transparent 75%),
+    var(--tb-shine),
+    var(--tb-row);
+  box-shadow: inset 4px 0 0 var(--award-color, #8fe3ff);
+}

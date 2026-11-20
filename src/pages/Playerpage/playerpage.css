@@ -937,3 +937,138 @@ body.theme-classic .ppg-streak-bar span {
 body.theme-classic .ppg-streak-rows dt {
   color: #c9a3c4;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (página do jogador: fundo, cards, conquistas)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+html body.theme-aero .ppg-screen-wrapper,
+html body.theme-aero .ppg-player-page {
+  background: transparent !important;
+}
+
+body.theme-aero .ppg-card,
+body.theme-aero .ppg-stat-box {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32) !important;
+}
+
+body.theme-aero .ppg-card-title {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 50, 100, 0.5);
+}
+
+body.theme-aero .ppg-stat-gold,
+body.theme-aero .ppg-stat-blue {
+  border-bottom: 4px solid #8fe3ff !important;
+}
+
+body.theme-aero .ppg-btn-back {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .ppg-btn-back:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+}
+
+body.theme-aero .ppg-btn-edit {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: none !important;
+}
+
+/* radar (recharts) */
+body.theme-aero .recharts-polar-angle-axis-tick-value {
+  fill: #ffffff !important;
+}
+
+body.theme-aero .recharts-polar-grid-concentric-path,
+body.theme-aero .recharts-polar-grid-angle-line {
+  stroke: rgba(255, 255, 255, 0.28) !important;
+}
+
+/* conquistas: placas de vidro */
+body.theme-aero .ppg-tag-goal {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background: var(--tb-shine), var(--tb-row);
+  color: #ffffff;
+}
+
+body.theme-aero .ppg-tag-goal:hover {
+  border-color: #ffffff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.2);
+}
+
+body.theme-aero .ppg-tag-goal.rare {
+  border-color: #8fe3ff;
+  background:
+    linear-gradient(90deg, rgba(143, 227, 255, 0.3), transparent 70%),
+    var(--tb-shine),
+    var(--tb-row);
+}
+
+/* habilidades: janela de vidro, radar azul-claro, números em placas */
+body.theme-aero .ppg-skills-minimal-title {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 50, 100, 0.45);
+}
+
+body.theme-aero .ppg-skills-minimal-ovr {
+  color: rgba(225, 245, 255, 0.9);
+}
+
+body.theme-aero .ppg-skills-minimal-ovr strong {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .ppg-skills-minimal-box {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    var(--tb-pontas),
+    radial-gradient(circle at 50% 35%, rgba(143, 227, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .custom-radar-shape,
+body.theme-aero .custom-radar-shape path {
+  fill: #8fe3ff;
+  stroke: #c9f3ff;
+}
+
+body.theme-aero .ppg-skills-minimal-grid {
+  gap: 3px;
+  padding: 3px;
+  border-top: 0;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .ppg-skill-minimal-cell {
+  border: 0 !important;
+  border-top: 1px solid var(--tb-edge) !important;
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .ppg-skill-cell-val {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(143, 227, 255, 0.8);
+}

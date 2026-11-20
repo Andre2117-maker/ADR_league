@@ -954,3 +954,107 @@ body.theme-classic .career-value {
     gap: 10px;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (banner grande do jogador)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+/* do céu claro em cima ao fundo do mar embaixo */
+body.theme-aero .ppg-player-banner {
+  background:
+    radial-gradient(ellipse at 18% 65%, rgba(143, 227, 255, 0.45), transparent 60%),
+    radial-gradient(ellipse at 80% 15%, rgba(141, 255, 184, 0.25), transparent 55%),
+    linear-gradient(180deg, #6fd4f5 0%, #1a9ad8 40%, #0b6fae 72%, #053f70 100%) !important;
+}
+
+/* número gigante: vidro (só o contorno branco) */
+body.theme-aero .ppg-banner-bgnumber {
+  color: rgba(255, 255, 255, 0.12);
+  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.55);
+  font-style: normal;
+  opacity: 1;
+  filter: none;
+}
+
+body.theme-aero .ppg-banner-role,
+body.theme-aero .ppg-banner-position {
+  color: #e6f9ff;
+}
+
+body.theme-aero .ppg-firstname,
+body.theme-aero .ppg-lastname {
+  color: #ffffff;
+  font-style: normal;
+  text-shadow: 0 4px 18px rgba(0, 40, 80, 0.5);
+}
+
+/* onda no pé da foto */
+body.theme-aero .ppg-banner-overlay {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='70' viewBox='0 0 600 70' preserveAspectRatio='none'%3E%3Cpath d='M0 35 C 100 10 200 10 300 35 S 500 60 600 35 V70 H0 Z' fill='%23053f70' fill-opacity='0.85'/%3E%3C/svg%3E") 0 100% / 600px 70px repeat-x,
+    linear-gradient(to top, rgba(5, 63, 112, 0.6) 0%, transparent 30%);
+}
+
+/* faixa de baixo (dados e carreira) */
+body.theme-aero .ppg-player-extras {
+  background: #053f70;
+  color: #ffffff;
+}
+
+body.theme-aero .ppg-banner-details {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    var(--tb-pontas),
+    rgba(255, 255, 255, 0.06);
+}
+
+body.theme-aero .ppg-detail-item {
+  border-right-color: rgba(255, 255, 255, 0.25);
+}
+
+body.theme-aero .ppg-detail-label,
+body.theme-aero .career-label {
+  color: rgba(215, 242, 255, 0.82);
+}
+
+body.theme-aero .ppg-detail-value,
+body.theme-aero .career-value {
+  color: #ffffff;
+}
+
+/* bolinhas da carreira viram losangos de gel */
+body.theme-aero .career-item::before {
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  background: linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+}
+
+body.theme-aero .ppg-banner-lastname,
+body.theme-aero .ppg-lastname {
+  background: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+  filter: drop-shadow(0 4px 14px rgba(0, 40, 80, 0.5));
+}
+
+/* nome do banner: grosso e branco */
+body.theme-aero .ppg-banner-name,
+body.theme-aero .ppg-banner-name span,
+body.theme-aero .ppg-firstname,
+body.theme-aero .ppg-lastname {
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+}
+
+body.theme-aero .ppg-banner-name {
+  animation: none !important;
+  background: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+  filter: drop-shadow(0 4px 14px rgba(0, 40, 80, 0.5));
+}
+
+body.theme-aero .ppg-banner-role,
+body.theme-aero .ppg-banner-position {
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}

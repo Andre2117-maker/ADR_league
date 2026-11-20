@@ -1017,3 +1017,146 @@ body.theme-classic .badge-golden {
 body.theme-classic .adr-match-chevron {
   color: #ff8aa5;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (histórico de partidas)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .adr-history-container {
+  --history-bg: transparent;
+  --history-surface: var(--tb-row);
+  --history-card: var(--tb-row);
+  --history-border: rgba(255, 255, 255, 0.4);
+  --history-border-soft: rgba(255, 255, 255, 0.18);
+  --history-text: #ffffff;
+  --history-muted: rgba(215, 242, 255, 0.82);
+  --history-gold: #8fe3ff;
+  --history-gold-soft: rgba(143, 227, 255, 0.16);
+  --history-green: #7dffb0;
+  --history-red: #ffa0a0;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32) !important;
+}
+
+body.theme-aero .adr-history-header {
+  background: var(--tb-head);
+  border-bottom: 0;
+}
+
+body.theme-aero .adr-history-kicker {
+  color: #0a6eb0;
+}
+
+body.theme-aero .adr-history-title {
+  color: #05406f;
+  font-style: normal;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* abas: placas de vidro, a escolhida em gel */
+body.theme-aero .adr-tab-btn {
+  border: 1px solid rgba(5, 64, 111, 0.3) !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  color: #05406f !important;
+}
+
+body.theme-aero .adr-tab-btn.active {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .adr-tab-count {
+  border-radius: 0;
+  background: rgba(5, 64, 111, 0.15);
+  color: #05406f;
+}
+
+body.theme-aero .adr-tab-btn.active .adr-tab-count {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+/* cada partida: faixa de vidro com a cor do resultado na ponta */
+body.theme-aero .adr-history-list {
+  gap: 3px;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .adr-match-card {
+  border: 0 !important;
+  border-top: 1px solid var(--tb-edge) !important;
+  border-radius: 0 !important;
+  background: var(--tb-shine), var(--tb-row) !important;
+}
+
+body.theme-aero .adr-match-card:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover) !important;
+}
+
+body.theme-aero .adr-match-card.result-win {
+  box-shadow: inset 4px 0 0 #7dffb0 !important;
+}
+
+body.theme-aero .adr-match-card.result-loss {
+  box-shadow: inset 4px 0 0 #ffa0a0 !important;
+}
+
+body.theme-aero .adr-match-card.result-draw {
+  box-shadow: inset 4px 0 0 #e3edf5 !important;
+}
+
+body.theme-aero .adr-status-indicator {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+}
+
+body.theme-aero .adr-status-indicator.win {
+  background: linear-gradient(180deg, #c8ffdc 0%, #8dffb8 50%, #34c97a 52%, #1f9d55 100%);
+  color: #ffffff;
+}
+
+body.theme-aero .adr-status-indicator.loss {
+  background: linear-gradient(180deg, #ffd0d0 0%, #ffa0a0 50%, #ff6b6b 52%, #c93c3c 100%);
+  color: #ffffff;
+}
+
+body.theme-aero .adr-status-indicator.draw {
+  background: linear-gradient(180deg, #ffffff 0%, #e6eef4 50%, #b9c7d3 52%, #8fa3b4 100%);
+  color: #24384a;
+}
+
+body.theme-aero .adr-team-name.highlight {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(143, 227, 255, 0.8);
+}
+
+body.theme-aero .adr-match-score {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background: rgba(3, 42, 77, 0.55);
+}
+
+body.theme-aero .score-num.my-team-score {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .badge-tag {
+  border-radius: 0;
+}
+
+body.theme-aero .badge-golden {
+  background: var(--tb-gel);
+  color: #ffffff;
+}

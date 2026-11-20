@@ -604,3 +604,79 @@
   stroke: #7f1414 !important;
   stroke-width: 1.2;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (linha do tempo dos lances)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .mt-wrap {
+  --mt-bg: transparent;
+  --mt-panel: #07497f;
+  --mt-fg: #ffffff;
+  --mt-muted: rgba(215, 242, 255, 0.82);
+  --mt-line: rgba(255, 255, 255, 0.3);
+  --mt-accent: #8fe3ff;
+  --mt-a-photo: linear-gradient(180deg, #1a93d0, #0b5f9c);
+  --mt-a-band: #0a5a96;
+  --mt-a-band-fg: #ffffff;
+  --mt-a-border: rgba(255, 255, 255, 0.6);
+  --mt-b-photo: linear-gradient(180deg, #e9fbff, #a6dcf6);
+  --mt-b-band: #c8ebfc;
+  --mt-b-band-fg: #05406f;
+  --mt-b-border: #ffffff;
+  --mt-goal: #7dffb0;
+  --mt-sub: #7dffb0;
+  --mt-gk: #8fe3ff;
+  --mt-ball-cut: #07497f;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+}
+
+body.theme-aero .mt-wrap::after {
+  display: none;
+}
+
+body.theme-aero .mt-head {
+  border-bottom: 0;
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+body.theme-aero .mt-title {
+  color: #05406f;
+  font-style: normal;
+}
+
+body.theme-aero .mt-legend {
+  color: #0a6eb0;
+}
+
+body.theme-aero .mt-strip {
+  scrollbar-color: #8fe3ff transparent;
+}
+
+body.theme-aero .mt-strip::-webkit-scrollbar-thumb {
+  background: #8fe3ff;
+}
+
+body.theme-aero .mt-card {
+  border-radius: 0;
+}
+
+body.theme-aero .mt-minute {
+  border-bottom-right-radius: 0;
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+/* selo do lance numa bolha */
+body.theme-aero .mt-badge {
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.6) 0 8%, rgba(255, 255, 255, 0) 26%),
+    #07497f;
+}

@@ -463,3 +463,112 @@ body.theme-classic .fav-pos-cell-val {
 body.theme-classic .fav-pos-cell-sub {
   color: #ffd1dc;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (posição favorita)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .fav-pos-minimal-title {
+  color: #ffffff;
+}
+
+body.theme-aero .fav-pos-minimal-kicker {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .fav-pos-minimal-kicker strong {
+  color: #8fe3ff;
+}
+
+body.theme-aero .fav-pos-minimal-box {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32) !important;
+}
+
+body.theme-aero .fav-pos-pitch-wrapper {
+  background: radial-gradient(circle at 50% 30%, rgba(143, 227, 255, 0.25), transparent 70%);
+}
+
+/* mini campo: grama verde brilhante */
+body.theme-aero .mini-field-container {
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 40%),
+    repeating-linear-gradient(180deg, #3cc46b 0 22px, #31b25e 22px 44px);
+  box-shadow: 0 8px 20px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .field-line-center {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+body.theme-aero .field-circle-center,
+body.theme-aero .penalty-area-top,
+body.theme-aero .penalty-area-bottom {
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+/* pontos no campo: bolhas */
+body.theme-aero .blinking-dot {
+  border-color: #ffffff;
+}
+
+body.theme-aero .blinking-dot.main-dot {
+  background:
+    radial-gradient(circle at 30% 26%, #ffffff 0 14%, rgba(255, 255, 255, 0) 40%),
+    #17aee9;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+  animation-name: pulse-aero;
+}
+
+@keyframes pulse-aero {
+  0% { box-shadow: 0 0 0 0 rgba(143, 227, 255, 0.8); }
+  70% { box-shadow: 0 0 0 11px rgba(143, 227, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(143, 227, 255, 0); }
+}
+
+body.theme-aero .blinking-dot.secondary-dot {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+body.theme-aero .blinking-dot::after {
+  border: 1px solid #ffffff;
+  background: #074a80;
+}
+
+body.theme-aero .blinking-dot::before {
+  border-color: #ffffff transparent transparent transparent;
+}
+
+/* números por posição: placas de vidro */
+body.theme-aero .fav-pos-minimal-grid {
+  gap: 3px;
+  padding: 3px;
+  border-top: 0;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .fav-pos-minimal-cell {
+  border: 0;
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .fav-pos-cell-val {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(143, 227, 255, 0.8);
+}
+
+body.theme-aero .fav-pos-cell-sub,
+body.theme-aero .fav-pos-empty {
+  color: rgba(215, 242, 255, 0.8);
+}

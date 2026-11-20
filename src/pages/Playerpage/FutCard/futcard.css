@@ -781,3 +781,98 @@ body.theme-classic .fcs-download {
   stroke-width: 2.2;
   stroke-linecap: round;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (carta FUT e janela de compartilhar)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+/* carta de ouro vira carta de "água" (gel azul); prata, bronze e
+   ícone continuam com as cores deles */
+body.theme-aero .fc-card:not(.tier-silver):not(.tier-bronze):not(.tier-icon) {
+  --fc-a: #e9fbff;
+  --fc-b: #3cc4f0;
+  --fc-c: #0a5a96;
+  --fc-ink: #03263f;
+  --fc-ink-soft: rgba(3, 38, 63, 0.65);
+  --fc-line: rgba(3, 38, 63, 0.28);
+  --fc-glow: rgba(143, 227, 255, 0.6);
+}
+
+/* ícone: fundo do mar com letras azul-claras */
+body.theme-aero .fc-card.tier-icon {
+  --fc-a: #0d6bab;
+  --fc-b: #053f70;
+  --fc-c: #021f38;
+  --fc-ink: #c9f3ff;
+  --fc-ink-soft: rgba(201, 243, 255, 0.7);
+  --fc-line: rgba(201, 243, 255, 0.35);
+  --fc-glow: rgba(143, 227, 255, 0.7);
+}
+
+/* botão "compartilhar carta" e link da retrospectiva */
+body.theme-aero .fcs-open,
+body.theme-aero .ppg-retro-link {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .fcs-open:hover,
+body.theme-aero .ppg-retro-link:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+/* janela de compartilhar */
+body.theme-aero .fcs-overlay {
+  background: rgba(2, 30, 56, 0.72);
+}
+
+body.theme-aero .fcs-modal {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    linear-gradient(180deg, #0d6bab 0%, #074a80 100%);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.18), 0 30px 70px rgba(0, 20, 50, 0.55);
+}
+
+body.theme-aero .fcs-head {
+  border-bottom: 0;
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+body.theme-aero .fcs-x {
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: #05406f !important;
+}
+
+body.theme-aero .fcs-seasons button {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .fcs-seasons button.on {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+}
+
+body.theme-aero .fcs-download {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .fcs-hint,
+body.theme-aero .fcs-msg {
+  color: rgba(215, 242, 255, 0.85);
+}

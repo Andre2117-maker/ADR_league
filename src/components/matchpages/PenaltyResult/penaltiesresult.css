@@ -391,3 +391,49 @@
     animation: none;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (pênaltis)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .pr-wrap,
+body.theme-aero .pr-item {
+  --pr-panel: #07497f;
+  --pr-fg: #ffffff;
+  --pr-muted: rgba(215, 242, 255, 0.82);
+  --pr-line: rgba(255, 255, 255, 0.3);
+  --pr-accent: #8fe3ff;
+  --pr-a-photo: linear-gradient(180deg, #1a93d0, #0b5f9c);
+  --pr-a-band: #0a5a96;
+  --pr-a-band-fg: #ffffff;
+  --pr-a-border: rgba(255, 255, 255, 0.6);
+  --pr-b-photo: linear-gradient(180deg, #e9fbff, #a6dcf6);
+  --pr-b-band: #c8ebfc;
+  --pr-b-band-fg: #05406f;
+  --pr-b-border: #ffffff;
+  --pr-goal: #7dffb0;
+  --pr-miss: #ffa0a0;
+}
+
+body.theme-aero .pr-wrap .pr-head {
+  border-bottom: 0;
+  background: var(--tb-head);
+}
+
+body.theme-aero .pr-title {
+  color: #05406f;
+  font-style: normal;
+}
+
+body.theme-aero .pr-score b {
+  color: #05406f;
+}
+
+body.theme-aero .pr-score b.win {
+  color: #0a80c6;
+}
+
+body.theme-aero .pr-card {
+  border-radius: 0;
+}

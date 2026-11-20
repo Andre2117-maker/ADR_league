@@ -72,11 +72,13 @@ body.theme-aero .central-column {
   background:
     var(--tb-pontas),
     radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%),
-    linear-gradient(180deg, rgba(30, 140, 205, 0.5) 0%, rgba(5, 63, 112, 0.74) 100%) !important;
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.84) 100%) !important;
   border: 1px solid rgba(255, 255, 255, 0.45) !important;
   border-radius: 0 !important;
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  /* SEM backdrop-filter aqui: ele prende os avisos "fixos" (o toast da
+     bola/chuteira) dentro da caixa, e eles iam parar no fim da tabela */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.7),
     inset 0 -20px 40px rgba(0, 50, 100, 0.22),

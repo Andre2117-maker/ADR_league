@@ -1232,3 +1232,159 @@ body.theme-classic .partner-empty {
   border: 2px dashed rgba(255, 138, 165, 0.45);
   border-radius: 10px;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (análise de parceiros e rivais)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .partner-card {
+  --pa-bg: transparent;
+  --pa-panel: var(--tb-row);
+  --pa-panel-soft: var(--tb-row-alt);
+  --pa-border: rgba(255, 255, 255, 0.4);
+  --pa-border-soft: rgba(255, 255, 255, 0.18);
+  --pa-text: #ffffff;
+  --pa-muted: rgba(215, 242, 255, 0.82);
+  --pa-gold: #8fe3ff;
+  --pa-green: #7dffb0;
+  --pa-red: #ffa0a0;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32) !important;
+}
+
+body.theme-aero .partner-kicker {
+  color: #a6ecff;
+}
+
+/* destaques automáticos (aliado, freguês, carrasco) */
+body.theme-aero .auto-spot-chip {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0 !important;
+  background: var(--tb-shine), var(--tb-row) !important;
+}
+
+body.theme-aero .auto-spot-chip.active {
+  border-color: #ffffff !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover) !important;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.25) !important;
+}
+
+body.theme-aero .spot-tag {
+  border-radius: 0 !important;
+}
+
+body.theme-aero .partner-selector select {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background-color: #074a80 !important;
+  color: #ffffff !important;
+}
+
+/* frente a frente: fotos em bolhas */
+body.theme-aero .partner-versus-banner {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.45);
+  background:
+    radial-gradient(60% 80% at 50% 0%, rgba(143, 227, 255, 0.3), transparent 70%),
+    rgba(3, 42, 77, 0.45);
+}
+
+body.theme-aero .p-vs-avatar {
+  border: 2px solid #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12), 0 0 22px rgba(143, 227, 255, 0.5) !important;
+}
+
+body.theme-aero .p-vs-badge {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .partner-section-head {
+  background: var(--tb-head);
+  border-bottom: 0;
+}
+
+body.theme-aero .partner-section-title,
+body.theme-aero .partner-section-head .partner-section-title {
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* números em placas de vidro */
+body.theme-aero .partner-stat-box {
+  border: 0 !important;
+  border-top: 1px solid var(--tb-edge) !important;
+  border-radius: 0 !important;
+  background: var(--tb-shine), var(--tb-row) !important;
+}
+
+body.theme-aero .partner-stat-box.highlight {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tb-pts) !important;
+}
+
+body.theme-aero .p-stat-val {
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.6);
+}
+
+body.theme-aero .p-form-dot {
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+}
+
+body.theme-aero .p-form-dot.W {
+  background: linear-gradient(180deg, #c8ffdc 0%, #8dffb8 50%, #34c97a 52%, #1f9d55 100%);
+}
+
+body.theme-aero .p-form-dot.L {
+  background: linear-gradient(180deg, #ffd0d0 0%, #ffa0a0 50%, #ff6b6b 52%, #c93c3c 100%);
+}
+
+body.theme-aero .p-form-dot.D {
+  background: linear-gradient(180deg, #ffffff 0%, #e6eef4 50%, #b9c7d3 52%, #8fa3b4 100%);
+}
+
+body.theme-aero .synergy-pill {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.theme-aero .partner-divider span {
+  color: #a6ecff;
+}
+
+/* cabo de guerra: tubo de água verde contra vermelho */
+body.theme-aero .rivalry-tug-track {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  background: linear-gradient(180deg, #ffd0d0 0%, #ffa0a0 50%, #ff6b6b 52%, #c93c3c 100%);
+}
+
+body.theme-aero .rivalry-tug-fill-win {
+  border-radius: 0;
+  background: linear-gradient(180deg, #c8ffdc 0%, #8dffb8 50%, #34c97a 52%, #1f9d55 100%);
+}
+
+body.theme-aero .partner-verdict {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(3, 42, 77, 0.45);
+}
+
+body.theme-aero .partner-empty {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.45);
+}

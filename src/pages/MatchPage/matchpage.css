@@ -1208,3 +1208,200 @@ body.theme-classic .player-tactical.is-mvp::after {
     0.08em 0.08em 0 #e3263a,
     0.16em 0.16em 0 #7b3aa8;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (página da partida: abas, campo e jogadores)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+html body.theme-aero .match-view-wrapper {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* abas (Escalação, Estatísticas...): barra de vidro, a ativa com fio de gel */
+body.theme-aero .psg-tabs-menu {
+  border-bottom: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(180deg, rgba(5, 63, 112, 0.7), rgba(5, 63, 112, 0.45));
+}
+
+body.theme-aero .psg-tabs-menu button {
+  color: rgba(225, 245, 255, 0.8) !important;
+}
+
+body.theme-aero .psg-tabs-menu button:hover {
+  color: #ffffff !important;
+}
+
+body.theme-aero .psg-tabs-menu button.active {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .psg-tabs-menu button.active::after {
+  height: 4px;
+  background: var(--tb-gel);
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+/* campo antigo (pitch-canvas): grama verde brilhante e linhas brancas */
+body.theme-aero .pitch-canvas {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 40%),
+    repeating-linear-gradient(180deg, #3cc46b 0 40px, #31b25e 40px 80px);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.18), 0 18px 40px rgba(0, 30, 70, 0.4);
+}
+
+body.theme-aero .c-line {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+body.theme-aero .c-circle,
+body.theme-aero .b-bottom,
+body.theme-aero .b-top {
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+/* etiqueta do jogador em campo: placa de vidro azul, número em gel */
+body.theme-aero .player-card-label {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0;
+  background: radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+  box-shadow: 0 6px 14px rgba(0, 30, 70, 0.5);
+}
+
+body.theme-aero .p-card-num {
+  background: var(--tb-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.6);
+}
+
+body.theme-aero .empty-slot-marker {
+  border: 2px dashed rgba(255, 255, 255, 0.7);
+  border-radius: 0;
+  background: rgba(3, 42, 77, 0.45);
+  color: #ffffff;
+}
+
+body.theme-aero .slot-selector {
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 0 !important;
+  background: #074a80 !important;
+  color: #ffffff !important;
+}
+
+/* selos de gol/assistência: bolhas de vidro */
+body.theme-aero .pro-badge {
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.6) 0 8%, rgba(255, 255, 255, 0) 26%),
+    linear-gradient(180deg, #1a93d0, #0b5f9c);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 30, 70, 0.5);
+}
+
+body.theme-aero .pro-badge.badge-assist {
+  border-color: #c9f3ff;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.6) 0 8%, rgba(255, 255, 255, 0) 26%),
+    linear-gradient(180deg, #4f8ff0, #2f6fd6);
+}
+
+body.theme-aero .pro-badge-count {
+  color: #ffffff;
+}
+
+body.theme-aero .pro-role-badge,
+body.theme-aero .pro-sub-badge {
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.6) 0 8%, rgba(255, 255, 255, 0) 26%),
+    #0a5a96;
+  box-shadow: 0 3px 8px rgba(0, 30, 70, 0.5);
+}
+
+/* balão explicativo e aviso do celular: vidro azul */
+body.theme-aero .pro-tooltip,
+body.theme-aero .mobile-card-reason-toast {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    linear-gradient(180deg, #0d6bab 0%, #074a80 100%);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.18), 0 16px 34px rgba(0, 20, 50, 0.55);
+}
+
+body.theme-aero .toast-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .toast-close-btn {
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* jogadores no campo: anel azul-claro (time A) ou branco (time B),
+   foto numa bolha azul, número da etiqueta na cor do anel */
+body.theme-aero .tactical-slot {
+  --chip-ring: #8fe3ff;
+  --chip-bg:
+    radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.55) 0 8%, rgba(255, 255, 255, 0) 30%),
+    radial-gradient(circle at 50% 30%, #1a93d0 0%, #074a80 75%);
+}
+
+body.theme-aero .pf-on-pitch.side-b,
+body.theme-aero .pf-on-pitch.side-b .tactical-slot {
+  --chip-ring: #ffffff;
+}
+
+body.theme-aero .player-tactical .player-img {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18), 0 6px 14px rgba(0, 30, 70, 0.5);
+}
+
+body.theme-aero .player-tactical .p-card-num {
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+/* selos brancos viram bolhas de vidro claras */
+body.theme-aero .player-tactical .pro-badge,
+body.theme-aero .player-tactical .pro-role-badge,
+body.theme-aero .player-tactical .pro-sub-badge {
+  border: 1.5px solid #ffffff;
+  background:
+    radial-gradient(circle at 30% 24%, #ffffff 0 18%, rgba(255, 255, 255, 0) 45%),
+    linear-gradient(180deg, #e9fbff, #a6dcf6);
+  color: #05406f;
+}
+
+body.theme-aero .player-tactical .pro-badge-count {
+  color: #05406f;
+}
+
+/* capitão: "C" num losango de gel */
+body.theme-aero .player-tactical .pro-role-badge.captain {
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-losango);
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+/* MVP: texto branco com brilho azul no lugar do dourado */
+body.theme-aero .player-tactical.is-mvp::after {
+  color: #ffffff;
+  text-shadow:
+    0 0 8px rgba(143, 227, 255, 1),
+    0 0 16px rgba(143, 227, 255, 0.8),
+    0 1px 2px rgba(0, 40, 80, 0.8);
+}
+
+body.theme-aero .player-tactical.is-mvp .player-img {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.45), 0 0 22px rgba(143, 227, 255, 0.8);
+}

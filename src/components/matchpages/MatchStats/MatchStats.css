@@ -410,3 +410,110 @@
   font-size: 0.72rem;
   text-align: center;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (estatísticas da partida)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .team-stats-card {
+  --ms-panel: transparent;
+  --ms-fg: #ffffff;
+  --ms-text: #e6f9ff;
+  --ms-muted: rgba(215, 242, 255, 0.82);
+  --ms-line: rgba(255, 255, 255, 0.25);
+  --ms-line-strong: rgba(255, 255, 255, 0.5);
+  --ms-accent: #8fe3ff;
+  --ms-accent-soft: rgba(143, 227, 255, 0.16);
+  --ms-accent-fg: #03355c;
+  --ms-up: #7dffb0;
+  --ms-down: #ffa0a0;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .team-stats-card::before {
+  display: none;
+}
+
+body.theme-aero .stats-header-text {
+  background: var(--tb-head);
+  color: #05406f;
+  border-bottom: 0;
+}
+
+body.theme-aero .stats-header-text,
+body.theme-aero .stats-header-text *,
+body.theme-aero .stats-title-center,
+body.theme-aero .team-name-b {
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* barrinhas: tubos de água */
+body.theme-aero .stat-bar span {
+  border-radius: 0;
+  background: rgba(3, 42, 77, 0.55);
+}
+
+body.theme-aero .stat-bar span.on {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  box-shadow: 0 0 8px rgba(143, 227, 255, 0.6);
+}
+
+body.theme-aero .stat-val.highlight-winner {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+/* quem subiu/desceu na tabela */
+body.theme-aero .ms-stand {
+  border-radius: 0;
+  background: var(--tb-shine), var(--tb-row);
+  border-top: 1px solid var(--tb-edge);
+}
+
+body.theme-aero .ms-stand.res-W,
+body.theme-aero .ms-stand-list.left .ms-stand.res-W,
+body.theme-aero .ms-stand-list.right .ms-stand.res-W {
+  background:
+    linear-gradient(90deg, rgba(125, 255, 176, 0.22), transparent 70%),
+    var(--tb-shine),
+    var(--tb-row);
+}
+
+body.theme-aero .ms-pos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  font-size: 0.8rem;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+}
+
+body.theme-aero .ms-photo {
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
+
+body.theme-aero .ms-stand-title {
+  color: #ffffff;
+  font-style: normal;
+}
+
+body.theme-aero .ms-pos small {
+  margin: 0 0 0.45em 1px;
+  font-size: 0.6em;
+}

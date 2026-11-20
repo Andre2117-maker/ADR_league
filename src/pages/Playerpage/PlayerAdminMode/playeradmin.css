@@ -694,3 +694,117 @@
   border-color: #111111;
   color: #111111;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (modo admin do jogador)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Sem backdrop-filter nas caixas: ele prenderia os avisos fixos da página.
+   ========================================================================== */
+body.theme-aero .adm-card {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.62) 0%, rgba(5, 63, 112, 0.86) 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32) !important;
+}
+
+body.theme-aero .adm-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .adm-main-title span {
+  color: #8fe3ff;
+}
+
+body.theme-aero .adm-ovr-preview-box {
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+}
+
+body.theme-aero .adm-ovr-num,
+body.theme-aero .adm-ovr-label {
+  color: #ffffff;
+}
+
+body.theme-aero .adm-section {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(3, 42, 77, 0.35);
+}
+
+body.theme-aero .adm-input-group input,
+body.theme-aero .adm-season-select,
+body.theme-aero .adm-select-field,
+body.theme-aero .adm-skill-num-input,
+body.theme-aero .stat-card-input,
+body.theme-aero .adm-ach-icon,
+body.theme-aero .adm-ach-inputs input {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background-color: rgba(3, 42, 77, 0.55) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .adm-pos-pill,
+body.theme-aero .adm-emoji-btn {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .adm-pos-pill.active,
+body.theme-aero .adm-emoji-btn.selected {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .adm-skill-bar-bg {
+  border-radius: 0;
+  background: rgba(3, 42, 77, 0.6);
+}
+
+body.theme-aero .adm-skill-bar-fill {
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+}
+
+body.theme-aero .adm-skill-item input[type="range"] {
+  accent-color: #63e2ff;
+}
+
+body.theme-aero .adm-ach-item {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .adm-btn-add,
+body.theme-aero .adm-btn-save {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .adm-btn-cancel,
+body.theme-aero .adm-reset-skills-btn {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .adm-ach-del {
+  border-radius: 0 !important;
+}
