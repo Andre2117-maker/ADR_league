@@ -1087,3 +1087,173 @@ body.theme-classic .mtc-banner-container.mtc-type-evento.mtc-event-natal {
   --mc-3: #1f8a4c;
   --mc-ink: #ffe08a;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (carrossel de jogos do topo)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+/* cada tipo de jogo continua com a sua cor, agora em tons de água */
+body.theme-aero .mtc-banner-container {
+  --mtc-bg-top: rgba(5, 63, 112, 0.55);
+  --mtc-bg-bottom: rgba(10, 100, 165, 0.3);
+  --mtc-text-main: #ffffff;
+  --mtc-text-muted: rgba(215, 242, 255, 0.85);
+  --mtc-surface: rgba(255, 255, 255, 0.12);
+  --mtc-border: rgba(255, 255, 255, 0.35);
+  --mtc-accent: #8fe3ff;
+  --mtc-accent-bright: #c9f3ff;
+  --mtc-accent-glow: rgba(143, 227, 255, 0.4);
+  --mtc-score-bg:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  --mtc-score-text: #ffffff;
+  --mtc-score-divider: rgba(255, 255, 255, 0.6);
+
+  border-bottom: 0;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body.theme-aero .mtc-banner-container.mtc-type-amistoso {
+  --mtc-accent: #9cc6ff;
+  --mtc-accent-bright: #d6e6ff;
+  --mtc-accent-glow: rgba(120, 170, 255, 0.4);
+  --mtc-score-bg:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #9cc6ff 0%, #4f8ff0 52%, #2f6fd6 100%);
+}
+
+body.theme-aero .mtc-banner-container.mtc-type-campeonato {
+  --mtc-accent: #d7c2ff;
+  --mtc-accent-bright: #ece2ff;
+  --mtc-accent-glow: rgba(180, 150, 255, 0.4);
+  --mtc-score-bg:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #c9b0ff 0%, #8c63e8 52%, #6a3fc8 100%);
+}
+
+body.theme-aero .mtc-banner-container.mtc-type-evento,
+body.theme-aero .mtc-banner-container.mtc-event-halloween {
+  --mtc-accent: #ffc48a;
+  --mtc-accent-bright: #ffe0c2;
+  --mtc-accent-glow: rgba(255, 170, 90, 0.4);
+  --mtc-score-bg:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #ffc48a 0%, #ff9a3c 52%, #e06a10 100%);
+}
+
+/* onda no pé do banner no lugar da linha colorida */
+body.theme-aero .mtc-banner-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+  pointer-events: none;
+}
+
+body.theme-aero .mtc-banner-header {
+  border-bottom: 0;
+  background: var(--tb-wave) left bottom / 60px 10px repeat-x;
+  padding-bottom: 18px;
+}
+
+body.theme-aero .mtc-type-pill {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  padding: 5px 14px;
+  background: var(--mtc-score-bg);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 40, 80, 0.5);
+  box-shadow: none;
+}
+
+body.theme-aero .mtc-special-tag {
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  padding: 4px 12px;
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+/* escudos dentro de bolhas */
+body.theme-aero .mtc-logo-halo {
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.7) 0 6%, rgba(255, 255, 255, 0) 22%),
+    radial-gradient(circle at 50% 50%, rgba(143, 227, 255, 0.08) 55%, rgba(143, 227, 255, 0.4) 100%);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08), 0 14px 30px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .mtc-team-box:hover .mtc-logo-halo {
+  border-color: #ffffff;
+  transform: translateY(-6px) scale(1.04);
+}
+
+body.theme-aero .mtc-team-name-large {
+  text-shadow: 0 3px 12px rgba(0, 40, 80, 0.45);
+}
+
+body.theme-aero .mtc-scorer-chip {
+  border-radius: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%);
+  color: #ffffff;
+}
+
+/* placar: placa de gel com os cantos cortados */
+body.theme-aero .mtc-score-card {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  box-shadow: inset 0 -6px 14px rgba(0, 50, 100, 0.3);
+}
+
+body.theme-aero .mtc-big-num {
+  text-shadow: 0 2px 4px rgba(0, 40, 80, 0.45);
+}
+
+body.theme-aero .mtc-details-btn {
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .mtc-details-btn:hover {
+  border-color: #ffffff !important;
+  background: var(--mtc-score-bg) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 40, 80, 0.5);
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.25) !important;
+}
+
+/* setas e bolinhas */
+body.theme-aero .mtc-arrow {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .mtc-arrow:hover {
+  background: var(--mtc-score-bg) !important;
+  border-color: #ffffff !important;
+}
+
+body.theme-aero .mtc-dot {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 0 !important;
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+
+body.theme-aero .mtc-dot.active {
+  width: 11px !important;
+  height: 11px !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 10px rgba(143, 227, 255, 0.9) !important;
+}

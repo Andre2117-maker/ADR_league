@@ -739,3 +739,164 @@ body.theme-classic .dot.active {
   background: linear-gradient(90deg, #7b3aa8, #b8307a, #e3263a);
   box-shadow: none;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (próximos aniversários)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .schedule-container {
+  --bd-bg: var(--tb-row);
+  --bd-hover: var(--tb-row-hover);
+  --bd-line: rgba(255, 255, 255, 0.4);
+  --bd-fg: #ffffff;
+  --bd-muted: rgba(215, 242, 255, 0.82);
+  --bd-accent: #8fe3ff;
+  --bd-on-accent: #03355c;
+  --bd-glow: rgba(143, 227, 255, 0.35);
+
+  background: transparent;
+}
+
+body.theme-aero .schedule-container::before {
+  display: none;
+}
+
+body.theme-aero .schedule-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .schedule-underline {
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+}
+
+/* card: janela de vidro com cantoneiras */
+body.theme-aero .schedule-card {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 14px 30px rgba(0, 30, 70, 0.3);
+}
+
+body.theme-aero .schedule-card::before {
+  display: none;
+}
+
+body.theme-aero .schedule-card:hover {
+  border-color: #ffffff;
+  background:
+    var(--tb-pontas),
+    radial-gradient(90% 60% at 50% 0%, rgba(143, 227, 255, 0.3), transparent 70%),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.2), 0 18px 34px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .schedule-card.is-birthday-today {
+  border-color: #ffffff;
+  background:
+    var(--tb-pontas),
+    radial-gradient(90% 70% at 50% 0%, rgba(141, 255, 184, 0.35), transparent 70%),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  box-shadow: 0 0 0 4px rgba(141, 255, 184, 0.25), 0 0 30px rgba(141, 255, 184, 0.35);
+}
+
+body.theme-aero .schedule-card.is-birthday-today::after {
+  background: #8dffb8;
+  box-shadow: 0 0 12px rgba(141, 255, 184, 0.9);
+}
+
+body.theme-aero .bday-date {
+  color: #ffffff;
+}
+
+body.theme-aero .bday-countdown-pill {
+  clip-path: var(--tb-chanfro);
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+body.theme-aero .bday-countdown-pill.soon {
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+body.theme-aero .bday-countdown-pill.today {
+  background: linear-gradient(180deg, #c8ffdc 0%, #8dffb8 50%, #34c97a 52%, #1f9d55 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 60, 30, 0.5);
+}
+
+/* foto dentro de uma bolha */
+body.theme-aero .bday-avatar-img {
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: rgba(143, 227, 255, 0.25);
+}
+
+body.theme-aero .schedule-card:hover .bday-avatar-img,
+body.theme-aero .schedule-card.is-birthday-today .bday-avatar-img {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.25);
+}
+
+/* número da camisa num losango de gel */
+body.theme-aero .bday-shirt-num {
+  border: 0;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.6);
+}
+
+body.theme-aero .bday-card-footer {
+  border-top: 0;
+  background: var(--tb-wave) left top / 60px 10px repeat-x;
+  padding-top: 14px;
+}
+
+body.theme-aero .bday-pos-badge {
+  border: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .nav-arrow {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .nav-arrow:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .schedule-title {
+  font-style: normal;
+}
+
+body.theme-aero .dot {
+  width: 9px !important;
+  height: 9px !important;
+  transform: rotate(45deg);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+body.theme-aero .dot.active {
+  width: 11px !important;
+  height: 11px !important;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(143, 227, 255, 0.9);
+}

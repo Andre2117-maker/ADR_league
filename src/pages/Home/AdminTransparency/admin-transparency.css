@@ -2146,3 +2146,386 @@ body.theme-classic .no-data {
     font-size: 2.2rem;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (Transparência)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .transparency-page {
+  background-color: transparent !important;
+}
+
+body.theme-aero .transparency-page::before {
+  display: none;
+}
+
+/* topo */
+body.theme-aero .tp-hero::after {
+  height: 10px;
+  background: var(--tb-wave) left center / 60px 10px repeat-x;
+  box-shadow: none;
+}
+
+/* o título ganha a "rajada de vento" do theme-aero.css */
+body.theme-aero .tp-title {
+  font-style: normal;
+  background: linear-gradient(100deg, #ffffff 0%, #ffffff 35%, #8fe3ff 50%, #d8fff4 55%, #ffffff 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 3px 10px rgba(0, 60, 110, 0.35));
+}
+
+body.theme-aero .tp-subtitle {
+  color: #e6f9ff;
+}
+
+body.theme-aero .tp-export-btn {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .tp-export-btn:hover:not(:disabled) {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* cards de resumo: vidro reto com cantoneiras */
+body.theme-aero .tp-card {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 14px 30px rgba(0, 30, 70, 0.3);
+}
+
+body.theme-aero .tp-card::before {
+  height: 3px;
+  background: #8fe3ff;
+  opacity: 1;
+}
+
+body.theme-aero .tp-card.income::before {
+  background: #7dffb0;
+}
+
+body.theme-aero .tp-card.expense::before {
+  background: #ffa0a0;
+}
+
+body.theme-aero .tp-card:hover {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.2), 0 18px 34px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .tp-card.balance {
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.2), 0 14px 30px rgba(0, 30, 70, 0.3);
+}
+
+body.theme-aero .tp-card-label,
+body.theme-aero .tp-card-sub {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .tp-card-value {
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.55);
+}
+
+/* painéis de categoria */
+body.theme-aero .tp-panel {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+}
+
+body.theme-aero .tp-panel-title {
+  color: #a6ecff;
+}
+
+body.theme-aero .tp-bar-head {
+  color: #ffffff;
+}
+
+body.theme-aero .tp-bar-track {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  background: rgba(3, 42, 77, 0.55);
+}
+
+body.theme-aero .tp-bar-fill {
+  border-radius: 0;
+}
+
+body.theme-aero .tp-bar-fill.income {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(90deg, #34c97a, #8dffb8);
+  box-shadow: 0 0 10px rgba(141, 255, 184, 0.5);
+}
+
+body.theme-aero .tp-bar-fill.expense {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(90deg, #c93c3c, #ff8f8f);
+  box-shadow: 0 0 10px rgba(255, 143, 143, 0.5);
+}
+
+/* formulário do admin */
+body.theme-aero .admin-box,
+body.theme-aero .admin-form-transparency {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+}
+
+body.theme-aero .admin-box h3 {
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+}
+
+body.theme-aero .admin-box h3 .tp-ico {
+  color: #8fe3ff;
+}
+
+body.theme-aero .f-field label {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .admin-form-transparency input,
+body.theme-aero .admin-form-transparency select,
+body.theme-aero .tp-search,
+body.theme-aero .tp-select {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background-color: rgba(3, 42, 77, 0.55) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .admin-form-transparency input:focus,
+body.theme-aero .admin-form-transparency select:focus,
+body.theme-aero .tp-search:focus {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.35) !important;
+}
+
+body.theme-aero .admin-form-transparency select option,
+body.theme-aero .tp-select option {
+  background: #074a80;
+}
+
+body.theme-aero .tp-search-wrap .tp-ico {
+  color: #ffffff;
+}
+
+body.theme-aero .tp-type-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background: rgba(3, 42, 77, 0.55);
+}
+
+body.theme-aero .tp-type-toggle button {
+  border-radius: 0 !important;
+  color: rgba(230, 248, 255, 0.8) !important;
+}
+
+body.theme-aero .tp-type-toggle button.active.income {
+  background: linear-gradient(180deg, #c8ffdc 0%, #8dffb8 50%, #34c97a 52%, #1f9d55 100%) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 60, 30, 0.5);
+}
+
+body.theme-aero .tp-type-toggle button.active.expense {
+  background: linear-gradient(180deg, #ffd0d0 0%, #ffa0a0 50%, #ff6b6b 52%, #c93c3c 100%) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(80, 0, 0, 0.5);
+}
+
+body.theme-aero .tp-preview {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .save-btn {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: none !important;
+}
+
+body.theme-aero .cancel-btn {
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* histórico: abas, mês e lançamentos */
+body.theme-aero .transparency-list {
+  border-top: 0;
+  background: var(--tb-wave) left top / 60px 10px repeat-x;
+  padding-top: 18px;
+}
+
+body.theme-aero .tp-tab {
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: rgba(230, 248, 255, 0.9) !important;
+}
+
+body.theme-aero .tp-tab:hover {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .tp-tab.active {
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.2) !important;
+}
+
+/* cabeçalho do mês: barra de vidro claro */
+body.theme-aero .t-month-header {
+  border-bottom: 0;
+  padding: 10px 14px;
+  background: var(--tb-head);
+}
+
+body.theme-aero .t-month-header h4 {
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.theme-aero .t-month-balance {
+  border-radius: 0;
+  border-color: rgba(5, 64, 111, 0.3);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+body.theme-aero .t-month-header .text-green {
+  color: #1f9d55;
+  text-shadow: none;
+}
+
+body.theme-aero .t-month-header .text-red {
+  color: #c93c3c;
+  text-shadow: none;
+}
+
+/* cada lançamento: faixa de vidro com a cor do tipo na ponta */
+body.theme-aero .t-item {
+  border: 0;
+  border-top: 1px solid var(--tb-edge);
+  border-left: 4px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .t-item.income {
+  border-left-color: #7dffb0;
+}
+
+body.theme-aero .t-item.expense {
+  border-left-color: #ffa0a0;
+}
+
+body.theme-aero .t-item:hover {
+  border-color: rgba(255, 255, 255, 0.65);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+  box-shadow: none;
+}
+
+/* ícone do lançamento numa bolha */
+body.theme-aero .t-icon {
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.7) 0 8%, rgba(255, 255, 255, 0) 26%),
+    rgba(143, 227, 255, 0.2);
+  color: #ffffff;
+}
+
+body.theme-aero .t-item.income .t-icon {
+  color: #c8ffdc;
+}
+
+body.theme-aero .t-item.expense .t-icon {
+  color: #ffd0d0;
+}
+
+body.theme-aero .t-item:hover .t-icon {
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.25);
+}
+
+body.theme-aero .qty-tag {
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .t-cat-pill {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.theme-aero .t-unit,
+body.theme-aero .t-date {
+  color: rgba(215, 242, 255, 0.8);
+}
+
+body.theme-aero .text-green {
+  color: #7dffb0;
+  text-shadow: 0 0 10px rgba(125, 255, 176, 0.35);
+}
+
+body.theme-aero .text-red {
+  color: #ffa0a0;
+  text-shadow: 0 0 10px rgba(255, 160, 160, 0.35);
+}
+
+body.theme-aero .delete-btn,
+body.theme-aero .edit-btn {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .edit-btn:hover {
+  background: var(--tb-gel) !important;
+}
+
+body.theme-aero .delete-btn:hover {
+  background: linear-gradient(180deg, #ffb0b0 0%, #ff6b6b 52%, #c93c3c 100%) !important;
+}
+
+body.theme-aero .no-data {
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(3, 42, 77, 0.35);
+  color: #ffffff;
+}

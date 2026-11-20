@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./goalkeepers.css";
+import "./TopGoalkeepersCard.css";
 
 function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
   const [showInfo, setShowInfo] = useState(false);
@@ -131,7 +131,12 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
               onClick={() => setShowInfo(false)}
               aria-label="Fechar"
             >
-              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                aria-hidden="true"
+              >
                 <path
                   d="M6 6l12 12M18 6L6 18"
                   fill="none"
@@ -166,9 +171,7 @@ function TopGoalkeepersCard({ players = [], matches = [], limit = 5 }) {
             </li>
           </ul>
           <div className="gk-info-rule-box">
-            <strong>
-              Regra de justiça e corte ({dynamicMinGames} jogos):
-            </strong>
+            <strong>Regra de justiça e corte ({dynamicMinGames} jogos):</strong>
             <p>
               Para evitar que alguém jogue apenas 1 ou 2 partidas e lidere com
               média baixa, o ranking exige no mínimo{" "}

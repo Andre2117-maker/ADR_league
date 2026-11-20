@@ -1,24 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
 
 /* ==========================================================================
-   PÁGINA DE ELENCO - VERSÃO AURA
+   ELENCO — PÁGINA NOVA, 4 VERSÕES
+     1. ADR (padrão) .... preto e dourado, linhas finas, cantos retos
+     2. IDR ............. página de jornal: papel, régua grossa, foto P&B
+     3. ADR CLASSIC ..... álbum de figurinhas: roxo, rosa e vermelho
+     4. ADR AERO ........ vidro com pontas, bolhas e gel
+   Toda a estrutura fica na seção 1; os temas trocam variáveis e detalhes.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. ADR (PADRÃO) — PRETO E DOURADO
    ========================================================================== */
 .elenco-psg-wrapper {
+  --el-page: #050505;
+  --el-fg: #ffffff;
+  --el-muted: rgba(255, 255, 255, 0.5);
+  --el-line: #262626;
+  --el-panel: #0a0a0a;
+  --el-panel-2: #050505;
+  --el-accent: #d4af37;
+  --el-on-accent: #000000;
+  --el-glow: rgba(212, 175, 55, 0.28);
+  --el-title-font: inherit;
+
   position: relative;
-  background-color: #050505;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   padding-top: 120px;
-  color: #fff;
   overflow-x: hidden;
+  background-color: var(--el-page);
+  color: var(--el-fg);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='rgba(255,255,255,0.07)'%3E+%3C/text%3E%3C/svg%3E");
   background-size: 60px 60px;
   background-attachment: fixed;
-  background-position: center;
 }
 
-/* Aurora animada ao fundo */
+/* aurora dourada ao fundo */
 .elenco-psg-wrapper::before {
   content: "";
   position: fixed;
@@ -26,44 +45,25 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(
-      40% 35% at 20% 25%,
-      rgba(212, 175, 55, 0.22),
-      transparent 70%
-    ),
-    radial-gradient(
-      35% 30% at 80% 20%,
-      rgba(120, 80, 255, 0.16),
-      transparent 70%
-    ),
-    radial-gradient(
-      45% 40% at 60% 85%,
-      rgba(212, 175, 55, 0.14),
-      transparent 70%
-    );
+    radial-gradient(40% 35% at 20% 25%, rgba(212, 175, 55, 0.2), transparent 70%),
+    radial-gradient(35% 30% at 80% 20%, rgba(120, 80, 255, 0.14), transparent 70%),
+    radial-gradient(45% 40% at 60% 85%, rgba(212, 175, 55, 0.12), transparent 70%);
   filter: blur(40px);
-  animation: auraFloat 18s ease-in-out infinite alternate;
+  animation: elAura 18s ease-in-out infinite alternate;
 }
 
-/* Vinheta */
+/* vinheta */
 .elenco-psg-wrapper::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.7) 100%);
 }
 
-@keyframes auraFloat {
-  0% {
-    transform: translate3d(-3%, -2%, 0) scale(1);
-  }
-  100% {
+@keyframes elAura {
+  to {
     transform: translate3d(4%, 3%, 0) scale(1.12);
   }
 }
@@ -81,373 +81,461 @@
   padding: 0 20px;
 }
 
-/* ==========================================================================
-   CABEÇALHO E FILTROS
-   ========================================================================== */
-.elenco-page-header {
+/* ---------- cabeçalho ---------- */
+.el-head {
   position: relative;
-  margin-bottom: 60px;
-  padding-bottom: 28px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "kicker stats"
+    "title  stats"
+    "sub    stats";
+  align-items: end;
+  column-gap: 30px;
+  padding-bottom: 26px;
+  margin-bottom: 26px;
 }
 
-.elenco-page-header::after {
+.el-head::after {
   content: "";
   position: absolute;
   left: 0;
+  right: 0;
   bottom: 0;
-  width: 100%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    #d4af37,
-    rgba(212, 175, 55, 0.15) 40%,
-    transparent
-  );
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.6);
+  background: linear-gradient(90deg, var(--el-accent), rgba(212, 175, 55, 0.15) 40%, transparent);
+  box-shadow: 0 0 14px var(--el-glow);
 }
 
-.elenco-page-title {
-  font-size: clamp(3.2rem, 9vw, 6.5rem);
+.el-kicker {
+  grid-area: kicker;
+  justify-self: start;
+  color: var(--el-accent);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.el-title {
+  grid-area: title;
+  margin: 6px 0 6px;
+  font-family: var(--el-title-font);
+  font-size: clamp(3.4rem, 10vw, 7rem);
   font-weight: 900;
   font-style: italic;
-  text-transform: uppercase;
+  line-height: 0.9;
   letter-spacing: 4px;
-  line-height: 1;
-  margin: 0 0 8px 0;
+  text-transform: uppercase;
   background: linear-gradient(100deg, #fff 0%, #fff 35%, #d4af37 55%, #fff 75%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: titleShine 6s linear infinite;
-  filter: drop-shadow(0 0 22px rgba(212, 175, 55, 0.25));
+  animation: elShine 6s linear infinite;
+  filter: drop-shadow(0 0 22px rgba(212, 175, 55, 0.22));
+  padding-right: 0.1em;
 }
 
-@keyframes titleShine {
+@keyframes elShine {
   to {
     background-position: 200% center;
   }
 }
 
-.elenco-count {
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  margin: 0 0 22px 2px;
+.el-sub {
+  grid-area: sub;
+  margin: 0;
+  color: var(--el-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.elenco-count b {
-  color: #d4af37;
-}
-
-.elenco-selectors-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.elenco-dropdown {
-  position: relative;
-}
-
-.elenco-dropdown select {
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: rgba(255, 255, 255, 0.04);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 999px;
-  color: #d4af37;
-  font-size: 0.95rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  cursor: pointer;
-  outline: none;
-  font-family: inherit;
-  letter-spacing: 2px;
-  padding: 12px 44px 12px 22px;
-  transition: all 0.3s ease;
-}
-
-.elenco-dropdown select:hover,
-.elenco-dropdown select:focus {
-  border-color: #d4af37;
-  background-color: rgba(212, 175, 55, 0.1);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
-}
-
-.elenco-dropdown select option {
-  background: #111;
-  color: #fff;
-}
-
-/* ==========================================================================
-   GRID DE CARTAS
-   ========================================================================== */
-.elenco-grid-psg {
+/* números do elenco: células coladas por linhas finas */
+.el-stats {
+  grid-area: stats;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  column-gap: 30px;
-  row-gap: 80px;
-  margin-top: 40px;
+  grid-template-columns: repeat(3, minmax(96px, 1fr));
+  gap: 1px;
+  background: var(--el-line);
+  border: 1px solid var(--el-line);
 }
 
-.elenco-empty-msg {
-  color: #888;
-  font-size: 1.2rem;
-  grid-column: 1 / -1;
-}
-
-/* ==========================================================================
-   A CARTA DO JOGADOR
-   ========================================================================== */
-.psg-card {
-  position: relative;
-  width: 100%;
-  height: 380px;
+.el-stat {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  background: var(--el-panel);
+  text-align: center;
+}
+
+.el-stat strong {
+  color: var(--el-fg);
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.el-stat:first-child strong {
+  color: var(--el-accent);
+  text-shadow: 0 0 16px var(--el-glow);
+}
+
+.el-stat span {
+  color: var(--el-muted);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ---------- filtros ---------- */
+.el-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px 26px;
+  margin-bottom: 40px;
+}
+
+.el-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.el-group-label {
+  color: var(--el-muted);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.el-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.el-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--el-line);
+  background: var(--el-panel);
+  color: var(--el-muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-  animation: cardIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  animation-delay: calc(var(--i, 0) * 45ms);
+  user-select: none;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.96);
-    filter: blur(6px);
-  }
+.el-chip:hover {
+  color: var(--el-fg);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-.psg-card:hover {
-  transform: translateY(-14px);
+.el-chip.is-on {
+  color: var(--el-on-accent);
+  background: var(--el-accent);
+  border-color: var(--el-accent);
+  box-shadow: 0 0 18px var(--el-glow);
 }
 
-/* Halo dourado atrás do jogador */
-.psg-card::before {
-  content: "";
+.el-chip:focus-visible,
+.el-card:focus-visible {
+  outline: 2px solid var(--el-accent);
+  outline-offset: 3px;
+}
+
+/* busca (input: !important porque o global.css estiliza os campos) */
+.el-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 220px;
+  max-width: 340px;
+  margin-left: auto;
+}
+
+.el-search svg {
   position: absolute;
-  left: 50%;
-  bottom: 70px;
-  width: 85%;
-  height: 300px;
-  transform: translateX(-50%);
-  background: radial-gradient(
-    ellipse at 50% 60%,
-    rgba(212, 175, 55, 0.55),
-    transparent 65%
-  );
-  filter: blur(30px);
-  opacity: 0;
-  z-index: 1;
-  transition: opacity 0.5s ease;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--el-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
   pointer-events: none;
 }
 
-.psg-card:hover::before {
-  opacity: 1;
+.el-search-input {
+  width: 100% !important;
+  min-height: 38px !important;
+  margin: 0 !important;
+  padding: 0 14px 0 40px !important;
+  border: 1px solid var(--el-line) !important;
+  border-radius: 0 !important;
+  background: var(--el-panel) !important;
+  color: var(--el-fg) !important;
+  font: inherit !important;
+  font-size: 0.8rem !important;
+  box-shadow: none !important;
+  outline: none !important;
+  box-sizing: border-box !important;
 }
 
-.psg-card-bg {
-  position: absolute;
-  bottom: 50px;
-  left: 5%;
-  width: 90%;
-  height: 220px;
-  background: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.09),
-    rgba(255, 255, 255, 0.015) 60%
-  );
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transform: skewX(-8deg);
-  z-index: 1;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 4px;
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+.el-search-input::placeholder {
+  color: var(--el-muted);
+}
+
+.el-search-input:focus {
+  border-color: var(--el-accent) !important;
+  box-shadow: 0 0 0 3px var(--el-glow) !important;
+}
+
+/* ---------- grade ---------- */
+.el-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 24px;
+}
+
+.el-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 60px 20px;
+  border: 1px dashed var(--el-line);
+  color: var(--el-muted);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ---------- a carta do atleta ---------- */
+.el-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  border: 1px solid var(--el-line);
+  background: var(--el-panel-2);
+  cursor: pointer;
+  outline: none;
+  animation: elCardIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
   transition:
-    border-color 0.4s,
-    box-shadow 0.4s,
-    background 0.4s;
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* Brilho que varre a carta no hover */
-.psg-card-bg::after {
+@keyframes elCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+
+/* fio dourado no topo */
+.el-card::before {
   content: "";
   position: absolute;
   top: 0;
-  left: -80%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    100deg,
-    transparent,
-    rgba(255, 255, 255, 0.18),
-    transparent
-  );
-  transform: skewX(-12deg);
-  transition: left 0.9s ease;
-}
-
-.psg-card:hover .psg-card-bg {
-  background: linear-gradient(
-    155deg,
-    rgba(212, 175, 55, 0.18),
-    rgba(255, 255, 255, 0.02) 60%
-  );
-  border-color: rgba(212, 175, 55, 0.7);
-  box-shadow:
-    0 0 35px rgba(212, 175, 55, 0.3),
-    0 18px 40px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.psg-card:hover .psg-card-bg::after {
-  left: 140%;
-}
-
-.psg-player-img {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  max-height: 270px;
-  width: 100%;
-  object-fit: contain;
-  z-index: 2;
-  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.65));
-  transition:
-    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 0.45s;
-}
-
-.psg-card:hover .psg-player-img {
-  transform: translateX(-50%) scale(1.07);
-  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.75))
-    drop-shadow(0 0 14px rgba(212, 175, 55, 0.35));
-}
-
-/* ==========================================================================
-   RODAPÉ (NÚMERO E NOME)
-   ========================================================================== */
-.psg-card-footer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 100%;
-  height: 50px;
-  position: relative;
+  left: 10%;
+  right: 10%;
   z-index: 3;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--el-accent), transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s ease, left 0.3s ease, right 0.3s ease;
 }
 
-.psg-number {
-  font-size: 3.4rem;
-  font-weight: 900;
-  font-style: italic;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.28);
-  line-height: 0.8;
-  margin-right: 12px;
-  transition: all 0.4s ease;
+.el-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--el-accent);
+  box-shadow:
+    0 0 34px var(--el-glow),
+    0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
-.psg-card:hover .psg-number {
-  color: #d4af37;
-  -webkit-text-stroke: 1.5px #d4af37;
-  text-shadow: 0 0 22px rgba(212, 175, 55, 0.75);
+.el-card:hover::before {
+  left: 0;
+  right: 0;
+  opacity: 1;
 }
 
-.psg-name-block {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: flex-end;
-  padding-bottom: 2px;
+/* palco: número gigante atrás do jogador */
+.el-card-stage {
+  position: relative;
+  height: 250px;
   overflow: hidden;
+  background:
+    radial-gradient(70% 55% at 50% 78%, rgba(212, 175, 55, 0.16), transparent 70%),
+    linear-gradient(180deg, #111111, #060606);
 }
 
-.psg-firstname {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 3px;
-}
-
-.psg-lastname {
-  font-size: 1.4rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  transition:
-    letter-spacing 0.4s ease,
-    color 0.4s;
-}
-
-.psg-card:hover .psg-lastname {
-  letter-spacing: 1.5px;
-}
-
-.psg-role {
-  font-size: 0.8rem;
-  font-weight: 900;
-  color: #666;
-  text-transform: uppercase;
-  text-align: right;
-  padding-bottom: 2px;
-  white-space: nowrap;
-}
-
-/* ==========================================================================
-   BADGES (TÍTULOS)
-   ========================================================================== */
-.psg-badges-area {
+.el-card-bignum {
   position: absolute;
   top: 10px;
-  right: 5%;
-  z-index: 4;
+  left: 14px;
+  z-index: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.14);
+  font-size: 7.5rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.8;
+  letter-spacing: -2px;
+  transition:
+    color 0.4s ease,
+    -webkit-text-stroke-color 0.4s ease;
+}
+
+.el-card:hover .el-card-bignum {
+  color: rgba(212, 175, 55, 0.18);
+  -webkit-text-stroke-color: rgba(212, 175, 55, 0.7);
+}
+
+.el-card-photo {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 2;
+  width: auto;
+  max-width: 100%;
+  height: 94%;
+  object-fit: contain;
+  object-position: bottom center;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.65));
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.el-card:hover .el-card-photo {
+  transform: translateX(-50%) scale(1.06);
+}
+
+/* selos no canto: títulos e estreante */
+.el-card-tags {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 5px;
 }
 
-.badge-title {
+.el-tag {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(212, 175, 55, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.6);
-  color: #f0d36b;
-  font-size: 0.8rem;
+  padding: 4px 8px;
+  font-size: 0.66rem;
   font-weight: 900;
-  padding: 4px 10px;
-  border-radius: 999px;
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-/* ==========================================================================
-   LOADING E RESPONSIVIDADE
-   ========================================================================== */
+.el-tag svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.el-tag-titles {
+  background: var(--el-accent);
+  color: var(--el-on-accent);
+  box-shadow: 0 0 14px var(--el-glow);
+}
+
+.el-tag-new {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: 0.58rem;
+}
+
+/* faixa de baixo: número e nome */
+.el-card-info {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px 13px;
+  border-top: 1px solid var(--el-line);
+  background: var(--el-panel);
+}
+
+.el-card-num {
+  flex-shrink: 0;
+  min-width: 34px;
+  color: var(--el-accent);
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.el-card-names {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.el-card-first {
+  color: var(--el-muted);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.el-card-last {
+  overflow: hidden;
+  color: var(--el-fg);
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.el-card-since {
+  margin-top: 3px;
+  color: var(--el-muted);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* ---------- carregando ---------- */
 .elenco-loading-screen {
   height: 100vh;
   display: flex;
@@ -464,369 +552,997 @@
 .spinner {
   width: 54px;
   height: 54px;
+  margin-bottom: 24px;
   border: 3px solid rgba(212, 175, 55, 0.15);
   border-top-color: #d4af37;
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
-  margin-bottom: 24px;
   box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+  animation: elSpin 0.9s linear infinite;
 }
 
-@keyframes spin {
+@keyframes elSpin {
   to {
     transform: rotate(360deg);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .elenco-psg-wrapper::before,
-  .elenco-page-title,
-  .psg-card {
-    animation: none;
+/* ---------- celular ---------- */
+@media (max-width: 900px) {
+  .el-head {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "kicker"
+      "title"
+      "sub"
+      "stats";
+    row-gap: 4px;
+  }
+
+  .el-stats {
+    margin-top: 18px;
+  }
+
+  .el-search {
+    max-width: none;
+    margin-left: 0;
   }
 }
 
-@media (max-width: 768px) {
-  .elenco-page-title {
+@media (max-width: 600px) {
+  .elenco-psg-wrapper {
+    padding-top: 100px;
+  }
+
+  .elenco-content-limit {
+    padding: 0 12px;
+  }
+
+  .el-title {
     letter-spacing: 2px;
   }
-  .elenco-selectors-group {
-    flex-direction: column;
+
+  .el-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .el-stat {
+    padding: 12px 6px;
+  }
+
+  .el-stat strong {
+    font-size: 1.4rem;
+  }
+
+  .el-stat span {
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .el-controls {
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+
+  .el-group,
+  .el-search {
+    flex: 1 1 100%;
+  }
+
+  .el-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .el-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .el-chip {
+    flex-shrink: 0;
+  }
+
+  .el-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
-  .elenco-dropdown select {
-    width: 100%;
+
+  .el-card-stage {
+    height: 180px;
   }
-  .elenco-grid-psg {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 15px;
-    row-gap: 50px;
+
+  .el-card-bignum {
+    font-size: 5rem;
+    left: 8px;
   }
-  .psg-card {
-    height: 280px;
+
+  .el-card-tags {
+    top: 6px;
+    right: 6px;
   }
-  .psg-card::before {
-    height: 200px;
-    bottom: 55px;
+
+  .el-tag {
+    padding: 3px 6px;
+    font-size: 0.58rem;
   }
-  .psg-card-bg {
-    height: 160px;
+
+  .el-tag-new {
+    font-size: 0.5rem;
   }
-  .psg-player-img {
-    max-height: 200px;
+
+  .el-card-info {
+    gap: 8px;
+    padding: 10px;
   }
-  .psg-number {
-    font-size: 2.2rem;
+
+  .el-card-num {
+    min-width: 26px;
+    font-size: 1.2rem;
   }
-  .psg-lastname {
-    font-size: 1rem;
+
+  .el-card-first {
+    font-size: 0.56rem;
+    letter-spacing: 2px;
   }
-  .psg-role {
-    font-size: 0.65rem;
+
+  .el-card-last {
+    font-size: 0.92rem;
+  }
+
+  .el-card-since {
+    font-size: 0.52rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .elenco-psg-wrapper::before,
+  .el-title,
+  .el-card {
+    animation: none;
+  }
+
+  .el-card:hover {
+    transform: none;
   }
 }
 
 /* ==========================================================================
-   TEMA IDR - ELENCO (PRETO E BRANCO PREMIUM)
+   2. IDR — PÁGINA DE JORNAL
+   Papel claro, régua grossa, letra pesada, fotos em preto e branco que
+   ganham cor no mouse, cartas com borda preta e sombra em bloco.
    ========================================================================== */
-.theme-idr.elenco-psg-wrapper,
-.theme-idr .elenco-psg-wrapper {
-  background-color: #f5f5f5 !important;
-  color: #111 !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 100 100'%3E%3Cpolygon points='30,18 42,30 30,42 18,30' fill='rgba(0,0,0,0.05)'/%3E%3C/svg%3E") !important;
+.theme-idr .elenco-psg-wrapper,
+.theme-idr.elenco-psg-wrapper {
+  --el-page: #f4f3ee;
+  --el-fg: #0a0a0a;
+  --el-muted: #6b6b66;
+  --el-line: #0a0a0a;
+  --el-panel: #ffffff;
+  --el-panel-2: #ffffff;
+  --el-accent: #0a0a0a;
+  --el-on-accent: #ffffff;
+  --el-glow: rgba(0, 0, 0, 0);
+  --el-title-font: "Archivo Black", "Inter", sans-serif;
+
+  background-image: none;
 }
 
-.theme-idr.elenco-psg-wrapper::before,
-.theme-idr .elenco-psg-wrapper::before {
-  background:
-    radial-gradient(40% 35% at 20% 25%, rgba(0, 0, 0, 0.09), transparent 70%),
-    radial-gradient(35% 30% at 80% 20%, rgba(0, 0, 0, 0.06), transparent 70%),
-    radial-gradient(45% 40% at 60% 85%, rgba(0, 0, 0, 0.07), transparent 70%) !important;
-}
-
-.theme-idr.elenco-psg-wrapper::after,
+.theme-idr .elenco-psg-wrapper::before,
 .theme-idr .elenco-psg-wrapper::after {
-  background: radial-gradient(
-    ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.08) 100%
-  ) !important;
+  display: none;
 }
 
-.theme-idr .elenco-page-header::after {
-  background: linear-gradient(
-    90deg,
-    #000,
-    rgba(0, 0, 0, 0.15) 40%,
-    transparent
-  ) !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .elenco-page-title {
-  background: linear-gradient(
-    100deg,
-    #000 0%,
-    #000 35%,
-    #777 55%,
-    #000 75%
-  ) !important;
-  background-size: 200% auto !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  filter: none !important;
-}
-
-.theme-idr .elenco-count {
-  color: #666 !important;
-}
-
-.theme-idr .elenco-count b {
-  color: #000 !important;
-}
-
-.theme-idr .elenco-dropdown select {
-  color: #000 !important;
-  background-color: rgba(255, 255, 255, 0.7) !important;
-  border-color: rgba(0, 0, 0, 0.3) !important;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") !important;
-}
-
-.theme-idr .elenco-dropdown select:hover,
-.theme-idr .elenco-dropdown select:focus {
-  border-color: #000 !important;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08) !important;
-}
-
-.theme-idr .elenco-dropdown select option {
-  background: #fff !important;
-  color: #000 !important;
-}
-
-.theme-idr .elenco-empty-msg {
-  color: #555 !important;
-}
-
-.theme-idr .psg-card::before {
-  background: radial-gradient(
-    ellipse at 50% 60%,
-    rgba(0, 0, 0, 0.25),
-    transparent 65%
-  ) !important;
-}
-
-.theme-idr .psg-card-bg {
-  background: linear-gradient(155deg, #ffffff, #e6e6e6) !important;
-  border-color: #ccc !important;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06) !important;
-}
-
-.theme-idr .psg-card:hover .psg-card-bg {
-  background: linear-gradient(155deg, #fafafa, #cfcfcf) !important;
-  border-color: #000 !important;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18) !important;
-}
-
-.theme-idr .psg-player-img,
-.theme-idr .psg-card:hover .psg-player-img {
-  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.3)) !important;
-}
-
-.theme-idr .psg-number {
-  color: transparent !important;
-  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.2) !important;
-}
-
-.theme-idr .psg-card:hover .psg-number {
-  color: #000 !important;
-  -webkit-text-stroke: 1.5px #000 !important;
-  text-shadow: none !important;
-}
-
-.theme-idr .psg-firstname {
-  color: #666 !important;
-}
-
-.theme-idr .psg-lastname {
-  color: #000 !important;
-}
-
-.theme-idr .psg-role {
-  color: #555 !important;
-}
-
-.theme-idr .badge-title {
-  background: rgba(0, 0, 0, 0.06) !important;
-  border-color: #000 !important;
-  color: #000 !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .elenco-loading-screen {
-  background: #f5f5f5 !important;
-  color: #000 !important;
-}
-
-.theme-idr .spinner {
-  border-color: rgba(0, 0, 0, 0.1) !important;
-  border-top-color: #000 !important;
-  box-shadow: none !important;
-}
-
-
-.badge-title svg {
-  width: 13px;
-  height: 13px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* ==========================================================================
-   IDR — ÁLBUM DE JORNAL
-   ========================================================================== */
-.theme-idr .elenco-page-title {
-  font-family: "Archivo Black", "Inter", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: -2px;
-}
-
-.theme-idr .elenco-page-header::after {
-  height: 0 !important;
-  border-top: 6px solid #000;
-  border-bottom: 1px solid #000;
+/* régua dupla de jornal */
+.theme-idr .el-head::after {
+  height: 4px;
+  border-bottom: 1px solid #0a0a0a;
   padding-bottom: 3px;
-  background: none !important;
-  box-shadow: none !important;
-}
-
-.theme-idr .psg-card-bg {
-  border: 2px solid #000 !important;
-  box-shadow: 6px 6px 0 #d6d6d0 !important;
-}
-
-.theme-idr .psg-number {
-  font-family: "Archivo Black", "Inter", sans-serif;
-}
-
-.theme-idr .psg-lastname {
-  font-family: "Archivo Black", "Inter", sans-serif;
-  font-weight: 400;
-}
-
-.theme-idr .badge-title {
-  border-radius: 0;
-  background: #000;
-  color: #fff;
-  border-color: #000;
+  background: #0a0a0a;
+  background-clip: content-box;
   box-shadow: none;
 }
 
+.theme-idr .el-kicker {
+  padding: 3px 8px;
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+.theme-idr .el-title {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -3px;
+  background: none;
+  -webkit-text-fill-color: #0a0a0a;
+  color: #0a0a0a;
+  animation: none;
+  filter: none;
+}
+
+.theme-idr .el-sub {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+}
+
+/* números em colunas de jornal */
+.theme-idr .el-stats {
+  gap: 0;
+  border: 0;
+  border-top: 3px solid #0a0a0a;
+  border-bottom: 1px solid #0a0a0a;
+  background: transparent;
+}
+
+.theme-idr .el-stat {
+  background: transparent;
+  border-right: 1px solid #0a0a0a;
+}
+
+.theme-idr .el-stat:last-child {
+  border-right: 0;
+}
+
+.theme-idr .el-stat strong,
+.theme-idr .el-stat:first-child strong {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+  color: #0a0a0a;
+  text-shadow: none;
+}
+
+.theme-idr .el-chip {
+  border: 1.5px solid #0a0a0a;
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+.theme-idr .el-chip:hover {
+  border-color: #0a0a0a;
+  background: #ebeae4;
+}
+
+.theme-idr .el-chip.is-on {
+  background: #0a0a0a;
+  color: #ffffff;
+  box-shadow: 3px 3px 0 #cfcfc8;
+}
+
+.theme-idr .el-search svg {
+  stroke: #0a0a0a;
+}
+
+.theme-idr .el-search-input {
+  border: 1.5px solid #0a0a0a !important;
+  background: #ffffff !important;
+}
+
+.theme-idr .el-search-input:focus {
+  box-shadow: 3px 3px 0 #cfcfc8 !important;
+}
+
+/* a carta: recorte de jornal */
+.theme-idr .el-card {
+  border: 2px solid #0a0a0a;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+
+.theme-idr .el-card::before {
+  display: none;
+}
+
+.theme-idr .el-card:hover {
+  transform: translate(-2px, -2px);
+  border-color: #0a0a0a;
+  box-shadow: 9px 9px 0 #0a0a0a;
+}
+
+/* retícula de jornal no fundo da foto */
+.theme-idr .el-card-stage {
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, 0.13) 1.2px, transparent 1.6px) 0 0 / 7px 7px,
+    #ffffff;
+}
+
+.theme-idr .el-card-bignum {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.08);
+  -webkit-text-stroke: 0;
+}
+
+.theme-idr .el-card:hover .el-card-bignum {
+  color: rgba(0, 0, 0, 0.14);
+}
+
+.theme-idr .el-card-photo {
+  filter: grayscale(1) contrast(1.12) drop-shadow(0 10px 10px rgba(0, 0, 0, 0.25));
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 0.45s ease;
+}
+
+.theme-idr .el-card:hover .el-card-photo {
+  filter: grayscale(0) drop-shadow(0 10px 10px rgba(0, 0, 0, 0.25));
+}
+
+.theme-idr .el-tag-titles {
+  background: #0a0a0a;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.theme-idr .el-tag-new {
+  border: 1.5px solid #0a0a0a;
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+.theme-idr .el-card-info {
+  border-top: 2px solid #0a0a0a;
+}
+
+/* número = etiqueta preta de camisa */
+.theme-idr .el-card-num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 4px;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.theme-idr .el-card-last {
+  font-family: "Archivo Black", "Inter", sans-serif;
+  font-weight: 400;
+}
+
+.theme-idr .el-card-since {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+}
+
+.theme-idr .el-empty {
+  border: 2px dashed #0a0a0a;
+}
+
+.theme-idr .elenco-loading-screen {
+  background: #f4f3ee;
+  color: #0a0a0a;
+}
+
+.theme-idr .spinner {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-top-color: #0a0a0a;
+  box-shadow: none;
+}
+
+@media (max-width: 600px) {
+  .theme-idr .el-card-num {
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .theme-idr .el-title {
+    letter-spacing: -2px;
+  }
+}
+
 /* ==========================================================================
-   ADR CLASSIC — CADA JOGADOR NUMA FIGURINHA
+   3. ADR CLASSIC — ÁLBUM DE FIGURINHAS
+   Cada atleta é uma figurinha com borda branca, fundo listrado em degradê
+   roxo → rosa → vermelho e o escudo de marca d'água. Elas ficam um pouco
+   tortas, como coladas à mão, e se endireitam no mouse.
    ========================================================================== */
-body.theme-classic .elenco-page-title {
-  font-family: "Anton", "Impact", sans-serif !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.04em !important;
-  background: none !important;
-  -webkit-text-fill-color: #fff !important;
-  color: #fff !important;
-  animation: none !important;
-  filter: none !important;
+body.theme-classic .elenco-psg-wrapper {
+  --el-page: #0b0710;
+  --el-fg: #ffffff;
+  --el-muted: rgba(255, 220, 230, 0.6);
+  --el-line: rgba(255, 138, 165, 0.35);
+  --el-panel: #1d1222;
+  --el-panel-2: #1d1222;
+  --el-accent: #ec4470;
+  --el-on-accent: #ffffff;
+  --el-glow: rgba(236, 68, 112, 0.35);
+  --el-title-font: "Anton", "Impact", sans-serif;
+
+  background-image: none;
+}
+
+body.theme-classic .elenco-psg-wrapper::before {
+  background:
+    radial-gradient(40% 35% at 15% 25%, rgba(123, 58, 168, 0.25), transparent 70%),
+    radial-gradient(40% 35% at 85% 70%, rgba(227, 38, 58, 0.18), transparent 70%);
+}
+
+/* faixa tricolor inclinada */
+body.theme-classic .el-head::after {
+  right: auto;
+  width: 160px;
+  height: 5px;
+  transform: skewX(-24deg);
+  background: linear-gradient(90deg, #7b3aa8 0 33.3%, #b8307a 33.3% 66.6%, #e3263a 66.6% 100%);
+  box-shadow: none;
+}
+
+body.theme-classic .el-kicker {
+  padding: 4px 10px;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #ffffff;
+  transform: rotate(-3deg);
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .el-title {
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+  animation: none;
+  filter: none;
   text-shadow:
     0.05em 0.05em 0 #e3263a,
-    0.1em 0.1em 0 #7b3aa8 !important;
+    0.1em 0.1em 0 #7b3aa8;
 }
 
-body.theme-classic .elenco-page-header::after {
-  width: 160px !important;
-  height: 5px !important;
-  transform: skewX(-24deg);
-  background: linear-gradient(90deg, #7b3aa8 0 33.3%, #b8307a 33.3% 66.6%, #e3263a 66.6% 100%) !important;
-  box-shadow: none !important;
+/* números em adesivos soltos */
+body.theme-classic .el-stats {
+  gap: 10px;
+  border: 0;
+  background: transparent;
 }
 
-body.theme-classic .elenco-dropdown select {
-  border-radius: 6px !important;
+body.theme-classic .el-stat {
+  border: 2px solid rgba(255, 138, 165, 0.6);
+  border-radius: 8px;
+  background: #1d1222;
+  box-shadow: 0 4px 0 #120a16;
+}
+
+body.theme-classic .el-stat:nth-child(1) {
+  transform: rotate(-2deg);
+}
+
+body.theme-classic .el-stat:nth-child(3) {
+  transform: rotate(2deg);
+}
+
+body.theme-classic .el-stat strong {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
+  text-shadow: 2px 2px 0 #e3263a, 4px 4px 0 #7b3aa8;
+}
+
+body.theme-classic .el-stat:first-child strong {
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #e3263a, 4px 4px 0 #7b3aa8;
+}
+
+body.theme-classic .el-chip {
+  border: 2px solid rgba(255, 138, 165, 0.3);
+  border-radius: 6px;
+  background: #1d1222;
+  color: rgba(255, 230, 238, 0.75);
   font-style: italic;
+  box-shadow: 0 3px 0 #120a16;
 }
 
-body.theme-classic .badge-title {
-  background: linear-gradient(135deg, #e3263a, #b8307a);
-  border: 2px solid #fff;
-  border-radius: 4px;
-  color: #fff;
-  box-shadow: 0 3px 0 #5a1f4a;
-  transform: rotate(-4deg);
+body.theme-classic .el-chip:hover {
+  border-color: #ff8aa5;
+  color: #ffffff;
 }
 
+body.theme-classic .el-chip.is-on {
+  border-color: #ffffff;
+  background: linear-gradient(135deg, #7b3aa8, #b8307a 55%, #e3263a);
+  color: #ffffff;
+  box-shadow: 0 4px 0 #5a1f4a;
+  transform: rotate(-3deg);
+}
 
-body.theme-classic .psg-card-bg {
-  border: 2px solid #ff8aa5 !important;
+body.theme-classic .el-search svg {
+  stroke: #ff8aa5;
+}
+
+body.theme-classic .el-search-input {
+  border: 2px solid rgba(255, 138, 165, 0.3) !important;
   border-radius: 6px !important;
-  background:
-    radial-gradient(circle at 50% 30%, rgba(255, 138, 165, 0.45), transparent 60%),
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.07) 0 12px, transparent 12px 26px),
-    linear-gradient(165deg, #7b3aa8 0%, #b8307a 55%, #e3263a 100%) !important;
+  background: #1d1222 !important;
+}
+
+body.theme-classic .el-search-input:focus {
+  border-color: #ff8aa5 !important;
+  box-shadow: 0 0 0 3px rgba(236, 68, 112, 0.3) !important;
+}
+
+/* a figurinha */
+body.theme-classic .el-card {
+  overflow: visible;
+  padding: 7px;
+  border: 0;
+  border-radius: 10px;
+  background: #ffffff;
   box-shadow:
-    0 0 0 3px #1d1222,
+    0 0 0 3px #120a16,
     0 0 0 5px #7b3aa8,
-    0 18px 40px rgba(0, 0, 0, 0.6) !important;
+    0 18px 36px rgba(0, 0, 0, 0.55);
 }
-body.theme-classic .psg-card:hover .psg-card-bg {
-  background:
-    radial-gradient(circle at 50% 30%, rgba(255, 170, 190, 0.55), transparent 60%),
-    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.09) 0 12px, transparent 12px 26px),
-    linear-gradient(165deg, #8d48bd 0%, #cc3a8a 55%, #f0344a 100%) !important;
+
+body.theme-classic .el-card:nth-child(3n + 1) {
+  transform: rotate(-1.5deg);
+}
+
+body.theme-classic .el-card:nth-child(3n + 2) {
+  transform: rotate(1deg);
+}
+
+body.theme-classic .el-card:nth-child(3n) {
+  transform: rotate(-0.5deg);
+}
+
+body.theme-classic .el-card::before {
+  display: none;
+}
+
+body.theme-classic .el-card:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.02);
   box-shadow:
-    0 0 0 3px #1d1222,
+    0 0 0 3px #120a16,
     0 0 0 5px #ec4470,
-    0 22px 46px rgba(236, 68, 112, 0.35) !important;
+    0 24px 46px rgba(236, 68, 112, 0.35);
 }
-/* escudo em marca d'água dentro da figurinha */
-body.theme-classic .psg-card-bg::before {
+
+body.theme-classic .el-card-stage {
+  border-radius: 6px 6px 0 0;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 138, 165, 0.45), transparent 60%),
+    repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.08) 0 12px, transparent 12px 26px),
+    linear-gradient(165deg, #7b3aa8 0%, #b8307a 55%, #e3263a 100%);
+}
+
+/* escudo de marca d'água atrás do jogador */
+body.theme-classic .el-card-stage::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: 46%;
+  top: 44%;
+  z-index: 0;
   width: 150px;
   height: 170px;
-  transform: translate(-50%, -50%) skewX(8deg) rotate(-8deg);
+  transform: translate(-50%, -50%) rotate(-8deg);
   background: url("/logo-classic.png") center / contain no-repeat;
   opacity: 0.16;
   filter: grayscale(1) brightness(2.2);
   pointer-events: none;
 }
-/* número = adesivo, nome = faixa com sombra deslocada */
-body.theme-classic .psg-number {
+
+body.theme-classic .el-card-bignum {
   font-family: "Anton", "Impact", sans-serif;
+  font-style: normal;
   font-weight: 400;
-  color: #ffffff !important;
-  -webkit-text-stroke: 0 !important;
-  text-shadow:
-    0.05em 0.05em 0 #e3263a,
-    0.1em 0.1em 0 #7b3aa8 !important;
+  color: rgba(255, 255, 255, 0.16);
+  -webkit-text-stroke: 0;
 }
-body.theme-classic .psg-card:hover .psg-number {
-  color: #ffffff !important;
-  -webkit-text-stroke: 0 !important;
+
+body.theme-classic .el-card:hover .el-card-bignum {
+  color: rgba(255, 255, 255, 0.3);
 }
-body.theme-classic .psg-lastname {
+
+body.theme-classic .el-card-photo {
+  filter: drop-shadow(0 10px 14px rgba(40, 0, 30, 0.55));
+}
+
+body.theme-classic .el-tag {
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 3px 0 #5a1f4a;
+}
+
+body.theme-classic .el-tag-titles {
+  background: linear-gradient(135deg, #f7c548, #e39a1e);
+  color: #3a1d00;
+  transform: rotate(4deg);
+}
+
+body.theme-classic .el-tag-new {
+  background: #120a16;
+  color: #ff8aa5;
+  transform: rotate(-3deg);
+}
+
+/* faixa de baixo: tarja escura como o rodapé da figurinha */
+body.theme-classic .el-card-info {
+  border-top: 0;
+  border-radius: 0 0 6px 6px;
+  background: #120a16;
+}
+
+/* número num adesivo redondo */
+body.theme-classic .el-card-num {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e3263a, #b8307a);
+  color: #ffffff;
   font-family: "Anton", "Impact", sans-serif;
+  font-style: normal;
   font-weight: 400;
-  font-style: italic;
-  font-size: 1.6rem;
-  letter-spacing: 0.04em;
-  text-shadow:
-    2px 2px 0 #e3263a,
-    4px 4px 0 #7b3aa8;
+  font-size: 1.15rem;
+  box-shadow: 0 3px 0 #5a1f4a;
+  transform: rotate(-6deg);
 }
-body.theme-classic .psg-firstname {
+
+body.theme-classic .el-card-first {
   color: #ff8aa5;
 }
 
+body.theme-classic .el-card-last {
+  font-family: "Anton", "Impact", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 #e3263a, 3px 3px 0 #7b3aa8;
+}
+
+body.theme-classic .el-card-since {
+  color: rgba(255, 220, 230, 0.6);
+}
+
+body.theme-classic .el-empty {
+  border: 2px dashed rgba(255, 138, 165, 0.5);
+  border-radius: 10px;
+}
+
+body.theme-classic .elenco-loading-screen {
+  background: radial-gradient(circle at center, #2a1530, #0b0710 70%);
+  color: #ff8aa5;
+}
+
+body.theme-classic .spinner {
+  border-color: rgba(255, 138, 165, 0.2);
+  border-top-color: #ec4470;
+  box-shadow: 0 0 25px rgba(236, 68, 112, 0.4);
+}
+
+@media (max-width: 600px) {
+  body.theme-classic .el-card {
+    padding: 5px;
+  }
+
+  body.theme-classic .el-card-num {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  body.theme-classic .el-card-last {
+    font-size: 1.05rem;
+  }
+
+  body.theme-classic .el-card-stage::before {
+    width: 100px;
+    height: 115px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-classic .el-card,
+  body.theme-classic .el-card:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   4. ADR AERO — VIDRO COM PONTAS, BOLHAS E GEL
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Cada atleta fica numa janela de vidro reta com cantoneiras, em pé na
+   frente de uma bolha grande; o nome vai numa barra de vidro claro e o
+   número num losango de gel.
+   ========================================================================== */
+body.theme-aero .elenco-psg-wrapper {
+  --el-fg: #ffffff;
+  --el-muted: rgba(215, 242, 255, 0.82);
+  --el-line: rgba(255, 255, 255, 0.4);
+  --el-accent: #8fe3ff;
+  --el-on-accent: #03355c;
+  --el-glow: rgba(143, 227, 255, 0.35);
+
+  background-color: transparent;
+}
+
+/* o fundo de bolhas do tema aparece: sem aurora e sem vinheta */
+body.theme-aero .elenco-psg-wrapper::before,
+body.theme-aero .elenco-psg-wrapper::after {
+  display: none;
+}
+
+/* onda no lugar da linha dourada */
+body.theme-aero .el-head::after {
+  height: 10px;
+  background: var(--tb-wave) left center / 60px 10px repeat-x;
+  box-shadow: none;
+}
+
+body.theme-aero .el-kicker {
+  padding: 5px 18px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.1) 50%);
+  color: #ffffff;
+}
+
+/* o título já ganha a "rajada de vento" do theme-aero.css */
+body.theme-aero .el-title {
+  font-style: normal;
+}
+
+body.theme-aero .el-sub {
+  color: #e6f9ff;
+  text-shadow: 0 1px 6px rgba(0, 50, 100, 0.5);
+}
+
+/* números em placas de vidro com vão */
+body.theme-aero .el-stats {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: var(--tb-gap);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.14);
+}
+
+body.theme-aero .el-stat {
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .el-stat strong,
+body.theme-aero .el-stat:first-child strong {
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.7);
+}
+
+body.theme-aero .el-group-label {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 50, 100, 0.5);
+}
+
+/* filtros: placas de vidro, o escolhido em gel */
+body.theme-aero .el-chip {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%);
+  color: rgba(230, 248, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+body.theme-aero .el-chip:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+body.theme-aero .el-chip.is-on {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: var(--tb-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.2);
+}
+
+body.theme-aero .el-search svg {
+  stroke: #ffffff;
+}
+
+body.theme-aero .el-search-input {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(3, 42, 77, 0.45) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .el-search-input::placeholder {
+  color: rgba(225, 245, 255, 0.75);
+}
+
+body.theme-aero .el-search-input:focus {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.35) !important;
+}
+
+/* a carta: janela de vidro reta */
+body.theme-aero .el-card {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.35);
+}
+
+/* cantoneiras por cima de tudo */
+body.theme-aero .el-card::before {
+  inset: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  z-index: 4;
+  opacity: 1;
+  background: var(--tb-pontas);
+  pointer-events: none;
+}
+
+body.theme-aero .el-card:hover {
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(143, 227, 255, 0.22),
+    0 24px 46px rgba(0, 30, 70, 0.4);
+}
+
+/* palco: água com uma bolha grande atrás do jogador */
+body.theme-aero .el-card-stage {
+  background:
+    radial-gradient(120% 50% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.82) 100%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+}
+
+body.theme-aero .el-card-stage::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  z-index: 0;
+  width: 190px;
+  height: 190px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.75) 0 6%, rgba(255, 255, 255, 0) 20%),
+    radial-gradient(circle at 50% 50%, rgba(143, 227, 255, 0.05) 55%, rgba(143, 227, 255, 0.35) 100%);
+  transform: translateX(-50%);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body.theme-aero .el-card:hover .el-card-stage::before {
+  transform: translateX(-50%) scale(1.08);
+}
+
+/* bolhinhas subindo no canto */
+body.theme-aero .el-card-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 70%, rgba(255, 255, 255, 0.08) 0 5px, rgba(255, 255, 255, 0.55) 6px 7px, transparent 8px),
+    radial-gradient(circle at 90% 52%, rgba(255, 255, 255, 0.08) 0 3px, rgba(255, 255, 255, 0.5) 4px 5px, transparent 6px),
+    radial-gradient(circle at 12% 80%, rgba(255, 255, 255, 0.08) 0 4px, rgba(255, 255, 255, 0.45) 5px 6px, transparent 7px);
+}
+
+body.theme-aero .el-card-bignum {
+  font-style: normal;
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+}
+
+body.theme-aero .el-card:hover .el-card-bignum {
+  color: rgba(255, 255, 255, 0.16);
+  -webkit-text-stroke-color: rgba(255, 255, 255, 0.85);
+}
+
+body.theme-aero .el-card-photo {
+  filter: drop-shadow(0 12px 16px rgba(0, 30, 70, 0.5));
+}
+
+body.theme-aero .el-tag {
+  clip-path: var(--tb-chanfro);
+  padding: 5px 10px;
+}
+
+body.theme-aero .el-tag-titles {
+  background: var(--tb-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: none;
+}
+
+body.theme-aero .el-tag-new {
+  border: 0;
+  background: var(--tb-head);
+  color: #05406f;
+}
+
+/* nome na barra de vidro claro, número num losango de gel */
+body.theme-aero .el-card-info {
+  border-top: 0;
+  background: var(--tb-head);
+}
+
+body.theme-aero .el-card-num {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.6);
+}
+
+body.theme-aero .el-card-first {
+  color: #0a6eb0;
+}
+
+body.theme-aero .el-card-last {
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.theme-aero .el-card-since {
+  color: #3d6f93;
+}
+
+body.theme-aero .el-empty {
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  background: rgba(3, 42, 77, 0.35);
+  color: #ffffff;
+}
+
+body.theme-aero .elenco-loading-screen {
+  background: transparent;
+  color: #ffffff;
+}
+
+body.theme-aero .spinner {
+  border-color: rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  box-shadow: 0 0 25px rgba(143, 227, 255, 0.5);
+}
+
+@media (max-width: 600px) {
+  body.theme-aero .el-card-stage::before {
+    width: 140px;
+    height: 140px;
+    bottom: 10px;
+  }
+
+  body.theme-aero .el-card-num {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-aero .el-card-stage::before {
+    transition: none;
+  }
+}

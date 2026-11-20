@@ -603,3 +603,106 @@ body.theme-classic .h2h-shuffle:hover svg {
     font-size: 0.9rem;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (confronto direto)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .h2h-section {
+  --h2h-fg: #ffffff;
+  --h2h-muted: rgba(215, 242, 255, 0.82);
+  --h2h-line: rgba(255, 255, 255, 0.25);
+  --h2h-line-strong: rgba(255, 255, 255, 0.6);
+  --h2h-accent: #8fe3ff;
+  --h2h-a: #8fe3ff;
+  --h2h-b: #8dffb8;
+  --h2h-panel: radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  --h2h-glow: rgba(143, 227, 255, 0.45);
+}
+
+body.theme-aero .h2h-head::after {
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+}
+
+body.theme-aero .h2h-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .h2h-title {
+  font-style: normal;
+  text-shadow: 0 3px 12px rgba(0, 50, 100, 0.4);
+}
+
+/* o card: janela de vidro com cantoneiras */
+body.theme-aero .h2h-card {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    var(--tb-pontas),
+    var(--h2h-panel);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .h2h-side:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* as duas fotos em bolhas: azul de um lado, verde do outro */
+body.theme-aero .h2h-photo {
+  border-radius: 50%;
+  border-width: 2px;
+}
+
+body.theme-aero .h2h-left .h2h-photo {
+  box-shadow: 0 0 0 5px rgba(143, 227, 255, 0.18), 0 0 26px rgba(143, 227, 255, 0.5);
+}
+
+body.theme-aero .h2h-right .h2h-photo {
+  box-shadow: 0 0 0 5px rgba(141, 255, 184, 0.18), 0 0 26px rgba(141, 255, 184, 0.45);
+}
+
+body.theme-aero .h2h-wins {
+  text-shadow: 0 0 16px currentColor;
+}
+
+body.theme-aero .h2h-vs {
+  color: #ffffff;
+}
+
+/* barra de vitórias: tubo de água */
+body.theme-aero .h2h-bar {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(3, 42, 77, 0.55);
+}
+
+body.theme-aero .h2h-bar span {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%);
+}
+
+body.theme-aero .h2h-bar-a {
+  background-color: #17aee9;
+}
+
+body.theme-aero .h2h-bar-d {
+  background-color: #a9bccb;
+}
+
+body.theme-aero .h2h-bar-b {
+  background-color: #34c97a;
+}
+
+body.theme-aero .h2h-shuffle {
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .h2h-shuffle:hover {
+  filter: brightness(1.08);
+}

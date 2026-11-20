@@ -627,3 +627,86 @@ body.theme-classic .sponsor-divider {
 body.theme-classic .is-exporting * {
   transform: none !important;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (Home: fundo, botão de exportar, laterais)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .main-wrapper {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* exportar tabela: placa de vidro que acende em gel */
+body.theme-aero .export-btn {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.theme-aero .export-btn:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* abas de navegação (Visão geral, Hall...) */
+body.theme-aero .btn-transparency-nav {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .btn-transparency-nav.active-tab {
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.2) !important;
+}
+
+/* lista simples do Hall (formulário do admin) */
+body.theme-aero .hall-admin-form {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background: radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+}
+
+body.theme-aero .hall-admin-form input {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background: rgba(3, 42, 77, 0.5) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .year-label {
+  color: #a6ecff;
+}
+
+body.theme-aero .hall-item {
+  border-radius: 0;
+  background: var(--tb-shine), var(--tb-row);
+  border-top: 1px solid var(--tb-edge);
+}
+
+/* patrocinadores */
+body.theme-aero .sponsors-footer {
+  background: rgba(3, 42, 77, 0.35);
+}
+
+body.theme-aero .sponsor-divider {
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+}
+
+body.theme-aero .sponsor-master img,
+body.theme-aero .sponsors-secondary img {
+  filter: grayscale(1) brightness(2.2);
+  opacity: 0.8;
+}

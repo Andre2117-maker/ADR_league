@@ -1,5 +1,5 @@
 import React from "react";
-import "./topassists.css";
+import "./TopAssistsCard.css";
 
 function TopAssistsCard({ players, limit = 3 }) {
   const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";

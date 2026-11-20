@@ -908,3 +908,251 @@ body.theme-classic .alltime-container .alltime-more:active {
     font-size: 1.35rem;
   }
 }
+
+
+/* ==========================================================================
+   ADR AERO — All Time igual à tabela-molde (aero-tabela.css)
+   ========================================================================== */
+body.theme-aero .alltime-container {
+  --at-fg: #ffffff;
+  --at-text: #ffffff;
+  --at-muted: rgba(215, 242, 255, 0.82);
+  --at-accent: #8fe3ff;
+  --at-win: #7dffb0;
+  --at-loss: #ffa0a0;
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .alltime-container::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  z-index: 3;
+  opacity: 1;
+  box-shadow: none;
+  pointer-events: none;
+  background: var(--tb-pontas);
+}
+
+body.theme-aero .alltime-header {
+  border-bottom: 0;
+}
+
+body.theme-aero .alltime-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .alltime-title {
+  font-style: normal;
+}
+
+/* botões de ordenar: placas de vidro, a escolhida em gel */
+body.theme-aero .alltime-sort {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: rgba(230, 248, 255, 0.9) !important;
+}
+
+body.theme-aero .alltime-sort:hover {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .alltime-sort.is-active {
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* moldura e vão entre as linhas */
+body.theme-aero .alltime-table-wrapper {
+  width: auto;
+  margin: 0 14px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: var(--tb-gap);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.14);
+  scrollbar-color: #8fe3ff var(--tb-gap);
+}
+
+body.theme-aero .alltime-table {
+  border-spacing: 0 4px;
+  margin: -4px 0;
+  background: var(--tb-gap);
+}
+
+/* cabeçalho de vidro claro */
+body.theme-aero .alltime-table th,
+body.theme-aero .alltime-table th:nth-child(1),
+body.theme-aero .alltime-table th:nth-child(2) {
+  background: var(--tb-head);
+  color: #05406f !important;
+  border-bottom: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.85);
+  border-right: 1px solid rgba(5, 64, 111, 0.16);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: none;
+}
+
+body.theme-aero .alltime-table th.highlight-col {
+  background: var(--tb-head-on);
+  color: #03355c !important;
+  box-shadow: inset 0 -3px 0 #0a80c6;
+}
+
+/* linhas: faixas de vidro (cores sólidas por causa das colunas fixas) */
+body.theme-aero .alltime-table td,
+body.theme-aero .alltime-table td.col-pos,
+body.theme-aero .alltime-table td.col-name {
+  background-color: var(--tb-row);
+  background-image: var(--tb-shine);
+  border-top: 1px solid var(--tb-edge);
+  border-bottom: 0;
+  border-right: 1px solid var(--tb-col);
+  color: #ffffff;
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(even) td {
+  background-color: var(--tb-row-alt);
+}
+
+body.theme-aero .alltime-table td.col-name {
+  border-right: 1px solid rgba(143, 227, 255, 0.5);
+  box-shadow: none;
+}
+
+/* coluna escolhida acesa (como a de pontos da tabela-molde) */
+body.theme-aero .alltime-table td.highlight-col {
+  background-color: var(--tb-pts);
+  border-left: 1px solid rgba(143, 227, 255, 0.45);
+  border-right: 1px solid rgba(143, 227, 255, 0.45);
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(even) td.highlight-col {
+  background-color: var(--tb-pts-alt);
+}
+
+body.theme-aero .alltime-table tbody tr:hover td {
+  background-color: var(--tb-row-hover);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%);
+  border-top-color: rgba(255, 255, 255, 0.65);
+}
+
+/* posição num losango (desenhado no fundo da célula) */
+body.theme-aero .alltime-table td.col-pos {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='30'%20height='30'%3E%3Cpolygon%20points='15,0%2030,15%2015,30%200,15'%20fill='%23fff'%20fill-opacity='.2'/%3E%3Cpolygon%20points='15,0%2030,15%200,15'%20fill='%23fff'%20fill-opacity='.14'/%3E%3C/svg%3E"), var(--tb-shine);
+  background-repeat: no-repeat, repeat;
+  background-position: center, 0 0;
+  background-size: 28px 28px, auto;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-style: normal;
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(1) td.col-pos,
+body.theme-aero .alltime-table tbody tr:nth-child(2) td.col-pos,
+body.theme-aero .alltime-table tbody tr:nth-child(3) td.col-pos {
+  background-size: 34px 34px, auto;
+  font-size: 0.86rem;
+  text-shadow: 0 1px 2px rgba(0, 40, 80, 0.7);
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(1) td.col-pos {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='36'%20height='36'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='0'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%239ff3ff'/%3E%3Cstop%20offset='.52'%20stop-color='%232cc4f2'/%3E%3Cstop%20offset='1'%20stop-color='%230b8fd6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon%20points='18,0%2036,18%2018,36%200,18'%20fill='url%28%23g%29'/%3E%3Cpolygon%20points='18,0%2036,18%200,18'%20fill='%23fff'%20fill-opacity='.3'/%3E%3C/svg%3E"), var(--tb-shine);
+  color: #ffffff;
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(2) td.col-pos {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='36'%20height='36'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='0'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%23f4f8fb'/%3E%3Cstop%20offset='.52'%20stop-color='%23b9c7d3'/%3E%3Cstop%20offset='1'%20stop-color='%237f93a6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon%20points='18,0%2036,18%2018,36%200,18'%20fill='url%28%23g%29'/%3E%3Cpolygon%20points='18,0%2036,18%200,18'%20fill='%23fff'%20fill-opacity='.3'/%3E%3C/svg%3E"), var(--tb-shine);
+  color: #24384a;
+  text-shadow: none;
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(3) td.col-pos {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='36'%20height='36'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='0'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%23ffe1c4'/%3E%3Cstop%20offset='.52'%20stop-color='%23e0a06a'/%3E%3Cstop%20offset='1'%20stop-color='%23a8642d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon%20points='18,0%2036,18%2018,36%200,18'%20fill='url%28%23g%29'/%3E%3Cpolygon%20points='18,0%2036,18%200,18'%20fill='%23fff'%20fill-opacity='.3'/%3E%3C/svg%3E"), var(--tb-shine);
+  color: #3d2410;
+  text-shadow: none;
+}
+
+/* pódio: luz nas colunas fixas e barra reta na ponta */
+body.theme-aero .alltime-table tbody tr:nth-child(-n + 3) td.col-name {
+  background-image: linear-gradient(90deg, rgba(143, 227, 255, 0.28), rgba(143, 227, 255, 0) 90%), var(--tb-shine);
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(1) td:first-child,
+body.theme-aero .alltime-table tbody tr:hover td:first-child {
+  box-shadow: inset 4px 0 0 #8fe3ff;
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(2) td:first-child {
+  box-shadow: inset 4px 0 0 #e3edf5;
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(3) td:first-child {
+  box-shadow: inset 4px 0 0 #f0b98a;
+}
+
+body.theme-aero .col-name,
+body.theme-aero .alltime-table th.col-name {
+  font-style: normal;
+}
+
+/* foto: quadro reto com fio branco */
+body.theme-aero .at-photo {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+body.theme-aero .alltime-table tbody tr:nth-child(1) .at-photo {
+  border: 2px solid #ffffff;
+}
+
+body.theme-aero a.at-player:hover .at-name {
+  color: #c9f3ff;
+}
+
+body.theme-aero .at-rate {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .alltime-foot {
+  border-top: 0;
+}
+
+body.theme-aero .alltime-more {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .alltime-more:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 600px) {
+  body.theme-aero .alltime-table-wrapper {
+    margin: 0 8px;
+  }
+}

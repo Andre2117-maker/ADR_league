@@ -836,3 +836,143 @@ body.theme-classic .camp-group-footer {
     font-size: 1.3rem;
   }
 }
+
+
+/* ==========================================================================
+   ADR AERO — "BOLHAS E ONDAS": fase de grupos — tabelas em gotas de vidro, posições em bolhas
+   ========================================================================== */
+body.theme-aero .camp-groups-layout {
+  --camp-bg: transparent;
+  --camp-card: rgba(8, 90, 150, 0.5);
+  --camp-card-soft: rgba(255, 255, 255, 0.08);
+  --camp-header: rgba(255, 255, 255, 0.1);
+  --camp-border: rgba(255, 255, 255, 0.32);
+  --camp-border-soft: rgba(255, 255, 255, 0.14);
+  --camp-text: #ffffff;
+  --camp-muted: rgba(220, 244, 255, 0.85);
+  --camp-subtle: rgba(200, 235, 255, 0.7);
+  --camp-accent: #8fe3ff;
+  --camp-accent-soft: rgba(143, 227, 255, 0.18);
+  --camp-qualified: #8fe3ff;
+  --camp-qualified-soft: rgba(143, 227, 255, 0.16);
+  --camp-positive: #7dffb0;
+  --camp-negative: #ffa0a0;
+  --camp-shadow: 0 16px 36px rgba(0, 30, 70, 0.3);
+}
+
+body.theme-aero .camp-group-card {
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 15% 0%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.58) 0%, rgba(5, 63, 112, 0.8) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 28px;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), var(--camp-shadow);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body.theme-aero .camp-group-card:hover {
+  transform: translateY(-4px);
+}
+
+/* cabeçalho com linha d'água em onda */
+body.theme-aero .camp-group-header {
+  border-bottom: 0;
+  padding-bottom: 22px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='%238fe3ff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") left bottom / 60px 10px repeat-x,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04));
+}
+
+body.theme-aero .group-tag {
+  color: #a6ecff;
+}
+
+body.theme-aero .camp-group-title {
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 700;
+  -webkit-text-fill-color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 40, 80, 0.3);
+}
+
+body.theme-aero .group-click-hint {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.theme-aero .camp-table thead th {
+  background: rgba(0, 40, 80, 0.25);
+  color: rgba(220, 244, 255, 0.9);
+}
+
+/* posição: bolha; quem classifica: bolha de gel */
+body.theme-aero .pos-badge {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.theme-aero .camp-tr.is-qualified .pos-badge {
+  border-color: #ffffff;
+  background: var(--aq-bubble, radial-gradient(circle at 32% 28%, #ffffff 0 9%, #d4f6ff 17%, #8fe3ff 45%, #3cb8ea 78%, #1a93d0 100%));
+  color: #04395a;
+  box-shadow: 0 4px 10px rgba(0, 40, 80, 0.3);
+}
+
+body.theme-aero .camp-tr.is-qualified td.td-team {
+  box-shadow: inset 4px 0 0 #8fe3ff;
+}
+
+body.theme-aero .pts-pill {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .sg-badge {
+  border-radius: 999px;
+}
+
+body.theme-aero .matches-dropdown {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 40, 80, 0.3);
+}
+
+body.theme-aero .dropdown-badge,
+body.theme-aero .legend-dot,
+body.theme-aero .qualified-dot {
+  border-radius: 999px;
+}
+
+body.theme-aero .camp-match-item {
+  border-radius: 18px;
+}
+
+body.theme-aero .camp-group-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 40, 80, 0.2);
+}
+
+body.theme-aero .camp-empty-state {
+  background:
+    radial-gradient(120% 70% at 15% 0%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.58) 0%, rgba(5, 63, 112, 0.8) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 28px;
+  color: #ffffff;
+}

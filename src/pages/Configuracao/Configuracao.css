@@ -94,9 +94,7 @@
   border-radius: 50%;
   background: radial-gradient(circle, var(--tc-glow) 0%, transparent 68%);
   opacity: 0.55;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .tc-crest img {
@@ -169,9 +167,7 @@
   color: var(--tc-bg);
   opacity: 0;
   transform: translateY(-4px);
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 /* ---------- Estado ativo ---------- */
@@ -371,22 +367,656 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
   color: #111 !important;
 }
+
 /* ==========================================================================
-   EXCEÇÕES DO RESET: títulos que ficam em faixa preta no IDR
-   (o reset acima pinta todo h2/h3 de preto)
+   TEMA SECRETO: cartão ADR AERO + bloco do código secreto
    ========================================================================== */
-.theme-idr .aw-card .aw-title,
-.theme-idr .ts-card .ts-title,
-.theme-idr .ta-card .ta-title,
-.theme-idr .gk-card .gk-title,
-.theme-idr .info-card h3,
-.theme-idr .stat-header h2 {
-  -webkit-text-fill-color: #ffffff !important;
-  color: #ffffff !important;
-  background: #000000 !important;
+
+/* com 4 temas: 2 x 2 no computador */
+.theme-cards-container.has-secret {
+  grid-template-columns: 1fr;
 }
 
-/* o topo do Paredões já é preto: o título fica sem fundo próprio */
-.theme-idr .gk-card .gk-card-top .gk-title {
-  background: none !important;
+@media (min-width: 681px) {
+  .theme-cards-container.has-secret {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .config-wrapper:has(.has-secret) {
+    max-width: 980px;
+  }
+  .theme-cards-container.has-secret {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---------- AERO: céu, água e vidro ---------- */
+.tc-aero {
+  --tc-bg: linear-gradient(180deg, #e9fbff 0%, #c6f0ff 100%);
+  --tc-stage: linear-gradient(180deg, #2a9fd8 0%, #6fd6ec 60%, #7fd88a 100%);
+  --tc-line: #9fdcf2;
+  --tc-accent: #0b7fc4;
+  --tc-name: #04395a;
+  --tc-desc: #2d6f8f;
+  --tc-glow: rgba(31, 180, 230, 0.45);
+  background: var(--tc-bg);
+}
+
+/* brilho de vidro em cima do escudo */
+.tc-aero .tc-crest::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 50% 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08));
+  pointer-events: none;
+}
+
+.tc-aero .tc-crest img {
+  filter: drop-shadow(0 8px 14px rgba(0, 60, 100, 0.35));
+}
+
+.tc-aero .tc-badge {
+  background: linear-gradient(180deg, #5fd0f5, #0b7fc4);
+  color: #fff;
+}
+
+.tc-aero.is-active .tc-name {
+  color: #0b7fc4;
+}
+
+/* o cartão novo entra "boiando" */
+.theme-card-option.is-new {
+  animation: secret-card-in 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+@keyframes secret-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.85);
+  }
+}
+
+/* ---------- bloco "Código secreto" ----------
+   Cada tema troca só as variáveis --sc-* (lá embaixo). */
+.secret-box {
+  --sc-bg: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 255, 255, 0.02) 60%);
+  --sc-line: rgba(212, 175, 55, 0.35);
+  --sc-accent: #d4af37;
+  --sc-on-accent: #000;
+  --sc-title: #fff;
+  --sc-muted: #9a9a9a;
+  --sc-field: rgba(0, 0, 0, 0.45);
+  --sc-field-line: rgba(255, 255, 255, 0.16);
+  --sc-radius: 18px;
+  --sc-field-radius: 12px;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+  margin-top: 26px;
+  padding: 20px 22px;
+  border: 1px solid var(--sc-line);
+  border-radius: var(--sc-radius);
+  background: var(--sc-bg);
+  text-align: left;
+  overflow: hidden;
+}
+
+/* um brilho que passa devagar pelo bloco, de vez em quando */
+.secret-box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  transform: skewX(-15deg);
+  animation: secret-sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes secret-sweep {
+  0%, 70% { left: -40%; }
+  100% { left: 140%; }
+}
+
+.secret-badge {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid var(--sc-line);
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.3));
+  color: var(--sc-accent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--sc-accent) 25%, transparent);
+}
+
+.secret-badge img {
+  width: 40px;
+  height: auto;
+}
+
+.secret-ico,
+.secret-arrow {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.secret-arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.secret-main {
+  min-width: 0;
+}
+
+.secret-kicker {
+  display: block;
+  color: var(--sc-accent);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.secret-title {
+  display: block;
+  margin-top: 3px;
+  color: var(--sc-title);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+/* !important: o global.css dá largura, margem e borda a todos os inputs e botões */
+.config-page .secret-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.config-page .secret-box .secret-input {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 48px !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  border: 1px solid var(--sc-field-line) !important;
+  border-radius: var(--sc-field-radius) !important;
+  background: var(--sc-field) !important;
+  box-shadow: none !important;
+  color: var(--sc-title) !important;
+  -webkit-text-fill-color: var(--sc-title) !important;
+  font: inherit;
+  font-size: 16px !important; /* sem zoom no iPhone */
+  letter-spacing: 2px;
+  outline: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.config-page .secret-box .secret-input::placeholder {
+  color: var(--sc-muted) !important;
+  -webkit-text-fill-color: var(--sc-muted) !important;
+  letter-spacing: 0.5px;
+}
+
+.config-page .secret-box .secret-input:focus {
+  border-color: var(--sc-accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sc-accent) 25%, transparent) !important;
+}
+
+.config-page .secret-box.is-wrong .secret-input {
+  border-color: #ff5d5d !important;
+}
+
+.config-page .secret-box .secret-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto !important;
+  height: 48px !important;
+  margin: 0 !important;
+  padding: 0 20px !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  border-radius: var(--sc-field-radius) !important;
+  background: var(--sc-accent) !important;
+  color: var(--sc-on-accent) !important;
+  font: inherit;
+  font-size: 0.75rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.config-page .secret-box .secret-btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.config-page .secret-box .secret-btn:hover:not(:disabled) .secret-arrow {
+  transform: translateX(3px);
+}
+
+.config-page .secret-box .secret-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.config-page .secret-box .secret-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.secret-msg {
+  margin: 8px 0 0;
+  color: var(--sc-muted);
+  font-size: 0.76rem;
+}
+
+.secret-msg.is-info {
+  color: var(--sc-accent);
+  font-weight: 700;
+}
+
+.secret-msg.is-err {
+  color: #ff6b6b;
+  font-weight: 700;
+}
+
+.secret-box.is-wrong {
+  animation: secret-shake 0.4s;
+}
+
+@keyframes secret-shake {
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@media (max-width: 480px) {
+  .secret-box {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 18px;
+  }
+  .secret-main {
+    width: 100%;
+  }
+  .secret-badge {
+    width: 48px;
+    height: 48px;
+  }
+  .config-page .secret-row {
+    grid-template-columns: 1fr;
+  }
+  .config-page .secret-box .secret-btn {
+    width: 100% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secret-box::after {
+    animation: none;
+    display: none;
+  }
+}
+
+
+/* ---------- segredos encontrados ---------- */
+.found-box {
+  --fd-line: rgba(255, 255, 255, 0.12);
+  --fd-item: rgba(255, 255, 255, 0.04);
+  --fd-title: #fff;
+  --fd-muted: #9a9a9a;
+  --fd-accent: #d4af37;
+  --fd-on-accent: #000;
+  --fd-radius: 14px;
+  margin-top: 16px;
+  text-align: left;
+}
+
+.found-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 4px 10px;
+  color: var(--fd-muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.found-head b {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--fd-accent);
+  color: var(--fd-on-accent);
+  letter-spacing: 1px;
+}
+
+.found-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.found-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--fd-line);
+  border-radius: var(--fd-radius);
+  background: var(--fd-item);
+}
+
+.found-item.is-new {
+  animation: secret-card-in 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+.found-logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #ffffff 0 9%, #c9f3ff 22%, #5fd0f5 70%, #1a93d0 100%);
+  border: 1.5px solid #fff;
+  color: #04395a;
+}
+
+.found-logo img {
+  width: 30px;
+  height: auto;
+}
+
+.found-logo .secret-ico {
+  width: 20px;
+  height: 20px;
+}
+
+.found-text {
+  display: grid;
+  min-width: 0;
+}
+
+.found-text strong {
+  color: var(--fd-title);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.found-text small {
+  color: var(--fd-muted);
+  font-size: 0.75rem;
+}
+
+.found-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* !important: o global.css dá largura, margem e borda a todos os botões */
+.config-page .found-btn {
+  width: auto !important;
+  height: 34px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid var(--fd-line) !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--fd-muted) !important;
+  font: inherit;
+  font-size: 0.68rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
+}
+
+.config-page .found-btn:hover:not(:disabled) {
+  color: var(--fd-title) !important;
+  border-color: var(--fd-title) !important;
+}
+
+.config-page .found-btn.is-main {
+  border-color: transparent !important;
+  background: var(--fd-accent) !important;
+  color: var(--fd-on-accent) !important;
+}
+
+.config-page .found-btn.is-main:hover:not(:disabled) {
+  filter: brightness(1.08);
+  border-color: transparent !important;
+  color: var(--fd-on-accent) !important;
+}
+
+.config-page .found-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .found-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .found-actions {
+    grid-column: 1 / -1;
+  }
+  .config-page .found-btn {
+    flex: 1;
+  }
+}
+
+.theme-idr .found-box {
+  --fd-line: #000;
+  --fd-item: #fff;
+  --fd-title: #000;
+  --fd-muted: #555;
+  --fd-accent: #000;
+  --fd-on-accent: #fff;
+  --fd-radius: 0;
+}
+
+body.theme-classic .found-box {
+  --fd-line: rgba(255, 138, 165, 0.35);
+  --fd-item: rgba(123, 58, 168, 0.18);
+  --fd-muted: #d9b3c4;
+  --fd-accent: #ff8aa5;
+  --fd-on-accent: #2a0f1f;
+}
+
+body.theme-aero .found-box {
+  --fd-line: rgba(255, 255, 255, 0.5);
+  --fd-item: rgba(255, 255, 255, 0.1);
+  --fd-muted: rgba(225, 245, 255, 0.85);
+  --fd-accent: #8fe3ff;
+  --fd-on-accent: #04395a;
+  --fd-radius: 22px;
+}
+
+/* ---------- festa de bolhas ao desbloquear ---------- */
+.secret-party {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 60%, rgba(31, 180, 230, 0.35), rgba(4, 38, 58, 0.55));
+  animation: secret-fade 3.2s ease forwards;
+}
+
+.secret-party span {
+  position: absolute;
+  bottom: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95) 0 12%, rgba(255, 255, 255, 0.15) 30%, rgba(143, 227, 255, 0.25) 70%);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  animation: secret-bubble linear forwards;
+}
+
+@keyframes secret-bubble {
+  to {
+    transform: translateY(-115vh) translateX(20px);
+    opacity: 0.2;
+  }
+}
+
+.secret-party-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 22px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.05) 51%),
+    rgba(11, 127, 196, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(0, 40, 70, 0.5);
+  color: #fff;
+  text-align: center;
+  animation: secret-pop 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+
+.secret-party-card img {
+  width: 90px;
+  height: auto;
+  filter: drop-shadow(0 6px 14px rgba(0, 40, 70, 0.5));
+}
+
+.secret-party-card strong {
+  font-family: "Nunito", "Segoe UI", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-shadow: 0 2px 8px rgba(0, 50, 90, 0.5);
+}
+
+.secret-party-card small {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+@keyframes secret-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes secret-fade {
+  0%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secret-party span {
+    display: none;
+  }
+}
+
+/* ---------- bloco do código em cada tema ---------- */
+.theme-idr .secret-box {
+  --sc-bg: #fff;
+  --sc-line: #000;
+  --sc-accent: #000;
+  --sc-on-accent: #fff;
+  --sc-title: #000;
+  --sc-muted: #666;
+  --sc-field: #fff;
+  --sc-field-line: #000;
+  --sc-radius: 0;
+  --sc-field-radius: 0;
+  border-width: 2px;
+  box-shadow: 6px 6px 0 #d6d6d0;
+}
+.theme-idr .secret-box .secret-badge {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+.theme-idr .secret-box::after {
+  display: none;
+}
+
+body.theme-classic .secret-box {
+  --sc-bg: linear-gradient(135deg, rgba(123, 58, 168, 0.3), rgba(227, 38, 58, 0.12));
+  --sc-line: rgba(255, 138, 165, 0.5);
+  --sc-accent: #ff8aa5;
+  --sc-on-accent: #fff;
+  --sc-muted: #d9b3c4;
+  --sc-field-radius: 999px;
+}
+body.theme-classic .secret-box .secret-btn {
+  background: linear-gradient(120deg, #7b3aa8, #b8307a 55%, #e3263a) !important;
+  box-shadow: 0 4px 0 #5a1f4a;
+}
+
+/* no próprio tema Aero: bolha de vidro, botão de gel */
+body.theme-aero .secret-box {
+  --sc-bg:
+    radial-gradient(120% 80% at 10% 0%, rgba(255, 255, 255, 0.28), transparent 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.5), rgba(5, 63, 112, 0.7));
+  --sc-line: rgba(255, 255, 255, 0.6);
+  --sc-accent: #8fe3ff;
+  --sc-on-accent: #fff;
+  --sc-muted: rgba(225, 245, 255, 0.85);
+  --sc-field: rgba(255, 255, 255, 0.14);
+  --sc-field-line: rgba(255, 255, 255, 0.55);
+  --sc-radius: 28px;
+  --sc-field-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 14px 30px rgba(0, 30, 70, 0.3);
+}
+body.theme-aero .config-page .secret-box .secret-btn {
+  background:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.55);
+}
+
+/* página de Configurações no tema Aero */
+body.theme-aero .config-wrapper {
+  background:
+    radial-gradient(120% 70% at 18% 0%, rgba(255, 255, 255, 0.24), transparent 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.45), rgba(5, 63, 112, 0.65)) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 32px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 20px 50px rgba(0, 40, 70, 0.35);
+}
+body.theme-aero .config-subtitle {
+  color: #e6fbff;
 }

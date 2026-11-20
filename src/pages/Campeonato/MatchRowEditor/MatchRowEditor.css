@@ -661,3 +661,47 @@
     transition: none !important;
   }
 }
+
+
+/* ==========================================================================
+   ADR AERO — "BOLHAS E ONDAS": editor de jogo — vidro e pílulas
+   ========================================================================== */
+body.theme-aero .mre-card {
+  --mre-bg: rgba(8, 90, 150, 0.45);
+  --mre-panel: rgba(0, 40, 80, 0.35);
+  --mre-input: rgba(255, 255, 255, 0.12);
+  --mre-border: rgba(255, 255, 255, 0.32);
+  --mre-border-soft: rgba(255, 255, 255, 0.14);
+  --mre-text: #ffffff;
+  --mre-muted: rgba(220, 244, 255, 0.85);
+  --mre-accent: #8fe3ff;
+  --mre-accent-soft: rgba(143, 227, 255, 0.18);
+  --mre-winner: #8fe3ff;
+  --mre-success: #7dffb0;
+  --mre-danger: #ffa0a0;
+  border-radius: 20px;
+}
+
+body.theme-aero .mre-score-box,
+body.theme-aero .mre-score-input,
+body.theme-aero .mre-link-input {
+  border-radius: 999px;
+}
+
+body.theme-aero .mre-btn {
+  border-radius: 999px;
+}
+
+body.theme-aero .mre-btn-save,
+body.theme-aero .mre-drawer-confirm {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .mre-link-drawer {
+  border-radius: 18px;
+}

@@ -383,3 +383,157 @@ body.theme-classic .ts-goals-val {
   color: #fff !important;
   text-shadow: 2px 2px 0 #b8307a !important;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (card de artilheiros)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .ts-card {
+  --ts-bg: var(--tb-row);
+  --ts-hover: var(--tb-row-hover);
+  --ts-line: rgba(255, 255, 255, 0.3);
+  --ts-fg: #ffffff;
+  --ts-muted: rgba(215, 242, 255, 0.82);
+  --ts-accent: #8fe3ff;
+  --ts-glow: rgba(143, 227, 255, 0.35);
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+/* cantoneiras por cima (a barra de título clara não esconde as de cima) */
+body.theme-aero .ts-card::before {
+  inset: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  z-index: 3;
+  opacity: 1;
+  background: var(--tb-pontas);
+}
+
+body.theme-aero .ts-card:hover {
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(143, 227, 255, 0.18),
+    0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+/* título: barra de vidro claro com texto azul-escuro */
+body.theme-aero .ts-title {
+  border-bottom: 0;
+  background: var(--tb-head);
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #05406f;
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: none;
+}
+
+/* linhas: faixas de vidro com vão entre elas */
+body.theme-aero .ts-list {
+  gap: 3px;
+  padding-top: 3px;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .ts-row,
+body.theme-aero .ts-row:first-child {
+  border-bottom: 0;
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .ts-row:nth-child(even) {
+  background: var(--tb-shine), var(--tb-row-alt);
+}
+
+body.theme-aero .ts-row:first-child {
+  background:
+    linear-gradient(90deg, rgba(143, 227, 255, 0.3), rgba(143, 227, 255, 0) 80%),
+    var(--tb-shine),
+    var(--tb-row);
+}
+
+body.theme-aero .ts-row:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+  border-top-color: rgba(255, 255, 255, 0.65);
+}
+
+body.theme-aero .ts-row:first-child::before {
+  width: 4px;
+  background: #8fe3ff;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+/* posição num losango */
+body.theme-aero .ts-rank {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  min-width: 26px;
+  height: 26px;
+  clip-path: var(--tb-losango);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0.08) 50%);
+  color: #ffffff;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+body.theme-aero .ts-rank.is-first {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #9ff3ff 0%, #2cc4f2 52%, #0b8fd6 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.6);
+}
+
+body.theme-aero .ts-row:nth-child(2) .ts-rank {
+  background: linear-gradient(180deg, #ffffff 0%, #e6eef4 50%, #b9c7d3 52%, #8fa3b4 100%);
+  color: #24384a;
+}
+
+body.theme-aero .ts-row:nth-child(3) .ts-rank {
+  background: linear-gradient(180deg, #ffe7d2 0%, #f0b98a 50%, #d08a52 52%, #a8642d 100%);
+  color: #3d2410;
+}
+
+/* foto: quadro reto com fio branco */
+body.theme-aero .ts-avatar-img {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+body.theme-aero .ts-avatar-img.is-first,
+body.theme-aero .ts-row:first-child .ts-avatar-img {
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.35);
+}
+
+body.theme-aero .ts-row:hover .ts-avatar-img {
+  border-color: #ffffff;
+}
+
+body.theme-aero .ts-goals-val {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9), 0 1px 2px rgba(0, 40, 80, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-aero .ts-title {
+    -webkit-text-fill-color: #05406f;
+  }
+}

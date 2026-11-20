@@ -1,0 +1,456 @@
+/* ==========================================================================
+   ADR AERO — MOLDE DE TABELA "VIDRO COM PONTAS"
+   Importe no App.jsx depois do theme-aero.css:
+       import "./styles/aero-tabela.css";
+
+   Já vale para a Classificação Geral e para Outras Temporadas
+   (as duas usam table.rk-table dentro de .central-column).
+
+   O visual: tudo com cantos retos. Cabeçalho de vidro claro (estilo
+   janela do Windows Vista), cada linha é uma faixa de vidro separada da
+   outra por um vão escuro, colunas divididas por fios de luz, a coluna
+   de pontos acesa, posição dentro de um losango.
+
+   PRA USAR EM OUTRA TABELA (o "molde"):
+     1. coloque a classe  aq-tabela  na <table>  e  aq-tabela-wrap  na
+        caixa em volta dela (ou junte os seletores nas listas marcadas
+        com  [MOLDE]  aqui embaixo);
+     2. opcional: aq-pos  na célula da posição (vira losango),
+        aq-pts  na célula de pontos (coluna acesa),
+        aq-top  nas 3 primeiras linhas e  aq-last  na última.
+   Só vale com o tema secreto ligado (body.theme-aero).
+   ========================================================================== */
+
+body.theme-aero {
+  /* cores sólidas: as colunas fixas (# e nome) passam por cima das outras
+     ao rolar a tabela pro lado, então não podem ser transparentes */
+  --tb-gap: #032a4d;          /* vão entre as linhas */
+  --tb-row: #0a5a96;          /* linha */
+  --tb-row-alt: #0b5189;      /* linha alternada */
+  --tb-row-hover: #22a3e0;    /* linha com o mouse em cima */
+  --tb-pts: #0f78c0;          /* coluna de pontos */
+  --tb-pts-alt: #0e6eb2;
+  --tb-col: rgba(255, 255, 255, 0.07);   /* fio entre as colunas */
+  --tb-edge: rgba(255, 255, 255, 0.22);  /* fio de luz no topo de cada linha */
+  --tb-shine: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(255, 255, 255, 0) 50%);
+  --tb-head: linear-gradient(180deg, #ffffff 0%, #eaf8ff 48%, #c8ebfc 52%, #a6dcf6 100%);
+  --tb-head-on: linear-gradient(180deg, #effcff 0%, #c4efff 48%, #8edbf8 52%, #5cc4ef 100%);
+  --tb-gel:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  --tb-wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='%238fe3ff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  /* cantoneiras: as 4 "pontas" brancas nos cantos das caixas */
+  --tb-pontas:
+    linear-gradient(#fff, #fff) 0 0 / 22px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 2px 22px no-repeat,
+    linear-gradient(#fff, #fff) 100% 0 / 22px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 0 / 2px 22px no-repeat,
+    linear-gradient(#fff, #fff) 0 100% / 22px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 100% / 2px 22px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 22px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 2px 22px no-repeat;
+  --tb-losango: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  --tb-chanfro: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+}
+
+/* ==========================================================================
+   1. A CAIXA: placa de vidro de cantos retos com cantoneiras
+   ========================================================================== */
+body.theme-aero .central-column {
+  --rk-bg: var(--tb-row);
+  --rk-head: #c8ebfc;
+  --rk-hover: var(--tb-row-hover);
+  --rk-line: rgba(255, 255, 255, 0.3);
+  --rk-line-soft: var(--tb-col);
+  --rk-fg: #ffffff;
+  --rk-muted: rgba(215, 242, 255, 0.85);
+  --rk-accent: #8fe3ff;
+  --rk-glow: rgba(143, 227, 255, 0.45);
+  --rk-win: #7dffb0;
+  --rk-loss: #ffa0a0;
+
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.5) 0%, rgba(5, 63, 112, 0.74) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -20px 40px rgba(0, 50, 100, 0.22),
+    0 26px 56px rgba(0, 30, 70, 0.38) !important;
+}
+
+/* luz entrando na água no lugar da aura dourada */
+body.theme-aero .central-column::before {
+  background:
+    radial-gradient(50% 60% at 30% 40%, rgba(143, 227, 255, 0.4), transparent 70%),
+    radial-gradient(45% 55% at 72% 45%, rgba(89, 201, 107, 0.3), transparent 70%) !important;
+  opacity: 0.7;
+}
+
+/* título da tabela: linha em onda e etiqueta cortada na diagonal */
+body.theme-aero .rk-header-area::after {
+  height: 10px !important;
+  border: 0 !important;
+  background: var(--tb-wave) center / 60px 10px repeat-x !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+body.theme-aero .rk-kicker {
+  display: inline-block;
+  padding: 5px 18px;
+  border: 0;
+  border-radius: 0;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.1) 50%);
+  color: #ffffff !important;
+}
+
+body.theme-aero .central-column .page-title {
+  font-style: normal !important;
+}
+
+body.theme-aero .rk-reset-sort-btn {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* moldura da tabela: reta, fio branco e um halo azul em volta */
+body.theme-aero .central-column .table-responsive,
+body.theme-aero .aq-tabela-wrap /* [MOLDE] */ {
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 0 !important;
+  background: var(--tb-gap) !important;
+  box-shadow:
+    0 0 0 4px rgba(143, 227, 255, 0.14),
+    0 16px 34px rgba(0, 30, 70, 0.35);
+  scrollbar-color: #8fe3ff var(--tb-gap);
+}
+
+body.theme-aero .central-column .table-responsive::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #8fe3ff;
+}
+
+/* as linhas ficam separadas por um vão de 4px (as faixas de vidro) */
+body.theme-aero table.rk-table,
+body.theme-aero table.aq-tabela /* [MOLDE] */ {
+  border-collapse: separate !important;
+  border-spacing: 0 4px !important;
+  margin: -4px 0 !important; /* esconde o vão de cima e o de baixo */
+  background: var(--tb-gap) !important;
+}
+
+/* ==========================================================================
+   2. CABEÇALHO: vidro claro, texto azul-escuro, fios entre as colunas
+   ========================================================================== */
+body.theme-aero table.rk-table thead th,
+body.theme-aero table.rk-table thead th.sticky-col,
+body.theme-aero table.aq-tabela thead th /* [MOLDE] */ {
+  background: var(--tb-head) !important;
+  color: #05406f !important;
+  border-bottom: 0 !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-right: 1px solid rgba(5, 64, 111, 0.16) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+body.theme-aero table.rk-table thead th.sortable-th:hover,
+body.theme-aero table.aq-tabela thead th:hover /* [MOLDE] */ {
+  background: linear-gradient(180deg, #ffffff 0%, #f4fcff 48%, #dcf4ff 52%, #c2e9fb 100%) !important;
+  color: #03355c !important;
+}
+
+/* coluna que está ordenando: vidro mais azul e um fio de gel embaixo */
+body.theme-aero table.rk-table thead th.active-sort {
+  background: var(--tb-head-on) !important;
+  color: #03355c !important;
+  border-bottom: 0 !important;
+  box-shadow: inset 0 -3px 0 #0a80c6 !important;
+}
+
+/* ==========================================================================
+   3. LINHAS E COLUNAS: faixas de vidro com brilho na metade de cima
+   ========================================================================== */
+body.theme-aero table.rk-table tbody td,
+body.theme-aero table.aq-tabela tbody td /* [MOLDE] */ {
+  background-color: var(--tb-row) !important;
+  background-image: var(--tb-shine) !important;
+  border-top: 1px solid var(--tb-edge) !important;
+  border-bottom: 0 !important;
+  border-right: 1px solid var(--tb-col) !important;
+  color: #ffffff;
+}
+
+body.theme-aero table.rk-table tbody td:last-child,
+body.theme-aero table.aq-tabela tbody td:last-child /* [MOLDE] */ {
+  border-right: 0 !important;
+}
+
+body.theme-aero table.rk-table tbody tr:nth-child(even) td,
+body.theme-aero table.aq-tabela tbody tr:nth-child(even) td /* [MOLDE] */ {
+  background-color: var(--tb-row-alt) !important;
+}
+
+/* coluna de pontos acesa, com fios de luz dos dois lados */
+body.theme-aero table.rk-table tbody tr td.rk-pts-cell,
+body.theme-aero table.aq-tabela tbody tr td.aq-pts /* [MOLDE] */ {
+  background-color: var(--tb-pts) !important;
+  border-left: 1px solid rgba(143, 227, 255, 0.45) !important;
+  border-right: 1px solid rgba(143, 227, 255, 0.45) !important;
+}
+
+body.theme-aero table.rk-table tbody tr:nth-child(even) td.rk-pts-cell,
+body.theme-aero table.aq-tabela tbody tr:nth-child(even) td.aq-pts /* [MOLDE] */ {
+  background-color: var(--tb-pts-alt) !important;
+}
+
+/* mouse em cima: a linha inteira acende como seleção de janela */
+body.theme-aero table.rk-table tbody tr:hover td,
+body.theme-aero table.rk-table tbody tr:hover td.sticky-col,
+body.theme-aero table.rk-table tbody tr:hover td.rk-pts-cell,
+body.theme-aero table.aq-tabela tbody tr:hover td /* [MOLDE] */ {
+  background-color: var(--tb-row-hover) !important;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%) !important;
+  border-top-color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* a coluna # continua com 46px (a do nome começa logo depois dela) */
+body.theme-aero table.rk-table td.pin-pos,
+body.theme-aero table.rk-table th.pin-pos {
+  box-sizing: border-box !important;
+  width: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+  padding: 0 !important;
+  border-right: 0 !important;
+}
+
+/* coluna do nome: fio azul-claro separando a parte fixa da que rola */
+body.theme-aero table.rk-table .pin-name {
+  border-right: 1px solid rgba(143, 227, 255, 0.5) !important;
+}
+
+/* pódio (1º, 2º, 3º): luz azul-clara nas colunas fixas; lanterna: coral */
+body.theme-aero table.rk-table tbody tr.destaque-top3 td.sticky-col,
+body.theme-aero table.aq-tabela tbody tr.aq-top td /* [MOLDE] */ {
+  background-image:
+    linear-gradient(90deg, rgba(143, 227, 255, 0.3), rgba(143, 227, 255, 0) 90%),
+    var(--tb-shine) !important;
+}
+
+body.theme-aero table.rk-table tbody tr.destaque-ultimo td.sticky-col,
+body.theme-aero table.aq-tabela tbody tr.aq-last td /* [MOLDE] */ {
+  background-image:
+    linear-gradient(90deg, rgba(255, 143, 143, 0.22), rgba(255, 143, 143, 0) 90%),
+    var(--tb-shine) !important;
+}
+
+/* barra reta na ponta esquerda */
+body.theme-aero tr.destaque-top3 td.pin-pos::before,
+body.theme-aero tr.destaque-ultimo td.pin-pos::before {
+  top: 0 !important;
+  left: 0 !important;
+  width: 4px !important;
+  height: 100% !important;
+  border-radius: 0;
+}
+
+body.theme-aero tr.destaque-top3 td.pin-pos::before {
+  background: #8fe3ff !important;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.9) !important;
+}
+
+body.theme-aero tr.destaque-ultimo td.pin-pos::before {
+  background: #ff8f8f !important;
+  box-shadow: 0 0 12px rgba(255, 120, 120, 0.8) !important;
+}
+
+/* o 1º colocado ganha um brilho no nome */
+body.theme-aero tr.first-place .rk-player-name-text {
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+/* ==========================================================================
+   4. POSIÇÃO NUM LOSANGO (o pódio com a medalha num losango de gel)
+   ========================================================================== */
+body.theme-aero .rk-pos-num,
+body.theme-aero .aq-pos /* [MOLDE] */ {
+  display: inline-grid !important;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  clip-path: var(--tb-losango);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0.08) 50%);
+  color: #ffffff !important;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+body.theme-aero tr.destaque-top3 .rk-pos-wrap,
+body.theme-aero tr.aq-top .aq-pos /* [MOLDE] */ {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff !important;
+}
+
+body.theme-aero tr.first-place .rk-pos-wrap {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #9ff3ff 0%, #2cc4f2 52%, #0b8fd6 100%);
+}
+
+body.theme-aero .rk-medal-img {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 40, 80, 0.5)) !important;
+}
+
+/* ==========================================================================
+   5. NÚMEROS: pontos, vitórias, derrotas, nome
+   ========================================================================== */
+body.theme-aero .rk-pts-cell,
+body.theme-aero .aq-pts /* [MOLDE] */ {
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9), 0 1px 2px rgba(0, 40, 80, 0.6);
+}
+
+body.theme-aero .rk-player-name-text {
+  font-weight: 700;
+}
+
+body.theme-aero .rk-stat-cell.win-num {
+  color: #7dffb0 !important;
+}
+
+body.theme-aero .rk-stat-cell.loss-num {
+  color: #ffa0a0 !important;
+}
+
+body.theme-aero .rk-stat-cell.muted {
+  color: rgba(215, 242, 255, 0.85) !important;
+}
+
+/* ==========================================================================
+   6. ÚLTIMOS JOGOS: losangos de vidro coloridos
+   ========================================================================== */
+body.theme-aero .form-container {
+  gap: 8px !important;
+}
+
+body.theme-aero .form-dot {
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 0 !important;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 5px rgba(0, 30, 60, 0.35) !important;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body.theme-aero .form-dot:hover {
+  transform: rotate(45deg) scale(1.4);
+}
+
+body.theme-aero .form-dot.W {
+  background: linear-gradient(135deg, #e6fff0 0%, #7dffb0 45%, #2fc874 55%, #1f9d55 100%) !important;
+}
+
+body.theme-aero .form-dot.D {
+  background: linear-gradient(135deg, #ffffff 0%, #d5e4ee 45%, #a2b6c6 55%, #7b8fa0 100%) !important;
+}
+
+body.theme-aero .form-dot.L {
+  background: linear-gradient(135deg, #ffecec 0%, #ffb0b0 45%, #ff6b6b 55%, #c93c3c 100%) !important;
+}
+
+/* ==========================================================================
+   7. SELOS (artilheiro, assistências, fogo) E LEGENDA
+   ========================================================================== */
+body.theme-aero .rk-lead-chip,
+body.theme-aero .rk-legend-chip {
+  border-radius: 0 !important;
+  border: 1px solid #ffffff !important;
+  background: linear-gradient(180deg, #e9fbff 0%, #8fe3ff 50%, #3cb8ea 52%, #1a93d0 100%) !important;
+  color: #04395a !important;
+  box-shadow: 0 2px 6px rgba(0, 40, 80, 0.3) !important;
+}
+
+body.theme-aero .rk-lead-chip.is-assist,
+body.theme-aero .rk-legend-chip.is-assist {
+  background: linear-gradient(180deg, #eef5ff 0%, #9cc6ff 50%, #4f8ff0 52%, #2f6fd6 100%) !important;
+}
+
+body.theme-aero .rk-fire-chip {
+  border-radius: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .rk-absence-btn {
+  border-radius: 0 !important;
+}
+
+body.theme-aero .legend-container {
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 0 !important;
+  background: rgba(3, 42, 77, 0.45) !important;
+}
+
+body.theme-aero .legend-item {
+  color: rgba(225, 245, 255, 0.92) !important;
+}
+
+body.theme-aero .legend-color {
+  border-radius: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transform: rotate(45deg) scale(0.85);
+}
+
+/* aviso ao tocar num selo */
+body.theme-aero .rk-info-toast {
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 0 !important;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 80% at 15% 0%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%),
+    rgba(8, 90, 150, 0.94) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 16px 36px rgba(0, 30, 70, 0.4) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .rk-info-close {
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   8. MOVIMENTO
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  body.theme-aero .form-dot {
+    transition: none;
+  }
+}

@@ -791,3 +791,179 @@ body.theme-classic .legend-progress-label {
     font-size: 1.05rem;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (Legends)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+/* cada nível continua com a sua cor (--tier, vem do JSX) */
+body.theme-aero .legends-wrapper {
+  --lg-bg: transparent;
+  --lg-fg: #ffffff;
+  --lg-muted: rgba(215, 242, 255, 0.82);
+  --lg-line: rgba(255, 255, 255, 0.3);
+  --lg-accent: #8fe3ff;
+  --lg-card: radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  --lg-card-hover:
+    radial-gradient(90% 60% at 50% 0%, rgba(143, 227, 255, 0.3), transparent 70%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.6) 0%, rgba(5, 63, 112, 0.82) 100%);
+}
+
+body.theme-aero .legends-kicker {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 50, 100, 0.6);
+}
+
+/* o título ganha a "rajada de vento" do theme-aero.css */
+body.theme-aero .legends-main-title {
+  font-style: normal;
+}
+
+body.theme-aero .legends-subtitle {
+  color: #e6f9ff;
+  text-shadow: 0 1px 6px rgba(0, 50, 100, 0.5);
+}
+
+/* resumo em placas de vidro com vão */
+body.theme-aero .legends-summary {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: var(--tb-gap);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.14);
+}
+
+body.theme-aero .legends-summary > div {
+  border-right: 0;
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .legends-summary strong {
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.7);
+}
+
+/* faixa de cada nível: vidro com a cor do nível na ponta */
+body.theme-aero .milestone-banner {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 4px solid var(--tier);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--tier) 30%, transparent), transparent 75%),
+    var(--tb-shine),
+    rgba(5, 63, 112, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.theme-aero .milestone-icon {
+  border: 0;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    color-mix(in srgb, var(--tier) 75%, #0a80c6);
+  color: #ffffff;
+}
+
+body.theme-aero .milestone-name {
+  color: #ffffff;
+  text-shadow: 0 0 14px color-mix(in srgb, var(--tier) 70%, transparent);
+}
+
+body.theme-aero .milestone-section.is-locked .milestone-banner {
+  border-left-style: dashed;
+  background: rgba(3, 42, 77, 0.35);
+}
+
+body.theme-aero .milestone-section.is-locked .milestone-icon {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(215, 242, 255, 0.7);
+}
+
+/* a carta da lenda: janela de vidro reta com cantoneiras */
+body.theme-aero .legend-card {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-top: 3px solid var(--tier);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    var(--lg-card);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 14px 30px rgba(0, 30, 70, 0.3);
+}
+
+body.theme-aero .legend-card:hover {
+  border-color: #ffffff;
+  border-top-color: var(--tier);
+  background:
+    var(--tb-pontas),
+    var(--lg-card-hover);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--tier) 30%, transparent),
+    0 18px 34px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .legend-rank {
+  color: rgba(225, 245, 255, 0.85);
+}
+
+/* foto dentro de uma bolha com o anel da cor do nível */
+body.theme-aero .legend-photo-wrapper {
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.8) 0 6%, rgba(255, 255, 255, 0) 20%),
+    conic-gradient(from 210deg, var(--tier), rgba(255, 255, 255, 0.85) 40%, var(--tier) 75%, rgba(255, 255, 255, 0.85));
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1), 0 0 26px color-mix(in srgb, var(--tier) 45%, transparent);
+}
+
+body.theme-aero .legend-img {
+  border-color: rgba(5, 63, 112, 0.9);
+  background: rgba(143, 227, 255, 0.25);
+}
+
+body.theme-aero .legend-initial {
+  color: #ffffff;
+}
+
+/* gols num selo de cantos cortados na cor do nível */
+body.theme-aero .legend-goal-badge {
+  border-radius: 0;
+  clip-path: var(--tb-chanfro);
+  background:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 72%),
+    var(--tier);
+  color: #03263f;
+  box-shadow: none;
+}
+
+body.theme-aero .legend-status {
+  border-radius: 0;
+  border-color: rgba(255, 160, 160, 0.6);
+  background: rgba(3, 42, 77, 0.5);
+  color: #ffc4c4;
+}
+
+/* progresso até o próximo nível: tubo de água */
+body.theme-aero .legend-progress {
+  border-top: 0;
+  background: var(--tb-wave) center top / 60px 10px repeat-x;
+  padding-top: 14px;
+}
+
+body.theme-aero .legend-progress-bar {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(3, 42, 77, 0.55);
+}
+
+body.theme-aero .legend-progress-bar i {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tier);
+}
+
+body.theme-aero .no-legends {
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  background: rgba(3, 42, 77, 0.35);
+  color: #ffffff;
+}

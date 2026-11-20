@@ -767,3 +767,134 @@
   color: #777;
   text-align: center;
 }
+
+
+/* ==========================================================================
+   ADR AERO — botões "Giro do dia" / "Seleção do dia" e a janela
+   (o pôster gerado continua igual: só muda a moldura em volta)
+   ========================================================================== */
+body.theme-aero .gd-open {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .gd-open:hover:not(:disabled) {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .gd-overlay {
+  background: rgba(2, 30, 56, 0.72);
+}
+
+body.theme-aero .gd-modal {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background:
+    var(--tb-pontas),
+    linear-gradient(180deg, #0d6bab 0%, #074a80 100%);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.18), 0 30px 70px rgba(0, 20, 50, 0.55);
+}
+
+body.theme-aero .gd-modal-head {
+  border-bottom: 0;
+  background: var(--tb-head);
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.theme-aero .gd-x {
+  border: 1px solid rgba(5, 64, 111, 0.35) !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: #05406f !important;
+}
+
+body.theme-aero .gd-x:hover {
+  background: linear-gradient(180deg, #ffb0b0 0%, #ff6b6b 52%, #c93c3c 100%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .gd-controls label span,
+body.theme-aero .gd-range,
+body.theme-aero .gd-check,
+body.theme-aero .gd-note {
+  color: rgba(215, 242, 255, 0.85);
+}
+
+body.theme-aero .gd-controls select,
+body.theme-aero .gd-title-input,
+body.theme-aero .dt-swaps select {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background: rgba(3, 42, 77, 0.55) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .gd-controls select:focus,
+body.theme-aero .gd-title-input:focus {
+  border-color: #ffffff !important;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.35);
+}
+
+body.theme-aero .gd-controls select option {
+  background: #074a80;
+  color: #ffffff;
+}
+
+body.theme-aero .gd-layouts button {
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 0 !important;
+  background: rgba(3, 42, 77, 0.45) !important;
+  color: rgba(230, 248, 255, 0.85) !important;
+}
+
+body.theme-aero .gd-layouts button.on {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .gd-photo-tools > button {
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 0 !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .gd-photo-tools > button.ghost {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.theme-aero .gd-range input,
+body.theme-aero .gd-check input {
+  accent-color: #63e2ff;
+}
+
+body.theme-aero .gd-preview,
+body.theme-aero .dt-preview {
+  background: #032a4d;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+body.theme-aero .gd-download {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .gd-msg {
+  color: #7dffb0;
+}
+
+body.theme-aero .dt-swaps label span {
+  color: rgba(215, 242, 255, 0.85);
+}

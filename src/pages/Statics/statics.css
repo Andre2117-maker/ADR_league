@@ -1344,3 +1344,337 @@ body.theme-classic .alltime-table tbody tr:nth-child(1) .at-photo {
     transform: none;
   }
 }
+
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (mesmo visual da tabela-molde)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   Painéis: vidro de cantos retos com cantoneiras. Barras de título: vidro
+   claro com texto azul-escuro. Listas: faixas de vidro separadas por vão.
+   ========================================================================== */
+body.theme-aero .statics-container {
+  --st-bg: var(--tb-row);
+  --st-page: transparent;
+  --st-hover: var(--tb-row-hover);
+  --st-line: rgba(255, 255, 255, 0.22);
+  --st-fg: #ffffff;
+  --st-muted: rgba(215, 242, 255, 0.82);
+  --st-accent: #8fe3ff;
+  --st-on-accent: #03355c;
+  --st-glow: rgba(143, 227, 255, 0.35);
+  --st-win: #7dffb0;
+  --st-loss: #ffa0a0;
+  --st-silver: #e3edf5;
+  --st-bronze: #f0b98a;
+}
+
+/* títulos das seções: onda embaixo no lugar da linha dourada */
+body.theme-aero .page-title3 {
+  font-style: normal;
+}
+
+body.theme-aero .page-title3::after {
+  width: min(320px, 70%);
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+}
+
+/* ---------- painel de vidro com pontas (todas as caixas da página) ---------- */
+body.theme-aero .camp-highlight-card,
+body.theme-aero .camp-editions-list,
+body.theme-aero .stat-column {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+/* cantoneiras por cima de tudo (a barra de título clara não esconde as de cima) */
+body.theme-aero .camp-highlight-card::before,
+body.theme-aero .stat-column::before,
+body.theme-aero .camp-editions-list::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  z-index: 3;
+  opacity: 1;
+  box-shadow: none;
+  pointer-events: none;
+  background: var(--tb-pontas);
+}
+
+body.theme-aero .camp-editions-list {
+  position: relative;
+}
+
+body.theme-aero .stat-column:hover {
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(143, 227, 255, 0.18),
+    0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+/* ---------- campeonatos: melhor campanha + números ---------- */
+body.theme-aero .best-campaign-card::after {
+  width: 4px;
+  background: #8fe3ff;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .camp-card-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .best-stage-text {
+  text-shadow: 0 2px 12px rgba(0, 50, 100, 0.45);
+}
+
+body.theme-aero .best-edition-badge {
+  clip-path: var(--tb-chanfro);
+  padding: 5px 14px;
+  background: var(--tb-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .kpi-num,
+body.theme-aero .record-pill strong {
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.55);
+}
+
+body.theme-aero .kpi-num.gold {
+  color: #8fe3ff;
+}
+
+body.theme-aero .camp-kpi-divider {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+}
+
+/* tira de números: cada número numa placa de vidro, com vão entre elas */
+body.theme-aero .camp-record-strip {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: var(--tb-gap);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.14);
+}
+
+body.theme-aero .record-pill {
+  background: var(--tb-shine), var(--tb-row);
+  border-top: 1px solid var(--tb-edge);
+}
+
+body.theme-aero .record-pill:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tb-row-hover);
+}
+
+/* histórico de edições */
+body.theme-aero .camp-editions-list {
+  padding: 0;
+}
+
+body.theme-aero .editions-list-title {
+  background: var(--tb-head);
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-bottom: 0;
+}
+
+body.theme-aero .editions-cards-grid {
+  gap: 4px;
+  padding: 4px;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .edition-history-card {
+  background: var(--tb-shine), var(--tb-row);
+  border-top: 1px solid var(--tb-edge);
+}
+
+body.theme-aero .edition-history-card:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tb-row-hover);
+}
+
+body.theme-aero .edition-year-tag {
+  color: #a6ecff;
+}
+
+/* fase alcançada */
+body.theme-aero .edition-stage-badge {
+  clip-path: var(--tb-chanfro);
+  padding: 6px 12px;
+}
+
+body.theme-aero .stage-champion {
+  background: var(--tb-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: none;
+}
+
+body.theme-aero .stage-runnerup {
+  background: linear-gradient(180deg, #ffffff 0%, #e6eef4 50%, #c7d5e0 52%, #a9bccb 100%);
+  border-color: transparent;
+  color: #24384a;
+}
+
+body.theme-aero .stage-semi {
+  background: rgba(143, 227, 255, 0.18);
+  color: #ffffff;
+}
+
+body.theme-aero .stage-quarters,
+body.theme-aero .stage-eighths,
+body.theme-aero .stage-groups {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(225, 245, 255, 0.85);
+}
+
+body.theme-aero .dot-sep {
+  color: rgba(143, 227, 255, 0.6);
+}
+
+body.theme-aero .edition-last-match {
+  border-left: 3px solid #8fe3ff;
+  background: linear-gradient(90deg, rgba(143, 227, 255, 0.16), transparent 80%);
+  color: rgba(235, 249, 255, 0.9);
+}
+
+/* ---------- artilheiros, assistências e goleiros ---------- */
+body.theme-aero .stat-header {
+  background: var(--tb-head);
+  border-bottom: 0;
+}
+
+body.theme-aero .stat-header h2 {
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+body.theme-aero .stat-header h2::before {
+  width: 8px;
+  height: 8px;
+  clip-path: var(--tb-losango);
+  background: #0a80c6;
+}
+
+body.theme-aero .arrow-icon {
+  color: #0a80c6;
+}
+
+/* as linhas viram faixas de vidro com vão entre elas */
+body.theme-aero .stat-list {
+  gap: 3px;
+  padding: 3px 0 0;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .stat-row,
+body.theme-aero .stat-row:nth-child(1) {
+  border-bottom: 0;
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .stat-row:nth-child(even) {
+  background: var(--tb-shine), var(--tb-row-alt);
+}
+
+body.theme-aero .stat-row:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tb-row-hover);
+  border-top-color: rgba(255, 255, 255, 0.65);
+}
+
+/* posição num losango */
+body.theme-aero .stat-rank {
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  clip-path: var(--tb-losango);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0.08) 50%);
+  color: #ffffff;
+  font-size: 0.7rem;
+}
+
+body.theme-aero .stat-row:nth-child(1) .stat-rank {
+  width: 30px;
+  height: 30px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #9ff3ff 0%, #2cc4f2 52%, #0b8fd6 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.6);
+}
+
+body.theme-aero .stat-row:nth-child(2) .stat-rank {
+  background: linear-gradient(180deg, #ffffff 0%, #e6eef4 50%, #b9c7d3 52%, #8fa3b4 100%);
+  color: #24384a;
+}
+
+body.theme-aero .stat-row:nth-child(3) .stat-rank {
+  background: linear-gradient(180deg, #ffe7d2 0%, #f0b98a 50%, #d08a52 52%, #a8642d 100%);
+  color: #3d2410;
+}
+
+/* 1º colocado: luz azul e barra na ponta */
+body.theme-aero .stat-row:nth-child(1) {
+  background:
+    linear-gradient(90deg, rgba(143, 227, 255, 0.3), rgba(143, 227, 255, 0) 80%),
+    var(--tb-shine),
+    var(--tb-row);
+}
+
+body.theme-aero .stat-row:nth-child(1)::before {
+  width: 4px;
+  background: #8fe3ff;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.9);
+}
+
+/* foto: quadro reto com fio branco */
+body.theme-aero .stat-avatar {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+body.theme-aero .stat-row:nth-child(1) .stat-avatar {
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.35);
+}
+
+body.theme-aero .stat-row:hover .stat-avatar {
+  border-color: #ffffff;
+}
+
+body.theme-aero .stat-value,
+body.theme-aero .stat-row:nth-child(1) .stat-value {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(143, 227, 255, 0.9), 0 1px 2px rgba(0, 40, 80, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-aero .page-title3 {
+    background: none;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}

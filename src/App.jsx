@@ -42,7 +42,9 @@ import Temporadas from "./pages/Temporadas/Temporadas.jsx";
 import { applyTheme, getSavedTheme } from "./utils/theme";
 
 import "./styles/global.css";
-import "./styles/theme-classic.css"; // tema Classic (sempre depois dos outros CSS)
+import "./styles/theme-classic.css";
+import "./styles/theme-aero.css";
+import "./styles/aero-tabela.css";
 import "./styles/backgrounds.css";
 
 // Aplica o tema salvo antes da primeira tela (sem piscar o tema errado)

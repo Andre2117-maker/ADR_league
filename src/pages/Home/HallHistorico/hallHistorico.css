@@ -1381,3 +1381,268 @@ body.theme-classic .btn-del:hover {
   border-color: #fff;
   color: #fff;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (Hall Histórico)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .hall-vertical-container {
+  --hf-bg: var(--tb-row);
+  --hf-hover: var(--tb-row-hover);
+  --hf-line: rgba(255, 255, 255, 0.3);
+  --hf-fg: #ffffff;
+  --hf-muted: rgba(215, 242, 255, 0.82);
+  --hf-accent: #8fe3ff;
+  --hf-on-accent: #03355c;
+  --hf-glow: rgba(143, 227, 255, 0.35);
+  --hf-ok: #7dffb0;
+  --hf-bad: #ffa0a0;
+
+  background: transparent;
+}
+
+body.theme-aero .hall-vertical-container::before {
+  display: none;
+}
+
+body.theme-aero .hall-kicker {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 50, 100, 0.6);
+}
+
+/* o título ganha a "rajada de vento" do theme-aero.css */
+body.theme-aero .hall-title {
+  font-style: normal;
+}
+
+body.theme-aero .hall-title::after {
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+  box-shadow: none;
+}
+
+body.theme-aero .hall-subtitle {
+  color: #e6f9ff;
+}
+
+/* resumo em placas de vidro com vão */
+body.theme-aero .hall-summary {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: var(--tb-gap);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.14);
+}
+
+body.theme-aero .hall-summary > div {
+  border-top: 1px solid var(--tb-edge);
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .hall-summary > div:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%), var(--tb-row-hover);
+}
+
+body.theme-aero .hall-summary strong {
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.7);
+}
+
+/* caixa do admin */
+body.theme-aero .hall-admin-card {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+}
+
+body.theme-aero .hall-admin-form input,
+body.theme-aero .hall-select-link,
+body.theme-aero .hall-search {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background-color: rgba(3, 42, 77, 0.55) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .hall-select-link {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+body.theme-aero .hall-select-link option {
+  background: #074a80;
+}
+
+body.theme-aero .hall-admin-form input:focus,
+body.theme-aero .hall-select-link:focus,
+body.theme-aero .hall-search:focus {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.35) !important;
+}
+
+body.theme-aero .hall-admin-form button {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .hall-admin-form .btn-cancel {
+  clip-path: none;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+}
+
+/* filtros: placas de vidro, o escolhido em gel */
+body.theme-aero .hall-filters {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+body.theme-aero .hall-filter {
+  border-right-color: rgba(255, 255, 255, 0.3) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: rgba(230, 248, 255, 0.9) !important;
+}
+
+body.theme-aero .hall-filter.is-active {
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* ano: losango + onda */
+body.theme-aero .hall-year-row::after {
+  height: 10px;
+  background: var(--tb-wave) left center / 60px 10px repeat-x;
+  opacity: 0.8;
+}
+
+body.theme-aero .year-label {
+  font-style: normal;
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.7);
+}
+
+/* cada jogador do hall: janela de vidro reta com cantoneiras */
+body.theme-aero .hall-item {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 14px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 2px 14px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 14px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 2px 14px no-repeat,
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 12px 26px rgba(0, 30, 70, 0.28);
+}
+
+body.theme-aero .hall-item:hover {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.18), 0 16px 30px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .hall-item::before {
+  width: 4px;
+  background: #8fe3ff;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.8);
+}
+
+body.theme-aero .hall-item.retired::before {
+  background: rgba(215, 242, 255, 0.5);
+}
+
+/* foto numa bolha */
+body.theme-aero .hall-avatar {
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: rgba(143, 227, 255, 0.25);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+body.theme-aero .hall-item:hover .hall-avatar {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.25);
+}
+
+body.theme-aero .player-nickname,
+body.theme-aero .linked-badge {
+  color: #a6ecff;
+}
+
+body.theme-aero .player-name.clickable-link:hover {
+  color: #c9f3ff;
+}
+
+body.theme-aero .hall-shirt {
+  border: 0;
+  clip-path: var(--tb-losango);
+  display: inline-grid;
+  place-items: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 6px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #9ff3ff 0%, #2cc4f2 52%, #0b8fd6 100%);
+  color: #ffffff;
+}
+
+body.theme-aero .hall-tag {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(230, 248, 255, 0.9);
+}
+
+body.theme-aero .hall-tag.is-gold {
+  border: 0;
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .hall-status.is-on {
+  border-color: #7dffb0;
+  color: #c8ffdc;
+}
+
+/* números da carreira em plaquinhas */
+body.theme-aero .hall-career {
+  gap: 3px;
+  padding: 3px;
+  background: var(--tb-gap);
+}
+
+body.theme-aero .hall-career > div {
+  background: var(--tb-shine), var(--tb-row);
+}
+
+body.theme-aero .hall-career strong {
+  color: #ffffff;
+}
+
+body.theme-aero .btn-del,
+body.theme-aero .btn-edit {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .btn-edit:hover {
+  background: var(--tb-gel) !important;
+}
+
+body.theme-aero .btn-del:hover {
+  background: linear-gradient(180deg, #ffb0b0 0%, #ff6b6b 52%, #c93c3c 100%) !important;
+}
+
+body.theme-aero .hall-empty,
+body.theme-aero .hall-loader {
+  color: #ffffff;
+}

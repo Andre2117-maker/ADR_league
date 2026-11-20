@@ -281,3 +281,17 @@ body.theme-classic .psg-match-card.psg-event-card.psg-event-natal .psg-comp-text
 body.theme-classic .psg-match-card.psg-event-card.psg-event-natal .psg-comp-text svg {
   fill: #f2c14e;
 }
+
+
+/* ==========================================================================
+   ADR AERO — cards de evento (Halloween, Natal...)
+   A moldura do evento continua; o card por baixo fica de vidro.
+   ========================================================================== */
+body.theme-aero .psg-match-card.psg-event-card .psg-card-top {
+  border-bottom: 0;
+}
+
+body.theme-aero .psg-match-card.psg-event-card .psg-comp-text {
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 40, 80, 0.6);
+}

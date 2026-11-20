@@ -1,5 +1,5 @@
 import React from "react";
-import "./topscorers.css";
+import "./TopScorersCard.css";
 
 function TopScorersCard({ players = [], limit = 3 }) {
   const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";

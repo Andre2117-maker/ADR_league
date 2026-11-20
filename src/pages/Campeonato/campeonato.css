@@ -1407,3 +1407,290 @@ body.theme-classic .camp-tab-admin {
     display: none;
   }
 }
+
+
+/* ==========================================================================
+   ADR AERO — "BOLHAS E ONDAS": vidro azul-água, números em bolhas, abas de gel
+   ========================================================================== */
+body.theme-aero .camp-page-wrapper {
+  --cp-bg: rgba(8, 90, 150, 0.5);
+  --cp-page: transparent;
+  --cp-hover: rgba(255, 255, 255, 0.12);
+  --cp-line: rgba(255, 255, 255, 0.25);
+  --cp-fg: #ffffff;
+  --cp-muted: rgba(220, 244, 255, 0.85);
+  --cp-accent: #8fe3ff;
+  --cp-accent-2: #ffffff;
+  --cp-on-accent: #04395a;
+  --cp-glow: rgba(143, 227, 255, 0.28);
+  --cp-ok: #7dffb0;
+  --cp-bad: #ffa0a0;
+  --cp-gel:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  --cp-bubble: radial-gradient(circle at 32% 28%, #ffffff 0 9%, #d4f6ff 17%, #8fe3ff 45%, #3cb8ea 78%, #1a93d0 100%);
+  --cp-glass:
+    radial-gradient(120% 70% at 15% 0%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.58) 0%, rgba(5, 63, 112, 0.8) 100%);
+  --cp-wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='%238fe3ff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* ---------- topo: gota de vidro com o escudo numa bolha ---------- */
+body.theme-aero .camp-hero {
+  background: var(--cp-glass);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 32px;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -18px 36px rgba(0, 50, 100, 0.22),
+    0 22px 48px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .camp-hero::before {
+  top: auto;
+  bottom: 14px;
+  left: 34px;
+  right: 34px;
+  height: 10px;
+  background: var(--cp-wave) 0 0 / 60px 10px repeat-x;
+  opacity: 0.7;
+}
+
+body.theme-aero .camp-hero-corner {
+  display: none;
+}
+
+body.theme-aero .camp-logo-glow::before {
+  width: 116px;
+  height: 116px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.55) 0 8%, rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle, rgba(143, 227, 255, 0.22), rgba(10, 100, 165, 0.4) 75%);
+  box-shadow: inset 0 -10px 20px rgba(0, 60, 110, 0.3), 0 10px 24px rgba(0, 30, 70, 0.3);
+}
+
+body.theme-aero .camp-logo {
+  content: url("/logo-aero.png");
+  width: 78px;
+  filter: drop-shadow(0 6px 12px rgba(0, 50, 100, 0.4));
+}
+
+body.theme-aero .camp-subtitle {
+  color: #a6ecff;
+}
+
+body.theme-aero .camp-title {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(100deg, #ffffff 0%, #ffffff 40%, #d8fff4 48%, #8fe3ff 52%, #ffffff 60%, #ffffff 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 10px rgba(0, 50, 100, 0.4));
+}
+
+body.theme-aero .camp-edition {
+  color: rgba(220, 244, 255, 0.85);
+}
+
+body.theme-aero .camp-hero-trophy {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: var(--cp-bubble);
+  color: #04395a;
+  box-shadow: 0 0 0 6px rgba(143, 227, 255, 0.22), 0 10px 22px rgba(0, 40, 80, 0.35);
+}
+
+body.theme-aero .camp-hero-trophy svg {
+  width: 36px;
+  height: 36px;
+  filter: none;
+}
+
+body.theme-aero .camp-edit-btn,
+body.theme-aero .camp-meta-cancel {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.theme-aero .camp-meta-save {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  background: var(--cp-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* ---------- resumo: números dentro de bolhas ---------- */
+body.theme-aero .camp-summary {
+  gap: 0;
+  overflow: hidden;
+  background: var(--cp-glass);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+body.theme-aero .camp-summary > div {
+  gap: 8px;
+  padding: 18px 8px 14px;
+  background: transparent;
+}
+
+body.theme-aero .camp-summary strong {
+  display: grid;
+  place-items: center;
+  min-width: 2.2em;
+  aspect-ratio: 1;
+  padding: 0 4px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: var(--cp-bubble);
+  color: #04395a;
+  font-size: 1.3rem;
+  text-shadow: none;
+  box-shadow: 0 6px 14px rgba(0, 40, 80, 0.3), inset 0 -5px 10px rgba(11, 127, 196, 0.3);
+}
+
+body.theme-aero .camp-summary span {
+  color: rgba(225, 245, 255, 0.9);
+}
+
+/* barra de andamento: um tubo de água enchendo */
+body.theme-aero .camp-progress {
+  background: rgba(5, 63, 112, 0.55);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0 0 28px 28px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+body.theme-aero .camp-progress-track {
+  height: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(0, 30, 60, 0.35);
+  overflow: hidden;
+}
+
+body.theme-aero .camp-progress-track i {
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(90deg, #17aee9, #59c96b);
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.6);
+}
+
+/* ---------- temporadas e abas: pílulas; a ativa é de gel ---------- */
+body.theme-aero .camp-years-container,
+body.theme-aero .camp-tabs {
+  gap: 6px;
+  padding: 5px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(8, 90, 150, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body.theme-aero .camp-year-btn,
+body.theme-aero .camp-year-add,
+body.theme-aero .camp-tab-btn {
+  border: 0 !important;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(230, 248, 255, 0.92);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+}
+
+body.theme-aero .camp-year-btn:hover,
+body.theme-aero .camp-year-add:hover,
+body.theme-aero .camp-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+body.theme-aero .camp-year-btn.active,
+body.theme-aero .camp-tab-btn.active {
+  background: var(--cp-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: inset 0 -3px 8px rgba(0, 60, 120, 0.3), 0 6px 14px rgba(0, 50, 100, 0.3);
+}
+
+body.theme-aero .camp-year-btn.active .year-text b,
+body.theme-aero .camp-year-btn.active .year-name {
+  color: #ffffff;
+}
+
+body.theme-aero .camp-year-btn .year-dot,
+body.theme-aero .camp-year-btn.active .year-dot {
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid #ffffff;
+  border-radius: 50%;
+  background: var(--cp-bubble);
+  transform: none;
+  box-shadow: none;
+}
+
+body.theme-aero .camp-tab-admin {
+  color: #a6ecff;
+}
+
+body.theme-aero .camp-tab-admin.active {
+  background: var(--cp-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .camp-spinner {
+  border-color: rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  body.theme-aero .camp-hero {
+    border-radius: 26px;
+  }
+
+  body.theme-aero .camp-logo-glow::before {
+    width: 84px;
+    height: 84px;
+  }
+
+  body.theme-aero .camp-logo {
+    width: 58px;
+  }
+
+  body.theme-aero .camp-hero-trophy {
+    width: 56px;
+    height: 56px;
+  }
+
+  body.theme-aero .camp-hero-trophy svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  body.theme-aero .camp-years-container,
+  body.theme-aero .camp-tabs {
+    border-radius: 24px;
+  }
+}

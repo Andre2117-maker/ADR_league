@@ -617,3 +617,74 @@ body.theme-classic .sqd-nav-btn:active {
     filter: drop-shadow(0 0 15px rgba(236, 68, 112, 0.9));
   }
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (carrossel do elenco)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .sqd-container-full {
+  background: transparent;
+}
+
+body.theme-aero .sqd-title {
+  text-shadow: 0 3px 12px rgba(0, 50, 100, 0.4);
+}
+
+body.theme-aero .sqd-highlight {
+  color: #a6ecff;
+}
+
+body.theme-aero .sqd-underline {
+  height: 10px;
+  border-radius: 0;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+}
+
+/* foto: janela de vidro com cantoneiras e uma bolha atrás */
+body.theme-aero .sqd-photo-area {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(circle at 50% 62%, rgba(143, 227, 255, 0.06) 36%, rgba(143, 227, 255, 0.4) 46%, rgba(255, 255, 255, 0) 47%),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 16px 34px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .sqd-player-card:hover .sqd-photo-area {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.22), 0 20px 40px rgba(0, 30, 70, 0.4);
+}
+
+body.theme-aero .sqd-badge-icon {
+  filter: drop-shadow(0 0 8px rgba(143, 227, 255, 0.8));
+}
+
+/* número e nome brancos com brilho de água */
+body.theme-aero .player-number-badge,
+body.theme-aero .sqd-name {
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 40, 80, 0.7)) drop-shadow(0 0 10px rgba(143, 227, 255, 0.6));
+}
+
+/* faixa do nome: barra de vidro azul que sobe do pé da foto */
+body.theme-aero .sqd-card-overlay {
+  background: linear-gradient(to top, rgba(5, 63, 112, 0.95) 0%, rgba(10, 110, 176, 0.5) 55%, transparent 100%);
+}
+
+body.theme-aero .sqd-nav-btn {
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .sqd-nav-btn:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}

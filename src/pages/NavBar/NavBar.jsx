@@ -3,8 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import logoIdr from "../../assets/IDR.png";
 
-/* Escudo do tema Classic (fica em public/logo-classic.png) */
+/* Escudos dos temas Classic e Aero (ficam na pasta public) */
 const logoClassic = "/logo-classic.png";
+const logoAero = "/logo-aero.png";
 import "./navbar.css";
 
 /* Ícone de pessoa (traço fino, herda a cor) */
@@ -169,6 +170,7 @@ function Navbar({ isAdmin, logout }) {
               alt="ADR Classic"
               className="nvb-logo-img logo-classic"
             />
+            <img src={logoAero} alt="ADR Aero" className="nvb-logo-img logo-aero" />
             <span className="nvb-brand-text">
               <span className="text-adr">ADR</span>
               <span className="text-idr">IDR</span>
@@ -252,6 +254,7 @@ function Navbar({ isAdmin, logout }) {
               alt=""
               className="nvb-side-logo logo-classic"
             />
+            <img src={logoAero} alt="" className="nvb-side-logo logo-aero" />
             <div>
               <span className="nvb-sidebar-kicker">MENU</span>
               <span className="nvb-sidebar-title">
@@ -356,7 +359,7 @@ function Navbar({ isAdmin, logout }) {
           ) : (
             <Link
               to="/admin-login"
-                state={{ from: location.pathname + location.search + location.hash }}
+              state={{ from: location.pathname + location.search + location.hash }}
               className="nvb-side-admin-btn"
               onClick={closeSidebar}
             >

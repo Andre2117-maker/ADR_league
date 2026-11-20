@@ -812,3 +812,132 @@ body.theme-classic .aw-btn-save {
   border-radius: 6px;
   box-shadow: 0 4px 0 #5a1f4a;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (prêmios da temporada)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .aw-card {
+  --aw-bg: var(--tb-row);
+  --aw-hover: var(--tb-row-hover);
+  --aw-line: rgba(255, 255, 255, 0.3);
+  --aw-fg: #ffffff;
+  --aw-muted: rgba(215, 242, 255, 0.82);
+  --aw-accent: #8fe3ff;
+  --aw-glow: rgba(143, 227, 255, 0.35);
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    var(--tb-pontas),
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 40px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .aw-card::before {
+  display: none;
+}
+
+/* barra de título de vidro claro */
+body.theme-aero .aw-head {
+  border-bottom: 0;
+  background: var(--tb-head);
+}
+
+body.theme-aero .aw-title {
+  background: none;
+  -webkit-text-fill-color: #05406f;
+  color: #05406f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: none;
+}
+
+body.theme-aero .aw-years {
+  border: 1px solid rgba(5, 64, 111, 0.3);
+}
+
+body.theme-aero .aw-year {
+  border-right-color: rgba(5, 64, 111, 0.2) !important;
+  color: #0a6eb0 !important;
+}
+
+body.theme-aero .aw-year:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: #05406f !important;
+}
+
+body.theme-aero .aw-year.is-active {
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* cada prêmio é uma faixa de vidro */
+body.theme-aero .aw-grid {
+  gap: 3px;
+  background: var(--tb-gap);
+  padding-top: 3px;
+}
+
+body.theme-aero .aw-item {
+  border-bottom: 0;
+  border-top: 1px solid var(--tb-edge);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--award-color) 22%, transparent), transparent 70%),
+    var(--tb-shine),
+    var(--tb-row);
+}
+
+body.theme-aero .aw-item.is-link:hover {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--award-color) 30%, transparent), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 50%),
+    var(--tb-row-hover);
+}
+
+body.theme-aero .aw-item::before {
+  width: 4px;
+}
+
+body.theme-aero .aw-avatar {
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: rgba(143, 227, 255, 0.25);
+}
+
+body.theme-aero .aw-icon-bg {
+  opacity: 0.35;
+}
+
+body.theme-aero .aw-wins {
+  border: 0;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .aw-admin-btn,
+body.theme-aero .aw-edit-tools button,
+body.theme-aero .aw-add-btn,
+body.theme-aero .aw-btn-cancel {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .aw-btn-save {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .aw-in {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 0 !important;
+  background: rgba(3, 42, 77, 0.55) !important;
+  color: #ffffff !important;
+}

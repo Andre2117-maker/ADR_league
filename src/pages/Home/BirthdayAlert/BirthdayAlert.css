@@ -394,3 +394,68 @@ body.theme-classic .bday-btn:active {
   transform: translateY(4px);
   box-shadow: 0 1px 0 #5a1f4a !important;
 }
+
+/* ==========================================================================
+   ADR AERO — "VIDRO COM PONTAS" (pop-up de aniversário)
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+body.theme-aero .bday-overlay {
+  background: rgba(2, 30, 56, 0.7);
+}
+
+body.theme-aero .bday-card {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  background:
+    var(--tb-pontas),
+    radial-gradient(80% 50% at 50% 0%, rgba(141, 255, 184, 0.3), transparent 70%),
+    linear-gradient(180deg, #1aa7e2 0%, #0b6fae 55%, #053f70 100%);
+  box-shadow: 0 0 0 5px rgba(143, 227, 255, 0.2), 0 30px 70px rgba(0, 20, 50, 0.55);
+}
+
+body.theme-aero .bday-glow-effect {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 65%);
+}
+
+/* a foto numa bolha grande */
+body.theme-aero .bday-player-img {
+  border: 3px solid #ffffff;
+  background: rgba(143, 227, 255, 0.3);
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.15), 0 0 40px rgba(143, 227, 255, 0.6);
+}
+
+/* coroa num losango de gel */
+body.theme-aero .bday-crown {
+  border: 0;
+  border-radius: 0;
+  clip-path: var(--tb-losango);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 50%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+body.theme-aero .bday-kicker {
+  color: #c8ffdc;
+}
+
+body.theme-aero .bday-title .highlight {
+  background: none;
+  -webkit-text-fill-color: #c8ffdc;
+  color: #c8ffdc;
+}
+
+body.theme-aero .bday-wish {
+  color: rgba(235, 249, 255, 0.9);
+}
+
+body.theme-aero .bday-btn {
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: none !important;
+}

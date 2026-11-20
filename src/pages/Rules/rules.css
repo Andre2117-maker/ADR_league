@@ -1,5 +1,6 @@
 /* ==========================================================================
-   REGULAMENTO — ADR (preto e dourado), IDR (jornal) e ADR CLASSIC (figurinha)
+   REGULAMENTO — ADR (preto e dourado), IDR (jornal), ADR CLASSIC (figurinha)
+   e ADR AERO (bolhas e ondas)
    Feito pensando primeiro no celular. O fundo da página vem do backgrounds.css.
    ========================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap");
@@ -1287,5 +1288,362 @@ body.theme-classic .rules-toast .rl-ico {
     overflow: visible;
     mask-image: none;
     -webkit-mask-image: none;
+  }
+}
+
+
+/* ==========================================================================
+   7. ADR AERO — "BOLHAS E ONDAS": o regulamento vira uma gota de vidro
+   em cima da água. Números das seções em bolhas, linhas em onda e
+   botões de gel. (o título "Regulamento Oficial" já ganha a rajada de
+   vento do theme-aero.css)
+   ========================================================================== */
+body.theme-aero .page-container1 {
+  --rl-fg: #ffffff;
+  --rl-text: rgba(235, 249, 255, 0.92);
+  --rl-muted: rgba(210, 240, 255, 0.82);
+  --rl-line: rgba(255, 255, 255, 0.22);
+  --rl-accent: #8fe3ff;
+  --rl-accent-soft: rgba(143, 227, 255, 0.18);
+  --rl-accent-ink: #04395a;
+  --rl-paper:
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.58) 0%, rgba(5, 63, 112, 0.8) 100%);
+  --rl-field: rgba(255, 255, 255, 0.14);
+  --rl-alert-bg: rgba(255, 90, 110, 0.2);
+  --rl-alert-line: #ff8f9c;
+  --rl-alert-fg: #ffe4e8;
+  --rl-gel:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  --rl-bubble:
+    radial-gradient(circle at 32% 28%, #ffffff 0 9%, #d4f6ff 17%, #8fe3ff 45%, #3cb8ea 78%, #1a93d0 100%);
+  --rl-wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='%238fe3ff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* ---------- topo ---------- */
+body.theme-aero .rules-kicker {
+  padding: 6px 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 10%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 70%),
+    rgba(8, 95, 160, 0.4);
+  color: #ffffff;
+  letter-spacing: 3px;
+  box-shadow: 0 6px 16px rgba(0, 40, 80, 0.2);
+}
+
+body.theme-aero .rules-hero-line {
+  width: 160px;
+  height: 10px;
+  background: var(--rl-wave) center / 60px 10px repeat-x;
+}
+
+body.theme-aero .rules-hero-line::after {
+  display: none;
+}
+
+/* ---------- busca, modo do admin e PDFs ---------- */
+body.theme-aero .rules-search-box {
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  background: rgba(8, 90, 150, 0.38);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 3px 8px rgba(0, 40, 80, 0.2);
+}
+
+body.theme-aero .rules-search-box:focus-within {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.3), inset 0 3px 8px rgba(0, 40, 80, 0.2);
+}
+
+body.theme-aero .page-container1 .rules-search-box input.rules-search-input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body.theme-aero .page-container1 .rules-search-box input.rules-search-input::placeholder {
+  color: rgba(225, 245, 255, 0.85) !important;
+  -webkit-text-fill-color: rgba(225, 245, 255, 0.85) !important;
+}
+
+body.theme-aero .search-icon {
+  color: #ffffff;
+}
+
+body.theme-aero .search-clear-btn {
+  background: var(--rl-bubble);
+  color: #04395a;
+  border: 1px solid #ffffff;
+}
+
+body.theme-aero .admin-mode-switch {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.theme-aero .mode-switch-btn {
+  color: rgba(230, 248, 255, 0.9);
+}
+
+body.theme-aero .mode-switch-btn.active {
+  background: var(--rl-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: inset 0 -3px 8px rgba(0, 60, 120, 0.3);
+}
+
+/* PDFs: botões de gel */
+body.theme-aero .pdf-download-btn {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 0 22px;
+  background: var(--rl-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.55);
+  box-shadow: inset 0 -4px 10px rgba(0, 60, 120, 0.35), 0 8px 18px rgba(0, 60, 120, 0.3);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s;
+}
+
+body.theme-aero .pdf-download-btn:hover {
+  background: var(--rl-gel);
+  color: #ffffff;
+  transform: scale(1.04);
+  filter: brightness(1.06);
+}
+
+body.theme-aero .pdf-download-btn:active {
+  transform: scale(0.96);
+}
+
+body.theme-aero .pdf-btn-text small {
+  opacity: 0.85;
+}
+
+/* índice: faixa de vidro com bolhas de capítulos */
+body.theme-aero .rules-toc-bar {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04)),
+    rgba(8, 100, 165, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 26px rgba(0, 40, 80, 0.25);
+}
+
+body.theme-aero .toc-label {
+  color: #a6ecff;
+}
+
+body.theme-aero .toc-pill {
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 10%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 70%),
+    rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body.theme-aero .toc-pill:hover {
+  border-color: #ffffff;
+  background: var(--rl-gel);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* ---------- o documento: gota de vidro ---------- */
+body.theme-aero .rules-paper {
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 32px;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -20px 40px rgba(0, 50, 100, 0.22),
+    0 24px 50px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .rules-paper::after {
+  inset: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+}
+
+/* linha d'água embaixo do cabeçalho */
+body.theme-aero .rules-header {
+  border-bottom: 0;
+  padding-bottom: 26px;
+  background: var(--rl-wave) left bottom / 60px 10px repeat-x;
+}
+
+body.theme-aero .doc-stamp {
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  background: var(--rl-gel);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .saving-badge {
+  color: #a6ecff;
+}
+
+/* títulos das seções: número dentro de bolha, linha em onda */
+body.theme-aero .rule-section {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 40, 80, 0.3);
+}
+
+body.theme-aero .rule-section::after {
+  height: 10px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='white' stroke-opacity='0.35' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 0 50% / 60px 10px repeat-x;
+}
+
+body.theme-aero .sec-number-badge {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: var(--rl-bubble);
+  color: #04395a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow: none;
+  box-shadow: 0 6px 14px rgba(0, 40, 80, 0.3), inset 0 -5px 10px rgba(11, 127, 196, 0.3);
+}
+
+/* regras: pílula de vidro ao passar o dedo/mouse */
+body.theme-aero .rule-item {
+  border-left: 0;
+  border-radius: 18px;
+}
+
+body.theme-aero .rule-item:hover,
+body.theme-aero .rule-item:active {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+/* marcador: bolhinha */
+body.theme-aero .rule-bullet-dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 0.5em;
+  border: 1.5px solid #ffffff;
+  border-radius: 50%;
+  background: var(--rl-bubble);
+  transform: none;
+}
+
+body.theme-aero .copy-rule-hint {
+  color: #ffffff;
+}
+
+body.theme-aero .copy-rule-hint.copied {
+  color: #a9ffb4;
+}
+
+body.theme-aero .rl-mark {
+  border-radius: 6px;
+  background: #8fe3ff;
+  color: #04395a;
+}
+
+/* aviso: gota avermelhada */
+body.theme-aero .rule-alert-box {
+  border: 1.5px solid rgba(255, 160, 170, 0.6);
+  border-left-width: 1.5px;
+  border-radius: 20px;
+  background:
+    radial-gradient(100% 80% at 0% 0%, rgba(255, 255, 255, 0.14), transparent 60%),
+    rgba(200, 40, 70, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+body.theme-aero .alert-icon {
+  color: #ffc2ca;
+}
+
+body.theme-aero .clear-search-pill {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: var(--rl-gel);
+  color: #ffffff;
+}
+
+/* ---------- editor do admin ---------- */
+body.theme-aero .quick-chip {
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.theme-aero .quick-chip:hover {
+  background: var(--rl-gel);
+  color: #ffffff;
+}
+
+body.theme-aero .quick-chip.alert-chip {
+  border-color: rgba(255, 160, 170, 0.6);
+  color: #ffe4e8;
+}
+
+body.theme-aero .rules-textarea {
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 22px;
+  background: rgba(3, 40, 75, 0.45);
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+
+body.theme-aero .rules-textarea:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.25);
+}
+
+/* ---------- rodapé e aviso ---------- */
+body.theme-aero .rules-footer {
+  border-top: 0;
+  padding-top: 26px;
+  background: var(--rl-wave) left top / 60px 10px repeat-x;
+}
+
+body.theme-aero .rules-toast {
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: var(--rl-gel);
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: 0 10px 24px rgba(0, 40, 80, 0.35);
+}
+
+body.theme-aero .rules-toast .rl-ico {
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  body.theme-aero .rules-paper {
+    border-radius: 24px;
+  }
+
+  body.theme-aero .rules-toc-bar {
+    border-radius: 18px;
+  }
+
+  body.theme-aero .pdf-download-btn {
+    border-radius: 20px;
+    padding: 0 14px;
+  }
+
+  body.theme-aero .sec-number-badge {
+    width: 32px;
+    height: 32px;
   }
 }

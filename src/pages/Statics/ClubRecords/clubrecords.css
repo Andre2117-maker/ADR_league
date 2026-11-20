@@ -591,3 +591,148 @@ body.theme-classic .cr-match b {
     font-size: 2.3rem;
   }
 }
+
+
+/* ==========================================================================
+   ADR AERO — recordes no "vidro com pontas"
+   ========================================================================== */
+body.theme-aero .cr-section {
+  --cr-fg: #ffffff;
+  --cr-muted: rgba(215, 242, 255, 0.82);
+  --cr-line: rgba(255, 255, 255, 0.22);
+  --cr-line-strong: rgba(255, 255, 255, 0.6);
+  --cr-accent: #8fe3ff;
+  --cr-accent-soft: rgba(143, 227, 255, 0.16);
+  --cr-panel:
+    radial-gradient(120% 60% at 15% 0%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.8) 100%);
+}
+
+body.theme-aero .cr-head::after {
+  height: 10px;
+  background: var(--tb-wave) center / 60px 10px repeat-x;
+}
+
+body.theme-aero .cr-kicker {
+  color: #a6ecff;
+}
+
+body.theme-aero .cr-title {
+  font-style: normal;
+  text-shadow: 0 3px 12px rgba(0, 50, 100, 0.4);
+}
+
+/* abas: placas de vidro, a escolhida em gel */
+body.theme-aero .cr-scope {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: rgba(230, 248, 255, 0.9) !important;
+}
+
+body.theme-aero .cr-scope:hover {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .cr-scope.is-active {
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+/* título do grupo: losango + onda */
+body.theme-aero .cr-group-title {
+  color: #ffffff;
+}
+
+body.theme-aero .cr-group-title::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  clip-path: var(--tb-losango);
+  background: #8fe3ff;
+}
+
+body.theme-aero .cr-group-title::after {
+  height: 10px;
+  background: var(--tb-wave) left center / 60px 10px repeat-x;
+  opacity: 0.8;
+}
+
+/* card: vidro reto com cantoneiras pequenas */
+body.theme-aero .cr-card {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 14px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 2px 14px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 14px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 2px 14px no-repeat,
+    var(--cr-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 12px 26px rgba(0, 30, 70, 0.28);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+body.theme-aero .cr-card:hover {
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 14px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 2px 14px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 14px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 2px 14px no-repeat,
+    linear-gradient(90deg, var(--cr-accent-soft), transparent 70%),
+    var(--cr-panel);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.18), 0 16px 30px rgba(0, 30, 70, 0.32);
+}
+
+body.theme-aero .cr-card::before {
+  width: 4px;
+  background: #8fe3ff;
+  box-shadow: 0 0 12px rgba(143, 227, 255, 0.8);
+}
+
+body.theme-aero .cr-tie {
+  border: 0;
+  clip-path: var(--tb-chanfro);
+  padding: 3px 9px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #05406f;
+}
+
+body.theme-aero .cr-value {
+  color: #ffffff;
+  font-style: normal;
+  text-shadow: 0 0 18px rgba(143, 227, 255, 0.85), 0 2px 0 rgba(3, 44, 82, 0.35);
+}
+
+body.theme-aero .cr-holders {
+  border-top: 0;
+  padding-top: 12px;
+  background: var(--tb-wave) left top / 60px 10px repeat-x;
+}
+
+body.theme-aero .cr-photo {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+body.theme-aero .cr-name {
+  font-style: normal;
+}
+
+body.theme-aero .cr-holder-link:hover .cr-name {
+  color: #c9f3ff;
+}
+
+body.theme-aero .cr-match b {
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-aero .cr-card:hover {
+    transform: none;
+  }
+}

@@ -650,3 +650,136 @@
   color: #1e293b !important;
   border-bottom-color: #f1f5f9 !important;
 }
+
+
+/* ==========================================================================
+   ADR AERO — "BOLHAS E ONDAS": painel de configuração — vidro, campos arredondados, botões de gel
+   ========================================================================== */
+body.theme-aero .camp-admin-container {
+  --ca-bg: transparent;
+  --ca-surface: rgba(255, 255, 255, 0.1);
+  --ca-line: rgba(255, 255, 255, 0.22);
+  --ca-line-strong: rgba(255, 255, 255, 0.42);
+  --ca-gold: #8fe3ff;
+  --ca-text: #ffffff;
+  --ca-muted: rgba(220, 244, 255, 0.85);
+  background:
+    radial-gradient(120% 70% at 15% 0%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.58) 0%, rgba(5, 63, 112, 0.8) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 32px;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 22px 48px rgba(0, 30, 70, 0.35);
+}
+
+body.theme-aero .camp-admin-title {
+  font-style: normal;
+}
+
+body.theme-aero .camp-admin-gold-line {
+  height: 10px;
+  border: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='%238fe3ff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / 60px 10px repeat-x;
+  box-shadow: none;
+}
+
+body.theme-aero .camp-admin-stats-bar {
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+body.theme-aero .camp-stat-num {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 40, 80, 0.35);
+}
+
+body.theme-aero .camp-admin-container input,
+body.theme-aero .camp-admin-container select {
+  border-radius: 14px !important;
+  background-color: rgba(0, 40, 80, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .camp-admin-container select option {
+  background: #074a80;
+}
+
+body.theme-aero .camp-btn {
+  border-radius: 999px !important;
+}
+
+body.theme-aero .camp-btn-dark,
+body.theme-aero .camp-btn-outline-gold,
+body.theme-aero .camp-btn-new-preset {
+  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .camp-btn-gold,
+body.theme-aero .camp-btn-save {
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  background:
+    radial-gradient(ellipse 75% 50% at 50% 12%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+  box-shadow: inset 0 -4px 10px rgba(0, 60, 120, 0.35), 0 8px 18px rgba(0, 50, 100, 0.3) !important;
+}
+
+body.theme-aero .camp-admin-group-card {
+  overflow: hidden;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.theme-aero .camp-admin-group-header {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.theme-aero .camp-group-count,
+body.theme-aero .camp-sq {
+  border-radius: 999px !important;
+}
+
+body.theme-aero .camp-tournament-tab {
+  border-radius: 18px !important;
+}
+
+/* fundos fixos que eram pretos */
+body.theme-aero .camp-admin-stats-bar,
+body.theme-aero .camp-tournaments-tabs {
+  background: rgba(0, 40, 80, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+body.theme-aero .camp-stat-box {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+body.theme-aero .camp-tournament-tab:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.theme-aero .camp-tournament-tab.active {
+  background: rgba(143, 227, 255, 0.25) !important;
+}
+
+body.theme-aero .camp-admin-team-item {
+  border-bottom-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+body.theme-aero .camp-admin-team-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.theme-aero .camp-team-pos {
+  color: rgba(220, 244, 255, 0.85) !important;
+}
+
+body.theme-aero .camp-admin-group-card.is-selected-group {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(143, 227, 255, 0.3) !important;
+}

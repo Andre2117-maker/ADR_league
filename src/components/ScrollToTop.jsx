@@ -1,25 +1,48 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLocation, useNavigationType } from "react-router-dom";
 
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
+/*
+  Controla a rolagem quando a página (rota) muda:
+  - Abriu uma página nova (clicou num link)  -> vai para o topo
+  - Usou o "voltar"/"avançar" do navegador   -> volta para onde estava
+  - Mudou só o ?filtro ou o #âncora da mesma página -> NÃO mexe na rolagem
+*/
+const posicoes = new Map();
 
+function ScrollToTop() {
+  const { pathname, key } = useLocation();
+  const tipo = useNavigationType(); // "PUSH" | "REPLACE" | "POP"
+  const anterior = useRef({ pathname, key });
+
+  // o navegador não deve tentar restaurar sozinho (briga com o React)
   useEffect(() => {
-    // 1. Tenta resetar o scroll da janela principal
-    window.scrollTo(0, 0);
-
-    // 2. Tenta resetar o scroll do body e do html (garantia extra)
-    document.documentElement.scrollTo(0, 0);
-    document.body.scrollTo(0, 0);
-
-    // 3. Se o seu scroll estiver preso dentro da div "main-wrapper"
-    const mainWrapper = document.querySelector(".main-wrapper");
-    if (mainWrapper) {
-      mainWrapper.scrollTo(0, 0);
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
-  }, [pathname]);
+  }, []);
+
+  // guarda onde a pessoa estava em cada página
+  useEffect(() => {
+    const salvar = () => posicoes.set(key, window.scrollY);
+    window.addEventListener("scroll", salvar, { passive: true });
+    return () => window.removeEventListener("scroll", salvar);
+  }, [key]);
+
+  useLayoutEffect(() => {
+    const mesmaPagina = anterior.current.pathname === pathname;
+    anterior.current = { pathname, key };
+    if (mesmaPagina) return; // só trocou filtro/aba dentro da página
+
+    if (tipo === "POP" && posicoes.has(key)) {
+      const y = posicoes.get(key);
+      // espera a página desenhar antes de rolar
+      requestAnimationFrame(() => window.scrollTo(0, y));
+      return;
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, key, tipo]);
 
   return null;
-};
+}
 
 export default ScrollToTop;

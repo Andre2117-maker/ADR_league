@@ -1,0 +1,273 @@
+/* ==========================================================================
+   TEMA SECRETO "ADR AERO" — BOLHAS E ONDAS
+   Liga quando o <body> tem a classe "theme-aero" (utils/theme.js).
+   Importe no App.jsx DEPOIS dos outros temas (theme-classic.css,
+   backgrounds.css...).
+
+   O fundo animado (céu, bolhas subindo e 3 ondas no pé da tela) é criado
+   pelo utils/theme.js. Este arquivo é o ponto de partida do visual:
+
+     1. fonte e paleta (variáveis)
+     2. deixa as páginas transparentes pra aparecer o fundo   (não apague)
+     3. escudo do tema
+     4. KIT pronto: vidro, bolha, botão de gel, onda          (use à vontade)
+     5. SUAS REGRAS: escreva aqui o visual de cada tela
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap");
+
+/* ---------- 1. fonte e paleta ---------- */
+body.theme-aero {
+  /* água */
+  --aq-sky: #9fe4ff; /* topo claro */
+  --aq-light: #8fe3ff; /* destaque / texto de destaque */
+  --aq-mid: #1a9ad8; /* azul do mar */
+  --aq-deep: #0b6fae; /* azul fundo */
+  --aq-abyss: #053f70; /* azul mais escuro (texto em cima de bolha) */
+  --aq-foam: #ffffff; /* espuma / texto */
+  --aq-green: #59c96b; /* verde do escudo */
+
+  /* peças do kit (seção 4) */
+  --aq-glass:
+    radial-gradient(
+      120% 70% at 18% 0%,
+      rgba(255, 255, 255, 0.28),
+      rgba(255, 255, 255, 0) 55%
+    ),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55), rgba(5, 63, 112, 0.75));
+  --aq-gel:
+    radial-gradient(
+      ellipse 75% 50% at 50% 12%,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0) 72%
+    ),
+    linear-gradient(180deg, #63e2ff 0%, #17aee9 52%, #0a80c6 100%);
+  --aq-bubble: radial-gradient(
+    circle at 32% 28%,
+    #ffffff 0 9%,
+    #d4f6ff 17%,
+    #8fe3ff 45%,
+    #3cb8ea 78%,
+    #1a93d0 100%
+  );
+  --aq-wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='10' viewBox='0 0 60 10'%3E%3Cpath d='M0 5 Q 15 0 30 5 T 60 5' fill='none' stroke='%238fe3ff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+
+  /* fonte do tema: Comfortaa (redonda, leve e aberta, "de vento").
+     Pra trocar, mude só esta linha (ex.: "Quicksand", "Varela Round"). */
+  --aq-font: "Comfortaa", "Nunito", "Segoe UI", sans-serif;
+
+  font-family: var(--aq-font);
+  font-weight: 600;
+  color: var(--aq-foam);
+}
+
+/* a fonte vale no site inteiro, por cima das fontes de cada página
+   (ícones ficam de fora pra não quebrarem) */
+body.theme-aero
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    a,
+    li,
+    td,
+    th,
+    label,
+    small,
+    strong,
+    b,
+    em,
+    button,
+    input,
+    select,
+    textarea,
+    div
+  ):not([class*="icon"]):not([class*="fa-"]):not(.material-symbols-outlined) {
+  font-family: var(--aq-font) !important;
+}
+
+/* títulos: mais peso e um pouco mais de ar entre as letras */
+body.theme-aero :is(h1, h2, h3, .page-title, .page-title1, .page-title2) {
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+}
+
+/* rajada de vento: um brilho que passa pelo texto.
+   Já vale nos títulos das páginas; pra usar em outro texto, junte o seletor aqui. */
+body.theme-aero :is(h1, .page-title, .page-title1, .page-title2),
+body.theme-aero .aq-vento {
+  background: linear-gradient(
+    100deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #d8fff4 48%,
+    #8fe3ff 52%,
+    #ffffff 60%,
+    #ffffff 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+  filter: drop-shadow(0 3px 10px rgba(0, 60, 110, 0.35));
+  animation: aq-vento 5s ease-in-out infinite;
+}
+@keyframes aq-vento {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+body.theme-aero ::selection {
+  background: var(--aq-light);
+  color: var(--aq-abyss);
+}
+
+/* ---------- 2. páginas transparentes (o fundo de bolhas aparece) ----------
+   Cada página do site tem um "embrulho" com fundo preto. No Aero ele fica
+   transparente. Se criar uma página nova e o fundo não aparecer nela,
+   coloque a classe do embrulho dela nesta lista. */
+html body.theme-aero .App,
+html body.theme-aero .about-wrapper,
+html body.theme-aero .adm-login-page,
+html body.theme-aero .adm-main-layout,
+html body.theme-aero .camp-page-wrapper,
+html body.theme-aero .config-page,
+html body.theme-aero .elenco-psg-wrapper,
+html body.theme-aero .legends-wrapper,
+html body.theme-aero .local-psg-wrapper,
+html body.theme-aero .main-wrapper,
+html body.theme-aero .match-view-wrapper,
+html body.theme-aero .page-container,
+html body.theme-aero .page-container1,
+html body.theme-aero .page-container2,
+html body.theme-aero .ppg-player-page,
+html body.theme-aero .ppg-screen-wrapper,
+html body.theme-aero .psg-page-container,
+html body.theme-aero .schedule-container,
+html body.theme-aero .ss-wrapper,
+html body.theme-aero .statics-container,
+html body.theme-aero .titulos-psg-wrapper,
+html body.theme-aero .transparency-page {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+html body.theme-aero {
+  background: transparent !important;
+}
+
+/* efeitos de fundo das páginas (aurora, vinheta, padrão de "+") somem */
+html body.theme-aero .about-wrapper::before,
+html body.theme-aero .about-wrapper::after,
+html body.theme-aero .main-wrapper::before,
+html body.theme-aero .main-wrapper::after {
+  display: none !important;
+}
+
+/* ---------- 3. escudo do tema ---------- */
+/* (os cartões da tela de Configurações mostram o escudo de cada tema, sem troca) */
+body.theme-aero img.logo-adr:not(.tc-crest img),
+body.theme-aero img[src="/logo.png"]:not(.tc-crest img) {
+  filter: drop-shadow(0 4px 12px rgba(0, 50, 100, 0.35));
+}
+
+/* ==========================================================================
+   4. KIT "BOLHAS E ONDAS"
+   Peças prontas. Pra usar numa tela, junte o seletor dela no bloco da peça:
+     body.theme-aero .aq-vidro,
+     body.theme-aero .minha-classe { ... }
+   ========================================================================== */
+
+/* VIDRO: cartão de água translúcida com brilho no canto */
+body.theme-aero .aq-vidro {
+  background: var(--aq-glass) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.55) !important;
+  border-radius: 28px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -14px 30px rgba(0, 60, 110, 0.22),
+    0 18px 40px rgba(0, 30, 70, 0.35) !important;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  color: #fff;
+}
+
+/* BOLHA: número/posição/placar dentro de uma bolha redonda */
+body.theme-aero .aq-bolha {
+  display: inline-grid !important;
+  place-items: center;
+  min-width: 2.2em;
+  aspect-ratio: 1;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(255, 255, 255, 0.9) !important;
+  background: var(--aq-bubble) !important;
+  color: var(--aq-abyss) !important;
+  -webkit-text-fill-color: var(--aq-abyss) !important;
+  font-weight: 900 !important;
+  box-shadow:
+    0 6px 14px rgba(0, 40, 80, 0.3),
+    inset 0 -5px 10px rgba(11, 127, 196, 0.3) !important;
+}
+
+/* GEL: botão azul brilhante (cresce no mouse, afunda e faz onda no clique) */
+body.theme-aero .aq-gel {
+  background: var(--aq-gel) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  border-radius: 999px !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.55);
+  box-shadow:
+    inset 0 -4px 10px rgba(0, 60, 120, 0.35),
+    0 8px 18px rgba(0, 80, 140, 0.35) !important;
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.2s;
+}
+body.theme-aero .aq-gel:hover {
+  transform: scale(1.04);
+  filter: brightness(1.06);
+}
+body.theme-aero .aq-gel:active {
+  transform: scale(0.96);
+  animation: aq-ripple 0.6s ease-out;
+}
+@keyframes aq-ripple {
+  from {
+    box-shadow: 0 0 0 0 rgba(143, 227, 255, 0.7);
+  }
+  to {
+    box-shadow: 0 0 0 18px rgba(143, 227, 255, 0);
+  }
+}
+
+/* ONDA: linha ondulada (embaixo de título, separador) */
+body.theme-aero .aq-onda {
+  display: block;
+  height: 10px;
+  border: 0;
+  background: var(--aq-wave) center / 60px 10px repeat-x;
+}
+/* sublinhado em onda direto no texto */
+body.theme-aero .aq-titulo-onda {
+  text-decoration: underline wavy var(--aq-light);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.28em;
+}
+
+/* ==========================================================================
+   5. SUAS REGRAS
+   Escreva aqui o visual de cada tela, sempre começando com body.theme-aero
+   Exemplo:
+     body.theme-aero .psg-match-card { border-radius: 28px; }
+   ========================================================================== */
