@@ -40,6 +40,8 @@ import Retrospectiva from "./pages/Retrospectiva/Retrospectiva.jsx";
 import Temporadas from "./pages/Temporadas/Temporadas.jsx";
 
 import { applyTheme, getSavedTheme } from "./utils/theme";
+import "./styles/segredos.css";
+import "./utils/segredos.js";
 
 import "./styles/global.css";
 import "./styles/theme-classic.css";

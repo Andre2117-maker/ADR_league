@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../../components/Footer";
 import { getSavedTheme, saveTheme } from "../../utils/theme";
-import { SEGREDOS, acharSegredo, getLiberados, liberar, trancar } from "../../utils/segredos";
+import {
+  SEGREDOS,
+  acharSegredo,
+  getLiberados,
+  liberar,
+  trancar,
+  estaAtivo,
+  ativar,
+  desativar,
+} from "../../utils/segredos";
 import "./Configuracao.css";
 
 /* Cada cartão mostra o próprio tema (independente do tema ativo do site) */
@@ -79,6 +88,7 @@ function Configuracao() {
   const [festa, setFesta] = useState(null); // segredo que acabou de ser liberado
   const [novo, setNovo] = useState(null);
   const [tentativa, setTentativa] = useState(0);
+  const [, setVersao] = useState(0); // redesenha quando liga/desliga um segredo
 
   useEffect(() => {
     setTemaAtual(getSavedTheme());
@@ -113,6 +123,12 @@ function Configuracao() {
     setFesta(segredo);
     if (segredo.tema) setTimeout(() => mudarTema(segredo.tema), 650);
     setTimeout(() => setFesta(null), 3200);
+  };
+
+  const alternarSegredo = (id) => {
+    if (estaAtivo(id)) desativar(id);
+    else ativar(id);
+    setVersao((n) => n + 1);
   };
 
   const trancarSegredo = (id) => {
@@ -240,6 +256,7 @@ function Configuracao() {
               <ul className="found-list">
                 {encontrados.map((s) => {
                   const emUso = s.tema && temaAtual === s.tema;
+                  const ligado = s.classe && estaAtivo(s.id);
                   return (
                     <li key={s.id} className={`found-item ${s.id === novo ? "is-new" : ""}`}>
                       <span className="found-logo">
@@ -258,6 +275,17 @@ function Configuracao() {
                             onClick={() => mudarTema(s.tema)}
                           >
                             {emUso ? "Em uso" : "Usar tema"}
+                          </button>
+                        )}
+                        {s.classe && (
+                          <button
+                            type="button"
+                            className={`found-btn found-toggle ${ligado ? "is-main is-on" : ""}`}
+                            aria-pressed={ligado}
+                            onClick={() => alternarSegredo(s.id)}
+                          >
+                            <span className="found-toggle-dot" aria-hidden="true" />
+                            {ligado ? "Ativado" : "Desativado"}
                           </button>
                         )}
                         <button

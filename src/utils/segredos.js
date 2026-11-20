@@ -12,6 +12,10 @@
      tema: "AERO",                  // opcional: se o segredo libera um tema
      aoLiberar: () => {},           // opcional: o que fazer quando liberar
      aoTrancar: () => {},           // opcional: o que fazer quando trancar
+     classe: "seg-meu-segredo",     // opcional: segredo de LIGA/DESLIGA. Quando
+                                    // ativo, essa classe vai no <body> e o CSS
+                                    // (styles/segredos.css) faz o resto.
+                                    // Ganha o botão Ativar/Desativar.
    }
 
    Maiúsculas, acentos, espaços e símbolos são ignorados nos códigos:
@@ -32,6 +36,15 @@ export const SEGREDOS = [
     aoTrancar: lockAero,
   },
 
+  {
+    id: "ALBERTO_AHEGAO",
+    codigos: ["alberto ahegao"],
+    nome: "Alberto Ahegao",
+    desc: "Troca todas as fotos do Alberto",
+    logo: "/players/AlbertoA.png",
+    classe: "seg-alberto-ahegao", // o visual fica no styles/segredos.css
+  },
+
   /* exemplo (apague as barras // pra ativar):
   {
     id: "RENZO",
@@ -44,6 +57,7 @@ export const SEGREDOS = [
 ];
 
 const KEY = "adr-segredos";
+const KEY_ATIVOS = "adr-segredos-desligados"; // segredos de liga/desliga que estão DESLIGADOS
 
 export const normalizar = (s) =>
   String(s || "")
@@ -89,11 +103,56 @@ export const liberar = (id) => {
   const s = SEGREDOS.find((x) => x.id === id);
   if (!s) return;
   gravar([...new Set([...ler(), id])]);
+  gravarDesligados(lerDesligados().filter((x) => x !== id)); // já começa ligado
   s.aoLiberar?.();
+  aplicarSegredos();
 };
 
 export const trancar = (id) => {
   const s = SEGREDOS.find((x) => x.id === id);
   gravar(ler().filter((x) => x !== id));
   s?.aoTrancar?.();
+  aplicarSegredos();
 };
+
+/* ---------- segredos de LIGA/DESLIGA (os que têm "classe") ---------- */
+const lerDesligados = () => {
+  try {
+    const v = JSON.parse(window.localStorage.getItem(KEY_ATIVOS) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+};
+
+const gravarDesligados = (ids) => {
+  try {
+    window.localStorage.setItem(KEY_ATIVOS, JSON.stringify(ids));
+  } catch {
+    /* sem armazenamento: vale só nesta visita */
+  }
+};
+
+/* liberado e não desligado = ativo */
+export const estaAtivo = (id) => estaLiberado(id) && !lerDesligados().includes(id);
+
+export const ativar = (id) => {
+  gravarDesligados(lerDesligados().filter((x) => x !== id));
+  aplicarSegredos();
+};
+
+export const desativar = (id) => {
+  gravarDesligados([...new Set([...lerDesligados(), id])]);
+  aplicarSegredos();
+};
+
+/* coloca/tira a classe de cada segredo no <body> */
+export const aplicarSegredos = () => {
+  if (typeof document === "undefined") return;
+  SEGREDOS.filter((s) => s.classe).forEach((s) => {
+    document.body.classList.toggle(s.classe, estaAtivo(s.id));
+  });
+};
+
+/* roda sozinho quando o site abre (o App.jsx importa este arquivo) */
+aplicarSegredos();

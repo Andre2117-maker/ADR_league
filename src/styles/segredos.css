@@ -1,0 +1,15 @@
+/* ==========================================================================
+   VISUAL DOS SEGREDOS DE LIGA/DESLIGA (utils/segredos.js)
+   Cada segredo com "classe" coloca essa classe no <body> quando está ativo.
+   Importe no App.jsx:  import "./styles/segredos.css";
+   ========================================================================== */
+
+/* ALBERTO AHEGAO
+   Toda imagem cujo endereço tem "alberto" (Alberto.png, AlbertoIDR.png,
+   versão classic, link do Firebase...) mostra a foto nova.
+   O "i" no fim ignora maiúsculas/minúsculas.
+   A foto nova (AlbertoA.png) fica de fora pra não trocar ela mesma. */
+body.seg-alberto-ahegao img[src*="alberto" i]:not([src*="albertoa." i]) {
+  content: url("/players/AlbertoA.png");
+  object-fit: contain;
+}
