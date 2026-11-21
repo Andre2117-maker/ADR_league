@@ -48,6 +48,14 @@ const ArrowUp = () => (
   </svg>
 );
 
+/* bolhas que sobem no rodapé do tema Aero (posições fixas, sem sorteio) */
+const BOLHAS_AERO = Array.from({ length: 16 }, (_, i) => ({
+  left: (i * 41 + 7) % 100,
+  size: 8 + ((i * 17) % 26),
+  delay: ((i * 7) % 16) * 0.55,
+  dur: 7 + ((i * 5) % 7),
+}));
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
@@ -71,13 +79,57 @@ const Footer = () => {
 
   return (
     <footer className="sponsors-footer">
-      {/* Marca d'água gigante ao fundo (troca ADR/IDR pelo tema) */}
+      {/* Marca d'água gigante ao fundo (troca ADR/IDR/AERO pelo tema) */}
       <span className="footer-watermark" aria-hidden="true">
         <span className="text-adr">ADR</span>
         <span className="text-idr">IDR</span>
+        <span className="text-aero">AERO</span>
       </span>
 
+      {/* só aparecem no tema Aero: ondas no topo e bolhas subindo */}
+      <div className="ft-aero-waves" aria-hidden="true">
+        <span className="ft-aero-wave w1" />
+        <span className="ft-aero-wave w2" />
+        <span className="ft-aero-wave w3" />
+      </div>
+      <div className="ft-aero-bubbles" aria-hidden="true">
+        {BOLHAS_AERO.map((b, i) => (
+          <span
+            key={i}
+            style={{
+              left: `${b.left}%`,
+              width: b.size,
+              height: b.size,
+              animationDelay: `${b.delay}s`,
+              animationDuration: `${b.dur}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="footer-container">
+        {/* TEMA AERO: no lugar dos patrocinadores, o selo da edição secreta */}
+        <div className="ft-aero-card">
+          <span className="ft-aero-crest">
+            <img src="/logo-aero.png" alt="Escudo ADR Aero" />
+          </span>
+          <div className="ft-aero-text">
+            <span className="ft-aero-kicker">Edição secreta</span>
+            <strong className="ft-aero-title">ADR Aero</strong>
+            <p className="ft-aero-sub">
+              Você achou o tema escondido. Aqui não tem patrocinador: só
+              bolhas, ondas e o ADR.
+            </p>
+          </div>
+          <span className="ft-aero-seal" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="8" cy="15" r="4.2" />
+              <path d="M11 12l8.5-8.5M16.5 6.5l2.5 2.5M14.5 8.5l2 2" />
+            </svg>
+            Desbloqueado
+          </span>
+        </div>
+
         <div className="sponsors-wrapper">
           <p className="footer-label">PATROCINADORES OFICIAIS</p>
 

@@ -440,3 +440,323 @@ body.theme-classic .footer-watermark {
     grid-column: auto;
   }
 }
+
+/* ==========================================================================
+   ADR AERO — RODAPÉ "FUNDO DO MAR" (tema secreto, sem patrocinadores)
+   Ondas no topo, bolhas subindo, marca d'água AERO e um selo da edição
+   secreta no lugar da grade de patrocinadores.
+   Usa as peças do aero-tabela.css (--tb-*), que já vem importado no App.
+   ========================================================================== */
+
+/* fora do Aero essas peças não aparecem */
+.text-aero,
+.ft-aero-card,
+.ft-aero-waves,
+.ft-aero-bubbles {
+  display: none;
+}
+
+body.theme-aero .sponsors-footer {
+  --ft-bg: #053f70;
+  --ft-hover: #0a5a96;
+  --ft-line: rgba(255, 255, 255, 0.25);
+  --ft-fg: #ffffff;
+  --ft-muted: rgba(215, 242, 255, 0.8);
+  --ft-accent: #8fe3ff;
+  --ft-glow: rgba(143, 227, 255, 0.25);
+  --ft-mark: rgba(255, 255, 255, 0.06);
+
+  padding-top: 110px;
+  border-top: 0;
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(143, 227, 255, 0.25), transparent 70%),
+    radial-gradient(35% 40% at 10% 100%, rgba(89, 201, 107, 0.18), transparent 70%),
+    linear-gradient(180deg, #0b6fae 0%, #053f70 45%, #021f38 100%);
+}
+
+body.theme-aero .sponsors-footer::before {
+  display: none;
+}
+
+/* sem patrocinador no Aero */
+body.theme-aero .sponsors-wrapper {
+  display: none;
+}
+
+/* marca d'água: AERO em contorno de vidro */
+body.theme-aero .footer-watermark .text-adr,
+body.theme-aero .footer-watermark .text-idr {
+  display: none !important;
+}
+
+body.theme-aero .footer-watermark .text-aero {
+  display: inline;
+}
+
+body.theme-aero .footer-watermark {
+  font-style: normal;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.04);
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- ondas no topo (3 camadas em velocidades diferentes) ---------- */
+body.theme-aero .ft-aero-waves {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  pointer-events: none;
+}
+
+body.theme-aero .ft-aero-wave {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  background-size: 600px 90px;
+  animation: ftOnda 14s linear infinite;
+}
+
+body.theme-aero .ft-aero-wave.w1 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='90' viewBox='0 0 600 90' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C 100 0 200 0 300 30 S 500 60 600 30 V0 H0 Z' fill='%23ffffff' fill-opacity='0.16'/%3E%3C/svg%3E");
+  animation-duration: 18s;
+}
+
+body.theme-aero .ft-aero-wave.w2 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='90' viewBox='0 0 600 90' preserveAspectRatio='none'%3E%3Cpath d='M0 45 C 120 15 180 15 300 45 S 480 75 600 45' fill='none' stroke='%23ffffff' stroke-opacity='0.55' stroke-width='2.5'/%3E%3C/svg%3E");
+  animation-duration: 11s;
+  animation-direction: reverse;
+}
+
+body.theme-aero .ft-aero-wave.w3 {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='90' viewBox='0 0 600 90' preserveAspectRatio='none'%3E%3Cpath d='M0 60 C 100 40 200 40 300 60 S 500 80 600 60' fill='none' stroke='%238fe3ff' stroke-opacity='0.6' stroke-width='2'/%3E%3C/svg%3E");
+  animation-duration: 8s;
+}
+
+@keyframes ftOnda {
+  from { background-position: 0 0; }
+  to { background-position: -600px 0; }
+}
+
+/* ---------- bolhas subindo ---------- */
+body.theme-aero .ft-aero-bubbles {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+body.theme-aero .ft-aero-bubbles span {
+  position: absolute;
+  bottom: -40px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.8) 0 10%, rgba(255, 255, 255, 0.08) 30%, rgba(143, 227, 255, 0.12) 100%);
+  opacity: 0;
+  animation: ftBolha 9s linear infinite;
+}
+
+@keyframes ftBolha {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translate(12px, -260px); }
+  90% { opacity: 0.7; }
+  100% { transform: translate(-8px, -540px); opacity: 0; }
+}
+
+/* ---------- selo da edição secreta ---------- */
+body.theme-aero .ft-aero-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  width: 100%;
+  max-width: 760px;
+  padding: 26px 30px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background:
+    var(--tb-pontas),
+    radial-gradient(90% 70% at 15% 0%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, rgba(30, 140, 205, 0.55) 0%, rgba(5, 63, 112, 0.75) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 0 5px rgba(143, 227, 255, 0.12),
+    0 20px 44px rgba(0, 20, 50, 0.45);
+}
+
+/* escudo numa bolha grande que flutua */
+body.theme-aero .ft-aero-crest {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 118px;
+  height: 118px;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.75) 0 7%, rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle at 50% 50%, rgba(143, 227, 255, 0.08) 55%, rgba(143, 227, 255, 0.45) 100%);
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.08), 0 0 34px rgba(143, 227, 255, 0.5);
+  animation: ftFlutua 5s ease-in-out infinite;
+}
+
+body.theme-aero .ft-aero-crest img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 30, 70, 0.45));
+}
+
+@keyframes ftFlutua {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+body.theme-aero .ft-aero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+body.theme-aero .ft-aero-kicker {
+  color: #c9f3ff;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+body.theme-aero .ft-aero-title {
+  color: #ffffff;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-shadow: 0 0 22px rgba(143, 227, 255, 0.6), 0 3px 10px rgba(0, 30, 70, 0.5);
+}
+
+body.theme-aero .ft-aero-sub {
+  margin: 4px 0 0;
+  color: rgba(225, 245, 255, 0.88);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* selo "Desbloqueado" no canto */
+body.theme-aero .ft-aero-seal {
+  position: absolute;
+  top: -13px;
+  right: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  clip-path: var(--tb-chanfro);
+  background: var(--tb-gel);
+  color: #ffffff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 50, 90, 0.5);
+}
+
+body.theme-aero .ft-aero-seal svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* ---------- faixa do meio e copyright ---------- */
+body.theme-aero .footer-mid {
+  border-top: 0;
+  border-bottom: 0;
+  background:
+    var(--tb-wave) left top / 60px 10px repeat-x,
+    var(--tb-wave) left bottom / 60px 10px repeat-x;
+  padding: 24px 0;
+}
+
+body.theme-aero .social-link,
+body.theme-aero .footer-top-btn {
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 50%) !important;
+  color: #ffffff !important;
+}
+
+body.theme-aero .social-link svg {
+  color: #8fe3ff;
+}
+
+body.theme-aero .social-link:hover,
+body.theme-aero .footer-top-btn:hover {
+  border-color: #ffffff !important;
+  background: var(--tb-gel) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(143, 227, 255, 0.25) !important;
+}
+
+body.theme-aero .social-link:hover svg {
+  color: #ffffff;
+}
+
+body.theme-aero .footer-motto {
+  color: #ffffff;
+  font-family: var(--aq-font);
+  font-style: normal;
+  text-shadow: 0 0 14px rgba(143, 227, 255, 0.6);
+}
+
+body.theme-aero .egg-trigger:hover {
+  color: #8fe3ff;
+  text-shadow: 0 0 10px rgba(143, 227, 255, 0.9);
+}
+
+body.theme-aero .footer-bottom p {
+  color: rgba(215, 242, 255, 0.75);
+}
+
+@media (max-width: 800px) {
+  body.theme-aero .sponsors-footer {
+    padding-top: 90px;
+  }
+
+  body.theme-aero .ft-aero-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 30px 20px 24px;
+  }
+
+  body.theme-aero .ft-aero-crest {
+    width: 96px;
+    height: 96px;
+  }
+
+  body.theme-aero .ft-aero-seal {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-aero .ft-aero-wave,
+  body.theme-aero .ft-aero-crest {
+    animation-duration: 40s;
+  }
+
+  body.theme-aero .ft-aero-bubbles span {
+    animation-duration: 30s !important;
+  }
+}
